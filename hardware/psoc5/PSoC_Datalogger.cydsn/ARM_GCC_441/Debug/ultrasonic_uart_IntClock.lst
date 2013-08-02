@@ -1,0 +1,2283 @@
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccv4golg.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 6
+  11              		.eabi_attribute 18, 4
+  12              		.thumb
+  13              		.file	"ultrasonic_uart_IntClock.c"
+  14              		.section	.debug_abbrev,"",%progbits
+  15              	.Ldebug_abbrev0:
+  16              		.section	.debug_info,"",%progbits
+  17              	.Ldebug_info0:
+  18              		.section	.debug_line,"",%progbits
+  19              	.Ldebug_line0:
+  20 0000 6B010000 		.text
+  20      02007000 
+  20      00000201 
+  20      FB0E0D00 
+  20      01010101 
+  21              	.Ltext0:
+  22              		.cfi_sections	.debug_frame
+  23              		.section	.text.ultrasonic_uart_IntClock_Start,"ax",%progbits
+  24              		.align	2
+  25              		.global	ultrasonic_uart_IntClock_Start
+  26              		.thumb
+  27              		.thumb_func
+  28              		.type	ultrasonic_uart_IntClock_Start, %function
+  29              	ultrasonic_uart_IntClock_Start:
+  30              	.LFB0:
+  31              		.file 1 ".\\Generated_Source\\PSoC5\\ultrasonic_uart_IntClock.c"
+   1:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** /*******************************************************************************
+   2:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** * File Name: ultrasonic_uart_IntClock.c
+   3:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** * Version 2.0
+   4:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** *
+   5:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** *  Description:
+   6:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** *   This file provides the source code to the API for the clock component.
+   7:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** *
+   8:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** *  Note:
+   9:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** *
+  10:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** ********************************************************************************
+  11:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** * Copyright 2008-2012, Cypress Semiconductor Corporation.  All rights reserved.
+  12:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** * You may use this file only in accordance with the license, terms, conditions, 
+  13:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** * disclaimers, and limitations in the end user license agreement accompanying 
+  14:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** * the software package with which this file was provided.
+  15:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** *******************************************************************************/
+  16:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** 
+  17:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** #include <cydevice_trm.h>
+  18:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** #include "ultrasonic_uart_IntClock.h"
+  19:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** 
+  20:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** /* Clock Distribution registers. */
+  21:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** #define CLK_DIST_LD              (* (reg8 *) CYREG_CLKDIST_LD)
+  22:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** #define CLK_DIST_BCFG2           (* (reg8 *) CYREG_CLKDIST_BCFG2)
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccv4golg.s 			page 2
+
+
+  23:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** #define BCFG2_MASK               (0x80u)
+  24:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** #define CLK_DIST_DMASK           (* (reg8 *) CYREG_CLKDIST_DMASK)
+  25:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** #define CLK_DIST_AMASK           (* (reg8 *) CYREG_CLKDIST_AMASK)
+  26:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** 
+  27:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** #define HAS_CLKDIST_LD_DISABLE   (CY_PSOC3 || CY_PSOC5LP)
+  28:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** 
+  29:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** 
+  30:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** /*******************************************************************************
+  31:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** * Function Name: ultrasonic_uart_IntClock_Start
+  32:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** ********************************************************************************
+  33:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** *
+  34:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** * Summary:
+  35:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** *  Starts the clock. Note that on startup, clocks may be already running if the
+  36:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** *  "Start on Reset" option is enabled in the DWR.
+  37:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** *
+  38:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** * Parameters:
+  39:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** *  None
+  40:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** *
+  41:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** * Returns:
+  42:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** *  None
+  43:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** *
+  44:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** *******************************************************************************/
+  45:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** void ultrasonic_uart_IntClock_Start(void) 
+  46:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** {
+  32              		.loc 1 46 0
+  33              		.cfi_startproc
+  34              		@ args = 0, pretend = 0, frame = 0
+  35              		@ frame_needed = 1, uses_anonymous_args = 0
+  36              		@ link register save eliminated.
+  37 0000 80B4     		push	{r7}
+  38              	.LCFI0:
+  39              		.cfi_def_cfa_offset 4
+  40 0002 00AF     		add	r7, sp, #0
+  41              		.cfi_offset 7, -4
+  42              	.LCFI1:
+  43              		.cfi_def_cfa_register 7
+  47:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c ****     /* Set the bit to enable the clock. */
+  48:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c ****     ultrasonic_uart_IntClock_CLKEN |= ultrasonic_uart_IntClock_CLKEN_MASK;
+  44              		.loc 1 48 0
+  45 0004 44F2A233 		movw	r3, #:lower16:1073759138
+  46 0008 C4F20003 		movt	r3, #:upper16:1073759138
+  47 000c 44F2A232 		movw	r2, #:lower16:1073759138
+  48 0010 C4F20002 		movt	r2, #:upper16:1073759138
+  49 0014 1278     		ldrb	r2, [r2, #0]
+  50 0016 D2B2     		uxtb	r2, r2
+  51 0018 42F00202 		orr	r2, r2, #2
+  52 001c D2B2     		uxtb	r2, r2
+  53 001e 1A70     		strb	r2, [r3, #0]
+  49:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** 	ultrasonic_uart_IntClock_CLKSTBY |= ultrasonic_uart_IntClock_CLKSTBY_MASK;
+  54              		.loc 1 49 0
+  55 0020 44F2B233 		movw	r3, #:lower16:1073759154
+  56 0024 C4F20003 		movt	r3, #:upper16:1073759154
+  57 0028 44F2B232 		movw	r2, #:lower16:1073759154
+  58 002c C4F20002 		movt	r2, #:upper16:1073759154
+  59 0030 1278     		ldrb	r2, [r2, #0]
+  60 0032 D2B2     		uxtb	r2, r2
+  61 0034 42F00202 		orr	r2, r2, #2
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccv4golg.s 			page 3
+
+
+  62 0038 D2B2     		uxtb	r2, r2
+  63 003a 1A70     		strb	r2, [r3, #0]
+  50:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** }
+  64              		.loc 1 50 0
+  65 003c BD46     		mov	sp, r7
+  66 003e 80BC     		pop	{r7}
+  67 0040 7047     		bx	lr
+  68              		.cfi_endproc
+  69              	.LFE0:
+  70              		.size	ultrasonic_uart_IntClock_Start, .-ultrasonic_uart_IntClock_Start
+  71 0042 00BF     		.section	.text.ultrasonic_uart_IntClock_Stop,"ax",%progbits
+  72              		.align	2
+  73              		.global	ultrasonic_uart_IntClock_Stop
+  74              		.thumb
+  75              		.thumb_func
+  76              		.type	ultrasonic_uart_IntClock_Stop, %function
+  77              	ultrasonic_uart_IntClock_Stop:
+  78              	.LFB1:
+  51:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** 
+  52:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** 
+  53:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** /*******************************************************************************
+  54:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** * Function Name: ultrasonic_uart_IntClock_Stop
+  55:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** ********************************************************************************
+  56:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** *
+  57:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** * Summary:
+  58:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** *  Stops the clock and returns immediately. This API does not require the
+  59:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** *  source clock to be running but may return before the hardware is actually
+  60:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** *  disabled. If the settings of the clock are changed after calling this
+  61:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** *  function, the clock may glitch when it is started. To avoid the clock
+  62:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** *  glitch, use the StopBlock function.
+  63:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** *
+  64:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** * Parameters:
+  65:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** *  None
+  66:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** *
+  67:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** * Returns:
+  68:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** *  None
+  69:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** *
+  70:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** *******************************************************************************/
+  71:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** void ultrasonic_uart_IntClock_Stop(void) 
+  72:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** {
+  79              		.loc 1 72 0
+  80              		.cfi_startproc
+  81              		@ args = 0, pretend = 0, frame = 0
+  82              		@ frame_needed = 1, uses_anonymous_args = 0
+  83              		@ link register save eliminated.
+  84 0000 80B4     		push	{r7}
+  85              	.LCFI2:
+  86              		.cfi_def_cfa_offset 4
+  87 0002 00AF     		add	r7, sp, #0
+  88              		.cfi_offset 7, -4
+  89              	.LCFI3:
+  90              		.cfi_def_cfa_register 7
+  73:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c ****     /* Clear the bit to disable the clock. */
+  74:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c ****     ultrasonic_uart_IntClock_CLKEN &= (uint8)(~ultrasonic_uart_IntClock_CLKEN_MASK);
+  91              		.loc 1 74 0
+  92 0004 44F2A233 		movw	r3, #:lower16:1073759138
+  93 0008 C4F20003 		movt	r3, #:upper16:1073759138
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccv4golg.s 			page 4
+
+
+  94 000c 44F2A232 		movw	r2, #:lower16:1073759138
+  95 0010 C4F20002 		movt	r2, #:upper16:1073759138
+  96 0014 1278     		ldrb	r2, [r2, #0]
+  97 0016 D2B2     		uxtb	r2, r2
+  98 0018 02F0FD02 		and	r2, r2, #253
+  99 001c 1A70     		strb	r2, [r3, #0]
+  75:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** 	ultrasonic_uart_IntClock_CLKSTBY &= (uint8)(~ultrasonic_uart_IntClock_CLKSTBY_MASK);
+ 100              		.loc 1 75 0
+ 101 001e 44F2B233 		movw	r3, #:lower16:1073759154
+ 102 0022 C4F20003 		movt	r3, #:upper16:1073759154
+ 103 0026 44F2B232 		movw	r2, #:lower16:1073759154
+ 104 002a C4F20002 		movt	r2, #:upper16:1073759154
+ 105 002e 1278     		ldrb	r2, [r2, #0]
+ 106 0030 D2B2     		uxtb	r2, r2
+ 107 0032 02F0FD02 		and	r2, r2, #253
+ 108 0036 1A70     		strb	r2, [r3, #0]
+  76:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** }
+ 109              		.loc 1 76 0
+ 110 0038 BD46     		mov	sp, r7
+ 111 003a 80BC     		pop	{r7}
+ 112 003c 7047     		bx	lr
+ 113              		.cfi_endproc
+ 114              	.LFE1:
+ 115              		.size	ultrasonic_uart_IntClock_Stop, .-ultrasonic_uart_IntClock_Stop
+ 116 003e 00BF     		.section	.text.ultrasonic_uart_IntClock_StandbyPower,"ax",%progbits
+ 117              		.align	2
+ 118              		.global	ultrasonic_uart_IntClock_StandbyPower
+ 119              		.thumb
+ 120              		.thumb_func
+ 121              		.type	ultrasonic_uart_IntClock_StandbyPower, %function
+ 122              	ultrasonic_uart_IntClock_StandbyPower:
+ 123              	.LFB2:
+  77:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** 
+  78:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** 
+  79:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** #if(CY_PSOC3 || CY_PSOC5LP)
+  80:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** 
+  81:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** 
+  82:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** /*******************************************************************************
+  83:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** * Function Name: ultrasonic_uart_IntClock_StopBlock
+  84:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** ********************************************************************************
+  85:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** *
+  86:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** * Summary:
+  87:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** *  Stops the clock and waits for the hardware to actually be disabled before
+  88:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** *  returning. This ensures that the clock is never truncated (high part of the
+  89:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** *  cycle will terminate before the clock is disabled and the API returns).
+  90:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** *  Note that the source clock must be running or this API will never return as
+  91:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** *  a stopped clock cannot be disabled.
+  92:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** *
+  93:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** * Parameters:
+  94:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** *  None
+  95:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** *
+  96:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** * Returns:
+  97:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** *  None
+  98:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** *
+  99:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** *******************************************************************************/
+ 100:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** void ultrasonic_uart_IntClock_StopBlock(void) 
+ 101:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** {
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccv4golg.s 			page 5
+
+
+ 102:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c ****     if ((ultrasonic_uart_IntClock_CLKEN & ultrasonic_uart_IntClock_CLKEN_MASK) != 0u)
+ 103:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c ****     {
+ 104:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** #if HAS_CLKDIST_LD_DISABLE
+ 105:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c ****         uint16 oldDivider;
+ 106:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** 
+ 107:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c ****         CLK_DIST_LD = 0u;
+ 108:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** 
+ 109:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c ****         /* Clear all the mask bits except ours. */
+ 110:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** #if defined(ultrasonic_uart_IntClock__CFG3)
+ 111:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c ****         CLK_DIST_AMASK = ultrasonic_uart_IntClock_CLKEN_MASK;
+ 112:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c ****         CLK_DIST_DMASK = 0x00u;
+ 113:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** #else
+ 114:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c ****         CLK_DIST_DMASK = ultrasonic_uart_IntClock_CLKEN_MASK;
+ 115:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c ****         CLK_DIST_AMASK = 0x00u;
+ 116:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** #endif /* ultrasonic_uart_IntClock__CFG3 */
+ 117:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** 
+ 118:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c ****         /* Clear mask of bus clock. */
+ 119:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c ****         CLK_DIST_BCFG2 &= (uint8)(~BCFG2_MASK);
+ 120:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** 
+ 121:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c ****         oldDivider = CY_GET_REG16(ultrasonic_uart_IntClock_DIV_PTR);
+ 122:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c ****         CY_SET_REG16(CYREG_CLKDIST_WRK0, oldDivider);
+ 123:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c ****         CLK_DIST_LD = CYCLK_LD_DISABLE | CYCLK_LD_SYNC_EN | CYCLK_LD_LOAD;
+ 124:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** 
+ 125:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c ****         /* Wait for clock to be disabled */
+ 126:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c ****         while ((CLK_DIST_LD & CYCLK_LD_LOAD) != 0u) { }
+ 127:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** #endif /* HAS_CLKDIST_LD_DISABLE */
+ 128:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** 
+ 129:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c ****         /* Clear the bit to disable the clock. */
+ 130:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c ****         ultrasonic_uart_IntClock_CLKEN &= (uint8)(~ultrasonic_uart_IntClock_CLKEN_MASK);
+ 131:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c ****         ultrasonic_uart_IntClock_CLKSTBY &= (uint8)(~ultrasonic_uart_IntClock_CLKSTBY_MASK);
+ 132:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** 
+ 133:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** #if HAS_CLKDIST_LD_DISABLE
+ 134:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c ****         /* Clear the disable bit */
+ 135:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c ****         CLK_DIST_LD = 0x00u;
+ 136:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c ****         CY_SET_REG16(ultrasonic_uart_IntClock_DIV_PTR, oldDivider);
+ 137:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** #endif /* HAS_CLKDIST_LD_DISABLE */
+ 138:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c ****     }
+ 139:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** }
+ 140:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** #endif /* (CY_PSOC3 || CY_PSOC5LP) */
+ 141:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** 
+ 142:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** 
+ 143:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** /*******************************************************************************
+ 144:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** * Function Name: ultrasonic_uart_IntClock_StandbyPower
+ 145:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** ********************************************************************************
+ 146:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** *
+ 147:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** * Summary:
+ 148:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** *  Sets whether the clock is active in standby mode.
+ 149:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** *
+ 150:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** * Parameters:
+ 151:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** *  state:  0 to disable clock during standby, nonzero to enable.
+ 152:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** *
+ 153:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** * Returns:
+ 154:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** *  None
+ 155:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** *
+ 156:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** *******************************************************************************/
+ 157:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** void ultrasonic_uart_IntClock_StandbyPower(uint8 state) 
+ 158:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** {
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccv4golg.s 			page 6
+
+
+ 124              		.loc 1 158 0
+ 125              		.cfi_startproc
+ 126              		@ args = 0, pretend = 0, frame = 8
+ 127              		@ frame_needed = 1, uses_anonymous_args = 0
+ 128              		@ link register save eliminated.
+ 129 0000 80B4     		push	{r7}
+ 130              	.LCFI4:
+ 131              		.cfi_def_cfa_offset 4
+ 132 0002 83B0     		sub	sp, sp, #12
+ 133              	.LCFI5:
+ 134              		.cfi_def_cfa_offset 16
+ 135 0004 00AF     		add	r7, sp, #0
+ 136              		.cfi_offset 7, -4
+ 137              	.LCFI6:
+ 138              		.cfi_def_cfa_register 7
+ 139 0006 0346     		mov	r3, r0
+ 140 0008 FB71     		strb	r3, [r7, #7]
+ 159:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c ****     if(state == 0u)
+ 141              		.loc 1 159 0
+ 142 000a FB79     		ldrb	r3, [r7, #7]	@ zero_extendqisi2
+ 143 000c 002B     		cmp	r3, #0
+ 144 000e 0DD1     		bne	.L6
+ 160:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c ****     {
+ 161:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c ****         ultrasonic_uart_IntClock_CLKSTBY &= (uint8)(~ultrasonic_uart_IntClock_CLKSTBY_MASK);
+ 145              		.loc 1 161 0
+ 146 0010 44F2B233 		movw	r3, #:lower16:1073759154
+ 147 0014 C4F20003 		movt	r3, #:upper16:1073759154
+ 148 0018 44F2B232 		movw	r2, #:lower16:1073759154
+ 149 001c C4F20002 		movt	r2, #:upper16:1073759154
+ 150 0020 1278     		ldrb	r2, [r2, #0]
+ 151 0022 D2B2     		uxtb	r2, r2
+ 152 0024 02F0FD02 		and	r2, r2, #253
+ 153 0028 1A70     		strb	r2, [r3, #0]
+ 154 002a 0DE0     		b	.L8
+ 155              	.L6:
+ 162:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c ****     }
+ 163:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c ****     else
+ 164:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c ****     {
+ 165:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c ****         ultrasonic_uart_IntClock_CLKSTBY |= ultrasonic_uart_IntClock_CLKSTBY_MASK;
+ 156              		.loc 1 165 0
+ 157 002c 44F2B233 		movw	r3, #:lower16:1073759154
+ 158 0030 C4F20003 		movt	r3, #:upper16:1073759154
+ 159 0034 44F2B232 		movw	r2, #:lower16:1073759154
+ 160 0038 C4F20002 		movt	r2, #:upper16:1073759154
+ 161 003c 1278     		ldrb	r2, [r2, #0]
+ 162 003e D2B2     		uxtb	r2, r2
+ 163 0040 42F00202 		orr	r2, r2, #2
+ 164 0044 D2B2     		uxtb	r2, r2
+ 165 0046 1A70     		strb	r2, [r3, #0]
+ 166              	.L8:
+ 166:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c ****     }
+ 167:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** }
+ 167              		.loc 1 167 0
+ 168 0048 07F10C07 		add	r7, r7, #12
+ 169 004c BD46     		mov	sp, r7
+ 170 004e 80BC     		pop	{r7}
+ 171 0050 7047     		bx	lr
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccv4golg.s 			page 7
+
+
+ 172              		.cfi_endproc
+ 173              	.LFE2:
+ 174              		.size	ultrasonic_uart_IntClock_StandbyPower, .-ultrasonic_uart_IntClock_StandbyPower
+ 175 0052 00BF     		.section	.text.ultrasonic_uart_IntClock_SetDividerRegister,"ax",%progbits
+ 176              		.align	2
+ 177              		.global	ultrasonic_uart_IntClock_SetDividerRegister
+ 178              		.thumb
+ 179              		.thumb_func
+ 180              		.type	ultrasonic_uart_IntClock_SetDividerRegister, %function
+ 181              	ultrasonic_uart_IntClock_SetDividerRegister:
+ 182              	.LFB3:
+ 168:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** 
+ 169:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** 
+ 170:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** /*******************************************************************************
+ 171:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** * Function Name: ultrasonic_uart_IntClock_SetDividerRegister
+ 172:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** ********************************************************************************
+ 173:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** *
+ 174:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** * Summary:
+ 175:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** *  Modifies the clock divider and, thus, the frequency. When the clock divider
+ 176:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** *  register is set to zero or changed from zero, the clock will be temporarily
+ 177:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** *  disabled in order to change the SSS mode bit. If the clock is enabled when
+ 178:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** *  SetDividerRegister is called, then the source clock must be running.
+ 179:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** *
+ 180:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** * Parameters:
+ 181:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** *  clkDivider:  Divider register value (0-65,535). This value is NOT the
+ 182:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** *    divider; the clock hardware divides by clkDivider plus one. For example,
+ 183:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** *    to divide the clock by 2, this parameter should be set to 1.
+ 184:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** *  restart:  If nonzero, restarts the clock divider: the current clock cycle
+ 185:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** *   will be truncated and the new divide value will take effect immediately. If
+ 186:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** *   zero, the new divide value will take effect at the end of the current clock
+ 187:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** *   cycle.
+ 188:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** *
+ 189:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** * Returns:
+ 190:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** *  None
+ 191:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** *
+ 192:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** *******************************************************************************/
+ 193:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** void ultrasonic_uart_IntClock_SetDividerRegister(uint16 clkDivider, uint8 restart)
+ 194:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c ****                                 
+ 195:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** {
+ 183              		.loc 1 195 0
+ 184              		.cfi_startproc
+ 185              		@ args = 0, pretend = 0, frame = 16
+ 186              		@ frame_needed = 1, uses_anonymous_args = 0
+ 187 0000 80B5     		push	{r7, lr}
+ 188              	.LCFI7:
+ 189              		.cfi_def_cfa_offset 8
+ 190 0002 84B0     		sub	sp, sp, #16
+ 191              	.LCFI8:
+ 192              		.cfi_def_cfa_offset 24
+ 193 0004 00AF     		add	r7, sp, #0
+ 194              		.cfi_offset 14, -4
+ 195              		.cfi_offset 7, -8
+ 196              	.LCFI9:
+ 197              		.cfi_def_cfa_register 7
+ 198 0006 0246     		mov	r2, r0
+ 199 0008 0B46     		mov	r3, r1
+ 200 000a FA80     		strh	r2, [r7, #6]	@ movhi
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccv4golg.s 			page 8
+
+
+ 201 000c 7B71     		strb	r3, [r7, #5]
+ 196:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c ****     uint8 enabled;
+ 197:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** 
+ 198:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c ****     uint8 currSrc = ultrasonic_uart_IntClock_GetSourceRegister();
+ 202              		.loc 1 198 0
+ 203 000e FFF7FEFF 		bl	ultrasonic_uart_IntClock_GetSourceRegister
+ 204 0012 0346     		mov	r3, r0
+ 205 0014 7B73     		strb	r3, [r7, #13]
+ 199:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c ****     uint16 oldDivider = ultrasonic_uart_IntClock_GetDividerRegister();
+ 206              		.loc 1 199 0
+ 207 0016 FFF7FEFF 		bl	ultrasonic_uart_IntClock_GetDividerRegister
+ 208 001a 0346     		mov	r3, r0
+ 209 001c FB81     		strh	r3, [r7, #14]	@ movhi
+ 200:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** 
+ 201:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c ****     if (clkDivider != oldDivider)
+ 210              		.loc 1 201 0
+ 211 001e FA88     		ldrh	r2, [r7, #6]
+ 212 0020 FB89     		ldrh	r3, [r7, #14]
+ 213 0022 9A42     		cmp	r2, r3
+ 214 0024 00F0BB80 		beq	.L21
+ 202:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c ****     {
+ 203:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c ****         enabled = ultrasonic_uart_IntClock_CLKEN & ultrasonic_uart_IntClock_CLKEN_MASK;
+ 215              		.loc 1 203 0
+ 216 0028 44F2A233 		movw	r3, #:lower16:1073759138
+ 217 002c C4F20003 		movt	r3, #:upper16:1073759138
+ 218 0030 1B78     		ldrb	r3, [r3, #0]
+ 219 0032 DBB2     		uxtb	r3, r3
+ 220 0034 03F00203 		and	r3, r3, #2
+ 221 0038 3B73     		strb	r3, [r7, #12]
+ 204:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** 
+ 205:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c ****         if ((currSrc == (uint8)CYCLK_SRC_SEL_CLK_SYNC_D) && ((oldDivider == 0u) || (clkDivider == 0
+ 222              		.loc 1 205 0
+ 223 003a 7B7B     		ldrb	r3, [r7, #13]	@ zero_extendqisi2
+ 224 003c 002B     		cmp	r3, #0
+ 225 003e 31D1     		bne	.L11
+ 226 0040 FB89     		ldrh	r3, [r7, #14]
+ 227 0042 002B     		cmp	r3, #0
+ 228 0044 02D0     		beq	.L12
+ 229 0046 FB88     		ldrh	r3, [r7, #6]
+ 230 0048 002B     		cmp	r3, #0
+ 231 004a 2BD1     		bne	.L11
+ 232              	.L12:
+ 206:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c ****         {
+ 207:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c ****             /* Moving to/from SSS requires correct ordering to prevent halting the clock    */
+ 208:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c ****             if (oldDivider == 0u)
+ 233              		.loc 1 208 0
+ 234 004c FB89     		ldrh	r3, [r7, #14]
+ 235 004e 002B     		cmp	r3, #0
+ 236 0050 13D1     		bne	.L13
+ 209:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c ****             {
+ 210:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c ****                 /* Moving away from SSS, set the divider first so when SSS is cleared we    */
+ 211:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c ****                 /* don't halt the clock.  Using the shadow load isn't required as the       */
+ 212:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c ****                 /* divider is ignored while SSS is set.                                     */
+ 213:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c ****                 CY_SET_REG16(ultrasonic_uart_IntClock_DIV_PTR, clkDivider);
+ 237              		.loc 1 213 0
+ 238 0052 44F28403 		movw	r3, #:lower16:1073758340
+ 239 0056 C4F20003 		movt	r3, #:upper16:1073758340
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccv4golg.s 			page 9
+
+
+ 240 005a FA88     		ldrh	r2, [r7, #6]	@ movhi
+ 241 005c 1A80     		strh	r2, [r3, #0]	@ movhi
+ 214:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c ****                 ultrasonic_uart_IntClock_MOD_SRC &= (uint8)(~CYCLK_SSS);
+ 242              		.loc 1 214 0
+ 243 005e 44F28603 		movw	r3, #:lower16:1073758342
+ 244 0062 C4F20003 		movt	r3, #:upper16:1073758342
+ 245 0066 44F28602 		movw	r2, #:lower16:1073758342
+ 246 006a C4F20002 		movt	r2, #:upper16:1073758342
+ 247 006e 1278     		ldrb	r2, [r2, #0]
+ 248 0070 D2B2     		uxtb	r2, r2
+ 249 0072 02F0BF02 		and	r2, r2, #191
+ 250 0076 1A70     		strb	r2, [r3, #0]
+ 251              		.loc 1 205 0
+ 252 0078 91E0     		b	.L21
+ 253              	.L13:
+ 215:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c ****             }
+ 216:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c ****             else
+ 217:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c ****             {
+ 218:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c ****                 /* Moving to SSS, set SSS which then ignores the divider and we can set     */
+ 219:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c ****                 /* it without bothering with the shadow load.                               */
+ 220:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c ****                 ultrasonic_uart_IntClock_MOD_SRC |= CYCLK_SSS;
+ 254              		.loc 1 220 0
+ 255 007a 44F28603 		movw	r3, #:lower16:1073758342
+ 256 007e C4F20003 		movt	r3, #:upper16:1073758342
+ 257 0082 44F28602 		movw	r2, #:lower16:1073758342
+ 258 0086 C4F20002 		movt	r2, #:upper16:1073758342
+ 259 008a 1278     		ldrb	r2, [r2, #0]
+ 260 008c D2B2     		uxtb	r2, r2
+ 261 008e 42F04002 		orr	r2, r2, #64
+ 262 0092 D2B2     		uxtb	r2, r2
+ 263 0094 1A70     		strb	r2, [r3, #0]
+ 221:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c ****                 CY_SET_REG16(ultrasonic_uart_IntClock_DIV_PTR, clkDivider);
+ 264              		.loc 1 221 0
+ 265 0096 44F28403 		movw	r3, #:lower16:1073758340
+ 266 009a C4F20003 		movt	r3, #:upper16:1073758340
+ 267 009e FA88     		ldrh	r2, [r7, #6]	@ movhi
+ 268 00a0 1A80     		strh	r2, [r3, #0]	@ movhi
+ 269              		.loc 1 205 0
+ 270 00a2 7CE0     		b	.L21
+ 271              	.L11:
+ 222:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c ****             }
+ 223:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c ****         }
+ 224:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c ****         else
+ 225:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c ****         {
+ 226:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** 			
+ 227:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c ****             if (enabled != 0u)
+ 272              		.loc 1 227 0
+ 273 00a4 3B7B     		ldrb	r3, [r7, #12]	@ zero_extendqisi2
+ 274 00a6 002B     		cmp	r3, #0
+ 275 00a8 3BD0     		beq	.L15
+ 228:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c ****             {
+ 229:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c ****                 CLK_DIST_LD = 0x00u;
+ 276              		.loc 1 229 0
+ 277 00aa 44F20103 		movw	r3, #:lower16:1073758209
+ 278 00ae C4F20003 		movt	r3, #:upper16:1073758209
+ 279 00b2 4FF00002 		mov	r2, #0
+ 280 00b6 1A70     		strb	r2, [r3, #0]
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccv4golg.s 			page 10
+
+
+ 230:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** 
+ 231:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c ****                 /* Clear all the mask bits except ours. */
+ 232:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** #if defined(ultrasonic_uart_IntClock__CFG3)
+ 233:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c ****                 CLK_DIST_AMASK = ultrasonic_uart_IntClock_CLKEN_MASK;
+ 234:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c ****                 CLK_DIST_DMASK = 0x00u;
+ 235:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** #else
+ 236:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c ****                 CLK_DIST_DMASK = ultrasonic_uart_IntClock_CLKEN_MASK;
+ 281              		.loc 1 236 0
+ 282 00b8 44F21003 		movw	r3, #:lower16:1073758224
+ 283 00bc C4F20003 		movt	r3, #:upper16:1073758224
+ 284 00c0 4FF00202 		mov	r2, #2
+ 285 00c4 1A70     		strb	r2, [r3, #0]
+ 237:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c ****                 CLK_DIST_AMASK = 0x00u;
+ 286              		.loc 1 237 0
+ 287 00c6 44F21403 		movw	r3, #:lower16:1073758228
+ 288 00ca C4F20003 		movt	r3, #:upper16:1073758228
+ 289 00ce 4FF00002 		mov	r2, #0
+ 290 00d2 1A70     		strb	r2, [r3, #0]
+ 238:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** #endif /* ultrasonic_uart_IntClock__CFG3 */
+ 239:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c ****                 /* Clear mask of bus clock. */
+ 240:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c ****                 CLK_DIST_BCFG2 &= (uint8)(~BCFG2_MASK);
+ 291              		.loc 1 240 0
+ 292 00d4 44F20803 		movw	r3, #:lower16:1073758216
+ 293 00d8 C4F20003 		movt	r3, #:upper16:1073758216
+ 294 00dc 44F20802 		movw	r2, #:lower16:1073758216
+ 295 00e0 C4F20002 		movt	r2, #:upper16:1073758216
+ 296 00e4 1278     		ldrb	r2, [r2, #0]
+ 297 00e6 D2B2     		uxtb	r2, r2
+ 298 00e8 02F07F02 		and	r2, r2, #127
+ 299 00ec 1A70     		strb	r2, [r3, #0]
+ 241:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** 
+ 242:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c ****                 /* If clock is currently enabled, disable it if async or going from N-to-1*/
+ 243:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c ****                 if (((ultrasonic_uart_IntClock_MOD_SRC & CYCLK_SYNC) == 0u) || (clkDivider == 0u))
+ 300              		.loc 1 243 0
+ 301 00ee 44F28603 		movw	r3, #:lower16:1073758342
+ 302 00f2 C4F20003 		movt	r3, #:upper16:1073758342
+ 303 00f6 1B78     		ldrb	r3, [r3, #0]
+ 304 00f8 DBB2     		uxtb	r3, r3
+ 305 00fa 03F00803 		and	r3, r3, #8
+ 306 00fe 002B     		cmp	r3, #0
+ 307 0100 02D0     		beq	.L16
+ 308 0102 FB88     		ldrh	r3, [r7, #6]
+ 309 0104 002B     		cmp	r3, #0
+ 310 0106 0CD1     		bne	.L15
+ 311              	.L16:
+ 244:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c ****                 {
+ 245:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** #if HAS_CLKDIST_LD_DISABLE
+ 246:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c ****                     CY_SET_REG16(CYREG_CLKDIST_WRK0, oldDivider);
+ 247:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c ****                     CLK_DIST_LD = CYCLK_LD_DISABLE|CYCLK_LD_SYNC_EN|CYCLK_LD_LOAD;
+ 248:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** 
+ 249:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c ****                     /* Wait for clock to be disabled */
+ 250:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c ****                     while ((CLK_DIST_LD & CYCLK_LD_LOAD) != 0u) { }
+ 251:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** #endif /* HAS_CLKDIST_LD_DISABLE */
+ 252:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** 
+ 253:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c ****                     ultrasonic_uart_IntClock_CLKEN &= (uint8)(~ultrasonic_uart_IntClock_CLKEN_MASK)
+ 312              		.loc 1 253 0
+ 313 0108 44F2A233 		movw	r3, #:lower16:1073759138
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccv4golg.s 			page 11
+
+
+ 314 010c C4F20003 		movt	r3, #:upper16:1073759138
+ 315 0110 44F2A232 		movw	r2, #:lower16:1073759138
+ 316 0114 C4F20002 		movt	r2, #:upper16:1073759138
+ 317 0118 1278     		ldrb	r2, [r2, #0]
+ 318 011a D2B2     		uxtb	r2, r2
+ 319 011c 02F0FD02 		and	r2, r2, #253
+ 320 0120 1A70     		strb	r2, [r3, #0]
+ 321              	.L15:
+ 254:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** 
+ 255:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** #if HAS_CLKDIST_LD_DISABLE
+ 256:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c ****                     /* Clear the disable bit */
+ 257:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c ****                     CLK_DIST_LD = 0x00u;
+ 258:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** #endif /* HAS_CLKDIST_LD_DISABLE */
+ 259:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c ****                 }
+ 260:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c ****             }
+ 261:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** 
+ 262:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c ****             /* Load divide value. */
+ 263:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c ****             if ((ultrasonic_uart_IntClock_CLKEN & ultrasonic_uart_IntClock_CLKEN_MASK) != 0u)
+ 322              		.loc 1 263 0
+ 323 0122 44F2A233 		movw	r3, #:lower16:1073759138
+ 324 0126 C4F20003 		movt	r3, #:upper16:1073759138
+ 325 012a 1B78     		ldrb	r3, [r3, #0]
+ 326 012c DBB2     		uxtb	r3, r3
+ 327 012e 03F00203 		and	r3, r3, #2
+ 328 0132 002B     		cmp	r3, #0
+ 329 0134 1ED0     		beq	.L17
+ 264:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c ****             {
+ 265:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c ****                 /* If the clock is still enabled, use the shadow registers */
+ 266:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c ****                 CY_SET_REG16(CYREG_CLKDIST_WRK0, clkDivider);
+ 330              		.loc 1 266 0
+ 331 0136 44F20203 		movw	r3, #:lower16:1073758210
+ 332 013a C4F20003 		movt	r3, #:upper16:1073758210
+ 333 013e FA88     		ldrh	r2, [r7, #6]	@ movhi
+ 334 0140 1A80     		strh	r2, [r3, #0]	@ movhi
+ 267:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** 
+ 268:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c ****                 CLK_DIST_LD = (CYCLK_LD_LOAD | ((restart != 0u) ? CYCLK_LD_SYNC_EN : 0x00u));
+ 335              		.loc 1 268 0
+ 336 0142 44F20103 		movw	r3, #:lower16:1073758209
+ 337 0146 C4F20003 		movt	r3, #:upper16:1073758209
+ 338 014a 7A79     		ldrb	r2, [r7, #5]	@ zero_extendqisi2
+ 339 014c 002A     		cmp	r2, #0
+ 340 014e 02D0     		beq	.L18
+ 341 0150 4FF00302 		mov	r2, #3
+ 342 0154 01E0     		b	.L19
+ 343              	.L18:
+ 344 0156 4FF00102 		mov	r2, #1
+ 345              	.L19:
+ 346 015a 1A70     		strb	r2, [r3, #0]
+ 347              	.L20:
+ 269:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c ****                 while ((CLK_DIST_LD & CYCLK_LD_LOAD) != 0u) { }
+ 348              		.loc 1 269 0
+ 349 015c 44F20103 		movw	r3, #:lower16:1073758209
+ 350 0160 C4F20003 		movt	r3, #:upper16:1073758209
+ 351 0164 1B78     		ldrb	r3, [r3, #0]
+ 352 0166 DBB2     		uxtb	r3, r3
+ 353 0168 03F00103 		and	r3, r3, #1
+ 354 016c DBB2     		uxtb	r3, r3
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccv4golg.s 			page 12
+
+
+ 355 016e 002B     		cmp	r3, #0
+ 356 0170 F4D1     		bne	.L20
+ 357 0172 14E0     		b	.L21
+ 358              	.L17:
+ 270:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c ****             }
+ 271:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c ****             else
+ 272:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c ****             {
+ 273:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c ****                 /* If the clock is disabled, set the divider directly */
+ 274:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c ****                 CY_SET_REG16(ultrasonic_uart_IntClock_DIV_PTR, clkDivider);
+ 359              		.loc 1 274 0
+ 360 0174 44F28403 		movw	r3, #:lower16:1073758340
+ 361 0178 C4F20003 		movt	r3, #:upper16:1073758340
+ 362 017c FA88     		ldrh	r2, [r7, #6]	@ movhi
+ 363 017e 1A80     		strh	r2, [r3, #0]	@ movhi
+ 275:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** 				ultrasonic_uart_IntClock_CLKEN |= enabled;
+ 364              		.loc 1 275 0
+ 365 0180 44F2A233 		movw	r3, #:lower16:1073759138
+ 366 0184 C4F20003 		movt	r3, #:upper16:1073759138
+ 367 0188 44F2A232 		movw	r2, #:lower16:1073759138
+ 368 018c C4F20002 		movt	r2, #:upper16:1073759138
+ 369 0190 1278     		ldrb	r2, [r2, #0]
+ 370 0192 D1B2     		uxtb	r1, r2
+ 371 0194 3A7B     		ldrb	r2, [r7, #12]
+ 372 0196 41EA0202 		orr	r2, r1, r2
+ 373 019a D2B2     		uxtb	r2, r2
+ 374 019c 1A70     		strb	r2, [r3, #0]
+ 375              	.L21:
+ 276:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c ****             }
+ 277:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c ****         }
+ 278:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c ****     }
+ 279:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** }
+ 376              		.loc 1 279 0
+ 377 019e 07F11007 		add	r7, r7, #16
+ 378 01a2 BD46     		mov	sp, r7
+ 379 01a4 80BD     		pop	{r7, pc}
+ 380              		.cfi_endproc
+ 381              	.LFE3:
+ 382              		.size	ultrasonic_uart_IntClock_SetDividerRegister, .-ultrasonic_uart_IntClock_SetDividerRegister
+ 383 01a6 00BF     		.section	.text.ultrasonic_uart_IntClock_GetDividerRegister,"ax",%progbits
+ 384              		.align	2
+ 385              		.global	ultrasonic_uart_IntClock_GetDividerRegister
+ 386              		.thumb
+ 387              		.thumb_func
+ 388              		.type	ultrasonic_uart_IntClock_GetDividerRegister, %function
+ 389              	ultrasonic_uart_IntClock_GetDividerRegister:
+ 390              	.LFB4:
+ 280:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** 
+ 281:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** 
+ 282:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** /*******************************************************************************
+ 283:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** * Function Name: ultrasonic_uart_IntClock_GetDividerRegister
+ 284:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** ********************************************************************************
+ 285:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** *
+ 286:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** * Summary:
+ 287:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** *  Gets the clock divider register value.
+ 288:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** *
+ 289:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** * Parameters:
+ 290:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** *  None
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccv4golg.s 			page 13
+
+
+ 291:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** *
+ 292:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** * Returns:
+ 293:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** *  Divide value of the clock minus 1. For example, if the clock is set to
+ 294:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** *  divide by 2, the return value will be 1.
+ 295:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** *
+ 296:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** *******************************************************************************/
+ 297:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** uint16 ultrasonic_uart_IntClock_GetDividerRegister(void) 
+ 298:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** {
+ 391              		.loc 1 298 0
+ 392              		.cfi_startproc
+ 393              		@ args = 0, pretend = 0, frame = 0
+ 394              		@ frame_needed = 1, uses_anonymous_args = 0
+ 395              		@ link register save eliminated.
+ 396 0000 80B4     		push	{r7}
+ 397              	.LCFI10:
+ 398              		.cfi_def_cfa_offset 4
+ 399 0002 00AF     		add	r7, sp, #0
+ 400              		.cfi_offset 7, -4
+ 401              	.LCFI11:
+ 402              		.cfi_def_cfa_register 7
+ 299:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c ****     return CY_GET_REG16(ultrasonic_uart_IntClock_DIV_PTR);
+ 403              		.loc 1 299 0
+ 404 0004 44F28403 		movw	r3, #:lower16:1073758340
+ 405 0008 C4F20003 		movt	r3, #:upper16:1073758340
+ 406 000c 1B88     		ldrh	r3, [r3, #0]	@ movhi
+ 407 000e 9BB2     		uxth	r3, r3
+ 300:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** }
+ 408              		.loc 1 300 0
+ 409 0010 1846     		mov	r0, r3
+ 410 0012 BD46     		mov	sp, r7
+ 411 0014 80BC     		pop	{r7}
+ 412 0016 7047     		bx	lr
+ 413              		.cfi_endproc
+ 414              	.LFE4:
+ 415              		.size	ultrasonic_uart_IntClock_GetDividerRegister, .-ultrasonic_uart_IntClock_GetDividerRegister
+ 416              		.section	.text.ultrasonic_uart_IntClock_SetModeRegister,"ax",%progbits
+ 417              		.align	2
+ 418              		.global	ultrasonic_uart_IntClock_SetModeRegister
+ 419              		.thumb
+ 420              		.thumb_func
+ 421              		.type	ultrasonic_uart_IntClock_SetModeRegister, %function
+ 422              	ultrasonic_uart_IntClock_SetModeRegister:
+ 423              	.LFB5:
+ 301:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** 
+ 302:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** 
+ 303:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** /*******************************************************************************
+ 304:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** * Function Name: ultrasonic_uart_IntClock_SetModeRegister
+ 305:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** ********************************************************************************
+ 306:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** *
+ 307:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** * Summary:
+ 308:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** *  Sets flags that control the operating mode of the clock. This function only
+ 309:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** *  changes flags from 0 to 1; flags that are already 1 will remain unchanged.
+ 310:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** *  To clear flags, use the ClearModeRegister function. The clock must be
+ 311:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** *  disabled before changing the mode.
+ 312:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** *
+ 313:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** * Parameters:
+ 314:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** *  clkMode: Bit mask containing the bits to set. For PSoC 3 and PSoC 5,
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccv4golg.s 			page 14
+
+
+ 315:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** *   clkMode should be a set of the following optional bits or'ed together.
+ 316:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** *   - CYCLK_EARLY Enable early phase mode. Rising edge of output clock will
+ 317:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** *                 occur when the divider count reaches half of the divide
+ 318:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** *                 value.
+ 319:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** *   - CYCLK_DUTY  Enable 50% duty cycle output. When enabled, the output clock
+ 320:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** *                 is asserted for approximately half of its period. When
+ 321:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** *                 disabled, the output clock is asserted for one period of the
+ 322:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** *                 source clock.
+ 323:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** *   - CYCLK_SYNC  Enable output synchronization to master clock. This should
+ 324:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** *                 be enabled for all synchronous clocks.
+ 325:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** *   See the Technical Reference Manual for details about setting the mode of
+ 326:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** *   the clock. Specifically, see the CLKDIST.DCFG.CFG2 register.
+ 327:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** *
+ 328:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** * Returns:
+ 329:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** *  None
+ 330:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** *
+ 331:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** *******************************************************************************/
+ 332:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** void ultrasonic_uart_IntClock_SetModeRegister(uint8 modeBitMask) 
+ 333:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** {
+ 424              		.loc 1 333 0
+ 425              		.cfi_startproc
+ 426              		@ args = 0, pretend = 0, frame = 8
+ 427              		@ frame_needed = 1, uses_anonymous_args = 0
+ 428              		@ link register save eliminated.
+ 429 0000 80B4     		push	{r7}
+ 430              	.LCFI12:
+ 431              		.cfi_def_cfa_offset 4
+ 432 0002 83B0     		sub	sp, sp, #12
+ 433              	.LCFI13:
+ 434              		.cfi_def_cfa_offset 16
+ 435 0004 00AF     		add	r7, sp, #0
+ 436              		.cfi_offset 7, -4
+ 437              	.LCFI14:
+ 438              		.cfi_def_cfa_register 7
+ 439 0006 0346     		mov	r3, r0
+ 440 0008 FB71     		strb	r3, [r7, #7]
+ 334:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c ****     ultrasonic_uart_IntClock_MOD_SRC |= modeBitMask & (uint8)ultrasonic_uart_IntClock_MODE_MASK;
+ 441              		.loc 1 334 0
+ 442 000a 44F28603 		movw	r3, #:lower16:1073758342
+ 443 000e C4F20003 		movt	r3, #:upper16:1073758342
+ 444 0012 44F28602 		movw	r2, #:lower16:1073758342
+ 445 0016 C4F20002 		movt	r2, #:upper16:1073758342
+ 446 001a 1278     		ldrb	r2, [r2, #0]
+ 447 001c D2B2     		uxtb	r2, r2
+ 448 001e 1146     		mov	r1, r2
+ 449 0020 FA79     		ldrb	r2, [r7, #7]	@ zero_extendqisi2
+ 450 0022 D2B2     		uxtb	r2, r2
+ 451 0024 02F0F802 		and	r2, r2, #248
+ 452 0028 41EA0202 		orr	r2, r1, r2
+ 453 002c D2B2     		uxtb	r2, r2
+ 454 002e D2B2     		uxtb	r2, r2
+ 455 0030 1A70     		strb	r2, [r3, #0]
+ 335:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** }
+ 456              		.loc 1 335 0
+ 457 0032 07F10C07 		add	r7, r7, #12
+ 458 0036 BD46     		mov	sp, r7
+ 459 0038 80BC     		pop	{r7}
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccv4golg.s 			page 15
+
+
+ 460 003a 7047     		bx	lr
+ 461              		.cfi_endproc
+ 462              	.LFE5:
+ 463              		.size	ultrasonic_uart_IntClock_SetModeRegister, .-ultrasonic_uart_IntClock_SetModeRegister
+ 464              		.section	.text.ultrasonic_uart_IntClock_ClearModeRegister,"ax",%progbits
+ 465              		.align	2
+ 466              		.global	ultrasonic_uart_IntClock_ClearModeRegister
+ 467              		.thumb
+ 468              		.thumb_func
+ 469              		.type	ultrasonic_uart_IntClock_ClearModeRegister, %function
+ 470              	ultrasonic_uart_IntClock_ClearModeRegister:
+ 471              	.LFB6:
+ 336:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** 
+ 337:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** 
+ 338:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** /*******************************************************************************
+ 339:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** * Function Name: ultrasonic_uart_IntClock_ClearModeRegister
+ 340:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** ********************************************************************************
+ 341:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** *
+ 342:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** * Summary:
+ 343:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** *  Clears flags that control the operating mode of the clock. This function
+ 344:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** *  only changes flags from 1 to 0; flags that are already 0 will remain
+ 345:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** *  unchanged. To set flags, use the SetModeRegister function. The clock must be
+ 346:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** *  disabled before changing the mode.
+ 347:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** *
+ 348:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** * Parameters:
+ 349:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** *  clkMode: Bit mask containing the bits to clear. For PSoC 3 and PSoC 5,
+ 350:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** *   clkMode should be a set of the following optional bits or'ed together.
+ 351:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** *   - CYCLK_EARLY Enable early phase mode. Rising edge of output clock will
+ 352:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** *                 occur when the divider count reaches half of the divide
+ 353:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** *                 value.
+ 354:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** *   - CYCLK_DUTY  Enable 50% duty cycle output. When enabled, the output clock
+ 355:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** *                 is asserted for approximately half of its period. When
+ 356:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** *                 disabled, the output clock is asserted for one period of the
+ 357:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** *                 source clock.
+ 358:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** *   - CYCLK_SYNC  Enable output synchronization to master clock. This should
+ 359:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** *                 be enabled for all synchronous clocks.
+ 360:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** *   See the Technical Reference Manual for details about setting the mode of
+ 361:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** *   the clock. Specifically, see the CLKDIST.DCFG.CFG2 register.
+ 362:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** *
+ 363:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** * Returns:
+ 364:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** *  None
+ 365:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** *
+ 366:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** *******************************************************************************/
+ 367:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** void ultrasonic_uart_IntClock_ClearModeRegister(uint8 modeBitMask) 
+ 368:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** {
+ 472              		.loc 1 368 0
+ 473              		.cfi_startproc
+ 474              		@ args = 0, pretend = 0, frame = 8
+ 475              		@ frame_needed = 1, uses_anonymous_args = 0
+ 476              		@ link register save eliminated.
+ 477 0000 80B4     		push	{r7}
+ 478              	.LCFI15:
+ 479              		.cfi_def_cfa_offset 4
+ 480 0002 83B0     		sub	sp, sp, #12
+ 481              	.LCFI16:
+ 482              		.cfi_def_cfa_offset 16
+ 483 0004 00AF     		add	r7, sp, #0
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccv4golg.s 			page 16
+
+
+ 484              		.cfi_offset 7, -4
+ 485              	.LCFI17:
+ 486              		.cfi_def_cfa_register 7
+ 487 0006 0346     		mov	r3, r0
+ 488 0008 FB71     		strb	r3, [r7, #7]
+ 369:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c ****     ultrasonic_uart_IntClock_MOD_SRC &= (uint8)(~modeBitMask) | (uint8)(~(uint8)(ultrasonic_uart_In
+ 489              		.loc 1 369 0
+ 490 000a 44F28603 		movw	r3, #:lower16:1073758342
+ 491 000e C4F20003 		movt	r3, #:upper16:1073758342
+ 492 0012 44F28602 		movw	r2, #:lower16:1073758342
+ 493 0016 C4F20002 		movt	r2, #:upper16:1073758342
+ 494 001a 1278     		ldrb	r2, [r2, #0]
+ 495 001c D1B2     		uxtb	r1, r2
+ 496 001e FA79     		ldrb	r2, [r7, #7]
+ 497 0020 6FEA0202 		mvn	r2, r2
+ 498 0024 D2B2     		uxtb	r2, r2
+ 499 0026 42F00702 		orr	r2, r2, #7
+ 500 002a D2B2     		uxtb	r2, r2
+ 501 002c 01EA0202 		and	r2, r1, r2
+ 502 0030 D2B2     		uxtb	r2, r2
+ 503 0032 1A70     		strb	r2, [r3, #0]
+ 370:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** }
+ 504              		.loc 1 370 0
+ 505 0034 07F10C07 		add	r7, r7, #12
+ 506 0038 BD46     		mov	sp, r7
+ 507 003a 80BC     		pop	{r7}
+ 508 003c 7047     		bx	lr
+ 509              		.cfi_endproc
+ 510              	.LFE6:
+ 511              		.size	ultrasonic_uart_IntClock_ClearModeRegister, .-ultrasonic_uart_IntClock_ClearModeRegister
+ 512 003e 00BF     		.section	.text.ultrasonic_uart_IntClock_GetModeRegister,"ax",%progbits
+ 513              		.align	2
+ 514              		.global	ultrasonic_uart_IntClock_GetModeRegister
+ 515              		.thumb
+ 516              		.thumb_func
+ 517              		.type	ultrasonic_uart_IntClock_GetModeRegister, %function
+ 518              	ultrasonic_uart_IntClock_GetModeRegister:
+ 519              	.LFB7:
+ 371:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** 
+ 372:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** 
+ 373:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** /*******************************************************************************
+ 374:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** * Function Name: ultrasonic_uart_IntClock_GetModeRegister
+ 375:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** ********************************************************************************
+ 376:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** *
+ 377:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** * Summary:
+ 378:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** *  Gets the clock mode register value.
+ 379:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** *
+ 380:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** * Parameters:
+ 381:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** *  None
+ 382:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** *
+ 383:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** * Returns:
+ 384:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** *  Bit mask representing the enabled mode bits. See the SetModeRegister and
+ 385:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** *  ClearModeRegister descriptions for details about the mode bits.
+ 386:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** *
+ 387:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** *******************************************************************************/
+ 388:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** uint8 ultrasonic_uart_IntClock_GetModeRegister(void) 
+ 389:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** {
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccv4golg.s 			page 17
+
+
+ 520              		.loc 1 389 0
+ 521              		.cfi_startproc
+ 522              		@ args = 0, pretend = 0, frame = 0
+ 523              		@ frame_needed = 1, uses_anonymous_args = 0
+ 524              		@ link register save eliminated.
+ 525 0000 80B4     		push	{r7}
+ 526              	.LCFI18:
+ 527              		.cfi_def_cfa_offset 4
+ 528 0002 00AF     		add	r7, sp, #0
+ 529              		.cfi_offset 7, -4
+ 530              	.LCFI19:
+ 531              		.cfi_def_cfa_register 7
+ 390:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c ****     return ultrasonic_uart_IntClock_MOD_SRC & (uint8)(ultrasonic_uart_IntClock_MODE_MASK);
+ 532              		.loc 1 390 0
+ 533 0004 44F28603 		movw	r3, #:lower16:1073758342
+ 534 0008 C4F20003 		movt	r3, #:upper16:1073758342
+ 535 000c 1B78     		ldrb	r3, [r3, #0]
+ 536 000e DBB2     		uxtb	r3, r3
+ 537 0010 03F0F803 		and	r3, r3, #248
+ 391:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** }
+ 538              		.loc 1 391 0
+ 539 0014 1846     		mov	r0, r3
+ 540 0016 BD46     		mov	sp, r7
+ 541 0018 80BC     		pop	{r7}
+ 542 001a 7047     		bx	lr
+ 543              		.cfi_endproc
+ 544              	.LFE7:
+ 545              		.size	ultrasonic_uart_IntClock_GetModeRegister, .-ultrasonic_uart_IntClock_GetModeRegister
+ 546              		.section	.text.ultrasonic_uart_IntClock_SetSourceRegister,"ax",%progbits
+ 547              		.align	2
+ 548              		.global	ultrasonic_uart_IntClock_SetSourceRegister
+ 549              		.thumb
+ 550              		.thumb_func
+ 551              		.type	ultrasonic_uart_IntClock_SetSourceRegister, %function
+ 552              	ultrasonic_uart_IntClock_SetSourceRegister:
+ 553              	.LFB8:
+ 392:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** 
+ 393:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** 
+ 394:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** /*******************************************************************************
+ 395:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** * Function Name: ultrasonic_uart_IntClock_SetSourceRegister
+ 396:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** ********************************************************************************
+ 397:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** *
+ 398:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** * Summary:
+ 399:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** *  Sets the input source of the clock. The clock must be disabled before
+ 400:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** *  changing the source. The old and new clock sources must be running.
+ 401:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** *
+ 402:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** * Parameters:
+ 403:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** *  clkSource:  For PSoC 3 and PSoC 5 devices, clkSource should be one of the
+ 404:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** *   following input sources:
+ 405:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** *   - CYCLK_SRC_SEL_SYNC_DIG
+ 406:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** *   - CYCLK_SRC_SEL_IMO
+ 407:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** *   - CYCLK_SRC_SEL_XTALM
+ 408:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** *   - CYCLK_SRC_SEL_ILO
+ 409:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** *   - CYCLK_SRC_SEL_PLL
+ 410:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** *   - CYCLK_SRC_SEL_XTALK
+ 411:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** *   - CYCLK_SRC_SEL_DSI_G
+ 412:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** *   - CYCLK_SRC_SEL_DSI_D/CYCLK_SRC_SEL_DSI_A
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccv4golg.s 			page 18
+
+
+ 413:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** *   See the Technical Reference Manual for details on clock sources.
+ 414:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** *
+ 415:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** * Returns:
+ 416:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** *  None
+ 417:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** *
+ 418:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** *******************************************************************************/
+ 419:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** void ultrasonic_uart_IntClock_SetSourceRegister(uint8 clkSource) 
+ 420:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** {
+ 554              		.loc 1 420 0
+ 555              		.cfi_startproc
+ 556              		@ args = 0, pretend = 0, frame = 16
+ 557              		@ frame_needed = 1, uses_anonymous_args = 0
+ 558 0000 80B5     		push	{r7, lr}
+ 559              	.LCFI20:
+ 560              		.cfi_def_cfa_offset 8
+ 561 0002 84B0     		sub	sp, sp, #16
+ 562              	.LCFI21:
+ 563              		.cfi_def_cfa_offset 24
+ 564 0004 00AF     		add	r7, sp, #0
+ 565              		.cfi_offset 14, -4
+ 566              		.cfi_offset 7, -8
+ 567              	.LCFI22:
+ 568              		.cfi_def_cfa_register 7
+ 569 0006 0346     		mov	r3, r0
+ 570 0008 FB71     		strb	r3, [r7, #7]
+ 421:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c ****     uint16 currDiv = ultrasonic_uart_IntClock_GetDividerRegister();
+ 571              		.loc 1 421 0
+ 572 000a FFF7FEFF 		bl	ultrasonic_uart_IntClock_GetDividerRegister
+ 573 000e 0346     		mov	r3, r0
+ 574 0010 BB81     		strh	r3, [r7, #12]	@ movhi
+ 422:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c ****     uint8 oldSrc = ultrasonic_uart_IntClock_GetSourceRegister();
+ 575              		.loc 1 422 0
+ 576 0012 FFF7FEFF 		bl	ultrasonic_uart_IntClock_GetSourceRegister
+ 577 0016 0346     		mov	r3, r0
+ 578 0018 FB73     		strb	r3, [r7, #15]
+ 423:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** 
+ 424:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c ****     if (((oldSrc != ((uint8)CYCLK_SRC_SEL_CLK_SYNC_D)) && 
+ 579              		.loc 1 424 0
+ 580 001a FB7B     		ldrb	r3, [r7, #15]	@ zero_extendqisi2
+ 581 001c 002B     		cmp	r3, #0
+ 582 001e 29D0     		beq	.L31
+ 583 0020 FB79     		ldrb	r3, [r7, #7]	@ zero_extendqisi2
+ 584 0022 002B     		cmp	r3, #0
+ 585 0024 26D1     		bne	.L31
+ 586 0026 BB89     		ldrh	r3, [r7, #12]
+ 587 0028 002B     		cmp	r3, #0
+ 588 002a 23D1     		bne	.L31
+ 425:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c ****         (clkSource == ((uint8)CYCLK_SRC_SEL_CLK_SYNC_D))) && (currDiv == 0u))
+ 426:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c ****     {
+ 427:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c ****         /* Switching to Master and divider is 1, set SSS, which will output master, */
+ 428:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c ****         /* then set the source so we are consistent.                                */
+ 429:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c ****         ultrasonic_uart_IntClock_MOD_SRC |= CYCLK_SSS;
+ 589              		.loc 1 429 0
+ 590 002c 44F28603 		movw	r3, #:lower16:1073758342
+ 591 0030 C4F20003 		movt	r3, #:upper16:1073758342
+ 592 0034 44F28602 		movw	r2, #:lower16:1073758342
+ 593 0038 C4F20002 		movt	r2, #:upper16:1073758342
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccv4golg.s 			page 19
+
+
+ 594 003c 1278     		ldrb	r2, [r2, #0]
+ 595 003e D2B2     		uxtb	r2, r2
+ 596 0040 42F04002 		orr	r2, r2, #64
+ 597 0044 D2B2     		uxtb	r2, r2
+ 598 0046 1A70     		strb	r2, [r3, #0]
+ 430:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c ****         ultrasonic_uart_IntClock_MOD_SRC =
+ 599              		.loc 1 430 0
+ 600 0048 44F28603 		movw	r3, #:lower16:1073758342
+ 601 004c C4F20003 		movt	r3, #:upper16:1073758342
+ 431:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c ****             (ultrasonic_uart_IntClock_MOD_SRC & (uint8)(~ultrasonic_uart_IntClock_SRC_SEL_MSK)) | c
+ 602              		.loc 1 431 0
+ 603 0050 44F28602 		movw	r2, #:lower16:1073758342
+ 604 0054 C4F20002 		movt	r2, #:upper16:1073758342
+ 605 0058 1278     		ldrb	r2, [r2, #0]
+ 606 005a D2B2     		uxtb	r2, r2
+ 607              		.loc 1 430 0
+ 608 005c D2B2     		uxtb	r2, r2
+ 609 005e 02F0F802 		and	r2, r2, #248
+ 610 0062 F879     		ldrb	r0, [r7, #7]	@ zero_extendqisi2
+ 611 0064 1146     		mov	r1, r2
+ 612 0066 0246     		mov	r2, r0
+ 613 0068 41EA0202 		orr	r2, r1, r2
+ 614 006c D2B2     		uxtb	r2, r2
+ 615 006e D2B2     		uxtb	r2, r2
+ 616 0070 1A70     		strb	r2, [r3, #0]
+ 617              		.loc 1 424 0
+ 618 0072 40E0     		b	.L34
+ 619              	.L31:
+ 432:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c ****     }
+ 433:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c ****     else if (((oldSrc == ((uint8)CYCLK_SRC_SEL_CLK_SYNC_D)) && 
+ 620              		.loc 1 433 0
+ 621 0074 FB7B     		ldrb	r3, [r7, #15]	@ zero_extendqisi2
+ 622 0076 002B     		cmp	r3, #0
+ 623 0078 28D1     		bne	.L33
+ 624 007a FB79     		ldrb	r3, [r7, #7]	@ zero_extendqisi2
+ 625 007c 002B     		cmp	r3, #0
+ 626 007e 25D0     		beq	.L33
+ 627 0080 BB89     		ldrh	r3, [r7, #12]
+ 628 0082 002B     		cmp	r3, #0
+ 629 0084 22D1     		bne	.L33
+ 434:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c ****             (clkSource != ((uint8)CYCLK_SRC_SEL_CLK_SYNC_D))) && (currDiv == 0u))
+ 435:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c ****     {
+ 436:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c ****         /* Switching from Master to not and divider is 1, set source, so we don't   */
+ 437:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c ****         /* lock when we clear SSS.                                                  */
+ 438:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c ****         ultrasonic_uart_IntClock_MOD_SRC =
+ 630              		.loc 1 438 0
+ 631 0086 44F28603 		movw	r3, #:lower16:1073758342
+ 632 008a C4F20003 		movt	r3, #:upper16:1073758342
+ 439:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c ****             (ultrasonic_uart_IntClock_MOD_SRC & (uint8)(~ultrasonic_uart_IntClock_SRC_SEL_MSK)) | c
+ 633              		.loc 1 439 0
+ 634 008e 44F28602 		movw	r2, #:lower16:1073758342
+ 635 0092 C4F20002 		movt	r2, #:upper16:1073758342
+ 636 0096 1278     		ldrb	r2, [r2, #0]
+ 637 0098 D2B2     		uxtb	r2, r2
+ 638              		.loc 1 438 0
+ 639 009a D2B2     		uxtb	r2, r2
+ 640 009c 02F0F802 		and	r2, r2, #248
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccv4golg.s 			page 20
+
+
+ 641 00a0 F879     		ldrb	r0, [r7, #7]	@ zero_extendqisi2
+ 642 00a2 1146     		mov	r1, r2
+ 643 00a4 0246     		mov	r2, r0
+ 644 00a6 41EA0202 		orr	r2, r1, r2
+ 645 00aa D2B2     		uxtb	r2, r2
+ 646 00ac D2B2     		uxtb	r2, r2
+ 647 00ae 1A70     		strb	r2, [r3, #0]
+ 440:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c ****         ultrasonic_uart_IntClock_MOD_SRC &= (uint8)(~CYCLK_SSS);
+ 648              		.loc 1 440 0
+ 649 00b0 44F28603 		movw	r3, #:lower16:1073758342
+ 650 00b4 C4F20003 		movt	r3, #:upper16:1073758342
+ 651 00b8 44F28602 		movw	r2, #:lower16:1073758342
+ 652 00bc C4F20002 		movt	r2, #:upper16:1073758342
+ 653 00c0 1278     		ldrb	r2, [r2, #0]
+ 654 00c2 D2B2     		uxtb	r2, r2
+ 655 00c4 02F0BF02 		and	r2, r2, #191
+ 656 00c8 1A70     		strb	r2, [r3, #0]
+ 657              		.loc 1 433 0
+ 658 00ca 14E0     		b	.L34
+ 659              	.L33:
+ 441:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c ****     }
+ 442:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c ****     else
+ 443:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c ****     {
+ 444:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c ****         ultrasonic_uart_IntClock_MOD_SRC =
+ 660              		.loc 1 444 0
+ 661 00cc 44F28603 		movw	r3, #:lower16:1073758342
+ 662 00d0 C4F20003 		movt	r3, #:upper16:1073758342
+ 445:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c ****             (ultrasonic_uart_IntClock_MOD_SRC & (uint8)(~ultrasonic_uart_IntClock_SRC_SEL_MSK)) | c
+ 663              		.loc 1 445 0
+ 664 00d4 44F28602 		movw	r2, #:lower16:1073758342
+ 665 00d8 C4F20002 		movt	r2, #:upper16:1073758342
+ 666 00dc 1278     		ldrb	r2, [r2, #0]
+ 667 00de D2B2     		uxtb	r2, r2
+ 668              		.loc 1 444 0
+ 669 00e0 D2B2     		uxtb	r2, r2
+ 670 00e2 02F0F802 		and	r2, r2, #248
+ 671 00e6 F879     		ldrb	r0, [r7, #7]	@ zero_extendqisi2
+ 672 00e8 1146     		mov	r1, r2
+ 673 00ea 0246     		mov	r2, r0
+ 674 00ec 41EA0202 		orr	r2, r1, r2
+ 675 00f0 D2B2     		uxtb	r2, r2
+ 676 00f2 D2B2     		uxtb	r2, r2
+ 677 00f4 1A70     		strb	r2, [r3, #0]
+ 678              	.L34:
+ 446:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c ****     }
+ 447:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** }
+ 679              		.loc 1 447 0
+ 680 00f6 07F11007 		add	r7, r7, #16
+ 681 00fa BD46     		mov	sp, r7
+ 682 00fc 80BD     		pop	{r7, pc}
+ 683              		.cfi_endproc
+ 684              	.LFE8:
+ 685              		.size	ultrasonic_uart_IntClock_SetSourceRegister, .-ultrasonic_uart_IntClock_SetSourceRegister
+ 686 00fe 00BF     		.section	.text.ultrasonic_uart_IntClock_GetSourceRegister,"ax",%progbits
+ 687              		.align	2
+ 688              		.global	ultrasonic_uart_IntClock_GetSourceRegister
+ 689              		.thumb
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccv4golg.s 			page 21
+
+
+ 690              		.thumb_func
+ 691              		.type	ultrasonic_uart_IntClock_GetSourceRegister, %function
+ 692              	ultrasonic_uart_IntClock_GetSourceRegister:
+ 693              	.LFB9:
+ 448:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** 
+ 449:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** 
+ 450:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** /*******************************************************************************
+ 451:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** * Function Name: ultrasonic_uart_IntClock_GetSourceRegister
+ 452:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** ********************************************************************************
+ 453:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** *
+ 454:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** * Summary:
+ 455:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** *  Gets the input source of the clock.
+ 456:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** *
+ 457:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** * Parameters:
+ 458:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** *  None
+ 459:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** *
+ 460:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** * Returns:
+ 461:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** *  The input source of the clock. See SetSourceRegister for details.
+ 462:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** *
+ 463:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** *******************************************************************************/
+ 464:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** uint8 ultrasonic_uart_IntClock_GetSourceRegister(void) 
+ 465:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** {
+ 694              		.loc 1 465 0
+ 695              		.cfi_startproc
+ 696              		@ args = 0, pretend = 0, frame = 0
+ 697              		@ frame_needed = 1, uses_anonymous_args = 0
+ 698              		@ link register save eliminated.
+ 699 0000 80B4     		push	{r7}
+ 700              	.LCFI23:
+ 701              		.cfi_def_cfa_offset 4
+ 702 0002 00AF     		add	r7, sp, #0
+ 703              		.cfi_offset 7, -4
+ 704              	.LCFI24:
+ 705              		.cfi_def_cfa_register 7
+ 466:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c ****     return ultrasonic_uart_IntClock_MOD_SRC & ultrasonic_uart_IntClock_SRC_SEL_MSK;
+ 706              		.loc 1 466 0
+ 707 0004 44F28603 		movw	r3, #:lower16:1073758342
+ 708 0008 C4F20003 		movt	r3, #:upper16:1073758342
+ 709 000c 1B78     		ldrb	r3, [r3, #0]
+ 710 000e DBB2     		uxtb	r3, r3
+ 711 0010 03F00703 		and	r3, r3, #7
+ 467:.\Generated_Source\PSoC5/ultrasonic_uart_IntClock.c **** }
+ 712              		.loc 1 467 0
+ 713 0014 1846     		mov	r0, r3
+ 714 0016 BD46     		mov	sp, r7
+ 715 0018 80BC     		pop	{r7}
+ 716 001a 7047     		bx	lr
+ 717              		.cfi_endproc
+ 718              	.LFE9:
+ 719              		.size	ultrasonic_uart_IntClock_GetSourceRegister, .-ultrasonic_uart_IntClock_GetSourceRegister
+ 720              		.text
+ 721              	.Letext0:
+ 722              		.section	.debug_loc,"",%progbits
+ 723              	.Ldebug_loc0:
+ 724              	.LLST0:
+ 725 0000 00000000 		.4byte	.LFB0
+ 726 0004 02000000 		.4byte	.LCFI0
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccv4golg.s 			page 22
+
+
+ 727 0008 0100     		.2byte	0x1
+ 728 000a 5D       		.byte	0x5d
+ 729 000b 02000000 		.4byte	.LCFI0
+ 730 000f 04000000 		.4byte	.LCFI1
+ 731 0013 0200     		.2byte	0x2
+ 732 0015 7D       		.byte	0x7d
+ 733 0016 04       		.sleb128 4
+ 734 0017 04000000 		.4byte	.LCFI1
+ 735 001b 42000000 		.4byte	.LFE0
+ 736 001f 0200     		.2byte	0x2
+ 737 0021 77       		.byte	0x77
+ 738 0022 04       		.sleb128 4
+ 739 0023 00000000 		.4byte	0x0
+ 740 0027 00000000 		.4byte	0x0
+ 741              	.LLST1:
+ 742 002b 00000000 		.4byte	.LFB1
+ 743 002f 02000000 		.4byte	.LCFI2
+ 744 0033 0100     		.2byte	0x1
+ 745 0035 5D       		.byte	0x5d
+ 746 0036 02000000 		.4byte	.LCFI2
+ 747 003a 04000000 		.4byte	.LCFI3
+ 748 003e 0200     		.2byte	0x2
+ 749 0040 7D       		.byte	0x7d
+ 750 0041 04       		.sleb128 4
+ 751 0042 04000000 		.4byte	.LCFI3
+ 752 0046 3E000000 		.4byte	.LFE1
+ 753 004a 0200     		.2byte	0x2
+ 754 004c 77       		.byte	0x77
+ 755 004d 04       		.sleb128 4
+ 756 004e 00000000 		.4byte	0x0
+ 757 0052 00000000 		.4byte	0x0
+ 758              	.LLST2:
+ 759 0056 00000000 		.4byte	.LFB2
+ 760 005a 02000000 		.4byte	.LCFI4
+ 761 005e 0100     		.2byte	0x1
+ 762 0060 5D       		.byte	0x5d
+ 763 0061 02000000 		.4byte	.LCFI4
+ 764 0065 04000000 		.4byte	.LCFI5
+ 765 0069 0200     		.2byte	0x2
+ 766 006b 7D       		.byte	0x7d
+ 767 006c 04       		.sleb128 4
+ 768 006d 04000000 		.4byte	.LCFI5
+ 769 0071 06000000 		.4byte	.LCFI6
+ 770 0075 0200     		.2byte	0x2
+ 771 0077 7D       		.byte	0x7d
+ 772 0078 10       		.sleb128 16
+ 773 0079 06000000 		.4byte	.LCFI6
+ 774 007d 52000000 		.4byte	.LFE2
+ 775 0081 0200     		.2byte	0x2
+ 776 0083 77       		.byte	0x77
+ 777 0084 10       		.sleb128 16
+ 778 0085 00000000 		.4byte	0x0
+ 779 0089 00000000 		.4byte	0x0
+ 780              	.LLST3:
+ 781 008d 00000000 		.4byte	.LFB3
+ 782 0091 02000000 		.4byte	.LCFI7
+ 783 0095 0100     		.2byte	0x1
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccv4golg.s 			page 23
+
+
+ 784 0097 5D       		.byte	0x5d
+ 785 0098 02000000 		.4byte	.LCFI7
+ 786 009c 04000000 		.4byte	.LCFI8
+ 787 00a0 0200     		.2byte	0x2
+ 788 00a2 7D       		.byte	0x7d
+ 789 00a3 08       		.sleb128 8
+ 790 00a4 04000000 		.4byte	.LCFI8
+ 791 00a8 06000000 		.4byte	.LCFI9
+ 792 00ac 0200     		.2byte	0x2
+ 793 00ae 7D       		.byte	0x7d
+ 794 00af 18       		.sleb128 24
+ 795 00b0 06000000 		.4byte	.LCFI9
+ 796 00b4 A6010000 		.4byte	.LFE3
+ 797 00b8 0200     		.2byte	0x2
+ 798 00ba 77       		.byte	0x77
+ 799 00bb 18       		.sleb128 24
+ 800 00bc 00000000 		.4byte	0x0
+ 801 00c0 00000000 		.4byte	0x0
+ 802              	.LLST4:
+ 803 00c4 00000000 		.4byte	.LFB4
+ 804 00c8 02000000 		.4byte	.LCFI10
+ 805 00cc 0100     		.2byte	0x1
+ 806 00ce 5D       		.byte	0x5d
+ 807 00cf 02000000 		.4byte	.LCFI10
+ 808 00d3 04000000 		.4byte	.LCFI11
+ 809 00d7 0200     		.2byte	0x2
+ 810 00d9 7D       		.byte	0x7d
+ 811 00da 04       		.sleb128 4
+ 812 00db 04000000 		.4byte	.LCFI11
+ 813 00df 18000000 		.4byte	.LFE4
+ 814 00e3 0200     		.2byte	0x2
+ 815 00e5 77       		.byte	0x77
+ 816 00e6 04       		.sleb128 4
+ 817 00e7 00000000 		.4byte	0x0
+ 818 00eb 00000000 		.4byte	0x0
+ 819              	.LLST5:
+ 820 00ef 00000000 		.4byte	.LFB5
+ 821 00f3 02000000 		.4byte	.LCFI12
+ 822 00f7 0100     		.2byte	0x1
+ 823 00f9 5D       		.byte	0x5d
+ 824 00fa 02000000 		.4byte	.LCFI12
+ 825 00fe 04000000 		.4byte	.LCFI13
+ 826 0102 0200     		.2byte	0x2
+ 827 0104 7D       		.byte	0x7d
+ 828 0105 04       		.sleb128 4
+ 829 0106 04000000 		.4byte	.LCFI13
+ 830 010a 06000000 		.4byte	.LCFI14
+ 831 010e 0200     		.2byte	0x2
+ 832 0110 7D       		.byte	0x7d
+ 833 0111 10       		.sleb128 16
+ 834 0112 06000000 		.4byte	.LCFI14
+ 835 0116 3C000000 		.4byte	.LFE5
+ 836 011a 0200     		.2byte	0x2
+ 837 011c 77       		.byte	0x77
+ 838 011d 10       		.sleb128 16
+ 839 011e 00000000 		.4byte	0x0
+ 840 0122 00000000 		.4byte	0x0
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccv4golg.s 			page 24
+
+
+ 841              	.LLST6:
+ 842 0126 00000000 		.4byte	.LFB6
+ 843 012a 02000000 		.4byte	.LCFI15
+ 844 012e 0100     		.2byte	0x1
+ 845 0130 5D       		.byte	0x5d
+ 846 0131 02000000 		.4byte	.LCFI15
+ 847 0135 04000000 		.4byte	.LCFI16
+ 848 0139 0200     		.2byte	0x2
+ 849 013b 7D       		.byte	0x7d
+ 850 013c 04       		.sleb128 4
+ 851 013d 04000000 		.4byte	.LCFI16
+ 852 0141 06000000 		.4byte	.LCFI17
+ 853 0145 0200     		.2byte	0x2
+ 854 0147 7D       		.byte	0x7d
+ 855 0148 10       		.sleb128 16
+ 856 0149 06000000 		.4byte	.LCFI17
+ 857 014d 3E000000 		.4byte	.LFE6
+ 858 0151 0200     		.2byte	0x2
+ 859 0153 77       		.byte	0x77
+ 860 0154 10       		.sleb128 16
+ 861 0155 00000000 		.4byte	0x0
+ 862 0159 00000000 		.4byte	0x0
+ 863              	.LLST7:
+ 864 015d 00000000 		.4byte	.LFB7
+ 865 0161 02000000 		.4byte	.LCFI18
+ 866 0165 0100     		.2byte	0x1
+ 867 0167 5D       		.byte	0x5d
+ 868 0168 02000000 		.4byte	.LCFI18
+ 869 016c 04000000 		.4byte	.LCFI19
+ 870 0170 0200     		.2byte	0x2
+ 871 0172 7D       		.byte	0x7d
+ 872 0173 04       		.sleb128 4
+ 873 0174 04000000 		.4byte	.LCFI19
+ 874 0178 1C000000 		.4byte	.LFE7
+ 875 017c 0200     		.2byte	0x2
+ 876 017e 77       		.byte	0x77
+ 877 017f 04       		.sleb128 4
+ 878 0180 00000000 		.4byte	0x0
+ 879 0184 00000000 		.4byte	0x0
+ 880              	.LLST8:
+ 881 0188 00000000 		.4byte	.LFB8
+ 882 018c 02000000 		.4byte	.LCFI20
+ 883 0190 0100     		.2byte	0x1
+ 884 0192 5D       		.byte	0x5d
+ 885 0193 02000000 		.4byte	.LCFI20
+ 886 0197 04000000 		.4byte	.LCFI21
+ 887 019b 0200     		.2byte	0x2
+ 888 019d 7D       		.byte	0x7d
+ 889 019e 08       		.sleb128 8
+ 890 019f 04000000 		.4byte	.LCFI21
+ 891 01a3 06000000 		.4byte	.LCFI22
+ 892 01a7 0200     		.2byte	0x2
+ 893 01a9 7D       		.byte	0x7d
+ 894 01aa 18       		.sleb128 24
+ 895 01ab 06000000 		.4byte	.LCFI22
+ 896 01af FE000000 		.4byte	.LFE8
+ 897 01b3 0200     		.2byte	0x2
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccv4golg.s 			page 25
+
+
+ 898 01b5 77       		.byte	0x77
+ 899 01b6 18       		.sleb128 24
+ 900 01b7 00000000 		.4byte	0x0
+ 901 01bb 00000000 		.4byte	0x0
+ 902              	.LLST9:
+ 903 01bf 00000000 		.4byte	.LFB9
+ 904 01c3 02000000 		.4byte	.LCFI23
+ 905 01c7 0100     		.2byte	0x1
+ 906 01c9 5D       		.byte	0x5d
+ 907 01ca 02000000 		.4byte	.LCFI23
+ 908 01ce 04000000 		.4byte	.LCFI24
+ 909 01d2 0200     		.2byte	0x2
+ 910 01d4 7D       		.byte	0x7d
+ 911 01d5 04       		.sleb128 4
+ 912 01d6 04000000 		.4byte	.LCFI24
+ 913 01da 1C000000 		.4byte	.LFE9
+ 914 01de 0200     		.2byte	0x2
+ 915 01e0 77       		.byte	0x77
+ 916 01e1 04       		.sleb128 4
+ 917 01e2 00000000 		.4byte	0x0
+ 918 01e6 00000000 		.4byte	0x0
+ 919              		.file 2 "./Generated_Source/PSoC5/cytypes.h"
+ 920              		.section	.debug_info
+ 921 0000 33020000 		.4byte	0x233
+ 922 0004 0200     		.2byte	0x2
+ 923 0006 00000000 		.4byte	.Ldebug_abbrev0
+ 924 000a 04       		.byte	0x4
+ 925 000b 01       		.uleb128 0x1
+ 926 000c 9D020000 		.4byte	.LASF34
+ 927 0010 01       		.byte	0x1
+ 928 0011 B4010000 		.4byte	.LASF35
+ 929 0015 27010000 		.4byte	.LASF36
+ 930 0019 00000000 		.4byte	0x0
+ 931 001d 00000000 		.4byte	0x0
+ 932 0021 00000000 		.4byte	.Ldebug_ranges0+0x0
+ 933 0025 00000000 		.4byte	.Ldebug_line0
+ 934 0029 02       		.uleb128 0x2
+ 935 002a 01       		.byte	0x1
+ 936 002b 06       		.byte	0x6
+ 937 002c 05030000 		.4byte	.LASF0
+ 938 0030 02       		.uleb128 0x2
+ 939 0031 01       		.byte	0x1
+ 940 0032 08       		.byte	0x8
+ 941 0033 7C000000 		.4byte	.LASF1
+ 942 0037 02       		.uleb128 0x2
+ 943 0038 02       		.byte	0x2
+ 944 0039 05       		.byte	0x5
+ 945 003a B6020000 		.4byte	.LASF2
+ 946 003e 02       		.uleb128 0x2
+ 947 003f 02       		.byte	0x2
+ 948 0040 07       		.byte	0x7
+ 949 0041 CF000000 		.4byte	.LASF3
+ 950 0045 02       		.uleb128 0x2
+ 951 0046 04       		.byte	0x4
+ 952 0047 05       		.byte	0x5
+ 953 0048 F2020000 		.4byte	.LASF4
+ 954 004c 02       		.uleb128 0x2
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccv4golg.s 			page 26
+
+
+ 955 004d 04       		.byte	0x4
+ 956 004e 07       		.byte	0x7
+ 957 004f BD000000 		.4byte	.LASF5
+ 958 0053 02       		.uleb128 0x2
+ 959 0054 08       		.byte	0x8
+ 960 0055 05       		.byte	0x5
+ 961 0056 00000000 		.4byte	.LASF6
+ 962 005a 02       		.uleb128 0x2
+ 963 005b 08       		.byte	0x8
+ 964 005c 07       		.byte	0x7
+ 965 005d FD010000 		.4byte	.LASF7
+ 966 0061 03       		.uleb128 0x3
+ 967 0062 04       		.byte	0x4
+ 968 0063 05       		.byte	0x5
+ 969 0064 696E7400 		.ascii	"int\000"
+ 970 0068 02       		.uleb128 0x2
+ 971 0069 04       		.byte	0x4
+ 972 006a 07       		.byte	0x7
+ 973 006b E8010000 		.4byte	.LASF8
+ 974 006f 04       		.uleb128 0x4
+ 975 0070 C0020000 		.4byte	.LASF9
+ 976 0074 02       		.byte	0x2
+ 977 0075 4C       		.byte	0x4c
+ 978 0076 30000000 		.4byte	0x30
+ 979 007a 04       		.uleb128 0x4
+ 980 007b AD010000 		.4byte	.LASF10
+ 981 007f 02       		.byte	0x2
+ 982 0080 4D       		.byte	0x4d
+ 983 0081 3E000000 		.4byte	0x3e
+ 984 0085 02       		.uleb128 0x2
+ 985 0086 04       		.byte	0x4
+ 986 0087 04       		.byte	0x4
+ 987 0088 76000000 		.4byte	.LASF11
+ 988 008c 02       		.uleb128 0x2
+ 989 008d 08       		.byte	0x8
+ 990 008e 04       		.byte	0x4
+ 991 008f 93010000 		.4byte	.LASF12
+ 992 0093 02       		.uleb128 0x2
+ 993 0094 01       		.byte	0x1
+ 994 0095 08       		.byte	0x8
+ 995 0096 A9020000 		.4byte	.LASF13
+ 996 009a 05       		.uleb128 0x5
+ 997 009b 01       		.byte	0x1
+ 998 009c 08010000 		.4byte	.LASF14
+ 999 00a0 01       		.byte	0x1
+ 1000 00a1 2D       		.byte	0x2d
+ 1001 00a2 01       		.byte	0x1
+ 1002 00a3 00000000 		.4byte	.LFB0
+ 1003 00a7 42000000 		.4byte	.LFE0
+ 1004 00ab 00000000 		.4byte	.LLST0
+ 1005 00af 05       		.uleb128 0x5
+ 1006 00b0 01       		.byte	0x1
+ 1007 00b1 75010000 		.4byte	.LASF15
+ 1008 00b5 01       		.byte	0x1
+ 1009 00b6 47       		.byte	0x47
+ 1010 00b7 01       		.byte	0x1
+ 1011 00b8 00000000 		.4byte	.LFB1
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccv4golg.s 			page 27
+
+
+ 1012 00bc 3E000000 		.4byte	.LFE1
+ 1013 00c0 2B000000 		.4byte	.LLST1
+ 1014 00c4 06       		.uleb128 0x6
+ 1015 00c5 01       		.byte	0x1
+ 1016 00c6 E2000000 		.4byte	.LASF16
+ 1017 00ca 01       		.byte	0x1
+ 1018 00cb 9D       		.byte	0x9d
+ 1019 00cc 01       		.byte	0x1
+ 1020 00cd 00000000 		.4byte	.LFB2
+ 1021 00d1 52000000 		.4byte	.LFE2
+ 1022 00d5 56000000 		.4byte	.LLST2
+ 1023 00d9 EC000000 		.4byte	0xec
+ 1024 00dd 07       		.uleb128 0x7
+ 1025 00de 0E000000 		.4byte	.LASF18
+ 1026 00e2 01       		.byte	0x1
+ 1027 00e3 9D       		.byte	0x9d
+ 1028 00e4 6F000000 		.4byte	0x6f
+ 1029 00e8 02       		.byte	0x2
+ 1030 00e9 91       		.byte	0x91
+ 1031 00ea 77       		.sleb128 -9
+ 1032 00eb 00       		.byte	0x0
+ 1033 00ec 06       		.uleb128 0x6
+ 1034 00ed 01       		.byte	0x1
+ 1035 00ee 4A000000 		.4byte	.LASF17
+ 1036 00f2 01       		.byte	0x1
+ 1037 00f3 C1       		.byte	0xc1
+ 1038 00f4 01       		.byte	0x1
+ 1039 00f5 00000000 		.4byte	.LFB3
+ 1040 00f9 A6010000 		.4byte	.LFE3
+ 1041 00fd 8D000000 		.4byte	.LLST3
+ 1042 0101 4C010000 		.4byte	0x14c
+ 1043 0105 07       		.uleb128 0x7
+ 1044 0106 9A010000 		.4byte	.LASF19
+ 1045 010a 01       		.byte	0x1
+ 1046 010b C1       		.byte	0xc1
+ 1047 010c 7A000000 		.4byte	0x7a
+ 1048 0110 02       		.byte	0x2
+ 1049 0111 91       		.byte	0x91
+ 1050 0112 6E       		.sleb128 -18
+ 1051 0113 07       		.uleb128 0x7
+ 1052 0114 A5010000 		.4byte	.LASF20
+ 1053 0118 01       		.byte	0x1
+ 1054 0119 C1       		.byte	0xc1
+ 1055 011a 6F000000 		.4byte	0x6f
+ 1056 011e 02       		.byte	0x2
+ 1057 011f 91       		.byte	0x91
+ 1058 0120 6D       		.sleb128 -19
+ 1059 0121 08       		.uleb128 0x8
+ 1060 0122 8A000000 		.4byte	.LASF21
+ 1061 0126 01       		.byte	0x1
+ 1062 0127 C4       		.byte	0xc4
+ 1063 0128 6F000000 		.4byte	0x6f
+ 1064 012c 02       		.byte	0x2
+ 1065 012d 91       		.byte	0x91
+ 1066 012e 74       		.sleb128 -12
+ 1067 012f 08       		.uleb128 0x8
+ 1068 0130 F5010000 		.4byte	.LASF22
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccv4golg.s 			page 28
+
+
+ 1069 0134 01       		.byte	0x1
+ 1070 0135 C6       		.byte	0xc6
+ 1071 0136 6F000000 		.4byte	0x6f
+ 1072 013a 02       		.byte	0x2
+ 1073 013b 91       		.byte	0x91
+ 1074 013c 75       		.sleb128 -11
+ 1075 013d 08       		.uleb128 0x8
+ 1076 013e 14000000 		.4byte	.LASF23
+ 1077 0142 01       		.byte	0x1
+ 1078 0143 C7       		.byte	0xc7
+ 1079 0144 7A000000 		.4byte	0x7a
+ 1080 0148 02       		.byte	0x2
+ 1081 0149 91       		.byte	0x91
+ 1082 014a 76       		.sleb128 -10
+ 1083 014b 00       		.byte	0x0
+ 1084 014c 09       		.uleb128 0x9
+ 1085 014d 01       		.byte	0x1
+ 1086 014e C6020000 		.4byte	.LASF27
+ 1087 0152 01       		.byte	0x1
+ 1088 0153 2901     		.2byte	0x129
+ 1089 0155 01       		.byte	0x1
+ 1090 0156 7A000000 		.4byte	0x7a
+ 1091 015a 00000000 		.4byte	.LFB4
+ 1092 015e 18000000 		.4byte	.LFE4
+ 1093 0162 C4000000 		.4byte	.LLST4
+ 1094 0166 0A       		.uleb128 0xa
+ 1095 0167 01       		.byte	0x1
+ 1096 0168 3D020000 		.4byte	.LASF24
+ 1097 016c 01       		.byte	0x1
+ 1098 016d 4C01     		.2byte	0x14c
+ 1099 016f 01       		.byte	0x1
+ 1100 0170 00000000 		.4byte	.LFB5
+ 1101 0174 3C000000 		.4byte	.LFE5
+ 1102 0178 EF000000 		.4byte	.LLST5
+ 1103 017c 90010000 		.4byte	0x190
+ 1104 0180 0B       		.uleb128 0xb
+ 1105 0181 91020000 		.4byte	.LASF25
+ 1106 0185 01       		.byte	0x1
+ 1107 0186 4C01     		.2byte	0x14c
+ 1108 0188 6F000000 		.4byte	0x6f
+ 1109 018c 02       		.byte	0x2
+ 1110 018d 91       		.byte	0x91
+ 1111 018e 77       		.sleb128 -9
+ 1112 018f 00       		.byte	0x0
+ 1113 0190 0A       		.uleb128 0xa
+ 1114 0191 01       		.byte	0x1
+ 1115 0192 92000000 		.4byte	.LASF26
+ 1116 0196 01       		.byte	0x1
+ 1117 0197 6F01     		.2byte	0x16f
+ 1118 0199 01       		.byte	0x1
+ 1119 019a 00000000 		.4byte	.LFB6
+ 1120 019e 3E000000 		.4byte	.LFE6
+ 1121 01a2 26010000 		.4byte	.LLST6
+ 1122 01a6 BA010000 		.4byte	0x1ba
+ 1123 01aa 0B       		.uleb128 0xb
+ 1124 01ab 91020000 		.4byte	.LASF25
+ 1125 01af 01       		.byte	0x1
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccv4golg.s 			page 29
+
+
+ 1126 01b0 6F01     		.2byte	0x16f
+ 1127 01b2 6F000000 		.4byte	0x6f
+ 1128 01b6 02       		.byte	0x2
+ 1129 01b7 91       		.byte	0x91
+ 1130 01b8 77       		.sleb128 -9
+ 1131 01b9 00       		.byte	0x0
+ 1132 01ba 09       		.uleb128 0x9
+ 1133 01bb 01       		.byte	0x1
+ 1134 01bc 14020000 		.4byte	.LASF28
+ 1135 01c0 01       		.byte	0x1
+ 1136 01c1 8401     		.2byte	0x184
+ 1137 01c3 01       		.byte	0x1
+ 1138 01c4 6F000000 		.4byte	0x6f
+ 1139 01c8 00000000 		.4byte	.LFB7
+ 1140 01cc 1C000000 		.4byte	.LFE7
+ 1141 01d0 5D010000 		.4byte	.LLST7
+ 1142 01d4 0A       		.uleb128 0xa
+ 1143 01d5 01       		.byte	0x1
+ 1144 01d6 66020000 		.4byte	.LASF29
+ 1145 01da 01       		.byte	0x1
+ 1146 01db A301     		.2byte	0x1a3
+ 1147 01dd 01       		.byte	0x1
+ 1148 01de 00000000 		.4byte	.LFB8
+ 1149 01e2 FE000000 		.4byte	.LFE8
+ 1150 01e6 88010000 		.4byte	.LLST8
+ 1151 01ea 1C020000 		.4byte	0x21c
+ 1152 01ee 0B       		.uleb128 0xb
+ 1153 01ef FB020000 		.4byte	.LASF30
+ 1154 01f3 01       		.byte	0x1
+ 1155 01f4 A301     		.2byte	0x1a3
+ 1156 01f6 6F000000 		.4byte	0x6f
+ 1157 01fa 02       		.byte	0x2
+ 1158 01fb 91       		.byte	0x91
+ 1159 01fc 6F       		.sleb128 -17
+ 1160 01fd 0C       		.uleb128 0xc
+ 1161 01fe AE020000 		.4byte	.LASF31
+ 1162 0202 01       		.byte	0x1
+ 1163 0203 A501     		.2byte	0x1a5
+ 1164 0205 7A000000 		.4byte	0x7a
+ 1165 0209 02       		.byte	0x2
+ 1166 020a 91       		.byte	0x91
+ 1167 020b 74       		.sleb128 -12
+ 1168 020c 0C       		.uleb128 0xc
+ 1169 020d 11030000 		.4byte	.LASF32
+ 1170 0211 01       		.byte	0x1
+ 1171 0212 A601     		.2byte	0x1a6
+ 1172 0214 6F000000 		.4byte	0x6f
+ 1173 0218 02       		.byte	0x2
+ 1174 0219 91       		.byte	0x91
+ 1175 021a 77       		.sleb128 -9
+ 1176 021b 00       		.byte	0x0
+ 1177 021c 09       		.uleb128 0x9
+ 1178 021d 01       		.byte	0x1
+ 1179 021e 1F000000 		.4byte	.LASF33
+ 1180 0222 01       		.byte	0x1
+ 1181 0223 D001     		.2byte	0x1d0
+ 1182 0225 01       		.byte	0x1
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccv4golg.s 			page 30
+
+
+ 1183 0226 6F000000 		.4byte	0x6f
+ 1184 022a 00000000 		.4byte	.LFB9
+ 1185 022e 1C000000 		.4byte	.LFE9
+ 1186 0232 BF010000 		.4byte	.LLST9
+ 1187 0236 00       		.byte	0x0
+ 1188              		.section	.debug_abbrev
+ 1189 0000 01       		.uleb128 0x1
+ 1190 0001 11       		.uleb128 0x11
+ 1191 0002 01       		.byte	0x1
+ 1192 0003 25       		.uleb128 0x25
+ 1193 0004 0E       		.uleb128 0xe
+ 1194 0005 13       		.uleb128 0x13
+ 1195 0006 0B       		.uleb128 0xb
+ 1196 0007 03       		.uleb128 0x3
+ 1197 0008 0E       		.uleb128 0xe
+ 1198 0009 1B       		.uleb128 0x1b
+ 1199 000a 0E       		.uleb128 0xe
+ 1200 000b 11       		.uleb128 0x11
+ 1201 000c 01       		.uleb128 0x1
+ 1202 000d 52       		.uleb128 0x52
+ 1203 000e 01       		.uleb128 0x1
+ 1204 000f 55       		.uleb128 0x55
+ 1205 0010 06       		.uleb128 0x6
+ 1206 0011 10       		.uleb128 0x10
+ 1207 0012 06       		.uleb128 0x6
+ 1208 0013 00       		.byte	0x0
+ 1209 0014 00       		.byte	0x0
+ 1210 0015 02       		.uleb128 0x2
+ 1211 0016 24       		.uleb128 0x24
+ 1212 0017 00       		.byte	0x0
+ 1213 0018 0B       		.uleb128 0xb
+ 1214 0019 0B       		.uleb128 0xb
+ 1215 001a 3E       		.uleb128 0x3e
+ 1216 001b 0B       		.uleb128 0xb
+ 1217 001c 03       		.uleb128 0x3
+ 1218 001d 0E       		.uleb128 0xe
+ 1219 001e 00       		.byte	0x0
+ 1220 001f 00       		.byte	0x0
+ 1221 0020 03       		.uleb128 0x3
+ 1222 0021 24       		.uleb128 0x24
+ 1223 0022 00       		.byte	0x0
+ 1224 0023 0B       		.uleb128 0xb
+ 1225 0024 0B       		.uleb128 0xb
+ 1226 0025 3E       		.uleb128 0x3e
+ 1227 0026 0B       		.uleb128 0xb
+ 1228 0027 03       		.uleb128 0x3
+ 1229 0028 08       		.uleb128 0x8
+ 1230 0029 00       		.byte	0x0
+ 1231 002a 00       		.byte	0x0
+ 1232 002b 04       		.uleb128 0x4
+ 1233 002c 16       		.uleb128 0x16
+ 1234 002d 00       		.byte	0x0
+ 1235 002e 03       		.uleb128 0x3
+ 1236 002f 0E       		.uleb128 0xe
+ 1237 0030 3A       		.uleb128 0x3a
+ 1238 0031 0B       		.uleb128 0xb
+ 1239 0032 3B       		.uleb128 0x3b
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccv4golg.s 			page 31
+
+
+ 1240 0033 0B       		.uleb128 0xb
+ 1241 0034 49       		.uleb128 0x49
+ 1242 0035 13       		.uleb128 0x13
+ 1243 0036 00       		.byte	0x0
+ 1244 0037 00       		.byte	0x0
+ 1245 0038 05       		.uleb128 0x5
+ 1246 0039 2E       		.uleb128 0x2e
+ 1247 003a 00       		.byte	0x0
+ 1248 003b 3F       		.uleb128 0x3f
+ 1249 003c 0C       		.uleb128 0xc
+ 1250 003d 03       		.uleb128 0x3
+ 1251 003e 0E       		.uleb128 0xe
+ 1252 003f 3A       		.uleb128 0x3a
+ 1253 0040 0B       		.uleb128 0xb
+ 1254 0041 3B       		.uleb128 0x3b
+ 1255 0042 0B       		.uleb128 0xb
+ 1256 0043 27       		.uleb128 0x27
+ 1257 0044 0C       		.uleb128 0xc
+ 1258 0045 11       		.uleb128 0x11
+ 1259 0046 01       		.uleb128 0x1
+ 1260 0047 12       		.uleb128 0x12
+ 1261 0048 01       		.uleb128 0x1
+ 1262 0049 40       		.uleb128 0x40
+ 1263 004a 06       		.uleb128 0x6
+ 1264 004b 00       		.byte	0x0
+ 1265 004c 00       		.byte	0x0
+ 1266 004d 06       		.uleb128 0x6
+ 1267 004e 2E       		.uleb128 0x2e
+ 1268 004f 01       		.byte	0x1
+ 1269 0050 3F       		.uleb128 0x3f
+ 1270 0051 0C       		.uleb128 0xc
+ 1271 0052 03       		.uleb128 0x3
+ 1272 0053 0E       		.uleb128 0xe
+ 1273 0054 3A       		.uleb128 0x3a
+ 1274 0055 0B       		.uleb128 0xb
+ 1275 0056 3B       		.uleb128 0x3b
+ 1276 0057 0B       		.uleb128 0xb
+ 1277 0058 27       		.uleb128 0x27
+ 1278 0059 0C       		.uleb128 0xc
+ 1279 005a 11       		.uleb128 0x11
+ 1280 005b 01       		.uleb128 0x1
+ 1281 005c 12       		.uleb128 0x12
+ 1282 005d 01       		.uleb128 0x1
+ 1283 005e 40       		.uleb128 0x40
+ 1284 005f 06       		.uleb128 0x6
+ 1285 0060 01       		.uleb128 0x1
+ 1286 0061 13       		.uleb128 0x13
+ 1287 0062 00       		.byte	0x0
+ 1288 0063 00       		.byte	0x0
+ 1289 0064 07       		.uleb128 0x7
+ 1290 0065 05       		.uleb128 0x5
+ 1291 0066 00       		.byte	0x0
+ 1292 0067 03       		.uleb128 0x3
+ 1293 0068 0E       		.uleb128 0xe
+ 1294 0069 3A       		.uleb128 0x3a
+ 1295 006a 0B       		.uleb128 0xb
+ 1296 006b 3B       		.uleb128 0x3b
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccv4golg.s 			page 32
+
+
+ 1297 006c 0B       		.uleb128 0xb
+ 1298 006d 49       		.uleb128 0x49
+ 1299 006e 13       		.uleb128 0x13
+ 1300 006f 02       		.uleb128 0x2
+ 1301 0070 0A       		.uleb128 0xa
+ 1302 0071 00       		.byte	0x0
+ 1303 0072 00       		.byte	0x0
+ 1304 0073 08       		.uleb128 0x8
+ 1305 0074 34       		.uleb128 0x34
+ 1306 0075 00       		.byte	0x0
+ 1307 0076 03       		.uleb128 0x3
+ 1308 0077 0E       		.uleb128 0xe
+ 1309 0078 3A       		.uleb128 0x3a
+ 1310 0079 0B       		.uleb128 0xb
+ 1311 007a 3B       		.uleb128 0x3b
+ 1312 007b 0B       		.uleb128 0xb
+ 1313 007c 49       		.uleb128 0x49
+ 1314 007d 13       		.uleb128 0x13
+ 1315 007e 02       		.uleb128 0x2
+ 1316 007f 0A       		.uleb128 0xa
+ 1317 0080 00       		.byte	0x0
+ 1318 0081 00       		.byte	0x0
+ 1319 0082 09       		.uleb128 0x9
+ 1320 0083 2E       		.uleb128 0x2e
+ 1321 0084 00       		.byte	0x0
+ 1322 0085 3F       		.uleb128 0x3f
+ 1323 0086 0C       		.uleb128 0xc
+ 1324 0087 03       		.uleb128 0x3
+ 1325 0088 0E       		.uleb128 0xe
+ 1326 0089 3A       		.uleb128 0x3a
+ 1327 008a 0B       		.uleb128 0xb
+ 1328 008b 3B       		.uleb128 0x3b
+ 1329 008c 05       		.uleb128 0x5
+ 1330 008d 27       		.uleb128 0x27
+ 1331 008e 0C       		.uleb128 0xc
+ 1332 008f 49       		.uleb128 0x49
+ 1333 0090 13       		.uleb128 0x13
+ 1334 0091 11       		.uleb128 0x11
+ 1335 0092 01       		.uleb128 0x1
+ 1336 0093 12       		.uleb128 0x12
+ 1337 0094 01       		.uleb128 0x1
+ 1338 0095 40       		.uleb128 0x40
+ 1339 0096 06       		.uleb128 0x6
+ 1340 0097 00       		.byte	0x0
+ 1341 0098 00       		.byte	0x0
+ 1342 0099 0A       		.uleb128 0xa
+ 1343 009a 2E       		.uleb128 0x2e
+ 1344 009b 01       		.byte	0x1
+ 1345 009c 3F       		.uleb128 0x3f
+ 1346 009d 0C       		.uleb128 0xc
+ 1347 009e 03       		.uleb128 0x3
+ 1348 009f 0E       		.uleb128 0xe
+ 1349 00a0 3A       		.uleb128 0x3a
+ 1350 00a1 0B       		.uleb128 0xb
+ 1351 00a2 3B       		.uleb128 0x3b
+ 1352 00a3 05       		.uleb128 0x5
+ 1353 00a4 27       		.uleb128 0x27
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccv4golg.s 			page 33
+
+
+ 1354 00a5 0C       		.uleb128 0xc
+ 1355 00a6 11       		.uleb128 0x11
+ 1356 00a7 01       		.uleb128 0x1
+ 1357 00a8 12       		.uleb128 0x12
+ 1358 00a9 01       		.uleb128 0x1
+ 1359 00aa 40       		.uleb128 0x40
+ 1360 00ab 06       		.uleb128 0x6
+ 1361 00ac 01       		.uleb128 0x1
+ 1362 00ad 13       		.uleb128 0x13
+ 1363 00ae 00       		.byte	0x0
+ 1364 00af 00       		.byte	0x0
+ 1365 00b0 0B       		.uleb128 0xb
+ 1366 00b1 05       		.uleb128 0x5
+ 1367 00b2 00       		.byte	0x0
+ 1368 00b3 03       		.uleb128 0x3
+ 1369 00b4 0E       		.uleb128 0xe
+ 1370 00b5 3A       		.uleb128 0x3a
+ 1371 00b6 0B       		.uleb128 0xb
+ 1372 00b7 3B       		.uleb128 0x3b
+ 1373 00b8 05       		.uleb128 0x5
+ 1374 00b9 49       		.uleb128 0x49
+ 1375 00ba 13       		.uleb128 0x13
+ 1376 00bb 02       		.uleb128 0x2
+ 1377 00bc 0A       		.uleb128 0xa
+ 1378 00bd 00       		.byte	0x0
+ 1379 00be 00       		.byte	0x0
+ 1380 00bf 0C       		.uleb128 0xc
+ 1381 00c0 34       		.uleb128 0x34
+ 1382 00c1 00       		.byte	0x0
+ 1383 00c2 03       		.uleb128 0x3
+ 1384 00c3 0E       		.uleb128 0xe
+ 1385 00c4 3A       		.uleb128 0x3a
+ 1386 00c5 0B       		.uleb128 0xb
+ 1387 00c6 3B       		.uleb128 0x3b
+ 1388 00c7 05       		.uleb128 0x5
+ 1389 00c8 49       		.uleb128 0x49
+ 1390 00c9 13       		.uleb128 0x13
+ 1391 00ca 02       		.uleb128 0x2
+ 1392 00cb 0A       		.uleb128 0xa
+ 1393 00cc 00       		.byte	0x0
+ 1394 00cd 00       		.byte	0x0
+ 1395 00ce 00       		.byte	0x0
+ 1396              		.section	.debug_pubnames,"",%progbits
+ 1397 0000 C4010000 		.4byte	0x1c4
+ 1398 0004 0200     		.2byte	0x2
+ 1399 0006 00000000 		.4byte	.Ldebug_info0
+ 1400 000a 37020000 		.4byte	0x237
+ 1401 000e 9A000000 		.4byte	0x9a
+ 1402 0012 756C7472 		.ascii	"ultrasonic_uart_IntClock_Start\000"
+ 1402      61736F6E 
+ 1402      69635F75 
+ 1402      6172745F 
+ 1402      496E7443 
+ 1403 0031 AF000000 		.4byte	0xaf
+ 1404 0035 756C7472 		.ascii	"ultrasonic_uart_IntClock_Stop\000"
+ 1404      61736F6E 
+ 1404      69635F75 
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccv4golg.s 			page 34
+
+
+ 1404      6172745F 
+ 1404      496E7443 
+ 1405 0053 C4000000 		.4byte	0xc4
+ 1406 0057 756C7472 		.ascii	"ultrasonic_uart_IntClock_StandbyPower\000"
+ 1406      61736F6E 
+ 1406      69635F75 
+ 1406      6172745F 
+ 1406      496E7443 
+ 1407 007d EC000000 		.4byte	0xec
+ 1408 0081 756C7472 		.ascii	"ultrasonic_uart_IntClock_SetDividerRegister\000"
+ 1408      61736F6E 
+ 1408      69635F75 
+ 1408      6172745F 
+ 1408      496E7443 
+ 1409 00ad 4C010000 		.4byte	0x14c
+ 1410 00b1 756C7472 		.ascii	"ultrasonic_uart_IntClock_GetDividerRegister\000"
+ 1410      61736F6E 
+ 1410      69635F75 
+ 1410      6172745F 
+ 1410      496E7443 
+ 1411 00dd 66010000 		.4byte	0x166
+ 1412 00e1 756C7472 		.ascii	"ultrasonic_uart_IntClock_SetModeRegister\000"
+ 1412      61736F6E 
+ 1412      69635F75 
+ 1412      6172745F 
+ 1412      496E7443 
+ 1413 010a 90010000 		.4byte	0x190
+ 1414 010e 756C7472 		.ascii	"ultrasonic_uart_IntClock_ClearModeRegister\000"
+ 1414      61736F6E 
+ 1414      69635F75 
+ 1414      6172745F 
+ 1414      496E7443 
+ 1415 0139 BA010000 		.4byte	0x1ba
+ 1416 013d 756C7472 		.ascii	"ultrasonic_uart_IntClock_GetModeRegister\000"
+ 1416      61736F6E 
+ 1416      69635F75 
+ 1416      6172745F 
+ 1416      496E7443 
+ 1417 0166 D4010000 		.4byte	0x1d4
+ 1418 016a 756C7472 		.ascii	"ultrasonic_uart_IntClock_SetSourceRegister\000"
+ 1418      61736F6E 
+ 1418      69635F75 
+ 1418      6172745F 
+ 1418      496E7443 
+ 1419 0195 1C020000 		.4byte	0x21c
+ 1420 0199 756C7472 		.ascii	"ultrasonic_uart_IntClock_GetSourceRegister\000"
+ 1420      61736F6E 
+ 1420      69635F75 
+ 1420      6172745F 
+ 1420      496E7443 
+ 1421 01c4 00000000 		.4byte	0x0
+ 1422              		.section	.debug_aranges,"",%progbits
+ 1423 0000 64000000 		.4byte	0x64
+ 1424 0004 0200     		.2byte	0x2
+ 1425 0006 00000000 		.4byte	.Ldebug_info0
+ 1426 000a 04       		.byte	0x4
+ 1427 000b 00       		.byte	0x0
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccv4golg.s 			page 35
+
+
+ 1428 000c 0000     		.2byte	0x0
+ 1429 000e 0000     		.2byte	0x0
+ 1430 0010 00000000 		.4byte	.LFB0
+ 1431 0014 42000000 		.4byte	.LFE0-.LFB0
+ 1432 0018 00000000 		.4byte	.LFB1
+ 1433 001c 3E000000 		.4byte	.LFE1-.LFB1
+ 1434 0020 00000000 		.4byte	.LFB2
+ 1435 0024 52000000 		.4byte	.LFE2-.LFB2
+ 1436 0028 00000000 		.4byte	.LFB3
+ 1437 002c A6010000 		.4byte	.LFE3-.LFB3
+ 1438 0030 00000000 		.4byte	.LFB4
+ 1439 0034 18000000 		.4byte	.LFE4-.LFB4
+ 1440 0038 00000000 		.4byte	.LFB5
+ 1441 003c 3C000000 		.4byte	.LFE5-.LFB5
+ 1442 0040 00000000 		.4byte	.LFB6
+ 1443 0044 3E000000 		.4byte	.LFE6-.LFB6
+ 1444 0048 00000000 		.4byte	.LFB7
+ 1445 004c 1C000000 		.4byte	.LFE7-.LFB7
+ 1446 0050 00000000 		.4byte	.LFB8
+ 1447 0054 FE000000 		.4byte	.LFE8-.LFB8
+ 1448 0058 00000000 		.4byte	.LFB9
+ 1449 005c 1C000000 		.4byte	.LFE9-.LFB9
+ 1450 0060 00000000 		.4byte	0x0
+ 1451 0064 00000000 		.4byte	0x0
+ 1452              		.section	.debug_ranges,"",%progbits
+ 1453              	.Ldebug_ranges0:
+ 1454 0000 00000000 		.4byte	.Ltext0
+ 1455 0004 00000000 		.4byte	.Letext0
+ 1456 0008 00000000 		.4byte	.LFB0
+ 1457 000c 42000000 		.4byte	.LFE0
+ 1458 0010 00000000 		.4byte	.LFB1
+ 1459 0014 3E000000 		.4byte	.LFE1
+ 1460 0018 00000000 		.4byte	.LFB2
+ 1461 001c 52000000 		.4byte	.LFE2
+ 1462 0020 00000000 		.4byte	.LFB3
+ 1463 0024 A6010000 		.4byte	.LFE3
+ 1464 0028 00000000 		.4byte	.LFB4
+ 1465 002c 18000000 		.4byte	.LFE4
+ 1466 0030 00000000 		.4byte	.LFB5
+ 1467 0034 3C000000 		.4byte	.LFE5
+ 1468 0038 00000000 		.4byte	.LFB6
+ 1469 003c 3E000000 		.4byte	.LFE6
+ 1470 0040 00000000 		.4byte	.LFB7
+ 1471 0044 1C000000 		.4byte	.LFE7
+ 1472 0048 00000000 		.4byte	.LFB8
+ 1473 004c FE000000 		.4byte	.LFE8
+ 1474 0050 00000000 		.4byte	.LFB9
+ 1475 0054 1C000000 		.4byte	.LFE9
+ 1476 0058 00000000 		.4byte	0x0
+ 1477 005c 00000000 		.4byte	0x0
+ 1478              		.section	.debug_str,"MS",%progbits,1
+ 1479              	.LASF6:
+ 1480 0000 6C6F6E67 		.ascii	"long long int\000"
+ 1480      206C6F6E 
+ 1480      6720696E 
+ 1480      7400
+ 1481              	.LASF18:
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccv4golg.s 			page 36
+
+
+ 1482 000e 73746174 		.ascii	"state\000"
+ 1482      6500
+ 1483              	.LASF23:
+ 1484 0014 6F6C6444 		.ascii	"oldDivider\000"
+ 1484      69766964 
+ 1484      657200
+ 1485              	.LASF33:
+ 1486 001f 756C7472 		.ascii	"ultrasonic_uart_IntClock_GetSourceRegister\000"
+ 1486      61736F6E 
+ 1486      69635F75 
+ 1486      6172745F 
+ 1486      496E7443 
+ 1487              	.LASF17:
+ 1488 004a 756C7472 		.ascii	"ultrasonic_uart_IntClock_SetDividerRegister\000"
+ 1488      61736F6E 
+ 1488      69635F75 
+ 1488      6172745F 
+ 1488      496E7443 
+ 1489              	.LASF11:
+ 1490 0076 666C6F61 		.ascii	"float\000"
+ 1490      7400
+ 1491              	.LASF1:
+ 1492 007c 756E7369 		.ascii	"unsigned char\000"
+ 1492      676E6564 
+ 1492      20636861 
+ 1492      7200
+ 1493              	.LASF21:
+ 1494 008a 656E6162 		.ascii	"enabled\000"
+ 1494      6C656400 
+ 1495              	.LASF26:
+ 1496 0092 756C7472 		.ascii	"ultrasonic_uart_IntClock_ClearModeRegister\000"
+ 1496      61736F6E 
+ 1496      69635F75 
+ 1496      6172745F 
+ 1496      496E7443 
+ 1497              	.LASF5:
+ 1498 00bd 6C6F6E67 		.ascii	"long unsigned int\000"
+ 1498      20756E73 
+ 1498      69676E65 
+ 1498      6420696E 
+ 1498      7400
+ 1499              	.LASF3:
+ 1500 00cf 73686F72 		.ascii	"short unsigned int\000"
+ 1500      7420756E 
+ 1500      7369676E 
+ 1500      65642069 
+ 1500      6E7400
+ 1501              	.LASF16:
+ 1502 00e2 756C7472 		.ascii	"ultrasonic_uart_IntClock_StandbyPower\000"
+ 1502      61736F6E 
+ 1502      69635F75 
+ 1502      6172745F 
+ 1502      496E7443 
+ 1503              	.LASF14:
+ 1504 0108 756C7472 		.ascii	"ultrasonic_uart_IntClock_Start\000"
+ 1504      61736F6E 
+ 1504      69635F75 
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccv4golg.s 			page 37
+
+
+ 1504      6172745F 
+ 1504      496E7443 
+ 1505              	.LASF36:
+ 1506 0127 433A5C55 		.ascii	"C:\\Users\\karunmj\\Google Drive\\SURE\\Resources\\"
+ 1506      73657273 
+ 1506      5C6B6172 
+ 1506      756E6D6A 
+ 1506      5C476F6F 
+ 1507 0154 50536F43 		.ascii	"PSoC\\PSoC5\\PSoC_Datalogger.cydsn\000"
+ 1507      5C50536F 
+ 1507      43355C50 
+ 1507      536F435F 
+ 1507      44617461 
+ 1508              	.LASF15:
+ 1509 0175 756C7472 		.ascii	"ultrasonic_uart_IntClock_Stop\000"
+ 1509      61736F6E 
+ 1509      69635F75 
+ 1509      6172745F 
+ 1509      496E7443 
+ 1510              	.LASF12:
+ 1511 0193 646F7562 		.ascii	"double\000"
+ 1511      6C6500
+ 1512              	.LASF19:
+ 1513 019a 636C6B44 		.ascii	"clkDivider\000"
+ 1513      69766964 
+ 1513      657200
+ 1514              	.LASF20:
+ 1515 01a5 72657374 		.ascii	"restart\000"
+ 1515      61727400 
+ 1516              	.LASF10:
+ 1517 01ad 75696E74 		.ascii	"uint16\000"
+ 1517      313600
+ 1518              	.LASF35:
+ 1519 01b4 2E5C4765 		.ascii	".\\Generated_Source\\PSoC5\\ultrasonic_uart_IntCloc"
+ 1519      6E657261 
+ 1519      7465645F 
+ 1519      536F7572 
+ 1519      63655C50 
+ 1520 01e4 6B2E6300 		.ascii	"k.c\000"
+ 1521              	.LASF8:
+ 1522 01e8 756E7369 		.ascii	"unsigned int\000"
+ 1522      676E6564 
+ 1522      20696E74 
+ 1522      00
+ 1523              	.LASF22:
+ 1524 01f5 63757272 		.ascii	"currSrc\000"
+ 1524      53726300 
+ 1525              	.LASF7:
+ 1526 01fd 6C6F6E67 		.ascii	"long long unsigned int\000"
+ 1526      206C6F6E 
+ 1526      6720756E 
+ 1526      7369676E 
+ 1526      65642069 
+ 1527              	.LASF28:
+ 1528 0214 756C7472 		.ascii	"ultrasonic_uart_IntClock_GetModeRegister\000"
+ 1528      61736F6E 
+ 1528      69635F75 
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccv4golg.s 			page 38
+
+
+ 1528      6172745F 
+ 1528      496E7443 
+ 1529              	.LASF24:
+ 1530 023d 756C7472 		.ascii	"ultrasonic_uart_IntClock_SetModeRegister\000"
+ 1530      61736F6E 
+ 1530      69635F75 
+ 1530      6172745F 
+ 1530      496E7443 
+ 1531              	.LASF29:
+ 1532 0266 756C7472 		.ascii	"ultrasonic_uart_IntClock_SetSourceRegister\000"
+ 1532      61736F6E 
+ 1532      69635F75 
+ 1532      6172745F 
+ 1532      496E7443 
+ 1533              	.LASF25:
+ 1534 0291 6D6F6465 		.ascii	"modeBitMask\000"
+ 1534      4269744D 
+ 1534      61736B00 
+ 1535              	.LASF34:
+ 1536 029d 474E5520 		.ascii	"GNU C 4.4.1\000"
+ 1536      4320342E 
+ 1536      342E3100 
+ 1537              	.LASF13:
+ 1538 02a9 63686172 		.ascii	"char\000"
+ 1538      00
+ 1539              	.LASF31:
+ 1540 02ae 63757272 		.ascii	"currDiv\000"
+ 1540      44697600 
+ 1541              	.LASF2:
+ 1542 02b6 73686F72 		.ascii	"short int\000"
+ 1542      7420696E 
+ 1542      7400
+ 1543              	.LASF9:
+ 1544 02c0 75696E74 		.ascii	"uint8\000"
+ 1544      3800
+ 1545              	.LASF27:
+ 1546 02c6 756C7472 		.ascii	"ultrasonic_uart_IntClock_GetDividerRegister\000"
+ 1546      61736F6E 
+ 1546      69635F75 
+ 1546      6172745F 
+ 1546      496E7443 
+ 1547              	.LASF4:
+ 1548 02f2 6C6F6E67 		.ascii	"long int\000"
+ 1548      20696E74 
+ 1548      00
+ 1549              	.LASF30:
+ 1550 02fb 636C6B53 		.ascii	"clkSource\000"
+ 1550      6F757263 
+ 1550      6500
+ 1551              	.LASF0:
+ 1552 0305 7369676E 		.ascii	"signed char\000"
+ 1552      65642063 
+ 1552      68617200 
+ 1553              	.LASF32:
+ 1554 0311 6F6C6453 		.ascii	"oldSrc\000"
+ 1554      726300
+ 1555              		.ident	"GCC: (Sourcery G++ Lite 2010q1-188) 4.4.1"
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccv4golg.s 			page 39
+
+

@@ -1,0 +1,938 @@
+ARM GAS  C:\Users\BRANKO~1\AppData\Local\Temp\ccH7eSNO.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 6
+  11              		.eabi_attribute 18, 4
+  12              		.thumb
+  13              		.file	"main.c"
+  14              		.section	.debug_abbrev,"",%progbits
+  15              	.Ldebug_abbrev0:
+  16              		.section	.debug_info,"",%progbits
+  17              	.Ldebug_info0:
+  18              		.section	.debug_line,"",%progbits
+  19              	.Ldebug_line0:
+  20 0000 9B000000 		.text
+  20      02005300 
+  20      00000201 
+  20      FB0E0D00 
+  20      01010101 
+  21              	.Ltext0:
+  22              		.cfi_sections	.debug_frame
+  23              		.comm	received_uart_string,256,4
+  24              		.comm	hold_rx_data,1,1
+  25              		.global	uart_string_index
+  26              		.bss
+  27              		.align	2
+  28              		.type	uart_string_index, %object
+  29              		.size	uart_string_index, 4
+  30              	uart_string_index:
+  31 0000 00000000 		.space	4
+  32              		.global	powermon_confirm
+  33              		.type	powermon_confirm, %object
+  34              		.size	powermon_confirm, 1
+  35              	powermon_confirm:
+  36 0004 00       		.space	1
+  37 0005 000000   		.section	.rodata
+  38              		.align	2
+  39              	.LC0:
+  40 0000 41542B43 		.ascii	"AT+CREG=1\015\000"
+  40      5245473D 
+  40      310D00
+  41 000b 00       		.align	2
+  42              	.LC1:
+  43 000c 41542353 		.ascii	"AT#SCFG=1,1,0,0,1200,0\015\000"
+  43      4346473D 
+  43      312C312C 
+  43      302C302C 
+  43      31323030 
+  44              		.align	2
+  45              	.LC2:
+  46 0024 41542353 		.ascii	"AT#SGACT=1,1\015\000"
+  46      47414354 
+ARM GAS  C:\Users\BRANKO~1\AppData\Local\Temp\ccH7eSNO.s 			page 2
+
+
+  46      3D312C31 
+  46      0D00
+  47 0032 0000     		.align	2
+  48              	.LC3:
+  49 0034 41542353 		.ascii	"AT#SD=1,0,50321,\"50.19.242.87\",0,0,1\015\000"
+  49      443D312C 
+  49      302C3530 
+  49      3332312C 
+  49      2235302E 
+  50 005a 0000     		.align	2
+  51              	.LC4:
+  52 005c 41542353 		.ascii	"AT#SSEND=1\015\000"
+  52      53454E44 
+  52      3D310D00 
+  53              		.align	2
+  54              	.LC5:
+  55 0068 54686973 		.ascii	"This is sent from PSoC\032\000"
+  55      20697320 
+  55      73656E74 
+  55      2066726F 
+  55      6D205053 
+  56              		.section	.text.main,"ax",%progbits
+  57              		.align	2
+  58              		.global	main
+  59              		.thumb
+  60              		.thumb_func
+  61              		.type	main, %function
+  62              	main:
+  63              	.LFB29:
+  64              		.file 1 ".\\main.c"
+   1:.\main.c      **** /* ========================================
+   2:.\main.c      ****  *
+   3:.\main.c      ****  * Copyright YOUR COMPANY, THE YEAR
+   4:.\main.c      ****  * All Rights Reserved
+   5:.\main.c      ****  * UNPUBLISHED, LICENSED SOFTWARE.
+   6:.\main.c      ****  *
+   7:.\main.c      ****  * CONFIDENTIAL AND PROPRIETARY INFORMATION
+   8:.\main.c      ****  * WHICH IS THE PROPERTY OF your company.
+   9:.\main.c      ****  *
+  10:.\main.c      ****  * ========================================
+  11:.\main.c      **** */
+  12:.\main.c      **** #include <device.h>
+  13:.\main.c      **** 
+  14:.\main.c      **** uint8 received_uart_string[256];
+  15:.\main.c      **** uint8 hold_rx_data;
+  16:.\main.c      **** uint32 uart_string_index = 0; 
+  17:.\main.c      **** uint8 powermon_confirm = 0;
+  18:.\main.c      **** 
+  19:.\main.c      **** // Declare interrupt function
+  20:.\main.c      **** CY_ISR_PROTO(isr_byte_received);
+  21:.\main.c      **** 
+  22:.\main.c      **** void main()
+  23:.\main.c      **** {
+  65              		.loc 1 23 0
+  66              		.cfi_startproc
+  67              		@ args = 0, pretend = 0, frame = 0
+  68              		@ frame_needed = 1, uses_anonymous_args = 0
+ARM GAS  C:\Users\BRANKO~1\AppData\Local\Temp\ccH7eSNO.s 			page 3
+
+
+  69 0000 80B5     		push	{r7, lr}
+  70              	.LCFI0:
+  71              		.cfi_def_cfa_offset 8
+  72 0002 00AF     		add	r7, sp, #0
+  73              		.cfi_offset 14, -4
+  74              		.cfi_offset 7, -8
+  75              	.LCFI1:
+  76              		.cfi_def_cfa_register 7
+  24:.\main.c      ****     CyGlobalIntEnable;
+  77              		.loc 1 24 0
+  78              	@ 24 ".\main.c" 1
+  79 0004 62B6     		CPSIE   i
+  80              	@ 0 "" 2
+  25:.\main.c      ****     isr_byte_received_StartEx(isr_byte_received);
+  81              		.loc 1 25 0
+  82              		.thumb
+  83 0006 40F20000 		movw	r0, #:lower16:isr_byte_received
+  84 000a C0F20000 		movt	r0, #:upper16:isr_byte_received
+  85 000e FFF7FEFF 		bl	isr_byte_received_StartEx
+  26:.\main.c      ****     uart_Start();
+  86              		.loc 1 26 0
+  87 0012 FFF7FEFF 		bl	uart_Start
+  27:.\main.c      ****     
+  28:.\main.c      ****     powermon_confirm = powermon_pin_Read();
+  88              		.loc 1 28 0
+  89 0016 FFF7FEFF 		bl	powermon_pin_Read
+  90 001a 0346     		mov	r3, r0
+  91 001c 1A46     		mov	r2, r3
+  92 001e 40F20003 		movw	r3, #:lower16:powermon_confirm
+  93 0022 C0F20003 		movt	r3, #:upper16:powermon_confirm
+  94 0026 1A70     		strb	r2, [r3, #0]
+  29:.\main.c      ****     
+  30:.\main.c      ****     // Turn on interface board
+  31:.\main.c      ****     if(powermon_pin_Read() == 0){
+  95              		.loc 1 31 0
+  96 0028 FFF7FEFF 		bl	powermon_pin_Read
+  97 002c 0346     		mov	r3, r0
+  98 002e 002B     		cmp	r3, #0
+  99 0030 0FD1     		bne	.L2
+  32:.\main.c      ****         on_pin_Write(0u);
+ 100              		.loc 1 32 0
+ 101 0032 4FF00000 		mov	r0, #0
+ 102 0036 FFF7FEFF 		bl	on_pin_Write
+  33:.\main.c      ****         CyDelay(1500u);
+ 103              		.loc 1 33 0
+ 104 003a 40F2DC50 		movw	r0, #1500
+ 105 003e FFF7FEFF 		bl	CyDelay
+  34:.\main.c      ****         on_pin_Write(1u);
+ 106              		.loc 1 34 0
+ 107 0042 4FF00100 		mov	r0, #1
+ 108 0046 FFF7FEFF 		bl	on_pin_Write
+  35:.\main.c      ****         CyDelay(8000u); // wait for module to turn on
+ 109              		.loc 1 35 0
+ 110 004a 4FF4FA50 		mov	r0, #8000
+ 111 004e FFF7FEFF 		bl	CyDelay
+ 112              	.L2:
+  36:.\main.c      ****     }
+ARM GAS  C:\Users\BRANKO~1\AppData\Local\Temp\ccH7eSNO.s 			page 4
+
+
+  37:.\main.c      ****     
+  38:.\main.c      ****     uart_PutString("AT+CREG=1\r");
+ 113              		.loc 1 38 0
+ 114 0052 40F20000 		movw	r0, #:lower16:.LC0
+ 115 0056 C0F20000 		movt	r0, #:upper16:.LC0
+ 116 005a FFF7FEFF 		bl	uart_PutString
+  39:.\main.c      ****     CyDelay(8000u);
+ 117              		.loc 1 39 0
+ 118 005e 4FF4FA50 		mov	r0, #8000
+ 119 0062 FFF7FEFF 		bl	CyDelay
+  40:.\main.c      ****     uart_string_index = 0;
+ 120              		.loc 1 40 0
+ 121 0066 40F20003 		movw	r3, #:lower16:uart_string_index
+ 122 006a C0F20003 		movt	r3, #:upper16:uart_string_index
+ 123 006e 4FF00002 		mov	r2, #0
+ 124 0072 1A60     		str	r2, [r3, #0]
+  41:.\main.c      ****     uart_PutString("AT#SCFG=1,1,0,0,1200,0\r");
+ 125              		.loc 1 41 0
+ 126 0074 40F20000 		movw	r0, #:lower16:.LC1
+ 127 0078 C0F20000 		movt	r0, #:upper16:.LC1
+ 128 007c FFF7FEFF 		bl	uart_PutString
+  42:.\main.c      ****     CyDelay(8000u);
+ 129              		.loc 1 42 0
+ 130 0080 4FF4FA50 		mov	r0, #8000
+ 131 0084 FFF7FEFF 		bl	CyDelay
+  43:.\main.c      ****     uart_string_index = 0;
+ 132              		.loc 1 43 0
+ 133 0088 40F20003 		movw	r3, #:lower16:uart_string_index
+ 134 008c C0F20003 		movt	r3, #:upper16:uart_string_index
+ 135 0090 4FF00002 		mov	r2, #0
+ 136 0094 1A60     		str	r2, [r3, #0]
+  44:.\main.c      ****     uart_PutString("AT#SGACT=1,1\r");
+ 137              		.loc 1 44 0
+ 138 0096 40F20000 		movw	r0, #:lower16:.LC2
+ 139 009a C0F20000 		movt	r0, #:upper16:.LC2
+ 140 009e FFF7FEFF 		bl	uart_PutString
+  45:.\main.c      ****     CyDelay(15000u);
+ 141              		.loc 1 45 0
+ 142 00a2 43F69820 		movw	r0, #15000
+ 143 00a6 FFF7FEFF 		bl	CyDelay
+  46:.\main.c      ****     uart_string_index = 0;
+ 144              		.loc 1 46 0
+ 145 00aa 40F20003 		movw	r3, #:lower16:uart_string_index
+ 146 00ae C0F20003 		movt	r3, #:upper16:uart_string_index
+ 147 00b2 4FF00002 		mov	r2, #0
+ 148 00b6 1A60     		str	r2, [r3, #0]
+  47:.\main.c      ****     uart_PutString("AT#SD=1,0,50321,\"50.19.242.87\",0,0,1\r");
+ 149              		.loc 1 47 0
+ 150 00b8 40F20000 		movw	r0, #:lower16:.LC3
+ 151 00bc C0F20000 		movt	r0, #:upper16:.LC3
+ 152 00c0 FFF7FEFF 		bl	uart_PutString
+  48:.\main.c      ****     CyDelay(8000u);
+ 153              		.loc 1 48 0
+ 154 00c4 4FF4FA50 		mov	r0, #8000
+ 155 00c8 FFF7FEFF 		bl	CyDelay
+  49:.\main.c      ****     uart_string_index = 0;
+ 156              		.loc 1 49 0
+ARM GAS  C:\Users\BRANKO~1\AppData\Local\Temp\ccH7eSNO.s 			page 5
+
+
+ 157 00cc 40F20003 		movw	r3, #:lower16:uart_string_index
+ 158 00d0 C0F20003 		movt	r3, #:upper16:uart_string_index
+ 159 00d4 4FF00002 		mov	r2, #0
+ 160 00d8 1A60     		str	r2, [r3, #0]
+  50:.\main.c      ****     uart_PutString("AT#SSEND=1\r");
+ 161              		.loc 1 50 0
+ 162 00da 40F20000 		movw	r0, #:lower16:.LC4
+ 163 00de C0F20000 		movt	r0, #:upper16:.LC4
+ 164 00e2 FFF7FEFF 		bl	uart_PutString
+  51:.\main.c      ****     CyDelay(7500u);
+ 165              		.loc 1 51 0
+ 166 00e6 41F64C50 		movw	r0, #7500
+ 167 00ea FFF7FEFF 		bl	CyDelay
+  52:.\main.c      ****     uart_string_index = 0;
+ 168              		.loc 1 52 0
+ 169 00ee 40F20003 		movw	r3, #:lower16:uart_string_index
+ 170 00f2 C0F20003 		movt	r3, #:upper16:uart_string_index
+ 171 00f6 4FF00002 		mov	r2, #0
+ 172 00fa 1A60     		str	r2, [r3, #0]
+  53:.\main.c      ****     uart_PutString("This is sent from PSoC\032");
+ 173              		.loc 1 53 0
+ 174 00fc 40F20000 		movw	r0, #:lower16:.LC5
+ 175 0100 C0F20000 		movt	r0, #:upper16:.LC5
+ 176 0104 FFF7FEFF 		bl	uart_PutString
+  54:.\main.c      ****     CyDelay(7500u);
+ 177              		.loc 1 54 0
+ 178 0108 41F64C50 		movw	r0, #7500
+ 179 010c FFF7FEFF 		bl	CyDelay
+ 180              	.L3:
+  55:.\main.c      ****     
+  56:.\main.c      **** //    received_uart_string[256] = {0};
+  57:.\main.c      **** //    uart_PutString("AT#SCFG=1,1,0,0,1200,0\r");
+  58:.\main.c      **** //    CyDelay(7500u);
+  59:.\main.c      **** //    uart_string_index = 0;
+  60:.\main.c      **** //    uart_PutString("AT#SGACT=1,1\r");
+  61:.\main.c      **** //    CyDelay(15000u);
+  62:.\main.c      **** //    uart_string_index = 0;
+  63:.\main.c      **** //    uart_PutString("AT#SD=1,0,54321,\"50.19.242.87\",0,0,1\r");
+  64:.\main.c      **** //    CyDelay(10000u);
+  65:.\main.c      **** //    uart_string_index = 0;
+  66:.\main.c      **** //    uart_PutString("AT#SSEND=1\r");
+  67:.\main.c      **** //    CyDelay(2000u);
+  68:.\main.c      **** //    uart_string_index = 0;
+  69:.\main.c      **** //    uart_PutString("This is send from PSoC\032");
+  70:.\main.c      **** //    CyDelay(2000u);
+  71:.\main.c      **** //    uart_string_index = 0;
+  72:.\main.c      ****     
+  73:.\main.c      ****     for(;;)
+  74:.\main.c      ****     {
+  75:.\main.c      **** 
+  76:.\main.c      ****     }
+ 181              		.loc 1 76 0
+ 182 0110 FEE7     		b	.L3
+ 183              		.cfi_endproc
+ 184              	.LFE29:
+ 185              		.size	main, .-main
+ 186 0112 00BF     		.section	.text.isr_byte_received,"ax",%progbits
+ARM GAS  C:\Users\BRANKO~1\AppData\Local\Temp\ccH7eSNO.s 			page 6
+
+
+ 187              		.align	2
+ 188              		.global	isr_byte_received
+ 189              		.thumb
+ 190              		.thumb_func
+ 191              		.type	isr_byte_received, %function
+ 192              	isr_byte_received:
+ 193              	.LFB30:
+  77:.\main.c      **** }
+  78:.\main.c      **** 
+  79:.\main.c      **** CY_ISR(isr_byte_received){
+ 194              		.loc 1 79 0
+ 195              		.cfi_startproc
+ 196              		@ args = 0, pretend = 0, frame = 0
+ 197              		@ frame_needed = 1, uses_anonymous_args = 0
+ 198 0000 98B5     		push	{r3, r4, r7, lr}
+ 199              	.LCFI2:
+ 200              		.cfi_def_cfa_offset 16
+ 201 0002 00AF     		add	r7, sp, #0
+ 202              		.cfi_offset 14, -4
+ 203              		.cfi_offset 7, -8
+ 204              		.cfi_offset 4, -12
+ 205              		.cfi_offset 3, -16
+ 206              	.LCFI3:
+ 207              		.cfi_def_cfa_register 7
+  80:.\main.c      ****     hold_rx_data = uart_ReadRxData();
+ 208              		.loc 1 80 0
+ 209 0004 FFF7FEFF 		bl	uart_ReadRxData
+ 210 0008 0346     		mov	r3, r0
+ 211 000a 1A46     		mov	r2, r3
+ 212 000c 40F20003 		movw	r3, #:lower16:hold_rx_data
+ 213 0010 C0F20003 		movt	r3, #:upper16:hold_rx_data
+ 214 0014 1A70     		strb	r2, [r3, #0]
+  81:.\main.c      ****     received_uart_string[uart_string_index] = uart_GetByte();
+ 215              		.loc 1 81 0
+ 216 0016 40F20003 		movw	r3, #:lower16:uart_string_index
+ 217 001a C0F20003 		movt	r3, #:upper16:uart_string_index
+ 218 001e 1C68     		ldr	r4, [r3, #0]
+ 219 0020 FFF7FEFF 		bl	uart_GetByte
+ 220 0024 0346     		mov	r3, r0
+ 221 0026 DAB2     		uxtb	r2, r3
+ 222 0028 40F20003 		movw	r3, #:lower16:received_uart_string
+ 223 002c C0F20003 		movt	r3, #:upper16:received_uart_string
+ 224 0030 1A55     		strb	r2, [r3, r4]
+  82:.\main.c      ****     received_uart_string[uart_string_index+20] = hold_rx_data;
+ 225              		.loc 1 82 0
+ 226 0032 40F20003 		movw	r3, #:lower16:uart_string_index
+ 227 0036 C0F20003 		movt	r3, #:upper16:uart_string_index
+ 228 003a 1B68     		ldr	r3, [r3, #0]
+ 229 003c 03F11402 		add	r2, r3, #20
+ 230 0040 40F20003 		movw	r3, #:lower16:hold_rx_data
+ 231 0044 C0F20003 		movt	r3, #:upper16:hold_rx_data
+ 232 0048 1978     		ldrb	r1, [r3, #0]	@ zero_extendqisi2
+ 233 004a 40F20003 		movw	r3, #:lower16:received_uart_string
+ 234 004e C0F20003 		movt	r3, #:upper16:received_uart_string
+ 235 0052 9954     		strb	r1, [r3, r2]
+  83:.\main.c      ****     uart_string_index++;
+ 236              		.loc 1 83 0
+ARM GAS  C:\Users\BRANKO~1\AppData\Local\Temp\ccH7eSNO.s 			page 7
+
+
+ 237 0054 40F20003 		movw	r3, #:lower16:uart_string_index
+ 238 0058 C0F20003 		movt	r3, #:upper16:uart_string_index
+ 239 005c 1B68     		ldr	r3, [r3, #0]
+ 240 005e 03F10102 		add	r2, r3, #1
+ 241 0062 40F20003 		movw	r3, #:lower16:uart_string_index
+ 242 0066 C0F20003 		movt	r3, #:upper16:uart_string_index
+ 243 006a 1A60     		str	r2, [r3, #0]
+  84:.\main.c      **** }
+ 244              		.loc 1 84 0
+ 245 006c 98BD     		pop	{r3, r4, r7, pc}
+ 246              		.cfi_endproc
+ 247              	.LFE30:
+ 248              		.size	isr_byte_received, .-isr_byte_received
+ 249 006e 00BF     		.text
+ 250              	.Letext0:
+ 251              		.section	.debug_loc,"",%progbits
+ 252              	.Ldebug_loc0:
+ 253              	.LLST0:
+ 254 0000 00000000 		.4byte	.LFB29
+ 255 0004 02000000 		.4byte	.LCFI0
+ 256 0008 0100     		.2byte	0x1
+ 257 000a 5D       		.byte	0x5d
+ 258 000b 02000000 		.4byte	.LCFI0
+ 259 000f 04000000 		.4byte	.LCFI1
+ 260 0013 0200     		.2byte	0x2
+ 261 0015 7D       		.byte	0x7d
+ 262 0016 08       		.sleb128 8
+ 263 0017 04000000 		.4byte	.LCFI1
+ 264 001b 12010000 		.4byte	.LFE29
+ 265 001f 0200     		.2byte	0x2
+ 266 0021 77       		.byte	0x77
+ 267 0022 08       		.sleb128 8
+ 268 0023 00000000 		.4byte	0x0
+ 269 0027 00000000 		.4byte	0x0
+ 270              	.LLST1:
+ 271 002b 00000000 		.4byte	.LFB30
+ 272 002f 02000000 		.4byte	.LCFI2
+ 273 0033 0100     		.2byte	0x1
+ 274 0035 5D       		.byte	0x5d
+ 275 0036 02000000 		.4byte	.LCFI2
+ 276 003a 04000000 		.4byte	.LCFI3
+ 277 003e 0200     		.2byte	0x2
+ 278 0040 7D       		.byte	0x7d
+ 279 0041 10       		.sleb128 16
+ 280 0042 04000000 		.4byte	.LCFI3
+ 281 0046 6E000000 		.4byte	.LFE30
+ 282 004a 0200     		.2byte	0x2
+ 283 004c 77       		.byte	0x77
+ 284 004d 10       		.sleb128 16
+ 285 004e 00000000 		.4byte	0x0
+ 286 0052 00000000 		.4byte	0x0
+ 287              		.file 2 "./Generated_Source/PSoC5/cytypes.h"
+ 288              		.file 3 "./Generated_Source/PSoC5/core_cm3.h"
+ 289              		.section	.debug_info
+ 290 0000 2E010000 		.4byte	0x12e
+ 291 0004 0200     		.2byte	0x2
+ 292 0006 00000000 		.4byte	.Ldebug_abbrev0
+ARM GAS  C:\Users\BRANKO~1\AppData\Local\Temp\ccH7eSNO.s 			page 8
+
+
+ 293 000a 04       		.byte	0x4
+ 294 000b 01       		.uleb128 0x1
+ 295 000c D5000000 		.4byte	.LASF19
+ 296 0010 01       		.byte	0x1
+ 297 0011 40010000 		.4byte	.LASF20
+ 298 0015 39000000 		.4byte	.LASF21
+ 299 0019 00000000 		.4byte	0x0
+ 300 001d 00000000 		.4byte	0x0
+ 301 0021 00000000 		.4byte	.Ldebug_ranges0+0x0
+ 302 0025 00000000 		.4byte	.Ldebug_line0
+ 303 0029 02       		.uleb128 0x2
+ 304 002a 01       		.byte	0x1
+ 305 002b 06       		.byte	0x6
+ 306 002c 2E010000 		.4byte	.LASF0
+ 307 0030 02       		.uleb128 0x2
+ 308 0031 01       		.byte	0x1
+ 309 0032 08       		.byte	0x8
+ 310 0033 E1000000 		.4byte	.LASF1
+ 311 0037 02       		.uleb128 0x2
+ 312 0038 02       		.byte	0x2
+ 313 0039 05       		.byte	0x5
+ 314 003a 01010000 		.4byte	.LASF2
+ 315 003e 02       		.uleb128 0x2
+ 316 003f 02       		.byte	0x2
+ 317 0040 07       		.byte	0x7
+ 318 0041 1B010000 		.4byte	.LASF3
+ 319 0045 02       		.uleb128 0x2
+ 320 0046 04       		.byte	0x4
+ 321 0047 05       		.byte	0x5
+ 322 0048 12010000 		.4byte	.LASF4
+ 323 004c 02       		.uleb128 0x2
+ 324 004d 04       		.byte	0x4
+ 325 004e 07       		.byte	0x7
+ 326 004f 97000000 		.4byte	.LASF5
+ 327 0053 02       		.uleb128 0x2
+ 328 0054 08       		.byte	0x8
+ 329 0055 05       		.byte	0x5
+ 330 0056 00000000 		.4byte	.LASF6
+ 331 005a 02       		.uleb128 0x2
+ 332 005b 08       		.byte	0x8
+ 333 005c 07       		.byte	0x7
+ 334 005d BE000000 		.4byte	.LASF7
+ 335 0061 03       		.uleb128 0x3
+ 336 0062 04       		.byte	0x4
+ 337 0063 05       		.byte	0x5
+ 338 0064 696E7400 		.ascii	"int\000"
+ 339 0068 02       		.uleb128 0x2
+ 340 0069 04       		.byte	0x4
+ 341 006a 07       		.byte	0x7
+ 342 006b 15000000 		.4byte	.LASF8
+ 343 006f 04       		.uleb128 0x4
+ 344 0070 91000000 		.4byte	.LASF9
+ 345 0074 02       		.byte	0x2
+ 346 0075 4C       		.byte	0x4c
+ 347 0076 30000000 		.4byte	0x30
+ 348 007a 04       		.uleb128 0x4
+ 349 007b 0E000000 		.4byte	.LASF10
+ARM GAS  C:\Users\BRANKO~1\AppData\Local\Temp\ccH7eSNO.s 			page 9
+
+
+ 350 007f 02       		.byte	0x2
+ 351 0080 4E       		.byte	0x4e
+ 352 0081 4C000000 		.4byte	0x4c
+ 353 0085 02       		.uleb128 0x2
+ 354 0086 04       		.byte	0x4
+ 355 0087 04       		.byte	0x4
+ 356 0088 3A010000 		.4byte	.LASF11
+ 357 008c 02       		.uleb128 0x2
+ 358 008d 08       		.byte	0x8
+ 359 008e 04       		.byte	0x4
+ 360 008f 0B010000 		.4byte	.LASF12
+ 361 0093 02       		.uleb128 0x2
+ 362 0094 01       		.byte	0x1
+ 363 0095 08       		.byte	0x8
+ 364 0096 EF000000 		.4byte	.LASF13
+ 365 009a 05       		.uleb128 0x5
+ 366 009b 04       		.byte	0x4
+ 367 009c 07       		.byte	0x7
+ 368 009d 06       		.uleb128 0x6
+ 369 009e 01       		.byte	0x1
+ 370 009f 34000000 		.4byte	.LASF22
+ 371 00a3 01       		.byte	0x1
+ 372 00a4 16       		.byte	0x16
+ 373 00a5 00000000 		.4byte	.LFB29
+ 374 00a9 12010000 		.4byte	.LFE29
+ 375 00ad 00000000 		.4byte	.LLST0
+ 376 00b1 07       		.uleb128 0x7
+ 377 00b2 01       		.byte	0x1
+ 378 00b3 7F000000 		.4byte	.LASF23
+ 379 00b7 01       		.byte	0x1
+ 380 00b8 4F       		.byte	0x4f
+ 381 00b9 01       		.byte	0x1
+ 382 00ba 00000000 		.4byte	.LFB30
+ 383 00be 6E000000 		.4byte	.LFE30
+ 384 00c2 2B000000 		.4byte	.LLST1
+ 385 00c6 08       		.uleb128 0x8
+ 386 00c7 F4000000 		.4byte	.LASF14
+ 387 00cb 03       		.byte	0x3
+ 388 00cc CE06     		.2byte	0x6ce
+ 389 00ce D4000000 		.4byte	0xd4
+ 390 00d2 01       		.byte	0x1
+ 391 00d3 01       		.byte	0x1
+ 392 00d4 09       		.uleb128 0x9
+ 393 00d5 61000000 		.4byte	0x61
+ 394 00d9 0A       		.uleb128 0xa
+ 395 00da 6F000000 		.4byte	0x6f
+ 396 00de E9000000 		.4byte	0xe9
+ 397 00e2 0B       		.uleb128 0xb
+ 398 00e3 9A000000 		.4byte	0x9a
+ 399 00e7 FF       		.byte	0xff
+ 400 00e8 00       		.byte	0x0
+ 401 00e9 0C       		.uleb128 0xc
+ 402 00ea A9000000 		.4byte	.LASF15
+ 403 00ee 01       		.byte	0x1
+ 404 00ef 0E       		.byte	0xe
+ 405 00f0 D9000000 		.4byte	0xd9
+ 406 00f4 01       		.byte	0x1
+ARM GAS  C:\Users\BRANKO~1\AppData\Local\Temp\ccH7eSNO.s 			page 10
+
+
+ 407 00f5 05       		.byte	0x5
+ 408 00f6 03       		.byte	0x3
+ 409 00f7 00000000 		.4byte	received_uart_string
+ 410 00fb 0C       		.uleb128 0xc
+ 411 00fc 49010000 		.4byte	.LASF16
+ 412 0100 01       		.byte	0x1
+ 413 0101 0F       		.byte	0xf
+ 414 0102 6F000000 		.4byte	0x6f
+ 415 0106 01       		.byte	0x1
+ 416 0107 05       		.byte	0x5
+ 417 0108 03       		.byte	0x3
+ 418 0109 00000000 		.4byte	hold_rx_data
+ 419 010d 0C       		.uleb128 0xc
+ 420 010e 22000000 		.4byte	.LASF17
+ 421 0112 01       		.byte	0x1
+ 422 0113 10       		.byte	0x10
+ 423 0114 7A000000 		.4byte	0x7a
+ 424 0118 01       		.byte	0x1
+ 425 0119 05       		.byte	0x5
+ 426 011a 03       		.byte	0x3
+ 427 011b 00000000 		.4byte	uart_string_index
+ 428 011f 0C       		.uleb128 0xc
+ 429 0120 56010000 		.4byte	.LASF18
+ 430 0124 01       		.byte	0x1
+ 431 0125 11       		.byte	0x11
+ 432 0126 6F000000 		.4byte	0x6f
+ 433 012a 01       		.byte	0x1
+ 434 012b 05       		.byte	0x5
+ 435 012c 03       		.byte	0x3
+ 436 012d 00000000 		.4byte	powermon_confirm
+ 437 0131 00       		.byte	0x0
+ 438              		.section	.debug_abbrev
+ 439 0000 01       		.uleb128 0x1
+ 440 0001 11       		.uleb128 0x11
+ 441 0002 01       		.byte	0x1
+ 442 0003 25       		.uleb128 0x25
+ 443 0004 0E       		.uleb128 0xe
+ 444 0005 13       		.uleb128 0x13
+ 445 0006 0B       		.uleb128 0xb
+ 446 0007 03       		.uleb128 0x3
+ 447 0008 0E       		.uleb128 0xe
+ 448 0009 1B       		.uleb128 0x1b
+ 449 000a 0E       		.uleb128 0xe
+ 450 000b 11       		.uleb128 0x11
+ 451 000c 01       		.uleb128 0x1
+ 452 000d 52       		.uleb128 0x52
+ 453 000e 01       		.uleb128 0x1
+ 454 000f 55       		.uleb128 0x55
+ 455 0010 06       		.uleb128 0x6
+ 456 0011 10       		.uleb128 0x10
+ 457 0012 06       		.uleb128 0x6
+ 458 0013 00       		.byte	0x0
+ 459 0014 00       		.byte	0x0
+ 460 0015 02       		.uleb128 0x2
+ 461 0016 24       		.uleb128 0x24
+ 462 0017 00       		.byte	0x0
+ 463 0018 0B       		.uleb128 0xb
+ARM GAS  C:\Users\BRANKO~1\AppData\Local\Temp\ccH7eSNO.s 			page 11
+
+
+ 464 0019 0B       		.uleb128 0xb
+ 465 001a 3E       		.uleb128 0x3e
+ 466 001b 0B       		.uleb128 0xb
+ 467 001c 03       		.uleb128 0x3
+ 468 001d 0E       		.uleb128 0xe
+ 469 001e 00       		.byte	0x0
+ 470 001f 00       		.byte	0x0
+ 471 0020 03       		.uleb128 0x3
+ 472 0021 24       		.uleb128 0x24
+ 473 0022 00       		.byte	0x0
+ 474 0023 0B       		.uleb128 0xb
+ 475 0024 0B       		.uleb128 0xb
+ 476 0025 3E       		.uleb128 0x3e
+ 477 0026 0B       		.uleb128 0xb
+ 478 0027 03       		.uleb128 0x3
+ 479 0028 08       		.uleb128 0x8
+ 480 0029 00       		.byte	0x0
+ 481 002a 00       		.byte	0x0
+ 482 002b 04       		.uleb128 0x4
+ 483 002c 16       		.uleb128 0x16
+ 484 002d 00       		.byte	0x0
+ 485 002e 03       		.uleb128 0x3
+ 486 002f 0E       		.uleb128 0xe
+ 487 0030 3A       		.uleb128 0x3a
+ 488 0031 0B       		.uleb128 0xb
+ 489 0032 3B       		.uleb128 0x3b
+ 490 0033 0B       		.uleb128 0xb
+ 491 0034 49       		.uleb128 0x49
+ 492 0035 13       		.uleb128 0x13
+ 493 0036 00       		.byte	0x0
+ 494 0037 00       		.byte	0x0
+ 495 0038 05       		.uleb128 0x5
+ 496 0039 24       		.uleb128 0x24
+ 497 003a 00       		.byte	0x0
+ 498 003b 0B       		.uleb128 0xb
+ 499 003c 0B       		.uleb128 0xb
+ 500 003d 3E       		.uleb128 0x3e
+ 501 003e 0B       		.uleb128 0xb
+ 502 003f 00       		.byte	0x0
+ 503 0040 00       		.byte	0x0
+ 504 0041 06       		.uleb128 0x6
+ 505 0042 2E       		.uleb128 0x2e
+ 506 0043 00       		.byte	0x0
+ 507 0044 3F       		.uleb128 0x3f
+ 508 0045 0C       		.uleb128 0xc
+ 509 0046 03       		.uleb128 0x3
+ 510 0047 0E       		.uleb128 0xe
+ 511 0048 3A       		.uleb128 0x3a
+ 512 0049 0B       		.uleb128 0xb
+ 513 004a 3B       		.uleb128 0x3b
+ 514 004b 0B       		.uleb128 0xb
+ 515 004c 11       		.uleb128 0x11
+ 516 004d 01       		.uleb128 0x1
+ 517 004e 12       		.uleb128 0x12
+ 518 004f 01       		.uleb128 0x1
+ 519 0050 40       		.uleb128 0x40
+ 520 0051 06       		.uleb128 0x6
+ARM GAS  C:\Users\BRANKO~1\AppData\Local\Temp\ccH7eSNO.s 			page 12
+
+
+ 521 0052 00       		.byte	0x0
+ 522 0053 00       		.byte	0x0
+ 523 0054 07       		.uleb128 0x7
+ 524 0055 2E       		.uleb128 0x2e
+ 525 0056 00       		.byte	0x0
+ 526 0057 3F       		.uleb128 0x3f
+ 527 0058 0C       		.uleb128 0xc
+ 528 0059 03       		.uleb128 0x3
+ 529 005a 0E       		.uleb128 0xe
+ 530 005b 3A       		.uleb128 0x3a
+ 531 005c 0B       		.uleb128 0xb
+ 532 005d 3B       		.uleb128 0x3b
+ 533 005e 0B       		.uleb128 0xb
+ 534 005f 27       		.uleb128 0x27
+ 535 0060 0C       		.uleb128 0xc
+ 536 0061 11       		.uleb128 0x11
+ 537 0062 01       		.uleb128 0x1
+ 538 0063 12       		.uleb128 0x12
+ 539 0064 01       		.uleb128 0x1
+ 540 0065 40       		.uleb128 0x40
+ 541 0066 06       		.uleb128 0x6
+ 542 0067 00       		.byte	0x0
+ 543 0068 00       		.byte	0x0
+ 544 0069 08       		.uleb128 0x8
+ 545 006a 34       		.uleb128 0x34
+ 546 006b 00       		.byte	0x0
+ 547 006c 03       		.uleb128 0x3
+ 548 006d 0E       		.uleb128 0xe
+ 549 006e 3A       		.uleb128 0x3a
+ 550 006f 0B       		.uleb128 0xb
+ 551 0070 3B       		.uleb128 0x3b
+ 552 0071 05       		.uleb128 0x5
+ 553 0072 49       		.uleb128 0x49
+ 554 0073 13       		.uleb128 0x13
+ 555 0074 3F       		.uleb128 0x3f
+ 556 0075 0C       		.uleb128 0xc
+ 557 0076 3C       		.uleb128 0x3c
+ 558 0077 0C       		.uleb128 0xc
+ 559 0078 00       		.byte	0x0
+ 560 0079 00       		.byte	0x0
+ 561 007a 09       		.uleb128 0x9
+ 562 007b 35       		.uleb128 0x35
+ 563 007c 00       		.byte	0x0
+ 564 007d 49       		.uleb128 0x49
+ 565 007e 13       		.uleb128 0x13
+ 566 007f 00       		.byte	0x0
+ 567 0080 00       		.byte	0x0
+ 568 0081 0A       		.uleb128 0xa
+ 569 0082 01       		.uleb128 0x1
+ 570 0083 01       		.byte	0x1
+ 571 0084 49       		.uleb128 0x49
+ 572 0085 13       		.uleb128 0x13
+ 573 0086 01       		.uleb128 0x1
+ 574 0087 13       		.uleb128 0x13
+ 575 0088 00       		.byte	0x0
+ 576 0089 00       		.byte	0x0
+ 577 008a 0B       		.uleb128 0xb
+ARM GAS  C:\Users\BRANKO~1\AppData\Local\Temp\ccH7eSNO.s 			page 13
+
+
+ 578 008b 21       		.uleb128 0x21
+ 579 008c 00       		.byte	0x0
+ 580 008d 49       		.uleb128 0x49
+ 581 008e 13       		.uleb128 0x13
+ 582 008f 2F       		.uleb128 0x2f
+ 583 0090 0B       		.uleb128 0xb
+ 584 0091 00       		.byte	0x0
+ 585 0092 00       		.byte	0x0
+ 586 0093 0C       		.uleb128 0xc
+ 587 0094 34       		.uleb128 0x34
+ 588 0095 00       		.byte	0x0
+ 589 0096 03       		.uleb128 0x3
+ 590 0097 0E       		.uleb128 0xe
+ 591 0098 3A       		.uleb128 0x3a
+ 592 0099 0B       		.uleb128 0xb
+ 593 009a 3B       		.uleb128 0x3b
+ 594 009b 0B       		.uleb128 0xb
+ 595 009c 49       		.uleb128 0x49
+ 596 009d 13       		.uleb128 0x13
+ 597 009e 3F       		.uleb128 0x3f
+ 598 009f 0C       		.uleb128 0xc
+ 599 00a0 02       		.uleb128 0x2
+ 600 00a1 0A       		.uleb128 0xa
+ 601 00a2 00       		.byte	0x0
+ 602 00a3 00       		.byte	0x0
+ 603 00a4 00       		.byte	0x0
+ 604              		.section	.debug_pubnames,"",%progbits
+ 605 0000 82000000 		.4byte	0x82
+ 606 0004 0200     		.2byte	0x2
+ 607 0006 00000000 		.4byte	.Ldebug_info0
+ 608 000a 32010000 		.4byte	0x132
+ 609 000e 9D000000 		.4byte	0x9d
+ 610 0012 6D61696E 		.ascii	"main\000"
+ 610      00
+ 611 0017 B1000000 		.4byte	0xb1
+ 612 001b 6973725F 		.ascii	"isr_byte_received\000"
+ 612      62797465 
+ 612      5F726563 
+ 612      65697665 
+ 612      6400
+ 613 002d E9000000 		.4byte	0xe9
+ 614 0031 72656365 		.ascii	"received_uart_string\000"
+ 614      69766564 
+ 614      5F756172 
+ 614      745F7374 
+ 614      72696E67 
+ 615 0046 FB000000 		.4byte	0xfb
+ 616 004a 686F6C64 		.ascii	"hold_rx_data\000"
+ 616      5F72785F 
+ 616      64617461 
+ 616      00
+ 617 0057 0D010000 		.4byte	0x10d
+ 618 005b 75617274 		.ascii	"uart_string_index\000"
+ 618      5F737472 
+ 618      696E675F 
+ 618      696E6465 
+ 618      7800
+ARM GAS  C:\Users\BRANKO~1\AppData\Local\Temp\ccH7eSNO.s 			page 14
+
+
+ 619 006d 1F010000 		.4byte	0x11f
+ 620 0071 706F7765 		.ascii	"powermon_confirm\000"
+ 620      726D6F6E 
+ 620      5F636F6E 
+ 620      6669726D 
+ 620      00
+ 621 0082 00000000 		.4byte	0x0
+ 622              		.section	.debug_aranges,"",%progbits
+ 623 0000 24000000 		.4byte	0x24
+ 624 0004 0200     		.2byte	0x2
+ 625 0006 00000000 		.4byte	.Ldebug_info0
+ 626 000a 04       		.byte	0x4
+ 627 000b 00       		.byte	0x0
+ 628 000c 0000     		.2byte	0x0
+ 629 000e 0000     		.2byte	0x0
+ 630 0010 00000000 		.4byte	.LFB29
+ 631 0014 12010000 		.4byte	.LFE29-.LFB29
+ 632 0018 00000000 		.4byte	.LFB30
+ 633 001c 6E000000 		.4byte	.LFE30-.LFB30
+ 634 0020 00000000 		.4byte	0x0
+ 635 0024 00000000 		.4byte	0x0
+ 636              		.section	.debug_ranges,"",%progbits
+ 637              	.Ldebug_ranges0:
+ 638 0000 00000000 		.4byte	.Ltext0
+ 639 0004 00000000 		.4byte	.Letext0
+ 640 0008 00000000 		.4byte	.LFB29
+ 641 000c 12010000 		.4byte	.LFE29
+ 642 0010 00000000 		.4byte	.LFB30
+ 643 0014 6E000000 		.4byte	.LFE30
+ 644 0018 00000000 		.4byte	0x0
+ 645 001c 00000000 		.4byte	0x0
+ 646              		.section	.debug_str,"MS",%progbits,1
+ 647              	.LASF6:
+ 648 0000 6C6F6E67 		.ascii	"long long int\000"
+ 648      206C6F6E 
+ 648      6720696E 
+ 648      7400
+ 649              	.LASF10:
+ 650 000e 75696E74 		.ascii	"uint32\000"
+ 650      333200
+ 651              	.LASF8:
+ 652 0015 756E7369 		.ascii	"unsigned int\000"
+ 652      676E6564 
+ 652      20696E74 
+ 652      00
+ 653              	.LASF17:
+ 654 0022 75617274 		.ascii	"uart_string_index\000"
+ 654      5F737472 
+ 654      696E675F 
+ 654      696E6465 
+ 654      7800
+ 655              	.LASF22:
+ 656 0034 6D61696E 		.ascii	"main\000"
+ 656      00
+ 657              	.LASF21:
+ 658 0039 433A5C55 		.ascii	"C:\\Users\\Branko Kerkez\\Documents\\PSoC Creator\\"
+ 658      73657273 
+ARM GAS  C:\Users\BRANKO~1\AppData\Local\Temp\ccH7eSNO.s 			page 15
+
+
+ 658      5C427261 
+ 658      6E6B6F20 
+ 658      4B65726B 
+ 659 0067 44657369 		.ascii	"Design01\\Design01.cydsn\000"
+ 659      676E3031 
+ 659      5C446573 
+ 659      69676E30 
+ 659      312E6379 
+ 660              	.LASF23:
+ 661 007f 6973725F 		.ascii	"isr_byte_received\000"
+ 661      62797465 
+ 661      5F726563 
+ 661      65697665 
+ 661      6400
+ 662              	.LASF9:
+ 663 0091 75696E74 		.ascii	"uint8\000"
+ 663      3800
+ 664              	.LASF5:
+ 665 0097 6C6F6E67 		.ascii	"long unsigned int\000"
+ 665      20756E73 
+ 665      69676E65 
+ 665      6420696E 
+ 665      7400
+ 666              	.LASF15:
+ 667 00a9 72656365 		.ascii	"received_uart_string\000"
+ 667      69766564 
+ 667      5F756172 
+ 667      745F7374 
+ 667      72696E67 
+ 668              	.LASF7:
+ 669 00be 6C6F6E67 		.ascii	"long long unsigned int\000"
+ 669      206C6F6E 
+ 669      6720756E 
+ 669      7369676E 
+ 669      65642069 
+ 670              	.LASF19:
+ 671 00d5 474E5520 		.ascii	"GNU C 4.4.1\000"
+ 671      4320342E 
+ 671      342E3100 
+ 672              	.LASF1:
+ 673 00e1 756E7369 		.ascii	"unsigned char\000"
+ 673      676E6564 
+ 673      20636861 
+ 673      7200
+ 674              	.LASF13:
+ 675 00ef 63686172 		.ascii	"char\000"
+ 675      00
+ 676              	.LASF14:
+ 677 00f4 49544D5F 		.ascii	"ITM_RxBuffer\000"
+ 677      52784275 
+ 677      66666572 
+ 677      00
+ 678              	.LASF2:
+ 679 0101 73686F72 		.ascii	"short int\000"
+ 679      7420696E 
+ 679      7400
+ 680              	.LASF12:
+ARM GAS  C:\Users\BRANKO~1\AppData\Local\Temp\ccH7eSNO.s 			page 16
+
+
+ 681 010b 646F7562 		.ascii	"double\000"
+ 681      6C6500
+ 682              	.LASF4:
+ 683 0112 6C6F6E67 		.ascii	"long int\000"
+ 683      20696E74 
+ 683      00
+ 684              	.LASF3:
+ 685 011b 73686F72 		.ascii	"short unsigned int\000"
+ 685      7420756E 
+ 685      7369676E 
+ 685      65642069 
+ 685      6E7400
+ 686              	.LASF0:
+ 687 012e 7369676E 		.ascii	"signed char\000"
+ 687      65642063 
+ 687      68617200 
+ 688              	.LASF11:
+ 689 013a 666C6F61 		.ascii	"float\000"
+ 689      7400
+ 690              	.LASF20:
+ 691 0140 2E5C6D61 		.ascii	".\\main.c\000"
+ 691      696E2E63 
+ 691      00
+ 692              	.LASF16:
+ 693 0149 686F6C64 		.ascii	"hold_rx_data\000"
+ 693      5F72785F 
+ 693      64617461 
+ 693      00
+ 694              	.LASF18:
+ 695 0156 706F7765 		.ascii	"powermon_confirm\000"
+ 695      726D6F6E 
+ 695      5F636F6E 
+ 695      6669726D 
+ 695      00
+ 696              		.ident	"GCC: (Sourcery G++ Lite 2010q1-188) 4.4.1"
