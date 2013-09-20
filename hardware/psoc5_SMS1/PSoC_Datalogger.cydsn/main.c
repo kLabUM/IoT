@@ -44,6 +44,8 @@ void main(){
     CyGlobalIntEnable;
     
     // ====
+    modem_power_on();
+    while(1){}
     //ultrasonic_read();
     // ====
     
