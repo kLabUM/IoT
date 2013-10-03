@@ -1,5 +1,5 @@
 /*******************************************************************************
-* File Name: ultrasonic_reading_pin.c  
+* File Name: uart_tx_voltage_pin.c  
 * Version 1.90
 *
 * Description:
@@ -15,15 +15,15 @@
 *******************************************************************************/
 
 #include "cytypes.h"
-#include "ultrasonic_reading_pin.h"
+#include "uart_tx_voltage_pin.h"
 
 /* APIs are not generated for P15[7:6] on PSoC 5 */
 #if !(CY_PSOC5A &&\
-	 ultrasonic_reading_pin__PORT == 15 && ((ultrasonic_reading_pin__MASK & 0xC0) != 0))
+	 uart_tx_voltage_pin__PORT == 15 && ((uart_tx_voltage_pin__MASK & 0xC0) != 0))
 
 
 /*******************************************************************************
-* Function Name: ultrasonic_reading_pin_Write
+* Function Name: uart_tx_voltage_pin_Write
 ********************************************************************************
 *
 * Summary:
@@ -36,15 +36,15 @@
 *  None
 *  
 *******************************************************************************/
-void ultrasonic_reading_pin_Write(uint8 value) 
+void uart_tx_voltage_pin_Write(uint8 value) 
 {
-    uint8 staticBits = (ultrasonic_reading_pin_DR & (uint8)(~ultrasonic_reading_pin_MASK));
-    ultrasonic_reading_pin_DR = staticBits | ((uint8)(value << ultrasonic_reading_pin_SHIFT) & ultrasonic_reading_pin_MASK);
+    uint8 staticBits = (uart_tx_voltage_pin_DR & (uint8)(~uart_tx_voltage_pin_MASK));
+    uart_tx_voltage_pin_DR = staticBits | ((uint8)(value << uart_tx_voltage_pin_SHIFT) & uart_tx_voltage_pin_MASK);
 }
 
 
 /*******************************************************************************
-* Function Name: ultrasonic_reading_pin_SetDriveMode
+* Function Name: uart_tx_voltage_pin_SetDriveMode
 ********************************************************************************
 *
 * Summary:
@@ -57,14 +57,14 @@ void ultrasonic_reading_pin_Write(uint8 value)
 *  None
 *
 *******************************************************************************/
-void ultrasonic_reading_pin_SetDriveMode(uint8 mode) 
+void uart_tx_voltage_pin_SetDriveMode(uint8 mode) 
 {
-	CyPins_SetPinDriveMode(ultrasonic_reading_pin_0, mode);
+	CyPins_SetPinDriveMode(uart_tx_voltage_pin_0, mode);
 }
 
 
 /*******************************************************************************
-* Function Name: ultrasonic_reading_pin_Read
+* Function Name: uart_tx_voltage_pin_Read
 ********************************************************************************
 *
 * Summary:
@@ -78,17 +78,17 @@ void ultrasonic_reading_pin_SetDriveMode(uint8 mode)
 *  Returns the current value of the Digital Port as a right justified number
 *  
 * Note:
-*  Macro ultrasonic_reading_pin_ReadPS calls this function. 
+*  Macro uart_tx_voltage_pin_ReadPS calls this function. 
 *  
 *******************************************************************************/
-uint8 ultrasonic_reading_pin_Read(void) 
+uint8 uart_tx_voltage_pin_Read(void) 
 {
-    return (ultrasonic_reading_pin_PS & ultrasonic_reading_pin_MASK) >> ultrasonic_reading_pin_SHIFT;
+    return (uart_tx_voltage_pin_PS & uart_tx_voltage_pin_MASK) >> uart_tx_voltage_pin_SHIFT;
 }
 
 
 /*******************************************************************************
-* Function Name: ultrasonic_reading_pin_ReadDataReg
+* Function Name: uart_tx_voltage_pin_ReadDataReg
 ********************************************************************************
 *
 * Summary:
@@ -101,17 +101,17 @@ uint8 ultrasonic_reading_pin_Read(void)
 *  Returns the current value assigned to the Digital Port's data output register
 *  
 *******************************************************************************/
-uint8 ultrasonic_reading_pin_ReadDataReg(void) 
+uint8 uart_tx_voltage_pin_ReadDataReg(void) 
 {
-    return (ultrasonic_reading_pin_DR & ultrasonic_reading_pin_MASK) >> ultrasonic_reading_pin_SHIFT;
+    return (uart_tx_voltage_pin_DR & uart_tx_voltage_pin_MASK) >> uart_tx_voltage_pin_SHIFT;
 }
 
 
 /* If Interrupts Are Enabled for this Pins component */ 
-#if defined(ultrasonic_reading_pin_INTSTAT) 
+#if defined(uart_tx_voltage_pin_INTSTAT) 
 
     /*******************************************************************************
-    * Function Name: ultrasonic_reading_pin_ClearInterrupt
+    * Function Name: uart_tx_voltage_pin_ClearInterrupt
     ********************************************************************************
     * Summary:
     *  Clears any active interrupts attached to port and returns the value of the 
@@ -124,9 +124,9 @@ uint8 ultrasonic_reading_pin_ReadDataReg(void)
     *  Returns the value of the interrupt status register
     *  
     *******************************************************************************/
-    uint8 ultrasonic_reading_pin_ClearInterrupt(void) 
+    uint8 uart_tx_voltage_pin_ClearInterrupt(void) 
     {
-        return (ultrasonic_reading_pin_INTSTAT & ultrasonic_reading_pin_MASK) >> ultrasonic_reading_pin_SHIFT;
+        return (uart_tx_voltage_pin_INTSTAT & uart_tx_voltage_pin_MASK) >> uart_tx_voltage_pin_SHIFT;
     }
 
 #endif /* If Interrupts Are Enabled for this Pins component */ 

@@ -1,6 +1,6 @@
 -- ======================================================================
 -- PSoC_Datalogger_SMS.ctl generated from PSoC_Datalogger_SMS
--- 09/17/2013 at 14:05
+-- 09/28/2013 at 16:03
 -- This file is auto generated. ANY EDITS YOU MAKE MAY BE LOST WHEN THIS FILE IS REGENERATED!!!
 -- ======================================================================
 

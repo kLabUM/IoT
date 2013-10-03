@@ -1,5 +1,5 @@
 /*******************************************************************************
-* File Name: ultrasonic_reading_pin.h  
+* File Name: uart_rx_voltage_pin.h  
 * Version 1.90
 *
 * Description:
@@ -14,8 +14,8 @@
 * the software package with which this file was provided.
 *******************************************************************************/
 
-#if !defined(CY_PINS_ultrasonic_reading_pin_ALIASES_H) /* Pins ultrasonic_reading_pin_ALIASES_H */
-#define CY_PINS_ultrasonic_reading_pin_ALIASES_H
+#if !defined(CY_PINS_uart_rx_voltage_pin_ALIASES_H) /* Pins uart_rx_voltage_pin_ALIASES_H */
+#define CY_PINS_uart_rx_voltage_pin_ALIASES_H
 
 #include "cytypes.h"
 #include "cyfitter.h"
@@ -25,8 +25,8 @@
 /***************************************
 *              Constants        
 ***************************************/
-#define ultrasonic_reading_pin_0		ultrasonic_reading_pin__0__PC
+#define uart_rx_voltage_pin_0		uart_rx_voltage_pin__0__PC
 
-#endif /* End Pins ultrasonic_reading_pin_ALIASES_H */
+#endif /* End Pins uart_rx_voltage_pin_ALIASES_H */
 
 /* [] END OF FILE */

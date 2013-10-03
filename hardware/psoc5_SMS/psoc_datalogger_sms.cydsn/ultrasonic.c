@@ -24,8 +24,9 @@ uint8 ultrasonic_read(uint8* ultrasonic_packet, uint8 ultrasonic_packet_size){
     uint8 i, j, r_count, rx_char;
     
     // provide power to start the sensing
-    ultrasonic_voltage_pin_Write(1u); 
+    ultrasonic_voltage_pin_Write(0u); 
     CyDelay(250u);
+    
     // store stream of characters in ultrasonic_uart_received_string
     for(i = 0;i < 128;){    
         rx_char = ultrasonic_uart_GetChar();
@@ -34,6 +35,7 @@ uint8 ultrasonic_read(uint8* ultrasonic_packet, uint8 ultrasonic_packet_size){
             i++;
         }
     }
+    
     // set all elements of ultrasonic_packet to zero
     for(i = 0;i < ultrasonic_packet_size;i++){
         ultrasonic_packet[i] = 0u;
@@ -54,7 +56,7 @@ uint8 ultrasonic_read(uint8* ultrasonic_packet, uint8 ultrasonic_packet_size){
         }
     }
     
-    ultrasonic_voltage_pin_Write(0u); // cut power to stop the sensing
+    ultrasonic_voltage_pin_Write(1u); // cut power to stop the sensing
     return 1u; 
 }
 

@@ -1,16 +1,18 @@
 -- Project:   C:\Users\karunmj\Documents\GitHub\m2m\hardware\psoc5_SMS\PSoC_Datalogger_SMS.cydsn\PSoC_Datalogger_SMS.cyprj
--- Generated: 09/17/2013 14:05:30
+-- Generated: 09/28/2013 16:03:46
 -- 
 
 ENTITY PSoC_Datalogger_SMS IS
     PORT(
+        LED_Blue(0)_PAD : OUT std_ulogic;
         modem_power_pin(0)_PAD : OUT std_ulogic;
         modem_voltage_pin(0)_PAD : OUT std_ulogic;
         uart_rx(0)_PAD : IN std_ulogic;
-        ultrasonic_reading_pin(0)_PAD : OUT std_ulogic;
+        uart_rx_voltage_pin(0)_PAD : OUT std_ulogic;
+        uart_tx(0)_PAD : OUT std_ulogic;
+        uart_tx_voltage_pin(0)_PAD : OUT std_ulogic;
         ultrasonic_uart_rx(0)_PAD : IN std_ulogic;
-        ultrasonic_voltage_pin(0)_PAD : OUT std_ulogic;
-        ultrasonic_voltage_pin_2(0)_PAD : OUT std_ulogic);
+        ultrasonic_voltage_pin(0)_PAD : OUT std_ulogic);
     ATTRIBUTE voltage_Vio1 OF __DEFAULT__ : ENTITY IS 5e0;
     ATTRIBUTE voltage_Vusb OF __DEFAULT__ : ENTITY IS 5e0;
     ATTRIBUTE voltage_Vddd OF __DEFAULT__ : ENTITY IS 5e0;
@@ -34,15 +36,18 @@ ARCHITECTURE __DEFAULT__ OF PSoC_Datalogger_SMS IS
     SIGNAL ClockBlock_PLL_OUT : bit;
     SIGNAL ClockBlock_XTAL : bit;
     SIGNAL ClockBlock_XTAL_32KHZ : bit;
+    SIGNAL LED_Blue(0)__PA : bit;
     SIGNAL MODIN1_0 : bit;
-    ATTRIBUTE placement_force OF MODIN1_0 : SIGNAL IS "U(0,5,B)1";
+    ATTRIBUTE placement_force OF MODIN1_0 : SIGNAL IS "U(1,5,A)1";
     SIGNAL MODIN1_1 : bit;
-    ATTRIBUTE placement_force OF MODIN1_1 : SIGNAL IS "U(0,5,B)2";
+    ATTRIBUTE placement_force OF MODIN1_1 : SIGNAL IS "U(1,4,A)3";
     SIGNAL MODIN4_3 : bit;
     SIGNAL MODIN4_4 : bit;
     SIGNAL MODIN4_5 : bit;
     SIGNAL MODIN4_6 : bit;
     SIGNAL Net_401 : bit;
+    SIGNAL Net_403 : bit;
+    ATTRIBUTE placement_force OF Net_403 : SIGNAL IS "U(0,2,A)2";
     SIGNAL Net_404 : bit;
     SIGNAL Net_575 : bit;
     SIGNAL Net_594 : bit;
@@ -61,75 +66,75 @@ ARCHITECTURE __DEFAULT__ OF PSoC_Datalogger_SMS IS
     SIGNAL \timer:TimerUDB:status_2\ : bit;
     SIGNAL \timer:TimerUDB:status_3\ : bit;
     SIGNAL \timer:TimerUDB:status_tc\ : bit;
-    ATTRIBUTE placement_force OF \timer:TimerUDB:status_tc\ : SIGNAL IS "U(2,1,B)2";
+    ATTRIBUTE placement_force OF \timer:TimerUDB:status_tc\ : SIGNAL IS "U(2,1,A)3";
     SIGNAL \uart:BUART:counter_load_not\ : bit;
-    ATTRIBUTE placement_force OF \uart:BUART:counter_load_not\ : SIGNAL IS "U(1,3,A)1";
+    ATTRIBUTE placement_force OF \uart:BUART:counter_load_not\ : SIGNAL IS "U(1,1,A)1";
     SIGNAL \uart:BUART:rx_address_detected\ : bit;
-    ATTRIBUTE placement_force OF \uart:BUART:rx_address_detected\ : SIGNAL IS "U(1,1,B)1";
+    ATTRIBUTE placement_force OF \uart:BUART:rx_address_detected\ : SIGNAL IS "U(1,2,A)2";
     SIGNAL \uart:BUART:rx_bitclk_enable\ : bit;
-    ATTRIBUTE placement_force OF \uart:BUART:rx_bitclk_enable\ : SIGNAL IS "U(0,5,B)3";
+    ATTRIBUTE placement_force OF \uart:BUART:rx_bitclk_enable\ : SIGNAL IS "U(1,5,A)0";
     SIGNAL \uart:BUART:rx_count7_tc\ : bit;
     SIGNAL \uart:BUART:rx_count_0\ : bit;
     SIGNAL \uart:BUART:rx_count_1\ : bit;
     SIGNAL \uart:BUART:rx_count_2\ : bit;
     SIGNAL \uart:BUART:rx_counter_load\ : bit;
-    ATTRIBUTE placement_force OF \uart:BUART:rx_counter_load\ : SIGNAL IS "U(0,5,A)1";
+    ATTRIBUTE placement_force OF \uart:BUART:rx_counter_load\ : SIGNAL IS "U(1,3,A)1";
     SIGNAL \uart:BUART:rx_fifofull\ : bit;
     SIGNAL \uart:BUART:rx_fifonotempty\ : bit;
     SIGNAL \uart:BUART:rx_last\ : bit;
-    ATTRIBUTE placement_force OF \uart:BUART:rx_last\ : SIGNAL IS "U(0,4,B)1";
+    ATTRIBUTE placement_force OF \uart:BUART:rx_last\ : SIGNAL IS "U(1,4,A)1";
     SIGNAL \uart:BUART:rx_load_fifo\ : bit;
-    ATTRIBUTE placement_force OF \uart:BUART:rx_load_fifo\ : SIGNAL IS "U(0,4,A)1";
+    ATTRIBUTE placement_force OF \uart:BUART:rx_load_fifo\ : SIGNAL IS "U(1,3,B)1";
     SIGNAL \uart:BUART:rx_postpoll\ : bit;
-    ATTRIBUTE placement_force OF \uart:BUART:rx_postpoll\ : SIGNAL IS "U(0,5,A)3";
+    ATTRIBUTE placement_force OF \uart:BUART:rx_postpoll\ : SIGNAL IS "U(1,4,A)2";
     SIGNAL \uart:BUART:rx_state_0\ : bit;
-    ATTRIBUTE placement_force OF \uart:BUART:rx_state_0\ : SIGNAL IS "U(0,5,A)0";
+    ATTRIBUTE placement_force OF \uart:BUART:rx_state_0\ : SIGNAL IS "U(1,3,A)0";
     SIGNAL \uart:BUART:rx_state_2\ : bit;
-    ATTRIBUTE placement_force OF \uart:BUART:rx_state_2\ : SIGNAL IS "U(0,4,A)0";
+    ATTRIBUTE placement_force OF \uart:BUART:rx_state_2\ : SIGNAL IS "U(1,3,B)0";
     SIGNAL \uart:BUART:rx_state_3\ : bit;
-    ATTRIBUTE placement_force OF \uart:BUART:rx_state_3\ : SIGNAL IS "U(0,5,A)2";
+    ATTRIBUTE placement_force OF \uart:BUART:rx_state_3\ : SIGNAL IS "U(1,3,A)2";
     SIGNAL \uart:BUART:rx_state_stop1_reg\ : bit;
-    ATTRIBUTE placement_force OF \uart:BUART:rx_state_stop1_reg\ : SIGNAL IS "U(0,4,A)3";
+    ATTRIBUTE placement_force OF \uart:BUART:rx_state_stop1_reg\ : SIGNAL IS "U(1,3,B)3";
     SIGNAL \uart:BUART:rx_status_3\ : bit;
-    ATTRIBUTE placement_force OF \uart:BUART:rx_status_3\ : SIGNAL IS "U(0,5,B)0";
+    ATTRIBUTE placement_force OF \uart:BUART:rx_status_3\ : SIGNAL IS "U(1,4,A)0";
     SIGNAL \uart:BUART:rx_status_4\ : bit;
-    ATTRIBUTE placement_force OF \uart:BUART:rx_status_4\ : SIGNAL IS "U(0,4,A)2";
+    ATTRIBUTE placement_force OF \uart:BUART:rx_status_4\ : SIGNAL IS "U(1,3,B)2";
     SIGNAL \uart:BUART:rx_status_5\ : bit;
-    ATTRIBUTE placement_force OF \uart:BUART:rx_status_5\ : SIGNAL IS "U(0,3,B)1";
+    ATTRIBUTE placement_force OF \uart:BUART:rx_status_5\ : SIGNAL IS "U(1,2,B)3";
     SIGNAL \uart:BUART:tx_bitclk\ : bit;
-    ATTRIBUTE placement_force OF \uart:BUART:tx_bitclk\ : SIGNAL IS "U(0,3,A)0";
+    ATTRIBUTE placement_force OF \uart:BUART:tx_bitclk\ : SIGNAL IS "U(1,2,A)0";
     SIGNAL \uart:BUART:tx_bitclk_dp\ : bit;
     SIGNAL \uart:BUART:tx_bitclk_enable_pre\ : bit;
-    ATTRIBUTE placement_force OF \uart:BUART:tx_bitclk_enable_pre\ : SIGNAL IS "U(0,3,A)1";
+    ATTRIBUTE placement_force OF \uart:BUART:tx_bitclk_enable_pre\ : SIGNAL IS "U(1,2,B)2";
     SIGNAL \uart:BUART:tx_counter_dp\ : bit;
     SIGNAL \uart:BUART:tx_fifo_empty\ : bit;
     SIGNAL \uart:BUART:tx_fifo_notfull\ : bit;
     SIGNAL \uart:BUART:tx_shift_out\ : bit;
     SIGNAL \uart:BUART:tx_state_0\ : bit;
-    ATTRIBUTE placement_force OF \uart:BUART:tx_state_0\ : SIGNAL IS "U(1,3,A)0";
+    ATTRIBUTE placement_force OF \uart:BUART:tx_state_0\ : SIGNAL IS "U(1,1,B)2";
     SIGNAL \uart:BUART:tx_state_1\ : bit;
-    ATTRIBUTE placement_force OF \uart:BUART:tx_state_1\ : SIGNAL IS "U(1,3,A)2";
+    ATTRIBUTE placement_force OF \uart:BUART:tx_state_1\ : SIGNAL IS "U(0,1,B)0";
     SIGNAL \uart:BUART:tx_state_2\ : bit;
-    ATTRIBUTE placement_force OF \uart:BUART:tx_state_2\ : SIGNAL IS "U(1,4,A)1";
+    ATTRIBUTE placement_force OF \uart:BUART:tx_state_2\ : SIGNAL IS "U(0,1,B)2";
     SIGNAL \uart:BUART:tx_status_0\ : bit;
-    ATTRIBUTE placement_force OF \uart:BUART:tx_status_0\ : SIGNAL IS "U(1,3,B)1";
+    ATTRIBUTE placement_force OF \uart:BUART:tx_status_0\ : SIGNAL IS "U(1,1,B)1";
     SIGNAL \uart:BUART:tx_status_2\ : bit;
-    ATTRIBUTE placement_force OF \uart:BUART:tx_status_2\ : SIGNAL IS "U(1,4,B)3";
+    ATTRIBUTE placement_force OF \uart:BUART:tx_status_2\ : SIGNAL IS "U(1,1,A)3";
     SIGNAL \uart:BUART:txn\ : bit;
-    ATTRIBUTE placement_force OF \uart:BUART:txn\ : SIGNAL IS "U(1,4,A)0";
+    ATTRIBUTE placement_force OF \uart:BUART:txn\ : SIGNAL IS "U(1,1,A)0";
     SIGNAL \uart:Net_9\ : bit;
     ATTRIBUTE global_signal OF \uart:Net_9\ : SIGNAL IS true;
     SIGNAL \uart:Net_9_local\ : bit;
     SIGNAL \ultrasonic_uart:BUART:counter_load_not\ : bit;
-    ATTRIBUTE placement_force OF \ultrasonic_uart:BUART:counter_load_not\ : SIGNAL IS "U(1,2,B)1";
+    ATTRIBUTE placement_force OF \ultrasonic_uart:BUART:counter_load_not\ : SIGNAL IS "U(1,2,A)1";
     SIGNAL \ultrasonic_uart:BUART:pollcount_0\ : bit;
-    ATTRIBUTE placement_force OF \ultrasonic_uart:BUART:pollcount_0\ : SIGNAL IS "U(0,3,B)3";
+    ATTRIBUTE placement_force OF \ultrasonic_uart:BUART:pollcount_0\ : SIGNAL IS "U(0,5,B)2";
     SIGNAL \ultrasonic_uart:BUART:pollcount_1\ : bit;
-    ATTRIBUTE placement_force OF \ultrasonic_uart:BUART:pollcount_1\ : SIGNAL IS "U(0,2,A)1";
+    ATTRIBUTE placement_force OF \ultrasonic_uart:BUART:pollcount_1\ : SIGNAL IS "U(0,5,B)1";
     SIGNAL \ultrasonic_uart:BUART:rx_address_detected\ : bit;
-    ATTRIBUTE placement_force OF \ultrasonic_uart:BUART:rx_address_detected\ : SIGNAL IS "U(0,1,A)3";
+    ATTRIBUTE placement_force OF \ultrasonic_uart:BUART:rx_address_detected\ : SIGNAL IS "U(0,5,A)3";
     SIGNAL \ultrasonic_uart:BUART:rx_bitclk_enable\ : bit;
-    ATTRIBUTE placement_force OF \ultrasonic_uart:BUART:rx_bitclk_enable\ : SIGNAL IS "U(0,2,B)3";
+    ATTRIBUTE placement_force OF \ultrasonic_uart:BUART:rx_bitclk_enable\ : SIGNAL IS "U(1,5,B)0";
     SIGNAL \ultrasonic_uart:BUART:rx_count7_tc\ : bit;
     SIGNAL \ultrasonic_uart:BUART:rx_count_0\ : bit;
     SIGNAL \ultrasonic_uart:BUART:rx_count_1\ : bit;
@@ -139,50 +144,50 @@ ARCHITECTURE __DEFAULT__ OF PSoC_Datalogger_SMS IS
     SIGNAL \ultrasonic_uart:BUART:rx_count_5\ : bit;
     SIGNAL \ultrasonic_uart:BUART:rx_count_6\ : bit;
     SIGNAL \ultrasonic_uart:BUART:rx_counter_load\ : bit;
-    ATTRIBUTE placement_force OF \ultrasonic_uart:BUART:rx_counter_load\ : SIGNAL IS "U(0,1,A)1";
+    ATTRIBUTE placement_force OF \ultrasonic_uart:BUART:rx_counter_load\ : SIGNAL IS "U(0,5,B)3";
     SIGNAL \ultrasonic_uart:BUART:rx_fifofull\ : bit;
     SIGNAL \ultrasonic_uart:BUART:rx_fifonotempty\ : bit;
     SIGNAL \ultrasonic_uart:BUART:rx_last\ : bit;
-    ATTRIBUTE placement_force OF \ultrasonic_uart:BUART:rx_last\ : SIGNAL IS "U(0,3,B)0";
+    ATTRIBUTE placement_force OF \ultrasonic_uart:BUART:rx_last\ : SIGNAL IS "U(0,5,A)2";
     SIGNAL \ultrasonic_uart:BUART:rx_load_fifo\ : bit;
-    ATTRIBUTE placement_force OF \ultrasonic_uart:BUART:rx_load_fifo\ : SIGNAL IS "U(0,1,B)1";
+    ATTRIBUTE placement_force OF \ultrasonic_uart:BUART:rx_load_fifo\ : SIGNAL IS "U(0,4,A)1";
     SIGNAL \ultrasonic_uart:BUART:rx_postpoll\ : bit;
-    ATTRIBUTE placement_force OF \ultrasonic_uart:BUART:rx_postpoll\ : SIGNAL IS "U(0,2,A)2";
+    ATTRIBUTE placement_force OF \ultrasonic_uart:BUART:rx_postpoll\ : SIGNAL IS "U(0,4,B)0";
     SIGNAL \ultrasonic_uart:BUART:rx_state_0\ : bit;
-    ATTRIBUTE placement_force OF \ultrasonic_uart:BUART:rx_state_0\ : SIGNAL IS "U(0,1,A)0";
+    ATTRIBUTE placement_force OF \ultrasonic_uart:BUART:rx_state_0\ : SIGNAL IS "U(0,5,A)0";
     SIGNAL \ultrasonic_uart:BUART:rx_state_2\ : bit;
-    ATTRIBUTE placement_force OF \ultrasonic_uart:BUART:rx_state_2\ : SIGNAL IS "U(0,1,B)0";
+    ATTRIBUTE placement_force OF \ultrasonic_uart:BUART:rx_state_2\ : SIGNAL IS "U(0,5,A)1";
     SIGNAL \ultrasonic_uart:BUART:rx_state_3\ : bit;
-    ATTRIBUTE placement_force OF \ultrasonic_uart:BUART:rx_state_3\ : SIGNAL IS "U(0,1,A)2";
+    ATTRIBUTE placement_force OF \ultrasonic_uart:BUART:rx_state_3\ : SIGNAL IS "U(0,4,A)0";
     SIGNAL \ultrasonic_uart:BUART:rx_state_stop1_reg\ : bit;
-    ATTRIBUTE placement_force OF \ultrasonic_uart:BUART:rx_state_stop1_reg\ : SIGNAL IS "U(0,1,B)3";
+    ATTRIBUTE placement_force OF \ultrasonic_uart:BUART:rx_state_stop1_reg\ : SIGNAL IS "U(0,4,A)3";
     SIGNAL \ultrasonic_uart:BUART:rx_status_3\ : bit;
-    ATTRIBUTE placement_force OF \ultrasonic_uart:BUART:rx_status_3\ : SIGNAL IS "U(0,2,A)0";
+    ATTRIBUTE placement_force OF \ultrasonic_uart:BUART:rx_status_3\ : SIGNAL IS "U(0,5,B)0";
     SIGNAL \ultrasonic_uart:BUART:rx_status_4\ : bit;
-    ATTRIBUTE placement_force OF \ultrasonic_uart:BUART:rx_status_4\ : SIGNAL IS "U(0,1,B)2";
+    ATTRIBUTE placement_force OF \ultrasonic_uart:BUART:rx_status_4\ : SIGNAL IS "U(0,4,A)2";
     SIGNAL \ultrasonic_uart:BUART:rx_status_5\ : bit;
-    ATTRIBUTE placement_force OF \ultrasonic_uart:BUART:rx_status_5\ : SIGNAL IS "U(0,2,A)3";
+    ATTRIBUTE placement_force OF \ultrasonic_uart:BUART:rx_status_5\ : SIGNAL IS "U(0,4,B)2";
     SIGNAL \ultrasonic_uart:BUART:tx_bitclk\ : bit;
-    ATTRIBUTE placement_force OF \ultrasonic_uart:BUART:tx_bitclk\ : SIGNAL IS "U(1,2,A)1";
+    ATTRIBUTE placement_force OF \ultrasonic_uart:BUART:tx_bitclk\ : SIGNAL IS "U(0,2,A)1";
     SIGNAL \ultrasonic_uart:BUART:tx_bitclk_dp\ : bit;
     SIGNAL \ultrasonic_uart:BUART:tx_bitclk_enable_pre\ : bit;
-    ATTRIBUTE placement_force OF \ultrasonic_uart:BUART:tx_bitclk_enable_pre\ : SIGNAL IS "U(1,2,A)2";
+    ATTRIBUTE placement_force OF \ultrasonic_uart:BUART:tx_bitclk_enable_pre\ : SIGNAL IS "U(0,2,B)3";
     SIGNAL \ultrasonic_uart:BUART:tx_counter_dp\ : bit;
     SIGNAL \ultrasonic_uart:BUART:tx_fifo_empty\ : bit;
     SIGNAL \ultrasonic_uart:BUART:tx_fifo_notfull\ : bit;
     SIGNAL \ultrasonic_uart:BUART:tx_shift_out\ : bit;
     SIGNAL \ultrasonic_uart:BUART:tx_state_0\ : bit;
-    ATTRIBUTE placement_force OF \ultrasonic_uart:BUART:tx_state_0\ : SIGNAL IS "U(1,3,B)0";
+    ATTRIBUTE placement_force OF \ultrasonic_uart:BUART:tx_state_0\ : SIGNAL IS "U(0,2,B)1";
     SIGNAL \ultrasonic_uart:BUART:tx_state_1\ : bit;
-    ATTRIBUTE placement_force OF \ultrasonic_uart:BUART:tx_state_1\ : SIGNAL IS "U(1,2,A)0";
+    ATTRIBUTE placement_force OF \ultrasonic_uart:BUART:tx_state_1\ : SIGNAL IS "U(0,1,A)1";
     SIGNAL \ultrasonic_uart:BUART:tx_state_2\ : bit;
-    ATTRIBUTE placement_force OF \ultrasonic_uart:BUART:tx_state_2\ : SIGNAL IS "U(1,5,A)1";
+    ATTRIBUTE placement_force OF \ultrasonic_uart:BUART:tx_state_2\ : SIGNAL IS "U(1,2,B)0";
     SIGNAL \ultrasonic_uart:BUART:tx_status_0\ : bit;
-    ATTRIBUTE placement_force OF \ultrasonic_uart:BUART:tx_status_0\ : SIGNAL IS "U(1,3,B)2";
+    ATTRIBUTE placement_force OF \ultrasonic_uart:BUART:tx_status_0\ : SIGNAL IS "U(0,1,A)3";
     SIGNAL \ultrasonic_uart:BUART:tx_status_2\ : bit;
-    ATTRIBUTE placement_force OF \ultrasonic_uart:BUART:tx_status_2\ : SIGNAL IS "U(0,3,A)3";
+    ATTRIBUTE placement_force OF \ultrasonic_uart:BUART:tx_status_2\ : SIGNAL IS "U(0,1,B)1";
     SIGNAL \ultrasonic_uart:BUART:txn\ : bit;
-    ATTRIBUTE placement_force OF \ultrasonic_uart:BUART:txn\ : SIGNAL IS "U(1,5,A)0";
+    ATTRIBUTE placement_force OF \ultrasonic_uart:BUART:txn\ : SIGNAL IS "U(0,2,A)0";
     SIGNAL \ultrasonic_uart:Net_9\ : bit;
     ATTRIBUTE global_signal OF \ultrasonic_uart:Net_9\ : SIGNAL IS true;
     SIGNAL \ultrasonic_uart:Net_9_local\ : bit;
@@ -195,10 +200,11 @@ ARCHITECTURE __DEFAULT__ OF PSoC_Datalogger_SMS IS
     SIGNAL tmpOE__modem_power_pin_net_0 : bit;
     ATTRIBUTE POWER OF tmpOE__modem_power_pin_net_0 : SIGNAL IS true;
     SIGNAL uart_rx(0)__PA : bit;
-    SIGNAL ultrasonic_reading_pin(0)__PA : bit;
+    SIGNAL uart_rx_voltage_pin(0)__PA : bit;
+    SIGNAL uart_tx(0)__PA : bit;
+    SIGNAL uart_tx_voltage_pin(0)__PA : bit;
     SIGNAL ultrasonic_uart_rx(0)__PA : bit;
     SIGNAL ultrasonic_voltage_pin(0)__PA : bit;
-    SIGNAL ultrasonic_voltage_pin_2(0)__PA : bit;
     SIGNAL zero : bit;
     ATTRIBUTE GROUND OF zero : SIGNAL IS true;
     SIGNAL \timer:TimerUDB:sT32:timerdp:u0.ce0__sig\ : bit;
@@ -239,10 +245,14 @@ ARCHITECTURE __DEFAULT__ OF PSoC_Datalogger_SMS IS
     SIGNAL \timer:TimerUDB:sT32:timerdp:u3.sor__sig\ : bit;
     SIGNAL \timer:TimerUDB:sT32:timerdp:u3.cmsbo__sig\ : bit;
     ATTRIBUTE Location OF ClockBlock : LABEL IS "F(Clock,0)";
+    ATTRIBUTE lib_model OF LED_Blue(0) : LABEL IS "iocell1";
+    ATTRIBUTE Location OF LED_Blue(0) : LABEL IS "P5[7]";
     ATTRIBUTE lib_model OF MODIN1_0 : LABEL IS "macrocell1";
-    ATTRIBUTE Location OF MODIN1_0 : LABEL IS "U(0,5)";
+    ATTRIBUTE Location OF MODIN1_0 : LABEL IS "U(1,5)";
     ATTRIBUTE lib_model OF MODIN1_1 : LABEL IS "macrocell2";
-    ATTRIBUTE Location OF MODIN1_1 : LABEL IS "U(0,5)";
+    ATTRIBUTE Location OF MODIN1_1 : LABEL IS "U(1,4)";
+    ATTRIBUTE lib_model OF Net_403 : LABEL IS "macrocell3";
+    ATTRIBUTE Location OF Net_403 : LABEL IS "U(0,2)";
     ATTRIBUTE Location OF PM : LABEL IS "F(PM,0)";
     ATTRIBUTE lib_model OF \timer:TimerUDB:nrstSts:stsreg\ : LABEL IS "statusicell1";
     ATTRIBUTE Location OF \timer:TimerUDB:nrstSts:stsreg\ : LABEL IS "U(2,1)";
@@ -256,140 +266,142 @@ ARCHITECTURE __DEFAULT__ OF PSoC_Datalogger_SMS IS
     ATTRIBUTE Location OF \timer:TimerUDB:sT32:timerdp:u2\ : LABEL IS "U(3,1)";
     ATTRIBUTE lib_model OF \timer:TimerUDB:sT32:timerdp:u3\ : LABEL IS "datapathcell4";
     ATTRIBUTE Location OF \timer:TimerUDB:sT32:timerdp:u3\ : LABEL IS "U(2,1)";
-    ATTRIBUTE lib_model OF \timer:TimerUDB:status_tc\ : LABEL IS "macrocell3";
+    ATTRIBUTE lib_model OF \timer:TimerUDB:status_tc\ : LABEL IS "macrocell4";
     ATTRIBUTE Location OF \timer:TimerUDB:status_tc\ : LABEL IS "U(2,1)";
-    ATTRIBUTE lib_model OF \uart:BUART:counter_load_not\ : LABEL IS "macrocell4";
-    ATTRIBUTE Location OF \uart:BUART:counter_load_not\ : LABEL IS "U(1,3)";
-    ATTRIBUTE lib_model OF \uart:BUART:rx_address_detected\ : LABEL IS "macrocell5";
-    ATTRIBUTE Location OF \uart:BUART:rx_address_detected\ : LABEL IS "U(1,1)";
-    ATTRIBUTE lib_model OF \uart:BUART:rx_bitclk_enable\ : LABEL IS "macrocell6";
-    ATTRIBUTE Location OF \uart:BUART:rx_bitclk_enable\ : LABEL IS "U(0,5)";
-    ATTRIBUTE lib_model OF \uart:BUART:rx_counter_load\ : LABEL IS "macrocell7";
-    ATTRIBUTE Location OF \uart:BUART:rx_counter_load\ : LABEL IS "U(0,5)";
-    ATTRIBUTE lib_model OF \uart:BUART:rx_last\ : LABEL IS "macrocell8";
-    ATTRIBUTE Location OF \uart:BUART:rx_last\ : LABEL IS "U(0,4)";
-    ATTRIBUTE lib_model OF \uart:BUART:rx_load_fifo\ : LABEL IS "macrocell9";
-    ATTRIBUTE Location OF \uart:BUART:rx_load_fifo\ : LABEL IS "U(0,4)";
-    ATTRIBUTE lib_model OF \uart:BUART:rx_postpoll\ : LABEL IS "macrocell10";
-    ATTRIBUTE Location OF \uart:BUART:rx_postpoll\ : LABEL IS "U(0,5)";
-    ATTRIBUTE lib_model OF \uart:BUART:rx_state_0\ : LABEL IS "macrocell11";
-    ATTRIBUTE Location OF \uart:BUART:rx_state_0\ : LABEL IS "U(0,5)";
-    ATTRIBUTE lib_model OF \uart:BUART:rx_state_2\ : LABEL IS "macrocell12";
-    ATTRIBUTE Location OF \uart:BUART:rx_state_2\ : LABEL IS "U(0,4)";
-    ATTRIBUTE lib_model OF \uart:BUART:rx_state_3\ : LABEL IS "macrocell13";
-    ATTRIBUTE Location OF \uart:BUART:rx_state_3\ : LABEL IS "U(0,5)";
-    ATTRIBUTE lib_model OF \uart:BUART:rx_state_stop1_reg\ : LABEL IS "macrocell14";
-    ATTRIBUTE Location OF \uart:BUART:rx_state_stop1_reg\ : LABEL IS "U(0,4)";
-    ATTRIBUTE lib_model OF \uart:BUART:rx_status_3\ : LABEL IS "macrocell15";
-    ATTRIBUTE Location OF \uart:BUART:rx_status_3\ : LABEL IS "U(0,5)";
-    ATTRIBUTE lib_model OF \uart:BUART:rx_status_4\ : LABEL IS "macrocell16";
-    ATTRIBUTE Location OF \uart:BUART:rx_status_4\ : LABEL IS "U(0,4)";
-    ATTRIBUTE lib_model OF \uart:BUART:rx_status_5\ : LABEL IS "macrocell17";
-    ATTRIBUTE Location OF \uart:BUART:rx_status_5\ : LABEL IS "U(0,3)";
-    ATTRIBUTE Location OF \uart:BUART:sRX:RxBitCounter\ : LABEL IS "U(0,5)";
+    ATTRIBUTE lib_model OF \uart:BUART:counter_load_not\ : LABEL IS "macrocell5";
+    ATTRIBUTE Location OF \uart:BUART:counter_load_not\ : LABEL IS "U(1,1)";
+    ATTRIBUTE lib_model OF \uart:BUART:rx_address_detected\ : LABEL IS "macrocell6";
+    ATTRIBUTE Location OF \uart:BUART:rx_address_detected\ : LABEL IS "U(1,2)";
+    ATTRIBUTE lib_model OF \uart:BUART:rx_bitclk_enable\ : LABEL IS "macrocell7";
+    ATTRIBUTE Location OF \uart:BUART:rx_bitclk_enable\ : LABEL IS "U(1,5)";
+    ATTRIBUTE lib_model OF \uart:BUART:rx_counter_load\ : LABEL IS "macrocell8";
+    ATTRIBUTE Location OF \uart:BUART:rx_counter_load\ : LABEL IS "U(1,3)";
+    ATTRIBUTE lib_model OF \uart:BUART:rx_last\ : LABEL IS "macrocell9";
+    ATTRIBUTE Location OF \uart:BUART:rx_last\ : LABEL IS "U(1,4)";
+    ATTRIBUTE lib_model OF \uart:BUART:rx_load_fifo\ : LABEL IS "macrocell10";
+    ATTRIBUTE Location OF \uart:BUART:rx_load_fifo\ : LABEL IS "U(1,3)";
+    ATTRIBUTE lib_model OF \uart:BUART:rx_postpoll\ : LABEL IS "macrocell11";
+    ATTRIBUTE Location OF \uart:BUART:rx_postpoll\ : LABEL IS "U(1,4)";
+    ATTRIBUTE lib_model OF \uart:BUART:rx_state_0\ : LABEL IS "macrocell12";
+    ATTRIBUTE Location OF \uart:BUART:rx_state_0\ : LABEL IS "U(1,3)";
+    ATTRIBUTE lib_model OF \uart:BUART:rx_state_2\ : LABEL IS "macrocell13";
+    ATTRIBUTE Location OF \uart:BUART:rx_state_2\ : LABEL IS "U(1,3)";
+    ATTRIBUTE lib_model OF \uart:BUART:rx_state_3\ : LABEL IS "macrocell14";
+    ATTRIBUTE Location OF \uart:BUART:rx_state_3\ : LABEL IS "U(1,3)";
+    ATTRIBUTE lib_model OF \uart:BUART:rx_state_stop1_reg\ : LABEL IS "macrocell15";
+    ATTRIBUTE Location OF \uart:BUART:rx_state_stop1_reg\ : LABEL IS "U(1,3)";
+    ATTRIBUTE lib_model OF \uart:BUART:rx_status_3\ : LABEL IS "macrocell16";
+    ATTRIBUTE Location OF \uart:BUART:rx_status_3\ : LABEL IS "U(1,4)";
+    ATTRIBUTE lib_model OF \uart:BUART:rx_status_4\ : LABEL IS "macrocell17";
+    ATTRIBUTE Location OF \uart:BUART:rx_status_4\ : LABEL IS "U(1,3)";
+    ATTRIBUTE lib_model OF \uart:BUART:rx_status_5\ : LABEL IS "macrocell18";
+    ATTRIBUTE Location OF \uart:BUART:rx_status_5\ : LABEL IS "U(1,2)";
+    ATTRIBUTE Location OF \uart:BUART:sRX:RxBitCounter\ : LABEL IS "U(1,3)";
     ATTRIBUTE lib_model OF \uart:BUART:sRX:RxShifter:u0\ : LABEL IS "datapathcell5";
-    ATTRIBUTE Location OF \uart:BUART:sRX:RxShifter:u0\ : LABEL IS "U(0,4)";
+    ATTRIBUTE Location OF \uart:BUART:sRX:RxShifter:u0\ : LABEL IS "U(1,3)";
     ATTRIBUTE lib_model OF \uart:BUART:sRX:RxSts\ : LABEL IS "statusicell2";
-    ATTRIBUTE Location OF \uart:BUART:sRX:RxSts\ : LABEL IS "U(0,4)";
+    ATTRIBUTE Location OF \uart:BUART:sRX:RxSts\ : LABEL IS "U(1,4)";
     ATTRIBUTE lib_model OF \uart:BUART:sTX:TxShifter:u0\ : LABEL IS "datapathcell6";
-    ATTRIBUTE Location OF \uart:BUART:sTX:TxShifter:u0\ : LABEL IS "U(1,4)";
+    ATTRIBUTE Location OF \uart:BUART:sTX:TxShifter:u0\ : LABEL IS "U(1,1)";
     ATTRIBUTE lib_model OF \uart:BUART:sTX:TxSts\ : LABEL IS "statusicell3";
-    ATTRIBUTE Location OF \uart:BUART:sTX:TxSts\ : LABEL IS "U(1,4)";
+    ATTRIBUTE Location OF \uart:BUART:sTX:TxSts\ : LABEL IS "U(1,1)";
     ATTRIBUTE lib_model OF \uart:BUART:sTX:sCLOCK:TxBitClkGen\ : LABEL IS "datapathcell7";
-    ATTRIBUTE Location OF \uart:BUART:sTX:sCLOCK:TxBitClkGen\ : LABEL IS "U(0,3)";
-    ATTRIBUTE lib_model OF \uart:BUART:tx_bitclk\ : LABEL IS "macrocell18";
-    ATTRIBUTE Location OF \uart:BUART:tx_bitclk\ : LABEL IS "U(0,3)";
-    ATTRIBUTE lib_model OF \uart:BUART:tx_bitclk_enable_pre\ : LABEL IS "macrocell19";
-    ATTRIBUTE Location OF \uart:BUART:tx_bitclk_enable_pre\ : LABEL IS "U(0,3)";
-    ATTRIBUTE lib_model OF \uart:BUART:tx_state_0\ : LABEL IS "macrocell20";
-    ATTRIBUTE Location OF \uart:BUART:tx_state_0\ : LABEL IS "U(1,3)";
-    ATTRIBUTE lib_model OF \uart:BUART:tx_state_1\ : LABEL IS "macrocell21";
-    ATTRIBUTE Location OF \uart:BUART:tx_state_1\ : LABEL IS "U(1,3)";
-    ATTRIBUTE lib_model OF \uart:BUART:tx_state_2\ : LABEL IS "macrocell22";
-    ATTRIBUTE Location OF \uart:BUART:tx_state_2\ : LABEL IS "U(1,4)";
-    ATTRIBUTE lib_model OF \uart:BUART:tx_status_0\ : LABEL IS "macrocell23";
-    ATTRIBUTE Location OF \uart:BUART:tx_status_0\ : LABEL IS "U(1,3)";
-    ATTRIBUTE lib_model OF \uart:BUART:tx_status_2\ : LABEL IS "macrocell24";
-    ATTRIBUTE Location OF \uart:BUART:tx_status_2\ : LABEL IS "U(1,4)";
-    ATTRIBUTE lib_model OF \uart:BUART:txn\ : LABEL IS "macrocell25";
-    ATTRIBUTE Location OF \uart:BUART:txn\ : LABEL IS "U(1,4)";
-    ATTRIBUTE lib_model OF \ultrasonic_uart:BUART:counter_load_not\ : LABEL IS "macrocell26";
+    ATTRIBUTE Location OF \uart:BUART:sTX:sCLOCK:TxBitClkGen\ : LABEL IS "U(1,2)";
+    ATTRIBUTE lib_model OF \uart:BUART:tx_bitclk\ : LABEL IS "macrocell19";
+    ATTRIBUTE Location OF \uart:BUART:tx_bitclk\ : LABEL IS "U(1,2)";
+    ATTRIBUTE lib_model OF \uart:BUART:tx_bitclk_enable_pre\ : LABEL IS "macrocell20";
+    ATTRIBUTE Location OF \uart:BUART:tx_bitclk_enable_pre\ : LABEL IS "U(1,2)";
+    ATTRIBUTE lib_model OF \uart:BUART:tx_state_0\ : LABEL IS "macrocell21";
+    ATTRIBUTE Location OF \uart:BUART:tx_state_0\ : LABEL IS "U(1,1)";
+    ATTRIBUTE lib_model OF \uart:BUART:tx_state_1\ : LABEL IS "macrocell22";
+    ATTRIBUTE Location OF \uart:BUART:tx_state_1\ : LABEL IS "U(0,1)";
+    ATTRIBUTE lib_model OF \uart:BUART:tx_state_2\ : LABEL IS "macrocell23";
+    ATTRIBUTE Location OF \uart:BUART:tx_state_2\ : LABEL IS "U(0,1)";
+    ATTRIBUTE lib_model OF \uart:BUART:tx_status_0\ : LABEL IS "macrocell24";
+    ATTRIBUTE Location OF \uart:BUART:tx_status_0\ : LABEL IS "U(1,1)";
+    ATTRIBUTE lib_model OF \uart:BUART:tx_status_2\ : LABEL IS "macrocell25";
+    ATTRIBUTE Location OF \uart:BUART:tx_status_2\ : LABEL IS "U(1,1)";
+    ATTRIBUTE lib_model OF \uart:BUART:txn\ : LABEL IS "macrocell26";
+    ATTRIBUTE Location OF \uart:BUART:txn\ : LABEL IS "U(1,1)";
+    ATTRIBUTE lib_model OF \ultrasonic_uart:BUART:counter_load_not\ : LABEL IS "macrocell27";
     ATTRIBUTE Location OF \ultrasonic_uart:BUART:counter_load_not\ : LABEL IS "U(1,2)";
-    ATTRIBUTE lib_model OF \ultrasonic_uart:BUART:pollcount_0\ : LABEL IS "macrocell27";
-    ATTRIBUTE Location OF \ultrasonic_uart:BUART:pollcount_0\ : LABEL IS "U(0,3)";
-    ATTRIBUTE lib_model OF \ultrasonic_uart:BUART:pollcount_1\ : LABEL IS "macrocell28";
-    ATTRIBUTE Location OF \ultrasonic_uart:BUART:pollcount_1\ : LABEL IS "U(0,2)";
-    ATTRIBUTE lib_model OF \ultrasonic_uart:BUART:rx_address_detected\ : LABEL IS "macrocell29";
-    ATTRIBUTE Location OF \ultrasonic_uart:BUART:rx_address_detected\ : LABEL IS "U(0,1)";
-    ATTRIBUTE lib_model OF \ultrasonic_uart:BUART:rx_bitclk_enable\ : LABEL IS "macrocell30";
-    ATTRIBUTE Location OF \ultrasonic_uart:BUART:rx_bitclk_enable\ : LABEL IS "U(0,2)";
-    ATTRIBUTE lib_model OF \ultrasonic_uart:BUART:rx_counter_load\ : LABEL IS "macrocell31";
-    ATTRIBUTE Location OF \ultrasonic_uart:BUART:rx_counter_load\ : LABEL IS "U(0,1)";
-    ATTRIBUTE lib_model OF \ultrasonic_uart:BUART:rx_last\ : LABEL IS "macrocell32";
-    ATTRIBUTE Location OF \ultrasonic_uart:BUART:rx_last\ : LABEL IS "U(0,3)";
-    ATTRIBUTE lib_model OF \ultrasonic_uart:BUART:rx_load_fifo\ : LABEL IS "macrocell33";
-    ATTRIBUTE Location OF \ultrasonic_uart:BUART:rx_load_fifo\ : LABEL IS "U(0,1)";
-    ATTRIBUTE lib_model OF \ultrasonic_uart:BUART:rx_postpoll\ : LABEL IS "macrocell34";
-    ATTRIBUTE Location OF \ultrasonic_uart:BUART:rx_postpoll\ : LABEL IS "U(0,2)";
-    ATTRIBUTE lib_model OF \ultrasonic_uart:BUART:rx_state_0\ : LABEL IS "macrocell35";
-    ATTRIBUTE Location OF \ultrasonic_uart:BUART:rx_state_0\ : LABEL IS "U(0,1)";
-    ATTRIBUTE lib_model OF \ultrasonic_uart:BUART:rx_state_2\ : LABEL IS "macrocell36";
-    ATTRIBUTE Location OF \ultrasonic_uart:BUART:rx_state_2\ : LABEL IS "U(0,1)";
-    ATTRIBUTE lib_model OF \ultrasonic_uart:BUART:rx_state_3\ : LABEL IS "macrocell37";
-    ATTRIBUTE Location OF \ultrasonic_uart:BUART:rx_state_3\ : LABEL IS "U(0,1)";
-    ATTRIBUTE lib_model OF \ultrasonic_uart:BUART:rx_state_stop1_reg\ : LABEL IS "macrocell38";
-    ATTRIBUTE Location OF \ultrasonic_uart:BUART:rx_state_stop1_reg\ : LABEL IS "U(0,1)";
-    ATTRIBUTE lib_model OF \ultrasonic_uart:BUART:rx_status_3\ : LABEL IS "macrocell39";
-    ATTRIBUTE Location OF \ultrasonic_uart:BUART:rx_status_3\ : LABEL IS "U(0,2)";
-    ATTRIBUTE lib_model OF \ultrasonic_uart:BUART:rx_status_4\ : LABEL IS "macrocell40";
-    ATTRIBUTE Location OF \ultrasonic_uart:BUART:rx_status_4\ : LABEL IS "U(0,1)";
-    ATTRIBUTE lib_model OF \ultrasonic_uart:BUART:rx_status_5\ : LABEL IS "macrocell41";
-    ATTRIBUTE Location OF \ultrasonic_uart:BUART:rx_status_5\ : LABEL IS "U(0,2)";
-    ATTRIBUTE Location OF \ultrasonic_uart:BUART:sRX:RxBitCounter\ : LABEL IS "U(0,1)";
+    ATTRIBUTE lib_model OF \ultrasonic_uart:BUART:pollcount_0\ : LABEL IS "macrocell28";
+    ATTRIBUTE Location OF \ultrasonic_uart:BUART:pollcount_0\ : LABEL IS "U(0,5)";
+    ATTRIBUTE lib_model OF \ultrasonic_uart:BUART:pollcount_1\ : LABEL IS "macrocell29";
+    ATTRIBUTE Location OF \ultrasonic_uart:BUART:pollcount_1\ : LABEL IS "U(0,5)";
+    ATTRIBUTE lib_model OF \ultrasonic_uart:BUART:rx_address_detected\ : LABEL IS "macrocell30";
+    ATTRIBUTE Location OF \ultrasonic_uart:BUART:rx_address_detected\ : LABEL IS "U(0,5)";
+    ATTRIBUTE lib_model OF \ultrasonic_uart:BUART:rx_bitclk_enable\ : LABEL IS "macrocell31";
+    ATTRIBUTE Location OF \ultrasonic_uart:BUART:rx_bitclk_enable\ : LABEL IS "U(1,5)";
+    ATTRIBUTE lib_model OF \ultrasonic_uart:BUART:rx_counter_load\ : LABEL IS "macrocell32";
+    ATTRIBUTE Location OF \ultrasonic_uart:BUART:rx_counter_load\ : LABEL IS "U(0,5)";
+    ATTRIBUTE lib_model OF \ultrasonic_uart:BUART:rx_last\ : LABEL IS "macrocell33";
+    ATTRIBUTE Location OF \ultrasonic_uart:BUART:rx_last\ : LABEL IS "U(0,5)";
+    ATTRIBUTE lib_model OF \ultrasonic_uart:BUART:rx_load_fifo\ : LABEL IS "macrocell34";
+    ATTRIBUTE Location OF \ultrasonic_uart:BUART:rx_load_fifo\ : LABEL IS "U(0,4)";
+    ATTRIBUTE lib_model OF \ultrasonic_uart:BUART:rx_postpoll\ : LABEL IS "macrocell35";
+    ATTRIBUTE Location OF \ultrasonic_uart:BUART:rx_postpoll\ : LABEL IS "U(0,4)";
+    ATTRIBUTE lib_model OF \ultrasonic_uart:BUART:rx_state_0\ : LABEL IS "macrocell36";
+    ATTRIBUTE Location OF \ultrasonic_uart:BUART:rx_state_0\ : LABEL IS "U(0,5)";
+    ATTRIBUTE lib_model OF \ultrasonic_uart:BUART:rx_state_2\ : LABEL IS "macrocell37";
+    ATTRIBUTE Location OF \ultrasonic_uart:BUART:rx_state_2\ : LABEL IS "U(0,5)";
+    ATTRIBUTE lib_model OF \ultrasonic_uart:BUART:rx_state_3\ : LABEL IS "macrocell38";
+    ATTRIBUTE Location OF \ultrasonic_uart:BUART:rx_state_3\ : LABEL IS "U(0,4)";
+    ATTRIBUTE lib_model OF \ultrasonic_uart:BUART:rx_state_stop1_reg\ : LABEL IS "macrocell39";
+    ATTRIBUTE Location OF \ultrasonic_uart:BUART:rx_state_stop1_reg\ : LABEL IS "U(0,4)";
+    ATTRIBUTE lib_model OF \ultrasonic_uart:BUART:rx_status_3\ : LABEL IS "macrocell40";
+    ATTRIBUTE Location OF \ultrasonic_uart:BUART:rx_status_3\ : LABEL IS "U(0,5)";
+    ATTRIBUTE lib_model OF \ultrasonic_uart:BUART:rx_status_4\ : LABEL IS "macrocell41";
+    ATTRIBUTE Location OF \ultrasonic_uart:BUART:rx_status_4\ : LABEL IS "U(0,4)";
+    ATTRIBUTE lib_model OF \ultrasonic_uart:BUART:rx_status_5\ : LABEL IS "macrocell42";
+    ATTRIBUTE Location OF \ultrasonic_uart:BUART:rx_status_5\ : LABEL IS "U(0,4)";
+    ATTRIBUTE Location OF \ultrasonic_uart:BUART:sRX:RxBitCounter\ : LABEL IS "U(0,5)";
     ATTRIBUTE lib_model OF \ultrasonic_uart:BUART:sRX:RxShifter:u0\ : LABEL IS "datapathcell8";
-    ATTRIBUTE Location OF \ultrasonic_uart:BUART:sRX:RxShifter:u0\ : LABEL IS "U(0,2)";
+    ATTRIBUTE Location OF \ultrasonic_uart:BUART:sRX:RxShifter:u0\ : LABEL IS "U(0,4)";
     ATTRIBUTE lib_model OF \ultrasonic_uart:BUART:sRX:RxSts\ : LABEL IS "statusicell4";
-    ATTRIBUTE Location OF \ultrasonic_uart:BUART:sRX:RxSts\ : LABEL IS "U(1,2)";
+    ATTRIBUTE Location OF \ultrasonic_uart:BUART:sRX:RxSts\ : LABEL IS "U(0,4)";
     ATTRIBUTE lib_model OF \ultrasonic_uart:BUART:sTX:TxShifter:u0\ : LABEL IS "datapathcell9";
-    ATTRIBUTE Location OF \ultrasonic_uart:BUART:sTX:TxShifter:u0\ : LABEL IS "U(1,3)";
+    ATTRIBUTE Location OF \ultrasonic_uart:BUART:sTX:TxShifter:u0\ : LABEL IS "U(0,2)";
     ATTRIBUTE lib_model OF \ultrasonic_uart:BUART:sTX:TxSts\ : LABEL IS "statusicell5";
-    ATTRIBUTE Location OF \ultrasonic_uart:BUART:sTX:TxSts\ : LABEL IS "U(1,3)";
+    ATTRIBUTE Location OF \ultrasonic_uart:BUART:sTX:TxSts\ : LABEL IS "U(0,1)";
     ATTRIBUTE lib_model OF \ultrasonic_uart:BUART:sTX:sCLOCK:TxBitClkGen\ : LABEL IS "datapathcell10";
-    ATTRIBUTE Location OF \ultrasonic_uart:BUART:sTX:sCLOCK:TxBitClkGen\ : LABEL IS "U(1,2)";
-    ATTRIBUTE lib_model OF \ultrasonic_uart:BUART:tx_bitclk\ : LABEL IS "macrocell42";
-    ATTRIBUTE Location OF \ultrasonic_uart:BUART:tx_bitclk\ : LABEL IS "U(1,2)";
-    ATTRIBUTE lib_model OF \ultrasonic_uart:BUART:tx_bitclk_enable_pre\ : LABEL IS "macrocell43";
-    ATTRIBUTE Location OF \ultrasonic_uart:BUART:tx_bitclk_enable_pre\ : LABEL IS "U(1,2)";
-    ATTRIBUTE lib_model OF \ultrasonic_uart:BUART:tx_state_0\ : LABEL IS "macrocell44";
-    ATTRIBUTE Location OF \ultrasonic_uart:BUART:tx_state_0\ : LABEL IS "U(1,3)";
-    ATTRIBUTE lib_model OF \ultrasonic_uart:BUART:tx_state_1\ : LABEL IS "macrocell45";
-    ATTRIBUTE Location OF \ultrasonic_uart:BUART:tx_state_1\ : LABEL IS "U(1,2)";
-    ATTRIBUTE lib_model OF \ultrasonic_uart:BUART:tx_state_2\ : LABEL IS "macrocell46";
-    ATTRIBUTE Location OF \ultrasonic_uart:BUART:tx_state_2\ : LABEL IS "U(1,5)";
-    ATTRIBUTE lib_model OF \ultrasonic_uart:BUART:tx_status_0\ : LABEL IS "macrocell47";
-    ATTRIBUTE Location OF \ultrasonic_uart:BUART:tx_status_0\ : LABEL IS "U(1,3)";
-    ATTRIBUTE lib_model OF \ultrasonic_uart:BUART:tx_status_2\ : LABEL IS "macrocell48";
-    ATTRIBUTE Location OF \ultrasonic_uart:BUART:tx_status_2\ : LABEL IS "U(0,3)";
-    ATTRIBUTE lib_model OF \ultrasonic_uart:BUART:txn\ : LABEL IS "macrocell49";
-    ATTRIBUTE Location OF \ultrasonic_uart:BUART:txn\ : LABEL IS "U(1,5)";
+    ATTRIBUTE Location OF \ultrasonic_uart:BUART:sTX:sCLOCK:TxBitClkGen\ : LABEL IS "U(0,3)";
+    ATTRIBUTE lib_model OF \ultrasonic_uart:BUART:tx_bitclk\ : LABEL IS "macrocell43";
+    ATTRIBUTE Location OF \ultrasonic_uart:BUART:tx_bitclk\ : LABEL IS "U(0,2)";
+    ATTRIBUTE lib_model OF \ultrasonic_uart:BUART:tx_bitclk_enable_pre\ : LABEL IS "macrocell44";
+    ATTRIBUTE Location OF \ultrasonic_uart:BUART:tx_bitclk_enable_pre\ : LABEL IS "U(0,2)";
+    ATTRIBUTE lib_model OF \ultrasonic_uart:BUART:tx_state_0\ : LABEL IS "macrocell45";
+    ATTRIBUTE Location OF \ultrasonic_uart:BUART:tx_state_0\ : LABEL IS "U(0,2)";
+    ATTRIBUTE lib_model OF \ultrasonic_uart:BUART:tx_state_1\ : LABEL IS "macrocell46";
+    ATTRIBUTE Location OF \ultrasonic_uart:BUART:tx_state_1\ : LABEL IS "U(0,1)";
+    ATTRIBUTE lib_model OF \ultrasonic_uart:BUART:tx_state_2\ : LABEL IS "macrocell47";
+    ATTRIBUTE Location OF \ultrasonic_uart:BUART:tx_state_2\ : LABEL IS "U(1,2)";
+    ATTRIBUTE lib_model OF \ultrasonic_uart:BUART:tx_status_0\ : LABEL IS "macrocell48";
+    ATTRIBUTE Location OF \ultrasonic_uart:BUART:tx_status_0\ : LABEL IS "U(0,1)";
+    ATTRIBUTE lib_model OF \ultrasonic_uart:BUART:tx_status_2\ : LABEL IS "macrocell49";
+    ATTRIBUTE Location OF \ultrasonic_uart:BUART:tx_status_2\ : LABEL IS "U(0,1)";
+    ATTRIBUTE lib_model OF \ultrasonic_uart:BUART:txn\ : LABEL IS "macrocell50";
+    ATTRIBUTE Location OF \ultrasonic_uart:BUART:txn\ : LABEL IS "U(0,2)";
     ATTRIBUTE Location OF isr_1 : LABEL IS "[IntrHod=(0)][IntrId=(0)]";
     ATTRIBUTE Location OF isr_byte_rx : LABEL IS "[IntrHod=(0)][IntrId=(1)]";
     ATTRIBUTE Location OF isr_byte_ultrasonic_rx : LABEL IS "[IntrHod=(0)][IntrId=(2)]";
     ATTRIBUTE Location OF isr_timer : LABEL IS "[IntrHod=(0)][IntrId=(3)]";
-    ATTRIBUTE lib_model OF modem_power_pin(0) : LABEL IS "iocell1";
+    ATTRIBUTE lib_model OF modem_power_pin(0) : LABEL IS "iocell2";
     ATTRIBUTE Location OF modem_power_pin(0) : LABEL IS "P4[0]";
-    ATTRIBUTE lib_model OF modem_voltage_pin(0) : LABEL IS "iocell2";
+    ATTRIBUTE lib_model OF modem_voltage_pin(0) : LABEL IS "iocell3";
     ATTRIBUTE Location OF modem_voltage_pin(0) : LABEL IS "P12[3]";
-    ATTRIBUTE lib_model OF uart_rx(0) : LABEL IS "iocell3";
-    ATTRIBUTE Location OF uart_rx(0) : LABEL IS "P0[1]";
-    ATTRIBUTE lib_model OF ultrasonic_reading_pin(0) : LABEL IS "iocell4";
-    ATTRIBUTE Location OF ultrasonic_reading_pin(0) : LABEL IS "P0[2]";
-    ATTRIBUTE lib_model OF ultrasonic_uart_rx(0) : LABEL IS "iocell5";
-    ATTRIBUTE Location OF ultrasonic_uart_rx(0) : LABEL IS "P6[3]";
-    ATTRIBUTE lib_model OF ultrasonic_voltage_pin(0) : LABEL IS "iocell6";
-    ATTRIBUTE Location OF ultrasonic_voltage_pin(0) : LABEL IS "P6[5]";
-    ATTRIBUTE lib_model OF ultrasonic_voltage_pin_2(0) : LABEL IS "iocell7";
-    ATTRIBUTE Location OF ultrasonic_voltage_pin_2(0) : LABEL IS "P0[3]";
+    ATTRIBUTE lib_model OF uart_rx(0) : LABEL IS "iocell4";
+    ATTRIBUTE Location OF uart_rx(0) : LABEL IS "P4[1]";
+    ATTRIBUTE lib_model OF uart_rx_voltage_pin(0) : LABEL IS "iocell5";
+    ATTRIBUTE Location OF uart_rx_voltage_pin(0) : LABEL IS "P0[0]";
+    ATTRIBUTE lib_model OF uart_tx(0) : LABEL IS "iocell6";
+    ATTRIBUTE Location OF uart_tx(0) : LABEL IS "P0[1]";
+    ATTRIBUTE lib_model OF uart_tx_voltage_pin(0) : LABEL IS "iocell7";
+    ATTRIBUTE Location OF uart_tx_voltage_pin(0) : LABEL IS "P0[2]";
+    ATTRIBUTE lib_model OF ultrasonic_uart_rx(0) : LABEL IS "iocell8";
+    ATTRIBUTE Location OF ultrasonic_uart_rx(0) : LABEL IS "P0[4]";
+    ATTRIBUTE lib_model OF ultrasonic_voltage_pin(0) : LABEL IS "iocell9";
+    ATTRIBUTE Location OF ultrasonic_voltage_pin(0) : LABEL IS "P0[5]";
     COMPONENT abufcell
     END COMPONENT;
     COMPONENT boostcell
@@ -1308,6 +1320,91 @@ BEGIN
             dclk_glb_1 => \ultrasonic_uart:Net_9\,
             dclk_1 => \ultrasonic_uart:Net_9_local\);
 
+    LED_Blue:logicalport
+        GENERIC MAP(
+            drive_mode => "110",
+            ibuf_enabled => "1",
+            id => "43c85677-c56a-4290-86f5-a152a7a883d4",
+            init_dr_st => "0",
+            input_clk_en => 0,
+            input_sync => "1",
+            input_sync_mode => "0",
+            intr_mode => "00",
+            invert_in_clock => 0,
+            invert_in_clock_en => 0,
+            invert_in_reset => 0,
+            invert_out_clock => 0,
+            invert_out_clock_en => 0,
+            invert_out_reset => 0,
+            io_voltage => "",
+            layout_mode => "CONTIGUOUS",
+            oe_conn => "0",
+            oe_reset => 0,
+            oe_sync => "0",
+            output_clk_en => 0,
+            output_clock_mode => "0",
+            output_conn => "0",
+            output_mode => "0",
+            output_reset => 0,
+            output_sync => "0",
+            pa_in_clock => -1,
+            pa_in_clock_en => -1,
+            pa_in_reset => -1,
+            pa_out_clock => -1,
+            pa_out_clock_en => -1,
+            pa_out_reset => -1,
+            pin_aliases => "",
+            pin_mode => "O",
+            por_state => 4,
+            port_alias_group => "",
+            port_alias_required => 0,
+            sio_group_cnt => 0,
+            sio_hifreq => "",
+            sio_hyst => "0",
+            sio_ibuf => "00000000",
+            sio_info => "00",
+            sio_obuf => "00000000",
+            sio_refsel => "00000000",
+            sio_vtrip => "00000000",
+            slew_rate => "0",
+            spanning => 0,
+            sw_only => 0,
+            use_annotation => "0",
+            vtrip => "10",
+            width => 1,
+            in_clk_inv => 0,
+            in_clken_inv => 0,
+            in_clken_mode => 1,
+            in_rst_inv => 0,
+            out_clk_inv => 0,
+            out_clken_inv => 0,
+            out_clken_mode => 1,
+            out_rst_inv => 0)
+        PORT MAP(
+            in_clock_en => open,
+            in_reset => open,
+            out_clock_en => open,
+            out_reset => open);
+
+    LED_Blue(0):iocell
+        GENERIC MAP(
+            in_sync_mode => 0,
+            out_sync_mode => 0,
+            oe_sync_mode => 0,
+            logicalport => "LED_Blue",
+            logicalport_pin_id => 0,
+            io_capabilities => "0000000000000000000000000000000000000000000000000000000000000001")
+        PORT MAP(
+            pa_out => LED_Blue(0)__PA,
+            oe => open,
+            pad_in => LED_Blue(0)_PAD,
+            in_clock => open,
+            in_clock_en => '1',
+            in_reset => '0',
+            out_clock => open,
+            out_clock_en => '1',
+            out_reset => '0');
+
     MODIN1_0:macrocell
         GENERIC MAP(
             eqn_main => "(!main_0 * !main_1 * !main_2 * main_3) + (main_0 * !main_1 * !main_2 * !main_3)")
@@ -1330,6 +1427,13 @@ BEGIN
             main_2 => \uart:BUART:rx_count_1\,
             main_3 => MODIN1_1,
             main_4 => MODIN1_0);
+
+    Net_403:macrocell
+        GENERIC MAP(
+            eqn_main => "(!main_0)")
+        PORT MAP(
+            q => Net_403,
+            main_0 => \uart:BUART:txn\);
 
     PM:pmcell
         PORT MAP(
@@ -2688,12 +2792,12 @@ BEGIN
             out_clock_en => '1',
             out_reset => '0');
 
-    ultrasonic_reading_pin:logicalport
+    uart_rx_voltage_pin:logicalport
         GENERIC MAP(
             drive_mode => "110",
             ibuf_enabled => "1",
-            id => "6d9b897b-31f3-4d98-bc01-fc8313c8022c",
-            init_dr_st => "0",
+            id => "7d64e47a-0cac-448a-8c24-dedce6f09589",
+            init_dr_st => "1",
             input_clk_en => 0,
             input_sync => "1",
             input_sync_mode => "0",
@@ -2754,18 +2858,190 @@ BEGIN
             out_clock_en => open,
             out_reset => open);
 
-    ultrasonic_reading_pin(0):iocell
+    uart_rx_voltage_pin(0):iocell
         GENERIC MAP(
             in_sync_mode => 0,
             out_sync_mode => 0,
             oe_sync_mode => 0,
-            logicalport => "ultrasonic_reading_pin",
+            logicalport => "uart_rx_voltage_pin",
             logicalport_pin_id => 0,
             io_capabilities => "0000000000000000000000000000000000000000000000000000000000000001")
         PORT MAP(
-            pa_out => ultrasonic_reading_pin(0)__PA,
+            pa_out => uart_rx_voltage_pin(0)__PA,
             oe => open,
-            pad_in => ultrasonic_reading_pin(0)_PAD,
+            pad_in => uart_rx_voltage_pin(0)_PAD,
+            in_clock => open,
+            in_clock_en => '1',
+            in_reset => '0',
+            out_clock => open,
+            out_clock_en => '1',
+            out_reset => '0');
+
+    uart_tx:logicalport
+        GENERIC MAP(
+            drive_mode => "110",
+            ibuf_enabled => "1",
+            id => "63cc61b4-1f44-41ce-b02b-fc30a1a6603b",
+            init_dr_st => "0",
+            input_clk_en => 0,
+            input_sync => "1",
+            input_sync_mode => "0",
+            intr_mode => "00",
+            invert_in_clock => 0,
+            invert_in_clock_en => 0,
+            invert_in_reset => 0,
+            invert_out_clock => 0,
+            invert_out_clock_en => 0,
+            invert_out_reset => 0,
+            io_voltage => "",
+            layout_mode => "CONTIGUOUS",
+            oe_conn => "0",
+            oe_reset => 0,
+            oe_sync => "0",
+            output_clk_en => 0,
+            output_clock_mode => "0",
+            output_conn => "1",
+            output_mode => "0",
+            output_reset => 0,
+            output_sync => "0",
+            pa_in_clock => -1,
+            pa_in_clock_en => -1,
+            pa_in_reset => -1,
+            pa_out_clock => -1,
+            pa_out_clock_en => -1,
+            pa_out_reset => -1,
+            pin_aliases => "",
+            pin_mode => "O",
+            por_state => 4,
+            port_alias_group => "",
+            port_alias_required => 0,
+            sio_group_cnt => 0,
+            sio_hifreq => "",
+            sio_hyst => "0",
+            sio_ibuf => "00000000",
+            sio_info => "00",
+            sio_obuf => "00000000",
+            sio_refsel => "00000000",
+            sio_vtrip => "00000000",
+            slew_rate => "0",
+            spanning => 0,
+            sw_only => 0,
+            use_annotation => "0",
+            vtrip => "10",
+            width => 1,
+            in_clk_inv => 0,
+            in_clken_inv => 0,
+            in_clken_mode => 1,
+            in_rst_inv => 0,
+            out_clk_inv => 0,
+            out_clken_inv => 0,
+            out_clken_mode => 1,
+            out_rst_inv => 0)
+        PORT MAP(
+            in_clock_en => open,
+            in_reset => open,
+            out_clock_en => open,
+            out_reset => open);
+
+    uart_tx(0):iocell
+        GENERIC MAP(
+            in_sync_mode => 0,
+            out_sync_mode => 0,
+            oe_sync_mode => 0,
+            logicalport => "uart_tx",
+            logicalport_pin_id => 0,
+            io_capabilities => "0000000000000000000000100000000000000000000000000000000000000001")
+        PORT MAP(
+            pa_out => uart_tx(0)__PA,
+            oe => open,
+            pin_input => Net_403,
+            pad_out => uart_tx(0)_PAD,
+            pad_in => uart_tx(0)_PAD,
+            in_clock => open,
+            in_clock_en => '1',
+            in_reset => '0',
+            out_clock => open,
+            out_clock_en => '1',
+            out_reset => '0');
+
+    uart_tx_voltage_pin:logicalport
+        GENERIC MAP(
+            drive_mode => "110",
+            ibuf_enabled => "1",
+            id => "7ee62f55-1972-4a29-b00b-5b2f98c31832",
+            init_dr_st => "1",
+            input_clk_en => 0,
+            input_sync => "1",
+            input_sync_mode => "0",
+            intr_mode => "00",
+            invert_in_clock => 0,
+            invert_in_clock_en => 0,
+            invert_in_reset => 0,
+            invert_out_clock => 0,
+            invert_out_clock_en => 0,
+            invert_out_reset => 0,
+            io_voltage => "",
+            layout_mode => "CONTIGUOUS",
+            oe_conn => "0",
+            oe_reset => 0,
+            oe_sync => "0",
+            output_clk_en => 0,
+            output_clock_mode => "0",
+            output_conn => "0",
+            output_mode => "0",
+            output_reset => 0,
+            output_sync => "0",
+            pa_in_clock => -1,
+            pa_in_clock_en => -1,
+            pa_in_reset => -1,
+            pa_out_clock => -1,
+            pa_out_clock_en => -1,
+            pa_out_reset => -1,
+            pin_aliases => "",
+            pin_mode => "O",
+            por_state => 4,
+            port_alias_group => "",
+            port_alias_required => 0,
+            sio_group_cnt => 0,
+            sio_hifreq => "",
+            sio_hyst => "0",
+            sio_ibuf => "00000000",
+            sio_info => "00",
+            sio_obuf => "00000000",
+            sio_refsel => "00000000",
+            sio_vtrip => "00000000",
+            slew_rate => "0",
+            spanning => 0,
+            sw_only => 0,
+            use_annotation => "0",
+            vtrip => "10",
+            width => 1,
+            in_clk_inv => 0,
+            in_clken_inv => 0,
+            in_clken_mode => 1,
+            in_rst_inv => 0,
+            out_clk_inv => 0,
+            out_clken_inv => 0,
+            out_clken_mode => 1,
+            out_rst_inv => 0)
+        PORT MAP(
+            in_clock_en => open,
+            in_reset => open,
+            out_clock_en => open,
+            out_reset => open);
+
+    uart_tx_voltage_pin(0):iocell
+        GENERIC MAP(
+            in_sync_mode => 0,
+            out_sync_mode => 0,
+            oe_sync_mode => 0,
+            logicalport => "uart_tx_voltage_pin",
+            logicalport_pin_id => 0,
+            io_capabilities => "0000000000000000000000000000000000000000000000000000000000000001")
+        PORT MAP(
+            pa_out => uart_tx_voltage_pin(0)__PA,
+            oe => open,
+            pad_in => uart_tx_voltage_pin(0)_PAD,
             in_clock => open,
             in_clock_en => '1',
             in_reset => '0',
@@ -2938,91 +3214,6 @@ BEGIN
             pa_out => ultrasonic_voltage_pin(0)__PA,
             oe => open,
             pad_in => ultrasonic_voltage_pin(0)_PAD,
-            in_clock => open,
-            in_clock_en => '1',
-            in_reset => '0',
-            out_clock => open,
-            out_clock_en => '1',
-            out_reset => '0');
-
-    ultrasonic_voltage_pin_2:logicalport
-        GENERIC MAP(
-            drive_mode => "110",
-            ibuf_enabled => "1",
-            id => "2f0b12f1-2a2e-4f20-a368-7317a3ab9680",
-            init_dr_st => "1",
-            input_clk_en => 0,
-            input_sync => "1",
-            input_sync_mode => "0",
-            intr_mode => "00",
-            invert_in_clock => 0,
-            invert_in_clock_en => 0,
-            invert_in_reset => 0,
-            invert_out_clock => 0,
-            invert_out_clock_en => 0,
-            invert_out_reset => 0,
-            io_voltage => "",
-            layout_mode => "CONTIGUOUS",
-            oe_conn => "0",
-            oe_reset => 0,
-            oe_sync => "0",
-            output_clk_en => 0,
-            output_clock_mode => "0",
-            output_conn => "0",
-            output_mode => "0",
-            output_reset => 0,
-            output_sync => "0",
-            pa_in_clock => -1,
-            pa_in_clock_en => -1,
-            pa_in_reset => -1,
-            pa_out_clock => -1,
-            pa_out_clock_en => -1,
-            pa_out_reset => -1,
-            pin_aliases => "",
-            pin_mode => "O",
-            por_state => 4,
-            port_alias_group => "",
-            port_alias_required => 0,
-            sio_group_cnt => 0,
-            sio_hifreq => "",
-            sio_hyst => "0",
-            sio_ibuf => "00000000",
-            sio_info => "00",
-            sio_obuf => "00000000",
-            sio_refsel => "00000000",
-            sio_vtrip => "00000000",
-            slew_rate => "0",
-            spanning => 0,
-            sw_only => 0,
-            use_annotation => "0",
-            vtrip => "10",
-            width => 1,
-            in_clk_inv => 0,
-            in_clken_inv => 0,
-            in_clken_mode => 1,
-            in_rst_inv => 0,
-            out_clk_inv => 0,
-            out_clken_inv => 0,
-            out_clken_mode => 1,
-            out_rst_inv => 0)
-        PORT MAP(
-            in_clock_en => open,
-            in_reset => open,
-            out_clock_en => open,
-            out_reset => open);
-
-    ultrasonic_voltage_pin_2(0):iocell
-        GENERIC MAP(
-            in_sync_mode => 0,
-            out_sync_mode => 0,
-            oe_sync_mode => 0,
-            logicalport => "ultrasonic_voltage_pin_2",
-            logicalport_pin_id => 0,
-            io_capabilities => "0000000000000000000000000000000000000000000000000000000000000001")
-        PORT MAP(
-            pa_out => ultrasonic_voltage_pin_2(0)__PA,
-            oe => open,
-            pad_in => ultrasonic_voltage_pin_2(0)_PAD,
             in_clock => open,
             in_clock_en => '1',
             in_reset => '0',

@@ -53,6 +53,9 @@ uint8 at_write_command(uint8* uart_string, uint8* expected_response, uint32 uart
         CyDelay(delay);
         }
     }
+    
+    modem_voltage_pin_Write(1u);
+    
     return response;
 }
 
@@ -65,7 +68,6 @@ uint8 modem_power_on(){
     modem_state = MODEM_STATE_IDLE;
 }
 
-// turn module off
 uint8 modem_power_off(){
     modem_power_pin_Write(0u);
     CyDelay(1500u);
@@ -81,6 +83,11 @@ uint8 modem_reset(){
 
 // send sms to twilio server
 uint8 modem_send_packet(uint8* packet){
+    // provide power
+    uart_rx_voltage_pin_Write(0u);
+    uart_tx_voltage_pin_Write(0u);
+    
+    // send packet
     if(at_write_command("AT+CMGF=1\r","OK",15000u) != 0){
         if(at_write_command("AT+CMGS=\"+6174407448\"\r",">",5000u) != 0){
             if(at_write_command(packet,"OK",20000u) != 0){
@@ -89,6 +96,10 @@ uint8 modem_send_packet(uint8* packet){
             }
         }
     }
+    
+    // cut power
+    uart_rx_voltage_pin_Write(1u);
+    uart_rx_voltage_pin_Write(1u);
     return 0u;   // return 0 if failure to send sms
 }
 
@@ -114,8 +125,6 @@ CY_ISR(isr_byte_rx){
         uart_string_index++;
     }
 }
-
-//uint8 modem_get_state(){ return modem_state; } // delete
 
 ///* [] END OF FILE */
 //

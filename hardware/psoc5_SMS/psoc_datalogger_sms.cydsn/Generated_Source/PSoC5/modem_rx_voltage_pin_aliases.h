@@ -1,5 +1,5 @@
 /*******************************************************************************
-* File Name: ultrasonic_voltage_pin_2.h  
+* File Name: modem_rx_voltage_pin.h  
 * Version 1.90
 *
 * Description:
@@ -14,8 +14,8 @@
 * the software package with which this file was provided.
 *******************************************************************************/
 
-#if !defined(CY_PINS_ultrasonic_voltage_pin_2_ALIASES_H) /* Pins ultrasonic_voltage_pin_2_ALIASES_H */
-#define CY_PINS_ultrasonic_voltage_pin_2_ALIASES_H
+#if !defined(CY_PINS_modem_rx_voltage_pin_ALIASES_H) /* Pins modem_rx_voltage_pin_ALIASES_H */
+#define CY_PINS_modem_rx_voltage_pin_ALIASES_H
 
 #include "cytypes.h"
 #include "cyfitter.h"
@@ -25,8 +25,8 @@
 /***************************************
 *              Constants        
 ***************************************/
-#define ultrasonic_voltage_pin_2_0		ultrasonic_voltage_pin_2__0__PC
+#define modem_rx_voltage_pin_0		modem_rx_voltage_pin__0__PC
 
-#endif /* End Pins ultrasonic_voltage_pin_2_ALIASES_H */
+#endif /* End Pins modem_rx_voltage_pin_ALIASES_H */
 
 /* [] END OF FILE */
