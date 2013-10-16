@@ -26,23 +26,6 @@ void main(){
     SleepTimer_Start();
     clear_packet();
     CyGlobalIntEnable;
-
-    // === for testing only
-    packet_ready = 1u; 
-    uint8 i, j;
-    uint8 ultrasonic_packet[16]; 
-    ultrasonic_read(ultrasonic_packet, 16u);
-    // add terminal sequence to packet
-    char term_seq[] = "\032";
-    for(i=0, j=0; j<sizeof(term_seq); i++){
-        if(ultrasonic_packet[i] == 0u){
-            ultrasonic_packet[i] = term_seq[j];
-            j++;
-        }
-    }
-    write_packet(ultrasonic_packet, 16u);
-    CyDelay(5000u);
-    // ===
     
     for(;;){
         if(packet_ready){
@@ -61,7 +44,7 @@ void main(){
             }
         }
         else{
-            //go to sleep
+            
         }
     }
 }
