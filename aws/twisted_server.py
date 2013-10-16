@@ -12,7 +12,7 @@ from boto.dynamodb2.layer1 import DynamoDBConnection
 from boto.dynamodb2.table import Table
 from boto.dynamodb2.types import NUMBER
 # configure and connect to aws dynamo db
-log = Table('log_dev')
+log = Table('log_raw')
 
 class Echo(protocol.Protocol):
     def dataReceived(self, packet):
