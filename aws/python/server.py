@@ -13,7 +13,7 @@ import datetime
 
 # configure and connect socket
 host = ''
-port = 54321
+port = 50123
 backlog = 5
 size = 1024
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -21,7 +21,7 @@ s.bind((host,port))
 s.listen(backlog)
 
 # configure and connect to aws dynamo db
-log = Table('log_dev')
+log = Table('dev_raw')
 
 # listen for tcp connection
 while 1:

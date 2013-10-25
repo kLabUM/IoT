@@ -28,7 +28,7 @@ class EchoFactory(protocol.Factory):
     def buildProtocol(self, addr):
         return Echo()
 
-port = 50321
+port = 50123
 factory = EchoFactory()
 
 # this is the important bit
