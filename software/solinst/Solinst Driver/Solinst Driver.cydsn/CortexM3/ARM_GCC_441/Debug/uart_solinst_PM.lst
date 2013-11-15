@@ -1,0 +1,1233 @@
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\cculRlze.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 6
+  11              		.eabi_attribute 18, 4
+  12              		.thumb
+  13              		.file	"uart_solinst_PM.c"
+  14              		.section	.debug_abbrev,"",%progbits
+  15              	.Ldebug_abbrev0:
+  16              		.section	.debug_info,"",%progbits
+  17              	.Ldebug_info0:
+  18              		.section	.debug_line,"",%progbits
+  19              	.Ldebug_line0:
+  20 0000 E3000000 		.text
+  20      02007A00 
+  20      00000201 
+  20      FB0E0D00 
+  20      01010101 
+  21              	.Ltext0:
+  22              		.cfi_sections	.debug_frame
+  23              		.bss
+  24              		.align	2
+  25              	uart_solinst_backup:
+  26 0000 00000000 		.space	9
+  26      00000000 
+  26      00
+  27 0009 000000   		.section	.text.uart_solinst_SaveConfig,"ax",%progbits
+  28              		.align	2
+  29              		.global	uart_solinst_SaveConfig
+  30              		.thumb
+  31              		.thumb_func
+  32              		.type	uart_solinst_SaveConfig, %function
+  33              	uart_solinst_SaveConfig:
+  34              	.LFB0:
+  35              		.file 1 ".\\Generated_Source\\PSoC5\\uart_solinst_PM.c"
+   1:.\Generated_Source\PSoC5/uart_solinst_PM.c **** /*******************************************************************************
+   2:.\Generated_Source\PSoC5/uart_solinst_PM.c **** * File Name: uart_solinst_PM.c
+   3:.\Generated_Source\PSoC5/uart_solinst_PM.c **** * Version 2.30
+   4:.\Generated_Source\PSoC5/uart_solinst_PM.c **** *
+   5:.\Generated_Source\PSoC5/uart_solinst_PM.c **** * Description:
+   6:.\Generated_Source\PSoC5/uart_solinst_PM.c **** *  This file provides Sleep/WakeUp APIs functionality.
+   7:.\Generated_Source\PSoC5/uart_solinst_PM.c **** *
+   8:.\Generated_Source\PSoC5/uart_solinst_PM.c **** * Note:
+   9:.\Generated_Source\PSoC5/uart_solinst_PM.c **** *
+  10:.\Generated_Source\PSoC5/uart_solinst_PM.c **** ********************************************************************************
+  11:.\Generated_Source\PSoC5/uart_solinst_PM.c **** * Copyright 2008-2012, Cypress Semiconductor Corporation.  All rights reserved.
+  12:.\Generated_Source\PSoC5/uart_solinst_PM.c **** * You may use this file only in accordance with the license, terms, conditions,
+  13:.\Generated_Source\PSoC5/uart_solinst_PM.c **** * disclaimers, and limitations in the end user license agreement accompanying
+  14:.\Generated_Source\PSoC5/uart_solinst_PM.c **** * the software package with which this file was provided.
+  15:.\Generated_Source\PSoC5/uart_solinst_PM.c **** *******************************************************************************/
+  16:.\Generated_Source\PSoC5/uart_solinst_PM.c **** 
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\cculRlze.s 			page 2
+
+
+  17:.\Generated_Source\PSoC5/uart_solinst_PM.c **** #include "uart_solinst.h"
+  18:.\Generated_Source\PSoC5/uart_solinst_PM.c **** 
+  19:.\Generated_Source\PSoC5/uart_solinst_PM.c **** 
+  20:.\Generated_Source\PSoC5/uart_solinst_PM.c **** /***************************************
+  21:.\Generated_Source\PSoC5/uart_solinst_PM.c **** * Local data allocation
+  22:.\Generated_Source\PSoC5/uart_solinst_PM.c **** ***************************************/
+  23:.\Generated_Source\PSoC5/uart_solinst_PM.c **** 
+  24:.\Generated_Source\PSoC5/uart_solinst_PM.c **** static uart_solinst_BACKUP_STRUCT  uart_solinst_backup =
+  25:.\Generated_Source\PSoC5/uart_solinst_PM.c **** {
+  26:.\Generated_Source\PSoC5/uart_solinst_PM.c ****     /* enableState - disabled */
+  27:.\Generated_Source\PSoC5/uart_solinst_PM.c ****     0u,
+  28:.\Generated_Source\PSoC5/uart_solinst_PM.c **** };
+  29:.\Generated_Source\PSoC5/uart_solinst_PM.c **** 
+  30:.\Generated_Source\PSoC5/uart_solinst_PM.c **** 
+  31:.\Generated_Source\PSoC5/uart_solinst_PM.c **** 
+  32:.\Generated_Source\PSoC5/uart_solinst_PM.c **** /*******************************************************************************
+  33:.\Generated_Source\PSoC5/uart_solinst_PM.c **** * Function Name: uart_solinst_SaveConfig
+  34:.\Generated_Source\PSoC5/uart_solinst_PM.c **** ********************************************************************************
+  35:.\Generated_Source\PSoC5/uart_solinst_PM.c **** *
+  36:.\Generated_Source\PSoC5/uart_solinst_PM.c **** * Summary:
+  37:.\Generated_Source\PSoC5/uart_solinst_PM.c **** *  Saves the current user configuration.
+  38:.\Generated_Source\PSoC5/uart_solinst_PM.c **** *
+  39:.\Generated_Source\PSoC5/uart_solinst_PM.c **** * Parameters:
+  40:.\Generated_Source\PSoC5/uart_solinst_PM.c **** *  None.
+  41:.\Generated_Source\PSoC5/uart_solinst_PM.c **** *
+  42:.\Generated_Source\PSoC5/uart_solinst_PM.c **** * Return:
+  43:.\Generated_Source\PSoC5/uart_solinst_PM.c **** *  None.
+  44:.\Generated_Source\PSoC5/uart_solinst_PM.c **** *
+  45:.\Generated_Source\PSoC5/uart_solinst_PM.c **** * Global Variables:
+  46:.\Generated_Source\PSoC5/uart_solinst_PM.c **** *  uart_solinst_backup - modified when non-retention registers are saved.
+  47:.\Generated_Source\PSoC5/uart_solinst_PM.c **** *
+  48:.\Generated_Source\PSoC5/uart_solinst_PM.c **** * Reentrant:
+  49:.\Generated_Source\PSoC5/uart_solinst_PM.c **** *  No.
+  50:.\Generated_Source\PSoC5/uart_solinst_PM.c **** *
+  51:.\Generated_Source\PSoC5/uart_solinst_PM.c **** *******************************************************************************/
+  52:.\Generated_Source\PSoC5/uart_solinst_PM.c **** void uart_solinst_SaveConfig(void)
+  53:.\Generated_Source\PSoC5/uart_solinst_PM.c **** {
+  36              		.loc 1 53 0
+  37              		.cfi_startproc
+  38              		@ args = 0, pretend = 0, frame = 0
+  39              		@ frame_needed = 1, uses_anonymous_args = 0
+  40              		@ link register save eliminated.
+  41 0000 80B4     		push	{r7}
+  42              	.LCFI0:
+  43              		.cfi_def_cfa_offset 4
+  44 0002 00AF     		add	r7, sp, #0
+  45              		.cfi_offset 7, -4
+  46              	.LCFI1:
+  47              		.cfi_def_cfa_register 7
+  54:.\Generated_Source\PSoC5/uart_solinst_PM.c ****     #if (CY_UDB_V0)
+  55:.\Generated_Source\PSoC5/uart_solinst_PM.c **** 
+  56:.\Generated_Source\PSoC5/uart_solinst_PM.c ****         #if(uart_solinst_CONTROL_REG_REMOVED == 0u)
+  57:.\Generated_Source\PSoC5/uart_solinst_PM.c ****             uart_solinst_backup.cr = uart_solinst_CONTROL_REG;
+  48              		.loc 1 57 0
+  49 0004 46F27B43 		movw	r3, #:lower16:1073767547
+  50 0008 C4F20003 		movt	r3, #:upper16:1073767547
+  51 000c 1B78     		ldrb	r3, [r3, #0]
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\cculRlze.s 			page 3
+
+
+  52 000e DAB2     		uxtb	r2, r3
+  53 0010 40F20003 		movw	r3, #:lower16:uart_solinst_backup
+  54 0014 C0F20003 		movt	r3, #:upper16:uart_solinst_backup
+  55 0018 5A70     		strb	r2, [r3, #1]
+  58:.\Generated_Source\PSoC5/uart_solinst_PM.c ****         #endif /* End uart_solinst_CONTROL_REG_REMOVED */
+  59:.\Generated_Source\PSoC5/uart_solinst_PM.c **** 
+  60:.\Generated_Source\PSoC5/uart_solinst_PM.c ****         #if( (uart_solinst_RX_ENABLED) || (uart_solinst_HD_ENABLED) )
+  61:.\Generated_Source\PSoC5/uart_solinst_PM.c ****             uart_solinst_backup.rx_period = uart_solinst_RXBITCTR_PERIOD_REG;
+  56              		.loc 1 61 0
+  57 001a 46F28A43 		movw	r3, #:lower16:1073767562
+  58 001e C4F20003 		movt	r3, #:upper16:1073767562
+  59 0022 1B78     		ldrb	r3, [r3, #0]
+  60 0024 DAB2     		uxtb	r2, r3
+  61 0026 40F20003 		movw	r3, #:lower16:uart_solinst_backup
+  62 002a C0F20003 		movt	r3, #:upper16:uart_solinst_backup
+  63 002e 9A70     		strb	r2, [r3, #2]
+  62:.\Generated_Source\PSoC5/uart_solinst_PM.c ****             uart_solinst_backup.rx_mask = uart_solinst_RXSTATUS_MASK_REG;
+  64              		.loc 1 62 0
+  65 0030 46F28B43 		movw	r3, #:lower16:1073767563
+  66 0034 C4F20003 		movt	r3, #:upper16:1073767563
+  67 0038 1B78     		ldrb	r3, [r3, #0]
+  68 003a DAB2     		uxtb	r2, r3
+  69 003c 40F20003 		movw	r3, #:lower16:uart_solinst_backup
+  70 0040 C0F20003 		movt	r3, #:upper16:uart_solinst_backup
+  71 0044 DA70     		strb	r2, [r3, #3]
+  63:.\Generated_Source\PSoC5/uart_solinst_PM.c ****             #if (uart_solinst_RXHW_ADDRESS_ENABLED)
+  64:.\Generated_Source\PSoC5/uart_solinst_PM.c ****                 uart_solinst_backup.rx_addr1 = uart_solinst_RXADDRESS1_REG;
+  72              		.loc 1 64 0
+  73 0046 46F22943 		movw	r3, #:lower16:1073767465
+  74 004a C4F20003 		movt	r3, #:upper16:1073767465
+  75 004e 1B78     		ldrb	r3, [r3, #0]
+  76 0050 DAB2     		uxtb	r2, r3
+  77 0052 40F20003 		movw	r3, #:lower16:uart_solinst_backup
+  78 0056 C0F20003 		movt	r3, #:upper16:uart_solinst_backup
+  79 005a 1A71     		strb	r2, [r3, #4]
+  65:.\Generated_Source\PSoC5/uart_solinst_PM.c ****                 uart_solinst_backup.rx_addr2 = uart_solinst_RXADDRESS2_REG;
+  80              		.loc 1 65 0
+  81 005c 46F23943 		movw	r3, #:lower16:1073767481
+  82 0060 C4F20003 		movt	r3, #:upper16:1073767481
+  83 0064 1B78     		ldrb	r3, [r3, #0]
+  84 0066 DAB2     		uxtb	r2, r3
+  85 0068 40F20003 		movw	r3, #:lower16:uart_solinst_backup
+  86 006c C0F20003 		movt	r3, #:upper16:uart_solinst_backup
+  87 0070 5A71     		strb	r2, [r3, #5]
+  66:.\Generated_Source\PSoC5/uart_solinst_PM.c ****             #endif /* End uart_solinst_RXHW_ADDRESS_ENABLED */
+  67:.\Generated_Source\PSoC5/uart_solinst_PM.c ****         #endif /* End uart_solinst_RX_ENABLED | uart_solinst_HD_ENABLED*/
+  68:.\Generated_Source\PSoC5/uart_solinst_PM.c **** 
+  69:.\Generated_Source\PSoC5/uart_solinst_PM.c ****         #if(uart_solinst_TX_ENABLED)
+  70:.\Generated_Source\PSoC5/uart_solinst_PM.c ****             #if(uart_solinst_TXCLKGEN_DP)
+  71:.\Generated_Source\PSoC5/uart_solinst_PM.c ****                 uart_solinst_backup.tx_clk_ctr = uart_solinst_TXBITCLKGEN_CTR_REG;
+  88              		.loc 1 71 0
+  89 0072 46F22843 		movw	r3, #:lower16:1073767464
+  90 0076 C4F20003 		movt	r3, #:upper16:1073767464
+  91 007a 1B78     		ldrb	r3, [r3, #0]
+  92 007c DAB2     		uxtb	r2, r3
+  93 007e 40F20003 		movw	r3, #:lower16:uart_solinst_backup
+  94 0082 C0F20003 		movt	r3, #:upper16:uart_solinst_backup
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\cculRlze.s 			page 4
+
+
+  95 0086 9A71     		strb	r2, [r3, #6]
+  72:.\Generated_Source\PSoC5/uart_solinst_PM.c ****                 uart_solinst_backup.tx_clk_compl = uart_solinst_TXBITCLKTX_COMPLETE_REG;
+  96              		.loc 1 72 0
+  97 0088 46F23843 		movw	r3, #:lower16:1073767480
+  98 008c C4F20003 		movt	r3, #:upper16:1073767480
+  99 0090 1B78     		ldrb	r3, [r3, #0]
+ 100 0092 DAB2     		uxtb	r2, r3
+ 101 0094 40F20003 		movw	r3, #:lower16:uart_solinst_backup
+ 102 0098 C0F20003 		movt	r3, #:upper16:uart_solinst_backup
+ 103 009c DA71     		strb	r2, [r3, #7]
+  73:.\Generated_Source\PSoC5/uart_solinst_PM.c ****             #else
+  74:.\Generated_Source\PSoC5/uart_solinst_PM.c ****                 uart_solinst_backup.tx_period = uart_solinst_TXBITCTR_PERIOD_REG;
+  75:.\Generated_Source\PSoC5/uart_solinst_PM.c ****             #endif /*End uart_solinst_TXCLKGEN_DP */
+  76:.\Generated_Source\PSoC5/uart_solinst_PM.c ****             uart_solinst_backup.tx_mask = uart_solinst_TXSTATUS_MASK_REG;
+ 104              		.loc 1 76 0
+ 105 009e 46F28943 		movw	r3, #:lower16:1073767561
+ 106 00a2 C4F20003 		movt	r3, #:upper16:1073767561
+ 107 00a6 1B78     		ldrb	r3, [r3, #0]
+ 108 00a8 DAB2     		uxtb	r2, r3
+ 109 00aa 40F20003 		movw	r3, #:lower16:uart_solinst_backup
+ 110 00ae C0F20003 		movt	r3, #:upper16:uart_solinst_backup
+ 111 00b2 1A72     		strb	r2, [r3, #8]
+  77:.\Generated_Source\PSoC5/uart_solinst_PM.c ****         #endif /*End uart_solinst_TX_ENABLED */
+  78:.\Generated_Source\PSoC5/uart_solinst_PM.c **** 
+  79:.\Generated_Source\PSoC5/uart_solinst_PM.c **** 
+  80:.\Generated_Source\PSoC5/uart_solinst_PM.c ****     #else /* CY_UDB_V1 */
+  81:.\Generated_Source\PSoC5/uart_solinst_PM.c **** 
+  82:.\Generated_Source\PSoC5/uart_solinst_PM.c ****         #if(uart_solinst_CONTROL_REG_REMOVED == 0u)
+  83:.\Generated_Source\PSoC5/uart_solinst_PM.c ****             uart_solinst_backup.cr = uart_solinst_CONTROL_REG;
+  84:.\Generated_Source\PSoC5/uart_solinst_PM.c ****         #endif /* End uart_solinst_CONTROL_REG_REMOVED */
+  85:.\Generated_Source\PSoC5/uart_solinst_PM.c **** 
+  86:.\Generated_Source\PSoC5/uart_solinst_PM.c ****     #endif  /* End CY_UDB_V0 */
+  87:.\Generated_Source\PSoC5/uart_solinst_PM.c **** }
+ 112              		.loc 1 87 0
+ 113 00b4 BD46     		mov	sp, r7
+ 114 00b6 80BC     		pop	{r7}
+ 115 00b8 7047     		bx	lr
+ 116              		.cfi_endproc
+ 117              	.LFE0:
+ 118              		.size	uart_solinst_SaveConfig, .-uart_solinst_SaveConfig
+ 119 00ba 00BF     		.section	.text.uart_solinst_RestoreConfig,"ax",%progbits
+ 120              		.align	2
+ 121              		.global	uart_solinst_RestoreConfig
+ 122              		.thumb
+ 123              		.thumb_func
+ 124              		.type	uart_solinst_RestoreConfig, %function
+ 125              	uart_solinst_RestoreConfig:
+ 126              	.LFB1:
+  88:.\Generated_Source\PSoC5/uart_solinst_PM.c **** 
+  89:.\Generated_Source\PSoC5/uart_solinst_PM.c **** 
+  90:.\Generated_Source\PSoC5/uart_solinst_PM.c **** /*******************************************************************************
+  91:.\Generated_Source\PSoC5/uart_solinst_PM.c **** * Function Name: uart_solinst_RestoreConfig
+  92:.\Generated_Source\PSoC5/uart_solinst_PM.c **** ********************************************************************************
+  93:.\Generated_Source\PSoC5/uart_solinst_PM.c **** *
+  94:.\Generated_Source\PSoC5/uart_solinst_PM.c **** * Summary:
+  95:.\Generated_Source\PSoC5/uart_solinst_PM.c **** *  Restores the current user configuration.
+  96:.\Generated_Source\PSoC5/uart_solinst_PM.c **** *
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\cculRlze.s 			page 5
+
+
+  97:.\Generated_Source\PSoC5/uart_solinst_PM.c **** * Parameters:
+  98:.\Generated_Source\PSoC5/uart_solinst_PM.c **** *  None.
+  99:.\Generated_Source\PSoC5/uart_solinst_PM.c **** *
+ 100:.\Generated_Source\PSoC5/uart_solinst_PM.c **** * Return:
+ 101:.\Generated_Source\PSoC5/uart_solinst_PM.c **** *  None.
+ 102:.\Generated_Source\PSoC5/uart_solinst_PM.c **** *
+ 103:.\Generated_Source\PSoC5/uart_solinst_PM.c **** * Global Variables:
+ 104:.\Generated_Source\PSoC5/uart_solinst_PM.c **** *  uart_solinst_backup - used when non-retention registers are restored.
+ 105:.\Generated_Source\PSoC5/uart_solinst_PM.c **** *
+ 106:.\Generated_Source\PSoC5/uart_solinst_PM.c **** * Reentrant:
+ 107:.\Generated_Source\PSoC5/uart_solinst_PM.c **** *  No.
+ 108:.\Generated_Source\PSoC5/uart_solinst_PM.c **** *
+ 109:.\Generated_Source\PSoC5/uart_solinst_PM.c **** *******************************************************************************/
+ 110:.\Generated_Source\PSoC5/uart_solinst_PM.c **** void uart_solinst_RestoreConfig(void)
+ 111:.\Generated_Source\PSoC5/uart_solinst_PM.c **** {
+ 127              		.loc 1 111 0
+ 128              		.cfi_startproc
+ 129              		@ args = 0, pretend = 0, frame = 0
+ 130              		@ frame_needed = 1, uses_anonymous_args = 0
+ 131              		@ link register save eliminated.
+ 132 0000 80B4     		push	{r7}
+ 133              	.LCFI2:
+ 134              		.cfi_def_cfa_offset 4
+ 135 0002 00AF     		add	r7, sp, #0
+ 136              		.cfi_offset 7, -4
+ 137              	.LCFI3:
+ 138              		.cfi_def_cfa_register 7
+ 112:.\Generated_Source\PSoC5/uart_solinst_PM.c **** 
+ 113:.\Generated_Source\PSoC5/uart_solinst_PM.c ****     #if (CY_UDB_V0)
+ 114:.\Generated_Source\PSoC5/uart_solinst_PM.c **** 
+ 115:.\Generated_Source\PSoC5/uart_solinst_PM.c ****         #if(uart_solinst_CONTROL_REG_REMOVED == 0u)
+ 116:.\Generated_Source\PSoC5/uart_solinst_PM.c ****             uart_solinst_CONTROL_REG = uart_solinst_backup.cr;
+ 139              		.loc 1 116 0
+ 140 0004 46F27B43 		movw	r3, #:lower16:1073767547
+ 141 0008 C4F20003 		movt	r3, #:upper16:1073767547
+ 142 000c 40F20002 		movw	r2, #:lower16:uart_solinst_backup
+ 143 0010 C0F20002 		movt	r2, #:upper16:uart_solinst_backup
+ 144 0014 5278     		ldrb	r2, [r2, #1]	@ zero_extendqisi2
+ 145 0016 1A70     		strb	r2, [r3, #0]
+ 117:.\Generated_Source\PSoC5/uart_solinst_PM.c ****         #endif /* End uart_solinst_CONTROL_REG_REMOVED */
+ 118:.\Generated_Source\PSoC5/uart_solinst_PM.c **** 
+ 119:.\Generated_Source\PSoC5/uart_solinst_PM.c ****         #if( (uart_solinst_RX_ENABLED) || (uart_solinst_HD_ENABLED) )
+ 120:.\Generated_Source\PSoC5/uart_solinst_PM.c ****             uart_solinst_RXBITCTR_PERIOD_REG = uart_solinst_backup.rx_period;
+ 146              		.loc 1 120 0
+ 147 0018 46F28A43 		movw	r3, #:lower16:1073767562
+ 148 001c C4F20003 		movt	r3, #:upper16:1073767562
+ 149 0020 40F20002 		movw	r2, #:lower16:uart_solinst_backup
+ 150 0024 C0F20002 		movt	r2, #:upper16:uart_solinst_backup
+ 151 0028 9278     		ldrb	r2, [r2, #2]	@ zero_extendqisi2
+ 152 002a 1A70     		strb	r2, [r3, #0]
+ 121:.\Generated_Source\PSoC5/uart_solinst_PM.c ****             uart_solinst_RXSTATUS_MASK_REG = uart_solinst_backup.rx_mask;
+ 153              		.loc 1 121 0
+ 154 002c 46F28B43 		movw	r3, #:lower16:1073767563
+ 155 0030 C4F20003 		movt	r3, #:upper16:1073767563
+ 156 0034 40F20002 		movw	r2, #:lower16:uart_solinst_backup
+ 157 0038 C0F20002 		movt	r2, #:upper16:uart_solinst_backup
+ 158 003c D278     		ldrb	r2, [r2, #3]	@ zero_extendqisi2
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\cculRlze.s 			page 6
+
+
+ 159 003e 1A70     		strb	r2, [r3, #0]
+ 122:.\Generated_Source\PSoC5/uart_solinst_PM.c ****             #if (uart_solinst_RXHW_ADDRESS_ENABLED)
+ 123:.\Generated_Source\PSoC5/uart_solinst_PM.c ****                 uart_solinst_RXADDRESS1_REG = uart_solinst_backup.rx_addr1;
+ 160              		.loc 1 123 0
+ 161 0040 46F22943 		movw	r3, #:lower16:1073767465
+ 162 0044 C4F20003 		movt	r3, #:upper16:1073767465
+ 163 0048 40F20002 		movw	r2, #:lower16:uart_solinst_backup
+ 164 004c C0F20002 		movt	r2, #:upper16:uart_solinst_backup
+ 165 0050 1279     		ldrb	r2, [r2, #4]	@ zero_extendqisi2
+ 166 0052 1A70     		strb	r2, [r3, #0]
+ 124:.\Generated_Source\PSoC5/uart_solinst_PM.c ****                 uart_solinst_RXADDRESS2_REG = uart_solinst_backup.rx_addr2;
+ 167              		.loc 1 124 0
+ 168 0054 46F23943 		movw	r3, #:lower16:1073767481
+ 169 0058 C4F20003 		movt	r3, #:upper16:1073767481
+ 170 005c 40F20002 		movw	r2, #:lower16:uart_solinst_backup
+ 171 0060 C0F20002 		movt	r2, #:upper16:uart_solinst_backup
+ 172 0064 5279     		ldrb	r2, [r2, #5]	@ zero_extendqisi2
+ 173 0066 1A70     		strb	r2, [r3, #0]
+ 125:.\Generated_Source\PSoC5/uart_solinst_PM.c ****             #endif /* End uart_solinst_RXHW_ADDRESS_ENABLED */
+ 126:.\Generated_Source\PSoC5/uart_solinst_PM.c ****         #endif  /* End (uart_solinst_RX_ENABLED) || (uart_solinst_HD_ENABLED) */
+ 127:.\Generated_Source\PSoC5/uart_solinst_PM.c **** 
+ 128:.\Generated_Source\PSoC5/uart_solinst_PM.c ****         #if(uart_solinst_TX_ENABLED)
+ 129:.\Generated_Source\PSoC5/uart_solinst_PM.c ****             #if(uart_solinst_TXCLKGEN_DP)
+ 130:.\Generated_Source\PSoC5/uart_solinst_PM.c ****                 uart_solinst_TXBITCLKGEN_CTR_REG = uart_solinst_backup.tx_clk_ctr;
+ 174              		.loc 1 130 0
+ 175 0068 46F22843 		movw	r3, #:lower16:1073767464
+ 176 006c C4F20003 		movt	r3, #:upper16:1073767464
+ 177 0070 40F20002 		movw	r2, #:lower16:uart_solinst_backup
+ 178 0074 C0F20002 		movt	r2, #:upper16:uart_solinst_backup
+ 179 0078 9279     		ldrb	r2, [r2, #6]	@ zero_extendqisi2
+ 180 007a 1A70     		strb	r2, [r3, #0]
+ 131:.\Generated_Source\PSoC5/uart_solinst_PM.c ****                 uart_solinst_TXBITCLKTX_COMPLETE_REG = uart_solinst_backup.tx_clk_compl;
+ 181              		.loc 1 131 0
+ 182 007c 46F23843 		movw	r3, #:lower16:1073767480
+ 183 0080 C4F20003 		movt	r3, #:upper16:1073767480
+ 184 0084 40F20002 		movw	r2, #:lower16:uart_solinst_backup
+ 185 0088 C0F20002 		movt	r2, #:upper16:uart_solinst_backup
+ 186 008c D279     		ldrb	r2, [r2, #7]	@ zero_extendqisi2
+ 187 008e 1A70     		strb	r2, [r3, #0]
+ 132:.\Generated_Source\PSoC5/uart_solinst_PM.c ****             #else
+ 133:.\Generated_Source\PSoC5/uart_solinst_PM.c ****                 uart_solinst_TXBITCTR_PERIOD_REG = uart_solinst_backup.tx_period;
+ 134:.\Generated_Source\PSoC5/uart_solinst_PM.c ****             #endif /*End uart_solinst_TXCLKGEN_DP */
+ 135:.\Generated_Source\PSoC5/uart_solinst_PM.c ****             uart_solinst_TXSTATUS_MASK_REG = uart_solinst_backup.tx_mask;
+ 188              		.loc 1 135 0
+ 189 0090 46F28943 		movw	r3, #:lower16:1073767561
+ 190 0094 C4F20003 		movt	r3, #:upper16:1073767561
+ 191 0098 40F20002 		movw	r2, #:lower16:uart_solinst_backup
+ 192 009c C0F20002 		movt	r2, #:upper16:uart_solinst_backup
+ 193 00a0 127A     		ldrb	r2, [r2, #8]	@ zero_extendqisi2
+ 194 00a2 1A70     		strb	r2, [r3, #0]
+ 136:.\Generated_Source\PSoC5/uart_solinst_PM.c ****         #endif /*End uart_solinst_TX_ENABLED */
+ 137:.\Generated_Source\PSoC5/uart_solinst_PM.c **** 
+ 138:.\Generated_Source\PSoC5/uart_solinst_PM.c ****     #else /* CY_UDB_V1 */
+ 139:.\Generated_Source\PSoC5/uart_solinst_PM.c **** 
+ 140:.\Generated_Source\PSoC5/uart_solinst_PM.c ****         #if(uart_solinst_CONTROL_REG_REMOVED == 0u)
+ 141:.\Generated_Source\PSoC5/uart_solinst_PM.c ****             uart_solinst_CONTROL_REG = uart_solinst_backup.cr;
+ 142:.\Generated_Source\PSoC5/uart_solinst_PM.c ****         #endif /* End uart_solinst_CONTROL_REG_REMOVED */
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\cculRlze.s 			page 7
+
+
+ 143:.\Generated_Source\PSoC5/uart_solinst_PM.c **** 
+ 144:.\Generated_Source\PSoC5/uart_solinst_PM.c ****     #endif  /* End CY_UDB_V0 */
+ 145:.\Generated_Source\PSoC5/uart_solinst_PM.c **** }
+ 195              		.loc 1 145 0
+ 196 00a4 BD46     		mov	sp, r7
+ 197 00a6 80BC     		pop	{r7}
+ 198 00a8 7047     		bx	lr
+ 199              		.cfi_endproc
+ 200              	.LFE1:
+ 201              		.size	uart_solinst_RestoreConfig, .-uart_solinst_RestoreConfig
+ 202 00aa 00BF     		.section	.text.uart_solinst_Sleep,"ax",%progbits
+ 203              		.align	2
+ 204              		.global	uart_solinst_Sleep
+ 205              		.thumb
+ 206              		.thumb_func
+ 207              		.type	uart_solinst_Sleep, %function
+ 208              	uart_solinst_Sleep:
+ 209              	.LFB2:
+ 146:.\Generated_Source\PSoC5/uart_solinst_PM.c **** 
+ 147:.\Generated_Source\PSoC5/uart_solinst_PM.c **** 
+ 148:.\Generated_Source\PSoC5/uart_solinst_PM.c **** /*******************************************************************************
+ 149:.\Generated_Source\PSoC5/uart_solinst_PM.c **** * Function Name: uart_solinst_Sleep
+ 150:.\Generated_Source\PSoC5/uart_solinst_PM.c **** ********************************************************************************
+ 151:.\Generated_Source\PSoC5/uart_solinst_PM.c **** *
+ 152:.\Generated_Source\PSoC5/uart_solinst_PM.c **** * Summary:
+ 153:.\Generated_Source\PSoC5/uart_solinst_PM.c **** *  Stops and saves the user configuration. Should be called
+ 154:.\Generated_Source\PSoC5/uart_solinst_PM.c **** *  just prior to entering sleep.
+ 155:.\Generated_Source\PSoC5/uart_solinst_PM.c **** *
+ 156:.\Generated_Source\PSoC5/uart_solinst_PM.c **** *
+ 157:.\Generated_Source\PSoC5/uart_solinst_PM.c **** * Parameters:
+ 158:.\Generated_Source\PSoC5/uart_solinst_PM.c **** *  None.
+ 159:.\Generated_Source\PSoC5/uart_solinst_PM.c **** *
+ 160:.\Generated_Source\PSoC5/uart_solinst_PM.c **** * Return:
+ 161:.\Generated_Source\PSoC5/uart_solinst_PM.c **** *  None.
+ 162:.\Generated_Source\PSoC5/uart_solinst_PM.c **** *
+ 163:.\Generated_Source\PSoC5/uart_solinst_PM.c **** * Global Variables:
+ 164:.\Generated_Source\PSoC5/uart_solinst_PM.c **** *  uart_solinst_backup - modified when non-retention registers are saved.
+ 165:.\Generated_Source\PSoC5/uart_solinst_PM.c **** *
+ 166:.\Generated_Source\PSoC5/uart_solinst_PM.c **** * Reentrant:
+ 167:.\Generated_Source\PSoC5/uart_solinst_PM.c **** *  No.
+ 168:.\Generated_Source\PSoC5/uart_solinst_PM.c **** *
+ 169:.\Generated_Source\PSoC5/uart_solinst_PM.c **** *******************************************************************************/
+ 170:.\Generated_Source\PSoC5/uart_solinst_PM.c **** void uart_solinst_Sleep(void)
+ 171:.\Generated_Source\PSoC5/uart_solinst_PM.c **** {
+ 210              		.loc 1 171 0
+ 211              		.cfi_startproc
+ 212              		@ args = 0, pretend = 0, frame = 0
+ 213              		@ frame_needed = 1, uses_anonymous_args = 0
+ 214 0000 80B5     		push	{r7, lr}
+ 215              	.LCFI4:
+ 216              		.cfi_def_cfa_offset 8
+ 217 0002 00AF     		add	r7, sp, #0
+ 218              		.cfi_offset 14, -4
+ 219              		.cfi_offset 7, -8
+ 220              	.LCFI5:
+ 221              		.cfi_def_cfa_register 7
+ 172:.\Generated_Source\PSoC5/uart_solinst_PM.c **** 
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\cculRlze.s 			page 8
+
+
+ 173:.\Generated_Source\PSoC5/uart_solinst_PM.c ****     #if(uart_solinst_RX_ENABLED || uart_solinst_HD_ENABLED)
+ 174:.\Generated_Source\PSoC5/uart_solinst_PM.c ****         if((uart_solinst_RXSTATUS_ACTL_REG  & uart_solinst_INT_ENABLE) != 0u)
+ 222              		.loc 1 174 0
+ 223 0004 46F29B43 		movw	r3, #:lower16:1073767579
+ 224 0008 C4F20003 		movt	r3, #:upper16:1073767579
+ 225 000c 1B78     		ldrb	r3, [r3, #0]
+ 226 000e DBB2     		uxtb	r3, r3
+ 227 0010 03F01003 		and	r3, r3, #16
+ 228 0014 002B     		cmp	r3, #0
+ 229 0016 07D0     		beq	.L6
+ 175:.\Generated_Source\PSoC5/uart_solinst_PM.c ****         {
+ 176:.\Generated_Source\PSoC5/uart_solinst_PM.c ****             uart_solinst_backup.enableState = 1u;
+ 230              		.loc 1 176 0
+ 231 0018 40F20003 		movw	r3, #:lower16:uart_solinst_backup
+ 232 001c C0F20003 		movt	r3, #:upper16:uart_solinst_backup
+ 233 0020 4FF00102 		mov	r2, #1
+ 234 0024 1A70     		strb	r2, [r3, #0]
+ 235 0026 06E0     		b	.L7
+ 236              	.L6:
+ 177:.\Generated_Source\PSoC5/uart_solinst_PM.c ****         }
+ 178:.\Generated_Source\PSoC5/uart_solinst_PM.c ****         else
+ 179:.\Generated_Source\PSoC5/uart_solinst_PM.c ****         {
+ 180:.\Generated_Source\PSoC5/uart_solinst_PM.c ****             uart_solinst_backup.enableState = 0u;
+ 237              		.loc 1 180 0
+ 238 0028 40F20003 		movw	r3, #:lower16:uart_solinst_backup
+ 239 002c C0F20003 		movt	r3, #:upper16:uart_solinst_backup
+ 240 0030 4FF00002 		mov	r2, #0
+ 241 0034 1A70     		strb	r2, [r3, #0]
+ 242              	.L7:
+ 181:.\Generated_Source\PSoC5/uart_solinst_PM.c ****         }
+ 182:.\Generated_Source\PSoC5/uart_solinst_PM.c ****     #else
+ 183:.\Generated_Source\PSoC5/uart_solinst_PM.c ****         if((uart_solinst_TXSTATUS_ACTL_REG  & uart_solinst_INT_ENABLE) !=0u)
+ 184:.\Generated_Source\PSoC5/uart_solinst_PM.c ****         {
+ 185:.\Generated_Source\PSoC5/uart_solinst_PM.c ****             uart_solinst_backup.enableState = 1u;
+ 186:.\Generated_Source\PSoC5/uart_solinst_PM.c ****         }
+ 187:.\Generated_Source\PSoC5/uart_solinst_PM.c ****         else
+ 188:.\Generated_Source\PSoC5/uart_solinst_PM.c ****         {
+ 189:.\Generated_Source\PSoC5/uart_solinst_PM.c ****             uart_solinst_backup.enableState = 0u;
+ 190:.\Generated_Source\PSoC5/uart_solinst_PM.c ****         }
+ 191:.\Generated_Source\PSoC5/uart_solinst_PM.c ****     #endif /* End uart_solinst_RX_ENABLED || uart_solinst_HD_ENABLED*/
+ 192:.\Generated_Source\PSoC5/uart_solinst_PM.c **** 
+ 193:.\Generated_Source\PSoC5/uart_solinst_PM.c ****     uart_solinst_Stop();
+ 243              		.loc 1 193 0
+ 244 0036 FFF7FEFF 		bl	uart_solinst_Stop
+ 194:.\Generated_Source\PSoC5/uart_solinst_PM.c ****     uart_solinst_SaveConfig();
+ 245              		.loc 1 194 0
+ 246 003a FFF7FEFF 		bl	uart_solinst_SaveConfig
+ 195:.\Generated_Source\PSoC5/uart_solinst_PM.c **** }
+ 247              		.loc 1 195 0
+ 248 003e 80BD     		pop	{r7, pc}
+ 249              		.cfi_endproc
+ 250              	.LFE2:
+ 251              		.size	uart_solinst_Sleep, .-uart_solinst_Sleep
+ 252              		.section	.text.uart_solinst_Wakeup,"ax",%progbits
+ 253              		.align	2
+ 254              		.global	uart_solinst_Wakeup
+ 255              		.thumb
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\cculRlze.s 			page 9
+
+
+ 256              		.thumb_func
+ 257              		.type	uart_solinst_Wakeup, %function
+ 258              	uart_solinst_Wakeup:
+ 259              	.LFB3:
+ 196:.\Generated_Source\PSoC5/uart_solinst_PM.c **** 
+ 197:.\Generated_Source\PSoC5/uart_solinst_PM.c **** 
+ 198:.\Generated_Source\PSoC5/uart_solinst_PM.c **** /*******************************************************************************
+ 199:.\Generated_Source\PSoC5/uart_solinst_PM.c **** * Function Name: uart_solinst_Wakeup
+ 200:.\Generated_Source\PSoC5/uart_solinst_PM.c **** ********************************************************************************
+ 201:.\Generated_Source\PSoC5/uart_solinst_PM.c **** *
+ 202:.\Generated_Source\PSoC5/uart_solinst_PM.c **** * Summary:
+ 203:.\Generated_Source\PSoC5/uart_solinst_PM.c **** *  Restores and enables the user configuration. Should be called
+ 204:.\Generated_Source\PSoC5/uart_solinst_PM.c **** *  just after awaking from sleep.
+ 205:.\Generated_Source\PSoC5/uart_solinst_PM.c **** *
+ 206:.\Generated_Source\PSoC5/uart_solinst_PM.c **** * Parameters:
+ 207:.\Generated_Source\PSoC5/uart_solinst_PM.c **** *  None.
+ 208:.\Generated_Source\PSoC5/uart_solinst_PM.c **** *
+ 209:.\Generated_Source\PSoC5/uart_solinst_PM.c **** * Return:
+ 210:.\Generated_Source\PSoC5/uart_solinst_PM.c **** *  None.
+ 211:.\Generated_Source\PSoC5/uart_solinst_PM.c **** *
+ 212:.\Generated_Source\PSoC5/uart_solinst_PM.c **** * Global Variables:
+ 213:.\Generated_Source\PSoC5/uart_solinst_PM.c **** *  uart_solinst_backup - used when non-retention registers are restored.
+ 214:.\Generated_Source\PSoC5/uart_solinst_PM.c **** *
+ 215:.\Generated_Source\PSoC5/uart_solinst_PM.c **** * Reentrant:
+ 216:.\Generated_Source\PSoC5/uart_solinst_PM.c **** *  No.
+ 217:.\Generated_Source\PSoC5/uart_solinst_PM.c **** *
+ 218:.\Generated_Source\PSoC5/uart_solinst_PM.c **** *******************************************************************************/
+ 219:.\Generated_Source\PSoC5/uart_solinst_PM.c **** void uart_solinst_Wakeup(void)
+ 220:.\Generated_Source\PSoC5/uart_solinst_PM.c **** {
+ 260              		.loc 1 220 0
+ 261              		.cfi_startproc
+ 262              		@ args = 0, pretend = 0, frame = 0
+ 263              		@ frame_needed = 1, uses_anonymous_args = 0
+ 264 0000 80B5     		push	{r7, lr}
+ 265              	.LCFI6:
+ 266              		.cfi_def_cfa_offset 8
+ 267 0002 00AF     		add	r7, sp, #0
+ 268              		.cfi_offset 14, -4
+ 269              		.cfi_offset 7, -8
+ 270              	.LCFI7:
+ 271              		.cfi_def_cfa_register 7
+ 221:.\Generated_Source\PSoC5/uart_solinst_PM.c ****     uart_solinst_RestoreConfig();
+ 272              		.loc 1 221 0
+ 273 0004 FFF7FEFF 		bl	uart_solinst_RestoreConfig
+ 222:.\Generated_Source\PSoC5/uart_solinst_PM.c ****     #if( (uart_solinst_RX_ENABLED) || (uart_solinst_HD_ENABLED) )
+ 223:.\Generated_Source\PSoC5/uart_solinst_PM.c ****         uart_solinst_ClearRxBuffer();
+ 274              		.loc 1 223 0
+ 275 0008 FFF7FEFF 		bl	uart_solinst_ClearRxBuffer
+ 224:.\Generated_Source\PSoC5/uart_solinst_PM.c ****     #endif /* End (uart_solinst_RX_ENABLED) || (uart_solinst_HD_ENABLED) */
+ 225:.\Generated_Source\PSoC5/uart_solinst_PM.c ****     #if(uart_solinst_TX_ENABLED || uart_solinst_HD_ENABLED)
+ 226:.\Generated_Source\PSoC5/uart_solinst_PM.c ****         uart_solinst_ClearTxBuffer();
+ 276              		.loc 1 226 0
+ 277 000c FFF7FEFF 		bl	uart_solinst_ClearTxBuffer
+ 227:.\Generated_Source\PSoC5/uart_solinst_PM.c ****     #endif /* End uart_solinst_TX_ENABLED || uart_solinst_HD_ENABLED */
+ 228:.\Generated_Source\PSoC5/uart_solinst_PM.c **** 
+ 229:.\Generated_Source\PSoC5/uart_solinst_PM.c ****     if(uart_solinst_backup.enableState != 0u)
+ 278              		.loc 1 229 0
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\cculRlze.s 			page 10
+
+
+ 279 0010 40F20003 		movw	r3, #:lower16:uart_solinst_backup
+ 280 0014 C0F20003 		movt	r3, #:upper16:uart_solinst_backup
+ 281 0018 1B78     		ldrb	r3, [r3, #0]	@ zero_extendqisi2
+ 282 001a 002B     		cmp	r3, #0
+ 283 001c 01D0     		beq	.L11
+ 230:.\Generated_Source\PSoC5/uart_solinst_PM.c ****     {
+ 231:.\Generated_Source\PSoC5/uart_solinst_PM.c ****         uart_solinst_Enable();
+ 284              		.loc 1 231 0
+ 285 001e FFF7FEFF 		bl	uart_solinst_Enable
+ 286              	.L11:
+ 232:.\Generated_Source\PSoC5/uart_solinst_PM.c ****     }
+ 233:.\Generated_Source\PSoC5/uart_solinst_PM.c **** }
+ 287              		.loc 1 233 0
+ 288 0022 80BD     		pop	{r7, pc}
+ 289              		.cfi_endproc
+ 290              	.LFE3:
+ 291              		.size	uart_solinst_Wakeup, .-uart_solinst_Wakeup
+ 292              		.text
+ 293              	.Letext0:
+ 294              		.section	.debug_loc,"",%progbits
+ 295              	.Ldebug_loc0:
+ 296              	.LLST0:
+ 297 0000 00000000 		.4byte	.LFB0
+ 298 0004 02000000 		.4byte	.LCFI0
+ 299 0008 0100     		.2byte	0x1
+ 300 000a 5D       		.byte	0x5d
+ 301 000b 02000000 		.4byte	.LCFI0
+ 302 000f 04000000 		.4byte	.LCFI1
+ 303 0013 0200     		.2byte	0x2
+ 304 0015 7D       		.byte	0x7d
+ 305 0016 04       		.sleb128 4
+ 306 0017 04000000 		.4byte	.LCFI1
+ 307 001b BA000000 		.4byte	.LFE0
+ 308 001f 0200     		.2byte	0x2
+ 309 0021 77       		.byte	0x77
+ 310 0022 04       		.sleb128 4
+ 311 0023 00000000 		.4byte	0x0
+ 312 0027 00000000 		.4byte	0x0
+ 313              	.LLST1:
+ 314 002b 00000000 		.4byte	.LFB1
+ 315 002f 02000000 		.4byte	.LCFI2
+ 316 0033 0100     		.2byte	0x1
+ 317 0035 5D       		.byte	0x5d
+ 318 0036 02000000 		.4byte	.LCFI2
+ 319 003a 04000000 		.4byte	.LCFI3
+ 320 003e 0200     		.2byte	0x2
+ 321 0040 7D       		.byte	0x7d
+ 322 0041 04       		.sleb128 4
+ 323 0042 04000000 		.4byte	.LCFI3
+ 324 0046 AA000000 		.4byte	.LFE1
+ 325 004a 0200     		.2byte	0x2
+ 326 004c 77       		.byte	0x77
+ 327 004d 04       		.sleb128 4
+ 328 004e 00000000 		.4byte	0x0
+ 329 0052 00000000 		.4byte	0x0
+ 330              	.LLST2:
+ 331 0056 00000000 		.4byte	.LFB2
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\cculRlze.s 			page 11
+
+
+ 332 005a 02000000 		.4byte	.LCFI4
+ 333 005e 0100     		.2byte	0x1
+ 334 0060 5D       		.byte	0x5d
+ 335 0061 02000000 		.4byte	.LCFI4
+ 336 0065 04000000 		.4byte	.LCFI5
+ 337 0069 0200     		.2byte	0x2
+ 338 006b 7D       		.byte	0x7d
+ 339 006c 08       		.sleb128 8
+ 340 006d 04000000 		.4byte	.LCFI5
+ 341 0071 40000000 		.4byte	.LFE2
+ 342 0075 0200     		.2byte	0x2
+ 343 0077 77       		.byte	0x77
+ 344 0078 08       		.sleb128 8
+ 345 0079 00000000 		.4byte	0x0
+ 346 007d 00000000 		.4byte	0x0
+ 347              	.LLST3:
+ 348 0081 00000000 		.4byte	.LFB3
+ 349 0085 02000000 		.4byte	.LCFI6
+ 350 0089 0100     		.2byte	0x1
+ 351 008b 5D       		.byte	0x5d
+ 352 008c 02000000 		.4byte	.LCFI6
+ 353 0090 04000000 		.4byte	.LCFI7
+ 354 0094 0200     		.2byte	0x2
+ 355 0096 7D       		.byte	0x7d
+ 356 0097 08       		.sleb128 8
+ 357 0098 04000000 		.4byte	.LCFI7
+ 358 009c 24000000 		.4byte	.LFE3
+ 359 00a0 0200     		.2byte	0x2
+ 360 00a2 77       		.byte	0x77
+ 361 00a3 08       		.sleb128 8
+ 362 00a4 00000000 		.4byte	0x0
+ 363 00a8 00000000 		.4byte	0x0
+ 364              		.file 2 ".\\Generated_Source\\PSoC5\\/uart_solinst.h"
+ 365              		.file 3 ".\\Generated_Source\\PSoC5\\/cytypes.h"
+ 366              		.section	.debug_info
+ 367 0000 89010000 		.4byte	0x189
+ 368 0004 0200     		.2byte	0x2
+ 369 0006 00000000 		.4byte	.Ldebug_abbrev0
+ 370 000a 04       		.byte	0x4
+ 371 000b 01       		.uleb128 0x1
+ 372 000c 94000000 		.4byte	.LASF26
+ 373 0010 01       		.byte	0x1
+ 374 0011 49010000 		.4byte	.LASF27
+ 375 0015 0E000000 		.4byte	.LASF28
+ 376 0019 00000000 		.4byte	0x0
+ 377 001d 00000000 		.4byte	0x0
+ 378 0021 00000000 		.4byte	.Ldebug_ranges0+0x0
+ 379 0025 00000000 		.4byte	.Ldebug_line0
+ 380 0029 02       		.uleb128 0x2
+ 381 002a 01       		.byte	0x1
+ 382 002b 06       		.byte	0x6
+ 383 002c FB010000 		.4byte	.LASF0
+ 384 0030 02       		.uleb128 0x2
+ 385 0031 01       		.byte	0x1
+ 386 0032 08       		.byte	0x8
+ 387 0033 B3000000 		.4byte	.LASF1
+ 388 0037 02       		.uleb128 0x2
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\cculRlze.s 			page 12
+
+
+ 389 0038 02       		.byte	0x2
+ 390 0039 05       		.byte	0x5
+ 391 003a ED000000 		.4byte	.LASF2
+ 392 003e 02       		.uleb128 0x2
+ 393 003f 02       		.byte	0x2
+ 394 0040 07       		.byte	0x7
+ 395 0041 81000000 		.4byte	.LASF3
+ 396 0045 02       		.uleb128 0x2
+ 397 0046 04       		.byte	0x4
+ 398 0047 05       		.byte	0x5
+ 399 0048 E6010000 		.4byte	.LASF4
+ 400 004c 02       		.uleb128 0x2
+ 401 004d 04       		.byte	0x4
+ 402 004e 07       		.byte	0x7
+ 403 004f FF000000 		.4byte	.LASF5
+ 404 0053 02       		.uleb128 0x2
+ 405 0054 08       		.byte	0x8
+ 406 0055 05       		.byte	0x5
+ 407 0056 00000000 		.4byte	.LASF6
+ 408 005a 02       		.uleb128 0x2
+ 409 005b 08       		.byte	0x8
+ 410 005c 07       		.byte	0x7
+ 411 005d 32010000 		.4byte	.LASF7
+ 412 0061 03       		.uleb128 0x3
+ 413 0062 04       		.byte	0x4
+ 414 0063 05       		.byte	0x5
+ 415 0064 696E7400 		.ascii	"int\000"
+ 416 0068 02       		.uleb128 0x2
+ 417 0069 04       		.byte	0x4
+ 418 006a 07       		.byte	0x7
+ 419 006b 11010000 		.4byte	.LASF8
+ 420 006f 04       		.uleb128 0x4
+ 421 0070 E0000000 		.4byte	.LASF20
+ 422 0074 03       		.byte	0x3
+ 423 0075 4C       		.byte	0x4c
+ 424 0076 30000000 		.4byte	0x30
+ 425 007a 02       		.uleb128 0x2
+ 426 007b 04       		.byte	0x4
+ 427 007c 04       		.byte	0x4
+ 428 007d A0000000 		.4byte	.LASF9
+ 429 0081 02       		.uleb128 0x2
+ 430 0082 08       		.byte	0x8
+ 431 0083 04       		.byte	0x4
+ 432 0084 E6000000 		.4byte	.LASF10
+ 433 0088 02       		.uleb128 0x2
+ 434 0089 01       		.byte	0x1
+ 435 008a 08       		.byte	0x8
+ 436 008b 8E010000 		.4byte	.LASF11
+ 437 008f 05       		.uleb128 0x5
+ 438 0090 04       		.byte	0x4
+ 439 0091 07       		.byte	0x7
+ 440 0092 06       		.uleb128 0x6
+ 441 0093 93010000 		.4byte	.LASF29
+ 442 0097 09       		.byte	0x9
+ 443 0098 02       		.byte	0x2
+ 444 0099 46       		.byte	0x46
+ 445 009a 1C010000 		.4byte	0x11c
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\cculRlze.s 			page 13
+
+
+ 446 009e 07       		.uleb128 0x7
+ 447 009f EF010000 		.4byte	.LASF12
+ 448 00a3 02       		.byte	0x2
+ 449 00a4 47       		.byte	0x47
+ 450 00a5 6F000000 		.4byte	0x6f
+ 451 00a9 02       		.byte	0x2
+ 452 00aa 23       		.byte	0x23
+ 453 00ab 00       		.uleb128 0x0
+ 454 00ac 08       		.uleb128 0x8
+ 455 00ad 637200   		.ascii	"cr\000"
+ 456 00b0 02       		.byte	0x2
+ 457 00b1 4A       		.byte	0x4a
+ 458 00b2 6F000000 		.4byte	0x6f
+ 459 00b6 02       		.byte	0x2
+ 460 00b7 23       		.byte	0x23
+ 461 00b8 01       		.uleb128 0x1
+ 462 00b9 07       		.uleb128 0x7
+ 463 00ba DC010000 		.4byte	.LASF13
+ 464 00be 02       		.byte	0x2
+ 465 00bf 4D       		.byte	0x4d
+ 466 00c0 6F000000 		.4byte	0x6f
+ 467 00c4 02       		.byte	0x2
+ 468 00c5 23       		.byte	0x23
+ 469 00c6 02       		.uleb128 0x2
+ 470 00c7 07       		.uleb128 0x7
+ 471 00c8 F7000000 		.4byte	.LASF14
+ 472 00cc 02       		.byte	0x2
+ 473 00cd 4F       		.byte	0x4f
+ 474 00ce 6F000000 		.4byte	0x6f
+ 475 00d2 02       		.byte	0x2
+ 476 00d3 23       		.byte	0x23
+ 477 00d4 03       		.uleb128 0x3
+ 478 00d5 07       		.uleb128 0x7
+ 479 00d6 74010000 		.4byte	.LASF15
+ 480 00da 02       		.byte	0x2
+ 481 00db 51       		.byte	0x51
+ 482 00dc 6F000000 		.4byte	0x6f
+ 483 00e0 02       		.byte	0x2
+ 484 00e1 23       		.byte	0x23
+ 485 00e2 04       		.uleb128 0x4
+ 486 00e3 07       		.uleb128 0x7
+ 487 00e4 7D010000 		.4byte	.LASF16
+ 488 00e8 02       		.byte	0x2
+ 489 00e9 52       		.byte	0x52
+ 490 00ea 6F000000 		.4byte	0x6f
+ 491 00ee 02       		.byte	0x2
+ 492 00ef 23       		.byte	0x23
+ 493 00f0 05       		.uleb128 0x5
+ 494 00f1 07       		.uleb128 0x7
+ 495 00f2 C1000000 		.4byte	.LASF17
+ 496 00f6 02       		.byte	0x2
+ 497 00f7 59       		.byte	0x59
+ 498 00f8 6F000000 		.4byte	0x6f
+ 499 00fc 02       		.byte	0x2
+ 500 00fd 23       		.byte	0x23
+ 501 00fe 06       		.uleb128 0x6
+ 502 00ff 07       		.uleb128 0x7
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\cculRlze.s 			page 14
+
+
+ 503 0100 A6000000 		.4byte	.LASF18
+ 504 0104 02       		.byte	0x2
+ 505 0105 5B       		.byte	0x5b
+ 506 0106 6F000000 		.4byte	0x6f
+ 507 010a 02       		.byte	0x2
+ 508 010b 23       		.byte	0x23
+ 509 010c 07       		.uleb128 0x7
+ 510 010d 07       		.uleb128 0x7
+ 511 010e 86010000 		.4byte	.LASF19
+ 512 0112 02       		.byte	0x2
+ 513 0113 61       		.byte	0x61
+ 514 0114 6F000000 		.4byte	0x6f
+ 515 0118 02       		.byte	0x2
+ 516 0119 23       		.byte	0x23
+ 517 011a 08       		.uleb128 0x8
+ 518 011b 00       		.byte	0x0
+ 519 011c 04       		.uleb128 0x4
+ 520 011d C1010000 		.4byte	.LASF21
+ 521 0121 02       		.byte	0x2
+ 522 0122 64       		.byte	0x64
+ 523 0123 92000000 		.4byte	0x92
+ 524 0127 09       		.uleb128 0x9
+ 525 0128 01       		.byte	0x1
+ 526 0129 69000000 		.4byte	.LASF22
+ 527 012d 01       		.byte	0x1
+ 528 012e 34       		.byte	0x34
+ 529 012f 01       		.byte	0x1
+ 530 0130 00000000 		.4byte	.LFB0
+ 531 0134 BA000000 		.4byte	.LFE0
+ 532 0138 00000000 		.4byte	.LLST0
+ 533 013c 09       		.uleb128 0x9
+ 534 013d 01       		.byte	0x1
+ 535 013e 07020000 		.4byte	.LASF23
+ 536 0142 01       		.byte	0x1
+ 537 0143 6E       		.byte	0x6e
+ 538 0144 01       		.byte	0x1
+ 539 0145 00000000 		.4byte	.LFB1
+ 540 0149 AA000000 		.4byte	.LFE1
+ 541 014d 2B000000 		.4byte	.LLST1
+ 542 0151 09       		.uleb128 0x9
+ 543 0152 01       		.byte	0x1
+ 544 0153 AE010000 		.4byte	.LASF24
+ 545 0157 01       		.byte	0x1
+ 546 0158 AA       		.byte	0xaa
+ 547 0159 01       		.byte	0x1
+ 548 015a 00000000 		.4byte	.LFB2
+ 549 015e 40000000 		.4byte	.LFE2
+ 550 0162 56000000 		.4byte	.LLST2
+ 551 0166 09       		.uleb128 0x9
+ 552 0167 01       		.byte	0x1
+ 553 0168 1E010000 		.4byte	.LASF25
+ 554 016c 01       		.byte	0x1
+ 555 016d DB       		.byte	0xdb
+ 556 016e 01       		.byte	0x1
+ 557 016f 00000000 		.4byte	.LFB3
+ 558 0173 24000000 		.4byte	.LFE3
+ 559 0177 81000000 		.4byte	.LLST3
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\cculRlze.s 			page 15
+
+
+ 560 017b 0A       		.uleb128 0xa
+ 561 017c CC000000 		.4byte	.LASF30
+ 562 0180 01       		.byte	0x1
+ 563 0181 18       		.byte	0x18
+ 564 0182 1C010000 		.4byte	0x11c
+ 565 0186 05       		.byte	0x5
+ 566 0187 03       		.byte	0x3
+ 567 0188 00000000 		.4byte	uart_solinst_backup
+ 568 018c 00       		.byte	0x0
+ 569              		.section	.debug_abbrev
+ 570 0000 01       		.uleb128 0x1
+ 571 0001 11       		.uleb128 0x11
+ 572 0002 01       		.byte	0x1
+ 573 0003 25       		.uleb128 0x25
+ 574 0004 0E       		.uleb128 0xe
+ 575 0005 13       		.uleb128 0x13
+ 576 0006 0B       		.uleb128 0xb
+ 577 0007 03       		.uleb128 0x3
+ 578 0008 0E       		.uleb128 0xe
+ 579 0009 1B       		.uleb128 0x1b
+ 580 000a 0E       		.uleb128 0xe
+ 581 000b 11       		.uleb128 0x11
+ 582 000c 01       		.uleb128 0x1
+ 583 000d 52       		.uleb128 0x52
+ 584 000e 01       		.uleb128 0x1
+ 585 000f 55       		.uleb128 0x55
+ 586 0010 06       		.uleb128 0x6
+ 587 0011 10       		.uleb128 0x10
+ 588 0012 06       		.uleb128 0x6
+ 589 0013 00       		.byte	0x0
+ 590 0014 00       		.byte	0x0
+ 591 0015 02       		.uleb128 0x2
+ 592 0016 24       		.uleb128 0x24
+ 593 0017 00       		.byte	0x0
+ 594 0018 0B       		.uleb128 0xb
+ 595 0019 0B       		.uleb128 0xb
+ 596 001a 3E       		.uleb128 0x3e
+ 597 001b 0B       		.uleb128 0xb
+ 598 001c 03       		.uleb128 0x3
+ 599 001d 0E       		.uleb128 0xe
+ 600 001e 00       		.byte	0x0
+ 601 001f 00       		.byte	0x0
+ 602 0020 03       		.uleb128 0x3
+ 603 0021 24       		.uleb128 0x24
+ 604 0022 00       		.byte	0x0
+ 605 0023 0B       		.uleb128 0xb
+ 606 0024 0B       		.uleb128 0xb
+ 607 0025 3E       		.uleb128 0x3e
+ 608 0026 0B       		.uleb128 0xb
+ 609 0027 03       		.uleb128 0x3
+ 610 0028 08       		.uleb128 0x8
+ 611 0029 00       		.byte	0x0
+ 612 002a 00       		.byte	0x0
+ 613 002b 04       		.uleb128 0x4
+ 614 002c 16       		.uleb128 0x16
+ 615 002d 00       		.byte	0x0
+ 616 002e 03       		.uleb128 0x3
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\cculRlze.s 			page 16
+
+
+ 617 002f 0E       		.uleb128 0xe
+ 618 0030 3A       		.uleb128 0x3a
+ 619 0031 0B       		.uleb128 0xb
+ 620 0032 3B       		.uleb128 0x3b
+ 621 0033 0B       		.uleb128 0xb
+ 622 0034 49       		.uleb128 0x49
+ 623 0035 13       		.uleb128 0x13
+ 624 0036 00       		.byte	0x0
+ 625 0037 00       		.byte	0x0
+ 626 0038 05       		.uleb128 0x5
+ 627 0039 24       		.uleb128 0x24
+ 628 003a 00       		.byte	0x0
+ 629 003b 0B       		.uleb128 0xb
+ 630 003c 0B       		.uleb128 0xb
+ 631 003d 3E       		.uleb128 0x3e
+ 632 003e 0B       		.uleb128 0xb
+ 633 003f 00       		.byte	0x0
+ 634 0040 00       		.byte	0x0
+ 635 0041 06       		.uleb128 0x6
+ 636 0042 13       		.uleb128 0x13
+ 637 0043 01       		.byte	0x1
+ 638 0044 03       		.uleb128 0x3
+ 639 0045 0E       		.uleb128 0xe
+ 640 0046 0B       		.uleb128 0xb
+ 641 0047 0B       		.uleb128 0xb
+ 642 0048 3A       		.uleb128 0x3a
+ 643 0049 0B       		.uleb128 0xb
+ 644 004a 3B       		.uleb128 0x3b
+ 645 004b 0B       		.uleb128 0xb
+ 646 004c 01       		.uleb128 0x1
+ 647 004d 13       		.uleb128 0x13
+ 648 004e 00       		.byte	0x0
+ 649 004f 00       		.byte	0x0
+ 650 0050 07       		.uleb128 0x7
+ 651 0051 0D       		.uleb128 0xd
+ 652 0052 00       		.byte	0x0
+ 653 0053 03       		.uleb128 0x3
+ 654 0054 0E       		.uleb128 0xe
+ 655 0055 3A       		.uleb128 0x3a
+ 656 0056 0B       		.uleb128 0xb
+ 657 0057 3B       		.uleb128 0x3b
+ 658 0058 0B       		.uleb128 0xb
+ 659 0059 49       		.uleb128 0x49
+ 660 005a 13       		.uleb128 0x13
+ 661 005b 38       		.uleb128 0x38
+ 662 005c 0A       		.uleb128 0xa
+ 663 005d 00       		.byte	0x0
+ 664 005e 00       		.byte	0x0
+ 665 005f 08       		.uleb128 0x8
+ 666 0060 0D       		.uleb128 0xd
+ 667 0061 00       		.byte	0x0
+ 668 0062 03       		.uleb128 0x3
+ 669 0063 08       		.uleb128 0x8
+ 670 0064 3A       		.uleb128 0x3a
+ 671 0065 0B       		.uleb128 0xb
+ 672 0066 3B       		.uleb128 0x3b
+ 673 0067 0B       		.uleb128 0xb
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\cculRlze.s 			page 17
+
+
+ 674 0068 49       		.uleb128 0x49
+ 675 0069 13       		.uleb128 0x13
+ 676 006a 38       		.uleb128 0x38
+ 677 006b 0A       		.uleb128 0xa
+ 678 006c 00       		.byte	0x0
+ 679 006d 00       		.byte	0x0
+ 680 006e 09       		.uleb128 0x9
+ 681 006f 2E       		.uleb128 0x2e
+ 682 0070 00       		.byte	0x0
+ 683 0071 3F       		.uleb128 0x3f
+ 684 0072 0C       		.uleb128 0xc
+ 685 0073 03       		.uleb128 0x3
+ 686 0074 0E       		.uleb128 0xe
+ 687 0075 3A       		.uleb128 0x3a
+ 688 0076 0B       		.uleb128 0xb
+ 689 0077 3B       		.uleb128 0x3b
+ 690 0078 0B       		.uleb128 0xb
+ 691 0079 27       		.uleb128 0x27
+ 692 007a 0C       		.uleb128 0xc
+ 693 007b 11       		.uleb128 0x11
+ 694 007c 01       		.uleb128 0x1
+ 695 007d 12       		.uleb128 0x12
+ 696 007e 01       		.uleb128 0x1
+ 697 007f 40       		.uleb128 0x40
+ 698 0080 06       		.uleb128 0x6
+ 699 0081 00       		.byte	0x0
+ 700 0082 00       		.byte	0x0
+ 701 0083 0A       		.uleb128 0xa
+ 702 0084 34       		.uleb128 0x34
+ 703 0085 00       		.byte	0x0
+ 704 0086 03       		.uleb128 0x3
+ 705 0087 0E       		.uleb128 0xe
+ 706 0088 3A       		.uleb128 0x3a
+ 707 0089 0B       		.uleb128 0xb
+ 708 008a 3B       		.uleb128 0x3b
+ 709 008b 0B       		.uleb128 0xb
+ 710 008c 49       		.uleb128 0x49
+ 711 008d 13       		.uleb128 0x13
+ 712 008e 02       		.uleb128 0x2
+ 713 008f 0A       		.uleb128 0xa
+ 714 0090 00       		.byte	0x0
+ 715 0091 00       		.byte	0x0
+ 716 0092 00       		.byte	0x0
+ 717              		.section	.debug_pubnames,"",%progbits
+ 718 0000 78000000 		.4byte	0x78
+ 719 0004 0200     		.2byte	0x2
+ 720 0006 00000000 		.4byte	.Ldebug_info0
+ 721 000a 8D010000 		.4byte	0x18d
+ 722 000e 27010000 		.4byte	0x127
+ 723 0012 75617274 		.ascii	"uart_solinst_SaveConfig\000"
+ 723      5F736F6C 
+ 723      696E7374 
+ 723      5F536176 
+ 723      65436F6E 
+ 724 002a 3C010000 		.4byte	0x13c
+ 725 002e 75617274 		.ascii	"uart_solinst_RestoreConfig\000"
+ 725      5F736F6C 
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\cculRlze.s 			page 18
+
+
+ 725      696E7374 
+ 725      5F526573 
+ 725      746F7265 
+ 726 0049 51010000 		.4byte	0x151
+ 727 004d 75617274 		.ascii	"uart_solinst_Sleep\000"
+ 727      5F736F6C 
+ 727      696E7374 
+ 727      5F536C65 
+ 727      657000
+ 728 0060 66010000 		.4byte	0x166
+ 729 0064 75617274 		.ascii	"uart_solinst_Wakeup\000"
+ 729      5F736F6C 
+ 729      696E7374 
+ 729      5F57616B 
+ 729      65757000 
+ 730 0078 00000000 		.4byte	0x0
+ 731              		.section	.debug_aranges,"",%progbits
+ 732 0000 34000000 		.4byte	0x34
+ 733 0004 0200     		.2byte	0x2
+ 734 0006 00000000 		.4byte	.Ldebug_info0
+ 735 000a 04       		.byte	0x4
+ 736 000b 00       		.byte	0x0
+ 737 000c 0000     		.2byte	0x0
+ 738 000e 0000     		.2byte	0x0
+ 739 0010 00000000 		.4byte	.LFB0
+ 740 0014 BA000000 		.4byte	.LFE0-.LFB0
+ 741 0018 00000000 		.4byte	.LFB1
+ 742 001c AA000000 		.4byte	.LFE1-.LFB1
+ 743 0020 00000000 		.4byte	.LFB2
+ 744 0024 40000000 		.4byte	.LFE2-.LFB2
+ 745 0028 00000000 		.4byte	.LFB3
+ 746 002c 24000000 		.4byte	.LFE3-.LFB3
+ 747 0030 00000000 		.4byte	0x0
+ 748 0034 00000000 		.4byte	0x0
+ 749              		.section	.debug_ranges,"",%progbits
+ 750              	.Ldebug_ranges0:
+ 751 0000 00000000 		.4byte	.Ltext0
+ 752 0004 00000000 		.4byte	.Letext0
+ 753 0008 00000000 		.4byte	.LFB0
+ 754 000c BA000000 		.4byte	.LFE0
+ 755 0010 00000000 		.4byte	.LFB1
+ 756 0014 AA000000 		.4byte	.LFE1
+ 757 0018 00000000 		.4byte	.LFB2
+ 758 001c 40000000 		.4byte	.LFE2
+ 759 0020 00000000 		.4byte	.LFB3
+ 760 0024 24000000 		.4byte	.LFE3
+ 761 0028 00000000 		.4byte	0x0
+ 762 002c 00000000 		.4byte	0x0
+ 763              		.section	.debug_str,"MS",%progbits,1
+ 764              	.LASF6:
+ 765 0000 6C6F6E67 		.ascii	"long long int\000"
+ 765      206C6F6E 
+ 765      6720696E 
+ 765      7400
+ 766              	.LASF28:
+ 767 000e 433A5C55 		.ascii	"C:\\Users\\karunmj\\Documents\\GitHub\\m2m\\softwar"
+ 767      73657273 
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\cculRlze.s 			page 19
+
+
+ 767      5C6B6172 
+ 767      756E6D6A 
+ 767      5C446F63 
+ 768 003b 655C736F 		.ascii	"e\\solinst\\Solinst Driver\\Solinst Driver.cydsn\000"
+ 768      6C696E73 
+ 768      745C536F 
+ 768      6C696E73 
+ 768      74204472 
+ 769              	.LASF22:
+ 770 0069 75617274 		.ascii	"uart_solinst_SaveConfig\000"
+ 770      5F736F6C 
+ 770      696E7374 
+ 770      5F536176 
+ 770      65436F6E 
+ 771              	.LASF3:
+ 772 0081 73686F72 		.ascii	"short unsigned int\000"
+ 772      7420756E 
+ 772      7369676E 
+ 772      65642069 
+ 772      6E7400
+ 773              	.LASF26:
+ 774 0094 474E5520 		.ascii	"GNU C 4.4.1\000"
+ 774      4320342E 
+ 774      342E3100 
+ 775              	.LASF9:
+ 776 00a0 666C6F61 		.ascii	"float\000"
+ 776      7400
+ 777              	.LASF18:
+ 778 00a6 74785F63 		.ascii	"tx_clk_compl\000"
+ 778      6C6B5F63 
+ 778      6F6D706C 
+ 778      00
+ 779              	.LASF1:
+ 780 00b3 756E7369 		.ascii	"unsigned char\000"
+ 780      676E6564 
+ 780      20636861 
+ 780      7200
+ 781              	.LASF17:
+ 782 00c1 74785F63 		.ascii	"tx_clk_ctr\000"
+ 782      6C6B5F63 
+ 782      747200
+ 783              	.LASF30:
+ 784 00cc 75617274 		.ascii	"uart_solinst_backup\000"
+ 784      5F736F6C 
+ 784      696E7374 
+ 784      5F626163 
+ 784      6B757000 
+ 785              	.LASF20:
+ 786 00e0 75696E74 		.ascii	"uint8\000"
+ 786      3800
+ 787              	.LASF10:
+ 788 00e6 646F7562 		.ascii	"double\000"
+ 788      6C6500
+ 789              	.LASF2:
+ 790 00ed 73686F72 		.ascii	"short int\000"
+ 790      7420696E 
+ 790      7400
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\cculRlze.s 			page 20
+
+
+ 791              	.LASF14:
+ 792 00f7 72785F6D 		.ascii	"rx_mask\000"
+ 792      61736B00 
+ 793              	.LASF5:
+ 794 00ff 6C6F6E67 		.ascii	"long unsigned int\000"
+ 794      20756E73 
+ 794      69676E65 
+ 794      6420696E 
+ 794      7400
+ 795              	.LASF8:
+ 796 0111 756E7369 		.ascii	"unsigned int\000"
+ 796      676E6564 
+ 796      20696E74 
+ 796      00
+ 797              	.LASF25:
+ 798 011e 75617274 		.ascii	"uart_solinst_Wakeup\000"
+ 798      5F736F6C 
+ 798      696E7374 
+ 798      5F57616B 
+ 798      65757000 
+ 799              	.LASF7:
+ 800 0132 6C6F6E67 		.ascii	"long long unsigned int\000"
+ 800      206C6F6E 
+ 800      6720756E 
+ 800      7369676E 
+ 800      65642069 
+ 801              	.LASF27:
+ 802 0149 2E5C4765 		.ascii	".\\Generated_Source\\PSoC5\\uart_solinst_PM.c\000"
+ 802      6E657261 
+ 802      7465645F 
+ 802      536F7572 
+ 802      63655C50 
+ 803              	.LASF15:
+ 804 0174 72785F61 		.ascii	"rx_addr1\000"
+ 804      64647231 
+ 804      00
+ 805              	.LASF16:
+ 806 017d 72785F61 		.ascii	"rx_addr2\000"
+ 806      64647232 
+ 806      00
+ 807              	.LASF19:
+ 808 0186 74785F6D 		.ascii	"tx_mask\000"
+ 808      61736B00 
+ 809              	.LASF11:
+ 810 018e 63686172 		.ascii	"char\000"
+ 810      00
+ 811              	.LASF29:
+ 812 0193 75617274 		.ascii	"uart_solinst_backupStruct_\000"
+ 812      5F736F6C 
+ 812      696E7374 
+ 812      5F626163 
+ 812      6B757053 
+ 813              	.LASF24:
+ 814 01ae 75617274 		.ascii	"uart_solinst_Sleep\000"
+ 814      5F736F6C 
+ 814      696E7374 
+ 814      5F536C65 
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\cculRlze.s 			page 21
+
+
+ 814      657000
+ 815              	.LASF21:
+ 816 01c1 75617274 		.ascii	"uart_solinst_BACKUP_STRUCT\000"
+ 816      5F736F6C 
+ 816      696E7374 
+ 816      5F424143 
+ 816      4B55505F 
+ 817              	.LASF13:
+ 818 01dc 72785F70 		.ascii	"rx_period\000"
+ 818      6572696F 
+ 818      6400
+ 819              	.LASF4:
+ 820 01e6 6C6F6E67 		.ascii	"long int\000"
+ 820      20696E74 
+ 820      00
+ 821              	.LASF12:
+ 822 01ef 656E6162 		.ascii	"enableState\000"
+ 822      6C655374 
+ 822      61746500 
+ 823              	.LASF0:
+ 824 01fb 7369676E 		.ascii	"signed char\000"
+ 824      65642063 
+ 824      68617200 
+ 825              	.LASF23:
+ 826 0207 75617274 		.ascii	"uart_solinst_RestoreConfig\000"
+ 826      5F736F6C 
+ 826      696E7374 
+ 826      5F526573 
+ 826      746F7265 
+ 827              		.ident	"GCC: (Sourcery G++ Lite 2010q1-188) 4.4.1"

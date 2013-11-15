@@ -1,0 +1,1127 @@
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\cc5XuNas.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 6
+  11              		.eabi_attribute 18, 4
+  12              		.thumb
+  13              		.file	"ultrasonic.c"
+  14              		.section	.debug_abbrev,"",%progbits
+  15              	.Ldebug_abbrev0:
+  16              		.section	.debug_info,"",%progbits
+  17              	.Ldebug_info0:
+  18              		.section	.debug_line,"",%progbits
+  19              	.Ldebug_line0:
+  20 0000 B6000000 		.text
+  20      02005900 
+  20      00000201 
+  20      FB0E0D00 
+  20      01010101 
+  21              	.Ltext0:
+  22              		.cfi_sections	.debug_frame
+  23              		.section	.text.ultrasonic_start,"ax",%progbits
+  24              		.align	2
+  25              		.global	ultrasonic_start
+  26              		.thumb
+  27              		.thumb_func
+  28              		.type	ultrasonic_start, %function
+  29              	ultrasonic_start:
+  30              	.LFB29:
+  31              		.file 1 ".\\ultrasonic.c"
+   1:.\ultrasonic.c **** /* ========================================
+   2:.\ultrasonic.c ****  *
+   3:.\ultrasonic.c ****  * Copyright YOUR COMPANY, THE YEAR
+   4:.\ultrasonic.c ****  * All Rights Reserved
+   5:.\ultrasonic.c ****  * UNPUBLISHED, LICENSED SOFTWARE.
+   6:.\ultrasonic.c ****  *
+   7:.\ultrasonic.c ****  * CONFIDENTIAL AND PROPRIETARY INFORMATION
+   8:.\ultrasonic.c ****  * WHICH IS THE PROPERTY OF your company.
+   9:.\ultrasonic.c ****  *
+  10:.\ultrasonic.c ****  * ========================================
+  11:.\ultrasonic.c **** */
+  12:.\ultrasonic.c **** 
+  13:.\ultrasonic.c **** #include <device.h>
+  14:.\ultrasonic.c **** #include "ultrasonic.h"
+  15:.\ultrasonic.c **** 
+  16:.\ultrasonic.c **** //uint8 rx_char_hold;
+  17:.\ultrasonic.c **** 
+  18:.\ultrasonic.c **** CY_ISR_PROTO(isr_byte_ultrasonic_rx);
+  19:.\ultrasonic.c **** 
+  20:.\ultrasonic.c **** void ultrasonic_start(){
+  32              		.loc 1 20 0
+  33              		.cfi_startproc
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\cc5XuNas.s 			page 2
+
+
+  34              		@ args = 0, pretend = 0, frame = 0
+  35              		@ frame_needed = 1, uses_anonymous_args = 0
+  36 0000 80B5     		push	{r7, lr}
+  37              	.LCFI0:
+  38              		.cfi_def_cfa_offset 8
+  39 0002 00AF     		add	r7, sp, #0
+  40              		.cfi_offset 14, -4
+  41              		.cfi_offset 7, -8
+  42              	.LCFI1:
+  43              		.cfi_def_cfa_register 7
+  21:.\ultrasonic.c ****     ultrasonic_uart_Start();
+  44              		.loc 1 21 0
+  45 0004 FFF7FEFF 		bl	ultrasonic_uart_Start
+  22:.\ultrasonic.c ****     isr_byte_ultrasonic_rx_StartEx(isr_byte_ultrasonic_rx);
+  46              		.loc 1 22 0
+  47 0008 40F20000 		movw	r0, #:lower16:isr_byte_ultrasonic_rx
+  48 000c C0F20000 		movt	r0, #:upper16:isr_byte_ultrasonic_rx
+  49 0010 FFF7FEFF 		bl	isr_byte_ultrasonic_rx_StartEx
+  23:.\ultrasonic.c **** }
+  50              		.loc 1 23 0
+  51 0014 80BD     		pop	{r7, pc}
+  52              		.cfi_endproc
+  53              	.LFE29:
+  54              		.size	ultrasonic_start, .-ultrasonic_start
+  55 0016 00BF     		.section	.text.ultrasonic_read,"ax",%progbits
+  56              		.align	2
+  57              		.global	ultrasonic_read
+  58              		.thumb
+  59              		.thumb_func
+  60              		.type	ultrasonic_read, %function
+  61              	ultrasonic_read:
+  62              	.LFB30:
+  24:.\ultrasonic.c **** 
+  25:.\ultrasonic.c **** uint8 ultrasonic_read(uint8* ultrasonic_packet, uint8 ultrasonic_packet_size){
+  63              		.loc 1 25 0
+  64              		.cfi_startproc
+  65              		@ args = 0, pretend = 0, frame = 24
+  66              		@ frame_needed = 1, uses_anonymous_args = 0
+  67 0000 2DE9F043 		push	{r4, r5, r6, r7, r8, r9, lr}
+  68              	.LCFI2:
+  69              		.cfi_def_cfa_offset 28
+  70 0004 87B0     		sub	sp, sp, #28
+  71              	.LCFI3:
+  72              		.cfi_def_cfa_offset 56
+  73 0006 00AF     		add	r7, sp, #0
+  74              		.cfi_offset 14, -4
+  75              		.cfi_offset 9, -8
+  76              		.cfi_offset 8, -12
+  77              		.cfi_offset 7, -16
+  78              		.cfi_offset 6, -20
+  79              		.cfi_offset 5, -24
+  80              		.cfi_offset 4, -28
+  81              	.LCFI4:
+  82              		.cfi_def_cfa_register 7
+  83 0008 7860     		str	r0, [r7, #4]
+  84 000a F970     		strb	r1, [r7, #3]
+  85              		.loc 1 25 0
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\cc5XuNas.s 			page 3
+
+
+  86 000c 6946     		mov	r1, sp
+  87 000e 0E46     		mov	r6, r1
+  26:.\ultrasonic.c ****     uint8 ultrasonic_uart_received_string[ultrasonic_packet_size];
+  88              		.loc 1 26 0
+  89 0010 97F803C0 		ldrb	ip, [r7, #3]	@ zero_extendqisi2
+  90 0014 6146     		mov	r1, ip
+  91 0016 01F1FF31 		add	r1, r1, #-1
+  92 001a F960     		str	r1, [r7, #12]
+  93 001c 0CF0FF00 		and	r0, ip, #255
+  94 0020 4FF00001 		mov	r1, #0
+  95 0024 4FF0FF38 		mov	r8, #-1
+  96 0028 4FF00F09 		mov	r9, #15
+  97 002c 00EA0800 		and	r0, r0, r8
+  98 0030 01EA0901 		and	r1, r1, r9
+  99 0034 4FEA507E 		lsr	lr, r0, #29
+ 100 0038 4FEAC105 		lsl	r5, r1, #3
+ 101 003c 4EEA0505 		orr	r5, lr, r5
+ 102 0040 4FEAC004 		lsl	r4, r0, #3
+ 103 0044 4FF0FF30 		mov	r0, #-1
+ 104 0048 4FF00F01 		mov	r1, #15
+ 105 004c 04EA0004 		and	r4, r4, r0
+ 106 0050 05EA0105 		and	r5, r5, r1
+ 107 0054 0CF0FF00 		and	r0, ip, #255
+ 108 0058 4FF00001 		mov	r1, #0
+ 109 005c 4FF0FF34 		mov	r4, #-1
+ 110 0060 4FF00F05 		mov	r5, #15
+ 111 0064 00EA0400 		and	r0, r0, r4
+ 112 0068 01EA0501 		and	r1, r1, r5
+ 113 006c 4FEA507E 		lsr	lr, r0, #29
+ 114 0070 4FEAC103 		lsl	r3, r1, #3
+ 115 0074 4EEA0303 		orr	r3, lr, r3
+ 116 0078 4FEAC002 		lsl	r2, r0, #3
+ 117 007c 4FF0FF30 		mov	r0, #-1
+ 118 0080 4FF00F01 		mov	r1, #15
+ 119 0084 02EA0002 		and	r2, r2, r0
+ 120 0088 03EA0103 		and	r3, r3, r1
+ 121 008c 6346     		mov	r3, ip
+ 122 008e 03F10703 		add	r3, r3, #7
+ 123 0092 03F10703 		add	r3, r3, #7
+ 124 0096 4FEAD303 		lsr	r3, r3, #3
+ 125 009a 4FEAC303 		lsl	r3, r3, #3
+ 126 009e ADEB030D 		sub	sp, sp, r3
+ 127 00a2 6B46     		mov	r3, sp
+ 128 00a4 03F10703 		add	r3, r3, #7
+ 129 00a8 4FEAD303 		lsr	r3, r3, #3
+ 130 00ac 4FEAC303 		lsl	r3, r3, #3
+ 131 00b0 3B61     		str	r3, [r7, #16]
+  27:.\ultrasonic.c ****     uint8 i, j, r_count, rx_char;
+  28:.\ultrasonic.c ****     
+  29:.\ultrasonic.c ****     // provide power to start the sensing
+  30:.\ultrasonic.c ****     ultrasonic_voltage_pin_Write(0u); 
+ 132              		.loc 1 30 0
+ 133 00b2 4FF00000 		mov	r0, #0
+ 134 00b6 FFF7FEFF 		bl	ultrasonic_voltage_pin_Write
+  31:.\ultrasonic.c ****     CyDelay(1000u);
+ 135              		.loc 1 31 0
+ 136 00ba 4FF47A70 		mov	r0, #1000
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\cc5XuNas.s 			page 4
+
+
+ 137 00be FFF7FEFF 		bl	CyDelay
+  32:.\ultrasonic.c ****     
+  33:.\ultrasonic.c ****     // store stream of characters in ultrasonic_uart_received_string
+  34:.\ultrasonic.c ****     for(i = 0; i < ultrasonic_packet_size;){    
+ 138              		.loc 1 34 0
+ 139 00c2 4FF00003 		mov	r3, #0
+ 140 00c6 3B75     		strb	r3, [r7, #20]
+ 141 00c8 0EE0     		b	.L4
+ 142              	.L5:
+  35:.\ultrasonic.c ****         rx_char = ultrasonic_uart_GetChar();
+ 143              		.loc 1 35 0
+ 144 00ca FFF7FEFF 		bl	ultrasonic_uart_GetChar
+ 145 00ce 0346     		mov	r3, r0
+ 146 00d0 FB75     		strb	r3, [r7, #23]
+  36:.\ultrasonic.c ****         if(rx_char){
+ 147              		.loc 1 36 0
+ 148 00d2 FB7D     		ldrb	r3, [r7, #23]	@ zero_extendqisi2
+ 149 00d4 002B     		cmp	r3, #0
+ 150 00d6 07D0     		beq	.L4
+  37:.\ultrasonic.c ****             ultrasonic_uart_received_string[i] = rx_char;
+ 151              		.loc 1 37 0
+ 152 00d8 3B7D     		ldrb	r3, [r7, #20]	@ zero_extendqisi2
+ 153 00da 3A69     		ldr	r2, [r7, #16]
+ 154 00dc F97D     		ldrb	r1, [r7, #23]
+ 155 00de D154     		strb	r1, [r2, r3]
+  38:.\ultrasonic.c ****             i++;
+ 156              		.loc 1 38 0
+ 157 00e0 3B7D     		ldrb	r3, [r7, #20]
+ 158 00e2 03F10103 		add	r3, r3, #1
+ 159 00e6 3B75     		strb	r3, [r7, #20]
+ 160              	.L4:
+ 161              		.loc 1 34 0
+ 162 00e8 3A7D     		ldrb	r2, [r7, #20]	@ zero_extendqisi2
+ 163 00ea FB78     		ldrb	r3, [r7, #3]	@ zero_extendqisi2
+ 164 00ec 9A42     		cmp	r2, r3
+ 165 00ee ECD3     		bcc	.L5
+  39:.\ultrasonic.c ****         }
+  40:.\ultrasonic.c ****     }
+  41:.\ultrasonic.c ****     
+  42:.\ultrasonic.c ****     // set all elements of ultrasonic_packet to zero
+  43:.\ultrasonic.c ****     for(i = 0; i < ultrasonic_packet_size; i++){
+ 166              		.loc 1 43 0
+ 167 00f0 4FF00003 		mov	r3, #0
+ 168 00f4 3B75     		strb	r3, [r7, #20]
+ 169 00f6 09E0     		b	.L6
+ 170              	.L7:
+  44:.\ultrasonic.c ****         ultrasonic_packet[i] = 0u;
+ 171              		.loc 1 44 0
+ 172 00f8 3A7D     		ldrb	r2, [r7, #20]	@ zero_extendqisi2
+ 173 00fa 7B68     		ldr	r3, [r7, #4]
+ 174 00fc 1344     		add	r3, r2, r3
+ 175 00fe 4FF00002 		mov	r2, #0
+ 176 0102 1A70     		strb	r2, [r3, #0]
+ 177              		.loc 1 43 0
+ 178 0104 3B7D     		ldrb	r3, [r7, #20]
+ 179 0106 03F10103 		add	r3, r3, #1
+ 180 010a 3B75     		strb	r3, [r7, #20]
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\cc5XuNas.s 			page 5
+
+
+ 181              	.L6:
+ 182 010c 3A7D     		ldrb	r2, [r7, #20]	@ zero_extendqisi2
+ 183 010e FB78     		ldrb	r3, [r7, #3]	@ zero_extendqisi2
+ 184 0110 9A42     		cmp	r2, r3
+ 185 0112 F1D3     		bcc	.L7
+  45:.\ultrasonic.c ****     }
+  46:.\ultrasonic.c ****     
+  47:.\ultrasonic.c ****     // store relavent strings to ultrasonic_packet
+  48:.\ultrasonic.c ****     for(r_count = 0, i = 0, j = 0;r_count < 2;i++){
+ 186              		.loc 1 48 0
+ 187 0114 4FF00003 		mov	r3, #0
+ 188 0118 BB75     		strb	r3, [r7, #22]
+ 189 011a 4FF00003 		mov	r3, #0
+ 190 011e 3B75     		strb	r3, [r7, #20]
+ 191 0120 4FF00003 		mov	r3, #0
+ 192 0124 7B75     		strb	r3, [r7, #21]
+ 193 0126 26E0     		b	.L8
+ 194              	.L14:
+  49:.\ultrasonic.c ****         rx_char = ultrasonic_uart_received_string[i];
+ 195              		.loc 1 49 0
+ 196 0128 3B7D     		ldrb	r3, [r7, #20]	@ zero_extendqisi2
+ 197 012a 3A69     		ldr	r2, [r7, #16]
+ 198 012c D35C     		ldrb	r3, [r2, r3]
+ 199 012e FB75     		strb	r3, [r7, #23]
+  50:.\ultrasonic.c ****         if(rx_char == 82u){
+ 200              		.loc 1 50 0
+ 201 0130 FB7D     		ldrb	r3, [r7, #23]	@ zero_extendqisi2
+ 202 0132 522B     		cmp	r3, #82
+ 203 0134 03D1     		bne	.L9
+  51:.\ultrasonic.c ****             r_count++;      // increment everytime an "R" ascii character is encountered
+ 204              		.loc 1 51 0
+ 205 0136 BB7D     		ldrb	r3, [r7, #22]
+ 206 0138 03F10103 		add	r3, r3, #1
+ 207 013c BB75     		strb	r3, [r7, #22]
+ 208              	.L9:
+  52:.\ultrasonic.c ****         }
+  53:.\ultrasonic.c ****         if(r_count > 0){
+ 209              		.loc 1 53 0
+ 210 013e BB7D     		ldrb	r3, [r7, #22]	@ zero_extendqisi2
+ 211 0140 002B     		cmp	r3, #0
+ 212 0142 0AD0     		beq	.L10
+  54:.\ultrasonic.c ****             ultrasonic_packet[j] = ultrasonic_uart_received_string[i];
+ 213              		.loc 1 54 0
+ 214 0144 7A7D     		ldrb	r2, [r7, #21]	@ zero_extendqisi2
+ 215 0146 7B68     		ldr	r3, [r7, #4]
+ 216 0148 1344     		add	r3, r2, r3
+ 217 014a 3A7D     		ldrb	r2, [r7, #20]	@ zero_extendqisi2
+ 218 014c 3969     		ldr	r1, [r7, #16]
+ 219 014e 8A5C     		ldrb	r2, [r1, r2]	@ zero_extendqisi2
+ 220 0150 1A70     		strb	r2, [r3, #0]
+  55:.\ultrasonic.c ****             j++;
+ 221              		.loc 1 55 0
+ 222 0152 7B7D     		ldrb	r3, [r7, #21]
+ 223 0154 03F10103 		add	r3, r3, #1
+ 224 0158 7B75     		strb	r3, [r7, #21]
+ 225              	.L10:
+  56:.\ultrasonic.c ****         }
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\cc5XuNas.s 			page 6
+
+
+  57:.\ultrasonic.c ****         if(i > ultrasonic_packet_size || j > 14){
+ 226              		.loc 1 57 0
+ 227 015a 3A7D     		ldrb	r2, [r7, #20]	@ zero_extendqisi2
+ 228 015c FB78     		ldrb	r3, [r7, #3]	@ zero_extendqisi2
+ 229 015e 9A42     		cmp	r2, r3
+ 230 0160 02D8     		bhi	.L11
+ 231 0162 7B7D     		ldrb	r3, [r7, #21]	@ zero_extendqisi2
+ 232 0164 0E2B     		cmp	r3, #14
+ 233 0166 02D9     		bls	.L12
+ 234              	.L11:
+  58:.\ultrasonic.c ****             return 0u; 
+ 235              		.loc 1 58 0
+ 236 0168 4FF00003 		mov	r3, #0
+ 237 016c 0CE0     		b	.L13
+ 238              	.L12:
+ 239              		.loc 1 48 0
+ 240 016e 3B7D     		ldrb	r3, [r7, #20]
+ 241 0170 03F10103 		add	r3, r3, #1
+ 242 0174 3B75     		strb	r3, [r7, #20]
+ 243              	.L8:
+ 244 0176 BB7D     		ldrb	r3, [r7, #22]	@ zero_extendqisi2
+ 245 0178 012B     		cmp	r3, #1
+ 246 017a D5D9     		bls	.L14
+  59:.\ultrasonic.c ****         }
+  60:.\ultrasonic.c ****     }
+  61:.\ultrasonic.c ****     
+  62:.\ultrasonic.c ****     ultrasonic_voltage_pin_Write(1u); // cut power to stop the sensing
+ 247              		.loc 1 62 0
+ 248 017c 4FF00100 		mov	r0, #1
+ 249 0180 FFF7FEFF 		bl	ultrasonic_voltage_pin_Write
+  63:.\ultrasonic.c ****     return 1u; 
+ 250              		.loc 1 63 0
+ 251 0184 4FF00103 		mov	r3, #1
+ 252              	.L13:
+ 253 0188 B546     		mov	sp, r6
+  64:.\ultrasonic.c **** }
+ 254              		.loc 1 64 0
+ 255 018a 1846     		mov	r0, r3
+ 256 018c 07F11C07 		add	r7, r7, #28
+ 257 0190 BD46     		mov	sp, r7
+ 258 0192 BDE8F083 		pop	{r4, r5, r6, r7, r8, r9, pc}
+ 259              		.cfi_endproc
+ 260              	.LFE30:
+ 261              		.size	ultrasonic_read, .-ultrasonic_read
+ 262 0196 00BF     		.section	.text.isr_byte_ultrasonic_rx,"ax",%progbits
+ 263              		.align	2
+ 264              		.global	isr_byte_ultrasonic_rx
+ 265              		.thumb
+ 266              		.thumb_func
+ 267              		.type	isr_byte_ultrasonic_rx, %function
+ 268              	isr_byte_ultrasonic_rx:
+ 269              	.LFB31:
+  65:.\ultrasonic.c **** 
+  66:.\ultrasonic.c **** CY_ISR(isr_byte_ultrasonic_rx){
+ 270              		.loc 1 66 0
+ 271              		.cfi_startproc
+ 272              		@ args = 0, pretend = 0, frame = 8
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\cc5XuNas.s 			page 7
+
+
+ 273              		@ frame_needed = 1, uses_anonymous_args = 0
+ 274 0000 80B5     		push	{r7, lr}
+ 275              	.LCFI5:
+ 276              		.cfi_def_cfa_offset 8
+ 277 0002 82B0     		sub	sp, sp, #8
+ 278              	.LCFI6:
+ 279              		.cfi_def_cfa_offset 16
+ 280 0004 00AF     		add	r7, sp, #0
+ 281              		.cfi_offset 14, -4
+ 282              		.cfi_offset 7, -8
+ 283              	.LCFI7:
+ 284              		.cfi_def_cfa_register 7
+  67:.\ultrasonic.c ****     // hold the next char in the rx register as a temporary variable
+  68:.\ultrasonic.c ****     uint8 test1 = ultrasonic_uart_GetChar();
+ 285              		.loc 1 68 0
+ 286 0006 FFF7FEFF 		bl	ultrasonic_uart_GetChar
+ 287 000a 0346     		mov	r3, r0
+ 288 000c 7B71     		strb	r3, [r7, #5]
+  69:.\ultrasonic.c ****     uint8 test2 = ultrasonic_uart_GetByte();
+ 289              		.loc 1 69 0
+ 290 000e FFF7FEFF 		bl	ultrasonic_uart_GetByte
+ 291 0012 0346     		mov	r3, r0
+ 292 0014 BB71     		strb	r3, [r7, #6]
+  70:.\ultrasonic.c ****     uint8 test3 = ultrasonic_uart_ReadRxData();
+ 293              		.loc 1 70 0
+ 294 0016 FFF7FEFF 		bl	ultrasonic_uart_ReadRxData
+ 295 001a 0346     		mov	r3, r0
+ 296 001c FB71     		strb	r3, [r7, #7]
+  71:.\ultrasonic.c ****     //ultrasonic_uart_ClearRxBuffer();
+  72:.\ultrasonic.c **** }
+ 297              		.loc 1 72 0
+ 298 001e 07F10807 		add	r7, r7, #8
+ 299 0022 BD46     		mov	sp, r7
+ 300 0024 80BD     		pop	{r7, pc}
+ 301              		.cfi_endproc
+ 302              	.LFE31:
+ 303              		.size	isr_byte_ultrasonic_rx, .-isr_byte_ultrasonic_rx
+ 304 0026 00BF     		.text
+ 305              	.Letext0:
+ 306              		.section	.debug_loc,"",%progbits
+ 307              	.Ldebug_loc0:
+ 308              	.LLST0:
+ 309 0000 00000000 		.4byte	.LFB29
+ 310 0004 02000000 		.4byte	.LCFI0
+ 311 0008 0100     		.2byte	0x1
+ 312 000a 5D       		.byte	0x5d
+ 313 000b 02000000 		.4byte	.LCFI0
+ 314 000f 04000000 		.4byte	.LCFI1
+ 315 0013 0200     		.2byte	0x2
+ 316 0015 7D       		.byte	0x7d
+ 317 0016 08       		.sleb128 8
+ 318 0017 04000000 		.4byte	.LCFI1
+ 319 001b 16000000 		.4byte	.LFE29
+ 320 001f 0200     		.2byte	0x2
+ 321 0021 77       		.byte	0x77
+ 322 0022 08       		.sleb128 8
+ 323 0023 00000000 		.4byte	0x0
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\cc5XuNas.s 			page 8
+
+
+ 324 0027 00000000 		.4byte	0x0
+ 325              	.LLST1:
+ 326 002b 00000000 		.4byte	.LFB30
+ 327 002f 04000000 		.4byte	.LCFI2
+ 328 0033 0100     		.2byte	0x1
+ 329 0035 5D       		.byte	0x5d
+ 330 0036 04000000 		.4byte	.LCFI2
+ 331 003a 06000000 		.4byte	.LCFI3
+ 332 003e 0200     		.2byte	0x2
+ 333 0040 7D       		.byte	0x7d
+ 334 0041 1C       		.sleb128 28
+ 335 0042 06000000 		.4byte	.LCFI3
+ 336 0046 08000000 		.4byte	.LCFI4
+ 337 004a 0200     		.2byte	0x2
+ 338 004c 7D       		.byte	0x7d
+ 339 004d 38       		.sleb128 56
+ 340 004e 08000000 		.4byte	.LCFI4
+ 341 0052 96010000 		.4byte	.LFE30
+ 342 0056 0200     		.2byte	0x2
+ 343 0058 77       		.byte	0x77
+ 344 0059 38       		.sleb128 56
+ 345 005a 00000000 		.4byte	0x0
+ 346 005e 00000000 		.4byte	0x0
+ 347              	.LLST2:
+ 348 0062 00000000 		.4byte	.LFB31
+ 349 0066 02000000 		.4byte	.LCFI5
+ 350 006a 0100     		.2byte	0x1
+ 351 006c 5D       		.byte	0x5d
+ 352 006d 02000000 		.4byte	.LCFI5
+ 353 0071 04000000 		.4byte	.LCFI6
+ 354 0075 0200     		.2byte	0x2
+ 355 0077 7D       		.byte	0x7d
+ 356 0078 08       		.sleb128 8
+ 357 0079 04000000 		.4byte	.LCFI6
+ 358 007d 06000000 		.4byte	.LCFI7
+ 359 0081 0200     		.2byte	0x2
+ 360 0083 7D       		.byte	0x7d
+ 361 0084 10       		.sleb128 16
+ 362 0085 06000000 		.4byte	.LCFI7
+ 363 0089 26000000 		.4byte	.LFE31
+ 364 008d 0200     		.2byte	0x2
+ 365 008f 77       		.byte	0x77
+ 366 0090 10       		.sleb128 16
+ 367 0091 00000000 		.4byte	0x0
+ 368 0095 00000000 		.4byte	0x0
+ 369              		.file 2 "./Generated_Source/PSoC5/cytypes.h"
+ 370              		.file 3 "./Generated_Source/PSoC5/core_cm3.h"
+ 371              		.section	.debug_info
+ 372 0000 90010000 		.4byte	0x190
+ 373 0004 0200     		.2byte	0x2
+ 374 0006 00000000 		.4byte	.Ldebug_abbrev0
+ 375 000a 04       		.byte	0x4
+ 376 000b 01       		.uleb128 0x1
+ 377 000c 4E010000 		.4byte	.LASF20
+ 378 0010 01       		.byte	0x1
+ 379 0011 80010000 		.4byte	.LASF21
+ 380 0015 3F000000 		.4byte	.LASF22
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\cc5XuNas.s 			page 9
+
+
+ 381 0019 00000000 		.4byte	0x0
+ 382 001d 00000000 		.4byte	0x0
+ 383 0021 00000000 		.4byte	.Ldebug_ranges0+0x0
+ 384 0025 00000000 		.4byte	.Ldebug_line0
+ 385 0029 02       		.uleb128 0x2
+ 386 002a 01       		.byte	0x1
+ 387 002b 06       		.byte	0x6
+ 388 002c 98010000 		.4byte	.LASF0
+ 389 0030 02       		.uleb128 0x2
+ 390 0031 01       		.byte	0x1
+ 391 0032 08       		.byte	0x8
+ 392 0033 8E000000 		.4byte	.LASF1
+ 393 0037 02       		.uleb128 0x2
+ 394 0038 02       		.byte	0x2
+ 395 0039 05       		.byte	0x5
+ 396 003a 76010000 		.4byte	.LASF2
+ 397 003e 02       		.uleb128 0x2
+ 398 003f 02       		.byte	0x2
+ 399 0040 07       		.byte	0x7
+ 400 0041 1E000000 		.4byte	.LASF3
+ 401 0045 02       		.uleb128 0x2
+ 402 0046 04       		.byte	0x4
+ 403 0047 05       		.byte	0x5
+ 404 0048 8F010000 		.4byte	.LASF4
+ 405 004c 02       		.uleb128 0x2
+ 406 004d 04       		.byte	0x4
+ 407 004e 07       		.byte	0x7
+ 408 004f 9C000000 		.4byte	.LASF5
+ 409 0053 02       		.uleb128 0x2
+ 410 0054 08       		.byte	0x8
+ 411 0055 05       		.byte	0x5
+ 412 0056 00000000 		.4byte	.LASF6
+ 413 005a 02       		.uleb128 0x2
+ 414 005b 08       		.byte	0x8
+ 415 005c 07       		.byte	0x7
+ 416 005d 2F010000 		.4byte	.LASF7
+ 417 0061 03       		.uleb128 0x3
+ 418 0062 04       		.byte	0x4
+ 419 0063 05       		.byte	0x5
+ 420 0064 696E7400 		.ascii	"int\000"
+ 421 0068 02       		.uleb128 0x2
+ 422 0069 04       		.byte	0x4
+ 423 006a 07       		.byte	0x7
+ 424 006b 22010000 		.4byte	.LASF8
+ 425 006f 04       		.uleb128 0x4
+ 426 0070 AE000000 		.4byte	.LASF23
+ 427 0074 02       		.byte	0x2
+ 428 0075 4C       		.byte	0x4c
+ 429 0076 30000000 		.4byte	0x30
+ 430 007a 02       		.uleb128 0x2
+ 431 007b 04       		.byte	0x4
+ 432 007c 04       		.byte	0x4
+ 433 007d 39000000 		.4byte	.LASF9
+ 434 0081 02       		.uleb128 0x2
+ 435 0082 08       		.byte	0x8
+ 436 0083 04       		.byte	0x4
+ 437 0084 FC000000 		.4byte	.LASF10
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\cc5XuNas.s 			page 10
+
+
+ 438 0088 02       		.uleb128 0x2
+ 439 0089 01       		.byte	0x1
+ 440 008a 08       		.byte	0x8
+ 441 008b 5A010000 		.4byte	.LASF11
+ 442 008f 05       		.uleb128 0x5
+ 443 0090 04       		.byte	0x4
+ 444 0091 07       		.byte	0x7
+ 445 0092 06       		.uleb128 0x6
+ 446 0093 01       		.byte	0x1
+ 447 0094 B4000000 		.4byte	.LASF24
+ 448 0098 01       		.byte	0x1
+ 449 0099 14       		.byte	0x14
+ 450 009a 00000000 		.4byte	.LFB29
+ 451 009e 16000000 		.4byte	.LFE29
+ 452 00a2 00000000 		.4byte	.LLST0
+ 453 00a6 07       		.uleb128 0x7
+ 454 00a7 01       		.byte	0x1
+ 455 00a8 0E000000 		.4byte	.LASF25
+ 456 00ac 01       		.byte	0x1
+ 457 00ad 19       		.byte	0x19
+ 458 00ae 01       		.byte	0x1
+ 459 00af 6F000000 		.4byte	0x6f
+ 460 00b3 00000000 		.4byte	.LFB30
+ 461 00b7 96010000 		.4byte	.LFE30
+ 462 00bb 2B000000 		.4byte	.LLST1
+ 463 00bf 23010000 		.4byte	0x123
+ 464 00c3 08       		.uleb128 0x8
+ 465 00c4 10010000 		.4byte	.LASF12
+ 466 00c8 01       		.byte	0x1
+ 467 00c9 19       		.byte	0x19
+ 468 00ca 23010000 		.4byte	0x123
+ 469 00ce 02       		.byte	0x2
+ 470 00cf 91       		.byte	0x91
+ 471 00d0 4C       		.sleb128 -52
+ 472 00d1 08       		.uleb128 0x8
+ 473 00d2 C5000000 		.4byte	.LASF13
+ 474 00d6 01       		.byte	0x1
+ 475 00d7 19       		.byte	0x19
+ 476 00d8 6F000000 		.4byte	0x6f
+ 477 00dc 02       		.byte	0x2
+ 478 00dd 91       		.byte	0x91
+ 479 00de 4B       		.sleb128 -53
+ 480 00df 09       		.uleb128 0x9
+ 481 00e0 DC000000 		.4byte	.LASF14
+ 482 00e4 01       		.byte	0x1
+ 483 00e5 1A       		.byte	0x1a
+ 484 00e6 29010000 		.4byte	0x129
+ 485 00ea 03       		.byte	0x3
+ 486 00eb 91       		.byte	0x91
+ 487 00ec 58       		.sleb128 -40
+ 488 00ed 06       		.byte	0x6
+ 489 00ee 0A       		.uleb128 0xa
+ 490 00ef 6900     		.ascii	"i\000"
+ 491 00f1 01       		.byte	0x1
+ 492 00f2 1B       		.byte	0x1b
+ 493 00f3 6F000000 		.4byte	0x6f
+ 494 00f7 02       		.byte	0x2
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\cc5XuNas.s 			page 11
+
+
+ 495 00f8 91       		.byte	0x91
+ 496 00f9 5C       		.sleb128 -36
+ 497 00fa 0A       		.uleb128 0xa
+ 498 00fb 6A00     		.ascii	"j\000"
+ 499 00fd 01       		.byte	0x1
+ 500 00fe 1B       		.byte	0x1b
+ 501 00ff 6F000000 		.4byte	0x6f
+ 502 0103 02       		.byte	0x2
+ 503 0104 91       		.byte	0x91
+ 504 0105 5D       		.sleb128 -35
+ 505 0106 09       		.uleb128 0x9
+ 506 0107 31000000 		.4byte	.LASF15
+ 507 010b 01       		.byte	0x1
+ 508 010c 1B       		.byte	0x1b
+ 509 010d 6F000000 		.4byte	0x6f
+ 510 0111 02       		.byte	0x2
+ 511 0112 91       		.byte	0x91
+ 512 0113 5E       		.sleb128 -34
+ 513 0114 09       		.uleb128 0x9
+ 514 0115 46010000 		.4byte	.LASF16
+ 515 0119 01       		.byte	0x1
+ 516 011a 1B       		.byte	0x1b
+ 517 011b 6F000000 		.4byte	0x6f
+ 518 011f 02       		.byte	0x2
+ 519 0120 91       		.byte	0x91
+ 520 0121 5F       		.sleb128 -33
+ 521 0122 00       		.byte	0x0
+ 522 0123 0B       		.uleb128 0xb
+ 523 0124 04       		.byte	0x4
+ 524 0125 6F000000 		.4byte	0x6f
+ 525 0129 0C       		.uleb128 0xc
+ 526 012a 6F000000 		.4byte	0x6f
+ 527 012e 3C010000 		.4byte	0x13c
+ 528 0132 0D       		.uleb128 0xd
+ 529 0133 8F000000 		.4byte	0x8f
+ 530 0137 03       		.byte	0x3
+ 531 0138 91       		.byte	0x91
+ 532 0139 54       		.sleb128 -44
+ 533 013a 06       		.byte	0x6
+ 534 013b 00       		.byte	0x0
+ 535 013c 0E       		.uleb128 0xe
+ 536 013d 01       		.byte	0x1
+ 537 013e 5F010000 		.4byte	.LASF26
+ 538 0142 01       		.byte	0x1
+ 539 0143 42       		.byte	0x42
+ 540 0144 01       		.byte	0x1
+ 541 0145 00000000 		.4byte	.LFB31
+ 542 0149 26000000 		.4byte	.LFE31
+ 543 014d 62000000 		.4byte	.LLST2
+ 544 0151 80010000 		.4byte	0x180
+ 545 0155 09       		.uleb128 0x9
+ 546 0156 A4010000 		.4byte	.LASF17
+ 547 015a 01       		.byte	0x1
+ 548 015b 44       		.byte	0x44
+ 549 015c 6F000000 		.4byte	0x6f
+ 550 0160 02       		.byte	0x2
+ 551 0161 91       		.byte	0x91
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\cc5XuNas.s 			page 12
+
+
+ 552 0162 75       		.sleb128 -11
+ 553 0163 09       		.uleb128 0x9
+ 554 0164 AA010000 		.4byte	.LASF18
+ 555 0168 01       		.byte	0x1
+ 556 0169 45       		.byte	0x45
+ 557 016a 6F000000 		.4byte	0x6f
+ 558 016e 02       		.byte	0x2
+ 559 016f 91       		.byte	0x91
+ 560 0170 76       		.sleb128 -10
+ 561 0171 09       		.uleb128 0x9
+ 562 0172 B0010000 		.4byte	.LASF19
+ 563 0176 01       		.byte	0x1
+ 564 0177 46       		.byte	0x46
+ 565 0178 6F000000 		.4byte	0x6f
+ 566 017c 02       		.byte	0x2
+ 567 017d 91       		.byte	0x91
+ 568 017e 77       		.sleb128 -9
+ 569 017f 00       		.byte	0x0
+ 570 0180 0F       		.uleb128 0xf
+ 571 0181 03010000 		.4byte	.LASF27
+ 572 0185 03       		.byte	0x3
+ 573 0186 CE06     		.2byte	0x6ce
+ 574 0188 8E010000 		.4byte	0x18e
+ 575 018c 01       		.byte	0x1
+ 576 018d 01       		.byte	0x1
+ 577 018e 10       		.uleb128 0x10
+ 578 018f 61000000 		.4byte	0x61
+ 579 0193 00       		.byte	0x0
+ 580              		.section	.debug_abbrev
+ 581 0000 01       		.uleb128 0x1
+ 582 0001 11       		.uleb128 0x11
+ 583 0002 01       		.byte	0x1
+ 584 0003 25       		.uleb128 0x25
+ 585 0004 0E       		.uleb128 0xe
+ 586 0005 13       		.uleb128 0x13
+ 587 0006 0B       		.uleb128 0xb
+ 588 0007 03       		.uleb128 0x3
+ 589 0008 0E       		.uleb128 0xe
+ 590 0009 1B       		.uleb128 0x1b
+ 591 000a 0E       		.uleb128 0xe
+ 592 000b 11       		.uleb128 0x11
+ 593 000c 01       		.uleb128 0x1
+ 594 000d 52       		.uleb128 0x52
+ 595 000e 01       		.uleb128 0x1
+ 596 000f 55       		.uleb128 0x55
+ 597 0010 06       		.uleb128 0x6
+ 598 0011 10       		.uleb128 0x10
+ 599 0012 06       		.uleb128 0x6
+ 600 0013 00       		.byte	0x0
+ 601 0014 00       		.byte	0x0
+ 602 0015 02       		.uleb128 0x2
+ 603 0016 24       		.uleb128 0x24
+ 604 0017 00       		.byte	0x0
+ 605 0018 0B       		.uleb128 0xb
+ 606 0019 0B       		.uleb128 0xb
+ 607 001a 3E       		.uleb128 0x3e
+ 608 001b 0B       		.uleb128 0xb
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\cc5XuNas.s 			page 13
+
+
+ 609 001c 03       		.uleb128 0x3
+ 610 001d 0E       		.uleb128 0xe
+ 611 001e 00       		.byte	0x0
+ 612 001f 00       		.byte	0x0
+ 613 0020 03       		.uleb128 0x3
+ 614 0021 24       		.uleb128 0x24
+ 615 0022 00       		.byte	0x0
+ 616 0023 0B       		.uleb128 0xb
+ 617 0024 0B       		.uleb128 0xb
+ 618 0025 3E       		.uleb128 0x3e
+ 619 0026 0B       		.uleb128 0xb
+ 620 0027 03       		.uleb128 0x3
+ 621 0028 08       		.uleb128 0x8
+ 622 0029 00       		.byte	0x0
+ 623 002a 00       		.byte	0x0
+ 624 002b 04       		.uleb128 0x4
+ 625 002c 16       		.uleb128 0x16
+ 626 002d 00       		.byte	0x0
+ 627 002e 03       		.uleb128 0x3
+ 628 002f 0E       		.uleb128 0xe
+ 629 0030 3A       		.uleb128 0x3a
+ 630 0031 0B       		.uleb128 0xb
+ 631 0032 3B       		.uleb128 0x3b
+ 632 0033 0B       		.uleb128 0xb
+ 633 0034 49       		.uleb128 0x49
+ 634 0035 13       		.uleb128 0x13
+ 635 0036 00       		.byte	0x0
+ 636 0037 00       		.byte	0x0
+ 637 0038 05       		.uleb128 0x5
+ 638 0039 24       		.uleb128 0x24
+ 639 003a 00       		.byte	0x0
+ 640 003b 0B       		.uleb128 0xb
+ 641 003c 0B       		.uleb128 0xb
+ 642 003d 3E       		.uleb128 0x3e
+ 643 003e 0B       		.uleb128 0xb
+ 644 003f 00       		.byte	0x0
+ 645 0040 00       		.byte	0x0
+ 646 0041 06       		.uleb128 0x6
+ 647 0042 2E       		.uleb128 0x2e
+ 648 0043 00       		.byte	0x0
+ 649 0044 3F       		.uleb128 0x3f
+ 650 0045 0C       		.uleb128 0xc
+ 651 0046 03       		.uleb128 0x3
+ 652 0047 0E       		.uleb128 0xe
+ 653 0048 3A       		.uleb128 0x3a
+ 654 0049 0B       		.uleb128 0xb
+ 655 004a 3B       		.uleb128 0x3b
+ 656 004b 0B       		.uleb128 0xb
+ 657 004c 11       		.uleb128 0x11
+ 658 004d 01       		.uleb128 0x1
+ 659 004e 12       		.uleb128 0x12
+ 660 004f 01       		.uleb128 0x1
+ 661 0050 40       		.uleb128 0x40
+ 662 0051 06       		.uleb128 0x6
+ 663 0052 00       		.byte	0x0
+ 664 0053 00       		.byte	0x0
+ 665 0054 07       		.uleb128 0x7
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\cc5XuNas.s 			page 14
+
+
+ 666 0055 2E       		.uleb128 0x2e
+ 667 0056 01       		.byte	0x1
+ 668 0057 3F       		.uleb128 0x3f
+ 669 0058 0C       		.uleb128 0xc
+ 670 0059 03       		.uleb128 0x3
+ 671 005a 0E       		.uleb128 0xe
+ 672 005b 3A       		.uleb128 0x3a
+ 673 005c 0B       		.uleb128 0xb
+ 674 005d 3B       		.uleb128 0x3b
+ 675 005e 0B       		.uleb128 0xb
+ 676 005f 27       		.uleb128 0x27
+ 677 0060 0C       		.uleb128 0xc
+ 678 0061 49       		.uleb128 0x49
+ 679 0062 13       		.uleb128 0x13
+ 680 0063 11       		.uleb128 0x11
+ 681 0064 01       		.uleb128 0x1
+ 682 0065 12       		.uleb128 0x12
+ 683 0066 01       		.uleb128 0x1
+ 684 0067 40       		.uleb128 0x40
+ 685 0068 06       		.uleb128 0x6
+ 686 0069 01       		.uleb128 0x1
+ 687 006a 13       		.uleb128 0x13
+ 688 006b 00       		.byte	0x0
+ 689 006c 00       		.byte	0x0
+ 690 006d 08       		.uleb128 0x8
+ 691 006e 05       		.uleb128 0x5
+ 692 006f 00       		.byte	0x0
+ 693 0070 03       		.uleb128 0x3
+ 694 0071 0E       		.uleb128 0xe
+ 695 0072 3A       		.uleb128 0x3a
+ 696 0073 0B       		.uleb128 0xb
+ 697 0074 3B       		.uleb128 0x3b
+ 698 0075 0B       		.uleb128 0xb
+ 699 0076 49       		.uleb128 0x49
+ 700 0077 13       		.uleb128 0x13
+ 701 0078 02       		.uleb128 0x2
+ 702 0079 0A       		.uleb128 0xa
+ 703 007a 00       		.byte	0x0
+ 704 007b 00       		.byte	0x0
+ 705 007c 09       		.uleb128 0x9
+ 706 007d 34       		.uleb128 0x34
+ 707 007e 00       		.byte	0x0
+ 708 007f 03       		.uleb128 0x3
+ 709 0080 0E       		.uleb128 0xe
+ 710 0081 3A       		.uleb128 0x3a
+ 711 0082 0B       		.uleb128 0xb
+ 712 0083 3B       		.uleb128 0x3b
+ 713 0084 0B       		.uleb128 0xb
+ 714 0085 49       		.uleb128 0x49
+ 715 0086 13       		.uleb128 0x13
+ 716 0087 02       		.uleb128 0x2
+ 717 0088 0A       		.uleb128 0xa
+ 718 0089 00       		.byte	0x0
+ 719 008a 00       		.byte	0x0
+ 720 008b 0A       		.uleb128 0xa
+ 721 008c 34       		.uleb128 0x34
+ 722 008d 00       		.byte	0x0
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\cc5XuNas.s 			page 15
+
+
+ 723 008e 03       		.uleb128 0x3
+ 724 008f 08       		.uleb128 0x8
+ 725 0090 3A       		.uleb128 0x3a
+ 726 0091 0B       		.uleb128 0xb
+ 727 0092 3B       		.uleb128 0x3b
+ 728 0093 0B       		.uleb128 0xb
+ 729 0094 49       		.uleb128 0x49
+ 730 0095 13       		.uleb128 0x13
+ 731 0096 02       		.uleb128 0x2
+ 732 0097 0A       		.uleb128 0xa
+ 733 0098 00       		.byte	0x0
+ 734 0099 00       		.byte	0x0
+ 735 009a 0B       		.uleb128 0xb
+ 736 009b 0F       		.uleb128 0xf
+ 737 009c 00       		.byte	0x0
+ 738 009d 0B       		.uleb128 0xb
+ 739 009e 0B       		.uleb128 0xb
+ 740 009f 49       		.uleb128 0x49
+ 741 00a0 13       		.uleb128 0x13
+ 742 00a1 00       		.byte	0x0
+ 743 00a2 00       		.byte	0x0
+ 744 00a3 0C       		.uleb128 0xc
+ 745 00a4 01       		.uleb128 0x1
+ 746 00a5 01       		.byte	0x1
+ 747 00a6 49       		.uleb128 0x49
+ 748 00a7 13       		.uleb128 0x13
+ 749 00a8 01       		.uleb128 0x1
+ 750 00a9 13       		.uleb128 0x13
+ 751 00aa 00       		.byte	0x0
+ 752 00ab 00       		.byte	0x0
+ 753 00ac 0D       		.uleb128 0xd
+ 754 00ad 21       		.uleb128 0x21
+ 755 00ae 00       		.byte	0x0
+ 756 00af 49       		.uleb128 0x49
+ 757 00b0 13       		.uleb128 0x13
+ 758 00b1 2F       		.uleb128 0x2f
+ 759 00b2 0A       		.uleb128 0xa
+ 760 00b3 00       		.byte	0x0
+ 761 00b4 00       		.byte	0x0
+ 762 00b5 0E       		.uleb128 0xe
+ 763 00b6 2E       		.uleb128 0x2e
+ 764 00b7 01       		.byte	0x1
+ 765 00b8 3F       		.uleb128 0x3f
+ 766 00b9 0C       		.uleb128 0xc
+ 767 00ba 03       		.uleb128 0x3
+ 768 00bb 0E       		.uleb128 0xe
+ 769 00bc 3A       		.uleb128 0x3a
+ 770 00bd 0B       		.uleb128 0xb
+ 771 00be 3B       		.uleb128 0x3b
+ 772 00bf 0B       		.uleb128 0xb
+ 773 00c0 27       		.uleb128 0x27
+ 774 00c1 0C       		.uleb128 0xc
+ 775 00c2 11       		.uleb128 0x11
+ 776 00c3 01       		.uleb128 0x1
+ 777 00c4 12       		.uleb128 0x12
+ 778 00c5 01       		.uleb128 0x1
+ 779 00c6 40       		.uleb128 0x40
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\cc5XuNas.s 			page 16
+
+
+ 780 00c7 06       		.uleb128 0x6
+ 781 00c8 01       		.uleb128 0x1
+ 782 00c9 13       		.uleb128 0x13
+ 783 00ca 00       		.byte	0x0
+ 784 00cb 00       		.byte	0x0
+ 785 00cc 0F       		.uleb128 0xf
+ 786 00cd 34       		.uleb128 0x34
+ 787 00ce 00       		.byte	0x0
+ 788 00cf 03       		.uleb128 0x3
+ 789 00d0 0E       		.uleb128 0xe
+ 790 00d1 3A       		.uleb128 0x3a
+ 791 00d2 0B       		.uleb128 0xb
+ 792 00d3 3B       		.uleb128 0x3b
+ 793 00d4 05       		.uleb128 0x5
+ 794 00d5 49       		.uleb128 0x49
+ 795 00d6 13       		.uleb128 0x13
+ 796 00d7 3F       		.uleb128 0x3f
+ 797 00d8 0C       		.uleb128 0xc
+ 798 00d9 3C       		.uleb128 0x3c
+ 799 00da 0C       		.uleb128 0xc
+ 800 00db 00       		.byte	0x0
+ 801 00dc 00       		.byte	0x0
+ 802 00dd 10       		.uleb128 0x10
+ 803 00de 35       		.uleb128 0x35
+ 804 00df 00       		.byte	0x0
+ 805 00e0 49       		.uleb128 0x49
+ 806 00e1 13       		.uleb128 0x13
+ 807 00e2 00       		.byte	0x0
+ 808 00e3 00       		.byte	0x0
+ 809 00e4 00       		.byte	0x0
+ 810              		.section	.debug_pubnames,"",%progbits
+ 811 0000 52000000 		.4byte	0x52
+ 812 0004 0200     		.2byte	0x2
+ 813 0006 00000000 		.4byte	.Ldebug_info0
+ 814 000a 94010000 		.4byte	0x194
+ 815 000e 92000000 		.4byte	0x92
+ 816 0012 756C7472 		.ascii	"ultrasonic_start\000"
+ 816      61736F6E 
+ 816      69635F73 
+ 816      74617274 
+ 816      00
+ 817 0023 A6000000 		.4byte	0xa6
+ 818 0027 756C7472 		.ascii	"ultrasonic_read\000"
+ 818      61736F6E 
+ 818      69635F72 
+ 818      65616400 
+ 819 0037 3C010000 		.4byte	0x13c
+ 820 003b 6973725F 		.ascii	"isr_byte_ultrasonic_rx\000"
+ 820      62797465 
+ 820      5F756C74 
+ 820      7261736F 
+ 820      6E69635F 
+ 821 0052 00000000 		.4byte	0x0
+ 822              		.section	.debug_aranges,"",%progbits
+ 823 0000 2C000000 		.4byte	0x2c
+ 824 0004 0200     		.2byte	0x2
+ 825 0006 00000000 		.4byte	.Ldebug_info0
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\cc5XuNas.s 			page 17
+
+
+ 826 000a 04       		.byte	0x4
+ 827 000b 00       		.byte	0x0
+ 828 000c 0000     		.2byte	0x0
+ 829 000e 0000     		.2byte	0x0
+ 830 0010 00000000 		.4byte	.LFB29
+ 831 0014 16000000 		.4byte	.LFE29-.LFB29
+ 832 0018 00000000 		.4byte	.LFB30
+ 833 001c 96010000 		.4byte	.LFE30-.LFB30
+ 834 0020 00000000 		.4byte	.LFB31
+ 835 0024 26000000 		.4byte	.LFE31-.LFB31
+ 836 0028 00000000 		.4byte	0x0
+ 837 002c 00000000 		.4byte	0x0
+ 838              		.section	.debug_ranges,"",%progbits
+ 839              	.Ldebug_ranges0:
+ 840 0000 00000000 		.4byte	.Ltext0
+ 841 0004 00000000 		.4byte	.Letext0
+ 842 0008 00000000 		.4byte	.LFB29
+ 843 000c 16000000 		.4byte	.LFE29
+ 844 0010 00000000 		.4byte	.LFB30
+ 845 0014 96010000 		.4byte	.LFE30
+ 846 0018 00000000 		.4byte	.LFB31
+ 847 001c 26000000 		.4byte	.LFE31
+ 848 0020 00000000 		.4byte	0x0
+ 849 0024 00000000 		.4byte	0x0
+ 850              		.section	.debug_str,"MS",%progbits,1
+ 851              	.LASF6:
+ 852 0000 6C6F6E67 		.ascii	"long long int\000"
+ 852      206C6F6E 
+ 852      6720696E 
+ 852      7400
+ 853              	.LASF25:
+ 854 000e 756C7472 		.ascii	"ultrasonic_read\000"
+ 854      61736F6E 
+ 854      69635F72 
+ 854      65616400 
+ 855              	.LASF3:
+ 856 001e 73686F72 		.ascii	"short unsigned int\000"
+ 856      7420756E 
+ 856      7369676E 
+ 856      65642069 
+ 856      6E7400
+ 857              	.LASF15:
+ 858 0031 725F636F 		.ascii	"r_count\000"
+ 858      756E7400 
+ 859              	.LASF9:
+ 860 0039 666C6F61 		.ascii	"float\000"
+ 860      7400
+ 861              	.LASF22:
+ 862 003f 433A5C55 		.ascii	"C:\\Users\\karunmj\\Documents\\GitHub\\m2m\\hardwar"
+ 862      73657273 
+ 862      5C6B6172 
+ 862      756E6D6A 
+ 862      5C446F63 
+ 863 006c 655C7073 		.ascii	"e\\psoc5\\PSoC_Datalogger_SMS.cydsn\000"
+ 863      6F63355C 
+ 863      50536F43 
+ 863      5F446174 
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\cc5XuNas.s 			page 18
+
+
+ 863      616C6F67 
+ 864              	.LASF1:
+ 865 008e 756E7369 		.ascii	"unsigned char\000"
+ 865      676E6564 
+ 865      20636861 
+ 865      7200
+ 866              	.LASF5:
+ 867 009c 6C6F6E67 		.ascii	"long unsigned int\000"
+ 867      20756E73 
+ 867      69676E65 
+ 867      6420696E 
+ 867      7400
+ 868              	.LASF23:
+ 869 00ae 75696E74 		.ascii	"uint8\000"
+ 869      3800
+ 870              	.LASF24:
+ 871 00b4 756C7472 		.ascii	"ultrasonic_start\000"
+ 871      61736F6E 
+ 871      69635F73 
+ 871      74617274 
+ 871      00
+ 872              	.LASF13:
+ 873 00c5 756C7472 		.ascii	"ultrasonic_packet_size\000"
+ 873      61736F6E 
+ 873      69635F70 
+ 873      61636B65 
+ 873      745F7369 
+ 874              	.LASF14:
+ 875 00dc 756C7472 		.ascii	"ultrasonic_uart_received_string\000"
+ 875      61736F6E 
+ 875      69635F75 
+ 875      6172745F 
+ 875      72656365 
+ 876              	.LASF10:
+ 877 00fc 646F7562 		.ascii	"double\000"
+ 877      6C6500
+ 878              	.LASF27:
+ 879 0103 49544D5F 		.ascii	"ITM_RxBuffer\000"
+ 879      52784275 
+ 879      66666572 
+ 879      00
+ 880              	.LASF12:
+ 881 0110 756C7472 		.ascii	"ultrasonic_packet\000"
+ 881      61736F6E 
+ 881      69635F70 
+ 881      61636B65 
+ 881      7400
+ 882              	.LASF8:
+ 883 0122 756E7369 		.ascii	"unsigned int\000"
+ 883      676E6564 
+ 883      20696E74 
+ 883      00
+ 884              	.LASF7:
+ 885 012f 6C6F6E67 		.ascii	"long long unsigned int\000"
+ 885      206C6F6E 
+ 885      6720756E 
+ 885      7369676E 
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\cc5XuNas.s 			page 19
+
+
+ 885      65642069 
+ 886              	.LASF16:
+ 887 0146 72785F63 		.ascii	"rx_char\000"
+ 887      68617200 
+ 888              	.LASF20:
+ 889 014e 474E5520 		.ascii	"GNU C 4.4.1\000"
+ 889      4320342E 
+ 889      342E3100 
+ 890              	.LASF11:
+ 891 015a 63686172 		.ascii	"char\000"
+ 891      00
+ 892              	.LASF26:
+ 893 015f 6973725F 		.ascii	"isr_byte_ultrasonic_rx\000"
+ 893      62797465 
+ 893      5F756C74 
+ 893      7261736F 
+ 893      6E69635F 
+ 894              	.LASF2:
+ 895 0176 73686F72 		.ascii	"short int\000"
+ 895      7420696E 
+ 895      7400
+ 896              	.LASF21:
+ 897 0180 2E5C756C 		.ascii	".\\ultrasonic.c\000"
+ 897      74726173 
+ 897      6F6E6963 
+ 897      2E6300
+ 898              	.LASF4:
+ 899 018f 6C6F6E67 		.ascii	"long int\000"
+ 899      20696E74 
+ 899      00
+ 900              	.LASF0:
+ 901 0198 7369676E 		.ascii	"signed char\000"
+ 901      65642063 
+ 901      68617200 
+ 902              	.LASF17:
+ 903 01a4 74657374 		.ascii	"test1\000"
+ 903      3100
+ 904              	.LASF18:
+ 905 01aa 74657374 		.ascii	"test2\000"
+ 905      3200
+ 906              	.LASF19:
+ 907 01b0 74657374 		.ascii	"test3\000"
+ 907      3300
+ 908              		.ident	"GCC: (Sourcery G++ Lite 2010q1-188) 4.4.1"

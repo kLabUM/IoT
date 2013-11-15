@@ -1,0 +1,1859 @@
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccdljcWQ.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 6
+  11              		.eabi_attribute 18, 4
+  12              		.thumb
+  13              		.file	"solinst_depth.c"
+  14              		.section	.debug_abbrev,"",%progbits
+  15              	.Ldebug_abbrev0:
+  16              		.section	.debug_info,"",%progbits
+  17              	.Ldebug_info0:
+  18              		.section	.debug_line,"",%progbits
+  19              	.Ldebug_line0:
+  20 0000 33010000 		.text
+  20      02007200 
+  20      00000201 
+  20      FB0E0D00 
+  20      01010101 
+  21              	.Ltext0:
+  22              		.cfi_sections	.debug_frame
+  23              		.comm	uart_solinst_received_string,128,4
+  24              		.global	uart_solinst_string_index
+  25              		.bss
+  26              		.type	uart_solinst_string_index, %object
+  27              		.size	uart_solinst_string_index, 1
+  28              	uart_solinst_string_index:
+  29 0000 00       		.space	1
+  30              		.global	reading
+  31 0001 000000   		.align	2
+  32              		.type	reading, %object
+  33              		.size	reading, 12
+  34              	reading:
+  35 0004 00000000 		.space	12
+  35      00000000 
+  35      00000000 
+  36              		.section	.text.solinst_start,"ax",%progbits
+  37              		.align	2
+  38              		.global	solinst_start
+  39              		.thumb
+  40              		.thumb_func
+  41              		.type	solinst_start, %function
+  42              	solinst_start:
+  43              	.LFB29:
+  44              		.file 1 ".\\solinst_depth.c"
+   1:.\solinst_depth.c **** /* ========================================
+   2:.\solinst_depth.c ****  *
+   3:.\solinst_depth.c ****  * Copyright YOUR COMPANY, THE YEAR
+   4:.\solinst_depth.c ****  * All Rights Reserved
+   5:.\solinst_depth.c ****  * UNPUBLISHED, LICENSED SOFTWARE.
+   6:.\solinst_depth.c ****  *
+   7:.\solinst_depth.c ****  * CONFIDENTIAL AND PROPRIETARY INFORMATION
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccdljcWQ.s 			page 2
+
+
+   8:.\solinst_depth.c ****  * WHICH IS THE PROPERTY OF your company.
+   9:.\solinst_depth.c ****  *
+  10:.\solinst_depth.c ****  * ========================================
+  11:.\solinst_depth.c **** */
+  12:.\solinst_depth.c **** 
+  13:.\solinst_depth.c **** #include "solinst_depth.h"
+  14:.\solinst_depth.c **** 
+  15:.\solinst_depth.c **** #include <stdio.h>
+  16:.\solinst_depth.c **** #include <stdlib.h>
+  17:.\solinst_depth.c **** #include <string.h>
+  18:.\solinst_depth.c **** 
+  19:.\solinst_depth.c **** // Declare variables
+  20:.\solinst_depth.c **** uint8 uart_solinst_received_string[128];
+  21:.\solinst_depth.c **** uint8 uart_solinst_string_index = 0;
+  22:.\solinst_depth.c **** SolinstReading reading = {.valid = 0}; // Need to initialize SolinstReading.valid to 0
+  23:.\solinst_depth.c **** 
+  24:.\solinst_depth.c **** // prototype modem interrupt
+  25:.\solinst_depth.c **** CY_ISR_PROTO(isr_solinst_byte_rx);
+  26:.\solinst_depth.c **** 
+  27:.\solinst_depth.c **** // prototype functions
+  28:.\solinst_depth.c **** void uart_solinst_string_reset();
+  29:.\solinst_depth.c **** 
+  30:.\solinst_depth.c **** 
+  31:.\solinst_depth.c **** 
+  32:.\solinst_depth.c **** 
+  33:.\solinst_depth.c **** 
+  34:.\solinst_depth.c **** // Start the UART
+  35:.\solinst_depth.c **** void solinst_start(){
+  45              		.loc 1 35 0
+  46              		.cfi_startproc
+  47              		@ args = 0, pretend = 0, frame = 0
+  48              		@ frame_needed = 1, uses_anonymous_args = 0
+  49 0000 80B5     		push	{r7, lr}
+  50              	.LCFI0:
+  51              		.cfi_def_cfa_offset 8
+  52 0002 00AF     		add	r7, sp, #0
+  53              		.cfi_offset 14, -4
+  54              		.cfi_offset 7, -8
+  55              	.LCFI1:
+  56              		.cfi_def_cfa_register 7
+  36:.\solinst_depth.c ****     uart_solinst_Start();
+  57              		.loc 1 36 0
+  58 0004 FFF7FEFF 		bl	uart_solinst_Start
+  37:.\solinst_depth.c **** }   
+  59              		.loc 1 37 0
+  60 0008 80BD     		pop	{r7, pc}
+  61              		.cfi_endproc
+  62              	.LFE29:
+  63              		.size	solinst_start, .-solinst_start
+  64 000a 00BF     		.section	.text.solinst_stop,"ax",%progbits
+  65              		.align	2
+  66              		.global	solinst_stop
+  67              		.thumb
+  68              		.thumb_func
+  69              		.type	solinst_stop, %function
+  70              	solinst_stop:
+  71              	.LFB30:
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccdljcWQ.s 			page 3
+
+
+  38:.\solinst_depth.c **** 
+  39:.\solinst_depth.c **** // Stop the UART
+  40:.\solinst_depth.c **** void solinst_stop(){
+  72              		.loc 1 40 0
+  73              		.cfi_startproc
+  74              		@ args = 0, pretend = 0, frame = 0
+  75              		@ frame_needed = 1, uses_anonymous_args = 0
+  76 0000 80B5     		push	{r7, lr}
+  77              	.LCFI2:
+  78              		.cfi_def_cfa_offset 8
+  79 0002 00AF     		add	r7, sp, #0
+  80              		.cfi_offset 14, -4
+  81              		.cfi_offset 7, -8
+  82              	.LCFI3:
+  83              		.cfi_def_cfa_register 7
+  41:.\solinst_depth.c ****     uart_solinst_Stop();
+  84              		.loc 1 41 0
+  85 0004 FFF7FEFF 		bl	uart_solinst_Stop
+  42:.\solinst_depth.c **** }         
+  86              		.loc 1 42 0
+  87 0008 80BD     		pop	{r7, pc}
+  88              		.cfi_endproc
+  89              	.LFE30:
+  90              		.size	solinst_stop, .-solinst_stop
+  91              		.global	__aeabi_d2f
+  92              		.global	__aeabi_f2d
+  93              		.global	__aeabi_dcmpeq
+  94 000a 00BF     		.section	.text.solinst_get_reading,"ax",%progbits
+  95              		.align	2
+  96              		.global	solinst_get_reading
+  97              		.thumb
+  98              		.thumb_func
+  99              		.type	solinst_get_reading, %function
+ 100              	solinst_get_reading:
+ 101              	.LFB31:
+  43:.\solinst_depth.c **** 
+  44:.\solinst_depth.c **** // Start ISR, Fill array, Return array, Stop ISR
+  45:.\solinst_depth.c **** uint8 solinst_get_reading(SolinstReading *reading){
+ 102              		.loc 1 45 0
+ 103              		.cfi_startproc
+ 104              		@ args = 0, pretend = 0, frame = 48
+ 105              		@ frame_needed = 1, uses_anonymous_args = 0
+ 106 0000 80B5     		push	{r7, lr}
+ 107              	.LCFI4:
+ 108              		.cfi_def_cfa_offset 8
+ 109 0002 8CB0     		sub	sp, sp, #48
+ 110              	.LCFI5:
+ 111              		.cfi_def_cfa_offset 56
+ 112 0004 00AF     		add	r7, sp, #0
+ 113              		.cfi_offset 14, -4
+ 114              		.cfi_offset 7, -8
+ 115              	.LCFI6:
+ 116              		.cfi_def_cfa_register 7
+ 117 0006 7860     		str	r0, [r7, #4]
+  46:.\solinst_depth.c **** 
+  47:.\solinst_depth.c ****     int i, index;
+  48:.\solinst_depth.c ****     uint8 temp[6], depth[7], t;
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccdljcWQ.s 			page 4
+
+
+  49:.\solinst_depth.c ****     uint8 command[6] = {0x00, 0x61, 0xff, 0x18, 0x24, 0x10};
+ 118              		.loc 1 49 0
+ 119 0008 40F20002 		movw	r2, #:lower16:C.18.3706
+ 120 000c C0F20002 		movt	r2, #:upper16:C.18.3706
+ 121 0010 07F10C03 		add	r3, r7, #12
+ 122 0014 92E80300 		ldmia	r2, {r0, r1}
+ 123 0018 1860     		str	r0, [r3, #0]
+ 124 001a 03F10403 		add	r3, r3, #4
+ 125 001e 1980     		strh	r1, [r3, #0]	@ movhi
+  50:.\solinst_depth.c ****     
+  51:.\solinst_depth.c ****     // Reset variables
+  52:.\solinst_depth.c ****     uart_solinst_string_reset();
+ 126              		.loc 1 52 0
+ 127 0020 FFF7FEFF 		bl	uart_solinst_string_reset
+  53:.\solinst_depth.c ****     (*reading).temp = -9999.99;    
+ 128              		.loc 1 53 0
+ 129 0024 7B68     		ldr	r3, [r7, #4]
+ 130 0026 784A     		ldr	r2, .L36+8	@ float
+ 131 0028 1A60     		str	r2, [r3, #0]	@ float
+  54:.\solinst_depth.c ****     (*reading).depth = -9999.99;
+ 132              		.loc 1 54 0
+ 133 002a 7B68     		ldr	r3, [r7, #4]
+ 134 002c 764A     		ldr	r2, .L36+8	@ float
+ 135 002e 5A60     		str	r2, [r3, #4]	@ float
+  55:.\solinst_depth.c ****     (*reading).valid = 0u;
+ 136              		.loc 1 55 0
+ 137 0030 7B68     		ldr	r3, [r7, #4]
+ 138 0032 4FF00002 		mov	r2, #0
+ 139 0036 1A72     		strb	r2, [r3, #8]
+  56:.\solinst_depth.c ****     
+  57:.\solinst_depth.c ****     // Start the ISR to read the uart
+  58:.\solinst_depth.c ****     isr_solinst_byte_rx_StartEx(isr_solinst_byte_rx);
+ 140              		.loc 1 58 0
+ 141 0038 40F20000 		movw	r0, #:lower16:isr_solinst_byte_rx
+ 142 003c C0F20000 		movt	r0, #:upper16:isr_solinst_byte_rx
+ 143 0040 FFF7FEFF 		bl	isr_solinst_byte_rx_StartEx
+  59:.\solinst_depth.c ****     solinst_power_on();
+ 144              		.loc 1 59 0
+ 145 0044 FFF7FEFF 		bl	solinst_power_on
+  60:.\solinst_depth.c ****     CyDelay(100u);
+ 146              		.loc 1 60 0
+ 147 0048 4FF06400 		mov	r0, #100
+ 148 004c FFF7FEFF 		bl	CyDelay
+  61:.\solinst_depth.c ****     
+  62:.\solinst_depth.c **** 
+  63:.\solinst_depth.c ****     uart_solinst_PutArray(command,6);
+ 149              		.loc 1 63 0
+ 150 0050 07F10C03 		add	r3, r7, #12
+ 151 0054 1846     		mov	r0, r3
+ 152 0056 4FF00601 		mov	r1, #6
+ 153 005a FFF7FEFF 		bl	uart_solinst_PutArray
+  64:.\solinst_depth.c ****     
+  65:.\solinst_depth.c ****     CyDelay(1000);
+ 154              		.loc 1 65 0
+ 155 005e 4FF47A70 		mov	r0, #1000
+ 156 0062 FFF7FEFF 		bl	CyDelay
+  66:.\solinst_depth.c ****     // Stop the ISR
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccdljcWQ.s 			page 5
+
+
+  67:.\solinst_depth.c ****     isr_solinst_byte_rx_Stop();
+ 157              		.loc 1 67 0
+ 158 0066 FFF7FEFF 		bl	isr_solinst_byte_rx_Stop
+  68:.\solinst_depth.c ****     solinst_power_off();
+ 159              		.loc 1 68 0
+ 160 006a FFF7FEFF 		bl	solinst_power_off
+  69:.\solinst_depth.c ****     
+  70:.\solinst_depth.c ****     // Get the data
+  71:.\solinst_depth.c ****     index = 0;
+ 161              		.loc 1 71 0
+ 162 006e 4FF00003 		mov	r3, #0
+ 163 0072 BB62     		str	r3, [r7, #40]
+  72:.\solinst_depth.c ****     for (i = 0; i < sizeof(uart_solinst_received_string); i++) {
+ 164              		.loc 1 72 0
+ 165 0074 4FF00003 		mov	r3, #0
+ 166 0078 7B62     		str	r3, [r7, #36]
+ 167 007a 34E0     		b	.L6
+ 168              	.L14:
+  73:.\solinst_depth.c ****         t = uart_solinst_received_string[i];
+ 169              		.loc 1 73 0
+ 170 007c 7A6A     		ldr	r2, [r7, #36]
+ 171 007e 40F20003 		movw	r3, #:lower16:uart_solinst_received_string
+ 172 0082 C0F20003 		movt	r3, #:upper16:uart_solinst_received_string
+ 173 0086 9B5C     		ldrb	r3, [r3, r2]
+ 174 0088 87F82F30 		strb	r3, [r7, #47]
+  74:.\solinst_depth.c ****         
+  75:.\solinst_depth.c ****         if ((t >= '0' && t <= '9') || t == '.') {
+ 175              		.loc 1 75 0
+ 176 008c 97F82F30 		ldrb	r3, [r7, #47]	@ zero_extendqisi2
+ 177 0090 2F2B     		cmp	r3, #47
+ 178 0092 03D9     		bls	.L7
+ 179 0094 97F82F30 		ldrb	r3, [r7, #47]	@ zero_extendqisi2
+ 180 0098 392B     		cmp	r3, #57
+ 181 009a 03D9     		bls	.L8
+ 182              	.L7:
+ 183 009c 97F82F30 		ldrb	r3, [r7, #47]	@ zero_extendqisi2
+ 184 00a0 2E2B     		cmp	r3, #46
+ 185 00a2 0CD1     		bne	.L9
+ 186              	.L8:
+  76:.\solinst_depth.c ****             temp[index] = t;
+ 187              		.loc 1 76 0
+ 188 00a4 BB6A     		ldr	r3, [r7, #40]
+ 189 00a6 07F13002 		add	r2, r7, #48
+ 190 00aa 1344     		add	r3, r2, r3
+ 191 00ac 97F82F20 		ldrb	r2, [r7, #47]
+ 192 00b0 03F8142C 		strb	r2, [r3, #-20]
+  77:.\solinst_depth.c ****             index++;
+ 193              		.loc 1 77 0
+ 194 00b4 BB6A     		ldr	r3, [r7, #40]
+ 195 00b6 03F10103 		add	r3, r3, #1
+ 196 00ba BB62     		str	r3, [r7, #40]
+ 197              		.loc 1 75 0
+ 198 00bc 0FE0     		b	.L10
+ 199              	.L9:
+  78:.\solinst_depth.c ****         }
+  79:.\solinst_depth.c ****         else if (t == '+')
+ 200              		.loc 1 79 0
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccdljcWQ.s 			page 6
+
+
+ 201 00be 97F82F30 		ldrb	r3, [r7, #47]	@ zero_extendqisi2
+ 202 00c2 2B2B     		cmp	r3, #43
+ 203 00c4 08D0     		beq	.L30
+ 204              	.L11:
+  80:.\solinst_depth.c ****             continue;
+  81:.\solinst_depth.c ****         else if (t == '-')
+ 205              		.loc 1 81 0
+ 206 00c6 97F82F30 		ldrb	r3, [r7, #47]	@ zero_extendqisi2
+ 207 00ca 2D2B     		cmp	r3, #45
+ 208 00cc 06D0     		beq	.L31
+ 209              	.L12:
+  82:.\solinst_depth.c ****             continue;
+  83:.\solinst_depth.c ****         else if (t == 'C')
+ 210              		.loc 1 83 0
+ 211 00ce 97F82F30 		ldrb	r3, [r7, #47]	@ zero_extendqisi2
+ 212 00d2 432B     		cmp	r3, #67
+ 213 00d4 0BD0     		beq	.L32
+ 214 00d6 02E0     		b	.L10
+ 215              	.L30:
+ 216              		.loc 1 80 0
+ 217 00d8 00BF     		nop
+ 218 00da 00E0     		b	.L10
+ 219              	.L31:
+ 220              		.loc 1 82 0
+ 221 00dc 00BF     		nop
+ 222              	.L10:
+ 223              		.loc 1 72 0
+ 224 00de 7B6A     		ldr	r3, [r7, #36]
+ 225 00e0 03F10103 		add	r3, r3, #1
+ 226 00e4 7B62     		str	r3, [r7, #36]
+ 227              	.L6:
+ 228 00e6 7B6A     		ldr	r3, [r7, #36]
+ 229 00e8 7F2B     		cmp	r3, #127
+ 230 00ea C7D9     		bls	.L14
+ 231 00ec 00E0     		b	.L13
+ 232              	.L32:
+  84:.\solinst_depth.c ****             break;
+ 233              		.loc 1 84 0
+ 234 00ee 00BF     		nop
+ 235              	.L13:
+  85:.\solinst_depth.c ****            
+  86:.\solinst_depth.c ****     }
+  87:.\solinst_depth.c ****     
+  88:.\solinst_depth.c ****     index = 0;
+ 236              		.loc 1 88 0
+ 237 00f0 4FF00003 		mov	r3, #0
+ 238 00f4 BB62     		str	r3, [r7, #40]
+  89:.\solinst_depth.c ****     for (; i < sizeof(uart_solinst_received_string); i++) {
+ 239              		.loc 1 89 0
+ 240 00f6 34E0     		b	.L15
+ 241              	.L23:
+  90:.\solinst_depth.c ****         t = uart_solinst_received_string[i];
+ 242              		.loc 1 90 0
+ 243 00f8 7A6A     		ldr	r2, [r7, #36]
+ 244 00fa 40F20003 		movw	r3, #:lower16:uart_solinst_received_string
+ 245 00fe C0F20003 		movt	r3, #:upper16:uart_solinst_received_string
+ 246 0102 9B5C     		ldrb	r3, [r3, r2]
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccdljcWQ.s 			page 7
+
+
+ 247 0104 87F82F30 		strb	r3, [r7, #47]
+  91:.\solinst_depth.c ****         
+  92:.\solinst_depth.c ****         if ((t >= '0' && t <= '9') || t == '.') {
+ 248              		.loc 1 92 0
+ 249 0108 97F82F30 		ldrb	r3, [r7, #47]	@ zero_extendqisi2
+ 250 010c 2F2B     		cmp	r3, #47
+ 251 010e 03D9     		bls	.L16
+ 252 0110 97F82F30 		ldrb	r3, [r7, #47]	@ zero_extendqisi2
+ 253 0114 392B     		cmp	r3, #57
+ 254 0116 03D9     		bls	.L17
+ 255              	.L16:
+ 256 0118 97F82F30 		ldrb	r3, [r7, #47]	@ zero_extendqisi2
+ 257 011c 2E2B     		cmp	r3, #46
+ 258 011e 0CD1     		bne	.L18
+ 259              	.L17:
+  93:.\solinst_depth.c ****             depth[index] = t;
+ 260              		.loc 1 93 0
+ 261 0120 BB6A     		ldr	r3, [r7, #40]
+ 262 0122 07F13002 		add	r2, r7, #48
+ 263 0126 1344     		add	r3, r2, r3
+ 264 0128 97F82F20 		ldrb	r2, [r7, #47]
+ 265 012c 03F81C2C 		strb	r2, [r3, #-28]
+  94:.\solinst_depth.c ****             index++;
+ 266              		.loc 1 94 0
+ 267 0130 BB6A     		ldr	r3, [r7, #40]
+ 268 0132 03F10103 		add	r3, r3, #1
+ 269 0136 BB62     		str	r3, [r7, #40]
+ 270              		.loc 1 92 0
+ 271 0138 0FE0     		b	.L19
+ 272              	.L18:
+  95:.\solinst_depth.c ****         }
+  96:.\solinst_depth.c ****         else if (t == '+')
+ 273              		.loc 1 96 0
+ 274 013a 97F82F30 		ldrb	r3, [r7, #47]	@ zero_extendqisi2
+ 275 013e 2B2B     		cmp	r3, #43
+ 276 0140 08D0     		beq	.L33
+ 277              	.L20:
+  97:.\solinst_depth.c ****             continue;
+  98:.\solinst_depth.c ****         else if (t == '-')
+ 278              		.loc 1 98 0
+ 279 0142 97F82F30 		ldrb	r3, [r7, #47]	@ zero_extendqisi2
+ 280 0146 2D2B     		cmp	r3, #45
+ 281 0148 06D0     		beq	.L34
+ 282              	.L21:
+  99:.\solinst_depth.c ****             continue;        
+ 100:.\solinst_depth.c ****         else if (t == 'm')
+ 283              		.loc 1 100 0
+ 284 014a 97F82F30 		ldrb	r3, [r7, #47]	@ zero_extendqisi2
+ 285 014e 6D2B     		cmp	r3, #109
+ 286 0150 0BD0     		beq	.L35
+ 287 0152 02E0     		b	.L19
+ 288              	.L33:
+ 289              		.loc 1 97 0
+ 290 0154 00BF     		nop
+ 291 0156 00E0     		b	.L19
+ 292              	.L34:
+ 293              		.loc 1 99 0
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccdljcWQ.s 			page 8
+
+
+ 294 0158 00BF     		nop
+ 295              	.L19:
+ 296              		.loc 1 89 0
+ 297 015a 7B6A     		ldr	r3, [r7, #36]
+ 298 015c 03F10103 		add	r3, r3, #1
+ 299 0160 7B62     		str	r3, [r7, #36]
+ 300              	.L15:
+ 301 0162 7B6A     		ldr	r3, [r7, #36]
+ 302 0164 7F2B     		cmp	r3, #127
+ 303 0166 C7D9     		bls	.L23
+ 304 0168 00E0     		b	.L22
+ 305              	.L35:
+ 101:.\solinst_depth.c ****             break;
+ 306              		.loc 1 101 0
+ 307 016a 00BF     		nop
+ 308              	.L22:
+ 102:.\solinst_depth.c ****            
+ 103:.\solinst_depth.c ****     }    
+ 104:.\solinst_depth.c **** 
+ 105:.\solinst_depth.c ****     (*reading).temp = (float)atof(temp);
+ 309              		.loc 1 105 0
+ 310 016c 07F11C03 		add	r3, r7, #28
+ 311 0170 1846     		mov	r0, r3
+ 312 0172 FFF7FEFF 		bl	atof
+ 313 0176 0246     		mov	r2, r0
+ 314 0178 0B46     		mov	r3, r1
+ 315 017a 1046     		mov	r0, r2
+ 316 017c 1946     		mov	r1, r3
+ 317 017e FFF7FEFF 		bl	__aeabi_d2f
+ 318 0182 0246     		mov	r2, r0
+ 319 0184 7B68     		ldr	r3, [r7, #4]
+ 320 0186 1A60     		str	r2, [r3, #0]	@ float
+ 106:.\solinst_depth.c ****     (*reading).depth = (float)atof(depth);
+ 321              		.loc 1 106 0
+ 322 0188 07F11403 		add	r3, r7, #20
+ 323 018c 1846     		mov	r0, r3
+ 324 018e FFF7FEFF 		bl	atof
+ 325 0192 0246     		mov	r2, r0
+ 326 0194 0B46     		mov	r3, r1
+ 327 0196 1046     		mov	r0, r2
+ 328 0198 1946     		mov	r1, r3
+ 329 019a FFF7FEFF 		bl	__aeabi_d2f
+ 330 019e 0246     		mov	r2, r0
+ 331 01a0 7B68     		ldr	r3, [r7, #4]
+ 332 01a2 5A60     		str	r2, [r3, #4]	@ float
+ 107:.\solinst_depth.c ****     
+ 108:.\solinst_depth.c ****     if ( (*reading).temp != -9999.99 && (*reading).depth != -9999.99) {
+ 333              		.loc 1 108 0
+ 334 01a4 7B68     		ldr	r3, [r7, #4]
+ 335 01a6 1B68     		ldr	r3, [r3, #0]	@ float
+ 336 01a8 1846     		mov	r0, r3
+ 337 01aa FFF7FEFF 		bl	__aeabi_f2d
+ 338 01ae 0246     		mov	r2, r0
+ 339 01b0 0B46     		mov	r3, r1
+ 340 01b2 1046     		mov	r0, r2
+ 341 01b4 1946     		mov	r1, r3
+ 342 01b6 12A3     		adr	r3, .L36
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccdljcWQ.s 			page 9
+
+
+ 343 01b8 D3E90023 		ldrd	r2, [r3]
+ 344 01bc FFF7FEFF 		bl	__aeabi_dcmpeq
+ 345 01c0 0346     		mov	r3, r0
+ 346 01c2 002B     		cmp	r3, #0
+ 347 01c4 14D1     		bne	.L24
+ 348              	.L28:
+ 349 01c6 7B68     		ldr	r3, [r7, #4]
+ 350 01c8 5B68     		ldr	r3, [r3, #4]	@ float
+ 351 01ca 1846     		mov	r0, r3
+ 352 01cc FFF7FEFF 		bl	__aeabi_f2d
+ 353 01d0 0246     		mov	r2, r0
+ 354 01d2 0B46     		mov	r3, r1
+ 355 01d4 1046     		mov	r0, r2
+ 356 01d6 1946     		mov	r1, r3
+ 357 01d8 09A3     		adr	r3, .L36
+ 358 01da D3E90023 		ldrd	r2, [r3]
+ 359 01de FFF7FEFF 		bl	__aeabi_dcmpeq
+ 360 01e2 0346     		mov	r3, r0
+ 361 01e4 002B     		cmp	r3, #0
+ 362 01e6 03D1     		bne	.L24
+ 363              	.L29:
+ 109:.\solinst_depth.c ****         (*reading).valid = 1u;
+ 364              		.loc 1 109 0
+ 365 01e8 7B68     		ldr	r3, [r7, #4]
+ 366 01ea 4FF00102 		mov	r2, #1
+ 367 01ee 1A72     		strb	r2, [r3, #8]
+ 368              	.L24:
+ 110:.\solinst_depth.c ****     }
+ 111:.\solinst_depth.c ****     
+ 112:.\solinst_depth.c ****     return (*reading).valid;
+ 369              		.loc 1 112 0
+ 370 01f0 7B68     		ldr	r3, [r7, #4]
+ 371 01f2 1B7A     		ldrb	r3, [r3, #8]	@ zero_extendqisi2
+ 113:.\solinst_depth.c **** }  
+ 372              		.loc 1 113 0
+ 373 01f4 1846     		mov	r0, r3
+ 374 01f6 07F13007 		add	r7, r7, #48
+ 375 01fa BD46     		mov	sp, r7
+ 376 01fc 80BD     		pop	{r7, pc}
+ 377              	.L37:
+ 378 01fe 00BF     		.align	3
+ 379              	.L36:
+ 380 0200 85EB51B8 		.word	-1202590843
+ 381 0204 FE87C3C0 		.word	-1060927490
+ 382 0208 F63F1CC6 		.word	-971227146
+ 383              		.cfi_endproc
+ 384              	.LFE31:
+ 385              		.size	solinst_get_reading, .-solinst_get_reading
+ 386 020c AFF30080 		.section	.text.solinst_power_on,"ax",%progbits
+ 387              		.align	2
+ 388              		.global	solinst_power_on
+ 389              		.thumb
+ 390              		.thumb_func
+ 391              		.type	solinst_power_on, %function
+ 392              	solinst_power_on:
+ 393              	.LFB32:
+ 114:.\solinst_depth.c **** 
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccdljcWQ.s 			page 10
+
+
+ 115:.\solinst_depth.c **** // Provide power to Solinst sensor
+ 116:.\solinst_depth.c **** uint8 solinst_power_on(){
+ 394              		.loc 1 116 0
+ 395              		.cfi_startproc
+ 396              		@ args = 0, pretend = 0, frame = 0
+ 397              		@ frame_needed = 1, uses_anonymous_args = 0
+ 398 0000 80B5     		push	{r7, lr}
+ 399              	.LCFI7:
+ 400              		.cfi_def_cfa_offset 8
+ 401 0002 00AF     		add	r7, sp, #0
+ 402              		.cfi_offset 14, -4
+ 403              		.cfi_offset 7, -8
+ 404              	.LCFI8:
+ 405              		.cfi_def_cfa_register 7
+ 117:.\solinst_depth.c ****     solinst_power_pin_Write(0u);
+ 406              		.loc 1 117 0
+ 407 0004 4FF00000 		mov	r0, #0
+ 408 0008 FFF7FEFF 		bl	solinst_power_pin_Write
+ 118:.\solinst_depth.c ****     return 1u;
+ 409              		.loc 1 118 0
+ 410 000c 4FF00103 		mov	r3, #1
+ 119:.\solinst_depth.c **** }
+ 411              		.loc 1 119 0
+ 412 0010 1846     		mov	r0, r3
+ 413 0012 80BD     		pop	{r7, pc}
+ 414              		.cfi_endproc
+ 415              	.LFE32:
+ 416              		.size	solinst_power_on, .-solinst_power_on
+ 417              		.section	.text.solinst_power_off,"ax",%progbits
+ 418              		.align	2
+ 419              		.global	solinst_power_off
+ 420              		.thumb
+ 421              		.thumb_func
+ 422              		.type	solinst_power_off, %function
+ 423              	solinst_power_off:
+ 424              	.LFB33:
+ 120:.\solinst_depth.c **** 
+ 121:.\solinst_depth.c **** // Cut power to the Solinst sensor
+ 122:.\solinst_depth.c **** uint8 solinst_power_off(){
+ 425              		.loc 1 122 0
+ 426              		.cfi_startproc
+ 427              		@ args = 0, pretend = 0, frame = 0
+ 428              		@ frame_needed = 1, uses_anonymous_args = 0
+ 429 0000 80B5     		push	{r7, lr}
+ 430              	.LCFI9:
+ 431              		.cfi_def_cfa_offset 8
+ 432 0002 00AF     		add	r7, sp, #0
+ 433              		.cfi_offset 14, -4
+ 434              		.cfi_offset 7, -8
+ 435              	.LCFI10:
+ 436              		.cfi_def_cfa_register 7
+ 123:.\solinst_depth.c ****     solinst_power_pin_Write(0u);
+ 437              		.loc 1 123 0
+ 438 0004 4FF00000 		mov	r0, #0
+ 439 0008 FFF7FEFF 		bl	solinst_power_pin_Write
+ 124:.\solinst_depth.c ****     return 0u;
+ 440              		.loc 1 124 0
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccdljcWQ.s 			page 11
+
+
+ 441 000c 4FF00003 		mov	r3, #0
+ 125:.\solinst_depth.c **** }
+ 442              		.loc 1 125 0
+ 443 0010 1846     		mov	r0, r3
+ 444 0012 80BD     		pop	{r7, pc}
+ 445              		.cfi_endproc
+ 446              	.LFE33:
+ 447              		.size	solinst_power_off, .-solinst_power_off
+ 448              		.section	.text.isr_solinst_byte_rx,"ax",%progbits
+ 449              		.align	2
+ 450              		.global	isr_solinst_byte_rx
+ 451              		.thumb
+ 452              		.thumb_func
+ 453              		.type	isr_solinst_byte_rx, %function
+ 454              	isr_solinst_byte_rx:
+ 455              	.LFB34:
+ 126:.\solinst_depth.c **** 
+ 127:.\solinst_depth.c **** CY_ISR(isr_solinst_byte_rx){
+ 456              		.loc 1 127 0
+ 457              		.cfi_startproc
+ 458              		@ args = 0, pretend = 0, frame = 8
+ 459              		@ frame_needed = 1, uses_anonymous_args = 0
+ 460 0000 80B5     		push	{r7, lr}
+ 461              	.LCFI11:
+ 462              		.cfi_def_cfa_offset 8
+ 463 0002 82B0     		sub	sp, sp, #8
+ 464              	.LCFI12:
+ 465              		.cfi_def_cfa_offset 16
+ 466 0004 00AF     		add	r7, sp, #0
+ 467              		.cfi_offset 14, -4
+ 468              		.cfi_offset 7, -8
+ 469              	.LCFI13:
+ 470              		.cfi_def_cfa_register 7
+ 128:.\solinst_depth.c ****     // hold the next char in the rx register as a temporary variable
+ 129:.\solinst_depth.c ****     uint8 rx_char_hold = uart_solinst_GetChar();
+ 471              		.loc 1 129 0
+ 472 0006 FFF7FEFF 		bl	uart_solinst_GetChar
+ 473 000a 0346     		mov	r3, r0
+ 474 000c FB71     		strb	r3, [r7, #7]
+ 130:.\solinst_depth.c ****     
+ 131:.\solinst_depth.c ****     // store the char in uart_received_string
+ 132:.\solinst_depth.c ****     if(rx_char_hold){
+ 475              		.loc 1 132 0
+ 476 000e FB79     		ldrb	r3, [r7, #7]	@ zero_extendqisi2
+ 477 0010 002B     		cmp	r3, #0
+ 478 0012 18D0     		beq	.L44
+ 133:.\solinst_depth.c ****         uart_solinst_received_string[uart_solinst_string_index] = rx_char_hold;
+ 479              		.loc 1 133 0
+ 480 0014 40F20003 		movw	r3, #:lower16:uart_solinst_string_index
+ 481 0018 C0F20003 		movt	r3, #:upper16:uart_solinst_string_index
+ 482 001c 1B78     		ldrb	r3, [r3, #0]	@ zero_extendqisi2
+ 483 001e 1A46     		mov	r2, r3
+ 484 0020 40F20003 		movw	r3, #:lower16:uart_solinst_received_string
+ 485 0024 C0F20003 		movt	r3, #:upper16:uart_solinst_received_string
+ 486 0028 F979     		ldrb	r1, [r7, #7]
+ 487 002a 9954     		strb	r1, [r3, r2]
+ 134:.\solinst_depth.c ****         uart_solinst_string_index++;
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccdljcWQ.s 			page 12
+
+
+ 488              		.loc 1 134 0
+ 489 002c 40F20003 		movw	r3, #:lower16:uart_solinst_string_index
+ 490 0030 C0F20003 		movt	r3, #:upper16:uart_solinst_string_index
+ 491 0034 1B78     		ldrb	r3, [r3, #0]	@ zero_extendqisi2
+ 492 0036 03F10103 		add	r3, r3, #1
+ 493 003a DAB2     		uxtb	r2, r3
+ 494 003c 40F20003 		movw	r3, #:lower16:uart_solinst_string_index
+ 495 0040 C0F20003 		movt	r3, #:upper16:uart_solinst_string_index
+ 496 0044 1A70     		strb	r2, [r3, #0]
+ 497              	.L44:
+ 135:.\solinst_depth.c ****     }    
+ 136:.\solinst_depth.c **** }
+ 498              		.loc 1 136 0
+ 499 0046 07F10807 		add	r7, r7, #8
+ 500 004a BD46     		mov	sp, r7
+ 501 004c 80BD     		pop	{r7, pc}
+ 502              		.cfi_endproc
+ 503              	.LFE34:
+ 504              		.size	isr_solinst_byte_rx, .-isr_solinst_byte_rx
+ 505 004e 00BF     		.section	.text.uart_solinst_string_reset,"ax",%progbits
+ 506              		.align	2
+ 507              		.global	uart_solinst_string_reset
+ 508              		.thumb
+ 509              		.thumb_func
+ 510              		.type	uart_solinst_string_reset, %function
+ 511              	uart_solinst_string_reset:
+ 512              	.LFB35:
+ 137:.\solinst_depth.c **** 
+ 138:.\solinst_depth.c **** 
+ 139:.\solinst_depth.c **** void uart_solinst_string_reset(){
+ 513              		.loc 1 139 0
+ 514              		.cfi_startproc
+ 515              		@ args = 0, pretend = 0, frame = 8
+ 516              		@ frame_needed = 1, uses_anonymous_args = 0
+ 517 0000 80B5     		push	{r7, lr}
+ 518              	.LCFI14:
+ 519              		.cfi_def_cfa_offset 8
+ 520 0002 82B0     		sub	sp, sp, #8
+ 521              	.LCFI15:
+ 522              		.cfi_def_cfa_offset 16
+ 523 0004 00AF     		add	r7, sp, #0
+ 524              		.cfi_offset 14, -4
+ 525              		.cfi_offset 7, -8
+ 526              	.LCFI16:
+ 527              		.cfi_def_cfa_register 7
+ 140:.\solinst_depth.c ****     // reset uart_received_string to zero
+ 141:.\solinst_depth.c ****     uint8 i = 0;
+ 528              		.loc 1 141 0
+ 529 0006 4FF00003 		mov	r3, #0
+ 530 000a FB71     		strb	r3, [r7, #7]
+ 142:.\solinst_depth.c ****     
+ 143:.\solinst_depth.c ****     for(i = 0; i < 128; i++){
+ 531              		.loc 1 143 0
+ 532 000c 4FF00003 		mov	r3, #0
+ 533 0010 FB71     		strb	r3, [r7, #7]
+ 534 0012 0BE0     		b	.L46
+ 535              	.L47:
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccdljcWQ.s 			page 13
+
+
+ 144:.\solinst_depth.c ****         uart_solinst_received_string[i] = 0;
+ 536              		.loc 1 144 0
+ 537 0014 FA79     		ldrb	r2, [r7, #7]	@ zero_extendqisi2
+ 538 0016 40F20003 		movw	r3, #:lower16:uart_solinst_received_string
+ 539 001a C0F20003 		movt	r3, #:upper16:uart_solinst_received_string
+ 540 001e 4FF00001 		mov	r1, #0
+ 541 0022 9954     		strb	r1, [r3, r2]
+ 542              		.loc 1 143 0
+ 543 0024 FB79     		ldrb	r3, [r7, #7]
+ 544 0026 03F10103 		add	r3, r3, #1
+ 545 002a FB71     		strb	r3, [r7, #7]
+ 546              	.L46:
+ 547 002c FB79     		ldrb	r3, [r7, #7]	@ zero_extendqisi2
+ 548 002e 5BB2     		sxtb	r3, r3
+ 549 0030 002B     		cmp	r3, #0
+ 550 0032 EFDA     		bge	.L47
+ 145:.\solinst_depth.c ****     }
+ 146:.\solinst_depth.c ****     uart_solinst_string_index = 0;
+ 551              		.loc 1 146 0
+ 552 0034 40F20003 		movw	r3, #:lower16:uart_solinst_string_index
+ 553 0038 C0F20003 		movt	r3, #:upper16:uart_solinst_string_index
+ 554 003c 4FF00002 		mov	r2, #0
+ 555 0040 1A70     		strb	r2, [r3, #0]
+ 147:.\solinst_depth.c ****     uart_solinst_ClearRxBuffer();
+ 556              		.loc 1 147 0
+ 557 0042 FFF7FEFF 		bl	uart_solinst_ClearRxBuffer
+ 148:.\solinst_depth.c **** }
+ 558              		.loc 1 148 0
+ 559 0046 07F10807 		add	r7, r7, #8
+ 560 004a BD46     		mov	sp, r7
+ 561 004c 80BD     		pop	{r7, pc}
+ 562              		.cfi_endproc
+ 563              	.LFE35:
+ 564              		.size	uart_solinst_string_reset, .-uart_solinst_string_reset
+ 565 004e 00BF     		.section	.rodata
+ 566              		.align	2
+ 567              		.type	C.18.3706, %object
+ 568              		.size	C.18.3706, 6
+ 569              	C.18.3706:
+ 570 0000 00       		.byte	0
+ 571 0001 61       		.byte	97
+ 572 0002 FF       		.byte	-1
+ 573 0003 18       		.byte	24
+ 574 0004 24       		.byte	36
+ 575 0005 10       		.byte	16
+ 576 0006 0000     		.text
+ 577              	.Letext0:
+ 578              		.section	.debug_loc,"",%progbits
+ 579              	.Ldebug_loc0:
+ 580              	.LLST0:
+ 581 0000 00000000 		.4byte	.LFB29
+ 582 0004 02000000 		.4byte	.LCFI0
+ 583 0008 0100     		.2byte	0x1
+ 584 000a 5D       		.byte	0x5d
+ 585 000b 02000000 		.4byte	.LCFI0
+ 586 000f 04000000 		.4byte	.LCFI1
+ 587 0013 0200     		.2byte	0x2
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccdljcWQ.s 			page 14
+
+
+ 588 0015 7D       		.byte	0x7d
+ 589 0016 08       		.sleb128 8
+ 590 0017 04000000 		.4byte	.LCFI1
+ 591 001b 0A000000 		.4byte	.LFE29
+ 592 001f 0200     		.2byte	0x2
+ 593 0021 77       		.byte	0x77
+ 594 0022 08       		.sleb128 8
+ 595 0023 00000000 		.4byte	0x0
+ 596 0027 00000000 		.4byte	0x0
+ 597              	.LLST1:
+ 598 002b 00000000 		.4byte	.LFB30
+ 599 002f 02000000 		.4byte	.LCFI2
+ 600 0033 0100     		.2byte	0x1
+ 601 0035 5D       		.byte	0x5d
+ 602 0036 02000000 		.4byte	.LCFI2
+ 603 003a 04000000 		.4byte	.LCFI3
+ 604 003e 0200     		.2byte	0x2
+ 605 0040 7D       		.byte	0x7d
+ 606 0041 08       		.sleb128 8
+ 607 0042 04000000 		.4byte	.LCFI3
+ 608 0046 0A000000 		.4byte	.LFE30
+ 609 004a 0200     		.2byte	0x2
+ 610 004c 77       		.byte	0x77
+ 611 004d 08       		.sleb128 8
+ 612 004e 00000000 		.4byte	0x0
+ 613 0052 00000000 		.4byte	0x0
+ 614              	.LLST2:
+ 615 0056 00000000 		.4byte	.LFB31
+ 616 005a 02000000 		.4byte	.LCFI4
+ 617 005e 0100     		.2byte	0x1
+ 618 0060 5D       		.byte	0x5d
+ 619 0061 02000000 		.4byte	.LCFI4
+ 620 0065 04000000 		.4byte	.LCFI5
+ 621 0069 0200     		.2byte	0x2
+ 622 006b 7D       		.byte	0x7d
+ 623 006c 08       		.sleb128 8
+ 624 006d 04000000 		.4byte	.LCFI5
+ 625 0071 06000000 		.4byte	.LCFI6
+ 626 0075 0200     		.2byte	0x2
+ 627 0077 7D       		.byte	0x7d
+ 628 0078 38       		.sleb128 56
+ 629 0079 06000000 		.4byte	.LCFI6
+ 630 007d 0C020000 		.4byte	.LFE31
+ 631 0081 0200     		.2byte	0x2
+ 632 0083 77       		.byte	0x77
+ 633 0084 38       		.sleb128 56
+ 634 0085 00000000 		.4byte	0x0
+ 635 0089 00000000 		.4byte	0x0
+ 636              	.LLST3:
+ 637 008d 00000000 		.4byte	.LFB32
+ 638 0091 02000000 		.4byte	.LCFI7
+ 639 0095 0100     		.2byte	0x1
+ 640 0097 5D       		.byte	0x5d
+ 641 0098 02000000 		.4byte	.LCFI7
+ 642 009c 04000000 		.4byte	.LCFI8
+ 643 00a0 0200     		.2byte	0x2
+ 644 00a2 7D       		.byte	0x7d
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccdljcWQ.s 			page 15
+
+
+ 645 00a3 08       		.sleb128 8
+ 646 00a4 04000000 		.4byte	.LCFI8
+ 647 00a8 14000000 		.4byte	.LFE32
+ 648 00ac 0200     		.2byte	0x2
+ 649 00ae 77       		.byte	0x77
+ 650 00af 08       		.sleb128 8
+ 651 00b0 00000000 		.4byte	0x0
+ 652 00b4 00000000 		.4byte	0x0
+ 653              	.LLST4:
+ 654 00b8 00000000 		.4byte	.LFB33
+ 655 00bc 02000000 		.4byte	.LCFI9
+ 656 00c0 0100     		.2byte	0x1
+ 657 00c2 5D       		.byte	0x5d
+ 658 00c3 02000000 		.4byte	.LCFI9
+ 659 00c7 04000000 		.4byte	.LCFI10
+ 660 00cb 0200     		.2byte	0x2
+ 661 00cd 7D       		.byte	0x7d
+ 662 00ce 08       		.sleb128 8
+ 663 00cf 04000000 		.4byte	.LCFI10
+ 664 00d3 14000000 		.4byte	.LFE33
+ 665 00d7 0200     		.2byte	0x2
+ 666 00d9 77       		.byte	0x77
+ 667 00da 08       		.sleb128 8
+ 668 00db 00000000 		.4byte	0x0
+ 669 00df 00000000 		.4byte	0x0
+ 670              	.LLST5:
+ 671 00e3 00000000 		.4byte	.LFB34
+ 672 00e7 02000000 		.4byte	.LCFI11
+ 673 00eb 0100     		.2byte	0x1
+ 674 00ed 5D       		.byte	0x5d
+ 675 00ee 02000000 		.4byte	.LCFI11
+ 676 00f2 04000000 		.4byte	.LCFI12
+ 677 00f6 0200     		.2byte	0x2
+ 678 00f8 7D       		.byte	0x7d
+ 679 00f9 08       		.sleb128 8
+ 680 00fa 04000000 		.4byte	.LCFI12
+ 681 00fe 06000000 		.4byte	.LCFI13
+ 682 0102 0200     		.2byte	0x2
+ 683 0104 7D       		.byte	0x7d
+ 684 0105 10       		.sleb128 16
+ 685 0106 06000000 		.4byte	.LCFI13
+ 686 010a 4E000000 		.4byte	.LFE34
+ 687 010e 0200     		.2byte	0x2
+ 688 0110 77       		.byte	0x77
+ 689 0111 10       		.sleb128 16
+ 690 0112 00000000 		.4byte	0x0
+ 691 0116 00000000 		.4byte	0x0
+ 692              	.LLST6:
+ 693 011a 00000000 		.4byte	.LFB35
+ 694 011e 02000000 		.4byte	.LCFI14
+ 695 0122 0100     		.2byte	0x1
+ 696 0124 5D       		.byte	0x5d
+ 697 0125 02000000 		.4byte	.LCFI14
+ 698 0129 04000000 		.4byte	.LCFI15
+ 699 012d 0200     		.2byte	0x2
+ 700 012f 7D       		.byte	0x7d
+ 701 0130 08       		.sleb128 8
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccdljcWQ.s 			page 16
+
+
+ 702 0131 04000000 		.4byte	.LCFI15
+ 703 0135 06000000 		.4byte	.LCFI16
+ 704 0139 0200     		.2byte	0x2
+ 705 013b 7D       		.byte	0x7d
+ 706 013c 10       		.sleb128 16
+ 707 013d 06000000 		.4byte	.LCFI16
+ 708 0141 4E000000 		.4byte	.LFE35
+ 709 0145 0200     		.2byte	0x2
+ 710 0147 77       		.byte	0x77
+ 711 0148 10       		.sleb128 16
+ 712 0149 00000000 		.4byte	0x0
+ 713 014d 00000000 		.4byte	0x0
+ 714              		.file 2 ".\\/solinst_depth.h"
+ 715              		.file 3 "./Generated_Source/PSoC5/cytypes.h"
+ 716              		.file 4 "./Generated_Source/PSoC5/core_cm3.h"
+ 717              		.section	.debug_info
+ 718 0000 6D020000 		.4byte	0x26d
+ 719 0004 0200     		.2byte	0x2
+ 720 0006 00000000 		.4byte	.Ldebug_abbrev0
+ 721 000a 04       		.byte	0x4
+ 722 000b 01       		.uleb128 0x1
+ 723 000c 7A010000 		.4byte	.LASF28
+ 724 0010 01       		.byte	0x1
+ 725 0011 D4010000 		.4byte	.LASF29
+ 726 0015 1F000000 		.4byte	.LASF30
+ 727 0019 00000000 		.4byte	0x0
+ 728 001d 00000000 		.4byte	0x0
+ 729 0021 00000000 		.4byte	.Ldebug_ranges0+0x0
+ 730 0025 00000000 		.4byte	.Ldebug_line0
+ 731 0029 02       		.uleb128 0x2
+ 732 002a 01       		.byte	0x1
+ 733 002b 06       		.byte	0x6
+ 734 002c 01020000 		.4byte	.LASF0
+ 735 0030 02       		.uleb128 0x2
+ 736 0031 01       		.byte	0x1
+ 737 0032 08       		.byte	0x8
+ 738 0033 DA000000 		.4byte	.LASF1
+ 739 0037 02       		.uleb128 0x2
+ 740 0038 02       		.byte	0x2
+ 741 0039 05       		.byte	0x5
+ 742 003a B7010000 		.4byte	.LASF2
+ 743 003e 02       		.uleb128 0x2
+ 744 003f 02       		.byte	0x2
+ 745 0040 07       		.byte	0x7
+ 746 0041 97000000 		.4byte	.LASF3
+ 747 0045 02       		.uleb128 0x2
+ 748 0046 04       		.byte	0x4
+ 749 0047 05       		.byte	0x5
+ 750 0048 E6010000 		.4byte	.LASF4
+ 751 004c 02       		.uleb128 0x2
+ 752 004d 04       		.byte	0x4
+ 753 004e 07       		.byte	0x7
+ 754 004f F6000000 		.4byte	.LASF5
+ 755 0053 02       		.uleb128 0x2
+ 756 0054 08       		.byte	0x8
+ 757 0055 05       		.byte	0x5
+ 758 0056 00000000 		.4byte	.LASF6
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccdljcWQ.s 			page 17
+
+
+ 759 005a 02       		.uleb128 0x2
+ 760 005b 08       		.byte	0x8
+ 761 005c 07       		.byte	0x7
+ 762 005d 63010000 		.4byte	.LASF7
+ 763 0061 03       		.uleb128 0x3
+ 764 0062 04       		.byte	0x4
+ 765 0063 05       		.byte	0x5
+ 766 0064 696E7400 		.ascii	"int\000"
+ 767 0068 02       		.uleb128 0x2
+ 768 0069 04       		.byte	0x4
+ 769 006a 07       		.byte	0x7
+ 770 006b 56010000 		.4byte	.LASF8
+ 771 006f 04       		.uleb128 0x4
+ 772 0070 CE010000 		.4byte	.LASF15
+ 773 0074 03       		.byte	0x3
+ 774 0075 4C       		.byte	0x4c
+ 775 0076 30000000 		.4byte	0x30
+ 776 007a 02       		.uleb128 0x2
+ 777 007b 04       		.byte	0x4
+ 778 007c 04       		.byte	0x4
+ 779 007d D4000000 		.4byte	.LASF9
+ 780 0081 02       		.uleb128 0x2
+ 781 0082 08       		.byte	0x8
+ 782 0083 04       		.byte	0x4
+ 783 0084 3B010000 		.4byte	.LASF10
+ 784 0088 02       		.uleb128 0x2
+ 785 0089 01       		.byte	0x1
+ 786 008a 08       		.byte	0x8
+ 787 008b 8C010000 		.4byte	.LASF11
+ 788 008f 05       		.uleb128 0x5
+ 789 0090 04       		.byte	0x4
+ 790 0091 07       		.byte	0x7
+ 791 0092 06       		.uleb128 0x6
+ 792 0093 0C       		.byte	0xc
+ 793 0094 02       		.byte	0x2
+ 794 0095 10       		.byte	0x10
+ 795 0096 C5000000 		.4byte	0xc5
+ 796 009a 07       		.uleb128 0x7
+ 797 009b 08010000 		.4byte	.LASF12
+ 798 009f 02       		.byte	0x2
+ 799 00a0 11       		.byte	0x11
+ 800 00a1 7A000000 		.4byte	0x7a
+ 801 00a5 02       		.byte	0x2
+ 802 00a6 23       		.byte	0x23
+ 803 00a7 00       		.uleb128 0x0
+ 804 00a8 07       		.uleb128 0x7
+ 805 00a9 86010000 		.4byte	.LASF13
+ 806 00ad 02       		.byte	0x2
+ 807 00ae 12       		.byte	0x12
+ 808 00af 7A000000 		.4byte	0x7a
+ 809 00b3 02       		.byte	0x2
+ 810 00b4 23       		.byte	0x23
+ 811 00b5 04       		.uleb128 0x4
+ 812 00b6 07       		.uleb128 0x7
+ 813 00b7 B1010000 		.4byte	.LASF14
+ 814 00bb 02       		.byte	0x2
+ 815 00bc 13       		.byte	0x13
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccdljcWQ.s 			page 18
+
+
+ 816 00bd 6F000000 		.4byte	0x6f
+ 817 00c1 02       		.byte	0x2
+ 818 00c2 23       		.byte	0x23
+ 819 00c3 08       		.uleb128 0x8
+ 820 00c4 00       		.byte	0x0
+ 821 00c5 04       		.uleb128 0x4
+ 822 00c6 0D020000 		.4byte	.LASF16
+ 823 00ca 02       		.byte	0x2
+ 824 00cb 14       		.byte	0x14
+ 825 00cc 92000000 		.4byte	0x92
+ 826 00d0 08       		.uleb128 0x8
+ 827 00d1 01       		.byte	0x1
+ 828 00d2 E8000000 		.4byte	.LASF17
+ 829 00d6 01       		.byte	0x1
+ 830 00d7 23       		.byte	0x23
+ 831 00d8 00000000 		.4byte	.LFB29
+ 832 00dc 0A000000 		.4byte	.LFE29
+ 833 00e0 00000000 		.4byte	.LLST0
+ 834 00e4 08       		.uleb128 0x8
+ 835 00e5 01       		.byte	0x1
+ 836 00e6 C1010000 		.4byte	.LASF18
+ 837 00ea 01       		.byte	0x1
+ 838 00eb 28       		.byte	0x28
+ 839 00ec 00000000 		.4byte	.LFB30
+ 840 00f0 0A000000 		.4byte	.LFE30
+ 841 00f4 2B000000 		.4byte	.LLST1
+ 842 00f8 09       		.uleb128 0x9
+ 843 00f9 01       		.byte	0x1
+ 844 00fa 42010000 		.4byte	.LASF31
+ 845 00fe 01       		.byte	0x1
+ 846 00ff 2D       		.byte	0x2d
+ 847 0100 01       		.byte	0x1
+ 848 0101 6F000000 		.4byte	0x6f
+ 849 0105 00000000 		.4byte	.LFB31
+ 850 0109 0C020000 		.4byte	.LFE31
+ 851 010d 56000000 		.4byte	.LLST2
+ 852 0111 74010000 		.4byte	0x174
+ 853 0115 0A       		.uleb128 0xa
+ 854 0116 CC000000 		.4byte	.LASF27
+ 855 011a 01       		.byte	0x1
+ 856 011b 2D       		.byte	0x2d
+ 857 011c 74010000 		.4byte	0x174
+ 858 0120 02       		.byte	0x2
+ 859 0121 91       		.byte	0x91
+ 860 0122 4C       		.sleb128 -52
+ 861 0123 0B       		.uleb128 0xb
+ 862 0124 6900     		.ascii	"i\000"
+ 863 0126 01       		.byte	0x1
+ 864 0127 2F       		.byte	0x2f
+ 865 0128 61000000 		.4byte	0x61
+ 866 012c 02       		.byte	0x2
+ 867 012d 91       		.byte	0x91
+ 868 012e 6C       		.sleb128 -20
+ 869 012f 0C       		.uleb128 0xc
+ 870 0130 AB010000 		.4byte	.LASF19
+ 871 0134 01       		.byte	0x1
+ 872 0135 2F       		.byte	0x2f
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccdljcWQ.s 			page 19
+
+
+ 873 0136 61000000 		.4byte	0x61
+ 874 013a 02       		.byte	0x2
+ 875 013b 91       		.byte	0x91
+ 876 013c 70       		.sleb128 -16
+ 877 013d 0C       		.uleb128 0xc
+ 878 013e 08010000 		.4byte	.LASF12
+ 879 0142 01       		.byte	0x1
+ 880 0143 30       		.byte	0x30
+ 881 0144 7A010000 		.4byte	0x17a
+ 882 0148 02       		.byte	0x2
+ 883 0149 91       		.byte	0x91
+ 884 014a 64       		.sleb128 -28
+ 885 014b 0C       		.uleb128 0xc
+ 886 014c 86010000 		.4byte	.LASF13
+ 887 0150 01       		.byte	0x1
+ 888 0151 30       		.byte	0x30
+ 889 0152 8A010000 		.4byte	0x18a
+ 890 0156 02       		.byte	0x2
+ 891 0157 91       		.byte	0x91
+ 892 0158 5C       		.sleb128 -36
+ 893 0159 0B       		.uleb128 0xb
+ 894 015a 7400     		.ascii	"t\000"
+ 895 015c 01       		.byte	0x1
+ 896 015d 30       		.byte	0x30
+ 897 015e 6F000000 		.4byte	0x6f
+ 898 0162 02       		.byte	0x2
+ 899 0163 91       		.byte	0x91
+ 900 0164 77       		.sleb128 -9
+ 901 0165 0C       		.uleb128 0xc
+ 902 0166 AA000000 		.4byte	.LASF20
+ 903 016a 01       		.byte	0x1
+ 904 016b 31       		.byte	0x31
+ 905 016c 7A010000 		.4byte	0x17a
+ 906 0170 02       		.byte	0x2
+ 907 0171 91       		.byte	0x91
+ 908 0172 54       		.sleb128 -44
+ 909 0173 00       		.byte	0x0
+ 910 0174 0D       		.uleb128 0xd
+ 911 0175 04       		.byte	0x4
+ 912 0176 C5000000 		.4byte	0xc5
+ 913 017a 0E       		.uleb128 0xe
+ 914 017b 6F000000 		.4byte	0x6f
+ 915 017f 8A010000 		.4byte	0x18a
+ 916 0183 0F       		.uleb128 0xf
+ 917 0184 8F000000 		.4byte	0x8f
+ 918 0188 05       		.byte	0x5
+ 919 0189 00       		.byte	0x0
+ 920 018a 0E       		.uleb128 0xe
+ 921 018b 6F000000 		.4byte	0x6f
+ 922 018f 9A010000 		.4byte	0x19a
+ 923 0193 0F       		.uleb128 0xf
+ 924 0194 8F000000 		.4byte	0x8f
+ 925 0198 06       		.byte	0x6
+ 926 0199 00       		.byte	0x0
+ 927 019a 10       		.uleb128 0x10
+ 928 019b 01       		.byte	0x1
+ 929 019c 0E000000 		.4byte	.LASF21
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccdljcWQ.s 			page 20
+
+
+ 930 01a0 01       		.byte	0x1
+ 931 01a1 74       		.byte	0x74
+ 932 01a2 6F000000 		.4byte	0x6f
+ 933 01a6 00000000 		.4byte	.LFB32
+ 934 01aa 14000000 		.4byte	.LFE32
+ 935 01ae 8D000000 		.4byte	.LLST3
+ 936 01b2 10       		.uleb128 0x10
+ 937 01b3 01       		.byte	0x1
+ 938 01b4 EF010000 		.4byte	.LASF22
+ 939 01b8 01       		.byte	0x1
+ 940 01b9 7A       		.byte	0x7a
+ 941 01ba 6F000000 		.4byte	0x6f
+ 942 01be 00000000 		.4byte	.LFB33
+ 943 01c2 14000000 		.4byte	.LFE33
+ 944 01c6 B8000000 		.4byte	.LLST4
+ 945 01ca 11       		.uleb128 0x11
+ 946 01cb 01       		.byte	0x1
+ 947 01cc 27010000 		.4byte	.LASF32
+ 948 01d0 01       		.byte	0x1
+ 949 01d1 7F       		.byte	0x7f
+ 950 01d2 01       		.byte	0x1
+ 951 01d3 00000000 		.4byte	.LFB34
+ 952 01d7 4E000000 		.4byte	.LFE34
+ 953 01db E3000000 		.4byte	.LLST5
+ 954 01df F2010000 		.4byte	0x1f2
+ 955 01e3 0C       		.uleb128 0xc
+ 956 01e4 0D010000 		.4byte	.LASF23
+ 957 01e8 01       		.byte	0x1
+ 958 01e9 81       		.byte	0x81
+ 959 01ea 6F000000 		.4byte	0x6f
+ 960 01ee 02       		.byte	0x2
+ 961 01ef 91       		.byte	0x91
+ 962 01f0 77       		.sleb128 -9
+ 963 01f1 00       		.byte	0x0
+ 964 01f2 12       		.uleb128 0x12
+ 965 01f3 01       		.byte	0x1
+ 966 01f4 B2000000 		.4byte	.LASF33
+ 967 01f8 01       		.byte	0x1
+ 968 01f9 8B       		.byte	0x8b
+ 969 01fa 00000000 		.4byte	.LFB35
+ 970 01fe 4E000000 		.4byte	.LFE35
+ 971 0202 1A010000 		.4byte	.LLST6
+ 972 0206 17020000 		.4byte	0x217
+ 973 020a 0B       		.uleb128 0xb
+ 974 020b 6900     		.ascii	"i\000"
+ 975 020d 01       		.byte	0x1
+ 976 020e 8D       		.byte	0x8d
+ 977 020f 6F000000 		.4byte	0x6f
+ 978 0213 02       		.byte	0x2
+ 979 0214 91       		.byte	0x91
+ 980 0215 77       		.sleb128 -9
+ 981 0216 00       		.byte	0x0
+ 982 0217 13       		.uleb128 0x13
+ 983 0218 1A010000 		.4byte	.LASF24
+ 984 021c 04       		.byte	0x4
+ 985 021d CE06     		.2byte	0x6ce
+ 986 021f 25020000 		.4byte	0x225
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccdljcWQ.s 			page 21
+
+
+ 987 0223 01       		.byte	0x1
+ 988 0224 01       		.byte	0x1
+ 989 0225 14       		.uleb128 0x14
+ 990 0226 61000000 		.4byte	0x61
+ 991 022a 0E       		.uleb128 0xe
+ 992 022b 6F000000 		.4byte	0x6f
+ 993 022f 3A020000 		.4byte	0x23a
+ 994 0233 0F       		.uleb128 0xf
+ 995 0234 8F000000 		.4byte	0x8f
+ 996 0238 7F       		.byte	0x7f
+ 997 0239 00       		.byte	0x0
+ 998 023a 15       		.uleb128 0x15
+ 999 023b 7A000000 		.4byte	.LASF25
+ 1000 023f 01       		.byte	0x1
+ 1001 0240 14       		.byte	0x14
+ 1002 0241 2A020000 		.4byte	0x22a
+ 1003 0245 01       		.byte	0x1
+ 1004 0246 05       		.byte	0x5
+ 1005 0247 03       		.byte	0x3
+ 1006 0248 00000000 		.4byte	uart_solinst_received_string
+ 1007 024c 15       		.uleb128 0x15
+ 1008 024d 91010000 		.4byte	.LASF26
+ 1009 0251 01       		.byte	0x1
+ 1010 0252 15       		.byte	0x15
+ 1011 0253 6F000000 		.4byte	0x6f
+ 1012 0257 01       		.byte	0x1
+ 1013 0258 05       		.byte	0x5
+ 1014 0259 03       		.byte	0x3
+ 1015 025a 00000000 		.4byte	uart_solinst_string_index
+ 1016 025e 15       		.uleb128 0x15
+ 1017 025f CC000000 		.4byte	.LASF27
+ 1018 0263 01       		.byte	0x1
+ 1019 0264 16       		.byte	0x16
+ 1020 0265 C5000000 		.4byte	0xc5
+ 1021 0269 01       		.byte	0x1
+ 1022 026a 05       		.byte	0x5
+ 1023 026b 03       		.byte	0x3
+ 1024 026c 00000000 		.4byte	reading
+ 1025 0270 00       		.byte	0x0
+ 1026              		.section	.debug_abbrev
+ 1027 0000 01       		.uleb128 0x1
+ 1028 0001 11       		.uleb128 0x11
+ 1029 0002 01       		.byte	0x1
+ 1030 0003 25       		.uleb128 0x25
+ 1031 0004 0E       		.uleb128 0xe
+ 1032 0005 13       		.uleb128 0x13
+ 1033 0006 0B       		.uleb128 0xb
+ 1034 0007 03       		.uleb128 0x3
+ 1035 0008 0E       		.uleb128 0xe
+ 1036 0009 1B       		.uleb128 0x1b
+ 1037 000a 0E       		.uleb128 0xe
+ 1038 000b 11       		.uleb128 0x11
+ 1039 000c 01       		.uleb128 0x1
+ 1040 000d 52       		.uleb128 0x52
+ 1041 000e 01       		.uleb128 0x1
+ 1042 000f 55       		.uleb128 0x55
+ 1043 0010 06       		.uleb128 0x6
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccdljcWQ.s 			page 22
+
+
+ 1044 0011 10       		.uleb128 0x10
+ 1045 0012 06       		.uleb128 0x6
+ 1046 0013 00       		.byte	0x0
+ 1047 0014 00       		.byte	0x0
+ 1048 0015 02       		.uleb128 0x2
+ 1049 0016 24       		.uleb128 0x24
+ 1050 0017 00       		.byte	0x0
+ 1051 0018 0B       		.uleb128 0xb
+ 1052 0019 0B       		.uleb128 0xb
+ 1053 001a 3E       		.uleb128 0x3e
+ 1054 001b 0B       		.uleb128 0xb
+ 1055 001c 03       		.uleb128 0x3
+ 1056 001d 0E       		.uleb128 0xe
+ 1057 001e 00       		.byte	0x0
+ 1058 001f 00       		.byte	0x0
+ 1059 0020 03       		.uleb128 0x3
+ 1060 0021 24       		.uleb128 0x24
+ 1061 0022 00       		.byte	0x0
+ 1062 0023 0B       		.uleb128 0xb
+ 1063 0024 0B       		.uleb128 0xb
+ 1064 0025 3E       		.uleb128 0x3e
+ 1065 0026 0B       		.uleb128 0xb
+ 1066 0027 03       		.uleb128 0x3
+ 1067 0028 08       		.uleb128 0x8
+ 1068 0029 00       		.byte	0x0
+ 1069 002a 00       		.byte	0x0
+ 1070 002b 04       		.uleb128 0x4
+ 1071 002c 16       		.uleb128 0x16
+ 1072 002d 00       		.byte	0x0
+ 1073 002e 03       		.uleb128 0x3
+ 1074 002f 0E       		.uleb128 0xe
+ 1075 0030 3A       		.uleb128 0x3a
+ 1076 0031 0B       		.uleb128 0xb
+ 1077 0032 3B       		.uleb128 0x3b
+ 1078 0033 0B       		.uleb128 0xb
+ 1079 0034 49       		.uleb128 0x49
+ 1080 0035 13       		.uleb128 0x13
+ 1081 0036 00       		.byte	0x0
+ 1082 0037 00       		.byte	0x0
+ 1083 0038 05       		.uleb128 0x5
+ 1084 0039 24       		.uleb128 0x24
+ 1085 003a 00       		.byte	0x0
+ 1086 003b 0B       		.uleb128 0xb
+ 1087 003c 0B       		.uleb128 0xb
+ 1088 003d 3E       		.uleb128 0x3e
+ 1089 003e 0B       		.uleb128 0xb
+ 1090 003f 00       		.byte	0x0
+ 1091 0040 00       		.byte	0x0
+ 1092 0041 06       		.uleb128 0x6
+ 1093 0042 13       		.uleb128 0x13
+ 1094 0043 01       		.byte	0x1
+ 1095 0044 0B       		.uleb128 0xb
+ 1096 0045 0B       		.uleb128 0xb
+ 1097 0046 3A       		.uleb128 0x3a
+ 1098 0047 0B       		.uleb128 0xb
+ 1099 0048 3B       		.uleb128 0x3b
+ 1100 0049 0B       		.uleb128 0xb
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccdljcWQ.s 			page 23
+
+
+ 1101 004a 01       		.uleb128 0x1
+ 1102 004b 13       		.uleb128 0x13
+ 1103 004c 00       		.byte	0x0
+ 1104 004d 00       		.byte	0x0
+ 1105 004e 07       		.uleb128 0x7
+ 1106 004f 0D       		.uleb128 0xd
+ 1107 0050 00       		.byte	0x0
+ 1108 0051 03       		.uleb128 0x3
+ 1109 0052 0E       		.uleb128 0xe
+ 1110 0053 3A       		.uleb128 0x3a
+ 1111 0054 0B       		.uleb128 0xb
+ 1112 0055 3B       		.uleb128 0x3b
+ 1113 0056 0B       		.uleb128 0xb
+ 1114 0057 49       		.uleb128 0x49
+ 1115 0058 13       		.uleb128 0x13
+ 1116 0059 38       		.uleb128 0x38
+ 1117 005a 0A       		.uleb128 0xa
+ 1118 005b 00       		.byte	0x0
+ 1119 005c 00       		.byte	0x0
+ 1120 005d 08       		.uleb128 0x8
+ 1121 005e 2E       		.uleb128 0x2e
+ 1122 005f 00       		.byte	0x0
+ 1123 0060 3F       		.uleb128 0x3f
+ 1124 0061 0C       		.uleb128 0xc
+ 1125 0062 03       		.uleb128 0x3
+ 1126 0063 0E       		.uleb128 0xe
+ 1127 0064 3A       		.uleb128 0x3a
+ 1128 0065 0B       		.uleb128 0xb
+ 1129 0066 3B       		.uleb128 0x3b
+ 1130 0067 0B       		.uleb128 0xb
+ 1131 0068 11       		.uleb128 0x11
+ 1132 0069 01       		.uleb128 0x1
+ 1133 006a 12       		.uleb128 0x12
+ 1134 006b 01       		.uleb128 0x1
+ 1135 006c 40       		.uleb128 0x40
+ 1136 006d 06       		.uleb128 0x6
+ 1137 006e 00       		.byte	0x0
+ 1138 006f 00       		.byte	0x0
+ 1139 0070 09       		.uleb128 0x9
+ 1140 0071 2E       		.uleb128 0x2e
+ 1141 0072 01       		.byte	0x1
+ 1142 0073 3F       		.uleb128 0x3f
+ 1143 0074 0C       		.uleb128 0xc
+ 1144 0075 03       		.uleb128 0x3
+ 1145 0076 0E       		.uleb128 0xe
+ 1146 0077 3A       		.uleb128 0x3a
+ 1147 0078 0B       		.uleb128 0xb
+ 1148 0079 3B       		.uleb128 0x3b
+ 1149 007a 0B       		.uleb128 0xb
+ 1150 007b 27       		.uleb128 0x27
+ 1151 007c 0C       		.uleb128 0xc
+ 1152 007d 49       		.uleb128 0x49
+ 1153 007e 13       		.uleb128 0x13
+ 1154 007f 11       		.uleb128 0x11
+ 1155 0080 01       		.uleb128 0x1
+ 1156 0081 12       		.uleb128 0x12
+ 1157 0082 01       		.uleb128 0x1
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccdljcWQ.s 			page 24
+
+
+ 1158 0083 40       		.uleb128 0x40
+ 1159 0084 06       		.uleb128 0x6
+ 1160 0085 01       		.uleb128 0x1
+ 1161 0086 13       		.uleb128 0x13
+ 1162 0087 00       		.byte	0x0
+ 1163 0088 00       		.byte	0x0
+ 1164 0089 0A       		.uleb128 0xa
+ 1165 008a 05       		.uleb128 0x5
+ 1166 008b 00       		.byte	0x0
+ 1167 008c 03       		.uleb128 0x3
+ 1168 008d 0E       		.uleb128 0xe
+ 1169 008e 3A       		.uleb128 0x3a
+ 1170 008f 0B       		.uleb128 0xb
+ 1171 0090 3B       		.uleb128 0x3b
+ 1172 0091 0B       		.uleb128 0xb
+ 1173 0092 49       		.uleb128 0x49
+ 1174 0093 13       		.uleb128 0x13
+ 1175 0094 02       		.uleb128 0x2
+ 1176 0095 0A       		.uleb128 0xa
+ 1177 0096 00       		.byte	0x0
+ 1178 0097 00       		.byte	0x0
+ 1179 0098 0B       		.uleb128 0xb
+ 1180 0099 34       		.uleb128 0x34
+ 1181 009a 00       		.byte	0x0
+ 1182 009b 03       		.uleb128 0x3
+ 1183 009c 08       		.uleb128 0x8
+ 1184 009d 3A       		.uleb128 0x3a
+ 1185 009e 0B       		.uleb128 0xb
+ 1186 009f 3B       		.uleb128 0x3b
+ 1187 00a0 0B       		.uleb128 0xb
+ 1188 00a1 49       		.uleb128 0x49
+ 1189 00a2 13       		.uleb128 0x13
+ 1190 00a3 02       		.uleb128 0x2
+ 1191 00a4 0A       		.uleb128 0xa
+ 1192 00a5 00       		.byte	0x0
+ 1193 00a6 00       		.byte	0x0
+ 1194 00a7 0C       		.uleb128 0xc
+ 1195 00a8 34       		.uleb128 0x34
+ 1196 00a9 00       		.byte	0x0
+ 1197 00aa 03       		.uleb128 0x3
+ 1198 00ab 0E       		.uleb128 0xe
+ 1199 00ac 3A       		.uleb128 0x3a
+ 1200 00ad 0B       		.uleb128 0xb
+ 1201 00ae 3B       		.uleb128 0x3b
+ 1202 00af 0B       		.uleb128 0xb
+ 1203 00b0 49       		.uleb128 0x49
+ 1204 00b1 13       		.uleb128 0x13
+ 1205 00b2 02       		.uleb128 0x2
+ 1206 00b3 0A       		.uleb128 0xa
+ 1207 00b4 00       		.byte	0x0
+ 1208 00b5 00       		.byte	0x0
+ 1209 00b6 0D       		.uleb128 0xd
+ 1210 00b7 0F       		.uleb128 0xf
+ 1211 00b8 00       		.byte	0x0
+ 1212 00b9 0B       		.uleb128 0xb
+ 1213 00ba 0B       		.uleb128 0xb
+ 1214 00bb 49       		.uleb128 0x49
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccdljcWQ.s 			page 25
+
+
+ 1215 00bc 13       		.uleb128 0x13
+ 1216 00bd 00       		.byte	0x0
+ 1217 00be 00       		.byte	0x0
+ 1218 00bf 0E       		.uleb128 0xe
+ 1219 00c0 01       		.uleb128 0x1
+ 1220 00c1 01       		.byte	0x1
+ 1221 00c2 49       		.uleb128 0x49
+ 1222 00c3 13       		.uleb128 0x13
+ 1223 00c4 01       		.uleb128 0x1
+ 1224 00c5 13       		.uleb128 0x13
+ 1225 00c6 00       		.byte	0x0
+ 1226 00c7 00       		.byte	0x0
+ 1227 00c8 0F       		.uleb128 0xf
+ 1228 00c9 21       		.uleb128 0x21
+ 1229 00ca 00       		.byte	0x0
+ 1230 00cb 49       		.uleb128 0x49
+ 1231 00cc 13       		.uleb128 0x13
+ 1232 00cd 2F       		.uleb128 0x2f
+ 1233 00ce 0B       		.uleb128 0xb
+ 1234 00cf 00       		.byte	0x0
+ 1235 00d0 00       		.byte	0x0
+ 1236 00d1 10       		.uleb128 0x10
+ 1237 00d2 2E       		.uleb128 0x2e
+ 1238 00d3 00       		.byte	0x0
+ 1239 00d4 3F       		.uleb128 0x3f
+ 1240 00d5 0C       		.uleb128 0xc
+ 1241 00d6 03       		.uleb128 0x3
+ 1242 00d7 0E       		.uleb128 0xe
+ 1243 00d8 3A       		.uleb128 0x3a
+ 1244 00d9 0B       		.uleb128 0xb
+ 1245 00da 3B       		.uleb128 0x3b
+ 1246 00db 0B       		.uleb128 0xb
+ 1247 00dc 49       		.uleb128 0x49
+ 1248 00dd 13       		.uleb128 0x13
+ 1249 00de 11       		.uleb128 0x11
+ 1250 00df 01       		.uleb128 0x1
+ 1251 00e0 12       		.uleb128 0x12
+ 1252 00e1 01       		.uleb128 0x1
+ 1253 00e2 40       		.uleb128 0x40
+ 1254 00e3 06       		.uleb128 0x6
+ 1255 00e4 00       		.byte	0x0
+ 1256 00e5 00       		.byte	0x0
+ 1257 00e6 11       		.uleb128 0x11
+ 1258 00e7 2E       		.uleb128 0x2e
+ 1259 00e8 01       		.byte	0x1
+ 1260 00e9 3F       		.uleb128 0x3f
+ 1261 00ea 0C       		.uleb128 0xc
+ 1262 00eb 03       		.uleb128 0x3
+ 1263 00ec 0E       		.uleb128 0xe
+ 1264 00ed 3A       		.uleb128 0x3a
+ 1265 00ee 0B       		.uleb128 0xb
+ 1266 00ef 3B       		.uleb128 0x3b
+ 1267 00f0 0B       		.uleb128 0xb
+ 1268 00f1 27       		.uleb128 0x27
+ 1269 00f2 0C       		.uleb128 0xc
+ 1270 00f3 11       		.uleb128 0x11
+ 1271 00f4 01       		.uleb128 0x1
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccdljcWQ.s 			page 26
+
+
+ 1272 00f5 12       		.uleb128 0x12
+ 1273 00f6 01       		.uleb128 0x1
+ 1274 00f7 40       		.uleb128 0x40
+ 1275 00f8 06       		.uleb128 0x6
+ 1276 00f9 01       		.uleb128 0x1
+ 1277 00fa 13       		.uleb128 0x13
+ 1278 00fb 00       		.byte	0x0
+ 1279 00fc 00       		.byte	0x0
+ 1280 00fd 12       		.uleb128 0x12
+ 1281 00fe 2E       		.uleb128 0x2e
+ 1282 00ff 01       		.byte	0x1
+ 1283 0100 3F       		.uleb128 0x3f
+ 1284 0101 0C       		.uleb128 0xc
+ 1285 0102 03       		.uleb128 0x3
+ 1286 0103 0E       		.uleb128 0xe
+ 1287 0104 3A       		.uleb128 0x3a
+ 1288 0105 0B       		.uleb128 0xb
+ 1289 0106 3B       		.uleb128 0x3b
+ 1290 0107 0B       		.uleb128 0xb
+ 1291 0108 11       		.uleb128 0x11
+ 1292 0109 01       		.uleb128 0x1
+ 1293 010a 12       		.uleb128 0x12
+ 1294 010b 01       		.uleb128 0x1
+ 1295 010c 40       		.uleb128 0x40
+ 1296 010d 06       		.uleb128 0x6
+ 1297 010e 01       		.uleb128 0x1
+ 1298 010f 13       		.uleb128 0x13
+ 1299 0110 00       		.byte	0x0
+ 1300 0111 00       		.byte	0x0
+ 1301 0112 13       		.uleb128 0x13
+ 1302 0113 34       		.uleb128 0x34
+ 1303 0114 00       		.byte	0x0
+ 1304 0115 03       		.uleb128 0x3
+ 1305 0116 0E       		.uleb128 0xe
+ 1306 0117 3A       		.uleb128 0x3a
+ 1307 0118 0B       		.uleb128 0xb
+ 1308 0119 3B       		.uleb128 0x3b
+ 1309 011a 05       		.uleb128 0x5
+ 1310 011b 49       		.uleb128 0x49
+ 1311 011c 13       		.uleb128 0x13
+ 1312 011d 3F       		.uleb128 0x3f
+ 1313 011e 0C       		.uleb128 0xc
+ 1314 011f 3C       		.uleb128 0x3c
+ 1315 0120 0C       		.uleb128 0xc
+ 1316 0121 00       		.byte	0x0
+ 1317 0122 00       		.byte	0x0
+ 1318 0123 14       		.uleb128 0x14
+ 1319 0124 35       		.uleb128 0x35
+ 1320 0125 00       		.byte	0x0
+ 1321 0126 49       		.uleb128 0x49
+ 1322 0127 13       		.uleb128 0x13
+ 1323 0128 00       		.byte	0x0
+ 1324 0129 00       		.byte	0x0
+ 1325 012a 15       		.uleb128 0x15
+ 1326 012b 34       		.uleb128 0x34
+ 1327 012c 00       		.byte	0x0
+ 1328 012d 03       		.uleb128 0x3
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccdljcWQ.s 			page 27
+
+
+ 1329 012e 0E       		.uleb128 0xe
+ 1330 012f 3A       		.uleb128 0x3a
+ 1331 0130 0B       		.uleb128 0xb
+ 1332 0131 3B       		.uleb128 0x3b
+ 1333 0132 0B       		.uleb128 0xb
+ 1334 0133 49       		.uleb128 0x49
+ 1335 0134 13       		.uleb128 0x13
+ 1336 0135 3F       		.uleb128 0x3f
+ 1337 0136 0C       		.uleb128 0xc
+ 1338 0137 02       		.uleb128 0x2
+ 1339 0138 0A       		.uleb128 0xa
+ 1340 0139 00       		.byte	0x0
+ 1341 013a 00       		.byte	0x0
+ 1342 013b 00       		.byte	0x0
+ 1343              		.section	.debug_pubnames,"",%progbits
+ 1344 0000 F5000000 		.4byte	0xf5
+ 1345 0004 0200     		.2byte	0x2
+ 1346 0006 00000000 		.4byte	.Ldebug_info0
+ 1347 000a 71020000 		.4byte	0x271
+ 1348 000e D0000000 		.4byte	0xd0
+ 1349 0012 736F6C69 		.ascii	"solinst_start\000"
+ 1349      6E73745F 
+ 1349      73746172 
+ 1349      7400
+ 1350 0020 E4000000 		.4byte	0xe4
+ 1351 0024 736F6C69 		.ascii	"solinst_stop\000"
+ 1351      6E73745F 
+ 1351      73746F70 
+ 1351      00
+ 1352 0031 F8000000 		.4byte	0xf8
+ 1353 0035 736F6C69 		.ascii	"solinst_get_reading\000"
+ 1353      6E73745F 
+ 1353      6765745F 
+ 1353      72656164 
+ 1353      696E6700 
+ 1354 0049 9A010000 		.4byte	0x19a
+ 1355 004d 736F6C69 		.ascii	"solinst_power_on\000"
+ 1355      6E73745F 
+ 1355      706F7765 
+ 1355      725F6F6E 
+ 1355      00
+ 1356 005e B2010000 		.4byte	0x1b2
+ 1357 0062 736F6C69 		.ascii	"solinst_power_off\000"
+ 1357      6E73745F 
+ 1357      706F7765 
+ 1357      725F6F66 
+ 1357      6600
+ 1358 0074 CA010000 		.4byte	0x1ca
+ 1359 0078 6973725F 		.ascii	"isr_solinst_byte_rx\000"
+ 1359      736F6C69 
+ 1359      6E73745F 
+ 1359      62797465 
+ 1359      5F727800 
+ 1360 008c F2010000 		.4byte	0x1f2
+ 1361 0090 75617274 		.ascii	"uart_solinst_string_reset\000"
+ 1361      5F736F6C 
+ 1361      696E7374 
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccdljcWQ.s 			page 28
+
+
+ 1361      5F737472 
+ 1361      696E675F 
+ 1362 00aa 3A020000 		.4byte	0x23a
+ 1363 00ae 75617274 		.ascii	"uart_solinst_received_string\000"
+ 1363      5F736F6C 
+ 1363      696E7374 
+ 1363      5F726563 
+ 1363      65697665 
+ 1364 00cb 4C020000 		.4byte	0x24c
+ 1365 00cf 75617274 		.ascii	"uart_solinst_string_index\000"
+ 1365      5F736F6C 
+ 1365      696E7374 
+ 1365      5F737472 
+ 1365      696E675F 
+ 1366 00e9 5E020000 		.4byte	0x25e
+ 1367 00ed 72656164 		.ascii	"reading\000"
+ 1367      696E6700 
+ 1368 00f5 00000000 		.4byte	0x0
+ 1369              		.section	.debug_aranges,"",%progbits
+ 1370 0000 4C000000 		.4byte	0x4c
+ 1371 0004 0200     		.2byte	0x2
+ 1372 0006 00000000 		.4byte	.Ldebug_info0
+ 1373 000a 04       		.byte	0x4
+ 1374 000b 00       		.byte	0x0
+ 1375 000c 0000     		.2byte	0x0
+ 1376 000e 0000     		.2byte	0x0
+ 1377 0010 00000000 		.4byte	.LFB29
+ 1378 0014 0A000000 		.4byte	.LFE29-.LFB29
+ 1379 0018 00000000 		.4byte	.LFB30
+ 1380 001c 0A000000 		.4byte	.LFE30-.LFB30
+ 1381 0020 00000000 		.4byte	.LFB31
+ 1382 0024 0C020000 		.4byte	.LFE31-.LFB31
+ 1383 0028 00000000 		.4byte	.LFB32
+ 1384 002c 14000000 		.4byte	.LFE32-.LFB32
+ 1385 0030 00000000 		.4byte	.LFB33
+ 1386 0034 14000000 		.4byte	.LFE33-.LFB33
+ 1387 0038 00000000 		.4byte	.LFB34
+ 1388 003c 4E000000 		.4byte	.LFE34-.LFB34
+ 1389 0040 00000000 		.4byte	.LFB35
+ 1390 0044 4E000000 		.4byte	.LFE35-.LFB35
+ 1391 0048 00000000 		.4byte	0x0
+ 1392 004c 00000000 		.4byte	0x0
+ 1393              		.section	.debug_ranges,"",%progbits
+ 1394              	.Ldebug_ranges0:
+ 1395 0000 00000000 		.4byte	.Ltext0
+ 1396 0004 00000000 		.4byte	.Letext0
+ 1397 0008 00000000 		.4byte	.LFB29
+ 1398 000c 0A000000 		.4byte	.LFE29
+ 1399 0010 00000000 		.4byte	.LFB30
+ 1400 0014 0A000000 		.4byte	.LFE30
+ 1401 0018 00000000 		.4byte	.LFB31
+ 1402 001c 0C020000 		.4byte	.LFE31
+ 1403 0020 00000000 		.4byte	.LFB32
+ 1404 0024 14000000 		.4byte	.LFE32
+ 1405 0028 00000000 		.4byte	.LFB33
+ 1406 002c 14000000 		.4byte	.LFE33
+ 1407 0030 00000000 		.4byte	.LFB34
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccdljcWQ.s 			page 29
+
+
+ 1408 0034 4E000000 		.4byte	.LFE34
+ 1409 0038 00000000 		.4byte	.LFB35
+ 1410 003c 4E000000 		.4byte	.LFE35
+ 1411 0040 00000000 		.4byte	0x0
+ 1412 0044 00000000 		.4byte	0x0
+ 1413              		.section	.debug_str,"MS",%progbits,1
+ 1414              	.LASF6:
+ 1415 0000 6C6F6E67 		.ascii	"long long int\000"
+ 1415      206C6F6E 
+ 1415      6720696E 
+ 1415      7400
+ 1416              	.LASF21:
+ 1417 000e 736F6C69 		.ascii	"solinst_power_on\000"
+ 1417      6E73745F 
+ 1417      706F7765 
+ 1417      725F6F6E 
+ 1417      00
+ 1418              	.LASF30:
+ 1419 001f 433A5C55 		.ascii	"C:\\Users\\karunmj\\Documents\\GitHub\\m2m\\softwar"
+ 1419      73657273 
+ 1419      5C6B6172 
+ 1419      756E6D6A 
+ 1419      5C446F63 
+ 1420 004c 655C736F 		.ascii	"e\\solinst\\Solinst Driver\\Solinst Driver.cydsn\000"
+ 1420      6C696E73 
+ 1420      745C536F 
+ 1420      6C696E73 
+ 1420      74204472 
+ 1421              	.LASF25:
+ 1422 007a 75617274 		.ascii	"uart_solinst_received_string\000"
+ 1422      5F736F6C 
+ 1422      696E7374 
+ 1422      5F726563 
+ 1422      65697665 
+ 1423              	.LASF3:
+ 1424 0097 73686F72 		.ascii	"short unsigned int\000"
+ 1424      7420756E 
+ 1424      7369676E 
+ 1424      65642069 
+ 1424      6E7400
+ 1425              	.LASF20:
+ 1426 00aa 636F6D6D 		.ascii	"command\000"
+ 1426      616E6400 
+ 1427              	.LASF33:
+ 1428 00b2 75617274 		.ascii	"uart_solinst_string_reset\000"
+ 1428      5F736F6C 
+ 1428      696E7374 
+ 1428      5F737472 
+ 1428      696E675F 
+ 1429              	.LASF27:
+ 1430 00cc 72656164 		.ascii	"reading\000"
+ 1430      696E6700 
+ 1431              	.LASF9:
+ 1432 00d4 666C6F61 		.ascii	"float\000"
+ 1432      7400
+ 1433              	.LASF1:
+ 1434 00da 756E7369 		.ascii	"unsigned char\000"
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccdljcWQ.s 			page 30
+
+
+ 1434      676E6564 
+ 1434      20636861 
+ 1434      7200
+ 1435              	.LASF17:
+ 1436 00e8 736F6C69 		.ascii	"solinst_start\000"
+ 1436      6E73745F 
+ 1436      73746172 
+ 1436      7400
+ 1437              	.LASF5:
+ 1438 00f6 6C6F6E67 		.ascii	"long unsigned int\000"
+ 1438      20756E73 
+ 1438      69676E65 
+ 1438      6420696E 
+ 1438      7400
+ 1439              	.LASF12:
+ 1440 0108 74656D70 		.ascii	"temp\000"
+ 1440      00
+ 1441              	.LASF23:
+ 1442 010d 72785F63 		.ascii	"rx_char_hold\000"
+ 1442      6861725F 
+ 1442      686F6C64 
+ 1442      00
+ 1443              	.LASF24:
+ 1444 011a 49544D5F 		.ascii	"ITM_RxBuffer\000"
+ 1444      52784275 
+ 1444      66666572 
+ 1444      00
+ 1445              	.LASF32:
+ 1446 0127 6973725F 		.ascii	"isr_solinst_byte_rx\000"
+ 1446      736F6C69 
+ 1446      6E73745F 
+ 1446      62797465 
+ 1446      5F727800 
+ 1447              	.LASF10:
+ 1448 013b 646F7562 		.ascii	"double\000"
+ 1448      6C6500
+ 1449              	.LASF31:
+ 1450 0142 736F6C69 		.ascii	"solinst_get_reading\000"
+ 1450      6E73745F 
+ 1450      6765745F 
+ 1450      72656164 
+ 1450      696E6700 
+ 1451              	.LASF8:
+ 1452 0156 756E7369 		.ascii	"unsigned int\000"
+ 1452      676E6564 
+ 1452      20696E74 
+ 1452      00
+ 1453              	.LASF7:
+ 1454 0163 6C6F6E67 		.ascii	"long long unsigned int\000"
+ 1454      206C6F6E 
+ 1454      6720756E 
+ 1454      7369676E 
+ 1454      65642069 
+ 1455              	.LASF28:
+ 1456 017a 474E5520 		.ascii	"GNU C 4.4.1\000"
+ 1456      4320342E 
+ 1456      342E3100 
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccdljcWQ.s 			page 31
+
+
+ 1457              	.LASF13:
+ 1458 0186 64657074 		.ascii	"depth\000"
+ 1458      6800
+ 1459              	.LASF11:
+ 1460 018c 63686172 		.ascii	"char\000"
+ 1460      00
+ 1461              	.LASF26:
+ 1462 0191 75617274 		.ascii	"uart_solinst_string_index\000"
+ 1462      5F736F6C 
+ 1462      696E7374 
+ 1462      5F737472 
+ 1462      696E675F 
+ 1463              	.LASF19:
+ 1464 01ab 696E6465 		.ascii	"index\000"
+ 1464      7800
+ 1465              	.LASF14:
+ 1466 01b1 76616C69 		.ascii	"valid\000"
+ 1466      6400
+ 1467              	.LASF2:
+ 1468 01b7 73686F72 		.ascii	"short int\000"
+ 1468      7420696E 
+ 1468      7400
+ 1469              	.LASF18:
+ 1470 01c1 736F6C69 		.ascii	"solinst_stop\000"
+ 1470      6E73745F 
+ 1470      73746F70 
+ 1470      00
+ 1471              	.LASF15:
+ 1472 01ce 75696E74 		.ascii	"uint8\000"
+ 1472      3800
+ 1473              	.LASF29:
+ 1474 01d4 2E5C736F 		.ascii	".\\solinst_depth.c\000"
+ 1474      6C696E73 
+ 1474      745F6465 
+ 1474      7074682E 
+ 1474      6300
+ 1475              	.LASF4:
+ 1476 01e6 6C6F6E67 		.ascii	"long int\000"
+ 1476      20696E74 
+ 1476      00
+ 1477              	.LASF22:
+ 1478 01ef 736F6C69 		.ascii	"solinst_power_off\000"
+ 1478      6E73745F 
+ 1478      706F7765 
+ 1478      725F6F66 
+ 1478      6600
+ 1479              	.LASF0:
+ 1480 0201 7369676E 		.ascii	"signed char\000"
+ 1480      65642063 
+ 1480      68617200 
+ 1481              	.LASF16:
+ 1482 020d 536F6C69 		.ascii	"SolinstReading\000"
+ 1482      6E737452 
+ 1482      65616469 
+ 1482      6E6700
+ 1483              		.ident	"GCC: (Sourcery G++ Lite 2010q1-188) 4.4.1"
