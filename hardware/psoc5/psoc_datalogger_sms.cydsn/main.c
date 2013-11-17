@@ -25,7 +25,7 @@ void main(){
     timer_Start();
     isr_timer_StartEx(isr_timer);
     SleepTimer_Start();
-     modem_start();
+    modem_start();
     CyGlobalIntEnable;
     
     packet_ready = 1u; // temporary hack

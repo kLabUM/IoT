@@ -90,13 +90,11 @@ uint8 modem_connect(){
     at_write_command("AT+CREG=1\r","OK",5000u); // look for network
     at_write_command("AT#SCFG=1,1,0,0,1200,0\r","OK",5000u); // config parameter
     at_write_command("AT#CGPADDR=1\r","OK",5000u); // check if ip address exists
-    at_write_command("AT#SGACT=1,1\r","OK",30000u); // This command should return an ip address but the modem seem to freeze after this
-    at_write_command("AT#SD=1,0,50030,\"184.72.228.61\",0,0,1\r","OK",5000u); // connect to server
+    at_write_command("AT#SGACT?\r","OK",30000u);
+    uint8 success  = at_write_command("AT#SGACT=1,1\r","OK",30000u); // This command should return an ip address but the modem seem to freeze after this
+    //success = at_write_command("AT#SD=1,0,50000,\"141.212.136.222\",0,0,1\r","OK",5000u); // connect to server
     
-    while(1){
-        CyDelay(2000u);
-    }
-
+    return success;
 }
 
 uint8 modem_disconnect(){
@@ -118,8 +116,8 @@ uint8 modem_send_packet(uint8* packet){
     // join network
     uint8 connected = modem_connect();
     
-    // write to AWS server
-    if(at_write_command("AT#SD=1,0,50030,\"184.72.228.61\",0,0,1\r","OK",5000u) != 0){
+    // write to AWS server  - 184.72.228.61\",0,0,1
+    if(at_write_command("AT#SD=1,0,50000,\"141.212.136.222\",0,0,1\r","OK",5000u) != 0){
         if(at_write_command("AT#SSEND=1\r",">",5000u) != 0){
             //if(at_write_command(packet,"OK",20000u) != 0){
             if(at_write_command("This is sent from PSoC!\032","OK",20000u) != 0){
