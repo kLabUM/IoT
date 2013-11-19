@@ -17,13 +17,13 @@
 
 void Components_Sleep(){
     uart_Sleep();
-    ultrasonic_uart_Sleep();
+    uart_ultrasonic_Sleep();
     timer_Sleep();
 }
 
 void Components_Wakeup(){
     uart_Wakeup();
-    ultrasonic_uart_Wakeup();
+    uart_ultrasonic_Wakeup();
     timer_Wakeup();
 }
 

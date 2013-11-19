@@ -9,7 +9,26 @@
  *
  * ========================================
 */
-//[] END OF FILE
+
+#include <device.h>
+#include <stdlib.h>
+#include <string.h>
+#include "uart_ultrasonic.h"
+
+#define MAX_STRING_LENGTH       128
+#define DEPTH_STRING_LENGTH     4
+
+typedef struct{
+    float temp;
+    float depth;
+    uint8 valid;
+} UltrasonicReading;
 
 void  ultrasonic_start();
-uint8 ultrasonic_read(uint8* ultrasonic_packet, uint8 ultrasonic_packet_size);
+void ultrasonic_stop();
+uint8 ultrasonic_power_on();
+uint8 ultrasonic_power_off();
+uint8 ultrasonic_get_reading(UltrasonicReading* reading);
+
+
+//[] END OF FILE

@@ -110,17 +110,19 @@ uint8 modem_disconnect(){
 // send packet to AWS server
 uint8 modem_send_packet(uint8* packet){
     // provide power to rx and tx pins
-    uart_rx_voltage_pin_Write(0u);
-    uart_tx_voltage_pin_Write(0u);
+    //uart_rx_voltage_pin_Write(0u);
+    //uart_tx_voltage_pin_Write(0u);
     
     // join network
     uint8 connected = modem_connect();
     
     // write to AWS server  - 184.72.228.61\",0,0,1
-    if(at_write_command("AT#SD=1,0,50000,\"141.212.136.222\",0,0,1\r","OK",5000u) != 0){
+    if(at_write_command("AT#SD=1,0,50030,\"184.72.228.61\",0,0,1\r","OK",5000u) != 0){
         if(at_write_command("AT#SSEND=1\r",">",5000u) != 0){
             //if(at_write_command(packet,"OK",20000u) != 0){
-            if(at_write_command("This is sent from PSoC!\032","OK",20000u) != 0){
+            uint8 sendBuffer[256];
+            sprintf(sendBuffer, "%s\032", packet);
+            if(at_write_command(sendBuffer,"OK",20000u) != 0){
                 modem_state = MODEM_STATE_IDLE;
                 return 1u;   // return 1 if succesfully sent sms
             }
@@ -130,8 +132,8 @@ uint8 modem_send_packet(uint8* packet){
     uint8 disconnected = modem_disconnect();
     
     // cut power to rx and tx pins
-    uart_rx_voltage_pin_Write(1u);
-    uart_rx_voltage_pin_Write(1u);
+    //uart_rx_voltage_pin_Write(1u);
+    //uart_rx_voltage_pin_Write(1u);
     
     return 0u;   // return 0 if failure to send sms
 }
