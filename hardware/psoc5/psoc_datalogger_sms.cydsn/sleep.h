@@ -12,3 +12,4 @@
 //[] END OF FILE
 
 void Goto_Low_Power_Mode();
+CY_ISR_PROTO(sleepTimerWake_INT);

@@ -9,8 +9,8 @@
  *
  * ========================================
 */
-
 #include "ultrasonic.h"
+#include "debug.h"
 
 // prototype modem interrupt
 CY_ISR_PROTO(isr_byte_ultrasonic_rx);
@@ -56,20 +56,19 @@ uint8 ultrasonic_get_reading(UltrasonicReading *reading) {
     (*reading).valid = 0u;
     (*reading).temp = -9999;    
     (*reading).depth = -9999;
-    uart_ultrasonic_string_reset();
+    void uart_ultrasonic_string_reset();
 
     isr_byte_ultrasonic_rx_StartEx(isr_byte_ultrasonic_rx); // Start the ISR to read the UART
     ultrasonic_power_on();                                  // Power on the sensor
-    CyDelay(1000u);                                         // Wait for UART to get readings from sensor
+    CyDelay(1500u);                                         // Wait for UART to get readings from sensor
     
-    isr_byte_ultrasonic_rx_Stop;                            // Stop the ISR to read the UART
+    isr_byte_ultrasonic_rx_Stop();                            // Stop the ISR to read the UART
     ultrasonic_power_off();                                 // Power off the sensor
 
     // store relevant strings to ultrasonic_packet
     index = 0; R_count = 0;
-    for(i = 0; i < sizeof(uart_ultrasonic_received_string); i++){
+    for(i = 0; i < strlen(uart_ultrasonic_received_string); i++){
         s = uart_ultrasonic_received_string[i];
-        
         
         if(R_count > 7 && s == '\r'){
             (*reading).valid = 1u;
@@ -85,7 +84,21 @@ uint8 ultrasonic_get_reading(UltrasonicReading *reading) {
     
     if ((*reading).valid) {
         (*reading).depth = (float)atof(depth);
+        if ((*reading).depth > 9999) { // Recorded depth greater than 4 digit spec... (eg 13582 vs 1358)
+            (*reading).depth = (float) (int)( (*reading).depth  / 10) ;
+            
+            debug_write("Ultrasonic Warning.  depth > 5 digits.  Truncated depth reported.");
+            debug_write(uart_ultrasonic_received_string);           
+        }
     }    
+    else if(R_count <= 7){
+        debug_write("Ultrasonic No Reading Found.  R_count <= 7.");
+        debug_write(uart_ultrasonic_received_string);
+    }
+    else {
+        debug_write("Ultrasonic Invalid Reading.");
+        debug_write(uart_ultrasonic_received_string);
+    }
     
     return (*reading).valid;
 }

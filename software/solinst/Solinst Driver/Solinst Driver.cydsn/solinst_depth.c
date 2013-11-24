@@ -11,6 +11,7 @@
 */
 
 #include "solinst_depth.h"
+#include "debug.h"
 
 
 // Declare variables
@@ -127,6 +128,9 @@ uint8 solinst_get_reading(SolinstReading *reading){
     if ((*reading).valid) {
         (*reading).temp = (float)temp_sign * (float)atof(temp);
         (*reading).depth = (float)depth_sign * (float)atof(depth);
+    }
+    else{
+        debug_write("Solinst Invalid Reading");
     }
     
     return (*reading).valid;

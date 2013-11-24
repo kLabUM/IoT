@@ -7,161 +7,6 @@
   <width>32</width>
   <peripherals>
     <peripheral>
-      <name>SleepTimer</name>
-      <description>No description available</description>
-      <baseAddress>0x40004381</baseAddress>
-      <addressBlock>
-        <offset>0</offset>
-        <size>0x2</size>
-        <usage>registers</usage>
-      </addressBlock>
-      <registers>
-        <register>
-          <name>SleepTimer_CTW_INTERVAL_REG</name>
-          <description>Timewheel Configuration Register 1</description>
-          <addressOffset>0x0</addressOffset>
-          <size>8</size>
-          <access>read-write</access>
-          <resetValue>0</resetValue>
-          <resetMask>0</resetMask>
-          <fields>
-            <field>
-              <name>ctw_interval</name>
-              <description>Sets the central timewheel interval.</description>
-              <lsb>0</lsb>
-              <msb>3</msb>
-              <access>read-write</access>
-            </field>
-          </fields>
-        </register>
-        <register>
-          <name>SleepTimer_TW_CFG_REG</name>
-          <description>Timewheel Configuration Register 2</description>
-          <addressOffset>0x1</addressOffset>
-          <size>8</size>
-          <access>read-write</access>
-          <resetValue>0</resetValue>
-          <resetMask>0</resetMask>
-          <fields>
-            <field>
-              <name>onepps_ie</name>
-              <description>When set and one pulse-per-second is enabled, an interrupt is issued when the pulse occurs.</description>
-              <lsb>5</lsb>
-              <msb>5</msb>
-              <access>read-write</access>
-              <enumeratedValues>
-                <enumeratedValue>
-                  <name>Enabled</name>
-                  <description>One PPS interrupt is enabled</description>
-                  <value>1</value>
-                </enumeratedValue>
-                <enumeratedValue>
-                  <name>Disabled</name>
-                  <description>One PPS interrupt is disabled</description>
-                  <value>0</value>
-                </enumeratedValue>
-              </enumeratedValues>
-            </field>
-            <field>
-              <name>onepps_en</name>
-              <description>When set, the system returns to the active global power mode once every second.</description>
-              <lsb>4</lsb>
-              <msb>4</msb>
-              <access>read-write</access>
-              <enumeratedValues>
-                <enumeratedValue>
-                  <name>Enabled</name>
-                  <description>One PPS is enabled</description>
-                  <value>1</value>
-                </enumeratedValue>
-                <enumeratedValue>
-                  <name>Disabled</name>
-                  <description>One PPS is disabled</description>
-                  <value>0</value>
-                </enumeratedValue>
-              </enumeratedValues>
-            </field>
-            <field>
-              <name>ctw_ie</name>
-              <description>When set and the central timewheel is enabled, an interrupt is issued when the central timewheel reaches the selected interval.</description>
-              <lsb>3</lsb>
-              <msb>3</msb>
-              <access>read-write</access>
-              <enumeratedValues>
-                <enumeratedValue>
-                  <name>Enabled</name>
-                  <description>CTW interrupt is enabled</description>
-                  <value>1</value>
-                </enumeratedValue>
-                <enumeratedValue>
-                  <name>Disabled</name>
-                  <description>CTW interrupt is disabled</description>
-                  <value>0</value>
-                </enumeratedValue>
-              </enumeratedValues>
-            </field>
-            <field>
-              <name>ctw_en</name>
-              <description>When set, the system returns to the active global power mode when the central timewheel reaches the selected interval.</description>
-              <lsb>2</lsb>
-              <msb>2</msb>
-              <access>read-write</access>
-              <enumeratedValues>
-                <enumeratedValue>
-                  <name>Enabled</name>
-                  <description>CTW is enabled</description>
-                  <value>1</value>
-                </enumeratedValue>
-                <enumeratedValue>
-                  <name>Disabled</name>
-                  <description>CTW is disabled</description>
-                  <value>0</value>
-                </enumeratedValue>
-              </enumeratedValues>
-            </field>
-            <field>
-              <name>ftw_ie</name>
-              <description>When set and the fast timewheel is enabled, an interrupt is issued when it reaches the terminal count.</description>
-              <lsb>1</lsb>
-              <msb>1</msb>
-              <access>read-write</access>
-              <enumeratedValues>
-                <enumeratedValue>
-                  <name>Enabled</name>
-                  <description>FTW interrupt is enabled</description>
-                  <value>1</value>
-                </enumeratedValue>
-                <enumeratedValue>
-                  <name>Disabled</name>
-                  <description>FTW interrupt is disabled</description>
-                  <value>0</value>
-                </enumeratedValue>
-              </enumeratedValues>
-            </field>
-            <field>
-              <name>ftw_en</name>
-              <description>When set, the system returns to the active global power mode when the fast timewheel reaches the selected interval.</description>
-              <lsb>0</lsb>
-              <msb>0</msb>
-              <access>read-write</access>
-              <enumeratedValues>
-                <enumeratedValue>
-                  <name>Enabled</name>
-                  <description>FTW is enabled</description>
-                  <value>1</value>
-                </enumeratedValue>
-                <enumeratedValue>
-                  <name>Disabled</name>
-                  <description>FTW is disabled</description>
-                  <value>0</value>
-                </enumeratedValue>
-              </enumeratedValues>
-            </field>
-          </fields>
-        </register>
-      </registers>
-    </peripheral>
-    <peripheral>
       <name>NEOMOTE_1_I2C_0</name>
       <description>No description available</description>
       <baseAddress>0x400049C8</baseAddress>
@@ -449,17 +294,44 @@
     <peripheral>
       <name>NEOMOTE_1_UART_MOTE</name>
       <description>UART</description>
-      <baseAddress>0x4000644C</baseAddress>
+      <baseAddress>0x40006528</baseAddress>
       <addressBlock>
         <offset>0</offset>
-        <size>0x120</size>
+        <size>0x41</size>
         <usage>registers</usage>
       </addressBlock>
       <registers>
         <register>
+          <name>RX_NEOMOTE_1_UART_MOTE_RX_ADDRESS1</name>
+          <description>RX Address1 Register</description>
+          <addressOffset>0x0</addressOffset>
+          <size>8</size>
+          <access>read-write</access>
+          <resetValue>0</resetValue>
+          <resetMask>0</resetMask>
+        </register>
+        <register>
+          <name>RX_NEOMOTE_1_UART_MOTE_RX_ADDRESS2</name>
+          <description>RX Address2 Register</description>
+          <addressOffset>0x10</addressOffset>
+          <size>8</size>
+          <access>read-write</access>
+          <resetValue>0</resetValue>
+          <resetMask>0</resetMask>
+        </register>
+        <register>
           <name>TX_NEOMOTE_1_UART_MOTE_TX_DATA</name>
           <description>TX Data Register</description>
-          <addressOffset>0x0</addressOffset>
+          <addressOffset>0x1C</addressOffset>
+          <size>8</size>
+          <access>read-write</access>
+          <resetValue>0</resetValue>
+          <resetMask>0</resetMask>
+        </register>
+        <register>
+          <name>RX_NEOMOTE_1_UART_MOTE_RX_DATA</name>
+          <description>RX Data Register</description>
+          <addressOffset>0x20</addressOffset>
           <size>8</size>
           <access>read-write</access>
           <resetValue>0</resetValue>
@@ -468,7 +340,7 @@
         <register>
           <name>TX_NEOMOTE_1_UART_MOTE_TX_STATUS</name>
           <description>TX status register</description>
-          <addressOffset>0x20</addressOffset>
+          <addressOffset>0x3C</addressOffset>
           <size>8</size>
           <access>read-write</access>
           <resetValue>0</resetValue>
@@ -505,36 +377,9 @@
           </fields>
         </register>
         <register>
-          <name>RX_NEOMOTE_1_UART_MOTE_RX_ADDRESS1</name>
-          <description>RX Address1 Register</description>
-          <addressOffset>0xDD</addressOffset>
-          <size>8</size>
-          <access>read-write</access>
-          <resetValue>0</resetValue>
-          <resetMask>0</resetMask>
-        </register>
-        <register>
-          <name>RX_NEOMOTE_1_UART_MOTE_RX_ADDRESS2</name>
-          <description>RX Address2 Register</description>
-          <addressOffset>0xED</addressOffset>
-          <size>8</size>
-          <access>read-write</access>
-          <resetValue>0</resetValue>
-          <resetMask>0</resetMask>
-        </register>
-        <register>
-          <name>RX_NEOMOTE_1_UART_MOTE_RX_DATA</name>
-          <description>RX Data Register</description>
-          <addressOffset>0xFD</addressOffset>
-          <size>8</size>
-          <access>read-write</access>
-          <resetValue>0</resetValue>
-          <resetMask>0</resetMask>
-        </register>
-        <register>
           <name>RX_NEOMOTE_1_UART_MOTE_RX_STATUS</name>
           <description>RX status register</description>
-          <addressOffset>0x11F</addressOffset>
+          <addressOffset>0x40</addressOffset>
           <size>8</size>
           <access>read-write</access>
           <resetValue>0</resetValue>
@@ -596,10 +441,10 @@
     <peripheral>
       <name>uart_solinst</name>
       <description>UART</description>
-      <baseAddress>0x40006420</baseAddress>
+      <baseAddress>0x40006426</baseAddress>
       <addressBlock>
         <offset>0</offset>
-        <size>0x4A</size>
+        <size>0x42</size>
         <usage>registers</usage>
       </addressBlock>
       <registers>
@@ -622,6 +467,15 @@
           <resetMask>0</resetMask>
         </register>
         <register>
+          <name>TX_uart_solinst_TX_DATA</name>
+          <description>TX Data Register</description>
+          <addressOffset>0x1E</addressOffset>
+          <size>8</size>
+          <access>read-write</access>
+          <resetValue>0</resetValue>
+          <resetMask>0</resetMask>
+        </register>
+        <register>
           <name>RX_uart_solinst_RX_DATA</name>
           <description>RX Data Register</description>
           <addressOffset>0x20</addressOffset>
@@ -631,18 +485,48 @@
           <resetMask>0</resetMask>
         </register>
         <register>
-          <name>TX_uart_solinst_TX_DATA</name>
-          <description>TX Data Register</description>
-          <addressOffset>0x29</addressOffset>
+          <name>TX_uart_solinst_TX_STATUS</name>
+          <description>TX status register</description>
+          <addressOffset>0x3E</addressOffset>
           <size>8</size>
           <access>read-write</access>
           <resetValue>0</resetValue>
           <resetMask>0</resetMask>
+          <fields>
+            <field>
+              <name>uart_solinst_TX_STS_COMPLETE</name>
+              <description>No description available</description>
+              <lsb>0</lsb>
+              <msb>0</msb>
+              <access>read-only</access>
+            </field>
+            <field>
+              <name>uart_solinst_TX_STS_FIFO_EMPTY</name>
+              <description>No description available</description>
+              <lsb>1</lsb>
+              <msb>1</msb>
+              <access>read-only</access>
+            </field>
+            <field>
+              <name>uart_solinst_TX_STS_FIFO_FULL</name>
+              <description>No description available</description>
+              <lsb>2</lsb>
+              <msb>2</msb>
+              <access>read-only</access>
+            </field>
+            <field>
+              <name>uart_solinst_TX_STS_FIFO_NOT_FULL</name>
+              <description>No description available</description>
+              <lsb>3</lsb>
+              <msb>3</msb>
+              <access>read-only</access>
+            </field>
+          </fields>
         </register>
         <register>
           <name>RX_uart_solinst_RX_STATUS</name>
           <description>RX status register</description>
-          <addressOffset>0x43</addressOffset>
+          <addressOffset>0x41</addressOffset>
           <size>8</size>
           <access>read-write</access>
           <resetValue>0</resetValue>
@@ -699,280 +583,198 @@
             </field>
           </fields>
         </register>
-        <register>
-          <name>TX_uart_solinst_TX_STATUS</name>
-          <description>TX status register</description>
-          <addressOffset>0x49</addressOffset>
-          <size>8</size>
-          <access>read-write</access>
-          <resetValue>0</resetValue>
-          <resetMask>0</resetMask>
-          <fields>
-            <field>
-              <name>uart_solinst_TX_STS_COMPLETE</name>
-              <description>No description available</description>
-              <lsb>0</lsb>
-              <msb>0</msb>
-              <access>read-only</access>
-            </field>
-            <field>
-              <name>uart_solinst_TX_STS_FIFO_EMPTY</name>
-              <description>No description available</description>
-              <lsb>1</lsb>
-              <msb>1</msb>
-              <access>read-only</access>
-            </field>
-            <field>
-              <name>uart_solinst_TX_STS_FIFO_FULL</name>
-              <description>No description available</description>
-              <lsb>2</lsb>
-              <msb>2</msb>
-              <access>read-only</access>
-            </field>
-            <field>
-              <name>uart_solinst_TX_STS_FIFO_NOT_FULL</name>
-              <description>No description available</description>
-              <lsb>3</lsb>
-              <msb>3</msb>
-              <access>read-only</access>
-            </field>
-          </fields>
-        </register>
       </registers>
     </peripheral>
     <peripheral>
-      <name>timer</name>
+      <name>ControlReg_Modem</name>
       <description>No description available</description>
-      <baseAddress>0x40006401</baseAddress>
+      <baseAddress>0x40006576</baseAddress>
       <addressBlock>
         <offset>0</offset>
-        <size>0x94</size>
+        <size>0x1</size>
         <usage>registers</usage>
       </addressBlock>
       <registers>
         <register>
-          <name>timer_COUNTER</name>
-          <description>UDB.A0 - Current Down Counter Value</description>
+          <name>ControlReg_Modem_CONTROL_REG</name>
+          <description>No description available</description>
           <addressOffset>0x0</addressOffset>
-          <size>32</size>
+          <size>8</size>
           <access>read-write</access>
           <resetValue>0</resetValue>
           <resetMask>0</resetMask>
         </register>
+      </registers>
+    </peripheral>
+    <peripheral>
+      <name>ControlReg_Solinst</name>
+      <description>No description available</description>
+      <baseAddress>0x4000647D</baseAddress>
+      <addressBlock>
+        <offset>0</offset>
+        <size>0x1</size>
+        <usage>registers</usage>
+      </addressBlock>
+      <registers>
         <register>
-          <name>timer_PERIOD</name>
-          <description>UDB.D0 - Assigned Period</description>
-          <addressOffset>0x20</addressOffset>
-          <size>32</size>
+          <name>ControlReg_Solinst_CONTROL_REG</name>
+          <description>No description available</description>
+          <addressOffset>0x0</addressOffset>
+          <size>8</size>
           <access>read-write</access>
           <resetValue>0</resetValue>
           <resetMask>0</resetMask>
         </register>
+      </registers>
+    </peripheral>
+    <peripheral>
+      <name>SleepTimer</name>
+      <description>No description available</description>
+      <baseAddress>0x40004381</baseAddress>
+      <addressBlock>
+        <offset>0</offset>
+        <size>0x2</size>
+        <usage>registers</usage>
+      </addressBlock>
+      <registers>
         <register>
-          <name>timer_Control_Reg</name>
-          <description>UDB Control Register - Assigned Control Register Value</description>
-          <addressOffset>0x6F</addressOffset>
+          <name>SleepTimer_CTW_INTERVAL_REG</name>
+          <description>Timewheel Configuration Register 1</description>
+          <addressOffset>0x0</addressOffset>
           <size>8</size>
           <access>read-write</access>
           <resetValue>0</resetValue>
           <resetMask>0</resetMask>
           <fields>
             <field>
-              <name>CTRL_ENABLE</name>
-              <description>Enable the Timer</description>
-              <lsb>7</lsb>
-              <msb>7</msb>
-              <access>read-write</access>
-            </field>
-            <field>
-              <name>CTRL_CMODE</name>
-              <description>Capture Mode</description>
-              <lsb>5</lsb>
-              <msb>6</msb>
-              <access>read-write</access>
-            </field>
-            <field>
-              <name>CTRL_TEN</name>
-              <description>Trigger Enable Bit</description>
-              <lsb>4</lsb>
-              <msb>4</msb>
-              <access>read-write</access>
-            </field>
-            <field>
-              <name>CTRL_TMODE</name>
-              <description>Trigger Mode</description>
-              <lsb>2</lsb>
-              <msb>3</msb>
-              <access>read-write</access>
-            </field>
-            <field>
-              <name>CTRL_IC</name>
-              <description>Interrupt Count</description>
+              <name>ctw_interval</name>
+              <description>Sets the central timewheel interval.</description>
               <lsb>0</lsb>
-              <msb>1</msb>
+              <msb>3</msb>
               <access>read-write</access>
             </field>
           </fields>
         </register>
         <register>
-          <name>timer_STATUS_MASK</name>
-          <description>UDB Status bits Interrupt Mask Enable Register</description>
-          <addressOffset>0x83</addressOffset>
+          <name>SleepTimer_TW_CFG_REG</name>
+          <description>Timewheel Configuration Register 2</description>
+          <addressOffset>0x1</addressOffset>
           <size>8</size>
           <access>read-write</access>
           <resetValue>0</resetValue>
           <resetMask>0</resetMask>
           <fields>
             <field>
-              <name>TIMER_STS_TC</name>
-              <description>Enables the Interrupt on TC</description>
-              <lsb>0</lsb>
-              <msb>0</msb>
-              <access>read-only</access>
-            </field>
-            <field>
-              <name>TIMER_STS_CAPT</name>
-              <description>Enables the Interrupt on Capture</description>
-              <lsb>1</lsb>
-              <msb>1</msb>
-              <access>read-only</access>
-            </field>
-            <field>
-              <name>TIMER_STS_FIFO_FULL</name>
-              <description>FIFO Full Status </description>
-              <lsb>2</lsb>
-              <msb>2</msb>
-              <access>read-only</access>
-            </field>
-            <field>
-              <name>TIMER_STS_FIFO_NEMPTY</name>
-              <description>FIFO Empty status </description>
-              <lsb>3</lsb>
-              <msb>3</msb>
-              <access>read-only</access>
-            </field>
-          </fields>
-        </register>
-        <register>
-          <name>timer_STATUS_AUX_CTRL</name>
-          <description>UDB Auxilliary Control Register</description>
-          <addressOffset>0x93</addressOffset>
-          <size>8</size>
-          <access>read-write</access>
-          <resetValue>0</resetValue>
-          <resetMask>0</resetMask>
-          <fields>
-            <field>
-              <name>FIFO0_CLR</name>
-              <description>FIFO0 clear</description>
-              <lsb>0</lsb>
-              <msb>0</msb>
-              <access>read-write</access>
-              <enumeratedValues>
-                <enumeratedValue>
-                  <name>E_FIFO_CLR_0</name>
-                  <description>Normal FIFO operation</description>
-                  <value>0</value>
-                </enumeratedValue>
-                <enumeratedValue>
-                  <name>E_FIFO_CLR_1</name>
-                  <description>Clear FIFO state</description>
-                  <value>1</value>
-                </enumeratedValue>
-              </enumeratedValues>
-            </field>
-            <field>
-              <name>FIFO1_CLR</name>
-              <description>FIFO1 clear</description>
-              <lsb>1</lsb>
-              <msb>1</msb>
-              <access>read-write</access>
-              <enumeratedValues>
-                <enumeratedValue>
-                  <name>E_FIFO_CLR_0</name>
-                  <description>Normal FIFO operation</description>
-                  <value>0</value>
-                </enumeratedValue>
-                <enumeratedValue>
-                  <name>E_FIFO_CLR_1</name>
-                  <description>Clear FIFO state</description>
-                  <value>1</value>
-                </enumeratedValue>
-              </enumeratedValues>
-            </field>
-            <field>
-              <name>FIFO0_LVL</name>
-              <description>FIFO level</description>
-              <lsb>2</lsb>
-              <msb>2</msb>
-              <access>read-write</access>
-              <enumeratedValues>
-                <enumeratedValue>
-                  <name>E_FIFO_LVL_0</name>
-                  <description>FIFO LVL: input mode: FIFO not full; output mode: FIFO not empty</description>
-                  <value>0</value>
-                </enumeratedValue>
-                <enumeratedValue>
-                  <name>E_FIFO_LVL_1</name>
-                  <description>FIFO LVL: input mode: FIFO at least 1/2 empty; output mode: FIFO at least 1/2 full</description>
-                  <value>1</value>
-                </enumeratedValue>
-              </enumeratedValues>
-            </field>
-            <field>
-              <name>FIFO1_LVL</name>
-              <description>FIFO level</description>
-              <lsb>3</lsb>
-              <msb>3</msb>
-              <access>read-write</access>
-              <enumeratedValues>
-                <enumeratedValue>
-                  <name>E_FIFO_LVL_0</name>
-                  <description>FIFO LVL: input mode: FIFO not full; output mode: FIFO not empty</description>
-                  <value>0</value>
-                </enumeratedValue>
-                <enumeratedValue>
-                  <name>E_FIFO_LVL_1</name>
-                  <description>FIFO LVL: input mode: FIFO at least 1/2 empty; output mode: FIFO at least 1/2 full</description>
-                  <value>1</value>
-                </enumeratedValue>
-              </enumeratedValues>
-            </field>
-            <field>
-              <name>INT_EN</name>
-              <description>No description available</description>
-              <lsb>4</lsb>
-              <msb>4</msb>
-              <access>read-write</access>
-              <enumeratedValues>
-                <enumeratedValue>
-                  <name>E_INT_EN0</name>
-                  <description>Interrupt disabled</description>
-                  <value>0</value>
-                </enumeratedValue>
-                <enumeratedValue>
-                  <name>E_INT_EN1</name>
-                  <description>Interrupt enabled</description>
-                  <value>1</value>
-                </enumeratedValue>
-              </enumeratedValues>
-            </field>
-            <field>
-              <name>CNT_START</name>
-              <description>FIFO0 clear</description>
+              <name>onepps_ie</name>
+              <description>When set and one pulse-per-second is enabled, an interrupt is issued when the pulse occurs.</description>
               <lsb>5</lsb>
               <msb>5</msb>
               <access>read-write</access>
               <enumeratedValues>
                 <enumeratedValue>
-                  <name>E_CNT_START0</name>
-                  <description>Disable counter</description>
-                  <value>0</value>
+                  <name>Enabled</name>
+                  <description>One PPS interrupt is enabled</description>
+                  <value>1</value>
                 </enumeratedValue>
                 <enumeratedValue>
-                  <name>E_CNT_START1</name>
-                  <description>Enable counter</description>
+                  <name>Disabled</name>
+                  <description>One PPS interrupt is disabled</description>
+                  <value>0</value>
+                </enumeratedValue>
+              </enumeratedValues>
+            </field>
+            <field>
+              <name>onepps_en</name>
+              <description>When set, the system returns to the active global power mode once every second.</description>
+              <lsb>4</lsb>
+              <msb>4</msb>
+              <access>read-write</access>
+              <enumeratedValues>
+                <enumeratedValue>
+                  <name>Enabled</name>
+                  <description>One PPS is enabled</description>
                   <value>1</value>
+                </enumeratedValue>
+                <enumeratedValue>
+                  <name>Disabled</name>
+                  <description>One PPS is disabled</description>
+                  <value>0</value>
+                </enumeratedValue>
+              </enumeratedValues>
+            </field>
+            <field>
+              <name>ctw_ie</name>
+              <description>When set and the central timewheel is enabled, an interrupt is issued when the central timewheel reaches the selected interval.</description>
+              <lsb>3</lsb>
+              <msb>3</msb>
+              <access>read-write</access>
+              <enumeratedValues>
+                <enumeratedValue>
+                  <name>Enabled</name>
+                  <description>CTW interrupt is enabled</description>
+                  <value>1</value>
+                </enumeratedValue>
+                <enumeratedValue>
+                  <name>Disabled</name>
+                  <description>CTW interrupt is disabled</description>
+                  <value>0</value>
+                </enumeratedValue>
+              </enumeratedValues>
+            </field>
+            <field>
+              <name>ctw_en</name>
+              <description>When set, the system returns to the active global power mode when the central timewheel reaches the selected interval.</description>
+              <lsb>2</lsb>
+              <msb>2</msb>
+              <access>read-write</access>
+              <enumeratedValues>
+                <enumeratedValue>
+                  <name>Enabled</name>
+                  <description>CTW is enabled</description>
+                  <value>1</value>
+                </enumeratedValue>
+                <enumeratedValue>
+                  <name>Disabled</name>
+                  <description>CTW is disabled</description>
+                  <value>0</value>
+                </enumeratedValue>
+              </enumeratedValues>
+            </field>
+            <field>
+              <name>ftw_ie</name>
+              <description>When set and the fast timewheel is enabled, an interrupt is issued when it reaches the terminal count.</description>
+              <lsb>1</lsb>
+              <msb>1</msb>
+              <access>read-write</access>
+              <enumeratedValues>
+                <enumeratedValue>
+                  <name>Enabled</name>
+                  <description>FTW interrupt is enabled</description>
+                  <value>1</value>
+                </enumeratedValue>
+                <enumeratedValue>
+                  <name>Disabled</name>
+                  <description>FTW interrupt is disabled</description>
+                  <value>0</value>
+                </enumeratedValue>
+              </enumeratedValues>
+            </field>
+            <field>
+              <name>ftw_en</name>
+              <description>When set, the system returns to the active global power mode when the fast timewheel reaches the selected interval.</description>
+              <lsb>0</lsb>
+              <msb>0</msb>
+              <access>read-write</access>
+              <enumeratedValues>
+                <enumeratedValue>
+                  <name>Enabled</name>
+                  <description>FTW is enabled</description>
+                  <value>1</value>
+                </enumeratedValue>
+                <enumeratedValue>
+                  <name>Disabled</name>
+                  <description>FTW is disabled</description>
+                  <value>0</value>
                 </enumeratedValue>
               </enumeratedValues>
             </field>
@@ -983,35 +785,17 @@
     <peripheral>
       <name>uart</name>
       <description>UART</description>
-      <baseAddress>0x40006427</baseAddress>
+      <baseAddress>0x4000644C</baseAddress>
       <addressBlock>
         <offset>0</offset>
-        <size>0x141</size>
+        <size>0xFB</size>
         <usage>registers</usage>
       </addressBlock>
       <registers>
         <register>
-          <name>RX_uart_RX_ADDRESS1</name>
-          <description>RX Address1 Register</description>
+          <name>TX_uart_TX_DATA</name>
+          <description>TX Data Register</description>
           <addressOffset>0x0</addressOffset>
-          <size>8</size>
-          <access>read-write</access>
-          <resetValue>0</resetValue>
-          <resetMask>0</resetMask>
-        </register>
-        <register>
-          <name>RX_uart_RX_ADDRESS2</name>
-          <description>RX Address2 Register</description>
-          <addressOffset>0x10</addressOffset>
-          <size>8</size>
-          <access>read-write</access>
-          <resetValue>0</resetValue>
-          <resetMask>0</resetMask>
-        </register>
-        <register>
-          <name>RX_uart_RX_DATA</name>
-          <description>RX Data Register</description>
-          <addressOffset>0x20</addressOffset>
           <size>8</size>
           <access>read-write</access>
           <resetValue>0</resetValue>
@@ -1020,7 +804,7 @@
         <register>
           <name>RX_uart_RX_STATUS</name>
           <description>RX status register</description>
-          <addressOffset>0x3E</addressOffset>
+          <addressOffset>0x16</addressOffset>
           <size>8</size>
           <access>read-write</access>
           <resetValue>0</resetValue>
@@ -1078,18 +862,9 @@
           </fields>
         </register>
         <register>
-          <name>TX_uart_TX_DATA</name>
-          <description>TX Data Register</description>
-          <addressOffset>0x120</addressOffset>
-          <size>8</size>
-          <access>read-write</access>
-          <resetValue>0</resetValue>
-          <resetMask>0</resetMask>
-        </register>
-        <register>
           <name>TX_uart_TX_STATUS</name>
           <description>TX status register</description>
-          <addressOffset>0x140</addressOffset>
+          <addressOffset>0x23</addressOffset>
           <size>8</size>
           <access>read-write</access>
           <resetValue>0</resetValue>
@@ -1125,6 +900,33 @@
             </field>
           </fields>
         </register>
+        <register>
+          <name>RX_uart_RX_ADDRESS1</name>
+          <description>RX Address1 Register</description>
+          <addressOffset>0xDA</addressOffset>
+          <size>8</size>
+          <access>read-write</access>
+          <resetValue>0</resetValue>
+          <resetMask>0</resetMask>
+        </register>
+        <register>
+          <name>RX_uart_RX_ADDRESS2</name>
+          <description>RX Address2 Register</description>
+          <addressOffset>0xEA</addressOffset>
+          <size>8</size>
+          <access>read-write</access>
+          <resetValue>0</resetValue>
+          <resetMask>0</resetMask>
+        </register>
+        <register>
+          <name>RX_uart_RX_DATA</name>
+          <description>RX Data Register</description>
+          <addressOffset>0xFA</addressOffset>
+          <size>8</size>
+          <access>read-write</access>
+          <resetValue>0</resetValue>
+          <resetMask>0</resetMask>
+        </register>
       </registers>
     </peripheral>
     <peripheral>
@@ -1133,7 +935,7 @@
       <baseAddress>0x4000642D</baseAddress>
       <addressBlock>
         <offset>0</offset>
-        <size>0x139</size>
+        <size>0x13F</size>
         <usage>registers</usage>
       </addressBlock>
       <registers>
@@ -1167,7 +969,7 @@
         <register>
           <name>RX_uart_ultrasonic_RX_STATUS</name>
           <description>RX status register</description>
-          <addressOffset>0x42</addressOffset>
+          <addressOffset>0x40</addressOffset>
           <size>8</size>
           <access>read-write</access>
           <resetValue>0</resetValue>
@@ -1227,7 +1029,7 @@
         <register>
           <name>TX_uart_ultrasonic_TX_DATA</name>
           <description>TX Data Register</description>
-          <addressOffset>0x119</addressOffset>
+          <addressOffset>0x11E</addressOffset>
           <size>8</size>
           <access>read-write</access>
           <resetValue>0</resetValue>
@@ -1236,7 +1038,7 @@
         <register>
           <name>TX_uart_ultrasonic_TX_STATUS</name>
           <description>TX status register</description>
-          <addressOffset>0x138</addressOffset>
+          <addressOffset>0x13E</addressOffset>
           <size>8</size>
           <access>read-write</access>
           <resetValue>0</resetValue>

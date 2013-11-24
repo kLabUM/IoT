@@ -1,4 +1,4 @@
-ARM GAS  C:\Users\karunmj\AppData\Local\Temp\cczdrClK.s 			page 1
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccFwamZO.s 			page 1
 
 
    1              		.syntax unified
@@ -20,8 +20,8 @@ ARM GAS  C:\Users\karunmj\AppData\Local\Temp\cczdrClK.s 			page 1
   17              	.Ldebug_info0:
   18              		.section	.debug_line,"",%progbits
   19              	.Ldebug_line0:
-  20 0000 60010000 		.text
-  20      0200BC00 
+  20 0000 B4010000 		.text
+  20      0200D200 
   20      00000201 
   20      FB0E0D00 
   20      01010101 
@@ -29,46 +29,77 @@ ARM GAS  C:\Users\karunmj\AppData\Local\Temp\cczdrClK.s 			page 1
   22              		.cfi_sections	.debug_frame
   23              		.comm	modem_state,1,1
   24              		.comm	data_packet,128,4
-  25              		.comm	packet_ready,1,1
-  26              		.comm	take_reading,1,1
-  27              		.global	ultrasonic_reading
-  28              		.bss
-  29              		.align	2
-  30              		.type	ultrasonic_reading, %object
-  31              		.size	ultrasonic_reading, 12
-  32              	ultrasonic_reading:
-  33 0000 00000000 		.space	12
-  33      00000000 
-  33      00000000 
-  34              		.global	__aeabi_f2d
-  35              		.section	.rodata
-  36              		.align	2
-  37              	.LC0:
-  38 0000 25643A25 		.ascii	"%d:%d:%d %d/%d/%d u=%f\000"
-  38      643A2564 
-  38      2025642F 
-  38      25642F25 
-  38      6420753D 
-  39 0017 00       		.align	2
-  40              	.LC1:
-  41 0018 64617461 		.ascii	"data.txt\000"
-  41      2E747874 
-  41      00
-  42 0021 000000   		.align	2
-  43              	.LC2:
-  44 0024 6100     		.ascii	"a\000"
-  45 0026 0000     		.section	.text.main,"ax",%progbits
-ARM GAS  C:\Users\karunmj\AppData\Local\Temp\cczdrClK.s 			page 2
+  25              		.comm	debug_packet,128,4
+  26              		.comm	packet_ready,1,1
+  27              		.comm	take_reading,1,1
+  28              		.comm	send_attempts,1,1
+  29              		.global	ultrasonic_reading
+  30              		.bss
+  31              		.align	2
+  32              		.type	ultrasonic_reading, %object
+  33              		.size	ultrasonic_reading, 12
+  34              	ultrasonic_reading:
+  35 0000 00000000 		.space	12
+  35      00000000 
+  35      00000000 
+  36              		.global	solinst_reading
+  37              		.align	2
+  38              		.type	solinst_reading, %object
+  39              		.size	solinst_reading, 12
+  40              	solinst_reading:
+  41 000c 00000000 		.space	12
+  41      00000000 
+  41      00000000 
+  42              		.section	.rodata
+  43              		.align	2
+  44              	.LC0:
+  45 0000 4E657720 		.ascii	"New reading taken before previous packet was sent\000"
+  45      72656164 
+  45      696E6720 
+  45      74616B65 
+  45      6E206265 
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccFwamZO.s 			page 2
 
 
-  46              		.align	2
-  47              		.global	main
-  48              		.thumb
-  49              		.thumb_func
-  50              		.type	main, %function
-  51              	main:
-  52              	.LFB29:
-  53              		.file 1 ".\\main.c"
+  46              		.global	__aeabi_f2d
+  47 0032 0000     		.align	2
+  48              	.LC1:
+  49 0034 0D0A2564 		.ascii	"\015\012%d:%d:%d %d/%d/%d -- u_d=%f s_d=%f s_t=%f\000"
+  49      3A25643A 
+  49      25642025 
+  49      642F2564 
+  49      2F256420 
+  50              		.align	2
+  51              	.LC2:
+  52 0060 64617461 		.ascii	"data.txt\000"
+  52      2E747874 
+  52      00
+  53 0069 000000   		.align	2
+  54              	.LC3:
+  55 006c 6100     		.ascii	"a\000"
+  56 006e 0000     		.align	2
+  57              	.LC4:
+  58 0070 25643A25 		.ascii	"%d:%d:%d %d/%d/%d -- u_d=%f s_d=%f s_t=%f\000"
+  58      643A2564 
+  58      2025642F 
+  58      25642F25 
+  58      64202D2D 
+  59 009a 0000     		.align	2
+  60              	.LC5:
+  61 009c 4D41585F 		.ascii	"MAX_SEND_ATTEMPTS Exceeded\000"
+  61      53454E44 
+  61      5F415454 
+  61      454D5054 
+  61      53204578 
+  62 00b7 00       		.section	.text.main,"ax",%progbits
+  63              		.align	2
+  64              		.global	main
+  65              		.thumb
+  66              		.thumb_func
+  67              		.type	main, %function
+  68              	main:
+  69              	.LFB29:
+  70              		.file 1 ".\\main.c"
    1:.\main.c      **** /* M2M SMS Datalogger */ 
    2:.\main.c      **** 
    3:.\main.c      **** #include <device.h>
@@ -79,1795 +110,2238 @@ ARM GAS  C:\Users\karunmj\AppData\Local\Temp\cczdrClK.s 			page 1
    8:.\main.c      **** #include "sleep.h"
    9:.\main.c      **** #include "modem.h"
   10:.\main.c      **** #include "ultrasonic.h"
-  11:.\main.c      **** //#include "solinst_depth.h"
+  11:.\main.c      **** #include "solinst_depth.h"
   12:.\main.c      **** 
   13:.\main.c      **** // define global variables
-  14:.\main.c      **** #define MAX_PACKET_SIZE 128
-  15:.\main.c      **** uint8   data_packet[MAX_PACKET_SIZE];
-  16:.\main.c      **** uint8   packet_ready;
-  17:.\main.c      **** uint8   take_reading;
-  18:.\main.c      **** UltrasonicReading ultrasonic_reading = {.valid = 0};    // Initialize UltrasonicReading.valid to 0
-  19:.\main.c      **** //SolinstReading solinst_reading = {.valid = 0};          // Initialize SolinstReading.valid to 0
-  20:.\main.c      **** 
-  21:.\main.c      **** // callback definitions
-  22:.\main.c      **** void rtcCallBackReceived(uint8 alarmType);
-  23:.\main.c      **** 
-  24:.\main.c      **** // prototype functions
-  25:.\main.c      **** void read_packet(uint8* packet, uint8 size);
-  26:.\main.c      **** void write_packet(uint8* dest, uint8* src_ultrasonic, uint8* src_pressure, uint8 size);
-  27:.\main.c      **** void clear_packet(uint8* packet, uint8 size);
-  28:.\main.c      **** void Write_To_SD_Card(const char* fileName, const char* pMode, const void* pData, U32 NumBytes);
-  29:.\main.c      **** CY_ISR_PROTO(isr_timer);
-  30:.\main.c      **** 
-  31:.\main.c      **** void main(){
-  54              		.loc 1 31 0
-  55              		.cfi_startproc
-  56              		@ args = 0, pretend = 0, frame = 136
-  57              		@ frame_needed = 1, uses_anonymous_args = 0
-  58 0000 2DE9F047 		push	{r4, r5, r6, r7, r8, r9, sl, lr}
-  59              	.LCFI0:
-  60              		.cfi_def_cfa_offset 32
-  61 0004 A8B0     		sub	sp, sp, #160
-  62              	.LCFI1:
-  63              		.cfi_def_cfa_offset 192
-  64 0006 06AF     		add	r7, sp, #24
-  65              		.cfi_offset 14, -4
-  66              		.cfi_offset 10, -8
-  67              		.cfi_offset 9, -12
-  68              		.cfi_offset 8, -16
-  69              		.cfi_offset 7, -20
-  70              		.cfi_offset 6, -24
-  71              		.cfi_offset 5, -28
-ARM GAS  C:\Users\karunmj\AppData\Local\Temp\cczdrClK.s 			page 3
+  14:.\main.c      **** #define MAX_SEND_ATTEMPTS 2
+  15:.\main.c      **** #define MAX_PACKET_SIZE 128
+  16:.\main.c      **** #define WRITE_DEBUG 1
+  17:.\main.c      **** uint8   data_packet[MAX_PACKET_SIZE], debug_packet[MAX_PACKET_SIZE];
+  18:.\main.c      **** uint8   packet_ready;
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccFwamZO.s 			page 3
 
 
-  72              		.cfi_offset 4, -32
-  73              	.LCFI2:
-  74              		.cfi_def_cfa 7, 168
-  32:.\main.c      ****    
-  33:.\main.c      ****     
-  34:.\main.c      ****     //timer_Start();
-  35:.\main.c      ****     //isr_timer_StartEx(isr_timer);
-  36:.\main.c      ****      SleepTimer_Start();
-  75              		.loc 1 36 0
-  76 0008 FFF7FEFF 		bl	SleepTimer_Start
-  37:.\main.c      ****     modem_start();
-  77              		.loc 1 37 0
-  78 000c FFF7FEFF 		bl	modem_start
-  38:.\main.c      ****     CyGlobalIntEnable;
-  79              		.loc 1 38 0
-  80              	@ 38 ".\main.c" 1
-  81 0010 62B6     		CPSIE   i
-  82              	@ 0 "" 2
-  39:.\main.c      ****     FS_Init();
-  83              		.loc 1 39 0
-  84              		.thumb
-  85 0012 FFF7FEFF 		bl	FS_Init
-  40:.\main.c      ****     ultrasonic_start();
-  86              		.loc 1 40 0
-  87 0016 FFF7FEFF 		bl	ultrasonic_start
-  41:.\main.c      ****     //solinst_start();
-  42:.\main.c      **** 
-  43:.\main.c      ****     packet_ready = 0u; 
-  88              		.loc 1 43 0
-  89 001a 40F20003 		movw	r3, #:lower16:packet_ready
-  90 001e C0F20003 		movt	r3, #:upper16:packet_ready
-  91 0022 4FF00002 		mov	r2, #0
-  92 0026 1A70     		strb	r2, [r3, #0]
-  44:.\main.c      ****     take_reading = 1u;
-  93              		.loc 1 44 0
-  94 0028 40F20003 		movw	r3, #:lower16:take_reading
-  95 002c C0F20003 		movt	r3, #:upper16:take_reading
-  96 0030 4FF00102 		mov	r2, #1
-  97 0034 1A70     		strb	r2, [r3, #0]
-  45:.\main.c      **** 
-  46:.\main.c      ****     NeoRTC_Start(rtcCallBackReceived);      // Start and enable the RTC.   
-  98              		.loc 1 46 0
-  99 0036 40F20000 		movw	r0, #:lower16:rtcCallBackReceived
- 100 003a C0F20000 		movt	r0, #:upper16:rtcCallBackReceived
- 101 003e FFF7FEFF 		bl	NeoRTC_Start
-  47:.\main.c      ****     NeoRTC_Set_Repeating_Minute_Alarm(1u);  // Set 1-minute alarm
- 102              		.loc 1 47 0
- 103 0042 4FF00100 		mov	r0, #1
- 104 0046 FFF7FEFF 		bl	NeoRTC_Set_Repeating_Minute_Alarm
- 105 004a 02E0     		b	.L7
- 106              	.L9:
-  48:.\main.c      ****     
-  49:.\main.c      ****     for(;;){
-  50:.\main.c      ****         // No need to pause for short time in loop?
-  51:.\main.c      ****         RTC_Process_Tasks();
-  52:.\main.c      ****         
-  53:.\main.c      ****         if(packet_ready){
-ARM GAS  C:\Users\karunmj\AppData\Local\Temp\cczdrClK.s 			page 4
+  19:.\main.c      **** uint8   take_reading;
+  20:.\main.c      **** uint8   send_attempts;
+  21:.\main.c      **** 
+  22:.\main.c      **** UltrasonicReading ultrasonic_reading = {.valid = 0};    // Initialize UltrasonicReading.valid to 0
+  23:.\main.c      **** SolinstReading solinst_reading = {.valid = 0};          // Initialize SolinstReading.valid to 0
+  24:.\main.c      **** 
+  25:.\main.c      **** // callback definitions
+  26:.\main.c      **** void rtcCallBackReceived(uint8 alarmType);
+  27:.\main.c      **** 
+  28:.\main.c      **** // prototype functions
+  29:.\main.c      **** void read_packet(uint8* packet, uint8 size);
+  30:.\main.c      **** void write_packet(uint8* dest, uint8* src_ultrasonic, uint8* src_pressure, uint8 size);
+  31:.\main.c      **** void clear_packet(uint8* packet, uint8 size);
+  32:.\main.c      **** void Write_To_SD_Card(const char* fileName, const char* pMode, const void* pData, U32 NumBytes);
+  33:.\main.c      **** CY_ISR_PROTO(isr_timer);
+  34:.\main.c      **** void Goto_Low_Power_Mode();
+  35:.\main.c      **** void debugLog(const void *pData);
+  36:.\main.c      **** 
+  37:.\main.c      **** 
+  38:.\main.c      **** void main(){
+  71              		.loc 1 38 0
+  72              		.cfi_startproc
+  73              		@ args = 0, pretend = 0, frame = 32
+  74              		@ frame_needed = 1, uses_anonymous_args = 0
+  75 0000 2DE9F04F 		push	{r4, r5, r6, r7, r8, r9, sl, fp, lr}
+  76              	.LCFI0:
+  77              		.cfi_def_cfa_offset 36
+  78 0004 93B0     		sub	sp, sp, #76
+  79              	.LCFI1:
+  80              		.cfi_def_cfa_offset 112
+  81 0006 0AAF     		add	r7, sp, #40
+  82              		.cfi_offset 14, -4
+  83              		.cfi_offset 11, -8
+  84              		.cfi_offset 10, -12
+  85              		.cfi_offset 9, -16
+  86              		.cfi_offset 8, -20
+  87              		.cfi_offset 7, -24
+  88              		.cfi_offset 6, -28
+  89              		.cfi_offset 5, -32
+  90              		.cfi_offset 4, -36
+  91              	.LCFI2:
+  92              		.cfi_def_cfa 7, 72
+  39:.\main.c      **** 
+  40:.\main.c      **** 
+  41:.\main.c      **** 
+  42:.\main.c      ****     CyGlobalIntEnable;
+  93              		.loc 1 42 0
+  94              	@ 42 ".\main.c" 1
+  95 0008 62B6     		CPSIE   i
+  96              	@ 0 "" 2
+  43:.\main.c      ****      SleepTimer_Start();
+  97              		.loc 1 43 0
+  98              		.thumb
+  99 000a FFF7FEFF 		bl	SleepTimer_Start
+  44:.\main.c      ****     isr_SleepTimer_StartEx(sleepTimerWake_INT);
+ 100              		.loc 1 44 0
+ 101 000e 40F20000 		movw	r0, #:lower16:sleepTimerWake_INT
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccFwamZO.s 			page 4
 
 
-  54:.\main.c      ****             if(modem_state == MODEM_STATE_OFF){
-  55:.\main.c      ****                 modem_power_on();
-  56:.\main.c      ****             }
-  57:.\main.c      ****             else if(modem_state == MODEM_STATE_IDLE){
-  58:.\main.c      ****                 //if(modem_send_packet(data_packet)){     // if packet sent
-  59:.\main.c      ****                 if(modem_send_packet(data_packet)){     // if packet sent
-  60:.\main.c      ****                     modem_power_off();
-  61:.\main.c      ****                     clear_packet(data_packet, MAX_PACKET_SIZE);
-  62:.\main.c      ****                 }
-  63:.\main.c      ****                 else{                                   // if packet not sent
-  64:.\main.c      ****                     modem_reset();
-  65:.\main.c      ****                     modem_power_off();
-  66:.\main.c      ****                 }
-  67:.\main.c      ****             }
-  68:.\main.c      ****         }else if(take_reading){
-  69:.\main.c      ****         
-  70:.\main.c      ****             // Get Readings for:
-  71:.\main.c      ****             // depth, pressure, temp
-  72:.\main.c      ****             // conductivity.
-  73:.\main.c      ****             //solinst_get_reading(&solinst_reading);
-  74:.\main.c      ****             ultrasonic_get_reading(&ultrasonic_reading);
-  75:.\main.c      **** 
-  76:.\main.c      ****             take_reading = 0u;
-  77:.\main.c      ****             NeoRtcTimeStruct tm_neo = NeoRTC_Read_Time();
-  78:.\main.c      ****             char sendBuffer [128];
-  79:.\main.c      **** 
-  80:.\main.c      ****             sprintf(data_packet, "%d:%d:%d %d/%d/%d u=%f", tm_neo.hour, tm_neo.minute,
-  81:.\main.c      ****                              tm_neo.second, tm_neo.day, tm_neo.month, tm_neo.year, ultrasonic_readi
+ 102 0012 C0F20000 		movt	r0, #:upper16:sleepTimerWake_INT
+ 103 0016 FFF7FEFF 		bl	isr_SleepTimer_StartEx
+  45:.\main.c      ****     FS_Init();
+ 104              		.loc 1 45 0
+ 105 001a FFF7FEFF 		bl	FS_Init
+  46:.\main.c      ****     modem_start();
+ 106              		.loc 1 46 0
+ 107 001e FFF7FEFF 		bl	modem_start
+  47:.\main.c      ****     //modem_power_off();
+  48:.\main.c      ****     ultrasonic_start();
+ 108              		.loc 1 48 0
+ 109 0022 FFF7FEFF 		bl	ultrasonic_start
+  49:.\main.c      ****     solinst_start();
+ 110              		.loc 1 49 0
+ 111 0026 FFF7FEFF 		bl	solinst_start
+  50:.\main.c      **** 
+  51:.\main.c      ****     
+  52:.\main.c      ****     packet_ready = 0u; 
+ 112              		.loc 1 52 0
+ 113 002a 40F20003 		movw	r3, #:lower16:packet_ready
+ 114 002e C0F20003 		movt	r3, #:upper16:packet_ready
+ 115 0032 4FF00002 		mov	r2, #0
+ 116 0036 1A70     		strb	r2, [r3, #0]
+  53:.\main.c      ****     take_reading = 0u;
+ 117              		.loc 1 53 0
+ 118 0038 40F20003 		movw	r3, #:lower16:take_reading
+ 119 003c C0F20003 		movt	r3, #:upper16:take_reading
+ 120 0040 4FF00002 		mov	r2, #0
+ 121 0044 1A70     		strb	r2, [r3, #0]
+  54:.\main.c      ****     send_attempts = 0u;
+ 122              		.loc 1 54 0
+ 123 0046 40F20003 		movw	r3, #:lower16:send_attempts
+ 124 004a C0F20003 		movt	r3, #:upper16:send_attempts
+ 125 004e 4FF00002 		mov	r2, #0
+ 126 0052 1A70     		strb	r2, [r3, #0]
+  55:.\main.c      **** 
+  56:.\main.c      ****     NeoRTC_Start(rtcCallBackReceived);      // Start and enable the RTC.   
+ 127              		.loc 1 56 0
+ 128 0054 40F20000 		movw	r0, #:lower16:rtcCallBackReceived
+ 129 0058 C0F20000 		movt	r0, #:upper16:rtcCallBackReceived
+ 130 005c FFF7FEFF 		bl	NeoRTC_Start
+  57:.\main.c      ****     NeoRTC_Set_Repeating_Minute_Alarm(2u);  // Set 1-minute alarm
+ 131              		.loc 1 57 0
+ 132 0060 4FF00200 		mov	r0, #2
+ 133 0064 FFF7FEFF 		bl	NeoRTC_Set_Repeating_Minute_Alarm
+ 134 0068 02E0     		b	.L10
+ 135              	.L12:
+  58:.\main.c      ****    
+  59:.\main.c      ****     
+  60:.\main.c      ****     //  Uncomment below to set RTC
+  61:.\main.c      ****     /*
+  62:.\main.c      ****     NeoRtcTimeStruct tm = {
+  63:.\main.c      ****       .second = 0,
+  64:.\main.c      ****       .minute = 58,
+  65:.\main.c      ****       .hour = 20,
+  66:.\main.c      ****       .day = 20,
+  67:.\main.c      ****       .weekday = 4,
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccFwamZO.s 			page 5
+
+
+  68:.\main.c      ****       .month = 11,
+  69:.\main.c      ****       .year = 2013,
+  70:.\main.c      ****     } ;
+  71:.\main.c      ****     RTC_WriteTime(tm); //sets time
+  72:.\main.c      ****     */
+  73:.\main.c      **** 
+  74:.\main.c      ****     for(;;){
+  75:.\main.c      ****         // No need to pause for short time in loop?
+  76:.\main.c      ****         RTC_Process_Tasks();
+  77:.\main.c      ****        
+  78:.\main.c      ****         
+  79:.\main.c      ****         if(take_reading){ 
+  80:.\main.c      ****             
+  81:.\main.c      ****             take_reading = 0u;
   82:.\main.c      ****             
-  83:.\main.c      ****             Write_To_SD_Card("data.txt","a",data_packet,strlen(data_packet));
-  84:.\main.c      **** 
-  85:.\main.c      ****             
-  86:.\main.c      ****             packet_ready = 1u; 
-  87:.\main.c      ****             
-  88:.\main.c      ****         }
-  89:.\main.c      ****     }
- 107              		.loc 1 89 0
- 108 004c 00BF     		nop
- 109 004e 00E0     		b	.L7
- 110              	.L10:
- 111 0050 00BF     		nop
- 112              	.L7:
- 113              		.loc 1 51 0
- 114 0052 FFF7FEFF 		bl	RTC_Process_Tasks
- 115              		.loc 1 53 0
- 116 0056 40F20003 		movw	r3, #:lower16:packet_ready
- 117 005a C0F20003 		movt	r3, #:upper16:packet_ready
- 118 005e 1B78     		ldrb	r3, [r3, #0]	@ zero_extendqisi2
- 119 0060 002B     		cmp	r3, #0
- 120 0062 29D0     		beq	.L2
- 121              		.loc 1 54 0
- 122 0064 40F20003 		movw	r3, #:lower16:modem_state
- 123 0068 C0F20003 		movt	r3, #:upper16:modem_state
- 124 006c 1B78     		ldrb	r3, [r3, #0]	@ zero_extendqisi2
- 125 006e 002B     		cmp	r3, #0
- 126 0070 02D1     		bne	.L3
- 127              		.loc 1 55 0
-ARM GAS  C:\Users\karunmj\AppData\Local\Temp\cczdrClK.s 			page 5
-
-
- 128 0072 FFF7FEFF 		bl	modem_power_on
- 129              		.loc 1 89 0
- 130 0076 ECE7     		b	.L7
- 131              	.L3:
- 132              		.loc 1 57 0
- 133 0078 40F20003 		movw	r3, #:lower16:modem_state
- 134 007c C0F20003 		movt	r3, #:upper16:modem_state
- 135 0080 1B78     		ldrb	r3, [r3, #0]	@ zero_extendqisi2
- 136 0082 012B     		cmp	r3, #1
- 137 0084 E2D1     		bne	.L9
- 138              		.loc 1 59 0
- 139 0086 40F20000 		movw	r0, #:lower16:data_packet
- 140 008a C0F20000 		movt	r0, #:upper16:data_packet
- 141 008e FFF7FEFF 		bl	modem_send_packet
- 142 0092 0346     		mov	r3, r0
- 143 0094 002B     		cmp	r3, #0
- 144 0096 0AD0     		beq	.L5
- 145              		.loc 1 60 0
- 146 0098 FFF7FEFF 		bl	modem_power_off
- 147              		.loc 1 61 0
- 148 009c 40F20000 		movw	r0, #:lower16:data_packet
- 149 00a0 C0F20000 		movt	r0, #:upper16:data_packet
- 150 00a4 4FF08001 		mov	r1, #128
- 151 00a8 FFF7FEFF 		bl	clear_packet
- 152              		.loc 1 89 0
- 153 00ac D1E7     		b	.L7
- 154              	.L5:
- 155              		.loc 1 64 0
- 156 00ae FFF7FEFF 		bl	modem_reset
- 157              		.loc 1 65 0
- 158 00b2 FFF7FEFF 		bl	modem_power_off
- 159              		.loc 1 89 0
- 160 00b6 CCE7     		b	.L7
- 161              	.L2:
- 162              		.loc 1 68 0
- 163 00b8 40F20003 		movw	r3, #:lower16:take_reading
- 164 00bc C0F20003 		movt	r3, #:upper16:take_reading
- 165 00c0 1B78     		ldrb	r3, [r3, #0]	@ zero_extendqisi2
- 166 00c2 002B     		cmp	r3, #0
- 167 00c4 C4D0     		beq	.L10
- 168              	.LBB2:
- 169              		.loc 1 74 0
- 170 00c6 40F20000 		movw	r0, #:lower16:ultrasonic_reading
- 171 00ca C0F20000 		movt	r0, #:upper16:ultrasonic_reading
- 172 00ce FFF7FEFF 		bl	ultrasonic_get_reading
- 173              		.loc 1 76 0
- 174 00d2 40F20003 		movw	r3, #:lower16:take_reading
- 175 00d6 C0F20003 		movt	r3, #:upper16:take_reading
- 176 00da 4FF00002 		mov	r2, #0
- 177 00de 1A70     		strb	r2, [r3, #0]
- 178              		.loc 1 77 0
- 179 00e0 07F18003 		add	r3, r7, #128
- 180 00e4 1846     		mov	r0, r3
- 181 00e6 FFF7FEFF 		bl	NeoRTC_Read_Time
- 182              		.loc 1 80 0
- 183 00ea 97F88230 		ldrb	r3, [r7, #130]	@ zero_extendqisi2
- 184 00ee 1D46     		mov	r5, r3
-ARM GAS  C:\Users\karunmj\AppData\Local\Temp\cczdrClK.s 			page 6
-
-
- 185 00f0 97F88130 		ldrb	r3, [r7, #129]	@ zero_extendqisi2
- 186 00f4 1C46     		mov	r4, r3
- 187              		.loc 1 81 0
- 188 00f6 97F88030 		ldrb	r3, [r7, #128]	@ zero_extendqisi2
- 189              		.loc 1 80 0
- 190 00fa 9946     		mov	r9, r3
- 191              		.loc 1 81 0
- 192 00fc 97F88330 		ldrb	r3, [r7, #131]	@ zero_extendqisi2
- 193              		.loc 1 80 0
- 194 0100 9A46     		mov	sl, r3
- 195              		.loc 1 81 0
- 196 0102 97F88530 		ldrb	r3, [r7, #133]	@ zero_extendqisi2
- 197              		.loc 1 80 0
- 198 0106 9846     		mov	r8, r3
- 199              		.loc 1 81 0
- 200 0108 B7F88630 		ldrh	r3, [r7, #134]
- 201              		.loc 1 80 0
- 202 010c 1E46     		mov	r6, r3
- 203              		.loc 1 81 0
- 204 010e 40F20003 		movw	r3, #:lower16:ultrasonic_reading
- 205 0112 C0F20003 		movt	r3, #:upper16:ultrasonic_reading
- 206 0116 5B68     		ldr	r3, [r3, #4]	@ float
- 207              		.loc 1 80 0
- 208 0118 1846     		mov	r0, r3
- 209 011a FFF7FEFF 		bl	__aeabi_f2d
- 210 011e 0246     		mov	r2, r0
- 211 0120 0B46     		mov	r3, r1
- 212 0122 CDF80090 		str	r9, [sp, #0]
- 213 0126 CDF804A0 		str	sl, [sp, #4]
- 214 012a CDF80880 		str	r8, [sp, #8]
- 215 012e 0396     		str	r6, [sp, #12]
- 216 0130 CDE90423 		strd	r2, [sp, #16]
- 217 0134 40F20000 		movw	r0, #:lower16:data_packet
- 218 0138 C0F20000 		movt	r0, #:upper16:data_packet
- 219 013c 40F20001 		movw	r1, #:lower16:.LC0
- 220 0140 C0F20001 		movt	r1, #:upper16:.LC0
- 221 0144 2A46     		mov	r2, r5
- 222 0146 2346     		mov	r3, r4
- 223 0148 FFF7FEFF 		bl	sprintf
- 224              		.loc 1 83 0
- 225 014c 40F20000 		movw	r0, #:lower16:data_packet
- 226 0150 C0F20000 		movt	r0, #:upper16:data_packet
- 227 0154 FFF7FEFF 		bl	strlen
- 228 0158 0346     		mov	r3, r0
- 229 015a 40F20000 		movw	r0, #:lower16:.LC1
- 230 015e C0F20000 		movt	r0, #:upper16:.LC1
- 231 0162 40F20001 		movw	r1, #:lower16:.LC2
- 232 0166 C0F20001 		movt	r1, #:upper16:.LC2
- 233 016a 40F20002 		movw	r2, #:lower16:data_packet
- 234 016e C0F20002 		movt	r2, #:upper16:data_packet
- 235 0172 FFF7FEFF 		bl	Write_To_SD_Card
- 236              		.loc 1 86 0
- 237 0176 40F20003 		movw	r3, #:lower16:packet_ready
- 238 017a C0F20003 		movt	r3, #:upper16:packet_ready
- 239 017e 4FF00102 		mov	r2, #1
- 240 0182 1A70     		strb	r2, [r3, #0]
- 241              	.LBE2:
-ARM GAS  C:\Users\karunmj\AppData\Local\Temp\cczdrClK.s 			page 7
-
-
- 242              		.loc 1 89 0
- 243 0184 65E7     		b	.L7
- 244              		.cfi_endproc
- 245              	.LFE29:
- 246              		.size	main, .-main
- 247              		.section	.text.isr_timer,"ax",%progbits
- 248              		.align	2
- 249              		.global	isr_timer
- 250              		.thumb
- 251              		.thumb_func
- 252              		.type	isr_timer, %function
- 253              	isr_timer:
- 254              	.LFB30:
-  90:.\main.c      **** }
-  91:.\main.c      **** 
-  92:.\main.c      **** CY_ISR(isr_timer){
- 255              		.loc 1 92 0
- 256              		.cfi_startproc
- 257              		@ args = 0, pretend = 0, frame = 0
- 258              		@ frame_needed = 1, uses_anonymous_args = 0
- 259              		@ link register save eliminated.
- 260 0000 80B4     		push	{r7}
- 261              	.LCFI3:
- 262              		.cfi_def_cfa_offset 4
- 263 0002 00AF     		add	r7, sp, #0
- 264              		.cfi_offset 7, -4
- 265              	.LCFI4:
- 266              		.cfi_def_cfa_register 7
-  93:.\main.c      ****     //take_reading = 1u;
-  94:.\main.c      ****     //timer_ReadStatusRegister();
-  95:.\main.c      **** }
- 267              		.loc 1 95 0
- 268 0004 BD46     		mov	sp, r7
- 269 0006 80BC     		pop	{r7}
- 270 0008 7047     		bx	lr
- 271              		.cfi_endproc
- 272              	.LFE30:
- 273              		.size	isr_timer, .-isr_timer
- 274 000a 00BF     		.section	.text.clear_packet,"ax",%progbits
- 275              		.align	2
- 276              		.global	clear_packet
- 277              		.thumb
- 278              		.thumb_func
- 279              		.type	clear_packet, %function
- 280              	clear_packet:
- 281              	.LFB31:
-  96:.\main.c      **** 
-  97:.\main.c      **** //void read_packet(){
-  98:.\main.c      **** //}
-  99:.\main.c      **** 
+  83:.\main.c      ****             if (send_attempts > 0) {
+  84:.\main.c      ****                 debug_write("New reading taken before previous packet was sent");
+  85:.\main.c      ****             }
+  86:.\main.c      ****             
+  87:.\main.c      ****             // Get Readings for:
+  88:.\main.c      ****             // depth, pressure, temp
+  89:.\main.c      ****             // conductivity.
+  90:.\main.c      ****             solinst_get_reading(&solinst_reading);
+  91:.\main.c      ****             ultrasonic_get_reading(&ultrasonic_reading);
+  92:.\main.c      ****             
+  93:.\main.c      ****             NeoRtcTimeStruct tm_neo = NeoRTC_Read_Time();
+  94:.\main.c      **** 
+  95:.\main.c      ****             sprintf(data_packet, "\r\n%d:%d:%d %d/%d/%d -- u_d=%f s_d=%f s_t=%f", tm_neo.hour, tm_n
+  96:.\main.c      ****                              tm_neo.second, tm_neo.day, tm_neo.month, tm_neo.year, 
+  97:.\main.c      ****                              ultrasonic_reading.depth, solinst_reading.depth, solinst_reading.temp)
+  98:.\main.c      ****             
+  99:.\main.c      ****             Write_To_SD_Card("data.txt","a",data_packet,strlen(data_packet));
  100:.\main.c      **** 
- 101:.\main.c      **** void clear_packet(uint8* packet, uint8 packet_size){
- 282              		.loc 1 101 0
- 283              		.cfi_startproc
- 284              		@ args = 0, pretend = 0, frame = 16
- 285              		@ frame_needed = 1, uses_anonymous_args = 0
- 286              		@ link register save eliminated.
-ARM GAS  C:\Users\karunmj\AppData\Local\Temp\cczdrClK.s 			page 8
+ 101:.\main.c      ****             sprintf(data_packet, "%d:%d:%d %d/%d/%d -- u_d=%f s_d=%f s_t=%f", tm_neo.hour, tm_neo.m
+ 102:.\main.c      ****                              tm_neo.second, tm_neo.day, tm_neo.month, tm_neo.year, 
+ 103:.\main.c      ****                              ultrasonic_reading.depth, solinst_reading.depth, solinst_reading.temp)
+ 104:.\main.c      ****             
+ 105:.\main.c      ****             packet_ready = 1u; 
+ 106:.\main.c      ****             send_attempts = 0u;
+ 107:.\main.c      ****             
+ 108:.\main.c      ****             
+ 109:.\main.c      ****         } else if(packet_ready){
+ 110:.\main.c      ****             isr_SleepTimer_Stop;
+ 111:.\main.c      ****             if(modem_state == MODEM_STATE_OFF){
+ 112:.\main.c      ****                 modem_power_on();
+ 113:.\main.c      ****             }
+ 114:.\main.c      ****             else if(modem_state == MODEM_STATE_IDLE){
+ 115:.\main.c      ****                 
+ 116:.\main.c      ****                 /*
+ 117:.\main.c      ****                 //if(modem_send_packet(data_packet)){     // if packet sent
+ 118:.\main.c      ****                 if(modem_send_packet(data_packet)){     // if packet sent
+ 119:.\main.c      ****                     modem_power_off();
+ 120:.\main.c      ****                     clear_packet(data_packet, MAX_PACKET_SIZE);
+ 121:.\main.c      ****                 }
+ 122:.\main.c      ****                 else{                                   // if packet not sent
+ 123:.\main.c      ****                     modem_reset();
+ 124:.\main.c      ****                     modem_power_off();
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccFwamZO.s 			page 6
 
 
- 287 0000 80B4     		push	{r7}
- 288              	.LCFI5:
- 289              		.cfi_def_cfa_offset 4
- 290 0002 85B0     		sub	sp, sp, #20
- 291              	.LCFI6:
- 292              		.cfi_def_cfa_offset 24
- 293 0004 00AF     		add	r7, sp, #0
- 294              		.cfi_offset 7, -4
- 295              	.LCFI7:
- 296              		.cfi_def_cfa_register 7
- 297 0006 7860     		str	r0, [r7, #4]
- 298 0008 0B46     		mov	r3, r1
- 299 000a FB70     		strb	r3, [r7, #3]
- 102:.\main.c      ****     uint8 i;
- 103:.\main.c      ****     for(i = 0u; i < packet_size; i++){
- 300              		.loc 1 103 0
- 301 000c 4FF00003 		mov	r3, #0
- 302 0010 FB73     		strb	r3, [r7, #15]
- 303 0012 09E0     		b	.L14
- 304              	.L15:
- 104:.\main.c      ****         packet[i] = 0u;
- 305              		.loc 1 104 0
- 306 0014 FA7B     		ldrb	r2, [r7, #15]	@ zero_extendqisi2
- 307 0016 7B68     		ldr	r3, [r7, #4]
- 308 0018 1344     		add	r3, r2, r3
- 309 001a 4FF00002 		mov	r2, #0
- 310 001e 1A70     		strb	r2, [r3, #0]
- 311              		.loc 1 103 0
- 312 0020 FB7B     		ldrb	r3, [r7, #15]
- 313 0022 03F10103 		add	r3, r3, #1
- 314 0026 FB73     		strb	r3, [r7, #15]
- 315              	.L14:
- 316 0028 FA7B     		ldrb	r2, [r7, #15]	@ zero_extendqisi2
- 317 002a FB78     		ldrb	r3, [r7, #3]	@ zero_extendqisi2
- 318 002c 9A42     		cmp	r2, r3
- 319 002e F1D3     		bcc	.L15
- 105:.\main.c      ****     }
- 106:.\main.c      ****     
- 107:.\main.c      ****     packet_ready = 0u;
- 320              		.loc 1 107 0
- 321 0030 40F20003 		movw	r3, #:lower16:packet_ready
- 322 0034 C0F20003 		movt	r3, #:upper16:packet_ready
- 323 0038 4FF00002 		mov	r2, #0
- 324 003c 1A70     		strb	r2, [r3, #0]
- 108:.\main.c      **** }
- 325              		.loc 1 108 0
- 326 003e 07F11407 		add	r7, r7, #20
- 327 0042 BD46     		mov	sp, r7
- 328 0044 80BC     		pop	{r7}
- 329 0046 7047     		bx	lr
- 330              		.cfi_endproc
- 331              	.LFE31:
- 332              		.size	clear_packet, .-clear_packet
- 333              		.section	.text.rtcCallBackReceived,"ax",%progbits
- 334              		.align	2
- 335              		.global	rtcCallBackReceived
- 336              		.thumb
-ARM GAS  C:\Users\karunmj\AppData\Local\Temp\cczdrClK.s 			page 9
+ 125:.\main.c      ****                 }
+ 126:.\main.c      ****                 */
+ 127:.\main.c      ****                 if(send_attempts < MAX_SEND_ATTEMPTS){
+ 128:.\main.c      ****                     
+ 129:.\main.c      ****                     send_attempts++;
+ 130:.\main.c      ****                     
+ 131:.\main.c      ****                     if (modem_send_packet(data_packet)){     
+ 132:.\main.c      ****                     // the packet is sent within the number of maximum attempts allowed
+ 133:.\main.c      ****                         modem_power_off();
+ 134:.\main.c      ****                         clear_packet(data_packet, MAX_PACKET_SIZE);
+ 135:.\main.c      ****                         send_attempts = 0u;
+ 136:.\main.c      ****                     }
+ 137:.\main.c      ****                     else {
+ 138:.\main.c      ****                         //modem_reset();
+ 139:.\main.c      ****                     }
+ 140:.\main.c      ****                     
+ 141:.\main.c      ****                 } 
+ 142:.\main.c      ****                 else {
+ 143:.\main.c      ****                 // the number of maximum attempts allowed has been exceeded
+ 144:.\main.c      ****                     modem_power_off();
+ 145:.\main.c      ****                     clear_packet(data_packet, MAX_PACKET_SIZE);
+ 146:.\main.c      ****                     send_attempts = 0u;
+ 147:.\main.c      ****                     debug_write("MAX_SEND_ATTEMPTS Exceeded");                    
+ 148:.\main.c      ****                 }                
+ 149:.\main.c      ****                  
+ 150:.\main.c      ****             }
+ 151:.\main.c      ****         }else{
+ 152:.\main.c      ****             Goto_Low_Power_Mode();
+ 153:.\main.c      ****         }
+ 154:.\main.c      ****     }
+ 136              		.loc 1 154 0
+ 137 006a 00BF     		nop
+ 138 006c 00E0     		b	.L10
+ 139              	.L13:
+ 140 006e 00BF     		nop
+ 141              	.L10:
+ 142              		.loc 1 76 0
+ 143 0070 FFF7FEFF 		bl	RTC_Process_Tasks
+ 144              		.loc 1 79 0
+ 145 0074 40F20003 		movw	r3, #:lower16:take_reading
+ 146 0078 C0F20003 		movt	r3, #:upper16:take_reading
+ 147 007c 1B78     		ldrb	r3, [r3, #0]	@ zero_extendqisi2
+ 148 007e 002B     		cmp	r3, #0
+ 149 0080 00F0D180 		beq	.L2
+ 150              	.LBB2:
+ 151              		.loc 1 81 0
+ 152 0084 40F20003 		movw	r3, #:lower16:take_reading
+ 153 0088 C0F20003 		movt	r3, #:upper16:take_reading
+ 154 008c 4FF00002 		mov	r2, #0
+ 155 0090 1A70     		strb	r2, [r3, #0]
+ 156              		.loc 1 83 0
+ 157 0092 40F20003 		movw	r3, #:lower16:send_attempts
+ 158 0096 C0F20003 		movt	r3, #:upper16:send_attempts
+ 159 009a 1B78     		ldrb	r3, [r3, #0]	@ zero_extendqisi2
+ 160 009c 002B     		cmp	r3, #0
+ 161 009e 05D0     		beq	.L3
+ 162              		.loc 1 84 0
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccFwamZO.s 			page 7
 
 
- 337              		.thumb_func
- 338              		.type	rtcCallBackReceived, %function
- 339              	rtcCallBackReceived:
- 340              	.LFB32:
- 109:.\main.c      **** 
- 110:.\main.c      **** void rtcCallBackReceived(uint8 alarmType){ // RTC Event Handler.
- 341              		.loc 1 110 0
- 342              		.cfi_startproc
- 343              		@ args = 0, pretend = 0, frame = 8
- 344              		@ frame_needed = 1, uses_anonymous_args = 0
- 345              		@ link register save eliminated.
- 346 0000 80B4     		push	{r7}
- 347              	.LCFI8:
- 348              		.cfi_def_cfa_offset 4
- 349 0002 83B0     		sub	sp, sp, #12
- 350              	.LCFI9:
- 351              		.cfi_def_cfa_offset 16
- 352 0004 00AF     		add	r7, sp, #0
- 353              		.cfi_offset 7, -4
- 354              	.LCFI10:
- 355              		.cfi_def_cfa_register 7
- 356 0006 0346     		mov	r3, r0
- 357 0008 FB71     		strb	r3, [r7, #7]
- 111:.\main.c      ****       
- 112:.\main.c      ****     if(alarmType == RTC_MINUTE_ALARM){
- 358              		.loc 1 112 0
- 359 000a FB79     		ldrb	r3, [r7, #7]	@ zero_extendqisi2
- 360 000c 012B     		cmp	r3, #1
- 361 000e 06D1     		bne	.L19
- 113:.\main.c      ****          
- 114:.\main.c      ****         take_reading = 1u;
- 362              		.loc 1 114 0
- 363 0010 40F20003 		movw	r3, #:lower16:take_reading
- 364 0014 C0F20003 		movt	r3, #:upper16:take_reading
- 365 0018 4FF00102 		mov	r2, #1
- 366 001c 1A70     		strb	r2, [r3, #0]
- 367              	.L19:
- 115:.\main.c      ****         
- 116:.\main.c      ****     }   
- 117:.\main.c      **** }
- 368              		.loc 1 117 0
- 369 001e 07F10C07 		add	r7, r7, #12
- 370 0022 BD46     		mov	sp, r7
- 371 0024 80BC     		pop	{r7}
- 372 0026 7047     		bx	lr
- 373              		.cfi_endproc
- 374              	.LFE32:
- 375              		.size	rtcCallBackReceived, .-rtcCallBackReceived
- 376              		.section	.text.Write_To_SD_Card,"ax",%progbits
- 377              		.align	2
- 378              		.global	Write_To_SD_Card
- 379              		.thumb
- 380              		.thumb_func
- 381              		.type	Write_To_SD_Card, %function
- 382              	Write_To_SD_Card:
- 383              	.LFB33:
- 118:.\main.c      **** 
-ARM GAS  C:\Users\karunmj\AppData\Local\Temp\cczdrClK.s 			page 10
+ 163 00a0 40F20000 		movw	r0, #:lower16:.LC0
+ 164 00a4 C0F20000 		movt	r0, #:upper16:.LC0
+ 165 00a8 FFF7FEFF 		bl	debug_write
+ 166              	.L3:
+ 167              		.loc 1 90 0
+ 168 00ac 40F20000 		movw	r0, #:lower16:solinst_reading
+ 169 00b0 C0F20000 		movt	r0, #:upper16:solinst_reading
+ 170 00b4 FFF7FEFF 		bl	solinst_get_reading
+ 171              		.loc 1 91 0
+ 172 00b8 40F20000 		movw	r0, #:lower16:ultrasonic_reading
+ 173 00bc C0F20000 		movt	r0, #:upper16:ultrasonic_reading
+ 174 00c0 FFF7FEFF 		bl	ultrasonic_get_reading
+ 175              		.loc 1 93 0
+ 176 00c4 07F11803 		add	r3, r7, #24
+ 177 00c8 1846     		mov	r0, r3
+ 178 00ca FFF7FEFF 		bl	NeoRTC_Read_Time
+ 179              		.loc 1 95 0
+ 180 00ce BB7E     		ldrb	r3, [r7, #26]	@ zero_extendqisi2
+ 181 00d0 9A46     		mov	sl, r3
+ 182 00d2 7B7E     		ldrb	r3, [r7, #25]	@ zero_extendqisi2
+ 183 00d4 1E46     		mov	r6, r3
+ 184              		.loc 1 96 0
+ 185 00d6 3B7E     		ldrb	r3, [r7, #24]	@ zero_extendqisi2
+ 186              		.loc 1 95 0
+ 187 00d8 3B60     		str	r3, [r7, #0]
+ 188              		.loc 1 96 0
+ 189 00da FB7E     		ldrb	r3, [r7, #27]	@ zero_extendqisi2
+ 190              		.loc 1 95 0
+ 191 00dc 7B60     		str	r3, [r7, #4]
+ 192              		.loc 1 96 0
+ 193 00de 7B7F     		ldrb	r3, [r7, #29]	@ zero_extendqisi2
+ 194              		.loc 1 95 0
+ 195 00e0 BB60     		str	r3, [r7, #8]
+ 196              		.loc 1 96 0
+ 197 00e2 FB8B     		ldrh	r3, [r7, #30]
+ 198              		.loc 1 95 0
+ 199 00e4 9B46     		mov	fp, r3
+ 200              		.loc 1 97 0
+ 201 00e6 40F20003 		movw	r3, #:lower16:ultrasonic_reading
+ 202 00ea C0F20003 		movt	r3, #:upper16:ultrasonic_reading
+ 203 00ee 5B68     		ldr	r3, [r3, #4]	@ float
+ 204              		.loc 1 95 0
+ 205 00f0 1846     		mov	r0, r3
+ 206 00f2 FFF7FEFF 		bl	__aeabi_f2d
+ 207 00f6 8046     		mov	r8, r0
+ 208 00f8 8946     		mov	r9, r1
+ 209              		.loc 1 97 0
+ 210 00fa 40F20003 		movw	r3, #:lower16:solinst_reading
+ 211 00fe C0F20003 		movt	r3, #:upper16:solinst_reading
+ 212 0102 5B68     		ldr	r3, [r3, #4]	@ float
+ 213              		.loc 1 95 0
+ 214 0104 1846     		mov	r0, r3
+ 215 0106 FFF7FEFF 		bl	__aeabi_f2d
+ 216 010a 0446     		mov	r4, r0
+ 217 010c 0D46     		mov	r5, r1
+ 218              		.loc 1 97 0
+ 219 010e 40F20003 		movw	r3, #:lower16:solinst_reading
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccFwamZO.s 			page 8
 
 
- 119:.\main.c      **** void Write_To_SD_Card(const char* fileName, const char* pMode, const void* pData, U32 NumBytes) {
- 384              		.loc 1 119 0
- 385              		.cfi_startproc
- 386              		@ args = 0, pretend = 0, frame = 32
- 387              		@ frame_needed = 1, uses_anonymous_args = 0
- 388 0000 80B5     		push	{r7, lr}
- 389              	.LCFI11:
- 390              		.cfi_def_cfa_offset 8
- 391 0002 88B0     		sub	sp, sp, #32
- 392              	.LCFI12:
- 393              		.cfi_def_cfa_offset 40
- 394 0004 00AF     		add	r7, sp, #0
- 395              		.cfi_offset 14, -4
- 396              		.cfi_offset 7, -8
- 397              	.LCFI13:
- 398              		.cfi_def_cfa_register 7
- 399 0006 F860     		str	r0, [r7, #12]
- 400 0008 B960     		str	r1, [r7, #8]
- 401 000a 7A60     		str	r2, [r7, #4]
- 402 000c 3B60     		str	r3, [r7, #0]
- 120:.\main.c      **** // Remember to add line below to rtcCallBack Function
- 121:.\main.c      **** // Write_To_SD_Card("myData.txt","a",sendBuffer,strlen(sendBuffer));
- 122:.\main.c      **** 
- 123:.\main.c      ****     NEOMOTE_1_SD_Card_Power_Write(0u); // Power on the SD Card
- 403              		.loc 1 123 0
- 404 000e 4FF00000 		mov	r0, #0
- 405 0012 FFF7FEFF 		bl	NEOMOTE_1_SD_Card_Power_Write
- 124:.\main.c      ****     
- 125:.\main.c      ****     FS_FILE *  pFile;
- 126:.\main.c      ****     char sdVolName[10];  // Buffer that will hold SD card Volume name
- 127:.\main.c      ****     
- 128:.\main.c      ****     if (0 != FS_GetVolumeName(0, &sdVolName[0], 9)) {
- 406              		.loc 1 128 0
- 407 0016 07F11003 		add	r3, r7, #16
- 408 001a 4FF00000 		mov	r0, #0
- 409 001e 1946     		mov	r1, r3
- 410 0020 4FF00902 		mov	r2, #9
- 411 0024 FFF7FEFF 		bl	FS_GetVolumeName
- 412 0028 0346     		mov	r3, r0
- 413 002a 002B     		cmp	r3, #0
- 414 002c 1AD0     		beq	.L21
- 129:.\main.c      ****         pFile = FS_FOpen(fileName, pMode);
- 415              		.loc 1 129 0
- 416 002e F868     		ldr	r0, [r7, #12]
- 417 0030 B968     		ldr	r1, [r7, #8]
- 418 0032 FFF7FEFF 		bl	FS_FOpen
- 419 0036 0346     		mov	r3, r0
- 420 0038 FB61     		str	r3, [r7, #28]
- 130:.\main.c      ****         if (pFile == 0){
- 421              		.loc 1 130 0
- 422 003a FB69     		ldr	r3, [r7, #28]
- 423 003c 002B     		cmp	r3, #0
- 424 003e 09D1     		bne	.L22
- 131:.\main.c      ****             FS_DeInit();
- 425              		.loc 1 131 0
- 426 0040 FFF7FEFF 		bl	FS_DeInit
- 132:.\main.c      ****             FS_Init(); //poipoi debug error
-ARM GAS  C:\Users\karunmj\AppData\Local\Temp\cczdrClK.s 			page 11
+ 220 0112 C0F20003 		movt	r3, #:upper16:solinst_reading
+ 221 0116 1B68     		ldr	r3, [r3, #0]	@ float
+ 222              		.loc 1 95 0
+ 223 0118 1846     		mov	r0, r3
+ 224 011a FFF7FEFF 		bl	__aeabi_f2d
+ 225 011e 0246     		mov	r2, r0
+ 226 0120 0B46     		mov	r3, r1
+ 227 0122 3968     		ldr	r1, [r7, #0]
+ 228 0124 0091     		str	r1, [sp, #0]
+ 229 0126 7968     		ldr	r1, [r7, #4]
+ 230 0128 0191     		str	r1, [sp, #4]
+ 231 012a B968     		ldr	r1, [r7, #8]
+ 232 012c 0291     		str	r1, [sp, #8]
+ 233 012e CDF80CB0 		str	fp, [sp, #12]
+ 234 0132 CDE90489 		strd	r8, [sp, #16]
+ 235 0136 CDE90645 		strd	r4, [sp, #24]
+ 236 013a CDE90823 		strd	r2, [sp, #32]
+ 237 013e 40F20000 		movw	r0, #:lower16:data_packet
+ 238 0142 C0F20000 		movt	r0, #:upper16:data_packet
+ 239 0146 40F20001 		movw	r1, #:lower16:.LC1
+ 240 014a C0F20001 		movt	r1, #:upper16:.LC1
+ 241 014e 5246     		mov	r2, sl
+ 242 0150 3346     		mov	r3, r6
+ 243 0152 FFF7FEFF 		bl	sprintf
+ 244              		.loc 1 99 0
+ 245 0156 40F20000 		movw	r0, #:lower16:data_packet
+ 246 015a C0F20000 		movt	r0, #:upper16:data_packet
+ 247 015e FFF7FEFF 		bl	strlen
+ 248 0162 0346     		mov	r3, r0
+ 249 0164 40F20000 		movw	r0, #:lower16:.LC2
+ 250 0168 C0F20000 		movt	r0, #:upper16:.LC2
+ 251 016c 40F20001 		movw	r1, #:lower16:.LC3
+ 252 0170 C0F20001 		movt	r1, #:upper16:.LC3
+ 253 0174 40F20002 		movw	r2, #:lower16:data_packet
+ 254 0178 C0F20002 		movt	r2, #:upper16:data_packet
+ 255 017c FFF7FEFF 		bl	Write_To_SD_Card
+ 256              		.loc 1 101 0
+ 257 0180 BB7E     		ldrb	r3, [r7, #26]	@ zero_extendqisi2
+ 258 0182 9A46     		mov	sl, r3
+ 259 0184 7B7E     		ldrb	r3, [r7, #25]	@ zero_extendqisi2
+ 260 0186 1E46     		mov	r6, r3
+ 261              		.loc 1 102 0
+ 262 0188 3B7E     		ldrb	r3, [r7, #24]	@ zero_extendqisi2
+ 263              		.loc 1 101 0
+ 264 018a FB60     		str	r3, [r7, #12]
+ 265              		.loc 1 102 0
+ 266 018c FB7E     		ldrb	r3, [r7, #27]	@ zero_extendqisi2
+ 267              		.loc 1 101 0
+ 268 018e 3B61     		str	r3, [r7, #16]
+ 269              		.loc 1 102 0
+ 270 0190 7B7F     		ldrb	r3, [r7, #29]	@ zero_extendqisi2
+ 271              		.loc 1 101 0
+ 272 0192 7B61     		str	r3, [r7, #20]
+ 273              		.loc 1 102 0
+ 274 0194 FB8B     		ldrh	r3, [r7, #30]
+ 275              		.loc 1 101 0
+ 276 0196 9B46     		mov	fp, r3
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccFwamZO.s 			page 9
 
 
- 427              		.loc 1 132 0
- 428 0044 FFF7FEFF 		bl	FS_Init
- 133:.\main.c      ****             pFile = FS_FOpen(fileName, pMode);
- 429              		.loc 1 133 0
- 430 0048 F868     		ldr	r0, [r7, #12]
- 431 004a B968     		ldr	r1, [r7, #8]
- 432 004c FFF7FEFF 		bl	FS_FOpen
- 433 0050 0346     		mov	r3, r0
- 434 0052 FB61     		str	r3, [r7, #28]
- 435              	.L22:
- 134:.\main.c      ****         }
- 135:.\main.c      ****         FS_Write(pFile, pData, NumBytes);
- 436              		.loc 1 135 0
- 437 0054 F869     		ldr	r0, [r7, #28]
- 438 0056 7968     		ldr	r1, [r7, #4]
- 439 0058 3A68     		ldr	r2, [r7, #0]
- 440 005a FFF7FEFF 		bl	FS_Write
- 136:.\main.c      ****         FS_FClose(pFile);
- 441              		.loc 1 136 0
- 442 005e F869     		ldr	r0, [r7, #28]
- 443 0060 FFF7FEFF 		bl	FS_FClose
- 444              	.L21:
- 137:.\main.c      ****     }
- 138:.\main.c      ****     
- 139:.\main.c      ****     NEOMOTE_1_SD_Card_Power_Write(1u); // Power off the SD Card
- 445              		.loc 1 139 0
- 446 0064 4FF00100 		mov	r0, #1
- 447 0068 FFF7FEFF 		bl	NEOMOTE_1_SD_Card_Power_Write
- 140:.\main.c      **** 
- 141:.\main.c      **** }
- 448              		.loc 1 141 0
- 449 006c 07F12007 		add	r7, r7, #32
- 450 0070 BD46     		mov	sp, r7
- 451 0072 80BD     		pop	{r7, pc}
- 452              		.cfi_endproc
- 453              	.LFE33:
- 454              		.size	Write_To_SD_Card, .-Write_To_SD_Card
- 455              		.text
- 456              	.Letext0:
- 457              		.section	.debug_loc,"",%progbits
- 458              	.Ldebug_loc0:
- 459              	.LLST0:
- 460 0000 00000000 		.4byte	.LFB29
- 461 0004 04000000 		.4byte	.LCFI0
- 462 0008 0100     		.2byte	0x1
- 463 000a 5D       		.byte	0x5d
- 464 000b 04000000 		.4byte	.LCFI0
- 465 000f 06000000 		.4byte	.LCFI1
- 466 0013 0200     		.2byte	0x2
- 467 0015 7D       		.byte	0x7d
- 468 0016 20       		.sleb128 32
- 469 0017 06000000 		.4byte	.LCFI1
- 470 001b 08000000 		.4byte	.LCFI2
- 471 001f 0300     		.2byte	0x3
- 472 0021 7D       		.byte	0x7d
- 473 0022 C001     		.sleb128 192
- 474 0024 08000000 		.4byte	.LCFI2
-ARM GAS  C:\Users\karunmj\AppData\Local\Temp\cczdrClK.s 			page 12
+ 277              		.loc 1 103 0
+ 278 0198 40F20003 		movw	r3, #:lower16:ultrasonic_reading
+ 279 019c C0F20003 		movt	r3, #:upper16:ultrasonic_reading
+ 280 01a0 5B68     		ldr	r3, [r3, #4]	@ float
+ 281              		.loc 1 101 0
+ 282 01a2 1846     		mov	r0, r3
+ 283 01a4 FFF7FEFF 		bl	__aeabi_f2d
+ 284 01a8 8046     		mov	r8, r0
+ 285 01aa 8946     		mov	r9, r1
+ 286              		.loc 1 103 0
+ 287 01ac 40F20003 		movw	r3, #:lower16:solinst_reading
+ 288 01b0 C0F20003 		movt	r3, #:upper16:solinst_reading
+ 289 01b4 5B68     		ldr	r3, [r3, #4]	@ float
+ 290              		.loc 1 101 0
+ 291 01b6 1846     		mov	r0, r3
+ 292 01b8 FFF7FEFF 		bl	__aeabi_f2d
+ 293 01bc 0446     		mov	r4, r0
+ 294 01be 0D46     		mov	r5, r1
+ 295              		.loc 1 103 0
+ 296 01c0 40F20003 		movw	r3, #:lower16:solinst_reading
+ 297 01c4 C0F20003 		movt	r3, #:upper16:solinst_reading
+ 298 01c8 1B68     		ldr	r3, [r3, #0]	@ float
+ 299              		.loc 1 101 0
+ 300 01ca 1846     		mov	r0, r3
+ 301 01cc FFF7FEFF 		bl	__aeabi_f2d
+ 302 01d0 0246     		mov	r2, r0
+ 303 01d2 0B46     		mov	r3, r1
+ 304 01d4 F968     		ldr	r1, [r7, #12]
+ 305 01d6 0091     		str	r1, [sp, #0]
+ 306 01d8 3969     		ldr	r1, [r7, #16]
+ 307 01da 0191     		str	r1, [sp, #4]
+ 308 01dc 7969     		ldr	r1, [r7, #20]
+ 309 01de 0291     		str	r1, [sp, #8]
+ 310 01e0 CDF80CB0 		str	fp, [sp, #12]
+ 311 01e4 CDE90489 		strd	r8, [sp, #16]
+ 312 01e8 CDE90645 		strd	r4, [sp, #24]
+ 313 01ec CDE90823 		strd	r2, [sp, #32]
+ 314 01f0 40F20000 		movw	r0, #:lower16:data_packet
+ 315 01f4 C0F20000 		movt	r0, #:upper16:data_packet
+ 316 01f8 40F20001 		movw	r1, #:lower16:.LC4
+ 317 01fc C0F20001 		movt	r1, #:upper16:.LC4
+ 318 0200 5246     		mov	r2, sl
+ 319 0202 3346     		mov	r3, r6
+ 320 0204 FFF7FEFF 		bl	sprintf
+ 321              		.loc 1 105 0
+ 322 0208 40F20003 		movw	r3, #:lower16:packet_ready
+ 323 020c C0F20003 		movt	r3, #:upper16:packet_ready
+ 324 0210 4FF00102 		mov	r2, #1
+ 325 0214 1A70     		strb	r2, [r3, #0]
+ 326              		.loc 1 106 0
+ 327 0216 40F20003 		movw	r3, #:lower16:send_attempts
+ 328 021a C0F20003 		movt	r3, #:upper16:send_attempts
+ 329 021e 4FF00002 		mov	r2, #0
+ 330 0222 1A70     		strb	r2, [r3, #0]
+ 331              	.LBE2:
+ 332              		.loc 1 154 0
+ 333 0224 24E7     		b	.L10
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccFwamZO.s 			page 10
 
 
- 475 0028 86010000 		.4byte	.LFE29
- 476 002c 0300     		.2byte	0x3
- 477 002e 77       		.byte	0x77
- 478 002f A801     		.sleb128 168
- 479 0031 00000000 		.4byte	0x0
- 480 0035 00000000 		.4byte	0x0
- 481              	.LLST1:
- 482 0039 00000000 		.4byte	.LFB30
- 483 003d 02000000 		.4byte	.LCFI3
- 484 0041 0100     		.2byte	0x1
- 485 0043 5D       		.byte	0x5d
- 486 0044 02000000 		.4byte	.LCFI3
- 487 0048 04000000 		.4byte	.LCFI4
- 488 004c 0200     		.2byte	0x2
- 489 004e 7D       		.byte	0x7d
- 490 004f 04       		.sleb128 4
- 491 0050 04000000 		.4byte	.LCFI4
- 492 0054 0A000000 		.4byte	.LFE30
- 493 0058 0200     		.2byte	0x2
- 494 005a 77       		.byte	0x77
- 495 005b 04       		.sleb128 4
- 496 005c 00000000 		.4byte	0x0
- 497 0060 00000000 		.4byte	0x0
- 498              	.LLST2:
- 499 0064 00000000 		.4byte	.LFB31
- 500 0068 02000000 		.4byte	.LCFI5
- 501 006c 0100     		.2byte	0x1
- 502 006e 5D       		.byte	0x5d
- 503 006f 02000000 		.4byte	.LCFI5
- 504 0073 04000000 		.4byte	.LCFI6
- 505 0077 0200     		.2byte	0x2
- 506 0079 7D       		.byte	0x7d
- 507 007a 04       		.sleb128 4
- 508 007b 04000000 		.4byte	.LCFI6
- 509 007f 06000000 		.4byte	.LCFI7
- 510 0083 0200     		.2byte	0x2
- 511 0085 7D       		.byte	0x7d
- 512 0086 18       		.sleb128 24
- 513 0087 06000000 		.4byte	.LCFI7
- 514 008b 48000000 		.4byte	.LFE31
- 515 008f 0200     		.2byte	0x2
- 516 0091 77       		.byte	0x77
- 517 0092 18       		.sleb128 24
- 518 0093 00000000 		.4byte	0x0
- 519 0097 00000000 		.4byte	0x0
- 520              	.LLST3:
- 521 009b 00000000 		.4byte	.LFB32
- 522 009f 02000000 		.4byte	.LCFI8
- 523 00a3 0100     		.2byte	0x1
- 524 00a5 5D       		.byte	0x5d
- 525 00a6 02000000 		.4byte	.LCFI8
- 526 00aa 04000000 		.4byte	.LCFI9
- 527 00ae 0200     		.2byte	0x2
- 528 00b0 7D       		.byte	0x7d
- 529 00b1 04       		.sleb128 4
- 530 00b2 04000000 		.4byte	.LCFI9
- 531 00b6 06000000 		.4byte	.LCFI10
-ARM GAS  C:\Users\karunmj\AppData\Local\Temp\cczdrClK.s 			page 13
+ 334              	.L2:
+ 335              		.loc 1 109 0
+ 336 0226 40F20003 		movw	r3, #:lower16:packet_ready
+ 337 022a C0F20003 		movt	r3, #:upper16:packet_ready
+ 338 022e 1B78     		ldrb	r3, [r3, #0]	@ zero_extendqisi2
+ 339 0230 002B     		cmp	r3, #0
+ 340 0232 59D0     		beq	.L5
+ 341              		.loc 1 111 0
+ 342 0234 40F20003 		movw	r3, #:lower16:modem_state
+ 343 0238 C0F20003 		movt	r3, #:upper16:modem_state
+ 344 023c 1B78     		ldrb	r3, [r3, #0]	@ zero_extendqisi2
+ 345 023e 002B     		cmp	r3, #0
+ 346 0240 02D1     		bne	.L6
+ 347              		.loc 1 112 0
+ 348 0242 FFF7FEFF 		bl	modem_power_on
+ 349              		.loc 1 154 0
+ 350 0246 13E7     		b	.L10
+ 351              	.L6:
+ 352              		.loc 1 114 0
+ 353 0248 40F20003 		movw	r3, #:lower16:modem_state
+ 354 024c C0F20003 		movt	r3, #:upper16:modem_state
+ 355 0250 1B78     		ldrb	r3, [r3, #0]	@ zero_extendqisi2
+ 356 0252 012B     		cmp	r3, #1
+ 357 0254 7FF409AF 		bne	.L12
+ 358              		.loc 1 127 0
+ 359 0258 40F20003 		movw	r3, #:lower16:send_attempts
+ 360 025c C0F20003 		movt	r3, #:upper16:send_attempts
+ 361 0260 1B78     		ldrb	r3, [r3, #0]	@ zero_extendqisi2
+ 362 0262 012B     		cmp	r3, #1
+ 363 0264 28D8     		bhi	.L8
+ 364              		.loc 1 129 0
+ 365 0266 40F20003 		movw	r3, #:lower16:send_attempts
+ 366 026a C0F20003 		movt	r3, #:upper16:send_attempts
+ 367 026e 1B78     		ldrb	r3, [r3, #0]	@ zero_extendqisi2
+ 368 0270 03F10103 		add	r3, r3, #1
+ 369 0274 DAB2     		uxtb	r2, r3
+ 370 0276 40F20003 		movw	r3, #:lower16:send_attempts
+ 371 027a C0F20003 		movt	r3, #:upper16:send_attempts
+ 372 027e 1A70     		strb	r2, [r3, #0]
+ 373              		.loc 1 131 0
+ 374 0280 40F20000 		movw	r0, #:lower16:data_packet
+ 375 0284 C0F20000 		movt	r0, #:upper16:data_packet
+ 376 0288 FFF7FEFF 		bl	modem_send_packet
+ 377 028c 0346     		mov	r3, r0
+ 378 028e 002B     		cmp	r3, #0
+ 379 0290 3FF4EDAE 		beq	.L13
+ 380              		.loc 1 133 0
+ 381 0294 FFF7FEFF 		bl	modem_power_off
+ 382              		.loc 1 134 0
+ 383 0298 40F20000 		movw	r0, #:lower16:data_packet
+ 384 029c C0F20000 		movt	r0, #:upper16:data_packet
+ 385 02a0 4FF08001 		mov	r1, #128
+ 386 02a4 FFF7FEFF 		bl	clear_packet
+ 387              		.loc 1 135 0
+ 388 02a8 40F20003 		movw	r3, #:lower16:send_attempts
+ 389 02ac C0F20003 		movt	r3, #:upper16:send_attempts
+ 390 02b0 4FF00002 		mov	r2, #0
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccFwamZO.s 			page 11
 
 
- 532 00ba 0200     		.2byte	0x2
- 533 00bc 7D       		.byte	0x7d
- 534 00bd 10       		.sleb128 16
- 535 00be 06000000 		.4byte	.LCFI10
- 536 00c2 28000000 		.4byte	.LFE32
- 537 00c6 0200     		.2byte	0x2
- 538 00c8 77       		.byte	0x77
- 539 00c9 10       		.sleb128 16
- 540 00ca 00000000 		.4byte	0x0
- 541 00ce 00000000 		.4byte	0x0
- 542              	.LLST4:
- 543 00d2 00000000 		.4byte	.LFB33
- 544 00d6 02000000 		.4byte	.LCFI11
- 545 00da 0100     		.2byte	0x1
- 546 00dc 5D       		.byte	0x5d
- 547 00dd 02000000 		.4byte	.LCFI11
- 548 00e1 04000000 		.4byte	.LCFI12
- 549 00e5 0200     		.2byte	0x2
- 550 00e7 7D       		.byte	0x7d
- 551 00e8 08       		.sleb128 8
- 552 00e9 04000000 		.4byte	.LCFI12
- 553 00ed 06000000 		.4byte	.LCFI13
- 554 00f1 0200     		.2byte	0x2
- 555 00f3 7D       		.byte	0x7d
- 556 00f4 28       		.sleb128 40
- 557 00f5 06000000 		.4byte	.LCFI13
- 558 00f9 74000000 		.4byte	.LFE33
- 559 00fd 0200     		.2byte	0x2
- 560 00ff 77       		.byte	0x77
- 561 0100 28       		.sleb128 40
- 562 0101 00000000 		.4byte	0x0
- 563 0105 00000000 		.4byte	0x0
- 564              		.file 2 "./Generated_Source/PSoC5/cytypes.h"
- 565              		.file 3 "..\\emFile_V322b\\Code\\Include\\PSoC5/FS_Types.h"
- 566              		.file 4 "..\\neolib/neomote.h"
- 567              		.file 5 ".\\/ultrasonic.h"
- 568              		.file 6 "./Generated_Source/PSoC5/core_cm3.h"
- 569              		.file 7 ".\\/modem.h"
- 570              		.section	.debug_info
- 571 0000 47030000 		.4byte	0x347
- 572 0004 0200     		.2byte	0x2
- 573 0006 00000000 		.4byte	.Ldebug_abbrev0
- 574 000a 04       		.byte	0x4
- 575 000b 01       		.uleb128 0x1
- 576 000c B0010000 		.4byte	.LASF46
- 577 0010 01       		.byte	0x1
- 578 0011 D8000000 		.4byte	.LASF47
- 579 0015 7B000000 		.4byte	.LASF48
- 580 0019 00000000 		.4byte	0x0
- 581 001d 00000000 		.4byte	0x0
- 582 0021 00000000 		.4byte	.Ldebug_ranges0+0x0
- 583 0025 00000000 		.4byte	.Ldebug_line0
- 584 0029 02       		.uleb128 0x2
- 585 002a 01       		.byte	0x1
- 586 002b 06       		.byte	0x6
- 587 002c 9C010000 		.4byte	.LASF0
- 588 0030 02       		.uleb128 0x2
-ARM GAS  C:\Users\karunmj\AppData\Local\Temp\cczdrClK.s 			page 14
+ 391 02b4 1A70     		strb	r2, [r3, #0]
+ 392              		.loc 1 154 0
+ 393 02b6 DBE6     		b	.L10
+ 394              	.L8:
+ 395              		.loc 1 144 0
+ 396 02b8 FFF7FEFF 		bl	modem_power_off
+ 397              		.loc 1 145 0
+ 398 02bc 40F20000 		movw	r0, #:lower16:data_packet
+ 399 02c0 C0F20000 		movt	r0, #:upper16:data_packet
+ 400 02c4 4FF08001 		mov	r1, #128
+ 401 02c8 FFF7FEFF 		bl	clear_packet
+ 402              		.loc 1 146 0
+ 403 02cc 40F20003 		movw	r3, #:lower16:send_attempts
+ 404 02d0 C0F20003 		movt	r3, #:upper16:send_attempts
+ 405 02d4 4FF00002 		mov	r2, #0
+ 406 02d8 1A70     		strb	r2, [r3, #0]
+ 407              		.loc 1 147 0
+ 408 02da 40F20000 		movw	r0, #:lower16:.LC5
+ 409 02de C0F20000 		movt	r0, #:upper16:.LC5
+ 410 02e2 FFF7FEFF 		bl	debug_write
+ 411              		.loc 1 154 0
+ 412 02e6 C3E6     		b	.L10
+ 413              	.L5:
+ 414              		.loc 1 152 0
+ 415 02e8 FFF7FEFF 		bl	Goto_Low_Power_Mode
+ 416              		.loc 1 154 0
+ 417 02ec C0E6     		b	.L10
+ 418              		.cfi_endproc
+ 419              	.LFE29:
+ 420              		.size	main, .-main
+ 421 02ee 00BF     		.section	.text.killMotePower,"ax",%progbits
+ 422              		.align	2
+ 423              		.global	killMotePower
+ 424              		.thumb
+ 425              		.thumb_func
+ 426              		.type	killMotePower, %function
+ 427              	killMotePower:
+ 428              	.LFB30:
+ 155:.\main.c      **** }
+ 156:.\main.c      **** 
+ 157:.\main.c      **** //pulls down all pins relatd to mote to save power since we're nousing it
+ 158:.\main.c      **** void killMotePower(){
+ 429              		.loc 1 158 0
+ 430              		.cfi_startproc
+ 431              		@ args = 0, pretend = 0, frame = 0
+ 432              		@ frame_needed = 1, uses_anonymous_args = 0
+ 433 0000 80B5     		push	{r7, lr}
+ 434              	.LCFI3:
+ 435              		.cfi_def_cfa_offset 8
+ 436 0002 00AF     		add	r7, sp, #0
+ 437              		.cfi_offset 14, -4
+ 438              		.cfi_offset 7, -8
+ 439              	.LCFI4:
+ 440              		.cfi_def_cfa_register 7
+ 159:.\main.c      ****     NEOMOTE_1_RX_RTS_n_Write(0u);
+ 441              		.loc 1 159 0
+ 442 0004 4FF00000 		mov	r0, #0
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccFwamZO.s 			page 12
 
 
- 589 0031 01       		.byte	0x1
- 590 0032 08       		.byte	0x8
- 591 0033 CA000000 		.4byte	.LASF1
- 592 0037 02       		.uleb128 0x2
- 593 0038 02       		.byte	0x2
- 594 0039 05       		.byte	0x5
- 595 003a DE010000 		.4byte	.LASF2
- 596 003e 02       		.uleb128 0x2
- 597 003f 02       		.byte	0x2
- 598 0040 07       		.byte	0x7
- 599 0041 40000000 		.4byte	.LASF3
- 600 0045 02       		.uleb128 0x2
- 601 0046 04       		.byte	0x4
- 602 0047 05       		.byte	0x5
- 603 0048 0C020000 		.4byte	.LASF4
- 604 004c 02       		.uleb128 0x2
- 605 004d 04       		.byte	0x4
- 606 004e 07       		.byte	0x7
- 607 004f 17010000 		.4byte	.LASF5
- 608 0053 02       		.uleb128 0x2
- 609 0054 08       		.byte	0x8
- 610 0055 05       		.byte	0x5
- 611 0056 00000000 		.4byte	.LASF6
- 612 005a 02       		.uleb128 0x2
- 613 005b 08       		.byte	0x8
- 614 005c 07       		.byte	0x7
- 615 005d 73010000 		.4byte	.LASF7
- 616 0061 03       		.uleb128 0x3
- 617 0062 04       		.byte	0x4
- 618 0063 05       		.byte	0x5
- 619 0064 696E7400 		.ascii	"int\000"
- 620 0068 02       		.uleb128 0x2
- 621 0069 04       		.byte	0x4
- 622 006a 07       		.byte	0x7
- 623 006b 60010000 		.4byte	.LASF8
- 624 006f 04       		.uleb128 0x4
- 625 0070 E8010000 		.4byte	.LASF9
- 626 0074 02       		.byte	0x2
- 627 0075 4C       		.byte	0x4c
- 628 0076 30000000 		.4byte	0x30
- 629 007a 04       		.uleb128 0x4
- 630 007b 46010000 		.4byte	.LASF10
- 631 007f 02       		.byte	0x2
- 632 0080 4D       		.byte	0x4d
- 633 0081 3E000000 		.4byte	0x3e
- 634 0085 02       		.uleb128 0x2
- 635 0086 04       		.byte	0x4
- 636 0087 04       		.byte	0x4
- 637 0088 75000000 		.4byte	.LASF11
- 638 008c 02       		.uleb128 0x2
- 639 008d 08       		.byte	0x8
- 640 008e 04       		.byte	0x4
- 641 008f 5C000000 		.4byte	.LASF12
- 642 0093 02       		.uleb128 0x2
- 643 0094 01       		.byte	0x1
- 644 0095 08       		.byte	0x8
- 645 0096 C2010000 		.4byte	.LASF13
-ARM GAS  C:\Users\karunmj\AppData\Local\Temp\cczdrClK.s 			page 15
+ 443 0008 FFF7FEFF 		bl	NEOMOTE_1_RX_RTS_n_Write
+ 160:.\main.c      ****     NEOMOTE_1_RX_CTS_n_Write(0u);
+ 444              		.loc 1 160 0
+ 445 000c 4FF00000 		mov	r0, #0
+ 446 0010 FFF7FEFF 		bl	NEOMOTE_1_RX_CTS_n_Write
+ 161:.\main.c      ****     NEOMOTE_1_TX_RTS_n_Write(0u);
+ 447              		.loc 1 161 0
+ 448 0014 4FF00000 		mov	r0, #0
+ 449 0018 FFF7FEFF 		bl	NEOMOTE_1_TX_RTS_n_Write
+ 162:.\main.c      ****     NEOMOTE_1_TX_CTS_n_Write(0u);
+ 450              		.loc 1 162 0
+ 451 001c 4FF00000 		mov	r0, #0
+ 452 0020 FFF7FEFF 		bl	NEOMOTE_1_TX_CTS_n_Write
+ 163:.\main.c      ****     NEOMOTE_1_RX_Pin_Write(0u);
+ 453              		.loc 1 163 0
+ 454 0024 4FF00000 		mov	r0, #0
+ 455 0028 FFF7FEFF 		bl	NEOMOTE_1_RX_Pin_Write
+ 164:.\main.c      ****     NEOMOTE_1_TX_Pin_Write(0u);
+ 456              		.loc 1 164 0
+ 457 002c 4FF00000 		mov	r0, #0
+ 458 0030 FFF7FEFF 		bl	NEOMOTE_1_TX_Pin_Write
+ 165:.\main.c      ****     NEOMOTE_1_TimeN_Write(0u);
+ 459              		.loc 1 165 0
+ 460 0034 4FF00000 		mov	r0, #0
+ 461 0038 FFF7FEFF 		bl	NEOMOTE_1_TimeN_Write
+ 166:.\main.c      **** }
+ 462              		.loc 1 166 0
+ 463 003c 80BD     		pop	{r7, pc}
+ 464              		.cfi_endproc
+ 465              	.LFE30:
+ 466              		.size	killMotePower, .-killMotePower
+ 467 003e 00BF     		.section	.text.isr_timer,"ax",%progbits
+ 468              		.align	2
+ 469              		.global	isr_timer
+ 470              		.thumb
+ 471              		.thumb_func
+ 472              		.type	isr_timer, %function
+ 473              	isr_timer:
+ 474              	.LFB31:
+ 167:.\main.c      **** 
+ 168:.\main.c      **** 
+ 169:.\main.c      **** 
+ 170:.\main.c      **** CY_ISR(isr_timer){
+ 475              		.loc 1 170 0
+ 476              		.cfi_startproc
+ 477              		@ args = 0, pretend = 0, frame = 0
+ 478              		@ frame_needed = 1, uses_anonymous_args = 0
+ 479              		@ link register save eliminated.
+ 480 0000 80B4     		push	{r7}
+ 481              	.LCFI5:
+ 482              		.cfi_def_cfa_offset 4
+ 483 0002 00AF     		add	r7, sp, #0
+ 484              		.cfi_offset 7, -4
+ 485              	.LCFI6:
+ 486              		.cfi_def_cfa_register 7
+ 171:.\main.c      ****     //take_reading = 1u;
+ 172:.\main.c      ****     //timer_ReadStatusRegister();
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccFwamZO.s 			page 13
 
 
- 646 009a 05       		.uleb128 0x5
- 647 009b 04       		.byte	0x4
- 648 009c 07       		.byte	0x7
- 649 009d 06       		.uleb128 0x6
- 650 009e 04       		.byte	0x4
- 651 009f A3000000 		.4byte	0xa3
- 652 00a3 07       		.uleb128 0x7
- 653 00a4 93000000 		.4byte	0x93
- 654 00a8 04       		.uleb128 0x4
- 655 00a9 A8010000 		.4byte	.LASF14
- 656 00ad 03       		.byte	0x3
- 657 00ae 7E       		.byte	0x7e
- 658 00af B3000000 		.4byte	0xb3
- 659 00b3 08       		.uleb128 0x8
- 660 00b4 A8010000 		.4byte	.LASF14
- 661 00b8 01       		.byte	0x1
- 662 00b9 06       		.uleb128 0x6
- 663 00ba 04       		.byte	0x4
- 664 00bb A8000000 		.4byte	0xa8
- 665 00bf 06       		.uleb128 0x6
- 666 00c0 04       		.byte	0x4
- 667 00c1 C5000000 		.4byte	0xc5
- 668 00c5 09       		.uleb128 0x9
- 669 00c6 0A       		.uleb128 0xa
- 670 00c7 08       		.byte	0x8
- 671 00c8 04       		.byte	0x4
- 672 00c9 1B       		.byte	0x1b
- 673 00ca 31010000 		.4byte	0x131
- 674 00ce 0B       		.uleb128 0xb
- 675 00cf 10010000 		.4byte	.LASF15
- 676 00d3 04       		.byte	0x4
- 677 00d4 1C       		.byte	0x1c
- 678 00d5 6F000000 		.4byte	0x6f
- 679 00d9 02       		.byte	0x2
- 680 00da 23       		.byte	0x23
- 681 00db 00       		.uleb128 0x0
- 682 00dc 0B       		.uleb128 0xb
- 683 00dd 2D000000 		.4byte	.LASF16
- 684 00e1 04       		.byte	0x4
- 685 00e2 1D       		.byte	0x1d
- 686 00e3 6F000000 		.4byte	0x6f
- 687 00e7 02       		.byte	0x2
- 688 00e8 23       		.byte	0x23
- 689 00e9 01       		.uleb128 0x1
- 690 00ea 0B       		.uleb128 0xb
- 691 00eb 97010000 		.4byte	.LASF17
- 692 00ef 04       		.byte	0x4
- 693 00f0 1E       		.byte	0x1e
- 694 00f1 6F000000 		.4byte	0x6f
- 695 00f5 02       		.byte	0x2
- 696 00f6 23       		.byte	0x23
- 697 00f7 02       		.uleb128 0x2
- 698 00f8 0C       		.uleb128 0xc
- 699 00f9 64617900 		.ascii	"day\000"
- 700 00fd 04       		.byte	0x4
- 701 00fe 1F       		.byte	0x1f
- 702 00ff 6F000000 		.4byte	0x6f
-ARM GAS  C:\Users\karunmj\AppData\Local\Temp\cczdrClK.s 			page 16
+ 173:.\main.c      **** }
+ 487              		.loc 1 173 0
+ 488 0004 BD46     		mov	sp, r7
+ 489 0006 80BC     		pop	{r7}
+ 490 0008 7047     		bx	lr
+ 491              		.cfi_endproc
+ 492              	.LFE31:
+ 493              		.size	isr_timer, .-isr_timer
+ 494 000a 00BF     		.section	.text.clear_packet,"ax",%progbits
+ 495              		.align	2
+ 496              		.global	clear_packet
+ 497              		.thumb
+ 498              		.thumb_func
+ 499              		.type	clear_packet, %function
+ 500              	clear_packet:
+ 501              	.LFB32:
+ 174:.\main.c      **** 
+ 175:.\main.c      **** //void read_packet(){
+ 176:.\main.c      **** //}
+ 177:.\main.c      **** 
+ 178:.\main.c      **** 
+ 179:.\main.c      **** void clear_packet(uint8* packet, uint8 packet_size){
+ 502              		.loc 1 179 0
+ 503              		.cfi_startproc
+ 504              		@ args = 0, pretend = 0, frame = 16
+ 505              		@ frame_needed = 1, uses_anonymous_args = 0
+ 506              		@ link register save eliminated.
+ 507 0000 80B4     		push	{r7}
+ 508              	.LCFI7:
+ 509              		.cfi_def_cfa_offset 4
+ 510 0002 85B0     		sub	sp, sp, #20
+ 511              	.LCFI8:
+ 512              		.cfi_def_cfa_offset 24
+ 513 0004 00AF     		add	r7, sp, #0
+ 514              		.cfi_offset 7, -4
+ 515              	.LCFI9:
+ 516              		.cfi_def_cfa_register 7
+ 517 0006 7860     		str	r0, [r7, #4]
+ 518 0008 0B46     		mov	r3, r1
+ 519 000a FB70     		strb	r3, [r7, #3]
+ 180:.\main.c      ****     uint8 i;
+ 181:.\main.c      ****     for(i = 0u; i < packet_size; i++){
+ 520              		.loc 1 181 0
+ 521 000c 4FF00003 		mov	r3, #0
+ 522 0010 FB73     		strb	r3, [r7, #15]
+ 523 0012 09E0     		b	.L19
+ 524              	.L20:
+ 182:.\main.c      ****         packet[i] = 0u;
+ 525              		.loc 1 182 0
+ 526 0014 FA7B     		ldrb	r2, [r7, #15]	@ zero_extendqisi2
+ 527 0016 7B68     		ldr	r3, [r7, #4]
+ 528 0018 1344     		add	r3, r2, r3
+ 529 001a 4FF00002 		mov	r2, #0
+ 530 001e 1A70     		strb	r2, [r3, #0]
+ 531              		.loc 1 181 0
+ 532 0020 FB7B     		ldrb	r3, [r7, #15]
+ 533 0022 03F10103 		add	r3, r3, #1
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccFwamZO.s 			page 14
 
 
- 703 0103 02       		.byte	0x2
- 704 0104 23       		.byte	0x23
- 705 0105 03       		.uleb128 0x3
- 706 0106 0B       		.uleb128 0xb
- 707 0107 20000000 		.4byte	.LASF18
- 708 010b 04       		.byte	0x4
- 709 010c 20       		.byte	0x20
- 710 010d 6F000000 		.4byte	0x6f
- 711 0111 02       		.byte	0x2
- 712 0112 23       		.byte	0x23
- 713 0113 04       		.uleb128 0x4
- 714 0114 0B       		.uleb128 0xb
- 715 0115 63000000 		.4byte	.LASF19
- 716 0119 04       		.byte	0x4
- 717 011a 21       		.byte	0x21
- 718 011b 6F000000 		.4byte	0x6f
- 719 011f 02       		.byte	0x2
- 720 0120 23       		.byte	0x23
- 721 0121 05       		.uleb128 0x5
- 722 0122 0B       		.uleb128 0xb
- 723 0123 28000000 		.4byte	.LASF20
- 724 0127 04       		.byte	0x4
- 725 0128 22       		.byte	0x22
- 726 0129 7A000000 		.4byte	0x7a
- 727 012d 02       		.byte	0x2
- 728 012e 23       		.byte	0x23
- 729 012f 06       		.uleb128 0x6
- 730 0130 00       		.byte	0x0
- 731 0131 04       		.uleb128 0x4
- 732 0132 29010000 		.4byte	.LASF21
- 733 0136 04       		.byte	0x4
- 734 0137 23       		.byte	0x23
- 735 0138 C6000000 		.4byte	0xc6
- 736 013c 0A       		.uleb128 0xa
- 737 013d 0C       		.byte	0xc
- 738 013e 05       		.byte	0x5
- 739 013f 15       		.byte	0x15
- 740 0140 6F010000 		.4byte	0x16f
- 741 0144 0B       		.uleb128 0xb
- 742 0145 0E000000 		.4byte	.LASF22
- 743 0149 05       		.byte	0x5
- 744 014a 16       		.byte	0x16
- 745 014b 85000000 		.4byte	0x85
- 746 014f 02       		.byte	0x2
- 747 0150 23       		.byte	0x23
- 748 0151 00       		.uleb128 0x0
- 749 0152 0B       		.uleb128 0xb
- 750 0153 BC010000 		.4byte	.LASF23
- 751 0157 05       		.byte	0x5
- 752 0158 17       		.byte	0x17
- 753 0159 85000000 		.4byte	0x85
- 754 015d 02       		.byte	0x2
- 755 015e 23       		.byte	0x23
- 756 015f 04       		.uleb128 0x4
- 757 0160 0B       		.uleb128 0xb
- 758 0161 C7010000 		.4byte	.LASF24
- 759 0165 05       		.byte	0x5
-ARM GAS  C:\Users\karunmj\AppData\Local\Temp\cczdrClK.s 			page 17
+ 534 0026 FB73     		strb	r3, [r7, #15]
+ 535              	.L19:
+ 536 0028 FA7B     		ldrb	r2, [r7, #15]	@ zero_extendqisi2
+ 537 002a FB78     		ldrb	r3, [r7, #3]	@ zero_extendqisi2
+ 538 002c 9A42     		cmp	r2, r3
+ 539 002e F1D3     		bcc	.L20
+ 183:.\main.c      ****     }
+ 184:.\main.c      ****     
+ 185:.\main.c      ****     packet_ready = 0u;
+ 540              		.loc 1 185 0
+ 541 0030 40F20003 		movw	r3, #:lower16:packet_ready
+ 542 0034 C0F20003 		movt	r3, #:upper16:packet_ready
+ 543 0038 4FF00002 		mov	r2, #0
+ 544 003c 1A70     		strb	r2, [r3, #0]
+ 186:.\main.c      **** }
+ 545              		.loc 1 186 0
+ 546 003e 07F11407 		add	r7, r7, #20
+ 547 0042 BD46     		mov	sp, r7
+ 548 0044 80BC     		pop	{r7}
+ 549 0046 7047     		bx	lr
+ 550              		.cfi_endproc
+ 551              	.LFE32:
+ 552              		.size	clear_packet, .-clear_packet
+ 553              		.section	.text.rtcCallBackReceived,"ax",%progbits
+ 554              		.align	2
+ 555              		.global	rtcCallBackReceived
+ 556              		.thumb
+ 557              		.thumb_func
+ 558              		.type	rtcCallBackReceived, %function
+ 559              	rtcCallBackReceived:
+ 560              	.LFB33:
+ 187:.\main.c      **** 
+ 188:.\main.c      **** void rtcCallBackReceived(uint8 alarmType){ // RTC Event Handler.
+ 561              		.loc 1 188 0
+ 562              		.cfi_startproc
+ 563              		@ args = 0, pretend = 0, frame = 8
+ 564              		@ frame_needed = 1, uses_anonymous_args = 0
+ 565              		@ link register save eliminated.
+ 566 0000 80B4     		push	{r7}
+ 567              	.LCFI10:
+ 568              		.cfi_def_cfa_offset 4
+ 569 0002 83B0     		sub	sp, sp, #12
+ 570              	.LCFI11:
+ 571              		.cfi_def_cfa_offset 16
+ 572 0004 00AF     		add	r7, sp, #0
+ 573              		.cfi_offset 7, -4
+ 574              	.LCFI12:
+ 575              		.cfi_def_cfa_register 7
+ 576 0006 0346     		mov	r3, r0
+ 577 0008 FB71     		strb	r3, [r7, #7]
+ 189:.\main.c      ****       
+ 190:.\main.c      ****     if(alarmType == RTC_MINUTE_ALARM){
+ 578              		.loc 1 190 0
+ 579 000a FB79     		ldrb	r3, [r7, #7]	@ zero_extendqisi2
+ 580 000c 012B     		cmp	r3, #1
+ 581 000e 06D1     		bne	.L24
+ 191:.\main.c      ****          
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccFwamZO.s 			page 15
 
 
- 760 0166 18       		.byte	0x18
- 761 0167 6F000000 		.4byte	0x6f
- 762 016b 02       		.byte	0x2
- 763 016c 23       		.byte	0x23
- 764 016d 08       		.uleb128 0x8
- 765 016e 00       		.byte	0x0
- 766 016f 04       		.uleb128 0x4
- 767 0170 2A020000 		.4byte	.LASF25
- 768 0174 05       		.byte	0x5
- 769 0175 19       		.byte	0x19
- 770 0176 3C010000 		.4byte	0x13c
- 771 017a 0D       		.uleb128 0xd
- 772 017b 01       		.byte	0x1
- 773 017c 3A010000 		.4byte	.LASF49
- 774 0180 01       		.byte	0x1
- 775 0181 1F       		.byte	0x1f
- 776 0182 00000000 		.4byte	.LFB29
- 777 0186 86010000 		.4byte	.LFE29
- 778 018a 00000000 		.4byte	.LLST0
- 779 018e BA010000 		.4byte	0x1ba
- 780 0192 0E       		.uleb128 0xe
- 781 0193 C6000000 		.4byte	.LBB2
- 782 0197 84010000 		.4byte	.LBE2
- 783 019b 0F       		.uleb128 0xf
- 784 019c CD010000 		.4byte	.LASF26
- 785 01a0 01       		.byte	0x1
- 786 01a1 4D       		.byte	0x4d
- 787 01a2 31010000 		.4byte	0x131
- 788 01a6 02       		.byte	0x2
- 789 01a7 91       		.byte	0x91
- 790 01a8 58       		.sleb128 -40
- 791 01a9 0F       		.uleb128 0xf
- 792 01aa E1000000 		.4byte	.LASF27
- 793 01ae 01       		.byte	0x1
- 794 01af 4E       		.byte	0x4e
- 795 01b0 BA010000 		.4byte	0x1ba
- 796 01b4 03       		.byte	0x3
- 797 01b5 91       		.byte	0x91
- 798 01b6 D87E     		.sleb128 -168
- 799 01b8 00       		.byte	0x0
- 800 01b9 00       		.byte	0x0
- 801 01ba 10       		.uleb128 0x10
- 802 01bb 93000000 		.4byte	0x93
- 803 01bf CA010000 		.4byte	0x1ca
- 804 01c3 11       		.uleb128 0x11
- 805 01c4 9A000000 		.4byte	0x9a
- 806 01c8 7F       		.byte	0x7f
- 807 01c9 00       		.byte	0x0
- 808 01ca 12       		.uleb128 0x12
- 809 01cb 01       		.byte	0x1
- 810 01cc EC000000 		.4byte	.LASF50
- 811 01d0 01       		.byte	0x1
- 812 01d1 5C       		.byte	0x5c
- 813 01d2 01       		.byte	0x1
- 814 01d3 00000000 		.4byte	.LFB30
- 815 01d7 0A000000 		.4byte	.LFE30
- 816 01db 39000000 		.4byte	.LLST1
-ARM GAS  C:\Users\karunmj\AppData\Local\Temp\cczdrClK.s 			page 18
+ 192:.\main.c      ****         take_reading = 1u;
+ 582              		.loc 1 192 0
+ 583 0010 40F20003 		movw	r3, #:lower16:take_reading
+ 584 0014 C0F20003 		movt	r3, #:upper16:take_reading
+ 585 0018 4FF00102 		mov	r2, #1
+ 586 001c 1A70     		strb	r2, [r3, #0]
+ 587              	.L24:
+ 193:.\main.c      ****         
+ 194:.\main.c      ****     }   
+ 195:.\main.c      **** }
+ 588              		.loc 1 195 0
+ 589 001e 07F10C07 		add	r7, r7, #12
+ 590 0022 BD46     		mov	sp, r7
+ 591 0024 80BC     		pop	{r7}
+ 592 0026 7047     		bx	lr
+ 593              		.cfi_endproc
+ 594              	.LFE33:
+ 595              		.size	rtcCallBackReceived, .-rtcCallBackReceived
+ 596              		.section	.text.Write_To_SD_Card,"ax",%progbits
+ 597              		.align	2
+ 598              		.global	Write_To_SD_Card
+ 599              		.thumb
+ 600              		.thumb_func
+ 601              		.type	Write_To_SD_Card, %function
+ 602              	Write_To_SD_Card:
+ 603              	.LFB34:
+ 196:.\main.c      **** 
+ 197:.\main.c      **** 
+ 198:.\main.c      **** void Write_To_SD_Card(const char* fileName, const char* pMode, const void* pData, U32 NumBytes) {
+ 604              		.loc 1 198 0
+ 605              		.cfi_startproc
+ 606              		@ args = 0, pretend = 0, frame = 32
+ 607              		@ frame_needed = 1, uses_anonymous_args = 0
+ 608 0000 80B5     		push	{r7, lr}
+ 609              	.LCFI13:
+ 610              		.cfi_def_cfa_offset 8
+ 611 0002 88B0     		sub	sp, sp, #32
+ 612              	.LCFI14:
+ 613              		.cfi_def_cfa_offset 40
+ 614 0004 00AF     		add	r7, sp, #0
+ 615              		.cfi_offset 14, -4
+ 616              		.cfi_offset 7, -8
+ 617              	.LCFI15:
+ 618              		.cfi_def_cfa_register 7
+ 619 0006 F860     		str	r0, [r7, #12]
+ 620 0008 B960     		str	r1, [r7, #8]
+ 621 000a 7A60     		str	r2, [r7, #4]
+ 622 000c 3B60     		str	r3, [r7, #0]
+ 199:.\main.c      **** // Remember to add line below to rtcCallBack Function
+ 200:.\main.c      **** // Write_To_SD_Card("myData.txt","a",sendBuffer,strlen(sendBuffer));
+ 201:.\main.c      **** 
+ 202:.\main.c      ****     NEOMOTE_1_SD_Card_Power_Write(0u); // Power on the SD Card
+ 623              		.loc 1 202 0
+ 624 000e 4FF00000 		mov	r0, #0
+ 625 0012 FFF7FEFF 		bl	NEOMOTE_1_SD_Card_Power_Write
+ 203:.\main.c      ****     
+ 204:.\main.c      ****     FS_FILE *  pFile;
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccFwamZO.s 			page 16
 
 
- 817 01df 13       		.uleb128 0x13
- 818 01e0 01       		.byte	0x1
- 819 01e1 8A010000 		.4byte	.LASF30
- 820 01e5 01       		.byte	0x1
- 821 01e6 65       		.byte	0x65
- 822 01e7 01       		.byte	0x1
- 823 01e8 00000000 		.4byte	.LFB31
- 824 01ec 48000000 		.4byte	.LFE31
- 825 01f0 64000000 		.4byte	.LLST2
- 826 01f4 21020000 		.4byte	0x221
- 827 01f8 14       		.uleb128 0x14
- 828 01f9 3F010000 		.4byte	.LASF28
- 829 01fd 01       		.byte	0x1
- 830 01fe 65       		.byte	0x65
- 831 01ff 21020000 		.4byte	0x221
- 832 0203 02       		.byte	0x2
- 833 0204 91       		.byte	0x91
- 834 0205 6C       		.sleb128 -20
- 835 0206 14       		.uleb128 0x14
- 836 0207 34000000 		.4byte	.LASF29
- 837 020b 01       		.byte	0x1
- 838 020c 65       		.byte	0x65
- 839 020d 6F000000 		.4byte	0x6f
- 840 0211 02       		.byte	0x2
- 841 0212 91       		.byte	0x91
- 842 0213 6B       		.sleb128 -21
- 843 0214 15       		.uleb128 0x15
- 844 0215 6900     		.ascii	"i\000"
- 845 0217 01       		.byte	0x1
- 846 0218 66       		.byte	0x66
- 847 0219 6F000000 		.4byte	0x6f
- 848 021d 02       		.byte	0x2
- 849 021e 91       		.byte	0x91
- 850 021f 77       		.sleb128 -9
- 851 0220 00       		.byte	0x0
- 852 0221 06       		.uleb128 0x6
- 853 0222 04       		.byte	0x4
- 854 0223 6F000000 		.4byte	0x6f
- 855 0227 13       		.uleb128 0x13
- 856 0228 01       		.byte	0x1
- 857 0229 EE010000 		.4byte	.LASF31
- 858 022d 01       		.byte	0x1
- 859 022e 6E       		.byte	0x6e
- 860 022f 01       		.byte	0x1
- 861 0230 00000000 		.4byte	.LFB32
- 862 0234 28000000 		.4byte	.LFE32
- 863 0238 9B000000 		.4byte	.LLST3
- 864 023c 4F020000 		.4byte	0x24f
- 865 0240 14       		.uleb128 0x14
- 866 0241 D4010000 		.4byte	.LASF32
- 867 0245 01       		.byte	0x1
- 868 0246 6E       		.byte	0x6e
- 869 0247 6F000000 		.4byte	0x6f
- 870 024b 02       		.byte	0x2
- 871 024c 91       		.byte	0x91
- 872 024d 77       		.sleb128 -9
- 873 024e 00       		.byte	0x0
-ARM GAS  C:\Users\karunmj\AppData\Local\Temp\cczdrClK.s 			page 19
+ 205:.\main.c      ****     char sdVolName[10];  // Buffer that will hold SD card Volume name
+ 206:.\main.c      ****     
+ 207:.\main.c      ****     if (0 != FS_GetVolumeName(0, &sdVolName[0], 9)) {
+ 626              		.loc 1 207 0
+ 627 0016 07F11003 		add	r3, r7, #16
+ 628 001a 4FF00000 		mov	r0, #0
+ 629 001e 1946     		mov	r1, r3
+ 630 0020 4FF00902 		mov	r2, #9
+ 631 0024 FFF7FEFF 		bl	FS_GetVolumeName
+ 632 0028 0346     		mov	r3, r0
+ 633 002a 002B     		cmp	r3, #0
+ 634 002c 1AD0     		beq	.L26
+ 208:.\main.c      ****         pFile = FS_FOpen(fileName, pMode);
+ 635              		.loc 1 208 0
+ 636 002e F868     		ldr	r0, [r7, #12]
+ 637 0030 B968     		ldr	r1, [r7, #8]
+ 638 0032 FFF7FEFF 		bl	FS_FOpen
+ 639 0036 0346     		mov	r3, r0
+ 640 0038 FB61     		str	r3, [r7, #28]
+ 209:.\main.c      ****         if (pFile == 0){
+ 641              		.loc 1 209 0
+ 642 003a FB69     		ldr	r3, [r7, #28]
+ 643 003c 002B     		cmp	r3, #0
+ 644 003e 09D1     		bne	.L27
+ 210:.\main.c      ****             FS_DeInit();
+ 645              		.loc 1 210 0
+ 646 0040 FFF7FEFF 		bl	FS_DeInit
+ 211:.\main.c      ****             FS_Init(); //poipoi debug error
+ 647              		.loc 1 211 0
+ 648 0044 FFF7FEFF 		bl	FS_Init
+ 212:.\main.c      ****             pFile = FS_FOpen(fileName, pMode);
+ 649              		.loc 1 212 0
+ 650 0048 F868     		ldr	r0, [r7, #12]
+ 651 004a B968     		ldr	r1, [r7, #8]
+ 652 004c FFF7FEFF 		bl	FS_FOpen
+ 653 0050 0346     		mov	r3, r0
+ 654 0052 FB61     		str	r3, [r7, #28]
+ 655              	.L27:
+ 213:.\main.c      ****         }
+ 214:.\main.c      ****         FS_Write(pFile, pData, NumBytes);
+ 656              		.loc 1 214 0
+ 657 0054 F869     		ldr	r0, [r7, #28]
+ 658 0056 7968     		ldr	r1, [r7, #4]
+ 659 0058 3A68     		ldr	r2, [r7, #0]
+ 660 005a FFF7FEFF 		bl	FS_Write
+ 215:.\main.c      ****         FS_FClose(pFile);
+ 661              		.loc 1 215 0
+ 662 005e F869     		ldr	r0, [r7, #28]
+ 663 0060 FFF7FEFF 		bl	FS_FClose
+ 664              	.L26:
+ 216:.\main.c      ****     }
+ 217:.\main.c      ****     
+ 218:.\main.c      ****     NEOMOTE_1_SD_Card_Power_Write(1u); // Power off the SD Card
+ 665              		.loc 1 218 0
+ 666 0064 4FF00100 		mov	r0, #1
+ 667 0068 FFF7FEFF 		bl	NEOMOTE_1_SD_Card_Power_Write
+ 219:.\main.c      **** 
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccFwamZO.s 			page 17
 
 
- 874 024f 13       		.uleb128 0x13
- 875 0250 01       		.byte	0x1
- 876 0251 3C020000 		.4byte	.LASF33
- 877 0255 01       		.byte	0x1
- 878 0256 77       		.byte	0x77
- 879 0257 01       		.byte	0x1
- 880 0258 00000000 		.4byte	.LFB33
- 881 025c 74000000 		.4byte	.LFE33
- 882 0260 D2000000 		.4byte	.LLST4
- 883 0264 BD020000 		.4byte	0x2bd
- 884 0268 14       		.uleb128 0x14
- 885 0269 53000000 		.4byte	.LASF34
- 886 026d 01       		.byte	0x1
- 887 026e 77       		.byte	0x77
- 888 026f 9D000000 		.4byte	0x9d
- 889 0273 02       		.byte	0x2
- 890 0274 91       		.byte	0x91
- 891 0275 64       		.sleb128 -28
- 892 0276 14       		.uleb128 0x14
- 893 0277 6D010000 		.4byte	.LASF35
- 894 027b 01       		.byte	0x1
- 895 027c 77       		.byte	0x77
- 896 027d 9D000000 		.4byte	0x9d
- 897 0281 02       		.byte	0x2
- 898 0282 91       		.byte	0x91
- 899 0283 60       		.sleb128 -32
- 900 0284 14       		.uleb128 0x14
- 901 0285 69000000 		.4byte	.LASF36
- 902 0289 01       		.byte	0x1
- 903 028a 77       		.byte	0x77
- 904 028b BF000000 		.4byte	0xbf
- 905 028f 02       		.byte	0x2
- 906 0290 91       		.byte	0x91
- 907 0291 5C       		.sleb128 -36
- 908 0292 14       		.uleb128 0x14
- 909 0293 21020000 		.4byte	.LASF37
- 910 0297 01       		.byte	0x1
- 911 0298 77       		.byte	0x77
- 912 0299 4C000000 		.4byte	0x4c
- 913 029d 02       		.byte	0x2
- 914 029e 91       		.byte	0x91
- 915 029f 58       		.sleb128 -40
- 916 02a0 0F       		.uleb128 0xf
- 917 02a1 6F000000 		.4byte	.LASF38
- 918 02a5 01       		.byte	0x1
- 919 02a6 7D       		.byte	0x7d
- 920 02a7 B9000000 		.4byte	0xb9
- 921 02ab 02       		.byte	0x2
- 922 02ac 91       		.byte	0x91
- 923 02ad 74       		.sleb128 -12
- 924 02ae 0F       		.uleb128 0xf
- 925 02af 02020000 		.4byte	.LASF39
- 926 02b3 01       		.byte	0x1
- 927 02b4 7E       		.byte	0x7e
- 928 02b5 BD020000 		.4byte	0x2bd
- 929 02b9 02       		.byte	0x2
- 930 02ba 91       		.byte	0x91
-ARM GAS  C:\Users\karunmj\AppData\Local\Temp\cczdrClK.s 			page 20
+ 220:.\main.c      **** }
+ 668              		.loc 1 220 0
+ 669 006c 07F12007 		add	r7, r7, #32
+ 670 0070 BD46     		mov	sp, r7
+ 671 0072 80BD     		pop	{r7, pc}
+ 672              		.cfi_endproc
+ 673              	.LFE34:
+ 674              		.size	Write_To_SD_Card, .-Write_To_SD_Card
+ 675              		.text
+ 676              	.Letext0:
+ 677              		.section	.debug_loc,"",%progbits
+ 678              	.Ldebug_loc0:
+ 679              	.LLST0:
+ 680 0000 00000000 		.4byte	.LFB29
+ 681 0004 04000000 		.4byte	.LCFI0
+ 682 0008 0100     		.2byte	0x1
+ 683 000a 5D       		.byte	0x5d
+ 684 000b 04000000 		.4byte	.LCFI0
+ 685 000f 06000000 		.4byte	.LCFI1
+ 686 0013 0200     		.2byte	0x2
+ 687 0015 7D       		.byte	0x7d
+ 688 0016 24       		.sleb128 36
+ 689 0017 06000000 		.4byte	.LCFI1
+ 690 001b 08000000 		.4byte	.LCFI2
+ 691 001f 0300     		.2byte	0x3
+ 692 0021 7D       		.byte	0x7d
+ 693 0022 F000     		.sleb128 112
+ 694 0024 08000000 		.4byte	.LCFI2
+ 695 0028 EE020000 		.4byte	.LFE29
+ 696 002c 0300     		.2byte	0x3
+ 697 002e 77       		.byte	0x77
+ 698 002f C800     		.sleb128 72
+ 699 0031 00000000 		.4byte	0x0
+ 700 0035 00000000 		.4byte	0x0
+ 701              	.LLST1:
+ 702 0039 00000000 		.4byte	.LFB30
+ 703 003d 02000000 		.4byte	.LCFI3
+ 704 0041 0100     		.2byte	0x1
+ 705 0043 5D       		.byte	0x5d
+ 706 0044 02000000 		.4byte	.LCFI3
+ 707 0048 04000000 		.4byte	.LCFI4
+ 708 004c 0200     		.2byte	0x2
+ 709 004e 7D       		.byte	0x7d
+ 710 004f 08       		.sleb128 8
+ 711 0050 04000000 		.4byte	.LCFI4
+ 712 0054 3E000000 		.4byte	.LFE30
+ 713 0058 0200     		.2byte	0x2
+ 714 005a 77       		.byte	0x77
+ 715 005b 08       		.sleb128 8
+ 716 005c 00000000 		.4byte	0x0
+ 717 0060 00000000 		.4byte	0x0
+ 718              	.LLST2:
+ 719 0064 00000000 		.4byte	.LFB31
+ 720 0068 02000000 		.4byte	.LCFI5
+ 721 006c 0100     		.2byte	0x1
+ 722 006e 5D       		.byte	0x5d
+ 723 006f 02000000 		.4byte	.LCFI5
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccFwamZO.s 			page 18
 
 
- 931 02bb 68       		.sleb128 -24
- 932 02bc 00       		.byte	0x0
- 933 02bd 10       		.uleb128 0x10
- 934 02be 93000000 		.4byte	0x93
- 935 02c2 CD020000 		.4byte	0x2cd
- 936 02c6 11       		.uleb128 0x11
- 937 02c7 9A000000 		.4byte	0x9a
- 938 02cb 09       		.byte	0x9
- 939 02cc 00       		.byte	0x0
- 940 02cd 16       		.uleb128 0x16
- 941 02ce 03010000 		.4byte	.LASF40
- 942 02d2 06       		.byte	0x6
- 943 02d3 CE06     		.2byte	0x6ce
- 944 02d5 DB020000 		.4byte	0x2db
- 945 02d9 01       		.byte	0x1
- 946 02da 01       		.byte	0x1
- 947 02db 17       		.uleb128 0x17
- 948 02dc 61000000 		.4byte	0x61
- 949 02e0 18       		.uleb128 0x18
- 950 02e1 15020000 		.4byte	.LASF41
- 951 02e5 07       		.byte	0x7
- 952 02e6 12       		.byte	0x12
- 953 02e7 6F000000 		.4byte	0x6f
- 954 02eb 01       		.byte	0x1
- 955 02ec 05       		.byte	0x5
- 956 02ed 03       		.byte	0x3
- 957 02ee 00000000 		.4byte	modem_state
- 958 02f2 10       		.uleb128 0x10
- 959 02f3 6F000000 		.4byte	0x6f
- 960 02f7 02030000 		.4byte	0x302
- 961 02fb 11       		.uleb128 0x11
- 962 02fc 9A000000 		.4byte	0x9a
- 963 0300 7F       		.byte	0x7f
- 964 0301 00       		.byte	0x0
- 965 0302 18       		.uleb128 0x18
- 966 0303 4D020000 		.4byte	.LASF42
- 967 0307 01       		.byte	0x1
- 968 0308 0F       		.byte	0xf
- 969 0309 F2020000 		.4byte	0x2f2
- 970 030d 01       		.byte	0x1
- 971 030e 05       		.byte	0x5
- 972 030f 03       		.byte	0x3
- 973 0310 00000000 		.4byte	data_packet
- 974 0314 18       		.uleb128 0x18
- 975 0315 F6000000 		.4byte	.LASF43
- 976 0319 01       		.byte	0x1
- 977 031a 10       		.byte	0x10
- 978 031b 6F000000 		.4byte	0x6f
- 979 031f 01       		.byte	0x1
- 980 0320 05       		.byte	0x5
- 981 0321 03       		.byte	0x3
- 982 0322 00000000 		.4byte	packet_ready
- 983 0326 18       		.uleb128 0x18
- 984 0327 13000000 		.4byte	.LASF44
- 985 032b 01       		.byte	0x1
- 986 032c 11       		.byte	0x11
- 987 032d 6F000000 		.4byte	0x6f
-ARM GAS  C:\Users\karunmj\AppData\Local\Temp\cczdrClK.s 			page 21
+ 724 0073 04000000 		.4byte	.LCFI6
+ 725 0077 0200     		.2byte	0x2
+ 726 0079 7D       		.byte	0x7d
+ 727 007a 04       		.sleb128 4
+ 728 007b 04000000 		.4byte	.LCFI6
+ 729 007f 0A000000 		.4byte	.LFE31
+ 730 0083 0200     		.2byte	0x2
+ 731 0085 77       		.byte	0x77
+ 732 0086 04       		.sleb128 4
+ 733 0087 00000000 		.4byte	0x0
+ 734 008b 00000000 		.4byte	0x0
+ 735              	.LLST3:
+ 736 008f 00000000 		.4byte	.LFB32
+ 737 0093 02000000 		.4byte	.LCFI7
+ 738 0097 0100     		.2byte	0x1
+ 739 0099 5D       		.byte	0x5d
+ 740 009a 02000000 		.4byte	.LCFI7
+ 741 009e 04000000 		.4byte	.LCFI8
+ 742 00a2 0200     		.2byte	0x2
+ 743 00a4 7D       		.byte	0x7d
+ 744 00a5 04       		.sleb128 4
+ 745 00a6 04000000 		.4byte	.LCFI8
+ 746 00aa 06000000 		.4byte	.LCFI9
+ 747 00ae 0200     		.2byte	0x2
+ 748 00b0 7D       		.byte	0x7d
+ 749 00b1 18       		.sleb128 24
+ 750 00b2 06000000 		.4byte	.LCFI9
+ 751 00b6 48000000 		.4byte	.LFE32
+ 752 00ba 0200     		.2byte	0x2
+ 753 00bc 77       		.byte	0x77
+ 754 00bd 18       		.sleb128 24
+ 755 00be 00000000 		.4byte	0x0
+ 756 00c2 00000000 		.4byte	0x0
+ 757              	.LLST4:
+ 758 00c6 00000000 		.4byte	.LFB33
+ 759 00ca 02000000 		.4byte	.LCFI10
+ 760 00ce 0100     		.2byte	0x1
+ 761 00d0 5D       		.byte	0x5d
+ 762 00d1 02000000 		.4byte	.LCFI10
+ 763 00d5 04000000 		.4byte	.LCFI11
+ 764 00d9 0200     		.2byte	0x2
+ 765 00db 7D       		.byte	0x7d
+ 766 00dc 04       		.sleb128 4
+ 767 00dd 04000000 		.4byte	.LCFI11
+ 768 00e1 06000000 		.4byte	.LCFI12
+ 769 00e5 0200     		.2byte	0x2
+ 770 00e7 7D       		.byte	0x7d
+ 771 00e8 10       		.sleb128 16
+ 772 00e9 06000000 		.4byte	.LCFI12
+ 773 00ed 28000000 		.4byte	.LFE33
+ 774 00f1 0200     		.2byte	0x2
+ 775 00f3 77       		.byte	0x77
+ 776 00f4 10       		.sleb128 16
+ 777 00f5 00000000 		.4byte	0x0
+ 778 00f9 00000000 		.4byte	0x0
+ 779              	.LLST5:
+ 780 00fd 00000000 		.4byte	.LFB34
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccFwamZO.s 			page 19
 
 
- 988 0331 01       		.byte	0x1
- 989 0332 05       		.byte	0x5
- 990 0333 03       		.byte	0x3
- 991 0334 00000000 		.4byte	take_reading
- 992 0338 18       		.uleb128 0x18
- 993 0339 4D010000 		.4byte	.LASF45
- 994 033d 01       		.byte	0x1
- 995 033e 12       		.byte	0x12
- 996 033f 6F010000 		.4byte	0x16f
- 997 0343 01       		.byte	0x1
- 998 0344 05       		.byte	0x5
- 999 0345 03       		.byte	0x3
- 1000 0346 00000000 		.4byte	ultrasonic_reading
- 1001 034a 00       		.byte	0x0
- 1002              		.section	.debug_abbrev
- 1003 0000 01       		.uleb128 0x1
- 1004 0001 11       		.uleb128 0x11
- 1005 0002 01       		.byte	0x1
- 1006 0003 25       		.uleb128 0x25
- 1007 0004 0E       		.uleb128 0xe
- 1008 0005 13       		.uleb128 0x13
- 1009 0006 0B       		.uleb128 0xb
- 1010 0007 03       		.uleb128 0x3
- 1011 0008 0E       		.uleb128 0xe
- 1012 0009 1B       		.uleb128 0x1b
- 1013 000a 0E       		.uleb128 0xe
- 1014 000b 11       		.uleb128 0x11
- 1015 000c 01       		.uleb128 0x1
- 1016 000d 52       		.uleb128 0x52
- 1017 000e 01       		.uleb128 0x1
- 1018 000f 55       		.uleb128 0x55
- 1019 0010 06       		.uleb128 0x6
- 1020 0011 10       		.uleb128 0x10
- 1021 0012 06       		.uleb128 0x6
- 1022 0013 00       		.byte	0x0
- 1023 0014 00       		.byte	0x0
- 1024 0015 02       		.uleb128 0x2
- 1025 0016 24       		.uleb128 0x24
- 1026 0017 00       		.byte	0x0
- 1027 0018 0B       		.uleb128 0xb
- 1028 0019 0B       		.uleb128 0xb
- 1029 001a 3E       		.uleb128 0x3e
- 1030 001b 0B       		.uleb128 0xb
- 1031 001c 03       		.uleb128 0x3
- 1032 001d 0E       		.uleb128 0xe
- 1033 001e 00       		.byte	0x0
- 1034 001f 00       		.byte	0x0
- 1035 0020 03       		.uleb128 0x3
- 1036 0021 24       		.uleb128 0x24
- 1037 0022 00       		.byte	0x0
- 1038 0023 0B       		.uleb128 0xb
- 1039 0024 0B       		.uleb128 0xb
- 1040 0025 3E       		.uleb128 0x3e
- 1041 0026 0B       		.uleb128 0xb
- 1042 0027 03       		.uleb128 0x3
- 1043 0028 08       		.uleb128 0x8
- 1044 0029 00       		.byte	0x0
-ARM GAS  C:\Users\karunmj\AppData\Local\Temp\cczdrClK.s 			page 22
+ 781 0101 02000000 		.4byte	.LCFI13
+ 782 0105 0100     		.2byte	0x1
+ 783 0107 5D       		.byte	0x5d
+ 784 0108 02000000 		.4byte	.LCFI13
+ 785 010c 04000000 		.4byte	.LCFI14
+ 786 0110 0200     		.2byte	0x2
+ 787 0112 7D       		.byte	0x7d
+ 788 0113 08       		.sleb128 8
+ 789 0114 04000000 		.4byte	.LCFI14
+ 790 0118 06000000 		.4byte	.LCFI15
+ 791 011c 0200     		.2byte	0x2
+ 792 011e 7D       		.byte	0x7d
+ 793 011f 28       		.sleb128 40
+ 794 0120 06000000 		.4byte	.LCFI15
+ 795 0124 74000000 		.4byte	.LFE34
+ 796 0128 0200     		.2byte	0x2
+ 797 012a 77       		.byte	0x77
+ 798 012b 28       		.sleb128 40
+ 799 012c 00000000 		.4byte	0x0
+ 800 0130 00000000 		.4byte	0x0
+ 801              		.file 2 "./Generated_Source/PSoC5/cytypes.h"
+ 802              		.file 3 "..\\emFile_V322b\\Code\\Include\\PSoC5/FS_Types.h"
+ 803              		.file 4 "..\\neolib/neomote.h"
+ 804              		.file 5 ".\\/ultrasonic.h"
+ 805              		.file 6 ".\\/solinst_depth.h"
+ 806              		.file 7 "./Generated_Source/PSoC5/core_cm3.h"
+ 807              		.file 8 ".\\/modem.h"
+ 808              		.section	.debug_info
+ 809 0000 B0030000 		.4byte	0x3b0
+ 810 0004 0200     		.2byte	0x2
+ 811 0006 00000000 		.4byte	.Ldebug_abbrev0
+ 812 000a 04       		.byte	0x4
+ 813 000b 01       		.uleb128 0x1
+ 814 000c DF010000 		.4byte	.LASF49
+ 815 0010 01       		.byte	0x1
+ 816 0011 DF000000 		.4byte	.LASF50
+ 817 0015 82000000 		.4byte	.LASF51
+ 818 0019 00000000 		.4byte	0x0
+ 819 001d 00000000 		.4byte	0x0
+ 820 0021 00000000 		.4byte	.Ldebug_ranges0+0x0
+ 821 0025 00000000 		.4byte	.Ldebug_line0
+ 822 0029 02       		.uleb128 0x2
+ 823 002a 01       		.byte	0x1
+ 824 002b 06       		.byte	0x6
+ 825 002c CB010000 		.4byte	.LASF0
+ 826 0030 02       		.uleb128 0x2
+ 827 0031 01       		.byte	0x1
+ 828 0032 08       		.byte	0x8
+ 829 0033 D1000000 		.4byte	.LASF1
+ 830 0037 02       		.uleb128 0x2
+ 831 0038 02       		.byte	0x2
+ 832 0039 05       		.byte	0x5
+ 833 003a 0D020000 		.4byte	.LASF2
+ 834 003e 02       		.uleb128 0x2
+ 835 003f 02       		.byte	0x2
+ 836 0040 07       		.byte	0x7
+ 837 0041 40000000 		.4byte	.LASF3
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccFwamZO.s 			page 20
 
 
- 1045 002a 00       		.byte	0x0
- 1046 002b 04       		.uleb128 0x4
- 1047 002c 16       		.uleb128 0x16
- 1048 002d 00       		.byte	0x0
- 1049 002e 03       		.uleb128 0x3
- 1050 002f 0E       		.uleb128 0xe
- 1051 0030 3A       		.uleb128 0x3a
- 1052 0031 0B       		.uleb128 0xb
- 1053 0032 3B       		.uleb128 0x3b
- 1054 0033 0B       		.uleb128 0xb
- 1055 0034 49       		.uleb128 0x49
- 1056 0035 13       		.uleb128 0x13
- 1057 0036 00       		.byte	0x0
- 1058 0037 00       		.byte	0x0
- 1059 0038 05       		.uleb128 0x5
- 1060 0039 24       		.uleb128 0x24
- 1061 003a 00       		.byte	0x0
- 1062 003b 0B       		.uleb128 0xb
- 1063 003c 0B       		.uleb128 0xb
- 1064 003d 3E       		.uleb128 0x3e
- 1065 003e 0B       		.uleb128 0xb
- 1066 003f 00       		.byte	0x0
- 1067 0040 00       		.byte	0x0
- 1068 0041 06       		.uleb128 0x6
- 1069 0042 0F       		.uleb128 0xf
- 1070 0043 00       		.byte	0x0
- 1071 0044 0B       		.uleb128 0xb
- 1072 0045 0B       		.uleb128 0xb
- 1073 0046 49       		.uleb128 0x49
- 1074 0047 13       		.uleb128 0x13
- 1075 0048 00       		.byte	0x0
- 1076 0049 00       		.byte	0x0
- 1077 004a 07       		.uleb128 0x7
- 1078 004b 26       		.uleb128 0x26
- 1079 004c 00       		.byte	0x0
- 1080 004d 49       		.uleb128 0x49
- 1081 004e 13       		.uleb128 0x13
- 1082 004f 00       		.byte	0x0
- 1083 0050 00       		.byte	0x0
- 1084 0051 08       		.uleb128 0x8
- 1085 0052 13       		.uleb128 0x13
- 1086 0053 00       		.byte	0x0
- 1087 0054 03       		.uleb128 0x3
- 1088 0055 0E       		.uleb128 0xe
- 1089 0056 3C       		.uleb128 0x3c
- 1090 0057 0C       		.uleb128 0xc
- 1091 0058 00       		.byte	0x0
- 1092 0059 00       		.byte	0x0
- 1093 005a 09       		.uleb128 0x9
- 1094 005b 26       		.uleb128 0x26
- 1095 005c 00       		.byte	0x0
- 1096 005d 00       		.byte	0x0
- 1097 005e 00       		.byte	0x0
- 1098 005f 0A       		.uleb128 0xa
- 1099 0060 13       		.uleb128 0x13
- 1100 0061 01       		.byte	0x1
- 1101 0062 0B       		.uleb128 0xb
-ARM GAS  C:\Users\karunmj\AppData\Local\Temp\cczdrClK.s 			page 23
+ 838 0045 02       		.uleb128 0x2
+ 839 0046 04       		.byte	0x4
+ 840 0047 05       		.byte	0x5
+ 841 0048 3B020000 		.4byte	.LASF4
+ 842 004c 02       		.uleb128 0x2
+ 843 004d 04       		.byte	0x4
+ 844 004e 07       		.byte	0x7
+ 845 004f E8000000 		.4byte	.LASF5
+ 846 0053 02       		.uleb128 0x2
+ 847 0054 08       		.byte	0x8
+ 848 0055 05       		.byte	0x5
+ 849 0056 00000000 		.4byte	.LASF6
+ 850 005a 02       		.uleb128 0x2
+ 851 005b 08       		.byte	0x8
+ 852 005c 07       		.byte	0x7
+ 853 005d A2010000 		.4byte	.LASF7
+ 854 0061 03       		.uleb128 0x3
+ 855 0062 04       		.byte	0x4
+ 856 0063 05       		.byte	0x5
+ 857 0064 696E7400 		.ascii	"int\000"
+ 858 0068 02       		.uleb128 0x2
+ 859 0069 04       		.byte	0x4
+ 860 006a 07       		.byte	0x7
+ 861 006b 8F010000 		.4byte	.LASF8
+ 862 006f 04       		.uleb128 0x4
+ 863 0070 17020000 		.4byte	.LASF9
+ 864 0074 02       		.byte	0x2
+ 865 0075 4C       		.byte	0x4c
+ 866 0076 30000000 		.4byte	0x30
+ 867 007a 04       		.uleb128 0x4
+ 868 007b 49010000 		.4byte	.LASF10
+ 869 007f 02       		.byte	0x2
+ 870 0080 4D       		.byte	0x4d
+ 871 0081 3E000000 		.4byte	0x3e
+ 872 0085 02       		.uleb128 0x2
+ 873 0086 04       		.byte	0x4
+ 874 0087 04       		.byte	0x4
+ 875 0088 6E000000 		.4byte	.LASF11
+ 876 008c 02       		.uleb128 0x2
+ 877 008d 08       		.byte	0x8
+ 878 008e 04       		.byte	0x4
+ 879 008f 42010000 		.4byte	.LASF12
+ 880 0093 02       		.uleb128 0x2
+ 881 0094 01       		.byte	0x1
+ 882 0095 08       		.byte	0x8
+ 883 0096 F1010000 		.4byte	.LASF13
+ 884 009a 05       		.uleb128 0x5
+ 885 009b 04       		.byte	0x4
+ 886 009c 07       		.byte	0x7
+ 887 009d 06       		.uleb128 0x6
+ 888 009e 04       		.byte	0x4
+ 889 009f A3000000 		.4byte	0xa3
+ 890 00a3 07       		.uleb128 0x7
+ 891 00a4 93000000 		.4byte	0x93
+ 892 00a8 04       		.uleb128 0x4
+ 893 00a9 D7010000 		.4byte	.LASF14
+ 894 00ad 03       		.byte	0x3
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccFwamZO.s 			page 21
 
 
- 1102 0063 0B       		.uleb128 0xb
- 1103 0064 3A       		.uleb128 0x3a
- 1104 0065 0B       		.uleb128 0xb
- 1105 0066 3B       		.uleb128 0x3b
- 1106 0067 0B       		.uleb128 0xb
- 1107 0068 01       		.uleb128 0x1
- 1108 0069 13       		.uleb128 0x13
- 1109 006a 00       		.byte	0x0
- 1110 006b 00       		.byte	0x0
- 1111 006c 0B       		.uleb128 0xb
- 1112 006d 0D       		.uleb128 0xd
- 1113 006e 00       		.byte	0x0
- 1114 006f 03       		.uleb128 0x3
- 1115 0070 0E       		.uleb128 0xe
- 1116 0071 3A       		.uleb128 0x3a
- 1117 0072 0B       		.uleb128 0xb
- 1118 0073 3B       		.uleb128 0x3b
- 1119 0074 0B       		.uleb128 0xb
- 1120 0075 49       		.uleb128 0x49
- 1121 0076 13       		.uleb128 0x13
- 1122 0077 38       		.uleb128 0x38
- 1123 0078 0A       		.uleb128 0xa
- 1124 0079 00       		.byte	0x0
- 1125 007a 00       		.byte	0x0
- 1126 007b 0C       		.uleb128 0xc
- 1127 007c 0D       		.uleb128 0xd
- 1128 007d 00       		.byte	0x0
- 1129 007e 03       		.uleb128 0x3
- 1130 007f 08       		.uleb128 0x8
- 1131 0080 3A       		.uleb128 0x3a
- 1132 0081 0B       		.uleb128 0xb
- 1133 0082 3B       		.uleb128 0x3b
- 1134 0083 0B       		.uleb128 0xb
- 1135 0084 49       		.uleb128 0x49
- 1136 0085 13       		.uleb128 0x13
- 1137 0086 38       		.uleb128 0x38
- 1138 0087 0A       		.uleb128 0xa
- 1139 0088 00       		.byte	0x0
- 1140 0089 00       		.byte	0x0
- 1141 008a 0D       		.uleb128 0xd
- 1142 008b 2E       		.uleb128 0x2e
- 1143 008c 01       		.byte	0x1
- 1144 008d 3F       		.uleb128 0x3f
- 1145 008e 0C       		.uleb128 0xc
- 1146 008f 03       		.uleb128 0x3
- 1147 0090 0E       		.uleb128 0xe
- 1148 0091 3A       		.uleb128 0x3a
- 1149 0092 0B       		.uleb128 0xb
- 1150 0093 3B       		.uleb128 0x3b
- 1151 0094 0B       		.uleb128 0xb
- 1152 0095 11       		.uleb128 0x11
- 1153 0096 01       		.uleb128 0x1
- 1154 0097 12       		.uleb128 0x12
- 1155 0098 01       		.uleb128 0x1
- 1156 0099 40       		.uleb128 0x40
- 1157 009a 06       		.uleb128 0x6
- 1158 009b 01       		.uleb128 0x1
-ARM GAS  C:\Users\karunmj\AppData\Local\Temp\cczdrClK.s 			page 24
+ 895 00ae 7E       		.byte	0x7e
+ 896 00af B3000000 		.4byte	0xb3
+ 897 00b3 08       		.uleb128 0x8
+ 898 00b4 D7010000 		.4byte	.LASF14
+ 899 00b8 01       		.byte	0x1
+ 900 00b9 06       		.uleb128 0x6
+ 901 00ba 04       		.byte	0x4
+ 902 00bb A8000000 		.4byte	0xa8
+ 903 00bf 06       		.uleb128 0x6
+ 904 00c0 04       		.byte	0x4
+ 905 00c1 C5000000 		.4byte	0xc5
+ 906 00c5 09       		.uleb128 0x9
+ 907 00c6 0A       		.uleb128 0xa
+ 908 00c7 08       		.byte	0x8
+ 909 00c8 04       		.byte	0x4
+ 910 00c9 1B       		.byte	0x1b
+ 911 00ca 31010000 		.4byte	0x131
+ 912 00ce 0B       		.uleb128 0xb
+ 913 00cf 3B010000 		.4byte	.LASF15
+ 914 00d3 04       		.byte	0x4
+ 915 00d4 1C       		.byte	0x1c
+ 916 00d5 6F000000 		.4byte	0x6f
+ 917 00d9 02       		.byte	0x2
+ 918 00da 23       		.byte	0x23
+ 919 00db 00       		.uleb128 0x0
+ 920 00dc 0B       		.uleb128 0xb
+ 921 00dd 2D000000 		.4byte	.LASF16
+ 922 00e1 04       		.byte	0x4
+ 923 00e2 1D       		.byte	0x1d
+ 924 00e3 6F000000 		.4byte	0x6f
+ 925 00e7 02       		.byte	0x2
+ 926 00e8 23       		.byte	0x23
+ 927 00e9 01       		.uleb128 0x1
+ 928 00ea 0B       		.uleb128 0xb
+ 929 00eb C6010000 		.4byte	.LASF17
+ 930 00ef 04       		.byte	0x4
+ 931 00f0 1E       		.byte	0x1e
+ 932 00f1 6F000000 		.4byte	0x6f
+ 933 00f5 02       		.byte	0x2
+ 934 00f6 23       		.byte	0x23
+ 935 00f7 02       		.uleb128 0x2
+ 936 00f8 0C       		.uleb128 0xc
+ 937 00f9 64617900 		.ascii	"day\000"
+ 938 00fd 04       		.byte	0x4
+ 939 00fe 1F       		.byte	0x1f
+ 940 00ff 6F000000 		.4byte	0x6f
+ 941 0103 02       		.byte	0x2
+ 942 0104 23       		.byte	0x23
+ 943 0105 03       		.uleb128 0x3
+ 944 0106 0B       		.uleb128 0xb
+ 945 0107 20000000 		.4byte	.LASF18
+ 946 010b 04       		.byte	0x4
+ 947 010c 20       		.byte	0x20
+ 948 010d 6F000000 		.4byte	0x6f
+ 949 0111 02       		.byte	0x2
+ 950 0112 23       		.byte	0x23
+ 951 0113 04       		.uleb128 0x4
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccFwamZO.s 			page 22
 
 
- 1159 009c 13       		.uleb128 0x13
- 1160 009d 00       		.byte	0x0
- 1161 009e 00       		.byte	0x0
- 1162 009f 0E       		.uleb128 0xe
- 1163 00a0 0B       		.uleb128 0xb
- 1164 00a1 01       		.byte	0x1
- 1165 00a2 11       		.uleb128 0x11
- 1166 00a3 01       		.uleb128 0x1
- 1167 00a4 12       		.uleb128 0x12
- 1168 00a5 01       		.uleb128 0x1
- 1169 00a6 00       		.byte	0x0
- 1170 00a7 00       		.byte	0x0
- 1171 00a8 0F       		.uleb128 0xf
- 1172 00a9 34       		.uleb128 0x34
- 1173 00aa 00       		.byte	0x0
- 1174 00ab 03       		.uleb128 0x3
- 1175 00ac 0E       		.uleb128 0xe
- 1176 00ad 3A       		.uleb128 0x3a
- 1177 00ae 0B       		.uleb128 0xb
- 1178 00af 3B       		.uleb128 0x3b
- 1179 00b0 0B       		.uleb128 0xb
- 1180 00b1 49       		.uleb128 0x49
- 1181 00b2 13       		.uleb128 0x13
- 1182 00b3 02       		.uleb128 0x2
- 1183 00b4 0A       		.uleb128 0xa
- 1184 00b5 00       		.byte	0x0
- 1185 00b6 00       		.byte	0x0
- 1186 00b7 10       		.uleb128 0x10
- 1187 00b8 01       		.uleb128 0x1
- 1188 00b9 01       		.byte	0x1
- 1189 00ba 49       		.uleb128 0x49
- 1190 00bb 13       		.uleb128 0x13
- 1191 00bc 01       		.uleb128 0x1
- 1192 00bd 13       		.uleb128 0x13
- 1193 00be 00       		.byte	0x0
- 1194 00bf 00       		.byte	0x0
- 1195 00c0 11       		.uleb128 0x11
- 1196 00c1 21       		.uleb128 0x21
- 1197 00c2 00       		.byte	0x0
- 1198 00c3 49       		.uleb128 0x49
- 1199 00c4 13       		.uleb128 0x13
- 1200 00c5 2F       		.uleb128 0x2f
- 1201 00c6 0B       		.uleb128 0xb
- 1202 00c7 00       		.byte	0x0
- 1203 00c8 00       		.byte	0x0
- 1204 00c9 12       		.uleb128 0x12
- 1205 00ca 2E       		.uleb128 0x2e
- 1206 00cb 00       		.byte	0x0
- 1207 00cc 3F       		.uleb128 0x3f
- 1208 00cd 0C       		.uleb128 0xc
- 1209 00ce 03       		.uleb128 0x3
- 1210 00cf 0E       		.uleb128 0xe
- 1211 00d0 3A       		.uleb128 0x3a
- 1212 00d1 0B       		.uleb128 0xb
- 1213 00d2 3B       		.uleb128 0x3b
- 1214 00d3 0B       		.uleb128 0xb
- 1215 00d4 27       		.uleb128 0x27
-ARM GAS  C:\Users\karunmj\AppData\Local\Temp\cczdrClK.s 			page 25
+ 952 0114 0B       		.uleb128 0xb
+ 953 0115 5C000000 		.4byte	.LASF19
+ 954 0119 04       		.byte	0x4
+ 955 011a 21       		.byte	0x21
+ 956 011b 6F000000 		.4byte	0x6f
+ 957 011f 02       		.byte	0x2
+ 958 0120 23       		.byte	0x23
+ 959 0121 05       		.uleb128 0x5
+ 960 0122 0B       		.uleb128 0xb
+ 961 0123 28000000 		.4byte	.LASF20
+ 962 0127 04       		.byte	0x4
+ 963 0128 22       		.byte	0x22
+ 964 0129 7A000000 		.4byte	0x7a
+ 965 012d 02       		.byte	0x2
+ 966 012e 23       		.byte	0x23
+ 967 012f 06       		.uleb128 0x6
+ 968 0130 00       		.byte	0x0
+ 969 0131 04       		.uleb128 0x4
+ 970 0132 50010000 		.4byte	.LASF21
+ 971 0136 04       		.byte	0x4
+ 972 0137 23       		.byte	0x23
+ 973 0138 C6000000 		.4byte	0xc6
+ 974 013c 0A       		.uleb128 0xa
+ 975 013d 0C       		.byte	0xc
+ 976 013e 05       		.byte	0x5
+ 977 013f 15       		.byte	0x15
+ 978 0140 6F010000 		.4byte	0x16f
+ 979 0144 0B       		.uleb128 0xb
+ 980 0145 0E000000 		.4byte	.LASF22
+ 981 0149 05       		.byte	0x5
+ 982 014a 16       		.byte	0x16
+ 983 014b 85000000 		.4byte	0x85
+ 984 014f 02       		.byte	0x2
+ 985 0150 23       		.byte	0x23
+ 986 0151 00       		.uleb128 0x0
+ 987 0152 0B       		.uleb128 0xb
+ 988 0153 EB010000 		.4byte	.LASF23
+ 989 0157 05       		.byte	0x5
+ 990 0158 17       		.byte	0x17
+ 991 0159 85000000 		.4byte	0x85
+ 992 015d 02       		.byte	0x2
+ 993 015e 23       		.byte	0x23
+ 994 015f 04       		.uleb128 0x4
+ 995 0160 0B       		.uleb128 0xb
+ 996 0161 F6010000 		.4byte	.LASF24
+ 997 0165 05       		.byte	0x5
+ 998 0166 18       		.byte	0x18
+ 999 0167 6F000000 		.4byte	0x6f
+ 1000 016b 02       		.byte	0x2
+ 1001 016c 23       		.byte	0x23
+ 1002 016d 08       		.uleb128 0x8
+ 1003 016e 00       		.byte	0x0
+ 1004 016f 04       		.uleb128 0x4
+ 1005 0170 67020000 		.4byte	.LASF25
+ 1006 0174 05       		.byte	0x5
+ 1007 0175 19       		.byte	0x19
+ 1008 0176 3C010000 		.4byte	0x13c
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccFwamZO.s 			page 23
 
 
- 1216 00d5 0C       		.uleb128 0xc
- 1217 00d6 11       		.uleb128 0x11
- 1218 00d7 01       		.uleb128 0x1
- 1219 00d8 12       		.uleb128 0x12
- 1220 00d9 01       		.uleb128 0x1
- 1221 00da 40       		.uleb128 0x40
- 1222 00db 06       		.uleb128 0x6
- 1223 00dc 00       		.byte	0x0
- 1224 00dd 00       		.byte	0x0
- 1225 00de 13       		.uleb128 0x13
- 1226 00df 2E       		.uleb128 0x2e
- 1227 00e0 01       		.byte	0x1
- 1228 00e1 3F       		.uleb128 0x3f
- 1229 00e2 0C       		.uleb128 0xc
- 1230 00e3 03       		.uleb128 0x3
- 1231 00e4 0E       		.uleb128 0xe
- 1232 00e5 3A       		.uleb128 0x3a
- 1233 00e6 0B       		.uleb128 0xb
- 1234 00e7 3B       		.uleb128 0x3b
- 1235 00e8 0B       		.uleb128 0xb
- 1236 00e9 27       		.uleb128 0x27
- 1237 00ea 0C       		.uleb128 0xc
- 1238 00eb 11       		.uleb128 0x11
- 1239 00ec 01       		.uleb128 0x1
- 1240 00ed 12       		.uleb128 0x12
- 1241 00ee 01       		.uleb128 0x1
- 1242 00ef 40       		.uleb128 0x40
- 1243 00f0 06       		.uleb128 0x6
- 1244 00f1 01       		.uleb128 0x1
- 1245 00f2 13       		.uleb128 0x13
- 1246 00f3 00       		.byte	0x0
- 1247 00f4 00       		.byte	0x0
- 1248 00f5 14       		.uleb128 0x14
- 1249 00f6 05       		.uleb128 0x5
- 1250 00f7 00       		.byte	0x0
- 1251 00f8 03       		.uleb128 0x3
- 1252 00f9 0E       		.uleb128 0xe
- 1253 00fa 3A       		.uleb128 0x3a
- 1254 00fb 0B       		.uleb128 0xb
- 1255 00fc 3B       		.uleb128 0x3b
- 1256 00fd 0B       		.uleb128 0xb
- 1257 00fe 49       		.uleb128 0x49
- 1258 00ff 13       		.uleb128 0x13
- 1259 0100 02       		.uleb128 0x2
- 1260 0101 0A       		.uleb128 0xa
- 1261 0102 00       		.byte	0x0
- 1262 0103 00       		.byte	0x0
- 1263 0104 15       		.uleb128 0x15
- 1264 0105 34       		.uleb128 0x34
- 1265 0106 00       		.byte	0x0
- 1266 0107 03       		.uleb128 0x3
- 1267 0108 08       		.uleb128 0x8
- 1268 0109 3A       		.uleb128 0x3a
- 1269 010a 0B       		.uleb128 0xb
- 1270 010b 3B       		.uleb128 0x3b
- 1271 010c 0B       		.uleb128 0xb
- 1272 010d 49       		.uleb128 0x49
-ARM GAS  C:\Users\karunmj\AppData\Local\Temp\cczdrClK.s 			page 26
+ 1009 017a 0A       		.uleb128 0xa
+ 1010 017b 0C       		.byte	0xc
+ 1011 017c 06       		.byte	0x6
+ 1012 017d 17       		.byte	0x17
+ 1013 017e AD010000 		.4byte	0x1ad
+ 1014 0182 0B       		.uleb128 0xb
+ 1015 0183 0E000000 		.4byte	.LASF22
+ 1016 0187 06       		.byte	0x6
+ 1017 0188 18       		.byte	0x18
+ 1018 0189 85000000 		.4byte	0x85
+ 1019 018d 02       		.byte	0x2
+ 1020 018e 23       		.byte	0x23
+ 1021 018f 00       		.uleb128 0x0
+ 1022 0190 0B       		.uleb128 0xb
+ 1023 0191 EB010000 		.4byte	.LASF23
+ 1024 0195 06       		.byte	0x6
+ 1025 0196 19       		.byte	0x19
+ 1026 0197 85000000 		.4byte	0x85
+ 1027 019b 02       		.byte	0x2
+ 1028 019c 23       		.byte	0x23
+ 1029 019d 04       		.uleb128 0x4
+ 1030 019e 0B       		.uleb128 0xb
+ 1031 019f F6010000 		.4byte	.LASF24
+ 1032 01a3 06       		.byte	0x6
+ 1033 01a4 1A       		.byte	0x1a
+ 1034 01a5 6F000000 		.4byte	0x6f
+ 1035 01a9 02       		.byte	0x2
+ 1036 01aa 23       		.byte	0x23
+ 1037 01ab 08       		.uleb128 0x8
+ 1038 01ac 00       		.byte	0x0
+ 1039 01ad 04       		.uleb128 0x4
+ 1040 01ae 6D010000 		.4byte	.LASF26
+ 1041 01b2 06       		.byte	0x6
+ 1042 01b3 1B       		.byte	0x1b
+ 1043 01b4 7A010000 		.4byte	0x17a
+ 1044 01b8 0D       		.uleb128 0xd
+ 1045 01b9 01       		.byte	0x1
+ 1046 01ba 61010000 		.4byte	.LASF52
+ 1047 01be 01       		.byte	0x1
+ 1048 01bf 26       		.byte	0x26
+ 1049 01c0 00000000 		.4byte	.LFB29
+ 1050 01c4 EE020000 		.4byte	.LFE29
+ 1051 01c8 00000000 		.4byte	.LLST0
+ 1052 01cc E9010000 		.4byte	0x1e9
+ 1053 01d0 0E       		.uleb128 0xe
+ 1054 01d1 84000000 		.4byte	.LBB2
+ 1055 01d5 24020000 		.4byte	.LBE2
+ 1056 01d9 0F       		.uleb128 0xf
+ 1057 01da FC010000 		.4byte	.LASF29
+ 1058 01de 01       		.byte	0x1
+ 1059 01df 5D       		.byte	0x5d
+ 1060 01e0 31010000 		.4byte	0x131
+ 1061 01e4 02       		.byte	0x2
+ 1062 01e5 91       		.byte	0x91
+ 1063 01e6 50       		.sleb128 -48
+ 1064 01e7 00       		.byte	0x0
+ 1065 01e8 00       		.byte	0x0
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccFwamZO.s 			page 24
 
 
- 1273 010e 13       		.uleb128 0x13
- 1274 010f 02       		.uleb128 0x2
- 1275 0110 0A       		.uleb128 0xa
- 1276 0111 00       		.byte	0x0
- 1277 0112 00       		.byte	0x0
- 1278 0113 16       		.uleb128 0x16
- 1279 0114 34       		.uleb128 0x34
- 1280 0115 00       		.byte	0x0
- 1281 0116 03       		.uleb128 0x3
- 1282 0117 0E       		.uleb128 0xe
- 1283 0118 3A       		.uleb128 0x3a
- 1284 0119 0B       		.uleb128 0xb
- 1285 011a 3B       		.uleb128 0x3b
- 1286 011b 05       		.uleb128 0x5
- 1287 011c 49       		.uleb128 0x49
- 1288 011d 13       		.uleb128 0x13
- 1289 011e 3F       		.uleb128 0x3f
- 1290 011f 0C       		.uleb128 0xc
- 1291 0120 3C       		.uleb128 0x3c
- 1292 0121 0C       		.uleb128 0xc
- 1293 0122 00       		.byte	0x0
- 1294 0123 00       		.byte	0x0
- 1295 0124 17       		.uleb128 0x17
- 1296 0125 35       		.uleb128 0x35
- 1297 0126 00       		.byte	0x0
- 1298 0127 49       		.uleb128 0x49
- 1299 0128 13       		.uleb128 0x13
- 1300 0129 00       		.byte	0x0
- 1301 012a 00       		.byte	0x0
- 1302 012b 18       		.uleb128 0x18
- 1303 012c 34       		.uleb128 0x34
- 1304 012d 00       		.byte	0x0
- 1305 012e 03       		.uleb128 0x3
- 1306 012f 0E       		.uleb128 0xe
- 1307 0130 3A       		.uleb128 0x3a
- 1308 0131 0B       		.uleb128 0xb
- 1309 0132 3B       		.uleb128 0x3b
- 1310 0133 0B       		.uleb128 0xb
- 1311 0134 49       		.uleb128 0x49
- 1312 0135 13       		.uleb128 0x13
- 1313 0136 3F       		.uleb128 0x3f
- 1314 0137 0C       		.uleb128 0xc
- 1315 0138 02       		.uleb128 0x2
- 1316 0139 0A       		.uleb128 0xa
- 1317 013a 00       		.byte	0x0
- 1318 013b 00       		.byte	0x0
- 1319 013c 00       		.byte	0x0
- 1320              		.section	.debug_pubnames,"",%progbits
- 1321 0000 BC000000 		.4byte	0xbc
- 1322 0004 0200     		.2byte	0x2
- 1323 0006 00000000 		.4byte	.Ldebug_info0
- 1324 000a 4B030000 		.4byte	0x34b
- 1325 000e 7A010000 		.4byte	0x17a
- 1326 0012 6D61696E 		.ascii	"main\000"
- 1326      00
- 1327 0017 CA010000 		.4byte	0x1ca
- 1328 001b 6973725F 		.ascii	"isr_timer\000"
-ARM GAS  C:\Users\karunmj\AppData\Local\Temp\cczdrClK.s 			page 27
+ 1066 01e9 10       		.uleb128 0x10
+ 1067 01ea 01       		.byte	0x1
+ 1068 01eb 59020000 		.4byte	.LASF53
+ 1069 01ef 01       		.byte	0x1
+ 1070 01f0 9E       		.byte	0x9e
+ 1071 01f1 00000000 		.4byte	.LFB30
+ 1072 01f5 3E000000 		.4byte	.LFE30
+ 1073 01f9 39000000 		.4byte	.LLST1
+ 1074 01fd 11       		.uleb128 0x11
+ 1075 01fe 01       		.byte	0x1
+ 1076 01ff FA000000 		.4byte	.LASF54
+ 1077 0203 01       		.byte	0x1
+ 1078 0204 AA       		.byte	0xaa
+ 1079 0205 01       		.byte	0x1
+ 1080 0206 00000000 		.4byte	.LFB31
+ 1081 020a 0A000000 		.4byte	.LFE31
+ 1082 020e 64000000 		.4byte	.LLST2
+ 1083 0212 12       		.uleb128 0x12
+ 1084 0213 01       		.byte	0x1
+ 1085 0214 B9010000 		.4byte	.LASF30
+ 1086 0218 01       		.byte	0x1
+ 1087 0219 B3       		.byte	0xb3
+ 1088 021a 01       		.byte	0x1
+ 1089 021b 00000000 		.4byte	.LFB32
+ 1090 021f 48000000 		.4byte	.LFE32
+ 1091 0223 8F000000 		.4byte	.LLST3
+ 1092 0227 54020000 		.4byte	0x254
+ 1093 022b 13       		.uleb128 0x13
+ 1094 022c 66010000 		.4byte	.LASF27
+ 1095 0230 01       		.byte	0x1
+ 1096 0231 B3       		.byte	0xb3
+ 1097 0232 54020000 		.4byte	0x254
+ 1098 0236 02       		.byte	0x2
+ 1099 0237 91       		.byte	0x91
+ 1100 0238 6C       		.sleb128 -20
+ 1101 0239 13       		.uleb128 0x13
+ 1102 023a 34000000 		.4byte	.LASF28
+ 1103 023e 01       		.byte	0x1
+ 1104 023f B3       		.byte	0xb3
+ 1105 0240 6F000000 		.4byte	0x6f
+ 1106 0244 02       		.byte	0x2
+ 1107 0245 91       		.byte	0x91
+ 1108 0246 6B       		.sleb128 -21
+ 1109 0247 14       		.uleb128 0x14
+ 1110 0248 6900     		.ascii	"i\000"
+ 1111 024a 01       		.byte	0x1
+ 1112 024b B4       		.byte	0xb4
+ 1113 024c 6F000000 		.4byte	0x6f
+ 1114 0250 02       		.byte	0x2
+ 1115 0251 91       		.byte	0x91
+ 1116 0252 77       		.sleb128 -9
+ 1117 0253 00       		.byte	0x0
+ 1118 0254 06       		.uleb128 0x6
+ 1119 0255 04       		.byte	0x4
+ 1120 0256 6F000000 		.4byte	0x6f
+ 1121 025a 12       		.uleb128 0x12
+ 1122 025b 01       		.byte	0x1
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccFwamZO.s 			page 25
 
 
- 1328      74696D65 
- 1328      7200
- 1329 0025 DF010000 		.4byte	0x1df
- 1330 0029 636C6561 		.ascii	"clear_packet\000"
- 1330      725F7061 
- 1330      636B6574 
- 1330      00
- 1331 0036 27020000 		.4byte	0x227
- 1332 003a 72746343 		.ascii	"rtcCallBackReceived\000"
- 1332      616C6C42 
- 1332      61636B52 
- 1332      65636569 
- 1332      76656400 
- 1333 004e 4F020000 		.4byte	0x24f
- 1334 0052 57726974 		.ascii	"Write_To_SD_Card\000"
- 1334      655F546F 
- 1334      5F53445F 
- 1334      43617264 
- 1334      00
- 1335 0063 E0020000 		.4byte	0x2e0
- 1336 0067 6D6F6465 		.ascii	"modem_state\000"
- 1336      6D5F7374 
- 1336      61746500 
- 1337 0073 02030000 		.4byte	0x302
- 1338 0077 64617461 		.ascii	"data_packet\000"
- 1338      5F706163 
- 1338      6B657400 
- 1339 0083 14030000 		.4byte	0x314
- 1340 0087 7061636B 		.ascii	"packet_ready\000"
- 1340      65745F72 
- 1340      65616479 
- 1340      00
- 1341 0094 26030000 		.4byte	0x326
- 1342 0098 74616B65 		.ascii	"take_reading\000"
- 1342      5F726561 
- 1342      64696E67 
- 1342      00
- 1343 00a5 38030000 		.4byte	0x338
- 1344 00a9 756C7472 		.ascii	"ultrasonic_reading\000"
- 1344      61736F6E 
- 1344      69635F72 
- 1344      65616469 
- 1344      6E6700
- 1345 00bc 00000000 		.4byte	0x0
- 1346              		.section	.debug_aranges,"",%progbits
- 1347 0000 3C000000 		.4byte	0x3c
- 1348 0004 0200     		.2byte	0x2
- 1349 0006 00000000 		.4byte	.Ldebug_info0
- 1350 000a 04       		.byte	0x4
- 1351 000b 00       		.byte	0x0
- 1352 000c 0000     		.2byte	0x0
- 1353 000e 0000     		.2byte	0x0
- 1354 0010 00000000 		.4byte	.LFB29
- 1355 0014 86010000 		.4byte	.LFE29-.LFB29
- 1356 0018 00000000 		.4byte	.LFB30
- 1357 001c 0A000000 		.4byte	.LFE30-.LFB30
- 1358 0020 00000000 		.4byte	.LFB31
-ARM GAS  C:\Users\karunmj\AppData\Local\Temp\cczdrClK.s 			page 28
+ 1123 025c 1D020000 		.4byte	.LASF31
+ 1124 0260 01       		.byte	0x1
+ 1125 0261 BC       		.byte	0xbc
+ 1126 0262 01       		.byte	0x1
+ 1127 0263 00000000 		.4byte	.LFB33
+ 1128 0267 28000000 		.4byte	.LFE33
+ 1129 026b C6000000 		.4byte	.LLST4
+ 1130 026f 82020000 		.4byte	0x282
+ 1131 0273 13       		.uleb128 0x13
+ 1132 0274 03020000 		.4byte	.LASF32
+ 1133 0278 01       		.byte	0x1
+ 1134 0279 BC       		.byte	0xbc
+ 1135 027a 6F000000 		.4byte	0x6f
+ 1136 027e 02       		.byte	0x2
+ 1137 027f 91       		.byte	0x91
+ 1138 0280 77       		.sleb128 -9
+ 1139 0281 00       		.byte	0x0
+ 1140 0282 12       		.uleb128 0x12
+ 1141 0283 01       		.byte	0x1
+ 1142 0284 79020000 		.4byte	.LASF33
+ 1143 0288 01       		.byte	0x1
+ 1144 0289 C6       		.byte	0xc6
+ 1145 028a 01       		.byte	0x1
+ 1146 028b 00000000 		.4byte	.LFB34
+ 1147 028f 74000000 		.4byte	.LFE34
+ 1148 0293 FD000000 		.4byte	.LLST5
+ 1149 0297 F0020000 		.4byte	0x2f0
+ 1150 029b 13       		.uleb128 0x13
+ 1151 029c 53000000 		.4byte	.LASF34
+ 1152 02a0 01       		.byte	0x1
+ 1153 02a1 C6       		.byte	0xc6
+ 1154 02a2 9D000000 		.4byte	0x9d
+ 1155 02a6 02       		.byte	0x2
+ 1156 02a7 91       		.byte	0x91
+ 1157 02a8 64       		.sleb128 -28
+ 1158 02a9 13       		.uleb128 0x13
+ 1159 02aa 9C010000 		.4byte	.LASF35
+ 1160 02ae 01       		.byte	0x1
+ 1161 02af C6       		.byte	0xc6
+ 1162 02b0 9D000000 		.4byte	0x9d
+ 1163 02b4 02       		.byte	0x2
+ 1164 02b5 91       		.byte	0x91
+ 1165 02b6 60       		.sleb128 -32
+ 1166 02b7 13       		.uleb128 0x13
+ 1167 02b8 62000000 		.4byte	.LASF36
+ 1168 02bc 01       		.byte	0x1
+ 1169 02bd C6       		.byte	0xc6
+ 1170 02be BF000000 		.4byte	0xbf
+ 1171 02c2 02       		.byte	0x2
+ 1172 02c3 91       		.byte	0x91
+ 1173 02c4 5C       		.sleb128 -36
+ 1174 02c5 13       		.uleb128 0x13
+ 1175 02c6 50020000 		.4byte	.LASF37
+ 1176 02ca 01       		.byte	0x1
+ 1177 02cb C6       		.byte	0xc6
+ 1178 02cc 4C000000 		.4byte	0x4c
+ 1179 02d0 02       		.byte	0x2
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccFwamZO.s 			page 26
 
 
- 1359 0024 48000000 		.4byte	.LFE31-.LFB31
- 1360 0028 00000000 		.4byte	.LFB32
- 1361 002c 28000000 		.4byte	.LFE32-.LFB32
- 1362 0030 00000000 		.4byte	.LFB33
- 1363 0034 74000000 		.4byte	.LFE33-.LFB33
- 1364 0038 00000000 		.4byte	0x0
- 1365 003c 00000000 		.4byte	0x0
- 1366              		.section	.debug_ranges,"",%progbits
- 1367              	.Ldebug_ranges0:
- 1368 0000 00000000 		.4byte	.Ltext0
- 1369 0004 00000000 		.4byte	.Letext0
- 1370 0008 00000000 		.4byte	.LFB29
- 1371 000c 86010000 		.4byte	.LFE29
- 1372 0010 00000000 		.4byte	.LFB30
- 1373 0014 0A000000 		.4byte	.LFE30
- 1374 0018 00000000 		.4byte	.LFB31
- 1375 001c 48000000 		.4byte	.LFE31
- 1376 0020 00000000 		.4byte	.LFB32
- 1377 0024 28000000 		.4byte	.LFE32
- 1378 0028 00000000 		.4byte	.LFB33
- 1379 002c 74000000 		.4byte	.LFE33
- 1380 0030 00000000 		.4byte	0x0
- 1381 0034 00000000 		.4byte	0x0
- 1382              		.section	.debug_str,"MS",%progbits,1
- 1383              	.LASF6:
- 1384 0000 6C6F6E67 		.ascii	"long long int\000"
- 1384      206C6F6E 
- 1384      6720696E 
- 1384      7400
- 1385              	.LASF22:
- 1386 000e 74656D70 		.ascii	"temp\000"
- 1386      00
- 1387              	.LASF44:
- 1388 0013 74616B65 		.ascii	"take_reading\000"
- 1388      5F726561 
- 1388      64696E67 
- 1388      00
- 1389              	.LASF18:
- 1390 0020 7765656B 		.ascii	"weekday\000"
- 1390      64617900 
- 1391              	.LASF20:
- 1392 0028 79656172 		.ascii	"year\000"
- 1392      00
- 1393              	.LASF16:
- 1394 002d 6D696E75 		.ascii	"minute\000"
- 1394      746500
- 1395              	.LASF29:
- 1396 0034 7061636B 		.ascii	"packet_size\000"
- 1396      65745F73 
- 1396      697A6500 
- 1397              	.LASF3:
- 1398 0040 73686F72 		.ascii	"short unsigned int\000"
- 1398      7420756E 
- 1398      7369676E 
- 1398      65642069 
- 1398      6E7400
- 1399              	.LASF34:
-ARM GAS  C:\Users\karunmj\AppData\Local\Temp\cczdrClK.s 			page 29
+ 1180 02d1 91       		.byte	0x91
+ 1181 02d2 58       		.sleb128 -40
+ 1182 02d3 0F       		.uleb128 0xf
+ 1183 02d4 68000000 		.4byte	.LASF38
+ 1184 02d8 01       		.byte	0x1
+ 1185 02d9 CC       		.byte	0xcc
+ 1186 02da B9000000 		.4byte	0xb9
+ 1187 02de 02       		.byte	0x2
+ 1188 02df 91       		.byte	0x91
+ 1189 02e0 74       		.sleb128 -12
+ 1190 02e1 0F       		.uleb128 0xf
+ 1191 02e2 31020000 		.4byte	.LASF39
+ 1192 02e6 01       		.byte	0x1
+ 1193 02e7 CD       		.byte	0xcd
+ 1194 02e8 F0020000 		.4byte	0x2f0
+ 1195 02ec 02       		.byte	0x2
+ 1196 02ed 91       		.byte	0x91
+ 1197 02ee 68       		.sleb128 -24
+ 1198 02ef 00       		.byte	0x0
+ 1199 02f0 15       		.uleb128 0x15
+ 1200 02f1 93000000 		.4byte	0x93
+ 1201 02f5 00030000 		.4byte	0x300
+ 1202 02f9 16       		.uleb128 0x16
+ 1203 02fa 9A000000 		.4byte	0x9a
+ 1204 02fe 09       		.byte	0x9
+ 1205 02ff 00       		.byte	0x0
+ 1206 0300 17       		.uleb128 0x17
+ 1207 0301 21010000 		.4byte	.LASF40
+ 1208 0305 07       		.byte	0x7
+ 1209 0306 CE06     		.2byte	0x6ce
+ 1210 0308 0E030000 		.4byte	0x30e
+ 1211 030c 01       		.byte	0x1
+ 1212 030d 01       		.byte	0x1
+ 1213 030e 18       		.uleb128 0x18
+ 1214 030f 61000000 		.4byte	0x61
+ 1215 0313 19       		.uleb128 0x19
+ 1216 0314 44020000 		.4byte	.LASF41
+ 1217 0318 08       		.byte	0x8
+ 1218 0319 12       		.byte	0x12
+ 1219 031a 6F000000 		.4byte	0x6f
+ 1220 031e 01       		.byte	0x1
+ 1221 031f 05       		.byte	0x5
+ 1222 0320 03       		.byte	0x3
+ 1223 0321 00000000 		.4byte	modem_state
+ 1224 0325 15       		.uleb128 0x15
+ 1225 0326 6F000000 		.4byte	0x6f
+ 1226 032a 35030000 		.4byte	0x335
+ 1227 032e 16       		.uleb128 0x16
+ 1228 032f 9A000000 		.4byte	0x9a
+ 1229 0333 7F       		.byte	0x7f
+ 1230 0334 00       		.byte	0x0
+ 1231 0335 19       		.uleb128 0x19
+ 1232 0336 8A020000 		.4byte	.LASF42
+ 1233 033a 01       		.byte	0x1
+ 1234 033b 11       		.byte	0x11
+ 1235 033c 25030000 		.4byte	0x325
+ 1236 0340 01       		.byte	0x1
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccFwamZO.s 			page 27
 
 
- 1400 0053 66696C65 		.ascii	"fileName\000"
- 1400      4E616D65 
- 1400      00
- 1401              	.LASF12:
- 1402 005c 646F7562 		.ascii	"double\000"
- 1402      6C6500
- 1403              	.LASF19:
- 1404 0063 6D6F6E74 		.ascii	"month\000"
- 1404      6800
- 1405              	.LASF36:
- 1406 0069 70446174 		.ascii	"pData\000"
- 1406      6100
- 1407              	.LASF38:
- 1408 006f 7046696C 		.ascii	"pFile\000"
- 1408      6500
- 1409              	.LASF11:
- 1410 0075 666C6F61 		.ascii	"float\000"
- 1410      7400
- 1411              	.LASF48:
- 1412 007b 433A5C55 		.ascii	"C:\\Users\\karunmj\\Documents\\GitHub\\m2m\\hardwar"
- 1412      73657273 
- 1412      5C6B6172 
- 1412      756E6D6A 
- 1412      5C446F63 
- 1413 00a8 655C7073 		.ascii	"e\\psoc5\\PSoC_Datalogger_SMS.cydsn\000"
- 1413      6F63355C 
- 1413      50536F43 
- 1413      5F446174 
- 1413      616C6F67 
- 1414              	.LASF1:
- 1415 00ca 756E7369 		.ascii	"unsigned char\000"
- 1415      676E6564 
- 1415      20636861 
- 1415      7200
- 1416              	.LASF47:
- 1417 00d8 2E5C6D61 		.ascii	".\\main.c\000"
- 1417      696E2E63 
- 1417      00
- 1418              	.LASF27:
- 1419 00e1 73656E64 		.ascii	"sendBuffer\000"
- 1419      42756666 
- 1419      657200
- 1420              	.LASF50:
- 1421 00ec 6973725F 		.ascii	"isr_timer\000"
- 1421      74696D65 
- 1421      7200
- 1422              	.LASF43:
- 1423 00f6 7061636B 		.ascii	"packet_ready\000"
- 1423      65745F72 
- 1423      65616479 
- 1423      00
- 1424              	.LASF40:
- 1425 0103 49544D5F 		.ascii	"ITM_RxBuffer\000"
- 1425      52784275 
- 1425      66666572 
- 1425      00
- 1426              	.LASF15:
-ARM GAS  C:\Users\karunmj\AppData\Local\Temp\cczdrClK.s 			page 30
+ 1237 0341 05       		.byte	0x5
+ 1238 0342 03       		.byte	0x3
+ 1239 0343 00000000 		.4byte	data_packet
+ 1240 0347 19       		.uleb128 0x19
+ 1241 0348 2E010000 		.4byte	.LASF43
+ 1242 034c 01       		.byte	0x1
+ 1243 034d 11       		.byte	0x11
+ 1244 034e 25030000 		.4byte	0x325
+ 1245 0352 01       		.byte	0x1
+ 1246 0353 05       		.byte	0x5
+ 1247 0354 03       		.byte	0x3
+ 1248 0355 00000000 		.4byte	debug_packet
+ 1249 0359 19       		.uleb128 0x19
+ 1250 035a 04010000 		.4byte	.LASF44
+ 1251 035e 01       		.byte	0x1
+ 1252 035f 12       		.byte	0x12
+ 1253 0360 6F000000 		.4byte	0x6f
+ 1254 0364 01       		.byte	0x1
+ 1255 0365 05       		.byte	0x5
+ 1256 0366 03       		.byte	0x3
+ 1257 0367 00000000 		.4byte	packet_ready
+ 1258 036b 19       		.uleb128 0x19
+ 1259 036c 13000000 		.4byte	.LASF45
+ 1260 0370 01       		.byte	0x1
+ 1261 0371 13       		.byte	0x13
+ 1262 0372 6F000000 		.4byte	0x6f
+ 1263 0376 01       		.byte	0x1
+ 1264 0377 05       		.byte	0x5
+ 1265 0378 03       		.byte	0x3
+ 1266 0379 00000000 		.4byte	take_reading
+ 1267 037d 19       		.uleb128 0x19
+ 1268 037e 74000000 		.4byte	.LASF46
+ 1269 0382 01       		.byte	0x1
+ 1270 0383 14       		.byte	0x14
+ 1271 0384 6F000000 		.4byte	0x6f
+ 1272 0388 01       		.byte	0x1
+ 1273 0389 05       		.byte	0x5
+ 1274 038a 03       		.byte	0x3
+ 1275 038b 00000000 		.4byte	send_attempts
+ 1276 038f 19       		.uleb128 0x19
+ 1277 0390 7C010000 		.4byte	.LASF47
+ 1278 0394 01       		.byte	0x1
+ 1279 0395 16       		.byte	0x16
+ 1280 0396 6F010000 		.4byte	0x16f
+ 1281 039a 01       		.byte	0x1
+ 1282 039b 05       		.byte	0x5
+ 1283 039c 03       		.byte	0x3
+ 1284 039d 00000000 		.4byte	ultrasonic_reading
+ 1285 03a1 19       		.uleb128 0x19
+ 1286 03a2 11010000 		.4byte	.LASF48
+ 1287 03a6 01       		.byte	0x1
+ 1288 03a7 17       		.byte	0x17
+ 1289 03a8 AD010000 		.4byte	0x1ad
+ 1290 03ac 01       		.byte	0x1
+ 1291 03ad 05       		.byte	0x5
+ 1292 03ae 03       		.byte	0x3
+ 1293 03af 00000000 		.4byte	solinst_reading
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccFwamZO.s 			page 28
 
 
- 1427 0110 7365636F 		.ascii	"second\000"
- 1427      6E6400
- 1428              	.LASF5:
- 1429 0117 6C6F6E67 		.ascii	"long unsigned int\000"
- 1429      20756E73 
- 1429      69676E65 
- 1429      6420696E 
- 1429      7400
- 1430              	.LASF21:
- 1431 0129 4E656F52 		.ascii	"NeoRtcTimeStruct\000"
- 1431      74635469 
- 1431      6D655374 
- 1431      72756374 
- 1431      00
- 1432              	.LASF49:
- 1433 013a 6D61696E 		.ascii	"main\000"
- 1433      00
- 1434              	.LASF28:
- 1435 013f 7061636B 		.ascii	"packet\000"
- 1435      657400
- 1436              	.LASF10:
- 1437 0146 75696E74 		.ascii	"uint16\000"
- 1437      313600
- 1438              	.LASF45:
- 1439 014d 756C7472 		.ascii	"ultrasonic_reading\000"
- 1439      61736F6E 
- 1439      69635F72 
- 1439      65616469 
- 1439      6E6700
- 1440              	.LASF8:
- 1441 0160 756E7369 		.ascii	"unsigned int\000"
- 1441      676E6564 
- 1441      20696E74 
- 1441      00
- 1442              	.LASF35:
- 1443 016d 704D6F64 		.ascii	"pMode\000"
- 1443      6500
- 1444              	.LASF7:
- 1445 0173 6C6F6E67 		.ascii	"long long unsigned int\000"
- 1445      206C6F6E 
- 1445      6720756E 
- 1445      7369676E 
- 1445      65642069 
- 1446              	.LASF30:
- 1447 018a 636C6561 		.ascii	"clear_packet\000"
- 1447      725F7061 
- 1447      636B6574 
- 1447      00
- 1448              	.LASF17:
- 1449 0197 686F7572 		.ascii	"hour\000"
- 1449      00
- 1450              	.LASF0:
- 1451 019c 7369676E 		.ascii	"signed char\000"
- 1451      65642063 
- 1451      68617200 
- 1452              	.LASF14:
- 1453 01a8 46535F46 		.ascii	"FS_FILE\000"
-ARM GAS  C:\Users\karunmj\AppData\Local\Temp\cczdrClK.s 			page 31
+ 1294 03b3 00       		.byte	0x0
+ 1295              		.section	.debug_abbrev
+ 1296 0000 01       		.uleb128 0x1
+ 1297 0001 11       		.uleb128 0x11
+ 1298 0002 01       		.byte	0x1
+ 1299 0003 25       		.uleb128 0x25
+ 1300 0004 0E       		.uleb128 0xe
+ 1301 0005 13       		.uleb128 0x13
+ 1302 0006 0B       		.uleb128 0xb
+ 1303 0007 03       		.uleb128 0x3
+ 1304 0008 0E       		.uleb128 0xe
+ 1305 0009 1B       		.uleb128 0x1b
+ 1306 000a 0E       		.uleb128 0xe
+ 1307 000b 11       		.uleb128 0x11
+ 1308 000c 01       		.uleb128 0x1
+ 1309 000d 52       		.uleb128 0x52
+ 1310 000e 01       		.uleb128 0x1
+ 1311 000f 55       		.uleb128 0x55
+ 1312 0010 06       		.uleb128 0x6
+ 1313 0011 10       		.uleb128 0x10
+ 1314 0012 06       		.uleb128 0x6
+ 1315 0013 00       		.byte	0x0
+ 1316 0014 00       		.byte	0x0
+ 1317 0015 02       		.uleb128 0x2
+ 1318 0016 24       		.uleb128 0x24
+ 1319 0017 00       		.byte	0x0
+ 1320 0018 0B       		.uleb128 0xb
+ 1321 0019 0B       		.uleb128 0xb
+ 1322 001a 3E       		.uleb128 0x3e
+ 1323 001b 0B       		.uleb128 0xb
+ 1324 001c 03       		.uleb128 0x3
+ 1325 001d 0E       		.uleb128 0xe
+ 1326 001e 00       		.byte	0x0
+ 1327 001f 00       		.byte	0x0
+ 1328 0020 03       		.uleb128 0x3
+ 1329 0021 24       		.uleb128 0x24
+ 1330 0022 00       		.byte	0x0
+ 1331 0023 0B       		.uleb128 0xb
+ 1332 0024 0B       		.uleb128 0xb
+ 1333 0025 3E       		.uleb128 0x3e
+ 1334 0026 0B       		.uleb128 0xb
+ 1335 0027 03       		.uleb128 0x3
+ 1336 0028 08       		.uleb128 0x8
+ 1337 0029 00       		.byte	0x0
+ 1338 002a 00       		.byte	0x0
+ 1339 002b 04       		.uleb128 0x4
+ 1340 002c 16       		.uleb128 0x16
+ 1341 002d 00       		.byte	0x0
+ 1342 002e 03       		.uleb128 0x3
+ 1343 002f 0E       		.uleb128 0xe
+ 1344 0030 3A       		.uleb128 0x3a
+ 1345 0031 0B       		.uleb128 0xb
+ 1346 0032 3B       		.uleb128 0x3b
+ 1347 0033 0B       		.uleb128 0xb
+ 1348 0034 49       		.uleb128 0x49
+ 1349 0035 13       		.uleb128 0x13
+ 1350 0036 00       		.byte	0x0
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccFwamZO.s 			page 29
 
 
- 1453      494C4500 
- 1454              	.LASF46:
- 1455 01b0 474E5520 		.ascii	"GNU C 4.4.1\000"
- 1455      4320342E 
- 1455      342E3100 
- 1456              	.LASF23:
- 1457 01bc 64657074 		.ascii	"depth\000"
- 1457      6800
- 1458              	.LASF13:
- 1459 01c2 63686172 		.ascii	"char\000"
- 1459      00
- 1460              	.LASF24:
- 1461 01c7 76616C69 		.ascii	"valid\000"
- 1461      6400
- 1462              	.LASF26:
- 1463 01cd 746D5F6E 		.ascii	"tm_neo\000"
- 1463      656F00
- 1464              	.LASF32:
- 1465 01d4 616C6172 		.ascii	"alarmType\000"
- 1465      6D547970 
- 1465      6500
- 1466              	.LASF2:
- 1467 01de 73686F72 		.ascii	"short int\000"
- 1467      7420696E 
- 1467      7400
- 1468              	.LASF9:
- 1469 01e8 75696E74 		.ascii	"uint8\000"
- 1469      3800
- 1470              	.LASF31:
- 1471 01ee 72746343 		.ascii	"rtcCallBackReceived\000"
- 1471      616C6C42 
- 1471      61636B52 
- 1471      65636569 
- 1471      76656400 
- 1472              	.LASF39:
- 1473 0202 7364566F 		.ascii	"sdVolName\000"
- 1473      6C4E616D 
- 1473      6500
- 1474              	.LASF4:
- 1475 020c 6C6F6E67 		.ascii	"long int\000"
- 1475      20696E74 
- 1475      00
- 1476              	.LASF41:
- 1477 0215 6D6F6465 		.ascii	"modem_state\000"
- 1477      6D5F7374 
- 1477      61746500 
- 1478              	.LASF37:
- 1479 0221 4E756D42 		.ascii	"NumBytes\000"
- 1479      79746573 
- 1479      00
- 1480              	.LASF25:
- 1481 022a 556C7472 		.ascii	"UltrasonicReading\000"
- 1481      61736F6E 
- 1481      69635265 
- 1481      6164696E 
- 1481      6700
- 1482              	.LASF33:
-ARM GAS  C:\Users\karunmj\AppData\Local\Temp\cczdrClK.s 			page 32
+ 1351 0037 00       		.byte	0x0
+ 1352 0038 05       		.uleb128 0x5
+ 1353 0039 24       		.uleb128 0x24
+ 1354 003a 00       		.byte	0x0
+ 1355 003b 0B       		.uleb128 0xb
+ 1356 003c 0B       		.uleb128 0xb
+ 1357 003d 3E       		.uleb128 0x3e
+ 1358 003e 0B       		.uleb128 0xb
+ 1359 003f 00       		.byte	0x0
+ 1360 0040 00       		.byte	0x0
+ 1361 0041 06       		.uleb128 0x6
+ 1362 0042 0F       		.uleb128 0xf
+ 1363 0043 00       		.byte	0x0
+ 1364 0044 0B       		.uleb128 0xb
+ 1365 0045 0B       		.uleb128 0xb
+ 1366 0046 49       		.uleb128 0x49
+ 1367 0047 13       		.uleb128 0x13
+ 1368 0048 00       		.byte	0x0
+ 1369 0049 00       		.byte	0x0
+ 1370 004a 07       		.uleb128 0x7
+ 1371 004b 26       		.uleb128 0x26
+ 1372 004c 00       		.byte	0x0
+ 1373 004d 49       		.uleb128 0x49
+ 1374 004e 13       		.uleb128 0x13
+ 1375 004f 00       		.byte	0x0
+ 1376 0050 00       		.byte	0x0
+ 1377 0051 08       		.uleb128 0x8
+ 1378 0052 13       		.uleb128 0x13
+ 1379 0053 00       		.byte	0x0
+ 1380 0054 03       		.uleb128 0x3
+ 1381 0055 0E       		.uleb128 0xe
+ 1382 0056 3C       		.uleb128 0x3c
+ 1383 0057 0C       		.uleb128 0xc
+ 1384 0058 00       		.byte	0x0
+ 1385 0059 00       		.byte	0x0
+ 1386 005a 09       		.uleb128 0x9
+ 1387 005b 26       		.uleb128 0x26
+ 1388 005c 00       		.byte	0x0
+ 1389 005d 00       		.byte	0x0
+ 1390 005e 00       		.byte	0x0
+ 1391 005f 0A       		.uleb128 0xa
+ 1392 0060 13       		.uleb128 0x13
+ 1393 0061 01       		.byte	0x1
+ 1394 0062 0B       		.uleb128 0xb
+ 1395 0063 0B       		.uleb128 0xb
+ 1396 0064 3A       		.uleb128 0x3a
+ 1397 0065 0B       		.uleb128 0xb
+ 1398 0066 3B       		.uleb128 0x3b
+ 1399 0067 0B       		.uleb128 0xb
+ 1400 0068 01       		.uleb128 0x1
+ 1401 0069 13       		.uleb128 0x13
+ 1402 006a 00       		.byte	0x0
+ 1403 006b 00       		.byte	0x0
+ 1404 006c 0B       		.uleb128 0xb
+ 1405 006d 0D       		.uleb128 0xd
+ 1406 006e 00       		.byte	0x0
+ 1407 006f 03       		.uleb128 0x3
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccFwamZO.s 			page 30
 
 
- 1483 023c 57726974 		.ascii	"Write_To_SD_Card\000"
- 1483      655F546F 
- 1483      5F53445F 
- 1483      43617264 
- 1483      00
- 1484              	.LASF42:
- 1485 024d 64617461 		.ascii	"data_packet\000"
- 1485      5F706163 
- 1485      6B657400 
- 1486              		.ident	"GCC: (Sourcery G++ Lite 2010q1-188) 4.4.1"
+ 1408 0070 0E       		.uleb128 0xe
+ 1409 0071 3A       		.uleb128 0x3a
+ 1410 0072 0B       		.uleb128 0xb
+ 1411 0073 3B       		.uleb128 0x3b
+ 1412 0074 0B       		.uleb128 0xb
+ 1413 0075 49       		.uleb128 0x49
+ 1414 0076 13       		.uleb128 0x13
+ 1415 0077 38       		.uleb128 0x38
+ 1416 0078 0A       		.uleb128 0xa
+ 1417 0079 00       		.byte	0x0
+ 1418 007a 00       		.byte	0x0
+ 1419 007b 0C       		.uleb128 0xc
+ 1420 007c 0D       		.uleb128 0xd
+ 1421 007d 00       		.byte	0x0
+ 1422 007e 03       		.uleb128 0x3
+ 1423 007f 08       		.uleb128 0x8
+ 1424 0080 3A       		.uleb128 0x3a
+ 1425 0081 0B       		.uleb128 0xb
+ 1426 0082 3B       		.uleb128 0x3b
+ 1427 0083 0B       		.uleb128 0xb
+ 1428 0084 49       		.uleb128 0x49
+ 1429 0085 13       		.uleb128 0x13
+ 1430 0086 38       		.uleb128 0x38
+ 1431 0087 0A       		.uleb128 0xa
+ 1432 0088 00       		.byte	0x0
+ 1433 0089 00       		.byte	0x0
+ 1434 008a 0D       		.uleb128 0xd
+ 1435 008b 2E       		.uleb128 0x2e
+ 1436 008c 01       		.byte	0x1
+ 1437 008d 3F       		.uleb128 0x3f
+ 1438 008e 0C       		.uleb128 0xc
+ 1439 008f 03       		.uleb128 0x3
+ 1440 0090 0E       		.uleb128 0xe
+ 1441 0091 3A       		.uleb128 0x3a
+ 1442 0092 0B       		.uleb128 0xb
+ 1443 0093 3B       		.uleb128 0x3b
+ 1444 0094 0B       		.uleb128 0xb
+ 1445 0095 11       		.uleb128 0x11
+ 1446 0096 01       		.uleb128 0x1
+ 1447 0097 12       		.uleb128 0x12
+ 1448 0098 01       		.uleb128 0x1
+ 1449 0099 40       		.uleb128 0x40
+ 1450 009a 06       		.uleb128 0x6
+ 1451 009b 01       		.uleb128 0x1
+ 1452 009c 13       		.uleb128 0x13
+ 1453 009d 00       		.byte	0x0
+ 1454 009e 00       		.byte	0x0
+ 1455 009f 0E       		.uleb128 0xe
+ 1456 00a0 0B       		.uleb128 0xb
+ 1457 00a1 01       		.byte	0x1
+ 1458 00a2 11       		.uleb128 0x11
+ 1459 00a3 01       		.uleb128 0x1
+ 1460 00a4 12       		.uleb128 0x12
+ 1461 00a5 01       		.uleb128 0x1
+ 1462 00a6 00       		.byte	0x0
+ 1463 00a7 00       		.byte	0x0
+ 1464 00a8 0F       		.uleb128 0xf
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccFwamZO.s 			page 31
+
+
+ 1465 00a9 34       		.uleb128 0x34
+ 1466 00aa 00       		.byte	0x0
+ 1467 00ab 03       		.uleb128 0x3
+ 1468 00ac 0E       		.uleb128 0xe
+ 1469 00ad 3A       		.uleb128 0x3a
+ 1470 00ae 0B       		.uleb128 0xb
+ 1471 00af 3B       		.uleb128 0x3b
+ 1472 00b0 0B       		.uleb128 0xb
+ 1473 00b1 49       		.uleb128 0x49
+ 1474 00b2 13       		.uleb128 0x13
+ 1475 00b3 02       		.uleb128 0x2
+ 1476 00b4 0A       		.uleb128 0xa
+ 1477 00b5 00       		.byte	0x0
+ 1478 00b6 00       		.byte	0x0
+ 1479 00b7 10       		.uleb128 0x10
+ 1480 00b8 2E       		.uleb128 0x2e
+ 1481 00b9 00       		.byte	0x0
+ 1482 00ba 3F       		.uleb128 0x3f
+ 1483 00bb 0C       		.uleb128 0xc
+ 1484 00bc 03       		.uleb128 0x3
+ 1485 00bd 0E       		.uleb128 0xe
+ 1486 00be 3A       		.uleb128 0x3a
+ 1487 00bf 0B       		.uleb128 0xb
+ 1488 00c0 3B       		.uleb128 0x3b
+ 1489 00c1 0B       		.uleb128 0xb
+ 1490 00c2 11       		.uleb128 0x11
+ 1491 00c3 01       		.uleb128 0x1
+ 1492 00c4 12       		.uleb128 0x12
+ 1493 00c5 01       		.uleb128 0x1
+ 1494 00c6 40       		.uleb128 0x40
+ 1495 00c7 06       		.uleb128 0x6
+ 1496 00c8 00       		.byte	0x0
+ 1497 00c9 00       		.byte	0x0
+ 1498 00ca 11       		.uleb128 0x11
+ 1499 00cb 2E       		.uleb128 0x2e
+ 1500 00cc 00       		.byte	0x0
+ 1501 00cd 3F       		.uleb128 0x3f
+ 1502 00ce 0C       		.uleb128 0xc
+ 1503 00cf 03       		.uleb128 0x3
+ 1504 00d0 0E       		.uleb128 0xe
+ 1505 00d1 3A       		.uleb128 0x3a
+ 1506 00d2 0B       		.uleb128 0xb
+ 1507 00d3 3B       		.uleb128 0x3b
+ 1508 00d4 0B       		.uleb128 0xb
+ 1509 00d5 27       		.uleb128 0x27
+ 1510 00d6 0C       		.uleb128 0xc
+ 1511 00d7 11       		.uleb128 0x11
+ 1512 00d8 01       		.uleb128 0x1
+ 1513 00d9 12       		.uleb128 0x12
+ 1514 00da 01       		.uleb128 0x1
+ 1515 00db 40       		.uleb128 0x40
+ 1516 00dc 06       		.uleb128 0x6
+ 1517 00dd 00       		.byte	0x0
+ 1518 00de 00       		.byte	0x0
+ 1519 00df 12       		.uleb128 0x12
+ 1520 00e0 2E       		.uleb128 0x2e
+ 1521 00e1 01       		.byte	0x1
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccFwamZO.s 			page 32
+
+
+ 1522 00e2 3F       		.uleb128 0x3f
+ 1523 00e3 0C       		.uleb128 0xc
+ 1524 00e4 03       		.uleb128 0x3
+ 1525 00e5 0E       		.uleb128 0xe
+ 1526 00e6 3A       		.uleb128 0x3a
+ 1527 00e7 0B       		.uleb128 0xb
+ 1528 00e8 3B       		.uleb128 0x3b
+ 1529 00e9 0B       		.uleb128 0xb
+ 1530 00ea 27       		.uleb128 0x27
+ 1531 00eb 0C       		.uleb128 0xc
+ 1532 00ec 11       		.uleb128 0x11
+ 1533 00ed 01       		.uleb128 0x1
+ 1534 00ee 12       		.uleb128 0x12
+ 1535 00ef 01       		.uleb128 0x1
+ 1536 00f0 40       		.uleb128 0x40
+ 1537 00f1 06       		.uleb128 0x6
+ 1538 00f2 01       		.uleb128 0x1
+ 1539 00f3 13       		.uleb128 0x13
+ 1540 00f4 00       		.byte	0x0
+ 1541 00f5 00       		.byte	0x0
+ 1542 00f6 13       		.uleb128 0x13
+ 1543 00f7 05       		.uleb128 0x5
+ 1544 00f8 00       		.byte	0x0
+ 1545 00f9 03       		.uleb128 0x3
+ 1546 00fa 0E       		.uleb128 0xe
+ 1547 00fb 3A       		.uleb128 0x3a
+ 1548 00fc 0B       		.uleb128 0xb
+ 1549 00fd 3B       		.uleb128 0x3b
+ 1550 00fe 0B       		.uleb128 0xb
+ 1551 00ff 49       		.uleb128 0x49
+ 1552 0100 13       		.uleb128 0x13
+ 1553 0101 02       		.uleb128 0x2
+ 1554 0102 0A       		.uleb128 0xa
+ 1555 0103 00       		.byte	0x0
+ 1556 0104 00       		.byte	0x0
+ 1557 0105 14       		.uleb128 0x14
+ 1558 0106 34       		.uleb128 0x34
+ 1559 0107 00       		.byte	0x0
+ 1560 0108 03       		.uleb128 0x3
+ 1561 0109 08       		.uleb128 0x8
+ 1562 010a 3A       		.uleb128 0x3a
+ 1563 010b 0B       		.uleb128 0xb
+ 1564 010c 3B       		.uleb128 0x3b
+ 1565 010d 0B       		.uleb128 0xb
+ 1566 010e 49       		.uleb128 0x49
+ 1567 010f 13       		.uleb128 0x13
+ 1568 0110 02       		.uleb128 0x2
+ 1569 0111 0A       		.uleb128 0xa
+ 1570 0112 00       		.byte	0x0
+ 1571 0113 00       		.byte	0x0
+ 1572 0114 15       		.uleb128 0x15
+ 1573 0115 01       		.uleb128 0x1
+ 1574 0116 01       		.byte	0x1
+ 1575 0117 49       		.uleb128 0x49
+ 1576 0118 13       		.uleb128 0x13
+ 1577 0119 01       		.uleb128 0x1
+ 1578 011a 13       		.uleb128 0x13
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccFwamZO.s 			page 33
+
+
+ 1579 011b 00       		.byte	0x0
+ 1580 011c 00       		.byte	0x0
+ 1581 011d 16       		.uleb128 0x16
+ 1582 011e 21       		.uleb128 0x21
+ 1583 011f 00       		.byte	0x0
+ 1584 0120 49       		.uleb128 0x49
+ 1585 0121 13       		.uleb128 0x13
+ 1586 0122 2F       		.uleb128 0x2f
+ 1587 0123 0B       		.uleb128 0xb
+ 1588 0124 00       		.byte	0x0
+ 1589 0125 00       		.byte	0x0
+ 1590 0126 17       		.uleb128 0x17
+ 1591 0127 34       		.uleb128 0x34
+ 1592 0128 00       		.byte	0x0
+ 1593 0129 03       		.uleb128 0x3
+ 1594 012a 0E       		.uleb128 0xe
+ 1595 012b 3A       		.uleb128 0x3a
+ 1596 012c 0B       		.uleb128 0xb
+ 1597 012d 3B       		.uleb128 0x3b
+ 1598 012e 05       		.uleb128 0x5
+ 1599 012f 49       		.uleb128 0x49
+ 1600 0130 13       		.uleb128 0x13
+ 1601 0131 3F       		.uleb128 0x3f
+ 1602 0132 0C       		.uleb128 0xc
+ 1603 0133 3C       		.uleb128 0x3c
+ 1604 0134 0C       		.uleb128 0xc
+ 1605 0135 00       		.byte	0x0
+ 1606 0136 00       		.byte	0x0
+ 1607 0137 18       		.uleb128 0x18
+ 1608 0138 35       		.uleb128 0x35
+ 1609 0139 00       		.byte	0x0
+ 1610 013a 49       		.uleb128 0x49
+ 1611 013b 13       		.uleb128 0x13
+ 1612 013c 00       		.byte	0x0
+ 1613 013d 00       		.byte	0x0
+ 1614 013e 19       		.uleb128 0x19
+ 1615 013f 34       		.uleb128 0x34
+ 1616 0140 00       		.byte	0x0
+ 1617 0141 03       		.uleb128 0x3
+ 1618 0142 0E       		.uleb128 0xe
+ 1619 0143 3A       		.uleb128 0x3a
+ 1620 0144 0B       		.uleb128 0xb
+ 1621 0145 3B       		.uleb128 0x3b
+ 1622 0146 0B       		.uleb128 0xb
+ 1623 0147 49       		.uleb128 0x49
+ 1624 0148 13       		.uleb128 0x13
+ 1625 0149 3F       		.uleb128 0x3f
+ 1626 014a 0C       		.uleb128 0xc
+ 1627 014b 02       		.uleb128 0x2
+ 1628 014c 0A       		.uleb128 0xa
+ 1629 014d 00       		.byte	0x0
+ 1630 014e 00       		.byte	0x0
+ 1631 014f 00       		.byte	0x0
+ 1632              		.section	.debug_pubnames,"",%progbits
+ 1633 0000 05010000 		.4byte	0x105
+ 1634 0004 0200     		.2byte	0x2
+ 1635 0006 00000000 		.4byte	.Ldebug_info0
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccFwamZO.s 			page 34
+
+
+ 1636 000a B4030000 		.4byte	0x3b4
+ 1637 000e B8010000 		.4byte	0x1b8
+ 1638 0012 6D61696E 		.ascii	"main\000"
+ 1638      00
+ 1639 0017 E9010000 		.4byte	0x1e9
+ 1640 001b 6B696C6C 		.ascii	"killMotePower\000"
+ 1640      4D6F7465 
+ 1640      506F7765 
+ 1640      7200
+ 1641 0029 FD010000 		.4byte	0x1fd
+ 1642 002d 6973725F 		.ascii	"isr_timer\000"
+ 1642      74696D65 
+ 1642      7200
+ 1643 0037 12020000 		.4byte	0x212
+ 1644 003b 636C6561 		.ascii	"clear_packet\000"
+ 1644      725F7061 
+ 1644      636B6574 
+ 1644      00
+ 1645 0048 5A020000 		.4byte	0x25a
+ 1646 004c 72746343 		.ascii	"rtcCallBackReceived\000"
+ 1646      616C6C42 
+ 1646      61636B52 
+ 1646      65636569 
+ 1646      76656400 
+ 1647 0060 82020000 		.4byte	0x282
+ 1648 0064 57726974 		.ascii	"Write_To_SD_Card\000"
+ 1648      655F546F 
+ 1648      5F53445F 
+ 1648      43617264 
+ 1648      00
+ 1649 0075 13030000 		.4byte	0x313
+ 1650 0079 6D6F6465 		.ascii	"modem_state\000"
+ 1650      6D5F7374 
+ 1650      61746500 
+ 1651 0085 35030000 		.4byte	0x335
+ 1652 0089 64617461 		.ascii	"data_packet\000"
+ 1652      5F706163 
+ 1652      6B657400 
+ 1653 0095 47030000 		.4byte	0x347
+ 1654 0099 64656275 		.ascii	"debug_packet\000"
+ 1654      675F7061 
+ 1654      636B6574 
+ 1654      00
+ 1655 00a6 59030000 		.4byte	0x359
+ 1656 00aa 7061636B 		.ascii	"packet_ready\000"
+ 1656      65745F72 
+ 1656      65616479 
+ 1656      00
+ 1657 00b7 6B030000 		.4byte	0x36b
+ 1658 00bb 74616B65 		.ascii	"take_reading\000"
+ 1658      5F726561 
+ 1658      64696E67 
+ 1658      00
+ 1659 00c8 7D030000 		.4byte	0x37d
+ 1660 00cc 73656E64 		.ascii	"send_attempts\000"
+ 1660      5F617474 
+ 1660      656D7074 
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccFwamZO.s 			page 35
+
+
+ 1660      7300
+ 1661 00da 8F030000 		.4byte	0x38f
+ 1662 00de 756C7472 		.ascii	"ultrasonic_reading\000"
+ 1662      61736F6E 
+ 1662      69635F72 
+ 1662      65616469 
+ 1662      6E6700
+ 1663 00f1 A1030000 		.4byte	0x3a1
+ 1664 00f5 736F6C69 		.ascii	"solinst_reading\000"
+ 1664      6E73745F 
+ 1664      72656164 
+ 1664      696E6700 
+ 1665 0105 00000000 		.4byte	0x0
+ 1666              		.section	.debug_aranges,"",%progbits
+ 1667 0000 44000000 		.4byte	0x44
+ 1668 0004 0200     		.2byte	0x2
+ 1669 0006 00000000 		.4byte	.Ldebug_info0
+ 1670 000a 04       		.byte	0x4
+ 1671 000b 00       		.byte	0x0
+ 1672 000c 0000     		.2byte	0x0
+ 1673 000e 0000     		.2byte	0x0
+ 1674 0010 00000000 		.4byte	.LFB29
+ 1675 0014 EE020000 		.4byte	.LFE29-.LFB29
+ 1676 0018 00000000 		.4byte	.LFB30
+ 1677 001c 3E000000 		.4byte	.LFE30-.LFB30
+ 1678 0020 00000000 		.4byte	.LFB31
+ 1679 0024 0A000000 		.4byte	.LFE31-.LFB31
+ 1680 0028 00000000 		.4byte	.LFB32
+ 1681 002c 48000000 		.4byte	.LFE32-.LFB32
+ 1682 0030 00000000 		.4byte	.LFB33
+ 1683 0034 28000000 		.4byte	.LFE33-.LFB33
+ 1684 0038 00000000 		.4byte	.LFB34
+ 1685 003c 74000000 		.4byte	.LFE34-.LFB34
+ 1686 0040 00000000 		.4byte	0x0
+ 1687 0044 00000000 		.4byte	0x0
+ 1688              		.section	.debug_ranges,"",%progbits
+ 1689              	.Ldebug_ranges0:
+ 1690 0000 00000000 		.4byte	.Ltext0
+ 1691 0004 00000000 		.4byte	.Letext0
+ 1692 0008 00000000 		.4byte	.LFB29
+ 1693 000c EE020000 		.4byte	.LFE29
+ 1694 0010 00000000 		.4byte	.LFB30
+ 1695 0014 3E000000 		.4byte	.LFE30
+ 1696 0018 00000000 		.4byte	.LFB31
+ 1697 001c 0A000000 		.4byte	.LFE31
+ 1698 0020 00000000 		.4byte	.LFB32
+ 1699 0024 48000000 		.4byte	.LFE32
+ 1700 0028 00000000 		.4byte	.LFB33
+ 1701 002c 28000000 		.4byte	.LFE33
+ 1702 0030 00000000 		.4byte	.LFB34
+ 1703 0034 74000000 		.4byte	.LFE34
+ 1704 0038 00000000 		.4byte	0x0
+ 1705 003c 00000000 		.4byte	0x0
+ 1706              		.section	.debug_str,"MS",%progbits,1
+ 1707              	.LASF6:
+ 1708 0000 6C6F6E67 		.ascii	"long long int\000"
+ 1708      206C6F6E 
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccFwamZO.s 			page 36
+
+
+ 1708      6720696E 
+ 1708      7400
+ 1709              	.LASF22:
+ 1710 000e 74656D70 		.ascii	"temp\000"
+ 1710      00
+ 1711              	.LASF45:
+ 1712 0013 74616B65 		.ascii	"take_reading\000"
+ 1712      5F726561 
+ 1712      64696E67 
+ 1712      00
+ 1713              	.LASF18:
+ 1714 0020 7765656B 		.ascii	"weekday\000"
+ 1714      64617900 
+ 1715              	.LASF20:
+ 1716 0028 79656172 		.ascii	"year\000"
+ 1716      00
+ 1717              	.LASF16:
+ 1718 002d 6D696E75 		.ascii	"minute\000"
+ 1718      746500
+ 1719              	.LASF28:
+ 1720 0034 7061636B 		.ascii	"packet_size\000"
+ 1720      65745F73 
+ 1720      697A6500 
+ 1721              	.LASF3:
+ 1722 0040 73686F72 		.ascii	"short unsigned int\000"
+ 1722      7420756E 
+ 1722      7369676E 
+ 1722      65642069 
+ 1722      6E7400
+ 1723              	.LASF34:
+ 1724 0053 66696C65 		.ascii	"fileName\000"
+ 1724      4E616D65 
+ 1724      00
+ 1725              	.LASF19:
+ 1726 005c 6D6F6E74 		.ascii	"month\000"
+ 1726      6800
+ 1727              	.LASF36:
+ 1728 0062 70446174 		.ascii	"pData\000"
+ 1728      6100
+ 1729              	.LASF38:
+ 1730 0068 7046696C 		.ascii	"pFile\000"
+ 1730      6500
+ 1731              	.LASF11:
+ 1732 006e 666C6F61 		.ascii	"float\000"
+ 1732      7400
+ 1733              	.LASF46:
+ 1734 0074 73656E64 		.ascii	"send_attempts\000"
+ 1734      5F617474 
+ 1734      656D7074 
+ 1734      7300
+ 1735              	.LASF51:
+ 1736 0082 433A5C55 		.ascii	"C:\\Users\\karunmj\\Documents\\GitHub\\m2m\\hardwar"
+ 1736      73657273 
+ 1736      5C6B6172 
+ 1736      756E6D6A 
+ 1736      5C446F63 
+ 1737 00af 655C7073 		.ascii	"e\\psoc5\\PSoC_Datalogger_SMS.cydsn\000"
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccFwamZO.s 			page 37
+
+
+ 1737      6F63355C 
+ 1737      50536F43 
+ 1737      5F446174 
+ 1737      616C6F67 
+ 1738              	.LASF1:
+ 1739 00d1 756E7369 		.ascii	"unsigned char\000"
+ 1739      676E6564 
+ 1739      20636861 
+ 1739      7200
+ 1740              	.LASF50:
+ 1741 00df 2E5C6D61 		.ascii	".\\main.c\000"
+ 1741      696E2E63 
+ 1741      00
+ 1742              	.LASF5:
+ 1743 00e8 6C6F6E67 		.ascii	"long unsigned int\000"
+ 1743      20756E73 
+ 1743      69676E65 
+ 1743      6420696E 
+ 1743      7400
+ 1744              	.LASF54:
+ 1745 00fa 6973725F 		.ascii	"isr_timer\000"
+ 1745      74696D65 
+ 1745      7200
+ 1746              	.LASF44:
+ 1747 0104 7061636B 		.ascii	"packet_ready\000"
+ 1747      65745F72 
+ 1747      65616479 
+ 1747      00
+ 1748              	.LASF48:
+ 1749 0111 736F6C69 		.ascii	"solinst_reading\000"
+ 1749      6E73745F 
+ 1749      72656164 
+ 1749      696E6700 
+ 1750              	.LASF40:
+ 1751 0121 49544D5F 		.ascii	"ITM_RxBuffer\000"
+ 1751      52784275 
+ 1751      66666572 
+ 1751      00
+ 1752              	.LASF43:
+ 1753 012e 64656275 		.ascii	"debug_packet\000"
+ 1753      675F7061 
+ 1753      636B6574 
+ 1753      00
+ 1754              	.LASF15:
+ 1755 013b 7365636F 		.ascii	"second\000"
+ 1755      6E6400
+ 1756              	.LASF12:
+ 1757 0142 646F7562 		.ascii	"double\000"
+ 1757      6C6500
+ 1758              	.LASF10:
+ 1759 0149 75696E74 		.ascii	"uint16\000"
+ 1759      313600
+ 1760              	.LASF21:
+ 1761 0150 4E656F52 		.ascii	"NeoRtcTimeStruct\000"
+ 1761      74635469 
+ 1761      6D655374 
+ 1761      72756374 
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccFwamZO.s 			page 38
+
+
+ 1761      00
+ 1762              	.LASF52:
+ 1763 0161 6D61696E 		.ascii	"main\000"
+ 1763      00
+ 1764              	.LASF27:
+ 1765 0166 7061636B 		.ascii	"packet\000"
+ 1765      657400
+ 1766              	.LASF26:
+ 1767 016d 536F6C69 		.ascii	"SolinstReading\000"
+ 1767      6E737452 
+ 1767      65616469 
+ 1767      6E6700
+ 1768              	.LASF47:
+ 1769 017c 756C7472 		.ascii	"ultrasonic_reading\000"
+ 1769      61736F6E 
+ 1769      69635F72 
+ 1769      65616469 
+ 1769      6E6700
+ 1770              	.LASF8:
+ 1771 018f 756E7369 		.ascii	"unsigned int\000"
+ 1771      676E6564 
+ 1771      20696E74 
+ 1771      00
+ 1772              	.LASF35:
+ 1773 019c 704D6F64 		.ascii	"pMode\000"
+ 1773      6500
+ 1774              	.LASF7:
+ 1775 01a2 6C6F6E67 		.ascii	"long long unsigned int\000"
+ 1775      206C6F6E 
+ 1775      6720756E 
+ 1775      7369676E 
+ 1775      65642069 
+ 1776              	.LASF30:
+ 1777 01b9 636C6561 		.ascii	"clear_packet\000"
+ 1777      725F7061 
+ 1777      636B6574 
+ 1777      00
+ 1778              	.LASF17:
+ 1779 01c6 686F7572 		.ascii	"hour\000"
+ 1779      00
+ 1780              	.LASF0:
+ 1781 01cb 7369676E 		.ascii	"signed char\000"
+ 1781      65642063 
+ 1781      68617200 
+ 1782              	.LASF14:
+ 1783 01d7 46535F46 		.ascii	"FS_FILE\000"
+ 1783      494C4500 
+ 1784              	.LASF49:
+ 1785 01df 474E5520 		.ascii	"GNU C 4.4.1\000"
+ 1785      4320342E 
+ 1785      342E3100 
+ 1786              	.LASF23:
+ 1787 01eb 64657074 		.ascii	"depth\000"
+ 1787      6800
+ 1788              	.LASF13:
+ 1789 01f1 63686172 		.ascii	"char\000"
+ 1789      00
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccFwamZO.s 			page 39
+
+
+ 1790              	.LASF24:
+ 1791 01f6 76616C69 		.ascii	"valid\000"
+ 1791      6400
+ 1792              	.LASF29:
+ 1793 01fc 746D5F6E 		.ascii	"tm_neo\000"
+ 1793      656F00
+ 1794              	.LASF32:
+ 1795 0203 616C6172 		.ascii	"alarmType\000"
+ 1795      6D547970 
+ 1795      6500
+ 1796              	.LASF2:
+ 1797 020d 73686F72 		.ascii	"short int\000"
+ 1797      7420696E 
+ 1797      7400
+ 1798              	.LASF9:
+ 1799 0217 75696E74 		.ascii	"uint8\000"
+ 1799      3800
+ 1800              	.LASF31:
+ 1801 021d 72746343 		.ascii	"rtcCallBackReceived\000"
+ 1801      616C6C42 
+ 1801      61636B52 
+ 1801      65636569 
+ 1801      76656400 
+ 1802              	.LASF39:
+ 1803 0231 7364566F 		.ascii	"sdVolName\000"
+ 1803      6C4E616D 
+ 1803      6500
+ 1804              	.LASF4:
+ 1805 023b 6C6F6E67 		.ascii	"long int\000"
+ 1805      20696E74 
+ 1805      00
+ 1806              	.LASF41:
+ 1807 0244 6D6F6465 		.ascii	"modem_state\000"
+ 1807      6D5F7374 
+ 1807      61746500 
+ 1808              	.LASF37:
+ 1809 0250 4E756D42 		.ascii	"NumBytes\000"
+ 1809      79746573 
+ 1809      00
+ 1810              	.LASF53:
+ 1811 0259 6B696C6C 		.ascii	"killMotePower\000"
+ 1811      4D6F7465 
+ 1811      506F7765 
+ 1811      7200
+ 1812              	.LASF25:
+ 1813 0267 556C7472 		.ascii	"UltrasonicReading\000"
+ 1813      61736F6E 
+ 1813      69635265 
+ 1813      6164696E 
+ 1813      6700
+ 1814              	.LASF33:
+ 1815 0279 57726974 		.ascii	"Write_To_SD_Card\000"
+ 1815      655F546F 
+ 1815      5F53445F 
+ 1815      43617264 
+ 1815      00
+ 1816              	.LASF42:
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccFwamZO.s 			page 40
+
+
+ 1817 028a 64617461 		.ascii	"data_packet\000"
+ 1817      5F706163 
+ 1817      6B657400 
+ 1818              		.ident	"GCC: (Sourcery G++ Lite 2010q1-188) 4.4.1"

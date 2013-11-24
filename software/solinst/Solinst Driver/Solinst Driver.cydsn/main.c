@@ -42,11 +42,24 @@ void main()
        
     for(;;)
     {
-        RTC_Process_Tasks();
-        ////SolinstReading reading;
-        //solinst_get_reading(&reading);
-        //CyDelay(5000u);
-       
+        //RTC_Process_Tasks();
+        
+        //SolinstReading reading;
+        solinst_get_reading(&solinst_reading);
+        /*
+        ultrasonic_get_reading(&ultrasonic_reading);
+        //sprintf(data_packet,"\r\n%s","MAX_SEND_ATTEMPTS EXCEEDED");
+        //Write_To_SD_Card("debug.txt","a",data_packet,strlen(data_packet));
+        if (debug_is_on()) {
+            debug_off();
+            debug_write("off");
+        } else {
+            debug_on();
+            debug_write("on");
+        }
+        */
+        CyDelay(5000u);
+        
     }
 }
 
