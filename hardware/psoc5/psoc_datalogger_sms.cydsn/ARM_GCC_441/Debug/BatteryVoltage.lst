@@ -1,0 +1,517 @@
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccQmU4th.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 6
+  11              		.eabi_attribute 18, 4
+  12              		.thumb
+  13              		.file	"BatteryVoltage.c"
+  14              		.section	.debug_abbrev,"",%progbits
+  15              	.Ldebug_abbrev0:
+  16              		.section	.debug_info,"",%progbits
+  17              	.Ldebug_info0:
+  18              		.section	.debug_line,"",%progbits
+  19              	.Ldebug_line0:
+  20 0000 6F000000 		.text
+  20      02005000 
+  20      00000201 
+  20      FB0E0D00 
+  20      01010101 
+  21              	.Ltext0:
+  22              		.cfi_sections	.debug_frame
+  23              		.global	__aeabi_fmul
+  24              		.section	.text.ReadBatterVoltage,"ax",%progbits
+  25              		.align	2
+  26              		.global	ReadBatterVoltage
+  27              		.thumb
+  28              		.thumb_func
+  29              		.type	ReadBatterVoltage, %function
+  30              	ReadBatterVoltage:
+  31              	.LFB29:
+  32              		.file 1 ".\\BatteryVoltage.c"
+   1:.\BatteryVoltage.c **** /* ========================================
+   2:.\BatteryVoltage.c ****  *
+   3:.\BatteryVoltage.c ****  * Copyright YOUR COMPANY, THE YEAR
+   4:.\BatteryVoltage.c ****  * All Rights Reserved
+   5:.\BatteryVoltage.c ****  * UNPUBLISHED, LICENSED SOFTWARE.
+   6:.\BatteryVoltage.c ****  *
+   7:.\BatteryVoltage.c ****  * CONFIDENTIAL AND PROPRIETARY INFORMATION
+   8:.\BatteryVoltage.c ****  * WHICH IS THE PROPERTY OF your company.
+   9:.\BatteryVoltage.c ****  *
+  10:.\BatteryVoltage.c ****  * ========================================
+  11:.\BatteryVoltage.c **** */
+  12:.\BatteryVoltage.c **** 
+  13:.\BatteryVoltage.c **** #include "BatteryVoltage.h"
+  14:.\BatteryVoltage.c **** #include "ADC_SAR_1.h"
+  15:.\BatteryVoltage.c **** 
+  16:.\BatteryVoltage.c **** float ReadBatterVoltage(){
+  33              		.loc 1 16 0
+  34              		.cfi_startproc
+  35              		@ args = 0, pretend = 0, frame = 8
+  36              		@ frame_needed = 1, uses_anonymous_args = 0
+  37 0000 80B5     		push	{r7, lr}
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccQmU4th.s 			page 2
+
+
+  38              	.LCFI0:
+  39              		.cfi_def_cfa_offset 8
+  40 0002 82B0     		sub	sp, sp, #8
+  41              	.LCFI1:
+  42              		.cfi_def_cfa_offset 16
+  43 0004 00AF     		add	r7, sp, #0
+  44              		.cfi_offset 14, -4
+  45              		.cfi_offset 7, -8
+  46              	.LCFI2:
+  47              		.cfi_def_cfa_register 7
+  17:.\BatteryVoltage.c ****     //Enable battery volatge input
+  18:.\BatteryVoltage.c ****     VBAT_EN_Write(1u);
+  48              		.loc 1 18 0
+  49 0006 4FF00100 		mov	r0, #1
+  50 000a FFF7FEFF 		bl	VBAT_EN_Write
+  19:.\BatteryVoltage.c ****     //let it settle 50us
+  20:.\BatteryVoltage.c ****     CyDelay(10u);
+  51              		.loc 1 20 0
+  52 000e 4FF00A00 		mov	r0, #10
+  53 0012 FFF7FEFF 		bl	CyDelay
+  21:.\BatteryVoltage.c ****     ADC_SAR_1_StartConvert();
+  54              		.loc 1 21 0
+  55 0016 FFF7FEFF 		bl	ADC_SAR_1_StartConvert
+  22:.\BatteryVoltage.c ****     CyDelay(10u);
+  56              		.loc 1 22 0
+  57 001a 4FF00A00 		mov	r0, #10
+  58 001e FFF7FEFF 		bl	CyDelay
+  23:.\BatteryVoltage.c ****     //ADC_SAR_1_IsEndConversion(ADC_SAR_1_RETURN_STATUS);
+  24:.\BatteryVoltage.c ****     float voltage =  ADC_SAR_1_CountsTo_Volts(ADC_SAR_1_GetResult16());
+  59              		.loc 1 24 0
+  60 0022 FFF7FEFF 		bl	ADC_SAR_1_GetResult16
+  61 0026 0346     		mov	r3, r0
+  62 0028 9BB2     		uxth	r3, r3
+  63 002a 1BB2     		sxth	r3, r3
+  64 002c 1846     		mov	r0, r3
+  65 002e FFF7FEFF 		bl	ADC_SAR_1_CountsTo_Volts
+  66 0032 0346     		mov	r3, r0
+  67 0034 7B60     		str	r3, [r7, #4]	@ float
+  25:.\BatteryVoltage.c ****     ADC_SAR_1_StopConvert();
+  68              		.loc 1 25 0
+  69 0036 FFF7FEFF 		bl	ADC_SAR_1_StopConvert
+  26:.\BatteryVoltage.c ****     //Disable battery volatge input
+  27:.\BatteryVoltage.c ****     VBAT_EN_Write(0u);
+  70              		.loc 1 27 0
+  71 003a 4FF00000 		mov	r0, #0
+  72 003e FFF7FEFF 		bl	VBAT_EN_Write
+  28:.\BatteryVoltage.c ****     voltage = voltage*(11);//convert based on voltage divider (1KOhm and 10 KOhm)
+  73              		.loc 1 28 0
+  74 0042 7868     		ldr	r0, [r7, #4]	@ float
+  75 0044 0549     		ldr	r1, .L3	@ float
+  76 0046 FFF7FEFF 		bl	__aeabi_fmul
+  77 004a 0346     		mov	r3, r0
+  78 004c 7B60     		str	r3, [r7, #4]	@ float
+  29:.\BatteryVoltage.c ****     return voltage;
+  79              		.loc 1 29 0
+  80 004e 7B68     		ldr	r3, [r7, #4]	@ float
+  30:.\BatteryVoltage.c **** }...
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccQmU4th.s 			page 3
+
+
+  81              		.loc 1 30 0
+  82 0050 1846     		mov	r0, r3
+  83 0052 07F10807 		add	r7, r7, #8
+  84 0056 BD46     		mov	sp, r7
+  85 0058 80BD     		pop	{r7, pc}
+  86              	.L4:
+  87 005a 00BF     		.align	2
+  88              	.L3:
+  89 005c 00003041 		.word	1093664768
+  90              		.cfi_endproc
+  91              	.LFE29:
+  92              		.size	ReadBatterVoltage, .-ReadBatterVoltage
+  93              		.text
+  94              	.Letext0:
+  95              		.section	.debug_loc,"",%progbits
+  96              	.Ldebug_loc0:
+  97              	.LLST0:
+  98 0000 00000000 		.4byte	.LFB29
+  99 0004 02000000 		.4byte	.LCFI0
+ 100 0008 0100     		.2byte	0x1
+ 101 000a 5D       		.byte	0x5d
+ 102 000b 02000000 		.4byte	.LCFI0
+ 103 000f 04000000 		.4byte	.LCFI1
+ 104 0013 0200     		.2byte	0x2
+ 105 0015 7D       		.byte	0x7d
+ 106 0016 08       		.sleb128 8
+ 107 0017 04000000 		.4byte	.LCFI1
+ 108 001b 06000000 		.4byte	.LCFI2
+ 109 001f 0200     		.2byte	0x2
+ 110 0021 7D       		.byte	0x7d
+ 111 0022 10       		.sleb128 16
+ 112 0023 06000000 		.4byte	.LCFI2
+ 113 0027 60000000 		.4byte	.LFE29
+ 114 002b 0200     		.2byte	0x2
+ 115 002d 77       		.byte	0x77
+ 116 002e 10       		.sleb128 16
+ 117 002f 00000000 		.4byte	0x0
+ 118 0033 00000000 		.4byte	0x0
+ 119              		.file 2 "./Generated_Source/PSoC5/core_cm3.h"
+ 120              		.section	.debug_info
+ 121 0000 C2000000 		.4byte	0xc2
+ 122 0004 0200     		.2byte	0x2
+ 123 0006 00000000 		.4byte	.Ldebug_abbrev0
+ 124 000a 04       		.byte	0x4
+ 125 000b 01       		.uleb128 0x1
+ 126 000c A5000000 		.4byte	.LASF12
+ 127 0010 01       		.byte	0x1
+ 128 0011 C4000000 		.4byte	.LASF13
+ 129 0015 1B000000 		.4byte	.LASF14
+ 130 0019 00000000 		.4byte	0x0
+ 131 001d 00000000 		.4byte	0x0
+ 132 0021 00000000 		.4byte	.Ldebug_ranges0+0x0
+ 133 0025 00000000 		.4byte	.Ldebug_line0
+ 134 0029 02       		.uleb128 0x2
+ 135 002a 01       		.byte	0x1
+ 136 002b 06       		.byte	0x6
+ 137 002c 07010000 		.4byte	.LASF0
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccQmU4th.s 			page 4
+
+
+ 138 0030 02       		.uleb128 0x2
+ 139 0031 01       		.byte	0x1
+ 140 0032 08       		.byte	0x8
+ 141 0033 B1000000 		.4byte	.LASF1
+ 142 0037 02       		.uleb128 0x2
+ 143 0038 02       		.byte	0x2
+ 144 0039 05       		.byte	0x5
+ 145 003a 19010000 		.4byte	.LASF2
+ 146 003e 02       		.uleb128 0x2
+ 147 003f 02       		.byte	0x2
+ 148 0040 07       		.byte	0x7
+ 149 0041 F4000000 		.4byte	.LASF3
+ 150 0045 02       		.uleb128 0x2
+ 151 0046 04       		.byte	0x4
+ 152 0047 05       		.byte	0x5
+ 153 0048 EB000000 		.4byte	.LASF4
+ 154 004c 02       		.uleb128 0x2
+ 155 004d 04       		.byte	0x4
+ 156 004e 07       		.byte	0x7
+ 157 004f 7C000000 		.4byte	.LASF5
+ 158 0053 02       		.uleb128 0x2
+ 159 0054 08       		.byte	0x8
+ 160 0055 05       		.byte	0x5
+ 161 0056 00000000 		.4byte	.LASF6
+ 162 005a 02       		.uleb128 0x2
+ 163 005b 08       		.byte	0x8
+ 164 005c 07       		.byte	0x7
+ 165 005d 8E000000 		.4byte	.LASF7
+ 166 0061 03       		.uleb128 0x3
+ 167 0062 04       		.byte	0x4
+ 168 0063 05       		.byte	0x5
+ 169 0064 696E7400 		.ascii	"int\000"
+ 170 0068 02       		.uleb128 0x2
+ 171 0069 04       		.byte	0x4
+ 172 006a 07       		.byte	0x7
+ 173 006b 0E000000 		.4byte	.LASF8
+ 174 006f 02       		.uleb128 0x2
+ 175 0070 04       		.byte	0x4
+ 176 0071 04       		.byte	0x4
+ 177 0072 13010000 		.4byte	.LASF9
+ 178 0076 02       		.uleb128 0x2
+ 179 0077 08       		.byte	0x8
+ 180 0078 04       		.byte	0x4
+ 181 0079 E4000000 		.4byte	.LASF10
+ 182 007d 02       		.uleb128 0x2
+ 183 007e 01       		.byte	0x1
+ 184 007f 08       		.byte	0x8
+ 185 0080 BF000000 		.4byte	.LASF11
+ 186 0084 04       		.uleb128 0x4
+ 187 0085 04       		.byte	0x4
+ 188 0086 07       		.byte	0x7
+ 189 0087 05       		.uleb128 0x5
+ 190 0088 01       		.byte	0x1
+ 191 0089 6A000000 		.4byte	.LASF15
+ 192 008d 01       		.byte	0x1
+ 193 008e 10       		.byte	0x10
+ 194 008f 6F000000 		.4byte	0x6f
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccQmU4th.s 			page 5
+
+
+ 195 0093 00000000 		.4byte	.LFB29
+ 196 0097 60000000 		.4byte	.LFE29
+ 197 009b 00000000 		.4byte	.LLST0
+ 198 009f B2000000 		.4byte	0xb2
+ 199 00a3 06       		.uleb128 0x6
+ 200 00a4 23010000 		.4byte	.LASF16
+ 201 00a8 01       		.byte	0x1
+ 202 00a9 18       		.byte	0x18
+ 203 00aa 6F000000 		.4byte	0x6f
+ 204 00ae 02       		.byte	0x2
+ 205 00af 91       		.byte	0x91
+ 206 00b0 74       		.sleb128 -12
+ 207 00b1 00       		.byte	0x0
+ 208 00b2 07       		.uleb128 0x7
+ 209 00b3 D7000000 		.4byte	.LASF17
+ 210 00b7 02       		.byte	0x2
+ 211 00b8 CE06     		.2byte	0x6ce
+ 212 00ba C0000000 		.4byte	0xc0
+ 213 00be 01       		.byte	0x1
+ 214 00bf 01       		.byte	0x1
+ 215 00c0 08       		.uleb128 0x8
+ 216 00c1 61000000 		.4byte	0x61
+ 217 00c5 00       		.byte	0x0
+ 218              		.section	.debug_abbrev
+ 219 0000 01       		.uleb128 0x1
+ 220 0001 11       		.uleb128 0x11
+ 221 0002 01       		.byte	0x1
+ 222 0003 25       		.uleb128 0x25
+ 223 0004 0E       		.uleb128 0xe
+ 224 0005 13       		.uleb128 0x13
+ 225 0006 0B       		.uleb128 0xb
+ 226 0007 03       		.uleb128 0x3
+ 227 0008 0E       		.uleb128 0xe
+ 228 0009 1B       		.uleb128 0x1b
+ 229 000a 0E       		.uleb128 0xe
+ 230 000b 11       		.uleb128 0x11
+ 231 000c 01       		.uleb128 0x1
+ 232 000d 52       		.uleb128 0x52
+ 233 000e 01       		.uleb128 0x1
+ 234 000f 55       		.uleb128 0x55
+ 235 0010 06       		.uleb128 0x6
+ 236 0011 10       		.uleb128 0x10
+ 237 0012 06       		.uleb128 0x6
+ 238 0013 00       		.byte	0x0
+ 239 0014 00       		.byte	0x0
+ 240 0015 02       		.uleb128 0x2
+ 241 0016 24       		.uleb128 0x24
+ 242 0017 00       		.byte	0x0
+ 243 0018 0B       		.uleb128 0xb
+ 244 0019 0B       		.uleb128 0xb
+ 245 001a 3E       		.uleb128 0x3e
+ 246 001b 0B       		.uleb128 0xb
+ 247 001c 03       		.uleb128 0x3
+ 248 001d 0E       		.uleb128 0xe
+ 249 001e 00       		.byte	0x0
+ 250 001f 00       		.byte	0x0
+ 251 0020 03       		.uleb128 0x3
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccQmU4th.s 			page 6
+
+
+ 252 0021 24       		.uleb128 0x24
+ 253 0022 00       		.byte	0x0
+ 254 0023 0B       		.uleb128 0xb
+ 255 0024 0B       		.uleb128 0xb
+ 256 0025 3E       		.uleb128 0x3e
+ 257 0026 0B       		.uleb128 0xb
+ 258 0027 03       		.uleb128 0x3
+ 259 0028 08       		.uleb128 0x8
+ 260 0029 00       		.byte	0x0
+ 261 002a 00       		.byte	0x0
+ 262 002b 04       		.uleb128 0x4
+ 263 002c 24       		.uleb128 0x24
+ 264 002d 00       		.byte	0x0
+ 265 002e 0B       		.uleb128 0xb
+ 266 002f 0B       		.uleb128 0xb
+ 267 0030 3E       		.uleb128 0x3e
+ 268 0031 0B       		.uleb128 0xb
+ 269 0032 00       		.byte	0x0
+ 270 0033 00       		.byte	0x0
+ 271 0034 05       		.uleb128 0x5
+ 272 0035 2E       		.uleb128 0x2e
+ 273 0036 01       		.byte	0x1
+ 274 0037 3F       		.uleb128 0x3f
+ 275 0038 0C       		.uleb128 0xc
+ 276 0039 03       		.uleb128 0x3
+ 277 003a 0E       		.uleb128 0xe
+ 278 003b 3A       		.uleb128 0x3a
+ 279 003c 0B       		.uleb128 0xb
+ 280 003d 3B       		.uleb128 0x3b
+ 281 003e 0B       		.uleb128 0xb
+ 282 003f 49       		.uleb128 0x49
+ 283 0040 13       		.uleb128 0x13
+ 284 0041 11       		.uleb128 0x11
+ 285 0042 01       		.uleb128 0x1
+ 286 0043 12       		.uleb128 0x12
+ 287 0044 01       		.uleb128 0x1
+ 288 0045 40       		.uleb128 0x40
+ 289 0046 06       		.uleb128 0x6
+ 290 0047 01       		.uleb128 0x1
+ 291 0048 13       		.uleb128 0x13
+ 292 0049 00       		.byte	0x0
+ 293 004a 00       		.byte	0x0
+ 294 004b 06       		.uleb128 0x6
+ 295 004c 34       		.uleb128 0x34
+ 296 004d 00       		.byte	0x0
+ 297 004e 03       		.uleb128 0x3
+ 298 004f 0E       		.uleb128 0xe
+ 299 0050 3A       		.uleb128 0x3a
+ 300 0051 0B       		.uleb128 0xb
+ 301 0052 3B       		.uleb128 0x3b
+ 302 0053 0B       		.uleb128 0xb
+ 303 0054 49       		.uleb128 0x49
+ 304 0055 13       		.uleb128 0x13
+ 305 0056 02       		.uleb128 0x2
+ 306 0057 0A       		.uleb128 0xa
+ 307 0058 00       		.byte	0x0
+ 308 0059 00       		.byte	0x0
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccQmU4th.s 			page 7
+
+
+ 309 005a 07       		.uleb128 0x7
+ 310 005b 34       		.uleb128 0x34
+ 311 005c 00       		.byte	0x0
+ 312 005d 03       		.uleb128 0x3
+ 313 005e 0E       		.uleb128 0xe
+ 314 005f 3A       		.uleb128 0x3a
+ 315 0060 0B       		.uleb128 0xb
+ 316 0061 3B       		.uleb128 0x3b
+ 317 0062 05       		.uleb128 0x5
+ 318 0063 49       		.uleb128 0x49
+ 319 0064 13       		.uleb128 0x13
+ 320 0065 3F       		.uleb128 0x3f
+ 321 0066 0C       		.uleb128 0xc
+ 322 0067 3C       		.uleb128 0x3c
+ 323 0068 0C       		.uleb128 0xc
+ 324 0069 00       		.byte	0x0
+ 325 006a 00       		.byte	0x0
+ 326 006b 08       		.uleb128 0x8
+ 327 006c 35       		.uleb128 0x35
+ 328 006d 00       		.byte	0x0
+ 329 006e 49       		.uleb128 0x49
+ 330 006f 13       		.uleb128 0x13
+ 331 0070 00       		.byte	0x0
+ 332 0071 00       		.byte	0x0
+ 333 0072 00       		.byte	0x0
+ 334              		.section	.debug_pubnames,"",%progbits
+ 335 0000 24000000 		.4byte	0x24
+ 336 0004 0200     		.2byte	0x2
+ 337 0006 00000000 		.4byte	.Ldebug_info0
+ 338 000a C6000000 		.4byte	0xc6
+ 339 000e 87000000 		.4byte	0x87
+ 340 0012 52656164 		.ascii	"ReadBatterVoltage\000"
+ 340      42617474 
+ 340      6572566F 
+ 340      6C746167 
+ 340      6500
+ 341 0024 00000000 		.4byte	0x0
+ 342              		.section	.debug_aranges,"",%progbits
+ 343 0000 1C000000 		.4byte	0x1c
+ 344 0004 0200     		.2byte	0x2
+ 345 0006 00000000 		.4byte	.Ldebug_info0
+ 346 000a 04       		.byte	0x4
+ 347 000b 00       		.byte	0x0
+ 348 000c 0000     		.2byte	0x0
+ 349 000e 0000     		.2byte	0x0
+ 350 0010 00000000 		.4byte	.LFB29
+ 351 0014 60000000 		.4byte	.LFE29-.LFB29
+ 352 0018 00000000 		.4byte	0x0
+ 353 001c 00000000 		.4byte	0x0
+ 354              		.section	.debug_ranges,"",%progbits
+ 355              	.Ldebug_ranges0:
+ 356 0000 00000000 		.4byte	.Ltext0
+ 357 0004 00000000 		.4byte	.Letext0
+ 358 0008 00000000 		.4byte	.LFB29
+ 359 000c 60000000 		.4byte	.LFE29
+ 360 0010 00000000 		.4byte	0x0
+ 361 0014 00000000 		.4byte	0x0
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccQmU4th.s 			page 8
+
+
+ 362              		.section	.debug_str,"MS",%progbits,1
+ 363              	.LASF6:
+ 364 0000 6C6F6E67 		.ascii	"long long int\000"
+ 364      206C6F6E 
+ 364      6720696E 
+ 364      7400
+ 365              	.LASF8:
+ 366 000e 756E7369 		.ascii	"unsigned int\000"
+ 366      676E6564 
+ 366      20696E74 
+ 366      00
+ 367              	.LASF14:
+ 368 001b 433A5C55 		.ascii	"C:\\Users\\karunmj\\Documents\\GitHub\\m2m\\hardwar"
+ 368      73657273 
+ 368      5C6B6172 
+ 368      756E6D6A 
+ 368      5C446F63 
+ 369 0048 655C7073 		.ascii	"e\\psoc5\\PSoC_Datalogger_SMS.cydsn\000"
+ 369      6F63355C 
+ 369      50536F43 
+ 369      5F446174 
+ 369      616C6F67 
+ 370              	.LASF15:
+ 371 006a 52656164 		.ascii	"ReadBatterVoltage\000"
+ 371      42617474 
+ 371      6572566F 
+ 371      6C746167 
+ 371      6500
+ 372              	.LASF5:
+ 373 007c 6C6F6E67 		.ascii	"long unsigned int\000"
+ 373      20756E73 
+ 373      69676E65 
+ 373      6420696E 
+ 373      7400
+ 374              	.LASF7:
+ 375 008e 6C6F6E67 		.ascii	"long long unsigned int\000"
+ 375      206C6F6E 
+ 375      6720756E 
+ 375      7369676E 
+ 375      65642069 
+ 376              	.LASF12:
+ 377 00a5 474E5520 		.ascii	"GNU C 4.4.1\000"
+ 377      4320342E 
+ 377      342E3100 
+ 378              	.LASF1:
+ 379 00b1 756E7369 		.ascii	"unsigned char\000"
+ 379      676E6564 
+ 379      20636861 
+ 379      7200
+ 380              	.LASF11:
+ 381 00bf 63686172 		.ascii	"char\000"
+ 381      00
+ 382              	.LASF13:
+ 383 00c4 2E5C4261 		.ascii	".\\BatteryVoltage.c\000"
+ 383      74746572 
+ 383      79566F6C 
+ 383      74616765 
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccQmU4th.s 			page 9
+
+
+ 383      2E6300
+ 384              	.LASF17:
+ 385 00d7 49544D5F 		.ascii	"ITM_RxBuffer\000"
+ 385      52784275 
+ 385      66666572 
+ 385      00
+ 386              	.LASF10:
+ 387 00e4 646F7562 		.ascii	"double\000"
+ 387      6C6500
+ 388              	.LASF4:
+ 389 00eb 6C6F6E67 		.ascii	"long int\000"
+ 389      20696E74 
+ 389      00
+ 390              	.LASF3:
+ 391 00f4 73686F72 		.ascii	"short unsigned int\000"
+ 391      7420756E 
+ 391      7369676E 
+ 391      65642069 
+ 391      6E7400
+ 392              	.LASF0:
+ 393 0107 7369676E 		.ascii	"signed char\000"
+ 393      65642063 
+ 393      68617200 
+ 394              	.LASF9:
+ 395 0113 666C6F61 		.ascii	"float\000"
+ 395      7400
+ 396              	.LASF2:
+ 397 0119 73686F72 		.ascii	"short int\000"
+ 397      7420696E 
+ 397      7400
+ 398              	.LASF16:
+ 399 0123 766F6C74 		.ascii	"voltage\000"
+ 399      61676500 
+ 400              		.ident	"GCC: (Sourcery G++ Lite 2010q1-188) 4.4.1"

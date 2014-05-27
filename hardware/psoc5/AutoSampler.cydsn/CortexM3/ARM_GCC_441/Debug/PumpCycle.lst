@@ -1,0 +1,2439 @@
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\cc5NDZwb.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 6
+  11              		.eabi_attribute 18, 4
+  12              		.thumb
+  13              		.file	"PumpCycle.c"
+  14              		.section	.debug_abbrev,"",%progbits
+  15              	.Ldebug_abbrev0:
+  16              		.section	.debug_info,"",%progbits
+  17              	.Ldebug_info0:
+  18              		.section	.debug_line,"",%progbits
+  19              	.Ldebug_line0:
+  20 0000 66010000 		.text
+  20      02007100 
+  20      00000201 
+  20      FB0E0D00 
+  20      01010101 
+  21              	.Ltext0:
+  22              		.cfi_sections	.debug_frame
+  23              		.global	PumpCycle_initVar
+  24              		.bss
+  25              		.type	PumpCycle_initVar, %object
+  26              		.size	PumpCycle_initVar, 1
+  27              	PumpCycle_initVar:
+  28 0000 00       		.space	1
+  29 0001 000000   		.align	2
+  30              	PumpCycle_lowPowerBackup:
+  31 0004 00       		.space	1
+  32              	PumpCycle_restoreReg:
+  33 0005 00       		.space	1
+  34 0006 0000     		.section	.text.PumpCycle_Init,"ax",%progbits
+  35              		.align	2
+  36              		.global	PumpCycle_Init
+  37              		.thumb
+  38              		.thumb_func
+  39              		.type	PumpCycle_Init, %function
+  40              	PumpCycle_Init:
+  41              	.LFB0:
+  42              		.file 1 ".\\Generated_Source\\PSoC5\\PumpCycle.c"
+   1:.\Generated_Source\PSoC5/PumpCycle.c **** /*******************************************************************************
+   2:.\Generated_Source\PSoC5/PumpCycle.c **** * File Name: PumpCycle.c
+   3:.\Generated_Source\PSoC5/PumpCycle.c **** * Version 2.0
+   4:.\Generated_Source\PSoC5/PumpCycle.c **** *
+   5:.\Generated_Source\PSoC5/PumpCycle.c **** * Description:
+   6:.\Generated_Source\PSoC5/PumpCycle.c **** *  This file provides the source code to the API for the Comparator component
+   7:.\Generated_Source\PSoC5/PumpCycle.c **** *
+   8:.\Generated_Source\PSoC5/PumpCycle.c **** * Note:
+   9:.\Generated_Source\PSoC5/PumpCycle.c **** *  None
+  10:.\Generated_Source\PSoC5/PumpCycle.c **** *
+  11:.\Generated_Source\PSoC5/PumpCycle.c **** ********************************************************************************
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\cc5NDZwb.s 			page 2
+
+
+  12:.\Generated_Source\PSoC5/PumpCycle.c **** * Copyright 2008-2012, Cypress Semiconductor Corporation.  All rights reserved.
+  13:.\Generated_Source\PSoC5/PumpCycle.c **** * You may use this file only in accordance with the license, terms, conditions, 
+  14:.\Generated_Source\PSoC5/PumpCycle.c **** * disclaimers, and limitations in the end user license agreement accompanying 
+  15:.\Generated_Source\PSoC5/PumpCycle.c **** * the software package with which this file was provided.
+  16:.\Generated_Source\PSoC5/PumpCycle.c **** *******************************************************************************/
+  17:.\Generated_Source\PSoC5/PumpCycle.c **** 
+  18:.\Generated_Source\PSoC5/PumpCycle.c **** #include "PumpCycle.h"
+  19:.\Generated_Source\PSoC5/PumpCycle.c **** 
+  20:.\Generated_Source\PSoC5/PumpCycle.c **** uint8 PumpCycle_initVar = 0u;
+  21:.\Generated_Source\PSoC5/PumpCycle.c **** 
+  22:.\Generated_Source\PSoC5/PumpCycle.c **** /* Internal functions definitoin */
+  23:.\Generated_Source\PSoC5/PumpCycle.c **** static void PumpCycle_trimAdjust(uint8 nibble) ;
+  24:.\Generated_Source\PSoC5/PumpCycle.c **** 
+  25:.\Generated_Source\PSoC5/PumpCycle.c **** /* static PumpCycle_backupStruct  PumpCycle_backup; */
+  26:.\Generated_Source\PSoC5/PumpCycle.c **** #if (CY_PSOC5A)
+  27:.\Generated_Source\PSoC5/PumpCycle.c ****     static PumpCycle_LOWPOWER_BACKUP_STRUCT  PumpCycle_lowPowerBackup;
+  28:.\Generated_Source\PSoC5/PumpCycle.c **** #endif /* CY_PSOC5A */
+  29:.\Generated_Source\PSoC5/PumpCycle.c **** 
+  30:.\Generated_Source\PSoC5/PumpCycle.c **** /* variable to decide whether or not to restore the control register in 
+  31:.\Generated_Source\PSoC5/PumpCycle.c ****    Enable() API for PSoC5A only */
+  32:.\Generated_Source\PSoC5/PumpCycle.c **** #if (CY_PSOC5A)
+  33:.\Generated_Source\PSoC5/PumpCycle.c ****     static uint8 PumpCycle_restoreReg = 0u;
+  34:.\Generated_Source\PSoC5/PumpCycle.c **** #endif /* CY_PSOC5A */
+  35:.\Generated_Source\PSoC5/PumpCycle.c **** 
+  36:.\Generated_Source\PSoC5/PumpCycle.c **** 
+  37:.\Generated_Source\PSoC5/PumpCycle.c **** /*******************************************************************************
+  38:.\Generated_Source\PSoC5/PumpCycle.c **** * Function Name: PumpCycle_Init
+  39:.\Generated_Source\PSoC5/PumpCycle.c **** ********************************************************************************
+  40:.\Generated_Source\PSoC5/PumpCycle.c **** *
+  41:.\Generated_Source\PSoC5/PumpCycle.c **** * Summary:
+  42:.\Generated_Source\PSoC5/PumpCycle.c **** *  Initialize to the schematic state
+  43:.\Generated_Source\PSoC5/PumpCycle.c **** * 
+  44:.\Generated_Source\PSoC5/PumpCycle.c **** * Parameters:
+  45:.\Generated_Source\PSoC5/PumpCycle.c **** *  void
+  46:.\Generated_Source\PSoC5/PumpCycle.c **** *
+  47:.\Generated_Source\PSoC5/PumpCycle.c **** * Return:
+  48:.\Generated_Source\PSoC5/PumpCycle.c **** *  void
+  49:.\Generated_Source\PSoC5/PumpCycle.c **** *
+  50:.\Generated_Source\PSoC5/PumpCycle.c **** *******************************************************************************/
+  51:.\Generated_Source\PSoC5/PumpCycle.c **** void PumpCycle_Init(void) 
+  52:.\Generated_Source\PSoC5/PumpCycle.c **** {
+  43              		.loc 1 52 0
+  44              		.cfi_startproc
+  45              		@ args = 0, pretend = 0, frame = 0
+  46              		@ frame_needed = 1, uses_anonymous_args = 0
+  47 0000 80B5     		push	{r7, lr}
+  48              	.LCFI0:
+  49              		.cfi_def_cfa_offset 8
+  50 0002 00AF     		add	r7, sp, #0
+  51              		.cfi_offset 14, -4
+  52              		.cfi_offset 7, -8
+  53              	.LCFI1:
+  54              		.cfi_def_cfa_register 7
+  53:.\Generated_Source\PSoC5/PumpCycle.c ****     /* Set default speed/power */
+  54:.\Generated_Source\PSoC5/PumpCycle.c ****     PumpCycle_SetSpeed(PumpCycle_DEFAULT_SPEED);
+  55              		.loc 1 54 0
+  56 0004 4FF00100 		mov	r0, #1
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\cc5NDZwb.s 			page 3
+
+
+  57 0008 FFF7FEFF 		bl	PumpCycle_SetSpeed
+  55:.\Generated_Source\PSoC5/PumpCycle.c **** 
+  56:.\Generated_Source\PSoC5/PumpCycle.c ****     /* Set default Hysteresis */
+  57:.\Generated_Source\PSoC5/PumpCycle.c ****     #if ( PumpCycle_DEFAULT_HYSTERESIS == 0u )
+  58:.\Generated_Source\PSoC5/PumpCycle.c ****         PumpCycle_CR |= PumpCycle_HYST_OFF;
+  58              		.loc 1 58 0
+  59 000c 45F64203 		movw	r3, #:lower16:1073764418
+  60 0010 C4F20003 		movt	r3, #:upper16:1073764418
+  61 0014 45F64202 		movw	r2, #:lower16:1073764418
+  62 0018 C4F20002 		movt	r2, #:upper16:1073764418
+  63 001c 1278     		ldrb	r2, [r2, #0]
+  64 001e D2B2     		uxtb	r2, r2
+  65 0020 42F02002 		orr	r2, r2, #32
+  66 0024 D2B2     		uxtb	r2, r2
+  67 0026 1A70     		strb	r2, [r3, #0]
+  59:.\Generated_Source\PSoC5/PumpCycle.c ****     #else
+  60:.\Generated_Source\PSoC5/PumpCycle.c ****         PumpCycle_CR &= (uint8)(~PumpCycle_HYST_OFF);
+  61:.\Generated_Source\PSoC5/PumpCycle.c ****     #endif /* PumpCycle_DEFAULT_HYSTERESIS == 0u */
+  62:.\Generated_Source\PSoC5/PumpCycle.c ****     /* Power down override feature is not supported for PSoC5A. */
+  63:.\Generated_Source\PSoC5/PumpCycle.c ****     #if (CY_PSOC3 || CY_PSOC5LP)
+  64:.\Generated_Source\PSoC5/PumpCycle.c ****         /* Set default Power Down Override */
+  65:.\Generated_Source\PSoC5/PumpCycle.c ****         #if ( PumpCycle_DEFAULT_PWRDWN_OVRD == 0u )
+  66:.\Generated_Source\PSoC5/PumpCycle.c ****             PumpCycle_CR &= (uint8)(~PumpCycle_PWRDWN_OVRD);
+  67:.\Generated_Source\PSoC5/PumpCycle.c ****         #else 
+  68:.\Generated_Source\PSoC5/PumpCycle.c ****             PumpCycle_CR |= PumpCycle_PWRDWN_OVRD;
+  69:.\Generated_Source\PSoC5/PumpCycle.c ****         #endif /* PumpCycle_DEFAULT_PWRDWN_OVRD == 0u */
+  70:.\Generated_Source\PSoC5/PumpCycle.c ****     #endif /* CY_PSOC3 || CY_PSOC5LP */
+  71:.\Generated_Source\PSoC5/PumpCycle.c ****     
+  72:.\Generated_Source\PSoC5/PumpCycle.c ****     /* Set mux always on logic */
+  73:.\Generated_Source\PSoC5/PumpCycle.c ****     PumpCycle_CR |= PumpCycle_MX_AO;
+  68              		.loc 1 73 0
+  69 0028 45F64203 		movw	r3, #:lower16:1073764418
+  70 002c C4F20003 		movt	r3, #:upper16:1073764418
+  71 0030 45F64202 		movw	r2, #:lower16:1073764418
+  72 0034 C4F20002 		movt	r2, #:upper16:1073764418
+  73 0038 1278     		ldrb	r2, [r2, #0]
+  74 003a D2B2     		uxtb	r2, r2
+  75 003c 42F00802 		orr	r2, r2, #8
+  76 0040 D2B2     		uxtb	r2, r2
+  77 0042 1A70     		strb	r2, [r3, #0]
+  74:.\Generated_Source\PSoC5/PumpCycle.c **** 
+  75:.\Generated_Source\PSoC5/PumpCycle.c ****     /* Set default sync */
+  76:.\Generated_Source\PSoC5/PumpCycle.c ****     PumpCycle_CLK &= (uint8)(~PumpCycle_SYNCCLK_MASK);
+  78              		.loc 1 76 0
+  79 0044 45F6D723 		movw	r3, #:lower16:1073765079
+  80 0048 C4F20003 		movt	r3, #:upper16:1073765079
+  81 004c 45F6D722 		movw	r2, #:lower16:1073765079
+  82 0050 C4F20002 		movt	r2, #:upper16:1073765079
+  83 0054 1278     		ldrb	r2, [r2, #0]
+  84 0056 D2B2     		uxtb	r2, r2
+  85 0058 02F0E702 		and	r2, r2, #231
+  86 005c 1A70     		strb	r2, [r3, #0]
+  77:.\Generated_Source\PSoC5/PumpCycle.c ****     #if ( PumpCycle_DEFAULT_BYPASS_SYNC == 0u )
+  78:.\Generated_Source\PSoC5/PumpCycle.c ****         PumpCycle_CLK |= PumpCycle_SYNC_CLK_EN;
+  79:.\Generated_Source\PSoC5/PumpCycle.c ****     #else
+  80:.\Generated_Source\PSoC5/PumpCycle.c ****         PumpCycle_CLK |= PumpCycle_BYPASS_SYNC;
+  87              		.loc 1 80 0
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\cc5NDZwb.s 			page 4
+
+
+  88 005e 45F6D723 		movw	r3, #:lower16:1073765079
+  89 0062 C4F20003 		movt	r3, #:upper16:1073765079
+  90 0066 45F6D722 		movw	r2, #:lower16:1073765079
+  91 006a C4F20002 		movt	r2, #:upper16:1073765079
+  92 006e 1278     		ldrb	r2, [r2, #0]
+  93 0070 D2B2     		uxtb	r2, r2
+  94 0072 42F01002 		orr	r2, r2, #16
+  95 0076 D2B2     		uxtb	r2, r2
+  96 0078 1A70     		strb	r2, [r3, #0]
+  81:.\Generated_Source\PSoC5/PumpCycle.c ****     #endif /* PumpCycle_DEFAULT_BYPASS_SYNC == 0u */
+  82:.\Generated_Source\PSoC5/PumpCycle.c **** }
+  97              		.loc 1 82 0
+  98 007a 80BD     		pop	{r7, pc}
+  99              		.cfi_endproc
+ 100              	.LFE0:
+ 101              		.size	PumpCycle_Init, .-PumpCycle_Init
+ 102              		.section	.text.PumpCycle_Enable,"ax",%progbits
+ 103              		.align	2
+ 104              		.global	PumpCycle_Enable
+ 105              		.thumb
+ 106              		.thumb_func
+ 107              		.type	PumpCycle_Enable, %function
+ 108              	PumpCycle_Enable:
+ 109              	.LFB1:
+  83:.\Generated_Source\PSoC5/PumpCycle.c **** 
+  84:.\Generated_Source\PSoC5/PumpCycle.c **** 
+  85:.\Generated_Source\PSoC5/PumpCycle.c **** /*******************************************************************************
+  86:.\Generated_Source\PSoC5/PumpCycle.c **** * Function Name: PumpCycle_Enable
+  87:.\Generated_Source\PSoC5/PumpCycle.c **** ********************************************************************************
+  88:.\Generated_Source\PSoC5/PumpCycle.c **** *
+  89:.\Generated_Source\PSoC5/PumpCycle.c **** * Summary:
+  90:.\Generated_Source\PSoC5/PumpCycle.c **** *  Enable the Comparator
+  91:.\Generated_Source\PSoC5/PumpCycle.c **** * 
+  92:.\Generated_Source\PSoC5/PumpCycle.c **** * Parameters:
+  93:.\Generated_Source\PSoC5/PumpCycle.c **** *  void
+  94:.\Generated_Source\PSoC5/PumpCycle.c **** *
+  95:.\Generated_Source\PSoC5/PumpCycle.c **** * Return:
+  96:.\Generated_Source\PSoC5/PumpCycle.c **** *  void
+  97:.\Generated_Source\PSoC5/PumpCycle.c **** *
+  98:.\Generated_Source\PSoC5/PumpCycle.c **** *******************************************************************************/
+  99:.\Generated_Source\PSoC5/PumpCycle.c **** void PumpCycle_Enable(void) 
+ 100:.\Generated_Source\PSoC5/PumpCycle.c **** {
+ 110              		.loc 1 100 0
+ 111              		.cfi_startproc
+ 112              		@ args = 0, pretend = 0, frame = 0
+ 113              		@ frame_needed = 1, uses_anonymous_args = 0
+ 114              		@ link register save eliminated.
+ 115 0000 80B4     		push	{r7}
+ 116              	.LCFI2:
+ 117              		.cfi_def_cfa_offset 4
+ 118 0002 00AF     		add	r7, sp, #0
+ 119              		.cfi_offset 7, -4
+ 120              	.LCFI3:
+ 121              		.cfi_def_cfa_register 7
+ 101:.\Generated_Source\PSoC5/PumpCycle.c ****     PumpCycle_PWRMGR |= PumpCycle_ACT_PWR_EN;
+ 122              		.loc 1 101 0
+ 123 0004 44F2A733 		movw	r3, #:lower16:1073759143
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\cc5NDZwb.s 			page 5
+
+
+ 124 0008 C4F20003 		movt	r3, #:upper16:1073759143
+ 125 000c 44F2A732 		movw	r2, #:lower16:1073759143
+ 126 0010 C4F20002 		movt	r2, #:upper16:1073759143
+ 127 0014 1278     		ldrb	r2, [r2, #0]
+ 128 0016 D2B2     		uxtb	r2, r2
+ 129 0018 42F00202 		orr	r2, r2, #2
+ 130 001c D2B2     		uxtb	r2, r2
+ 131 001e 1A70     		strb	r2, [r3, #0]
+ 102:.\Generated_Source\PSoC5/PumpCycle.c ****     PumpCycle_STBY_PWRMGR |= PumpCycle_STBY_PWR_EN;
+ 132              		.loc 1 102 0
+ 133 0020 44F2B733 		movw	r3, #:lower16:1073759159
+ 134 0024 C4F20003 		movt	r3, #:upper16:1073759159
+ 135 0028 44F2B732 		movw	r2, #:lower16:1073759159
+ 136 002c C4F20002 		movt	r2, #:upper16:1073759159
+ 137 0030 1278     		ldrb	r2, [r2, #0]
+ 138 0032 D2B2     		uxtb	r2, r2
+ 139 0034 42F00202 		orr	r2, r2, #2
+ 140 0038 D2B2     		uxtb	r2, r2
+ 141 003a 1A70     		strb	r2, [r3, #0]
+ 103:.\Generated_Source\PSoC5/PumpCycle.c ****      
+ 104:.\Generated_Source\PSoC5/PumpCycle.c ****      /* This is to restore the value of register CR which is saved 
+ 105:.\Generated_Source\PSoC5/PumpCycle.c ****     in prior to the modification in stop() API */
+ 106:.\Generated_Source\PSoC5/PumpCycle.c ****     #if (CY_PSOC5A)
+ 107:.\Generated_Source\PSoC5/PumpCycle.c ****         if(PumpCycle_restoreReg == 1u)
+ 142              		.loc 1 107 0
+ 143 003c 40F20003 		movw	r3, #:lower16:PumpCycle_restoreReg
+ 144 0040 C0F20003 		movt	r3, #:upper16:PumpCycle_restoreReg
+ 145 0044 1B78     		ldrb	r3, [r3, #0]	@ zero_extendqisi2
+ 146 0046 012B     		cmp	r3, #1
+ 147 0048 10D1     		bne	.L5
+ 108:.\Generated_Source\PSoC5/PumpCycle.c ****         {
+ 109:.\Generated_Source\PSoC5/PumpCycle.c ****             PumpCycle_CR = PumpCycle_lowPowerBackup.compCRReg;
+ 148              		.loc 1 109 0
+ 149 004a 45F64203 		movw	r3, #:lower16:1073764418
+ 150 004e C4F20003 		movt	r3, #:upper16:1073764418
+ 151 0052 40F20002 		movw	r2, #:lower16:PumpCycle_lowPowerBackup
+ 152 0056 C0F20002 		movt	r2, #:upper16:PumpCycle_lowPowerBackup
+ 153 005a 1278     		ldrb	r2, [r2, #0]	@ zero_extendqisi2
+ 154 005c 1A70     		strb	r2, [r3, #0]
+ 110:.\Generated_Source\PSoC5/PumpCycle.c **** 
+ 111:.\Generated_Source\PSoC5/PumpCycle.c ****             /* Clear the flag */
+ 112:.\Generated_Source\PSoC5/PumpCycle.c ****             PumpCycle_restoreReg = 0u;
+ 155              		.loc 1 112 0
+ 156 005e 40F20003 		movw	r3, #:lower16:PumpCycle_restoreReg
+ 157 0062 C0F20003 		movt	r3, #:upper16:PumpCycle_restoreReg
+ 158 0066 4FF00002 		mov	r2, #0
+ 159 006a 1A70     		strb	r2, [r3, #0]
+ 160              	.L5:
+ 113:.\Generated_Source\PSoC5/PumpCycle.c ****         }
+ 114:.\Generated_Source\PSoC5/PumpCycle.c ****     #endif /* CY_PSOC5A */
+ 115:.\Generated_Source\PSoC5/PumpCycle.c **** }
+ 161              		.loc 1 115 0
+ 162 006c BD46     		mov	sp, r7
+ 163 006e 80BC     		pop	{r7}
+ 164 0070 7047     		bx	lr
+ 165              		.cfi_endproc
+ 166              	.LFE1:
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\cc5NDZwb.s 			page 6
+
+
+ 167              		.size	PumpCycle_Enable, .-PumpCycle_Enable
+ 168 0072 00BF     		.section	.text.PumpCycle_Start,"ax",%progbits
+ 169              		.align	2
+ 170              		.global	PumpCycle_Start
+ 171              		.thumb
+ 172              		.thumb_func
+ 173              		.type	PumpCycle_Start, %function
+ 174              	PumpCycle_Start:
+ 175              	.LFB2:
+ 116:.\Generated_Source\PSoC5/PumpCycle.c **** 
+ 117:.\Generated_Source\PSoC5/PumpCycle.c **** 
+ 118:.\Generated_Source\PSoC5/PumpCycle.c **** /*******************************************************************************
+ 119:.\Generated_Source\PSoC5/PumpCycle.c **** * Function Name: PumpCycle_Start
+ 120:.\Generated_Source\PSoC5/PumpCycle.c **** ********************************************************************************
+ 121:.\Generated_Source\PSoC5/PumpCycle.c **** *
+ 122:.\Generated_Source\PSoC5/PumpCycle.c **** * Summary:
+ 123:.\Generated_Source\PSoC5/PumpCycle.c **** *  The start function initializes the Analog Comparator with the default values.
+ 124:.\Generated_Source\PSoC5/PumpCycle.c **** *
+ 125:.\Generated_Source\PSoC5/PumpCycle.c **** * Parameters:
+ 126:.\Generated_Source\PSoC5/PumpCycle.c **** *  void
+ 127:.\Generated_Source\PSoC5/PumpCycle.c **** *
+ 128:.\Generated_Source\PSoC5/PumpCycle.c **** * Return:
+ 129:.\Generated_Source\PSoC5/PumpCycle.c **** *  void 
+ 130:.\Generated_Source\PSoC5/PumpCycle.c **** *
+ 131:.\Generated_Source\PSoC5/PumpCycle.c **** * Global variables:
+ 132:.\Generated_Source\PSoC5/PumpCycle.c **** *  PumpCycle_initVar: Is modified when this function is called for the 
+ 133:.\Generated_Source\PSoC5/PumpCycle.c **** *   first time. Is used to ensure that initialization happens only once.
+ 134:.\Generated_Source\PSoC5/PumpCycle.c **** *  
+ 135:.\Generated_Source\PSoC5/PumpCycle.c **** *******************************************************************************/
+ 136:.\Generated_Source\PSoC5/PumpCycle.c **** void PumpCycle_Start(void) 
+ 137:.\Generated_Source\PSoC5/PumpCycle.c **** {
+ 176              		.loc 1 137 0
+ 177              		.cfi_startproc
+ 178              		@ args = 0, pretend = 0, frame = 0
+ 179              		@ frame_needed = 1, uses_anonymous_args = 0
+ 180 0000 80B5     		push	{r7, lr}
+ 181              	.LCFI4:
+ 182              		.cfi_def_cfa_offset 8
+ 183 0002 00AF     		add	r7, sp, #0
+ 184              		.cfi_offset 14, -4
+ 185              		.cfi_offset 7, -8
+ 186              	.LCFI5:
+ 187              		.cfi_def_cfa_register 7
+ 138:.\Generated_Source\PSoC5/PumpCycle.c **** 
+ 139:.\Generated_Source\PSoC5/PumpCycle.c ****     if ( PumpCycle_initVar == 0u )
+ 188              		.loc 1 139 0
+ 189 0004 40F20003 		movw	r3, #:lower16:PumpCycle_initVar
+ 190 0008 C0F20003 		movt	r3, #:upper16:PumpCycle_initVar
+ 191 000c 1B78     		ldrb	r3, [r3, #0]	@ zero_extendqisi2
+ 192 000e 002B     		cmp	r3, #0
+ 193 0010 08D1     		bne	.L7
+ 140:.\Generated_Source\PSoC5/PumpCycle.c ****     {
+ 141:.\Generated_Source\PSoC5/PumpCycle.c ****         PumpCycle_Init();
+ 194              		.loc 1 141 0
+ 195 0012 FFF7FEFF 		bl	PumpCycle_Init
+ 142:.\Generated_Source\PSoC5/PumpCycle.c ****         
+ 143:.\Generated_Source\PSoC5/PumpCycle.c ****         PumpCycle_initVar = 1u;
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\cc5NDZwb.s 			page 7
+
+
+ 196              		.loc 1 143 0
+ 197 0016 40F20003 		movw	r3, #:lower16:PumpCycle_initVar
+ 198 001a C0F20003 		movt	r3, #:upper16:PumpCycle_initVar
+ 199 001e 4FF00102 		mov	r2, #1
+ 200 0022 1A70     		strb	r2, [r3, #0]
+ 201              	.L7:
+ 144:.\Generated_Source\PSoC5/PumpCycle.c ****     }   
+ 145:.\Generated_Source\PSoC5/PumpCycle.c **** 
+ 146:.\Generated_Source\PSoC5/PumpCycle.c ****     /* Enable power to comparator */
+ 147:.\Generated_Source\PSoC5/PumpCycle.c ****     PumpCycle_Enable();    
+ 202              		.loc 1 147 0
+ 203 0024 FFF7FEFF 		bl	PumpCycle_Enable
+ 148:.\Generated_Source\PSoC5/PumpCycle.c **** }
+ 204              		.loc 1 148 0
+ 205 0028 80BD     		pop	{r7, pc}
+ 206              		.cfi_endproc
+ 207              	.LFE2:
+ 208              		.size	PumpCycle_Start, .-PumpCycle_Start
+ 209 002a 00BF     		.section	.text.PumpCycle_Stop,"ax",%progbits
+ 210              		.align	2
+ 211              		.global	PumpCycle_Stop
+ 212              		.thumb
+ 213              		.thumb_func
+ 214              		.type	PumpCycle_Stop, %function
+ 215              	PumpCycle_Stop:
+ 216              	.LFB3:
+ 149:.\Generated_Source\PSoC5/PumpCycle.c **** 
+ 150:.\Generated_Source\PSoC5/PumpCycle.c **** 
+ 151:.\Generated_Source\PSoC5/PumpCycle.c **** /*******************************************************************************
+ 152:.\Generated_Source\PSoC5/PumpCycle.c **** * Function Name: PumpCycle_Stop
+ 153:.\Generated_Source\PSoC5/PumpCycle.c **** ********************************************************************************
+ 154:.\Generated_Source\PSoC5/PumpCycle.c **** *
+ 155:.\Generated_Source\PSoC5/PumpCycle.c **** * Summary:
+ 156:.\Generated_Source\PSoC5/PumpCycle.c **** *  Powers down amplifier to lowest power state.
+ 157:.\Generated_Source\PSoC5/PumpCycle.c **** *
+ 158:.\Generated_Source\PSoC5/PumpCycle.c **** * Parameters:
+ 159:.\Generated_Source\PSoC5/PumpCycle.c **** *  void
+ 160:.\Generated_Source\PSoC5/PumpCycle.c **** *
+ 161:.\Generated_Source\PSoC5/PumpCycle.c **** * Return:
+ 162:.\Generated_Source\PSoC5/PumpCycle.c **** *  void
+ 163:.\Generated_Source\PSoC5/PumpCycle.c **** *
+ 164:.\Generated_Source\PSoC5/PumpCycle.c **** *******************************************************************************/
+ 165:.\Generated_Source\PSoC5/PumpCycle.c **** void PumpCycle_Stop(void) 
+ 166:.\Generated_Source\PSoC5/PumpCycle.c **** {
+ 217              		.loc 1 166 0
+ 218              		.cfi_startproc
+ 219              		@ args = 0, pretend = 0, frame = 0
+ 220              		@ frame_needed = 1, uses_anonymous_args = 0
+ 221              		@ link register save eliminated.
+ 222 0000 80B4     		push	{r7}
+ 223              	.LCFI6:
+ 224              		.cfi_def_cfa_offset 4
+ 225 0002 00AF     		add	r7, sp, #0
+ 226              		.cfi_offset 7, -4
+ 227              	.LCFI7:
+ 228              		.cfi_def_cfa_register 7
+ 167:.\Generated_Source\PSoC5/PumpCycle.c ****     /* Disable power to comparator */
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\cc5NDZwb.s 			page 8
+
+
+ 168:.\Generated_Source\PSoC5/PumpCycle.c ****     PumpCycle_PWRMGR &= (uint8)(~PumpCycle_ACT_PWR_EN);
+ 229              		.loc 1 168 0
+ 230 0004 44F2A733 		movw	r3, #:lower16:1073759143
+ 231 0008 C4F20003 		movt	r3, #:upper16:1073759143
+ 232 000c 44F2A732 		movw	r2, #:lower16:1073759143
+ 233 0010 C4F20002 		movt	r2, #:upper16:1073759143
+ 234 0014 1278     		ldrb	r2, [r2, #0]
+ 235 0016 D2B2     		uxtb	r2, r2
+ 236 0018 02F0FD02 		and	r2, r2, #253
+ 237 001c 1A70     		strb	r2, [r3, #0]
+ 169:.\Generated_Source\PSoC5/PumpCycle.c ****     PumpCycle_STBY_PWRMGR &= (uint8)(~PumpCycle_STBY_PWR_EN);
+ 238              		.loc 1 169 0
+ 239 001e 44F2B733 		movw	r3, #:lower16:1073759159
+ 240 0022 C4F20003 		movt	r3, #:upper16:1073759159
+ 241 0026 44F2B732 		movw	r2, #:lower16:1073759159
+ 242 002a C4F20002 		movt	r2, #:upper16:1073759159
+ 243 002e 1278     		ldrb	r2, [r2, #0]
+ 244 0030 D2B2     		uxtb	r2, r2
+ 245 0032 02F0FD02 		and	r2, r2, #253
+ 246 0036 1A70     		strb	r2, [r3, #0]
+ 170:.\Generated_Source\PSoC5/PumpCycle.c ****     
+ 171:.\Generated_Source\PSoC5/PumpCycle.c ****     #if (CY_PSOC5A)
+ 172:.\Generated_Source\PSoC5/PumpCycle.c ****         /* Enable the variable */
+ 173:.\Generated_Source\PSoC5/PumpCycle.c ****         PumpCycle_restoreReg = 1u;
+ 247              		.loc 1 173 0
+ 248 0038 40F20003 		movw	r3, #:lower16:PumpCycle_restoreReg
+ 249 003c C0F20003 		movt	r3, #:upper16:PumpCycle_restoreReg
+ 250 0040 4FF00102 		mov	r2, #1
+ 251 0044 1A70     		strb	r2, [r3, #0]
+ 174:.\Generated_Source\PSoC5/PumpCycle.c **** 
+ 175:.\Generated_Source\PSoC5/PumpCycle.c ****         /* Save the control register before clearing it */
+ 176:.\Generated_Source\PSoC5/PumpCycle.c ****         PumpCycle_lowPowerBackup.compCRReg = PumpCycle_CR;
+ 252              		.loc 1 176 0
+ 253 0046 45F64203 		movw	r3, #:lower16:1073764418
+ 254 004a C4F20003 		movt	r3, #:upper16:1073764418
+ 255 004e 1B78     		ldrb	r3, [r3, #0]
+ 256 0050 DAB2     		uxtb	r2, r3
+ 257 0052 40F20003 		movw	r3, #:lower16:PumpCycle_lowPowerBackup
+ 258 0056 C0F20003 		movt	r3, #:upper16:PumpCycle_lowPowerBackup
+ 259 005a 1A70     		strb	r2, [r3, #0]
+ 177:.\Generated_Source\PSoC5/PumpCycle.c ****         PumpCycle_CR = PumpCycle_COMP_REG_CLR;
+ 260              		.loc 1 177 0
+ 261 005c 45F64203 		movw	r3, #:lower16:1073764418
+ 262 0060 C4F20003 		movt	r3, #:upper16:1073764418
+ 263 0064 4FF00002 		mov	r2, #0
+ 264 0068 1A70     		strb	r2, [r3, #0]
+ 178:.\Generated_Source\PSoC5/PumpCycle.c ****     #endif /* CY_PSOC5A */
+ 179:.\Generated_Source\PSoC5/PumpCycle.c **** }
+ 265              		.loc 1 179 0
+ 266 006a BD46     		mov	sp, r7
+ 267 006c 80BC     		pop	{r7}
+ 268 006e 7047     		bx	lr
+ 269              		.cfi_endproc
+ 270              	.LFE3:
+ 271              		.size	PumpCycle_Stop, .-PumpCycle_Stop
+ 272              		.section	.text.PumpCycle_SetSpeed,"ax",%progbits
+ 273              		.align	2
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\cc5NDZwb.s 			page 9
+
+
+ 274              		.global	PumpCycle_SetSpeed
+ 275              		.thumb
+ 276              		.thumb_func
+ 277              		.type	PumpCycle_SetSpeed, %function
+ 278              	PumpCycle_SetSpeed:
+ 279              	.LFB4:
+ 180:.\Generated_Source\PSoC5/PumpCycle.c **** 
+ 181:.\Generated_Source\PSoC5/PumpCycle.c **** 
+ 182:.\Generated_Source\PSoC5/PumpCycle.c **** /*******************************************************************************
+ 183:.\Generated_Source\PSoC5/PumpCycle.c **** * Function Name: PumpCycle_SetSpeed
+ 184:.\Generated_Source\PSoC5/PumpCycle.c **** ********************************************************************************
+ 185:.\Generated_Source\PSoC5/PumpCycle.c **** *
+ 186:.\Generated_Source\PSoC5/PumpCycle.c **** * Summary:
+ 187:.\Generated_Source\PSoC5/PumpCycle.c **** *  This function sets the speed of the Analog Comparator. The faster the speed
+ 188:.\Generated_Source\PSoC5/PumpCycle.c **** *  the more power that is used.
+ 189:.\Generated_Source\PSoC5/PumpCycle.c **** *
+ 190:.\Generated_Source\PSoC5/PumpCycle.c **** * Parameters:
+ 191:.\Generated_Source\PSoC5/PumpCycle.c **** *  speed: (uint8) Sets operation mode of Comparator
+ 192:.\Generated_Source\PSoC5/PumpCycle.c **** *
+ 193:.\Generated_Source\PSoC5/PumpCycle.c **** * Return:
+ 194:.\Generated_Source\PSoC5/PumpCycle.c **** *  void
+ 195:.\Generated_Source\PSoC5/PumpCycle.c **** *
+ 196:.\Generated_Source\PSoC5/PumpCycle.c **** *******************************************************************************/
+ 197:.\Generated_Source\PSoC5/PumpCycle.c **** void PumpCycle_SetSpeed(uint8 speed) 
+ 198:.\Generated_Source\PSoC5/PumpCycle.c **** {
+ 280              		.loc 1 198 0
+ 281              		.cfi_startproc
+ 282              		@ args = 0, pretend = 0, frame = 8
+ 283              		@ frame_needed = 1, uses_anonymous_args = 0
+ 284              		@ link register save eliminated.
+ 285 0000 80B4     		push	{r7}
+ 286              	.LCFI8:
+ 287              		.cfi_def_cfa_offset 4
+ 288 0002 83B0     		sub	sp, sp, #12
+ 289              	.LCFI9:
+ 290              		.cfi_def_cfa_offset 16
+ 291 0004 00AF     		add	r7, sp, #0
+ 292              		.cfi_offset 7, -4
+ 293              	.LCFI10:
+ 294              		.cfi_def_cfa_register 7
+ 295 0006 0346     		mov	r3, r0
+ 296 0008 FB71     		strb	r3, [r7, #7]
+ 199:.\Generated_Source\PSoC5/PumpCycle.c ****     /* Clear and Set power level */    
+ 200:.\Generated_Source\PSoC5/PumpCycle.c ****     PumpCycle_CR = (PumpCycle_CR & (uint8)(~PumpCycle_PWR_MODE_MASK)) |
+ 297              		.loc 1 200 0
+ 298 000a 45F64203 		movw	r3, #:lower16:1073764418
+ 299 000e C4F20003 		movt	r3, #:upper16:1073764418
+ 300 0012 45F64202 		movw	r2, #:lower16:1073764418
+ 301 0016 C4F20002 		movt	r2, #:upper16:1073764418
+ 302 001a 1278     		ldrb	r2, [r2, #0]
+ 303 001c D2B2     		uxtb	r2, r2
+ 304 001e D1B2     		uxtb	r1, r2
+ 305 0020 01F0FC01 		and	r1, r1, #252
+ 306 0024 FA79     		ldrb	r2, [r7, #7]	@ zero_extendqisi2
+ 307 0026 D2B2     		uxtb	r2, r2
+ 308 0028 02F00302 		and	r2, r2, #3
+ 309 002c 41EA0202 		orr	r2, r1, r2
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\cc5NDZwb.s 			page 10
+
+
+ 310 0030 D2B2     		uxtb	r2, r2
+ 311 0032 D2B2     		uxtb	r2, r2
+ 312 0034 1A70     		strb	r2, [r3, #0]
+ 201:.\Generated_Source\PSoC5/PumpCycle.c ****                            (speed & PumpCycle_PWR_MODE_MASK);
+ 202:.\Generated_Source\PSoC5/PumpCycle.c **** 
+ 203:.\Generated_Source\PSoC5/PumpCycle.c ****     /* Set trim value for high speed comparator */
+ 204:.\Generated_Source\PSoC5/PumpCycle.c ****     if(speed == PumpCycle_HIGHSPEED)
+ 313              		.loc 1 204 0
+ 314 0036 FB79     		ldrb	r3, [r7, #7]	@ zero_extendqisi2
+ 315 0038 012B     		cmp	r3, #1
+ 316 003a 0BD1     		bne	.L12
+ 205:.\Generated_Source\PSoC5/PumpCycle.c ****     {
+ 206:.\Generated_Source\PSoC5/PumpCycle.c ****         /* PSoC5A */
+ 207:.\Generated_Source\PSoC5/PumpCycle.c ****         #if (CY_PSOC5A)
+ 208:.\Generated_Source\PSoC5/PumpCycle.c ****             PumpCycle_TR = PumpCycle_HS_TRIM_TR0;
+ 317              		.loc 1 208 0
+ 318 003c 44F20263 		movw	r3, #:lower16:1073759746
+ 319 0040 C4F20003 		movt	r3, #:upper16:1073759746
+ 320 0044 40F21212 		movw	r2, #:lower16:1224737042
+ 321 0048 C4F60012 		movt	r2, #:upper16:1224737042
+ 322 004c 1278     		ldrb	r2, [r2, #0]
+ 323 004e D2B2     		uxtb	r2, r2
+ 324 0050 1A70     		strb	r2, [r3, #0]
+ 325 0052 0AE0     		b	.L14
+ 326              	.L12:
+ 209:.\Generated_Source\PSoC5/PumpCycle.c ****         #endif /* CY_PSOC5A */
+ 210:.\Generated_Source\PSoC5/PumpCycle.c ****         
+ 211:.\Generated_Source\PSoC5/PumpCycle.c ****         /* PSoC3, PSoC5LP or later */
+ 212:.\Generated_Source\PSoC5/PumpCycle.c ****         #if (CY_PSOC3 || CY_PSOC5LP) 
+ 213:.\Generated_Source\PSoC5/PumpCycle.c ****             PumpCycle_TR0 = PumpCycle_HS_TRIM_TR0;
+ 214:.\Generated_Source\PSoC5/PumpCycle.c ****             PumpCycle_TR1 = PumpCycle_HS_TRIM_TR1;
+ 215:.\Generated_Source\PSoC5/PumpCycle.c ****         #endif /* CY_PSOC3 || CY_PSOC5LP */
+ 216:.\Generated_Source\PSoC5/PumpCycle.c ****     }
+ 217:.\Generated_Source\PSoC5/PumpCycle.c ****     else
+ 218:.\Generated_Source\PSoC5/PumpCycle.c ****     {
+ 219:.\Generated_Source\PSoC5/PumpCycle.c ****     /* PSoC5A */
+ 220:.\Generated_Source\PSoC5/PumpCycle.c ****         #if (CY_PSOC5A)
+ 221:.\Generated_Source\PSoC5/PumpCycle.c ****             PumpCycle_TR = PumpCycle_LS_TRIM_TR0;
+ 327              		.loc 1 221 0
+ 328 0054 44F20263 		movw	r3, #:lower16:1073759746
+ 329 0058 C4F20003 		movt	r3, #:upper16:1073759746
+ 330 005c 40F2AD12 		movw	r2, #:lower16:1224737197
+ 331 0060 C4F60012 		movt	r2, #:upper16:1224737197
+ 332 0064 1278     		ldrb	r2, [r2, #0]
+ 333 0066 D2B2     		uxtb	r2, r2
+ 334 0068 1A70     		strb	r2, [r3, #0]
+ 335              	.L14:
+ 222:.\Generated_Source\PSoC5/PumpCycle.c ****         #endif /* CY_PSOC5A */
+ 223:.\Generated_Source\PSoC5/PumpCycle.c ****         
+ 224:.\Generated_Source\PSoC5/PumpCycle.c ****         /* PSoC3, PSoC5LP or later */
+ 225:.\Generated_Source\PSoC5/PumpCycle.c ****         #if (CY_PSOC3 || CY_PSOC5LP) 
+ 226:.\Generated_Source\PSoC5/PumpCycle.c ****             PumpCycle_TR0 = PumpCycle_LS_TRIM_TR0;
+ 227:.\Generated_Source\PSoC5/PumpCycle.c ****             PumpCycle_TR1 = PumpCycle_LS_TRIM_TR1;
+ 228:.\Generated_Source\PSoC5/PumpCycle.c ****         #endif /* CY_PSOC3 || CY_PSOC5LP */
+ 229:.\Generated_Source\PSoC5/PumpCycle.c ****     }
+ 230:.\Generated_Source\PSoC5/PumpCycle.c **** 
+ 231:.\Generated_Source\PSoC5/PumpCycle.c **** }
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\cc5NDZwb.s 			page 11
+
+
+ 336              		.loc 1 231 0
+ 337 006a 07F10C07 		add	r7, r7, #12
+ 338 006e BD46     		mov	sp, r7
+ 339 0070 80BC     		pop	{r7}
+ 340 0072 7047     		bx	lr
+ 341              		.cfi_endproc
+ 342              	.LFE4:
+ 343              		.size	PumpCycle_SetSpeed, .-PumpCycle_SetSpeed
+ 344              		.section	.text.PumpCycle_GetCompare,"ax",%progbits
+ 345              		.align	2
+ 346              		.global	PumpCycle_GetCompare
+ 347              		.thumb
+ 348              		.thumb_func
+ 349              		.type	PumpCycle_GetCompare, %function
+ 350              	PumpCycle_GetCompare:
+ 351              	.LFB5:
+ 232:.\Generated_Source\PSoC5/PumpCycle.c **** 
+ 233:.\Generated_Source\PSoC5/PumpCycle.c **** 
+ 234:.\Generated_Source\PSoC5/PumpCycle.c **** /*******************************************************************************
+ 235:.\Generated_Source\PSoC5/PumpCycle.c **** * Function Name: PumpCycle_GetCompare
+ 236:.\Generated_Source\PSoC5/PumpCycle.c **** ********************************************************************************
+ 237:.\Generated_Source\PSoC5/PumpCycle.c **** *
+ 238:.\Generated_Source\PSoC5/PumpCycle.c **** * Summary:
+ 239:.\Generated_Source\PSoC5/PumpCycle.c **** *  This function returns the comparator output value.
+ 240:.\Generated_Source\PSoC5/PumpCycle.c **** *  This value is not affected by the Polarity parameter.
+ 241:.\Generated_Source\PSoC5/PumpCycle.c **** *  This valuea lways reflects a noninverted state.
+ 242:.\Generated_Source\PSoC5/PumpCycle.c **** *
+ 243:.\Generated_Source\PSoC5/PumpCycle.c **** * Parameters:
+ 244:.\Generated_Source\PSoC5/PumpCycle.c **** *   None
+ 245:.\Generated_Source\PSoC5/PumpCycle.c **** *
+ 246:.\Generated_Source\PSoC5/PumpCycle.c **** * Return:
+ 247:.\Generated_Source\PSoC5/PumpCycle.c **** *  (uint8)  0     - if Pos_Input less than Neg_input
+ 248:.\Generated_Source\PSoC5/PumpCycle.c **** *           non 0 - if Pos_Input greater than Neg_input.
+ 249:.\Generated_Source\PSoC5/PumpCycle.c **** *
+ 250:.\Generated_Source\PSoC5/PumpCycle.c **** *******************************************************************************/
+ 251:.\Generated_Source\PSoC5/PumpCycle.c **** uint8 PumpCycle_GetCompare(void) 
+ 252:.\Generated_Source\PSoC5/PumpCycle.c **** {
+ 352              		.loc 1 252 0
+ 353              		.cfi_startproc
+ 354              		@ args = 0, pretend = 0, frame = 0
+ 355              		@ frame_needed = 1, uses_anonymous_args = 0
+ 356              		@ link register save eliminated.
+ 357 0000 80B4     		push	{r7}
+ 358              	.LCFI11:
+ 359              		.cfi_def_cfa_offset 4
+ 360 0002 00AF     		add	r7, sp, #0
+ 361              		.cfi_offset 7, -4
+ 362              	.LCFI12:
+ 363              		.cfi_def_cfa_register 7
+ 253:.\Generated_Source\PSoC5/PumpCycle.c ****     return( PumpCycle_WRK & PumpCycle_CMP_OUT_MASK);
+ 364              		.loc 1 253 0
+ 365 0004 45F69033 		movw	r3, #:lower16:1073765264
+ 366 0008 C4F20003 		movt	r3, #:upper16:1073765264
+ 367 000c 1B78     		ldrb	r3, [r3, #0]
+ 368 000e DBB2     		uxtb	r3, r3
+ 369 0010 03F00403 		and	r3, r3, #4
+ 254:.\Generated_Source\PSoC5/PumpCycle.c **** }
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\cc5NDZwb.s 			page 12
+
+
+ 370              		.loc 1 254 0
+ 371 0014 1846     		mov	r0, r3
+ 372 0016 BD46     		mov	sp, r7
+ 373 0018 80BC     		pop	{r7}
+ 374 001a 7047     		bx	lr
+ 375              		.cfi_endproc
+ 376              	.LFE5:
+ 377              		.size	PumpCycle_GetCompare, .-PumpCycle_GetCompare
+ 378              		.section	.text.PumpCycle_trimAdjust,"ax",%progbits
+ 379              		.align	2
+ 380              		.thumb
+ 381              		.thumb_func
+ 382              		.type	PumpCycle_trimAdjust, %function
+ 383              	PumpCycle_trimAdjust:
+ 384              	.LFB6:
+ 255:.\Generated_Source\PSoC5/PumpCycle.c **** 
+ 256:.\Generated_Source\PSoC5/PumpCycle.c **** 
+ 257:.\Generated_Source\PSoC5/PumpCycle.c **** /*******************************************************************************
+ 258:.\Generated_Source\PSoC5/PumpCycle.c **** * Function Name: PumpCycle_trimAdjust
+ 259:.\Generated_Source\PSoC5/PumpCycle.c **** ********************************************************************************
+ 260:.\Generated_Source\PSoC5/PumpCycle.c **** *
+ 261:.\Generated_Source\PSoC5/PumpCycle.c **** * Summary:
+ 262:.\Generated_Source\PSoC5/PumpCycle.c **** *  This function adjusts the value in the low nibble/high nibble of the Analog 
+ 263:.\Generated_Source\PSoC5/PumpCycle.c **** *  Comparator trim register
+ 264:.\Generated_Source\PSoC5/PumpCycle.c **** *
+ 265:.\Generated_Source\PSoC5/PumpCycle.c **** * Parameters:  
+ 266:.\Generated_Source\PSoC5/PumpCycle.c **** *  nibble:
+ 267:.\Generated_Source\PSoC5/PumpCycle.c **** *      0 -- adjusts the value in the low nibble
+ 268:.\Generated_Source\PSoC5/PumpCycle.c **** *      1 -- adjusts the value in the high nibble
+ 269:.\Generated_Source\PSoC5/PumpCycle.c **** *
+ 270:.\Generated_Source\PSoC5/PumpCycle.c **** * Return:
+ 271:.\Generated_Source\PSoC5/PumpCycle.c **** *  None
+ 272:.\Generated_Source\PSoC5/PumpCycle.c **** *
+ 273:.\Generated_Source\PSoC5/PumpCycle.c **** * Theory: 
+ 274:.\Generated_Source\PSoC5/PumpCycle.c **** *  Function assumes comparator block is setup for trim adjust.
+ 275:.\Generated_Source\PSoC5/PumpCycle.c **** *  Intended to be called from Comp_ZeroCal()
+ 276:.\Generated_Source\PSoC5/PumpCycle.c **** * 
+ 277:.\Generated_Source\PSoC5/PumpCycle.c **** * Side Effects:
+ 278:.\Generated_Source\PSoC5/PumpCycle.c **** *  Routine uses a course 1ms delay following each trim adjustment to allow 
+ 279:.\Generated_Source\PSoC5/PumpCycle.c **** *  the comparator output to respond.
+ 280:.\Generated_Source\PSoC5/PumpCycle.c **** *
+ 281:.\Generated_Source\PSoC5/PumpCycle.c **** *******************************************************************************/
+ 282:.\Generated_Source\PSoC5/PumpCycle.c **** static void PumpCycle_trimAdjust(uint8 nibble) 
+ 283:.\Generated_Source\PSoC5/PumpCycle.c **** {
+ 385              		.loc 1 283 0
+ 386              		.cfi_startproc
+ 387              		@ args = 0, pretend = 0, frame = 16
+ 388              		@ frame_needed = 1, uses_anonymous_args = 0
+ 389 0000 80B5     		push	{r7, lr}
+ 390              	.LCFI13:
+ 391              		.cfi_def_cfa_offset 8
+ 392 0002 84B0     		sub	sp, sp, #16
+ 393              	.LCFI14:
+ 394              		.cfi_def_cfa_offset 24
+ 395 0004 00AF     		add	r7, sp, #0
+ 396              		.cfi_offset 14, -4
+ 397              		.cfi_offset 7, -8
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\cc5NDZwb.s 			page 13
+
+
+ 398              	.LCFI15:
+ 399              		.cfi_def_cfa_register 7
+ 400 0006 0346     		mov	r3, r0
+ 401 0008 FB71     		strb	r3, [r7, #7]
+ 284:.\Generated_Source\PSoC5/PumpCycle.c ****     uint8 trimCnt, trimCntMax;
+ 285:.\Generated_Source\PSoC5/PumpCycle.c ****     uint8 cmpState;   
+ 286:.\Generated_Source\PSoC5/PumpCycle.c **** 
+ 287:.\Generated_Source\PSoC5/PumpCycle.c ****     /* get current state of comparator output */
+ 288:.\Generated_Source\PSoC5/PumpCycle.c ****     cmpState = PumpCycle_WRK & PumpCycle_CMP_OUT_MASK;
+ 402              		.loc 1 288 0
+ 403 000a 45F69033 		movw	r3, #:lower16:1073765264
+ 404 000e C4F20003 		movt	r3, #:upper16:1073765264
+ 405 0012 1B78     		ldrb	r3, [r3, #0]
+ 406 0014 DBB2     		uxtb	r3, r3
+ 407 0016 03F00403 		and	r3, r3, #4
+ 408 001a FB73     		strb	r3, [r7, #15]
+ 289:.\Generated_Source\PSoC5/PumpCycle.c ****     
+ 290:.\Generated_Source\PSoC5/PumpCycle.c ****     if (nibble == 0u)
+ 409              		.loc 1 290 0
+ 410 001c FB79     		ldrb	r3, [r7, #7]	@ zero_extendqisi2
+ 411 001e 002B     		cmp	r3, #0
+ 412 0020 11D1     		bne	.L18
+ 291:.\Generated_Source\PSoC5/PumpCycle.c ****     {    
+ 292:.\Generated_Source\PSoC5/PumpCycle.c ****         /* if comparator output is high, negative offset adjust is required */
+ 293:.\Generated_Source\PSoC5/PumpCycle.c ****         if ( cmpState != 0u )
+ 413              		.loc 1 293 0
+ 414 0022 FB7B     		ldrb	r3, [r7, #15]	@ zero_extendqisi2
+ 415 0024 002B     		cmp	r3, #0
+ 416 0026 22D0     		beq	.L28
+ 294:.\Generated_Source\PSoC5/PumpCycle.c ****         {
+ 295:.\Generated_Source\PSoC5/PumpCycle.c ****             /* PSoC5A */
+ 296:.\Generated_Source\PSoC5/PumpCycle.c ****             #if (CY_PSOC5A)
+ 297:.\Generated_Source\PSoC5/PumpCycle.c ****                 PumpCycle_TR |= PumpCycle_CMP_TRIM1_DIR;
+ 417              		.loc 1 297 0
+ 418 0028 44F20263 		movw	r3, #:lower16:1073759746
+ 419 002c C4F20003 		movt	r3, #:upper16:1073759746
+ 420 0030 44F20262 		movw	r2, #:lower16:1073759746
+ 421 0034 C4F20002 		movt	r2, #:upper16:1073759746
+ 422 0038 1278     		ldrb	r2, [r2, #0]
+ 423 003a D2B2     		uxtb	r2, r2
+ 424 003c 42F00802 		orr	r2, r2, #8
+ 425 0040 D2B2     		uxtb	r2, r2
+ 426 0042 1A70     		strb	r2, [r3, #0]
+ 427 0044 14E0     		b	.L20
+ 428              	.L18:
+ 298:.\Generated_Source\PSoC5/PumpCycle.c ****             #endif /* CY_PSOC5A */
+ 299:.\Generated_Source\PSoC5/PumpCycle.c ****             
+ 300:.\Generated_Source\PSoC5/PumpCycle.c ****             /* PSoC3, PSoC5LP or later */
+ 301:.\Generated_Source\PSoC5/PumpCycle.c ****             #if (CY_PSOC3 || CY_PSOC5LP)
+ 302:.\Generated_Source\PSoC5/PumpCycle.c ****                 PumpCycle_TR0 |= PumpCycle_CMP_TR0_DIR;
+ 303:.\Generated_Source\PSoC5/PumpCycle.c ****             #endif /* CY_PSOC3 || CY_PSOC5LP */
+ 304:.\Generated_Source\PSoC5/PumpCycle.c ****         }
+ 305:.\Generated_Source\PSoC5/PumpCycle.c ****     }
+ 306:.\Generated_Source\PSoC5/PumpCycle.c ****     else
+ 307:.\Generated_Source\PSoC5/PumpCycle.c ****     {
+ 308:.\Generated_Source\PSoC5/PumpCycle.c ****         /* if comparator output is low, positive offset adjust is required */
+ 309:.\Generated_Source\PSoC5/PumpCycle.c ****         if ( cmpState == 0u )
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\cc5NDZwb.s 			page 14
+
+
+ 429              		.loc 1 309 0
+ 430 0046 FB7B     		ldrb	r3, [r7, #15]	@ zero_extendqisi2
+ 431 0048 002B     		cmp	r3, #0
+ 432 004a 11D1     		bne	.L20
+ 310:.\Generated_Source\PSoC5/PumpCycle.c ****         {
+ 311:.\Generated_Source\PSoC5/PumpCycle.c ****             /* PSoC5A */
+ 312:.\Generated_Source\PSoC5/PumpCycle.c ****             #if (CY_PSOC5A)
+ 313:.\Generated_Source\PSoC5/PumpCycle.c ****                 PumpCycle_TR |= PumpCycle_CMP_TRIM2_DIR; 
+ 433              		.loc 1 313 0
+ 434 004c 44F20263 		movw	r3, #:lower16:1073759746
+ 435 0050 C4F20003 		movt	r3, #:upper16:1073759746
+ 436 0054 44F20262 		movw	r2, #:lower16:1073759746
+ 437 0058 C4F20002 		movt	r2, #:upper16:1073759746
+ 438 005c 1278     		ldrb	r2, [r2, #0]
+ 439 005e D2B2     		uxtb	r2, r2
+ 440 0060 6FEA4262 		mvn	r2, r2, lsl #25
+ 441 0064 6FEA5262 		mvn	r2, r2, lsr #25
+ 442 0068 D2B2     		uxtb	r2, r2
+ 443 006a 1A70     		strb	r2, [r3, #0]
+ 444 006c 00E0     		b	.L20
+ 445              	.L28:
+ 446              		.loc 1 297 0
+ 447 006e 00BF     		nop
+ 448              	.L20:
+ 314:.\Generated_Source\PSoC5/PumpCycle.c ****             #endif /* CY_PSOC5A */
+ 315:.\Generated_Source\PSoC5/PumpCycle.c ****             
+ 316:.\Generated_Source\PSoC5/PumpCycle.c ****             /* PSoC3, PSoC5LP or later */
+ 317:.\Generated_Source\PSoC5/PumpCycle.c ****             #if (CY_PSOC3 || CY_PSOC5LP)
+ 318:.\Generated_Source\PSoC5/PumpCycle.c ****                 PumpCycle_TR1 |= PumpCycle_CMP_TR1_DIR;
+ 319:.\Generated_Source\PSoC5/PumpCycle.c ****             #endif /* CY_PSOC3 || CY_PSOC5LP */
+ 320:.\Generated_Source\PSoC5/PumpCycle.c ****         }
+ 321:.\Generated_Source\PSoC5/PumpCycle.c ****     }
+ 322:.\Generated_Source\PSoC5/PumpCycle.c **** 
+ 323:.\Generated_Source\PSoC5/PumpCycle.c ****     /* Increment trim value until compare output changes state */
+ 324:.\Generated_Source\PSoC5/PumpCycle.c **** 	
+ 325:.\Generated_Source\PSoC5/PumpCycle.c ****     /* PSoC5A */
+ 326:.\Generated_Source\PSoC5/PumpCycle.c **** 	#if (CY_PSOC5A)
+ 327:.\Generated_Source\PSoC5/PumpCycle.c **** 	    trimCntMax = 7u;
+ 449              		.loc 1 327 0
+ 450 0070 4FF00703 		mov	r3, #7
+ 451 0074 BB73     		strb	r3, [r7, #14]
+ 328:.\Generated_Source\PSoC5/PumpCycle.c ****     #endif
+ 329:.\Generated_Source\PSoC5/PumpCycle.c **** 	
+ 330:.\Generated_Source\PSoC5/PumpCycle.c **** 	/* PSoC3, PSoC5LP or later */
+ 331:.\Generated_Source\PSoC5/PumpCycle.c **** 	#if (CY_PSOC3 || CY_PSOC5LP)
+ 332:.\Generated_Source\PSoC5/PumpCycle.c ****     	if(nibble == 0u)
+ 333:.\Generated_Source\PSoC5/PumpCycle.c ****     	{
+ 334:.\Generated_Source\PSoC5/PumpCycle.c ****     		trimCntMax = 15u;
+ 335:.\Generated_Source\PSoC5/PumpCycle.c ****     	}
+ 336:.\Generated_Source\PSoC5/PumpCycle.c ****     	else
+ 337:.\Generated_Source\PSoC5/PumpCycle.c ****     	{
+ 338:.\Generated_Source\PSoC5/PumpCycle.c ****     		trimCntMax = 7u;
+ 339:.\Generated_Source\PSoC5/PumpCycle.c ****     	}
+ 340:.\Generated_Source\PSoC5/PumpCycle.c **** 	#endif
+ 341:.\Generated_Source\PSoC5/PumpCycle.c **** 	
+ 342:.\Generated_Source\PSoC5/PumpCycle.c ****     for ( trimCnt = 0u; trimCnt < trimCntMax; trimCnt++ )
+ 452              		.loc 1 342 0
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\cc5NDZwb.s 			page 15
+
+
+ 453 0076 4FF00003 		mov	r3, #0
+ 454 007a 7B73     		strb	r3, [r7, #13]
+ 455 007c 32E0     		b	.L21
+ 456              	.L26:
+ 343:.\Generated_Source\PSoC5/PumpCycle.c **** 	{
+ 344:.\Generated_Source\PSoC5/PumpCycle.c ****         if (nibble == 0u)
+ 457              		.loc 1 344 0
+ 458 007e FB79     		ldrb	r3, [r7, #7]	@ zero_extendqisi2
+ 459 0080 002B     		cmp	r3, #0
+ 460 0082 0ED1     		bne	.L22
+ 345:.\Generated_Source\PSoC5/PumpCycle.c ****         {
+ 346:.\Generated_Source\PSoC5/PumpCycle.c ****             /* PSoC5A */
+ 347:.\Generated_Source\PSoC5/PumpCycle.c ****             #if (CY_PSOC5A)
+ 348:.\Generated_Source\PSoC5/PumpCycle.c ****                 PumpCycle_TR += 1u;
+ 461              		.loc 1 348 0
+ 462 0084 44F20263 		movw	r3, #:lower16:1073759746
+ 463 0088 C4F20003 		movt	r3, #:upper16:1073759746
+ 464 008c 44F20262 		movw	r2, #:lower16:1073759746
+ 465 0090 C4F20002 		movt	r2, #:upper16:1073759746
+ 466 0094 1278     		ldrb	r2, [r2, #0]
+ 467 0096 D2B2     		uxtb	r2, r2
+ 468 0098 02F10102 		add	r2, r2, #1
+ 469 009c D2B2     		uxtb	r2, r2
+ 470 009e 1A70     		strb	r2, [r3, #0]
+ 471 00a0 0DE0     		b	.L23
+ 472              	.L22:
+ 349:.\Generated_Source\PSoC5/PumpCycle.c ****             #endif /* CY_PSOC5A */
+ 350:.\Generated_Source\PSoC5/PumpCycle.c ****             
+ 351:.\Generated_Source\PSoC5/PumpCycle.c ****             /* PSoC3, PSoC5LP or later */
+ 352:.\Generated_Source\PSoC5/PumpCycle.c ****             #if (CY_PSOC3 || CY_PSOC5LP)
+ 353:.\Generated_Source\PSoC5/PumpCycle.c ****                 PumpCycle_TR0 += 1u;
+ 354:.\Generated_Source\PSoC5/PumpCycle.c ****             #endif /* CY_PSOC3 || CY_PSOC5LP */
+ 355:.\Generated_Source\PSoC5/PumpCycle.c ****         }
+ 356:.\Generated_Source\PSoC5/PumpCycle.c ****         else
+ 357:.\Generated_Source\PSoC5/PumpCycle.c ****         {
+ 358:.\Generated_Source\PSoC5/PumpCycle.c ****             /* PSoC5A */
+ 359:.\Generated_Source\PSoC5/PumpCycle.c ****             #if (CY_PSOC5A)
+ 360:.\Generated_Source\PSoC5/PumpCycle.c ****                 PumpCycle_TR += 0x10u;
+ 473              		.loc 1 360 0
+ 474 00a2 44F20263 		movw	r3, #:lower16:1073759746
+ 475 00a6 C4F20003 		movt	r3, #:upper16:1073759746
+ 476 00aa 44F20262 		movw	r2, #:lower16:1073759746
+ 477 00ae C4F20002 		movt	r2, #:upper16:1073759746
+ 478 00b2 1278     		ldrb	r2, [r2, #0]
+ 479 00b4 D2B2     		uxtb	r2, r2
+ 480 00b6 02F11002 		add	r2, r2, #16
+ 481 00ba D2B2     		uxtb	r2, r2
+ 482 00bc 1A70     		strb	r2, [r3, #0]
+ 483              	.L23:
+ 361:.\Generated_Source\PSoC5/PumpCycle.c ****             #endif /* CY_PSOC5A */
+ 362:.\Generated_Source\PSoC5/PumpCycle.c ****             
+ 363:.\Generated_Source\PSoC5/PumpCycle.c ****             /* PSoC3, PSoC5LP or later */
+ 364:.\Generated_Source\PSoC5/PumpCycle.c ****             #if (CY_PSOC3 || CY_PSOC5LP)
+ 365:.\Generated_Source\PSoC5/PumpCycle.c ****                 PumpCycle_TR1 += 1u;
+ 366:.\Generated_Source\PSoC5/PumpCycle.c ****             #endif /* CY_PSOC3 || CY_PSOC5LP */
+ 367:.\Generated_Source\PSoC5/PumpCycle.c ****         }
+ 368:.\Generated_Source\PSoC5/PumpCycle.c ****         
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\cc5NDZwb.s 			page 16
+
+
+ 369:.\Generated_Source\PSoC5/PumpCycle.c ****         CyDelayUs(10u);
+ 484              		.loc 1 369 0
+ 485 00be 4FF00A00 		mov	r0, #10
+ 486 00c2 FFF7FEFF 		bl	CyDelayUs
+ 370:.\Generated_Source\PSoC5/PumpCycle.c ****         
+ 371:.\Generated_Source\PSoC5/PumpCycle.c ****         /* Check for change in comparator output */
+ 372:.\Generated_Source\PSoC5/PumpCycle.c ****         if ((PumpCycle_WRK & PumpCycle_CMP_OUT_MASK) != cmpState)
+ 487              		.loc 1 372 0
+ 488 00c6 45F69033 		movw	r3, #:lower16:1073765264
+ 489 00ca C4F20003 		movt	r3, #:upper16:1073765264
+ 490 00ce 1B78     		ldrb	r3, [r3, #0]
+ 491 00d0 DBB2     		uxtb	r3, r3
+ 492 00d2 03F00402 		and	r2, r3, #4
+ 493 00d6 FB7B     		ldrb	r3, [r7, #15]	@ zero_extendqisi2
+ 494 00d8 9A42     		cmp	r2, r3
+ 495 00da 08D1     		bne	.L29
+ 496              	.L24:
+ 497              		.loc 1 342 0
+ 498 00dc 7B7B     		ldrb	r3, [r7, #13]
+ 499 00de 03F10103 		add	r3, r3, #1
+ 500 00e2 7B73     		strb	r3, [r7, #13]
+ 501              	.L21:
+ 502 00e4 7A7B     		ldrb	r2, [r7, #13]	@ zero_extendqisi2
+ 503 00e6 BB7B     		ldrb	r3, [r7, #14]	@ zero_extendqisi2
+ 504 00e8 9A42     		cmp	r2, r3
+ 505 00ea C8D3     		bcc	.L26
+ 506 00ec 00E0     		b	.L27
+ 507              	.L29:
+ 373:.\Generated_Source\PSoC5/PumpCycle.c ****         {
+ 374:.\Generated_Source\PSoC5/PumpCycle.c ****             break;      /* output changed state, trim phase is complete */
+ 508              		.loc 1 374 0
+ 509 00ee 00BF     		nop
+ 510              	.L27:
+ 375:.\Generated_Source\PSoC5/PumpCycle.c ****         }        
+ 376:.\Generated_Source\PSoC5/PumpCycle.c ****     }    
+ 377:.\Generated_Source\PSoC5/PumpCycle.c **** }
+ 511              		.loc 1 377 0
+ 512 00f0 07F11007 		add	r7, r7, #16
+ 513 00f4 BD46     		mov	sp, r7
+ 514 00f6 80BD     		pop	{r7, pc}
+ 515              		.cfi_endproc
+ 516              	.LFE6:
+ 517              		.size	PumpCycle_trimAdjust, .-PumpCycle_trimAdjust
+ 518              		.section	.text.PumpCycle_ZeroCal,"ax",%progbits
+ 519              		.align	2
+ 520              		.global	PumpCycle_ZeroCal
+ 521              		.thumb
+ 522              		.thumb_func
+ 523              		.type	PumpCycle_ZeroCal, %function
+ 524              	PumpCycle_ZeroCal:
+ 525              	.LFB7:
+ 378:.\Generated_Source\PSoC5/PumpCycle.c **** 
+ 379:.\Generated_Source\PSoC5/PumpCycle.c **** 
+ 380:.\Generated_Source\PSoC5/PumpCycle.c **** /*******************************************************************************
+ 381:.\Generated_Source\PSoC5/PumpCycle.c **** * Function Name: PumpCycle_ZeroCal
+ 382:.\Generated_Source\PSoC5/PumpCycle.c **** ********************************************************************************
+ 383:.\Generated_Source\PSoC5/PumpCycle.c **** *
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\cc5NDZwb.s 			page 17
+
+
+ 384:.\Generated_Source\PSoC5/PumpCycle.c **** * Summary:
+ 385:.\Generated_Source\PSoC5/PumpCycle.c **** *  This function calibrates the offset of the Analog Comparator.
+ 386:.\Generated_Source\PSoC5/PumpCycle.c **** *
+ 387:.\Generated_Source\PSoC5/PumpCycle.c **** * Parameters:
+ 388:.\Generated_Source\PSoC5/PumpCycle.c **** *  None
+ 389:.\Generated_Source\PSoC5/PumpCycle.c **** *
+ 390:.\Generated_Source\PSoC5/PumpCycle.c **** * Return:
+ 391:.\Generated_Source\PSoC5/PumpCycle.c **** *  (uint16)  value written in trim register when calibration complete.
+ 392:.\Generated_Source\PSoC5/PumpCycle.c **** *
+ 393:.\Generated_Source\PSoC5/PumpCycle.c **** * Theory: 
+ 394:.\Generated_Source\PSoC5/PumpCycle.c **** *  This function is used to optimize the calibration for user specific voltage
+ 395:.\Generated_Source\PSoC5/PumpCycle.c **** *  range.  The comparator trim is adjusted to counter transistor offsets
+ 396:.\Generated_Source\PSoC5/PumpCycle.c **** *   - offset is defined as positive if the output transitions to high before inP
+ 397:.\Generated_Source\PSoC5/PumpCycle.c **** *     is greater than inN
+ 398:.\Generated_Source\PSoC5/PumpCycle.c **** *   - offset is defined as negative if the output transitions to high after inP
+ 399:.\Generated_Source\PSoC5/PumpCycle.c **** *     is greater than inP
+ 400:.\Generated_Source\PSoC5/PumpCycle.c **** *
+ 401:.\Generated_Source\PSoC5/PumpCycle.c **** *  PSoC5A
+ 402:.\Generated_Source\PSoC5/PumpCycle.c **** *  The Analog Comparator provides 1 byte for offset trim.  The byte contains two
+ 403:.\Generated_Source\PSoC5/PumpCycle.c **** *  4 bit trim fields - one is a course trim and the other allows smaller
+ 404:.\Generated_Source\PSoC5/PumpCycle.c **** *  offset adjustments only for slow modes.
+ 405:.\Generated_Source\PSoC5/PumpCycle.c **** *  - low nibble - fine trim
+ 406:.\Generated_Source\PSoC5/PumpCycle.c **** *  - high nibble - course trim
+ 407:.\Generated_Source\PSoC5/PumpCycle.c **** *  PSoC3, PSoC5LP or later
+ 408:.\Generated_Source\PSoC5/PumpCycle.c **** *  The Analog Comparator provides 2 bytes for offset trim.  The bytes contain two
+ 409:.\Generated_Source\PSoC5/PumpCycle.c **** *  5 bit trim fields - one is a course trim and the other allows smaller
+ 410:.\Generated_Source\PSoC5/PumpCycle.c **** *  offset adjustments only for slow modes.
+ 411:.\Generated_Source\PSoC5/PumpCycle.c **** *  - TR0 - fine trim
+ 412:.\Generated_Source\PSoC5/PumpCycle.c **** *  - TR1 - course trim
+ 413:.\Generated_Source\PSoC5/PumpCycle.c **** *
+ 414:.\Generated_Source\PSoC5/PumpCycle.c **** *  Trim algorithm is a two phase process
+ 415:.\Generated_Source\PSoC5/PumpCycle.c **** *  The first phase performs course offset adjustment
+ 416:.\Generated_Source\PSoC5/PumpCycle.c **** *  The second phase serves one of two purposes depending on the outcome of the
+ 417:.\Generated_Source\PSoC5/PumpCycle.c **** *  first phase
+ 418:.\Generated_Source\PSoC5/PumpCycle.c **** *  - if the first trim value was maxed out without a comparator output 
+ 419:.\Generated_Source\PSoC5/PumpCycle.c **** *    transition, more offset will be added by adjusting the second trim value.
+ 420:.\Generated_Source\PSoC5/PumpCycle.c **** *  - if the first trim phase resulted in a comparator output transition, the
+ 421:.\Generated_Source\PSoC5/PumpCycle.c **** *    second trim value will serve as fine trim (in the opposite direction)to
+ 422:.\Generated_Source\PSoC5/PumpCycle.c **** *    ensure the offset is < 1 mV.
+ 423:.\Generated_Source\PSoC5/PumpCycle.c **** *
+ 424:.\Generated_Source\PSoC5/PumpCycle.c **** * Trim Process:   
+ 425:.\Generated_Source\PSoC5/PumpCycle.c **** *  1) User applies a voltage to the negative input.  Voltage should be in the
+ 426:.\Generated_Source\PSoC5/PumpCycle.c **** *     comparator operating range or an average of the operating voltage range.
+ 427:.\Generated_Source\PSoC5/PumpCycle.c **** *  2) Clear registers associated with analog routing to the positive input.
+ 428:.\Generated_Source\PSoC5/PumpCycle.c **** *  3) Disable Hysteresis
+ 429:.\Generated_Source\PSoC5/PumpCycle.c **** *  4) Set the calibration bit to short the negative and positive inputs to
+ 430:.\Generated_Source\PSoC5/PumpCycle.c **** *     the users calibration voltage.
+ 431:.\Generated_Source\PSoC5/PumpCycle.c **** *  5) Clear the TR register  ( TR = 0x00 )
+ 432:.\Generated_Source\PSoC5/PumpCycle.c **** *  ** LOW MODES
+ 433:.\Generated_Source\PSoC5/PumpCycle.c **** *  6) Check if compare output is high, if so, set the MSb of course trim field 
+ 434:.\Generated_Source\PSoC5/PumpCycle.c **** *     to a 1.
+ 435:.\Generated_Source\PSoC5/PumpCycle.c **** *  7) Increment the course trim field until the compare output changes
+ 436:.\Generated_Source\PSoC5/PumpCycle.c **** *  8) Check if compare output is low, if so, set the MSb of fine trim field
+ 437:.\Generated_Source\PSoC5/PumpCycle.c **** *     to a 1.
+ 438:.\Generated_Source\PSoC5/PumpCycle.c **** *  9) Increment the fine trim field until the compare output changes
+ 439:.\Generated_Source\PSoC5/PumpCycle.c **** *  ** FAST MODE - skip the steps 8,9
+ 440:.\Generated_Source\PSoC5/PumpCycle.c **** *
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\cc5NDZwb.s 			page 18
+
+
+ 441:.\Generated_Source\PSoC5/PumpCycle.c **** * Side Effects:
+ 442:.\Generated_Source\PSoC5/PumpCycle.c **** *  Routine clears analog routing associated with the comparator positive input.  
+ 443:.\Generated_Source\PSoC5/PumpCycle.c **** *  This may affect routing of signals from other components that are connected
+ 444:.\Generated_Source\PSoC5/PumpCycle.c **** *  to the positive input of the comparator.
+ 445:.\Generated_Source\PSoC5/PumpCycle.c **** *
+ 446:.\Generated_Source\PSoC5/PumpCycle.c **** *******************************************************************************/
+ 447:.\Generated_Source\PSoC5/PumpCycle.c **** uint16 PumpCycle_ZeroCal(void) 
+ 448:.\Generated_Source\PSoC5/PumpCycle.c **** {
+ 526              		.loc 1 448 0
+ 527              		.cfi_startproc
+ 528              		@ args = 0, pretend = 0, frame = 8
+ 529              		@ frame_needed = 1, uses_anonymous_args = 0
+ 530 0000 80B5     		push	{r7, lr}
+ 531              	.LCFI16:
+ 532              		.cfi_def_cfa_offset 8
+ 533 0002 82B0     		sub	sp, sp, #8
+ 534              	.LCFI17:
+ 535              		.cfi_def_cfa_offset 16
+ 536 0004 00AF     		add	r7, sp, #0
+ 537              		.cfi_offset 14, -4
+ 538              		.cfi_offset 7, -8
+ 539              	.LCFI18:
+ 540              		.cfi_def_cfa_register 7
+ 449:.\Generated_Source\PSoC5/PumpCycle.c ****     uint8 tmpSW0;
+ 450:.\Generated_Source\PSoC5/PumpCycle.c ****     uint8 tmpSW2;
+ 451:.\Generated_Source\PSoC5/PumpCycle.c ****     uint8 tmpSW3;
+ 452:.\Generated_Source\PSoC5/PumpCycle.c ****     uint8 tmpCR;
+ 453:.\Generated_Source\PSoC5/PumpCycle.c **** 
+ 454:.\Generated_Source\PSoC5/PumpCycle.c ****     /* Save a copy of routing registers associated with inP */
+ 455:.\Generated_Source\PSoC5/PumpCycle.c ****     tmpSW0 = PumpCycle_SW0;
+ 541              		.loc 1 455 0
+ 542 0006 45F6D023 		movw	r3, #:lower16:1073765072
+ 543 000a C4F20003 		movt	r3, #:upper16:1073765072
+ 544 000e 1B78     		ldrb	r3, [r3, #0]
+ 545 0010 3B71     		strb	r3, [r7, #4]
+ 456:.\Generated_Source\PSoC5/PumpCycle.c ****     tmpSW2 = PumpCycle_SW2;
+ 546              		.loc 1 456 0
+ 547 0012 45F6D223 		movw	r3, #:lower16:1073765074
+ 548 0016 C4F20003 		movt	r3, #:upper16:1073765074
+ 549 001a 1B78     		ldrb	r3, [r3, #0]
+ 550 001c 7B71     		strb	r3, [r7, #5]
+ 457:.\Generated_Source\PSoC5/PumpCycle.c ****     tmpSW3 = PumpCycle_SW3;
+ 551              		.loc 1 457 0
+ 552 001e 45F6D323 		movw	r3, #:lower16:1073765075
+ 553 0022 C4F20003 		movt	r3, #:upper16:1073765075
+ 554 0026 1B78     		ldrb	r3, [r3, #0]
+ 555 0028 BB71     		strb	r3, [r7, #6]
+ 458:.\Generated_Source\PSoC5/PumpCycle.c **** 
+ 459:.\Generated_Source\PSoC5/PumpCycle.c ****      /* Clear routing for inP, retain routing for inN */
+ 460:.\Generated_Source\PSoC5/PumpCycle.c ****     PumpCycle_SW0 = 0x00u;
+ 556              		.loc 1 460 0
+ 557 002a 45F6D023 		movw	r3, #:lower16:1073765072
+ 558 002e C4F20003 		movt	r3, #:upper16:1073765072
+ 559 0032 4FF00002 		mov	r2, #0
+ 560 0036 1A70     		strb	r2, [r3, #0]
+ 461:.\Generated_Source\PSoC5/PumpCycle.c ****     PumpCycle_SW2 = 0x00u;
+ 561              		.loc 1 461 0
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\cc5NDZwb.s 			page 19
+
+
+ 562 0038 45F6D223 		movw	r3, #:lower16:1073765074
+ 563 003c C4F20003 		movt	r3, #:upper16:1073765074
+ 564 0040 4FF00002 		mov	r2, #0
+ 565 0044 1A70     		strb	r2, [r3, #0]
+ 462:.\Generated_Source\PSoC5/PumpCycle.c ****     PumpCycle_SW3 = tmpSW3 & (uint8)(~PumpCycle_CMP_SW3_INPCTL_MASK);
+ 566              		.loc 1 462 0
+ 567 0046 45F6D323 		movw	r3, #:lower16:1073765075
+ 568 004a C4F20003 		movt	r3, #:upper16:1073765075
+ 569 004e BA79     		ldrb	r2, [r7, #6]	@ zero_extendqisi2
+ 570 0050 02F0F602 		and	r2, r2, #246
+ 571 0054 1A70     		strb	r2, [r3, #0]
+ 463:.\Generated_Source\PSoC5/PumpCycle.c **** 
+ 464:.\Generated_Source\PSoC5/PumpCycle.c ****     /* Preserve original configuration
+ 465:.\Generated_Source\PSoC5/PumpCycle.c ****      * - turn off Hysteresis
+ 466:.\Generated_Source\PSoC5/PumpCycle.c ****      * - set calibration bit - shorts inN to inP
+ 467:.\Generated_Source\PSoC5/PumpCycle.c ****     */
+ 468:.\Generated_Source\PSoC5/PumpCycle.c ****     tmpCR = PumpCycle_CR;
+ 572              		.loc 1 468 0
+ 573 0056 45F64203 		movw	r3, #:lower16:1073764418
+ 574 005a C4F20003 		movt	r3, #:upper16:1073764418
+ 575 005e 1B78     		ldrb	r3, [r3, #0]
+ 576 0060 FB71     		strb	r3, [r7, #7]
+ 469:.\Generated_Source\PSoC5/PumpCycle.c ****     PumpCycle_CR |= (PumpCycle_CAL_ON | PumpCycle_HYST_OFF);
+ 577              		.loc 1 469 0
+ 578 0062 45F64203 		movw	r3, #:lower16:1073764418
+ 579 0066 C4F20003 		movt	r3, #:upper16:1073764418
+ 580 006a 45F64202 		movw	r2, #:lower16:1073764418
+ 581 006e C4F20002 		movt	r2, #:upper16:1073764418
+ 582 0072 1278     		ldrb	r2, [r2, #0]
+ 583 0074 D2B2     		uxtb	r2, r2
+ 584 0076 42F03002 		orr	r2, r2, #48
+ 585 007a D2B2     		uxtb	r2, r2
+ 586 007c 1A70     		strb	r2, [r3, #0]
+ 470:.\Generated_Source\PSoC5/PumpCycle.c ****     
+ 471:.\Generated_Source\PSoC5/PumpCycle.c ****     /* Write default low values to trim register - no offset adjust */
+ 472:.\Generated_Source\PSoC5/PumpCycle.c ****     /* PSoC5A */
+ 473:.\Generated_Source\PSoC5/PumpCycle.c ****     #if (CY_PSOC5A)
+ 474:.\Generated_Source\PSoC5/PumpCycle.c ****         PumpCycle_TR = PumpCycle_DEFAULT_CMP_TRIM;
+ 587              		.loc 1 474 0
+ 588 007e 44F20263 		movw	r3, #:lower16:1073759746
+ 589 0082 C4F20003 		movt	r3, #:upper16:1073759746
+ 590 0086 4FF00002 		mov	r2, #0
+ 591 008a 1A70     		strb	r2, [r3, #0]
+ 475:.\Generated_Source\PSoC5/PumpCycle.c ****     #endif /* CY_PSOC5A */
+ 476:.\Generated_Source\PSoC5/PumpCycle.c ****     
+ 477:.\Generated_Source\PSoC5/PumpCycle.c ****     /* PSoC3, PSoC5LP or later */
+ 478:.\Generated_Source\PSoC5/PumpCycle.c ****     #if (CY_PSOC3 || CY_PSOC5LP)
+ 479:.\Generated_Source\PSoC5/PumpCycle.c ****         PumpCycle_TR0 = PumpCycle_DEFAULT_CMP_TRIM;
+ 480:.\Generated_Source\PSoC5/PumpCycle.c ****         PumpCycle_TR1 = PumpCycle_DEFAULT_CMP_TRIM;
+ 481:.\Generated_Source\PSoC5/PumpCycle.c ****     #endif /* CY_PSOC3 || CY_PSOC5LP */
+ 482:.\Generated_Source\PSoC5/PumpCycle.c **** 	
+ 483:.\Generated_Source\PSoC5/PumpCycle.c **** 	/* Two phase trim - slow modes, one phase trim - for fast */ 
+ 484:.\Generated_Source\PSoC5/PumpCycle.c ****     if ( (PumpCycle_CR & PumpCycle_PWR_MODE_MASK) == PumpCycle_PWR_MODE_FAST)
+ 592              		.loc 1 484 0
+ 593 008c 45F64203 		movw	r3, #:lower16:1073764418
+ 594 0090 C4F20003 		movt	r3, #:upper16:1073764418
+ 595 0094 1B78     		ldrb	r3, [r3, #0]
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\cc5NDZwb.s 			page 20
+
+
+ 596 0096 DBB2     		uxtb	r3, r3
+ 597 0098 03F00303 		and	r3, r3, #3
+ 598 009c 012B     		cmp	r3, #1
+ 599 009e 04D1     		bne	.L31
+ 485:.\Generated_Source\PSoC5/PumpCycle.c ****     {
+ 486:.\Generated_Source\PSoC5/PumpCycle.c ****         PumpCycle_trimAdjust(0u);
+ 600              		.loc 1 486 0
+ 601 00a0 4FF00000 		mov	r0, #0
+ 602 00a4 FFF7FEFF 		bl	PumpCycle_trimAdjust
+ 603 00a8 07E0     		b	.L32
+ 604              	.L31:
+ 487:.\Generated_Source\PSoC5/PumpCycle.c ****     }
+ 488:.\Generated_Source\PSoC5/PumpCycle.c ****     else /* default to trim for fast modes */
+ 489:.\Generated_Source\PSoC5/PumpCycle.c ****     {
+ 490:.\Generated_Source\PSoC5/PumpCycle.c ****         PumpCycle_trimAdjust(1u);
+ 605              		.loc 1 490 0
+ 606 00aa 4FF00100 		mov	r0, #1
+ 607 00ae FFF7FEFF 		bl	PumpCycle_trimAdjust
+ 491:.\Generated_Source\PSoC5/PumpCycle.c **** 		PumpCycle_trimAdjust(0u);
+ 608              		.loc 1 491 0
+ 609 00b2 4FF00000 		mov	r0, #0
+ 610 00b6 FFF7FEFF 		bl	PumpCycle_trimAdjust
+ 611              	.L32:
+ 492:.\Generated_Source\PSoC5/PumpCycle.c ****     }
+ 493:.\Generated_Source\PSoC5/PumpCycle.c ****    
+ 494:.\Generated_Source\PSoC5/PumpCycle.c ****     /* Restore Config Register */
+ 495:.\Generated_Source\PSoC5/PumpCycle.c ****     PumpCycle_CR = tmpCR;
+ 612              		.loc 1 495 0
+ 613 00ba 45F64203 		movw	r3, #:lower16:1073764418
+ 614 00be C4F20003 		movt	r3, #:upper16:1073764418
+ 615 00c2 FA79     		ldrb	r2, [r7, #7]
+ 616 00c4 1A70     		strb	r2, [r3, #0]
+ 496:.\Generated_Source\PSoC5/PumpCycle.c ****     
+ 497:.\Generated_Source\PSoC5/PumpCycle.c ****     /* Restore routing registers for inP */
+ 498:.\Generated_Source\PSoC5/PumpCycle.c ****     PumpCycle_SW0 = tmpSW0;
+ 617              		.loc 1 498 0
+ 618 00c6 45F6D023 		movw	r3, #:lower16:1073765072
+ 619 00ca C4F20003 		movt	r3, #:upper16:1073765072
+ 620 00ce 3A79     		ldrb	r2, [r7, #4]
+ 621 00d0 1A70     		strb	r2, [r3, #0]
+ 499:.\Generated_Source\PSoC5/PumpCycle.c ****     PumpCycle_SW2 = tmpSW2;
+ 622              		.loc 1 499 0
+ 623 00d2 45F6D223 		movw	r3, #:lower16:1073765074
+ 624 00d6 C4F20003 		movt	r3, #:upper16:1073765074
+ 625 00da 7A79     		ldrb	r2, [r7, #5]
+ 626 00dc 1A70     		strb	r2, [r3, #0]
+ 500:.\Generated_Source\PSoC5/PumpCycle.c ****     PumpCycle_SW3 = tmpSW3;
+ 627              		.loc 1 500 0
+ 628 00de 45F6D323 		movw	r3, #:lower16:1073765075
+ 629 00e2 C4F20003 		movt	r3, #:upper16:1073765075
+ 630 00e6 BA79     		ldrb	r2, [r7, #6]
+ 631 00e8 1A70     		strb	r2, [r3, #0]
+ 501:.\Generated_Source\PSoC5/PumpCycle.c ****     
+ 502:.\Generated_Source\PSoC5/PumpCycle.c ****     /* PSoC5A */
+ 503:.\Generated_Source\PSoC5/PumpCycle.c ****     #if (CY_PSOC5A)
+ 504:.\Generated_Source\PSoC5/PumpCycle.c ****         return (uint16) PumpCycle_TR;
+ 632              		.loc 1 504 0
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\cc5NDZwb.s 			page 21
+
+
+ 633 00ea 44F20263 		movw	r3, #:lower16:1073759746
+ 634 00ee C4F20003 		movt	r3, #:upper16:1073759746
+ 635 00f2 1B78     		ldrb	r3, [r3, #0]
+ 636 00f4 DBB2     		uxtb	r3, r3
+ 505:.\Generated_Source\PSoC5/PumpCycle.c ****     #endif /* CY_PSOC5A */
+ 506:.\Generated_Source\PSoC5/PumpCycle.c ****     
+ 507:.\Generated_Source\PSoC5/PumpCycle.c ****     /* PSoC3, PSoC5LP or later */
+ 508:.\Generated_Source\PSoC5/PumpCycle.c ****     #if (CY_PSOC3 || CY_PSOC5LP)
+ 509:.\Generated_Source\PSoC5/PumpCycle.c ****         return ((uint16)((uint16)PumpCycle_TR1 << 8u) | (PumpCycle_TR0));        
+ 510:.\Generated_Source\PSoC5/PumpCycle.c ****     #endif /* CY_PSOC3 || CY_PSOC5LP */
+ 511:.\Generated_Source\PSoC5/PumpCycle.c **** }
+ 637              		.loc 1 511 0
+ 638 00f6 1846     		mov	r0, r3
+ 639 00f8 07F10807 		add	r7, r7, #8
+ 640 00fc BD46     		mov	sp, r7
+ 641 00fe 80BD     		pop	{r7, pc}
+ 642              		.cfi_endproc
+ 643              	.LFE7:
+ 644              		.size	PumpCycle_ZeroCal, .-PumpCycle_ZeroCal
+ 645              		.section	.text.PumpCycle_LoadTrim,"ax",%progbits
+ 646              		.align	2
+ 647              		.global	PumpCycle_LoadTrim
+ 648              		.thumb
+ 649              		.thumb_func
+ 650              		.type	PumpCycle_LoadTrim, %function
+ 651              	PumpCycle_LoadTrim:
+ 652              	.LFB8:
+ 512:.\Generated_Source\PSoC5/PumpCycle.c **** 
+ 513:.\Generated_Source\PSoC5/PumpCycle.c **** 
+ 514:.\Generated_Source\PSoC5/PumpCycle.c **** /*******************************************************************************
+ 515:.\Generated_Source\PSoC5/PumpCycle.c **** * Function Name: PumpCycle_LoadTrim
+ 516:.\Generated_Source\PSoC5/PumpCycle.c **** ********************************************************************************
+ 517:.\Generated_Source\PSoC5/PumpCycle.c **** *
+ 518:.\Generated_Source\PSoC5/PumpCycle.c **** * Summary:
+ 519:.\Generated_Source\PSoC5/PumpCycle.c **** *  This function stores a value in the Analog Comparator trim register.
+ 520:.\Generated_Source\PSoC5/PumpCycle.c **** *
+ 521:.\Generated_Source\PSoC5/PumpCycle.c **** * Parameters:  
+ 522:.\Generated_Source\PSoC5/PumpCycle.c **** *  uint8 trimVal - trim value.  This value is the same format as the value 
+ 523:.\Generated_Source\PSoC5/PumpCycle.c **** *  returned by the _ZeroCal routine.
+ 524:.\Generated_Source\PSoC5/PumpCycle.c **** *
+ 525:.\Generated_Source\PSoC5/PumpCycle.c **** * Return:
+ 526:.\Generated_Source\PSoC5/PumpCycle.c **** *  None
+ 527:.\Generated_Source\PSoC5/PumpCycle.c **** *
+ 528:.\Generated_Source\PSoC5/PumpCycle.c **** *******************************************************************************/
+ 529:.\Generated_Source\PSoC5/PumpCycle.c **** void PumpCycle_LoadTrim(uint16 trimVal) 
+ 530:.\Generated_Source\PSoC5/PumpCycle.c **** {
+ 653              		.loc 1 530 0
+ 654              		.cfi_startproc
+ 655              		@ args = 0, pretend = 0, frame = 8
+ 656              		@ frame_needed = 1, uses_anonymous_args = 0
+ 657              		@ link register save eliminated.
+ 658 0000 80B4     		push	{r7}
+ 659              	.LCFI19:
+ 660              		.cfi_def_cfa_offset 4
+ 661 0002 83B0     		sub	sp, sp, #12
+ 662              	.LCFI20:
+ 663              		.cfi_def_cfa_offset 16
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\cc5NDZwb.s 			page 22
+
+
+ 664 0004 00AF     		add	r7, sp, #0
+ 665              		.cfi_offset 7, -4
+ 666              	.LCFI21:
+ 667              		.cfi_def_cfa_register 7
+ 668 0006 0346     		mov	r3, r0
+ 669 0008 FB80     		strh	r3, [r7, #6]	@ movhi
+ 531:.\Generated_Source\PSoC5/PumpCycle.c ****     /* Stores value in the Analog Comparator trim register */
+ 532:.\Generated_Source\PSoC5/PumpCycle.c ****     /* PSoC5A */
+ 533:.\Generated_Source\PSoC5/PumpCycle.c ****     #if (CY_PSOC5A)
+ 534:.\Generated_Source\PSoC5/PumpCycle.c ****         PumpCycle_TR = (uint8) trimVal;
+ 670              		.loc 1 534 0
+ 671 000a 44F20263 		movw	r3, #:lower16:1073759746
+ 672 000e C4F20003 		movt	r3, #:upper16:1073759746
+ 673 0012 FA88     		ldrh	r2, [r7, #6]	@ movhi
+ 674 0014 D2B2     		uxtb	r2, r2
+ 675 0016 1A70     		strb	r2, [r3, #0]
+ 535:.\Generated_Source\PSoC5/PumpCycle.c ****     #endif /* CY_PSOC5A */
+ 536:.\Generated_Source\PSoC5/PumpCycle.c ****     
+ 537:.\Generated_Source\PSoC5/PumpCycle.c ****     /* PSoC3, PSoC5LP or later */
+ 538:.\Generated_Source\PSoC5/PumpCycle.c ****     #if (CY_PSOC3 || CY_PSOC5LP)
+ 539:.\Generated_Source\PSoC5/PumpCycle.c ****         /* Stores value in the Analog Comparator trim register for P-type load */
+ 540:.\Generated_Source\PSoC5/PumpCycle.c ****         PumpCycle_TR0 = (uint8) trimVal;
+ 541:.\Generated_Source\PSoC5/PumpCycle.c ****         
+ 542:.\Generated_Source\PSoC5/PumpCycle.c ****         /* Stores value in the Analog Comparator trim register for N-type load */
+ 543:.\Generated_Source\PSoC5/PumpCycle.c ****         PumpCycle_TR1 = (uint8) (trimVal >> 8); 
+ 544:.\Generated_Source\PSoC5/PumpCycle.c ****     #endif /* CY_PSOC3 || CY_PSOC5LP */
+ 545:.\Generated_Source\PSoC5/PumpCycle.c **** }
+ 676              		.loc 1 545 0
+ 677 0018 07F10C07 		add	r7, r7, #12
+ 678 001c BD46     		mov	sp, r7
+ 679 001e 80BC     		pop	{r7}
+ 680 0020 7047     		bx	lr
+ 681              		.cfi_endproc
+ 682              	.LFE8:
+ 683              		.size	PumpCycle_LoadTrim, .-PumpCycle_LoadTrim
+ 684 0022 00BF     		.text
+ 685              	.Letext0:
+ 686              		.section	.debug_loc,"",%progbits
+ 687              	.Ldebug_loc0:
+ 688              	.LLST0:
+ 689 0000 00000000 		.4byte	.LFB0
+ 690 0004 02000000 		.4byte	.LCFI0
+ 691 0008 0100     		.2byte	0x1
+ 692 000a 5D       		.byte	0x5d
+ 693 000b 02000000 		.4byte	.LCFI0
+ 694 000f 04000000 		.4byte	.LCFI1
+ 695 0013 0200     		.2byte	0x2
+ 696 0015 7D       		.byte	0x7d
+ 697 0016 08       		.sleb128 8
+ 698 0017 04000000 		.4byte	.LCFI1
+ 699 001b 7C000000 		.4byte	.LFE0
+ 700 001f 0200     		.2byte	0x2
+ 701 0021 77       		.byte	0x77
+ 702 0022 08       		.sleb128 8
+ 703 0023 00000000 		.4byte	0x0
+ 704 0027 00000000 		.4byte	0x0
+ 705              	.LLST1:
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\cc5NDZwb.s 			page 23
+
+
+ 706 002b 00000000 		.4byte	.LFB1
+ 707 002f 02000000 		.4byte	.LCFI2
+ 708 0033 0100     		.2byte	0x1
+ 709 0035 5D       		.byte	0x5d
+ 710 0036 02000000 		.4byte	.LCFI2
+ 711 003a 04000000 		.4byte	.LCFI3
+ 712 003e 0200     		.2byte	0x2
+ 713 0040 7D       		.byte	0x7d
+ 714 0041 04       		.sleb128 4
+ 715 0042 04000000 		.4byte	.LCFI3
+ 716 0046 72000000 		.4byte	.LFE1
+ 717 004a 0200     		.2byte	0x2
+ 718 004c 77       		.byte	0x77
+ 719 004d 04       		.sleb128 4
+ 720 004e 00000000 		.4byte	0x0
+ 721 0052 00000000 		.4byte	0x0
+ 722              	.LLST2:
+ 723 0056 00000000 		.4byte	.LFB2
+ 724 005a 02000000 		.4byte	.LCFI4
+ 725 005e 0100     		.2byte	0x1
+ 726 0060 5D       		.byte	0x5d
+ 727 0061 02000000 		.4byte	.LCFI4
+ 728 0065 04000000 		.4byte	.LCFI5
+ 729 0069 0200     		.2byte	0x2
+ 730 006b 7D       		.byte	0x7d
+ 731 006c 08       		.sleb128 8
+ 732 006d 04000000 		.4byte	.LCFI5
+ 733 0071 2A000000 		.4byte	.LFE2
+ 734 0075 0200     		.2byte	0x2
+ 735 0077 77       		.byte	0x77
+ 736 0078 08       		.sleb128 8
+ 737 0079 00000000 		.4byte	0x0
+ 738 007d 00000000 		.4byte	0x0
+ 739              	.LLST3:
+ 740 0081 00000000 		.4byte	.LFB3
+ 741 0085 02000000 		.4byte	.LCFI6
+ 742 0089 0100     		.2byte	0x1
+ 743 008b 5D       		.byte	0x5d
+ 744 008c 02000000 		.4byte	.LCFI6
+ 745 0090 04000000 		.4byte	.LCFI7
+ 746 0094 0200     		.2byte	0x2
+ 747 0096 7D       		.byte	0x7d
+ 748 0097 04       		.sleb128 4
+ 749 0098 04000000 		.4byte	.LCFI7
+ 750 009c 70000000 		.4byte	.LFE3
+ 751 00a0 0200     		.2byte	0x2
+ 752 00a2 77       		.byte	0x77
+ 753 00a3 04       		.sleb128 4
+ 754 00a4 00000000 		.4byte	0x0
+ 755 00a8 00000000 		.4byte	0x0
+ 756              	.LLST4:
+ 757 00ac 00000000 		.4byte	.LFB4
+ 758 00b0 02000000 		.4byte	.LCFI8
+ 759 00b4 0100     		.2byte	0x1
+ 760 00b6 5D       		.byte	0x5d
+ 761 00b7 02000000 		.4byte	.LCFI8
+ 762 00bb 04000000 		.4byte	.LCFI9
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\cc5NDZwb.s 			page 24
+
+
+ 763 00bf 0200     		.2byte	0x2
+ 764 00c1 7D       		.byte	0x7d
+ 765 00c2 04       		.sleb128 4
+ 766 00c3 04000000 		.4byte	.LCFI9
+ 767 00c7 06000000 		.4byte	.LCFI10
+ 768 00cb 0200     		.2byte	0x2
+ 769 00cd 7D       		.byte	0x7d
+ 770 00ce 10       		.sleb128 16
+ 771 00cf 06000000 		.4byte	.LCFI10
+ 772 00d3 74000000 		.4byte	.LFE4
+ 773 00d7 0200     		.2byte	0x2
+ 774 00d9 77       		.byte	0x77
+ 775 00da 10       		.sleb128 16
+ 776 00db 00000000 		.4byte	0x0
+ 777 00df 00000000 		.4byte	0x0
+ 778              	.LLST5:
+ 779 00e3 00000000 		.4byte	.LFB5
+ 780 00e7 02000000 		.4byte	.LCFI11
+ 781 00eb 0100     		.2byte	0x1
+ 782 00ed 5D       		.byte	0x5d
+ 783 00ee 02000000 		.4byte	.LCFI11
+ 784 00f2 04000000 		.4byte	.LCFI12
+ 785 00f6 0200     		.2byte	0x2
+ 786 00f8 7D       		.byte	0x7d
+ 787 00f9 04       		.sleb128 4
+ 788 00fa 04000000 		.4byte	.LCFI12
+ 789 00fe 1C000000 		.4byte	.LFE5
+ 790 0102 0200     		.2byte	0x2
+ 791 0104 77       		.byte	0x77
+ 792 0105 04       		.sleb128 4
+ 793 0106 00000000 		.4byte	0x0
+ 794 010a 00000000 		.4byte	0x0
+ 795              	.LLST6:
+ 796 010e 00000000 		.4byte	.LFB6
+ 797 0112 02000000 		.4byte	.LCFI13
+ 798 0116 0100     		.2byte	0x1
+ 799 0118 5D       		.byte	0x5d
+ 800 0119 02000000 		.4byte	.LCFI13
+ 801 011d 04000000 		.4byte	.LCFI14
+ 802 0121 0200     		.2byte	0x2
+ 803 0123 7D       		.byte	0x7d
+ 804 0124 08       		.sleb128 8
+ 805 0125 04000000 		.4byte	.LCFI14
+ 806 0129 06000000 		.4byte	.LCFI15
+ 807 012d 0200     		.2byte	0x2
+ 808 012f 7D       		.byte	0x7d
+ 809 0130 18       		.sleb128 24
+ 810 0131 06000000 		.4byte	.LCFI15
+ 811 0135 F8000000 		.4byte	.LFE6
+ 812 0139 0200     		.2byte	0x2
+ 813 013b 77       		.byte	0x77
+ 814 013c 18       		.sleb128 24
+ 815 013d 00000000 		.4byte	0x0
+ 816 0141 00000000 		.4byte	0x0
+ 817              	.LLST7:
+ 818 0145 00000000 		.4byte	.LFB7
+ 819 0149 02000000 		.4byte	.LCFI16
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\cc5NDZwb.s 			page 25
+
+
+ 820 014d 0100     		.2byte	0x1
+ 821 014f 5D       		.byte	0x5d
+ 822 0150 02000000 		.4byte	.LCFI16
+ 823 0154 04000000 		.4byte	.LCFI17
+ 824 0158 0200     		.2byte	0x2
+ 825 015a 7D       		.byte	0x7d
+ 826 015b 08       		.sleb128 8
+ 827 015c 04000000 		.4byte	.LCFI17
+ 828 0160 06000000 		.4byte	.LCFI18
+ 829 0164 0200     		.2byte	0x2
+ 830 0166 7D       		.byte	0x7d
+ 831 0167 10       		.sleb128 16
+ 832 0168 06000000 		.4byte	.LCFI18
+ 833 016c 00010000 		.4byte	.LFE7
+ 834 0170 0200     		.2byte	0x2
+ 835 0172 77       		.byte	0x77
+ 836 0173 10       		.sleb128 16
+ 837 0174 00000000 		.4byte	0x0
+ 838 0178 00000000 		.4byte	0x0
+ 839              	.LLST8:
+ 840 017c 00000000 		.4byte	.LFB8
+ 841 0180 02000000 		.4byte	.LCFI19
+ 842 0184 0100     		.2byte	0x1
+ 843 0186 5D       		.byte	0x5d
+ 844 0187 02000000 		.4byte	.LCFI19
+ 845 018b 04000000 		.4byte	.LCFI20
+ 846 018f 0200     		.2byte	0x2
+ 847 0191 7D       		.byte	0x7d
+ 848 0192 04       		.sleb128 4
+ 849 0193 04000000 		.4byte	.LCFI20
+ 850 0197 06000000 		.4byte	.LCFI21
+ 851 019b 0200     		.2byte	0x2
+ 852 019d 7D       		.byte	0x7d
+ 853 019e 10       		.sleb128 16
+ 854 019f 06000000 		.4byte	.LCFI21
+ 855 01a3 22000000 		.4byte	.LFE8
+ 856 01a7 0200     		.2byte	0x2
+ 857 01a9 77       		.byte	0x77
+ 858 01aa 10       		.sleb128 16
+ 859 01ab 00000000 		.4byte	0x0
+ 860 01af 00000000 		.4byte	0x0
+ 861              		.file 2 ".\\Generated_Source\\PSoC5\\/cytypes.h"
+ 862              		.file 3 ".\\Generated_Source\\PSoC5\\/PumpCycle.h"
+ 863              		.section	.debug_info
+ 864 0000 60020000 		.4byte	0x260
+ 865 0004 0200     		.2byte	0x2
+ 866 0006 00000000 		.4byte	.Ldebug_abbrev0
+ 867 000a 04       		.byte	0x4
+ 868 000b 01       		.uleb128 0x1
+ 869 000c F1010000 		.4byte	.LASF33
+ 870 0010 01       		.byte	0x1
+ 871 0011 70010000 		.4byte	.LASF34
+ 872 0015 98000000 		.4byte	.LASF35
+ 873 0019 00000000 		.4byte	0x0
+ 874 001d 00000000 		.4byte	0x0
+ 875 0021 00000000 		.4byte	.Ldebug_ranges0+0x0
+ 876 0025 00000000 		.4byte	.Ldebug_line0
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\cc5NDZwb.s 			page 26
+
+
+ 877 0029 02       		.uleb128 0x2
+ 878 002a 01       		.byte	0x1
+ 879 002b 06       		.byte	0x6
+ 880 002c 4B020000 		.4byte	.LASF0
+ 881 0030 02       		.uleb128 0x2
+ 882 0031 01       		.byte	0x1
+ 883 0032 08       		.byte	0x8
+ 884 0033 2A010000 		.4byte	.LASF1
+ 885 0037 02       		.uleb128 0x2
+ 886 0038 02       		.byte	0x2
+ 887 0039 05       		.byte	0x5
+ 888 003a 11020000 		.4byte	.LASF2
+ 889 003e 02       		.uleb128 0x2
+ 890 003f 02       		.byte	0x2
+ 891 0040 07       		.byte	0x7
+ 892 0041 66000000 		.4byte	.LASF3
+ 893 0045 02       		.uleb128 0x2
+ 894 0046 04       		.byte	0x4
+ 895 0047 05       		.byte	0x5
+ 896 0048 30020000 		.4byte	.LASF4
+ 897 004c 02       		.uleb128 0x2
+ 898 004d 04       		.byte	0x4
+ 899 004e 07       		.byte	0x7
+ 900 004f 49010000 		.4byte	.LASF5
+ 901 0053 02       		.uleb128 0x2
+ 902 0054 08       		.byte	0x8
+ 903 0055 05       		.byte	0x5
+ 904 0056 00000000 		.4byte	.LASF6
+ 905 005a 02       		.uleb128 0x2
+ 906 005b 08       		.byte	0x8
+ 907 005c 07       		.byte	0x7
+ 908 005d C1010000 		.4byte	.LASF7
+ 909 0061 03       		.uleb128 0x3
+ 910 0062 04       		.byte	0x4
+ 911 0063 05       		.byte	0x5
+ 912 0064 696E7400 		.ascii	"int\000"
+ 913 0068 02       		.uleb128 0x2
+ 914 0069 04       		.byte	0x4
+ 915 006a 07       		.byte	0x7
+ 916 006b B4010000 		.4byte	.LASF8
+ 917 006f 04       		.uleb128 0x4
+ 918 0070 5B010000 		.4byte	.LASF9
+ 919 0074 02       		.byte	0x2
+ 920 0075 4C       		.byte	0x4c
+ 921 0076 30000000 		.4byte	0x30
+ 922 007a 04       		.uleb128 0x4
+ 923 007b 9C010000 		.4byte	.LASF10
+ 924 007f 02       		.byte	0x2
+ 925 0080 4D       		.byte	0x4d
+ 926 0081 3E000000 		.4byte	0x3e
+ 927 0085 02       		.uleb128 0x2
+ 928 0086 04       		.byte	0x4
+ 929 0087 04       		.byte	0x4
+ 930 0088 0B010000 		.4byte	.LASF11
+ 931 008c 02       		.uleb128 0x2
+ 932 008d 08       		.byte	0x8
+ 933 008e 04       		.byte	0x4
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\cc5NDZwb.s 			page 27
+
+
+ 934 008f 95010000 		.4byte	.LASF12
+ 935 0093 02       		.uleb128 0x2
+ 936 0094 01       		.byte	0x1
+ 937 0095 08       		.byte	0x8
+ 938 0096 0C020000 		.4byte	.LASF13
+ 939 009a 05       		.uleb128 0x5
+ 940 009b 04       		.byte	0x4
+ 941 009c 07       		.byte	0x7
+ 942 009d 06       		.uleb128 0x6
+ 943 009e 01       		.byte	0x1
+ 944 009f 03       		.byte	0x3
+ 945 00a0 32       		.byte	0x32
+ 946 00a1 B4000000 		.4byte	0xb4
+ 947 00a5 07       		.uleb128 0x7
+ 948 00a6 8E000000 		.4byte	.LASF36
+ 949 00aa 03       		.byte	0x3
+ 950 00ab 33       		.byte	0x33
+ 951 00ac 6F000000 		.4byte	0x6f
+ 952 00b0 02       		.byte	0x2
+ 953 00b1 23       		.byte	0x23
+ 954 00b2 00       		.uleb128 0x0
+ 955 00b3 00       		.byte	0x0
+ 956 00b4 04       		.uleb128 0x4
+ 957 00b5 2E000000 		.4byte	.LASF14
+ 958 00b9 03       		.byte	0x3
+ 959 00ba 34       		.byte	0x34
+ 960 00bb 9D000000 		.4byte	0x9d
+ 961 00bf 08       		.uleb128 0x8
+ 962 00c0 01       		.byte	0x1
+ 963 00c1 61010000 		.4byte	.LASF15
+ 964 00c5 01       		.byte	0x1
+ 965 00c6 33       		.byte	0x33
+ 966 00c7 01       		.byte	0x1
+ 967 00c8 00000000 		.4byte	.LFB0
+ 968 00cc 7C000000 		.4byte	.LFE0
+ 969 00d0 00000000 		.4byte	.LLST0
+ 970 00d4 08       		.uleb128 0x8
+ 971 00d5 01       		.byte	0x1
+ 972 00d6 A3010000 		.4byte	.LASF16
+ 973 00da 01       		.byte	0x1
+ 974 00db 63       		.byte	0x63
+ 975 00dc 01       		.byte	0x1
+ 976 00dd 00000000 		.4byte	.LFB1
+ 977 00e1 72000000 		.4byte	.LFE1
+ 978 00e5 2B000000 		.4byte	.LLST1
+ 979 00e9 08       		.uleb128 0x8
+ 980 00ea 01       		.byte	0x1
+ 981 00eb 4F000000 		.4byte	.LASF17
+ 982 00ef 01       		.byte	0x1
+ 983 00f0 88       		.byte	0x88
+ 984 00f1 01       		.byte	0x1
+ 985 00f2 00000000 		.4byte	.LFB2
+ 986 00f6 2A000000 		.4byte	.LFE2
+ 987 00fa 56000000 		.4byte	.LLST2
+ 988 00fe 08       		.uleb128 0x8
+ 989 00ff 01       		.byte	0x1
+ 990 0100 FD010000 		.4byte	.LASF18
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\cc5NDZwb.s 			page 28
+
+
+ 991 0104 01       		.byte	0x1
+ 992 0105 A5       		.byte	0xa5
+ 993 0106 01       		.byte	0x1
+ 994 0107 00000000 		.4byte	.LFB3
+ 995 010b 70000000 		.4byte	.LFE3
+ 996 010f 81000000 		.4byte	.LLST3
+ 997 0113 09       		.uleb128 0x9
+ 998 0114 01       		.byte	0x1
+ 999 0115 1B000000 		.4byte	.LASF28
+ 1000 0119 01       		.byte	0x1
+ 1001 011a C5       		.byte	0xc5
+ 1002 011b 01       		.byte	0x1
+ 1003 011c 00000000 		.4byte	.LFB4
+ 1004 0120 74000000 		.4byte	.LFE4
+ 1005 0124 AC000000 		.4byte	.LLST4
+ 1006 0128 3B010000 		.4byte	0x13b
+ 1007 012c 0A       		.uleb128 0xa
+ 1008 012d E0010000 		.4byte	.LASF19
+ 1009 0131 01       		.byte	0x1
+ 1010 0132 C5       		.byte	0xc5
+ 1011 0133 6F000000 		.4byte	0x6f
+ 1012 0137 02       		.byte	0x2
+ 1013 0138 91       		.byte	0x91
+ 1014 0139 77       		.sleb128 -9
+ 1015 013a 00       		.byte	0x0
+ 1016 013b 0B       		.uleb128 0xb
+ 1017 013c 01       		.byte	0x1
+ 1018 013d 1B020000 		.4byte	.LASF37
+ 1019 0141 01       		.byte	0x1
+ 1020 0142 FB       		.byte	0xfb
+ 1021 0143 01       		.byte	0x1
+ 1022 0144 6F000000 		.4byte	0x6f
+ 1023 0148 00000000 		.4byte	.LFB5
+ 1024 014c 1C000000 		.4byte	.LFE5
+ 1025 0150 E3000000 		.4byte	.LLST5
+ 1026 0154 0C       		.uleb128 0xc
+ 1027 0155 57020000 		.4byte	.LASF38
+ 1028 0159 01       		.byte	0x1
+ 1029 015a 1A01     		.2byte	0x11a
+ 1030 015c 01       		.byte	0x1
+ 1031 015d 00000000 		.4byte	.LFB6
+ 1032 0161 F8000000 		.4byte	.LFE6
+ 1033 0165 0E010000 		.4byte	.LLST6
+ 1034 0169 AA010000 		.4byte	0x1aa
+ 1035 016d 0D       		.uleb128 0xd
+ 1036 016e 6C020000 		.4byte	.LASF20
+ 1037 0172 01       		.byte	0x1
+ 1038 0173 1A01     		.2byte	0x11a
+ 1039 0175 6F000000 		.4byte	0x6f
+ 1040 0179 02       		.byte	0x2
+ 1041 017a 91       		.byte	0x91
+ 1042 017b 6F       		.sleb128 -17
+ 1043 017c 0E       		.uleb128 0xe
+ 1044 017d 41010000 		.4byte	.LASF21
+ 1045 0181 01       		.byte	0x1
+ 1046 0182 1C01     		.2byte	0x11c
+ 1047 0184 6F000000 		.4byte	0x6f
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\cc5NDZwb.s 			page 29
+
+
+ 1048 0188 02       		.byte	0x2
+ 1049 0189 91       		.byte	0x91
+ 1050 018a 75       		.sleb128 -11
+ 1051 018b 0E       		.uleb128 0xe
+ 1052 018c E6010000 		.4byte	.LASF22
+ 1053 0190 01       		.byte	0x1
+ 1054 0191 1C01     		.2byte	0x11c
+ 1055 0193 6F000000 		.4byte	0x6f
+ 1056 0197 02       		.byte	0x2
+ 1057 0198 91       		.byte	0x91
+ 1058 0199 76       		.sleb128 -10
+ 1059 019a 0E       		.uleb128 0xe
+ 1060 019b 38010000 		.4byte	.LASF23
+ 1061 019f 01       		.byte	0x1
+ 1062 01a0 1D01     		.2byte	0x11d
+ 1063 01a2 6F000000 		.4byte	0x6f
+ 1064 01a6 02       		.byte	0x2
+ 1065 01a7 91       		.byte	0x91
+ 1066 01a8 77       		.sleb128 -9
+ 1067 01a9 00       		.byte	0x0
+ 1068 01aa 0F       		.uleb128 0xf
+ 1069 01ab 01       		.byte	0x1
+ 1070 01ac 18010000 		.4byte	.LASF39
+ 1071 01b0 01       		.byte	0x1
+ 1072 01b1 BF01     		.2byte	0x1bf
+ 1073 01b3 01       		.byte	0x1
+ 1074 01b4 7A000000 		.4byte	0x7a
+ 1075 01b8 00000000 		.4byte	.LFB7
+ 1076 01bc 00010000 		.4byte	.LFE7
+ 1077 01c0 45010000 		.4byte	.LLST7
+ 1078 01c4 05020000 		.4byte	0x205
+ 1079 01c8 0E       		.uleb128 0xe
+ 1080 01c9 5F000000 		.4byte	.LASF24
+ 1081 01cd 01       		.byte	0x1
+ 1082 01ce C101     		.2byte	0x1c1
+ 1083 01d0 6F000000 		.4byte	0x6f
+ 1084 01d4 02       		.byte	0x2
+ 1085 01d5 91       		.byte	0x91
+ 1086 01d6 74       		.sleb128 -12
+ 1087 01d7 0E       		.uleb128 0xe
+ 1088 01d8 14000000 		.4byte	.LASF25
+ 1089 01dc 01       		.byte	0x1
+ 1090 01dd C201     		.2byte	0x1c2
+ 1091 01df 6F000000 		.4byte	0x6f
+ 1092 01e3 02       		.byte	0x2
+ 1093 01e4 91       		.byte	0x91
+ 1094 01e5 75       		.sleb128 -11
+ 1095 01e6 0E       		.uleb128 0xe
+ 1096 01e7 11010000 		.4byte	.LASF26
+ 1097 01eb 01       		.byte	0x1
+ 1098 01ec C301     		.2byte	0x1c3
+ 1099 01ee 6F000000 		.4byte	0x6f
+ 1100 01f2 02       		.byte	0x2
+ 1101 01f3 91       		.byte	0x91
+ 1102 01f4 76       		.sleb128 -10
+ 1103 01f5 0E       		.uleb128 0xe
+ 1104 01f6 0E000000 		.4byte	.LASF27
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\cc5NDZwb.s 			page 30
+
+
+ 1105 01fa 01       		.byte	0x1
+ 1106 01fb C401     		.2byte	0x1c4
+ 1107 01fd 6F000000 		.4byte	0x6f
+ 1108 0201 02       		.byte	0x2
+ 1109 0202 91       		.byte	0x91
+ 1110 0203 77       		.sleb128 -9
+ 1111 0204 00       		.byte	0x0
+ 1112 0205 10       		.uleb128 0x10
+ 1113 0206 01       		.byte	0x1
+ 1114 0207 DF000000 		.4byte	.LASF29
+ 1115 020b 01       		.byte	0x1
+ 1116 020c 1102     		.2byte	0x211
+ 1117 020e 01       		.byte	0x1
+ 1118 020f 00000000 		.4byte	.LFB8
+ 1119 0213 22000000 		.4byte	.LFE8
+ 1120 0217 7C010000 		.4byte	.LLST8
+ 1121 021b 2F020000 		.4byte	0x22f
+ 1122 021f 0D       		.uleb128 0xd
+ 1123 0220 D8010000 		.4byte	.LASF30
+ 1124 0224 01       		.byte	0x1
+ 1125 0225 1102     		.2byte	0x211
+ 1126 0227 7A000000 		.4byte	0x7a
+ 1127 022b 02       		.byte	0x2
+ 1128 022c 91       		.byte	0x91
+ 1129 022d 76       		.sleb128 -10
+ 1130 022e 00       		.byte	0x0
+ 1131 022f 11       		.uleb128 0x11
+ 1132 0230 F2000000 		.4byte	.LASF31
+ 1133 0234 01       		.byte	0x1
+ 1134 0235 1B       		.byte	0x1b
+ 1135 0236 B4000000 		.4byte	0xb4
+ 1136 023a 05       		.byte	0x5
+ 1137 023b 03       		.byte	0x3
+ 1138 023c 04000000 		.4byte	PumpCycle_lowPowerBackup
+ 1139 0240 11       		.uleb128 0x11
+ 1140 0241 79000000 		.4byte	.LASF32
+ 1141 0245 01       		.byte	0x1
+ 1142 0246 21       		.byte	0x21
+ 1143 0247 6F000000 		.4byte	0x6f
+ 1144 024b 05       		.byte	0x5
+ 1145 024c 03       		.byte	0x3
+ 1146 024d 05000000 		.4byte	PumpCycle_restoreReg
+ 1147 0251 12       		.uleb128 0x12
+ 1148 0252 39020000 		.4byte	.LASF40
+ 1149 0256 01       		.byte	0x1
+ 1150 0257 14       		.byte	0x14
+ 1151 0258 6F000000 		.4byte	0x6f
+ 1152 025c 01       		.byte	0x1
+ 1153 025d 05       		.byte	0x5
+ 1154 025e 03       		.byte	0x3
+ 1155 025f 00000000 		.4byte	PumpCycle_initVar
+ 1156 0263 00       		.byte	0x0
+ 1157              		.section	.debug_abbrev
+ 1158 0000 01       		.uleb128 0x1
+ 1159 0001 11       		.uleb128 0x11
+ 1160 0002 01       		.byte	0x1
+ 1161 0003 25       		.uleb128 0x25
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\cc5NDZwb.s 			page 31
+
+
+ 1162 0004 0E       		.uleb128 0xe
+ 1163 0005 13       		.uleb128 0x13
+ 1164 0006 0B       		.uleb128 0xb
+ 1165 0007 03       		.uleb128 0x3
+ 1166 0008 0E       		.uleb128 0xe
+ 1167 0009 1B       		.uleb128 0x1b
+ 1168 000a 0E       		.uleb128 0xe
+ 1169 000b 11       		.uleb128 0x11
+ 1170 000c 01       		.uleb128 0x1
+ 1171 000d 52       		.uleb128 0x52
+ 1172 000e 01       		.uleb128 0x1
+ 1173 000f 55       		.uleb128 0x55
+ 1174 0010 06       		.uleb128 0x6
+ 1175 0011 10       		.uleb128 0x10
+ 1176 0012 06       		.uleb128 0x6
+ 1177 0013 00       		.byte	0x0
+ 1178 0014 00       		.byte	0x0
+ 1179 0015 02       		.uleb128 0x2
+ 1180 0016 24       		.uleb128 0x24
+ 1181 0017 00       		.byte	0x0
+ 1182 0018 0B       		.uleb128 0xb
+ 1183 0019 0B       		.uleb128 0xb
+ 1184 001a 3E       		.uleb128 0x3e
+ 1185 001b 0B       		.uleb128 0xb
+ 1186 001c 03       		.uleb128 0x3
+ 1187 001d 0E       		.uleb128 0xe
+ 1188 001e 00       		.byte	0x0
+ 1189 001f 00       		.byte	0x0
+ 1190 0020 03       		.uleb128 0x3
+ 1191 0021 24       		.uleb128 0x24
+ 1192 0022 00       		.byte	0x0
+ 1193 0023 0B       		.uleb128 0xb
+ 1194 0024 0B       		.uleb128 0xb
+ 1195 0025 3E       		.uleb128 0x3e
+ 1196 0026 0B       		.uleb128 0xb
+ 1197 0027 03       		.uleb128 0x3
+ 1198 0028 08       		.uleb128 0x8
+ 1199 0029 00       		.byte	0x0
+ 1200 002a 00       		.byte	0x0
+ 1201 002b 04       		.uleb128 0x4
+ 1202 002c 16       		.uleb128 0x16
+ 1203 002d 00       		.byte	0x0
+ 1204 002e 03       		.uleb128 0x3
+ 1205 002f 0E       		.uleb128 0xe
+ 1206 0030 3A       		.uleb128 0x3a
+ 1207 0031 0B       		.uleb128 0xb
+ 1208 0032 3B       		.uleb128 0x3b
+ 1209 0033 0B       		.uleb128 0xb
+ 1210 0034 49       		.uleb128 0x49
+ 1211 0035 13       		.uleb128 0x13
+ 1212 0036 00       		.byte	0x0
+ 1213 0037 00       		.byte	0x0
+ 1214 0038 05       		.uleb128 0x5
+ 1215 0039 24       		.uleb128 0x24
+ 1216 003a 00       		.byte	0x0
+ 1217 003b 0B       		.uleb128 0xb
+ 1218 003c 0B       		.uleb128 0xb
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\cc5NDZwb.s 			page 32
+
+
+ 1219 003d 3E       		.uleb128 0x3e
+ 1220 003e 0B       		.uleb128 0xb
+ 1221 003f 00       		.byte	0x0
+ 1222 0040 00       		.byte	0x0
+ 1223 0041 06       		.uleb128 0x6
+ 1224 0042 13       		.uleb128 0x13
+ 1225 0043 01       		.byte	0x1
+ 1226 0044 0B       		.uleb128 0xb
+ 1227 0045 0B       		.uleb128 0xb
+ 1228 0046 3A       		.uleb128 0x3a
+ 1229 0047 0B       		.uleb128 0xb
+ 1230 0048 3B       		.uleb128 0x3b
+ 1231 0049 0B       		.uleb128 0xb
+ 1232 004a 01       		.uleb128 0x1
+ 1233 004b 13       		.uleb128 0x13
+ 1234 004c 00       		.byte	0x0
+ 1235 004d 00       		.byte	0x0
+ 1236 004e 07       		.uleb128 0x7
+ 1237 004f 0D       		.uleb128 0xd
+ 1238 0050 00       		.byte	0x0
+ 1239 0051 03       		.uleb128 0x3
+ 1240 0052 0E       		.uleb128 0xe
+ 1241 0053 3A       		.uleb128 0x3a
+ 1242 0054 0B       		.uleb128 0xb
+ 1243 0055 3B       		.uleb128 0x3b
+ 1244 0056 0B       		.uleb128 0xb
+ 1245 0057 49       		.uleb128 0x49
+ 1246 0058 13       		.uleb128 0x13
+ 1247 0059 38       		.uleb128 0x38
+ 1248 005a 0A       		.uleb128 0xa
+ 1249 005b 00       		.byte	0x0
+ 1250 005c 00       		.byte	0x0
+ 1251 005d 08       		.uleb128 0x8
+ 1252 005e 2E       		.uleb128 0x2e
+ 1253 005f 00       		.byte	0x0
+ 1254 0060 3F       		.uleb128 0x3f
+ 1255 0061 0C       		.uleb128 0xc
+ 1256 0062 03       		.uleb128 0x3
+ 1257 0063 0E       		.uleb128 0xe
+ 1258 0064 3A       		.uleb128 0x3a
+ 1259 0065 0B       		.uleb128 0xb
+ 1260 0066 3B       		.uleb128 0x3b
+ 1261 0067 0B       		.uleb128 0xb
+ 1262 0068 27       		.uleb128 0x27
+ 1263 0069 0C       		.uleb128 0xc
+ 1264 006a 11       		.uleb128 0x11
+ 1265 006b 01       		.uleb128 0x1
+ 1266 006c 12       		.uleb128 0x12
+ 1267 006d 01       		.uleb128 0x1
+ 1268 006e 40       		.uleb128 0x40
+ 1269 006f 06       		.uleb128 0x6
+ 1270 0070 00       		.byte	0x0
+ 1271 0071 00       		.byte	0x0
+ 1272 0072 09       		.uleb128 0x9
+ 1273 0073 2E       		.uleb128 0x2e
+ 1274 0074 01       		.byte	0x1
+ 1275 0075 3F       		.uleb128 0x3f
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\cc5NDZwb.s 			page 33
+
+
+ 1276 0076 0C       		.uleb128 0xc
+ 1277 0077 03       		.uleb128 0x3
+ 1278 0078 0E       		.uleb128 0xe
+ 1279 0079 3A       		.uleb128 0x3a
+ 1280 007a 0B       		.uleb128 0xb
+ 1281 007b 3B       		.uleb128 0x3b
+ 1282 007c 0B       		.uleb128 0xb
+ 1283 007d 27       		.uleb128 0x27
+ 1284 007e 0C       		.uleb128 0xc
+ 1285 007f 11       		.uleb128 0x11
+ 1286 0080 01       		.uleb128 0x1
+ 1287 0081 12       		.uleb128 0x12
+ 1288 0082 01       		.uleb128 0x1
+ 1289 0083 40       		.uleb128 0x40
+ 1290 0084 06       		.uleb128 0x6
+ 1291 0085 01       		.uleb128 0x1
+ 1292 0086 13       		.uleb128 0x13
+ 1293 0087 00       		.byte	0x0
+ 1294 0088 00       		.byte	0x0
+ 1295 0089 0A       		.uleb128 0xa
+ 1296 008a 05       		.uleb128 0x5
+ 1297 008b 00       		.byte	0x0
+ 1298 008c 03       		.uleb128 0x3
+ 1299 008d 0E       		.uleb128 0xe
+ 1300 008e 3A       		.uleb128 0x3a
+ 1301 008f 0B       		.uleb128 0xb
+ 1302 0090 3B       		.uleb128 0x3b
+ 1303 0091 0B       		.uleb128 0xb
+ 1304 0092 49       		.uleb128 0x49
+ 1305 0093 13       		.uleb128 0x13
+ 1306 0094 02       		.uleb128 0x2
+ 1307 0095 0A       		.uleb128 0xa
+ 1308 0096 00       		.byte	0x0
+ 1309 0097 00       		.byte	0x0
+ 1310 0098 0B       		.uleb128 0xb
+ 1311 0099 2E       		.uleb128 0x2e
+ 1312 009a 00       		.byte	0x0
+ 1313 009b 3F       		.uleb128 0x3f
+ 1314 009c 0C       		.uleb128 0xc
+ 1315 009d 03       		.uleb128 0x3
+ 1316 009e 0E       		.uleb128 0xe
+ 1317 009f 3A       		.uleb128 0x3a
+ 1318 00a0 0B       		.uleb128 0xb
+ 1319 00a1 3B       		.uleb128 0x3b
+ 1320 00a2 0B       		.uleb128 0xb
+ 1321 00a3 27       		.uleb128 0x27
+ 1322 00a4 0C       		.uleb128 0xc
+ 1323 00a5 49       		.uleb128 0x49
+ 1324 00a6 13       		.uleb128 0x13
+ 1325 00a7 11       		.uleb128 0x11
+ 1326 00a8 01       		.uleb128 0x1
+ 1327 00a9 12       		.uleb128 0x12
+ 1328 00aa 01       		.uleb128 0x1
+ 1329 00ab 40       		.uleb128 0x40
+ 1330 00ac 06       		.uleb128 0x6
+ 1331 00ad 00       		.byte	0x0
+ 1332 00ae 00       		.byte	0x0
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\cc5NDZwb.s 			page 34
+
+
+ 1333 00af 0C       		.uleb128 0xc
+ 1334 00b0 2E       		.uleb128 0x2e
+ 1335 00b1 01       		.byte	0x1
+ 1336 00b2 03       		.uleb128 0x3
+ 1337 00b3 0E       		.uleb128 0xe
+ 1338 00b4 3A       		.uleb128 0x3a
+ 1339 00b5 0B       		.uleb128 0xb
+ 1340 00b6 3B       		.uleb128 0x3b
+ 1341 00b7 05       		.uleb128 0x5
+ 1342 00b8 27       		.uleb128 0x27
+ 1343 00b9 0C       		.uleb128 0xc
+ 1344 00ba 11       		.uleb128 0x11
+ 1345 00bb 01       		.uleb128 0x1
+ 1346 00bc 12       		.uleb128 0x12
+ 1347 00bd 01       		.uleb128 0x1
+ 1348 00be 40       		.uleb128 0x40
+ 1349 00bf 06       		.uleb128 0x6
+ 1350 00c0 01       		.uleb128 0x1
+ 1351 00c1 13       		.uleb128 0x13
+ 1352 00c2 00       		.byte	0x0
+ 1353 00c3 00       		.byte	0x0
+ 1354 00c4 0D       		.uleb128 0xd
+ 1355 00c5 05       		.uleb128 0x5
+ 1356 00c6 00       		.byte	0x0
+ 1357 00c7 03       		.uleb128 0x3
+ 1358 00c8 0E       		.uleb128 0xe
+ 1359 00c9 3A       		.uleb128 0x3a
+ 1360 00ca 0B       		.uleb128 0xb
+ 1361 00cb 3B       		.uleb128 0x3b
+ 1362 00cc 05       		.uleb128 0x5
+ 1363 00cd 49       		.uleb128 0x49
+ 1364 00ce 13       		.uleb128 0x13
+ 1365 00cf 02       		.uleb128 0x2
+ 1366 00d0 0A       		.uleb128 0xa
+ 1367 00d1 00       		.byte	0x0
+ 1368 00d2 00       		.byte	0x0
+ 1369 00d3 0E       		.uleb128 0xe
+ 1370 00d4 34       		.uleb128 0x34
+ 1371 00d5 00       		.byte	0x0
+ 1372 00d6 03       		.uleb128 0x3
+ 1373 00d7 0E       		.uleb128 0xe
+ 1374 00d8 3A       		.uleb128 0x3a
+ 1375 00d9 0B       		.uleb128 0xb
+ 1376 00da 3B       		.uleb128 0x3b
+ 1377 00db 05       		.uleb128 0x5
+ 1378 00dc 49       		.uleb128 0x49
+ 1379 00dd 13       		.uleb128 0x13
+ 1380 00de 02       		.uleb128 0x2
+ 1381 00df 0A       		.uleb128 0xa
+ 1382 00e0 00       		.byte	0x0
+ 1383 00e1 00       		.byte	0x0
+ 1384 00e2 0F       		.uleb128 0xf
+ 1385 00e3 2E       		.uleb128 0x2e
+ 1386 00e4 01       		.byte	0x1
+ 1387 00e5 3F       		.uleb128 0x3f
+ 1388 00e6 0C       		.uleb128 0xc
+ 1389 00e7 03       		.uleb128 0x3
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\cc5NDZwb.s 			page 35
+
+
+ 1390 00e8 0E       		.uleb128 0xe
+ 1391 00e9 3A       		.uleb128 0x3a
+ 1392 00ea 0B       		.uleb128 0xb
+ 1393 00eb 3B       		.uleb128 0x3b
+ 1394 00ec 05       		.uleb128 0x5
+ 1395 00ed 27       		.uleb128 0x27
+ 1396 00ee 0C       		.uleb128 0xc
+ 1397 00ef 49       		.uleb128 0x49
+ 1398 00f0 13       		.uleb128 0x13
+ 1399 00f1 11       		.uleb128 0x11
+ 1400 00f2 01       		.uleb128 0x1
+ 1401 00f3 12       		.uleb128 0x12
+ 1402 00f4 01       		.uleb128 0x1
+ 1403 00f5 40       		.uleb128 0x40
+ 1404 00f6 06       		.uleb128 0x6
+ 1405 00f7 01       		.uleb128 0x1
+ 1406 00f8 13       		.uleb128 0x13
+ 1407 00f9 00       		.byte	0x0
+ 1408 00fa 00       		.byte	0x0
+ 1409 00fb 10       		.uleb128 0x10
+ 1410 00fc 2E       		.uleb128 0x2e
+ 1411 00fd 01       		.byte	0x1
+ 1412 00fe 3F       		.uleb128 0x3f
+ 1413 00ff 0C       		.uleb128 0xc
+ 1414 0100 03       		.uleb128 0x3
+ 1415 0101 0E       		.uleb128 0xe
+ 1416 0102 3A       		.uleb128 0x3a
+ 1417 0103 0B       		.uleb128 0xb
+ 1418 0104 3B       		.uleb128 0x3b
+ 1419 0105 05       		.uleb128 0x5
+ 1420 0106 27       		.uleb128 0x27
+ 1421 0107 0C       		.uleb128 0xc
+ 1422 0108 11       		.uleb128 0x11
+ 1423 0109 01       		.uleb128 0x1
+ 1424 010a 12       		.uleb128 0x12
+ 1425 010b 01       		.uleb128 0x1
+ 1426 010c 40       		.uleb128 0x40
+ 1427 010d 06       		.uleb128 0x6
+ 1428 010e 01       		.uleb128 0x1
+ 1429 010f 13       		.uleb128 0x13
+ 1430 0110 00       		.byte	0x0
+ 1431 0111 00       		.byte	0x0
+ 1432 0112 11       		.uleb128 0x11
+ 1433 0113 34       		.uleb128 0x34
+ 1434 0114 00       		.byte	0x0
+ 1435 0115 03       		.uleb128 0x3
+ 1436 0116 0E       		.uleb128 0xe
+ 1437 0117 3A       		.uleb128 0x3a
+ 1438 0118 0B       		.uleb128 0xb
+ 1439 0119 3B       		.uleb128 0x3b
+ 1440 011a 0B       		.uleb128 0xb
+ 1441 011b 49       		.uleb128 0x49
+ 1442 011c 13       		.uleb128 0x13
+ 1443 011d 02       		.uleb128 0x2
+ 1444 011e 0A       		.uleb128 0xa
+ 1445 011f 00       		.byte	0x0
+ 1446 0120 00       		.byte	0x0
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\cc5NDZwb.s 			page 36
+
+
+ 1447 0121 12       		.uleb128 0x12
+ 1448 0122 34       		.uleb128 0x34
+ 1449 0123 00       		.byte	0x0
+ 1450 0124 03       		.uleb128 0x3
+ 1451 0125 0E       		.uleb128 0xe
+ 1452 0126 3A       		.uleb128 0x3a
+ 1453 0127 0B       		.uleb128 0xb
+ 1454 0128 3B       		.uleb128 0x3b
+ 1455 0129 0B       		.uleb128 0xb
+ 1456 012a 49       		.uleb128 0x49
+ 1457 012b 13       		.uleb128 0x13
+ 1458 012c 3F       		.uleb128 0x3f
+ 1459 012d 0C       		.uleb128 0xc
+ 1460 012e 02       		.uleb128 0x2
+ 1461 012f 0A       		.uleb128 0xa
+ 1462 0130 00       		.byte	0x0
+ 1463 0131 00       		.byte	0x0
+ 1464 0132 00       		.byte	0x0
+ 1465              		.section	.debug_pubnames,"",%progbits
+ 1466 0000 D0000000 		.4byte	0xd0
+ 1467 0004 0200     		.2byte	0x2
+ 1468 0006 00000000 		.4byte	.Ldebug_info0
+ 1469 000a 64020000 		.4byte	0x264
+ 1470 000e BF000000 		.4byte	0xbf
+ 1471 0012 50756D70 		.ascii	"PumpCycle_Init\000"
+ 1471      4379636C 
+ 1471      655F496E 
+ 1471      697400
+ 1472 0021 D4000000 		.4byte	0xd4
+ 1473 0025 50756D70 		.ascii	"PumpCycle_Enable\000"
+ 1473      4379636C 
+ 1473      655F456E 
+ 1473      61626C65 
+ 1473      00
+ 1474 0036 E9000000 		.4byte	0xe9
+ 1475 003a 50756D70 		.ascii	"PumpCycle_Start\000"
+ 1475      4379636C 
+ 1475      655F5374 
+ 1475      61727400 
+ 1476 004a FE000000 		.4byte	0xfe
+ 1477 004e 50756D70 		.ascii	"PumpCycle_Stop\000"
+ 1477      4379636C 
+ 1477      655F5374 
+ 1477      6F7000
+ 1478 005d 13010000 		.4byte	0x113
+ 1479 0061 50756D70 		.ascii	"PumpCycle_SetSpeed\000"
+ 1479      4379636C 
+ 1479      655F5365 
+ 1479      74537065 
+ 1479      656400
+ 1480 0074 3B010000 		.4byte	0x13b
+ 1481 0078 50756D70 		.ascii	"PumpCycle_GetCompare\000"
+ 1481      4379636C 
+ 1481      655F4765 
+ 1481      74436F6D 
+ 1481      70617265 
+ 1482 008d AA010000 		.4byte	0x1aa
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\cc5NDZwb.s 			page 37
+
+
+ 1483 0091 50756D70 		.ascii	"PumpCycle_ZeroCal\000"
+ 1483      4379636C 
+ 1483      655F5A65 
+ 1483      726F4361 
+ 1483      6C00
+ 1484 00a3 05020000 		.4byte	0x205
+ 1485 00a7 50756D70 		.ascii	"PumpCycle_LoadTrim\000"
+ 1485      4379636C 
+ 1485      655F4C6F 
+ 1485      61645472 
+ 1485      696D00
+ 1486 00ba 51020000 		.4byte	0x251
+ 1487 00be 50756D70 		.ascii	"PumpCycle_initVar\000"
+ 1487      4379636C 
+ 1487      655F696E 
+ 1487      69745661 
+ 1487      7200
+ 1488 00d0 00000000 		.4byte	0x0
+ 1489              		.section	.debug_aranges,"",%progbits
+ 1490 0000 5C000000 		.4byte	0x5c
+ 1491 0004 0200     		.2byte	0x2
+ 1492 0006 00000000 		.4byte	.Ldebug_info0
+ 1493 000a 04       		.byte	0x4
+ 1494 000b 00       		.byte	0x0
+ 1495 000c 0000     		.2byte	0x0
+ 1496 000e 0000     		.2byte	0x0
+ 1497 0010 00000000 		.4byte	.LFB0
+ 1498 0014 7C000000 		.4byte	.LFE0-.LFB0
+ 1499 0018 00000000 		.4byte	.LFB1
+ 1500 001c 72000000 		.4byte	.LFE1-.LFB1
+ 1501 0020 00000000 		.4byte	.LFB2
+ 1502 0024 2A000000 		.4byte	.LFE2-.LFB2
+ 1503 0028 00000000 		.4byte	.LFB3
+ 1504 002c 70000000 		.4byte	.LFE3-.LFB3
+ 1505 0030 00000000 		.4byte	.LFB4
+ 1506 0034 74000000 		.4byte	.LFE4-.LFB4
+ 1507 0038 00000000 		.4byte	.LFB5
+ 1508 003c 1C000000 		.4byte	.LFE5-.LFB5
+ 1509 0040 00000000 		.4byte	.LFB6
+ 1510 0044 F8000000 		.4byte	.LFE6-.LFB6
+ 1511 0048 00000000 		.4byte	.LFB7
+ 1512 004c 00010000 		.4byte	.LFE7-.LFB7
+ 1513 0050 00000000 		.4byte	.LFB8
+ 1514 0054 22000000 		.4byte	.LFE8-.LFB8
+ 1515 0058 00000000 		.4byte	0x0
+ 1516 005c 00000000 		.4byte	0x0
+ 1517              		.section	.debug_ranges,"",%progbits
+ 1518              	.Ldebug_ranges0:
+ 1519 0000 00000000 		.4byte	.Ltext0
+ 1520 0004 00000000 		.4byte	.Letext0
+ 1521 0008 00000000 		.4byte	.LFB0
+ 1522 000c 7C000000 		.4byte	.LFE0
+ 1523 0010 00000000 		.4byte	.LFB1
+ 1524 0014 72000000 		.4byte	.LFE1
+ 1525 0018 00000000 		.4byte	.LFB2
+ 1526 001c 2A000000 		.4byte	.LFE2
+ 1527 0020 00000000 		.4byte	.LFB3
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\cc5NDZwb.s 			page 38
+
+
+ 1528 0024 70000000 		.4byte	.LFE3
+ 1529 0028 00000000 		.4byte	.LFB4
+ 1530 002c 74000000 		.4byte	.LFE4
+ 1531 0030 00000000 		.4byte	.LFB5
+ 1532 0034 1C000000 		.4byte	.LFE5
+ 1533 0038 00000000 		.4byte	.LFB6
+ 1534 003c F8000000 		.4byte	.LFE6
+ 1535 0040 00000000 		.4byte	.LFB7
+ 1536 0044 00010000 		.4byte	.LFE7
+ 1537 0048 00000000 		.4byte	.LFB8
+ 1538 004c 22000000 		.4byte	.LFE8
+ 1539 0050 00000000 		.4byte	0x0
+ 1540 0054 00000000 		.4byte	0x0
+ 1541              		.section	.debug_str,"MS",%progbits,1
+ 1542              	.LASF6:
+ 1543 0000 6C6F6E67 		.ascii	"long long int\000"
+ 1543      206C6F6E 
+ 1543      6720696E 
+ 1543      7400
+ 1544              	.LASF27:
+ 1545 000e 746D7043 		.ascii	"tmpCR\000"
+ 1545      5200
+ 1546              	.LASF25:
+ 1547 0014 746D7053 		.ascii	"tmpSW2\000"
+ 1547      573200
+ 1548              	.LASF28:
+ 1549 001b 50756D70 		.ascii	"PumpCycle_SetSpeed\000"
+ 1549      4379636C 
+ 1549      655F5365 
+ 1549      74537065 
+ 1549      656400
+ 1550              	.LASF14:
+ 1551 002e 50756D70 		.ascii	"PumpCycle_LOWPOWER_BACKUP_STRUCT\000"
+ 1551      4379636C 
+ 1551      655F4C4F 
+ 1551      57504F57 
+ 1551      45525F42 
+ 1552              	.LASF17:
+ 1553 004f 50756D70 		.ascii	"PumpCycle_Start\000"
+ 1553      4379636C 
+ 1553      655F5374 
+ 1553      61727400 
+ 1554              	.LASF24:
+ 1555 005f 746D7053 		.ascii	"tmpSW0\000"
+ 1555      573000
+ 1556              	.LASF3:
+ 1557 0066 73686F72 		.ascii	"short unsigned int\000"
+ 1557      7420756E 
+ 1557      7369676E 
+ 1557      65642069 
+ 1557      6E7400
+ 1558              	.LASF32:
+ 1559 0079 50756D70 		.ascii	"PumpCycle_restoreReg\000"
+ 1559      4379636C 
+ 1559      655F7265 
+ 1559      73746F72 
+ 1559      65526567 
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\cc5NDZwb.s 			page 39
+
+
+ 1560              	.LASF36:
+ 1561 008e 636F6D70 		.ascii	"compCRReg\000"
+ 1561      43525265 
+ 1561      6700
+ 1562              	.LASF35:
+ 1563 0098 433A5C55 		.ascii	"C:\\Users\\karunmj\\Documents\\GitHub\\m2m\\hardwar"
+ 1563      73657273 
+ 1563      5C6B6172 
+ 1563      756E6D6A 
+ 1563      5C446F63 
+ 1564 00c5 655C7073 		.ascii	"e\\psoc5\\AutoSampler.cydsn\000"
+ 1564      6F63355C 
+ 1564      4175746F 
+ 1564      53616D70 
+ 1564      6C65722E 
+ 1565              	.LASF29:
+ 1566 00df 50756D70 		.ascii	"PumpCycle_LoadTrim\000"
+ 1566      4379636C 
+ 1566      655F4C6F 
+ 1566      61645472 
+ 1566      696D00
+ 1567              	.LASF31:
+ 1568 00f2 50756D70 		.ascii	"PumpCycle_lowPowerBackup\000"
+ 1568      4379636C 
+ 1568      655F6C6F 
+ 1568      77506F77 
+ 1568      65724261 
+ 1569              	.LASF11:
+ 1570 010b 666C6F61 		.ascii	"float\000"
+ 1570      7400
+ 1571              	.LASF26:
+ 1572 0111 746D7053 		.ascii	"tmpSW3\000"
+ 1572      573300
+ 1573              	.LASF39:
+ 1574 0118 50756D70 		.ascii	"PumpCycle_ZeroCal\000"
+ 1574      4379636C 
+ 1574      655F5A65 
+ 1574      726F4361 
+ 1574      6C00
+ 1575              	.LASF1:
+ 1576 012a 756E7369 		.ascii	"unsigned char\000"
+ 1576      676E6564 
+ 1576      20636861 
+ 1576      7200
+ 1577              	.LASF23:
+ 1578 0138 636D7053 		.ascii	"cmpState\000"
+ 1578      74617465 
+ 1578      00
+ 1579              	.LASF21:
+ 1580 0141 7472696D 		.ascii	"trimCnt\000"
+ 1580      436E7400 
+ 1581              	.LASF5:
+ 1582 0149 6C6F6E67 		.ascii	"long unsigned int\000"
+ 1582      20756E73 
+ 1582      69676E65 
+ 1582      6420696E 
+ 1582      7400
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\cc5NDZwb.s 			page 40
+
+
+ 1583              	.LASF9:
+ 1584 015b 75696E74 		.ascii	"uint8\000"
+ 1584      3800
+ 1585              	.LASF15:
+ 1586 0161 50756D70 		.ascii	"PumpCycle_Init\000"
+ 1586      4379636C 
+ 1586      655F496E 
+ 1586      697400
+ 1587              	.LASF34:
+ 1588 0170 2E5C4765 		.ascii	".\\Generated_Source\\PSoC5\\PumpCycle.c\000"
+ 1588      6E657261 
+ 1588      7465645F 
+ 1588      536F7572 
+ 1588      63655C50 
+ 1589              	.LASF12:
+ 1590 0195 646F7562 		.ascii	"double\000"
+ 1590      6C6500
+ 1591              	.LASF10:
+ 1592 019c 75696E74 		.ascii	"uint16\000"
+ 1592      313600
+ 1593              	.LASF16:
+ 1594 01a3 50756D70 		.ascii	"PumpCycle_Enable\000"
+ 1594      4379636C 
+ 1594      655F456E 
+ 1594      61626C65 
+ 1594      00
+ 1595              	.LASF8:
+ 1596 01b4 756E7369 		.ascii	"unsigned int\000"
+ 1596      676E6564 
+ 1596      20696E74 
+ 1596      00
+ 1597              	.LASF7:
+ 1598 01c1 6C6F6E67 		.ascii	"long long unsigned int\000"
+ 1598      206C6F6E 
+ 1598      6720756E 
+ 1598      7369676E 
+ 1598      65642069 
+ 1599              	.LASF30:
+ 1600 01d8 7472696D 		.ascii	"trimVal\000"
+ 1600      56616C00 
+ 1601              	.LASF19:
+ 1602 01e0 73706565 		.ascii	"speed\000"
+ 1602      6400
+ 1603              	.LASF22:
+ 1604 01e6 7472696D 		.ascii	"trimCntMax\000"
+ 1604      436E744D 
+ 1604      617800
+ 1605              	.LASF33:
+ 1606 01f1 474E5520 		.ascii	"GNU C 4.4.1\000"
+ 1606      4320342E 
+ 1606      342E3100 
+ 1607              	.LASF18:
+ 1608 01fd 50756D70 		.ascii	"PumpCycle_Stop\000"
+ 1608      4379636C 
+ 1608      655F5374 
+ 1608      6F7000
+ 1609              	.LASF13:
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\cc5NDZwb.s 			page 41
+
+
+ 1610 020c 63686172 		.ascii	"char\000"
+ 1610      00
+ 1611              	.LASF2:
+ 1612 0211 73686F72 		.ascii	"short int\000"
+ 1612      7420696E 
+ 1612      7400
+ 1613              	.LASF37:
+ 1614 021b 50756D70 		.ascii	"PumpCycle_GetCompare\000"
+ 1614      4379636C 
+ 1614      655F4765 
+ 1614      74436F6D 
+ 1614      70617265 
+ 1615              	.LASF4:
+ 1616 0230 6C6F6E67 		.ascii	"long int\000"
+ 1616      20696E74 
+ 1616      00
+ 1617              	.LASF40:
+ 1618 0239 50756D70 		.ascii	"PumpCycle_initVar\000"
+ 1618      4379636C 
+ 1618      655F696E 
+ 1618      69745661 
+ 1618      7200
+ 1619              	.LASF0:
+ 1620 024b 7369676E 		.ascii	"signed char\000"
+ 1620      65642063 
+ 1620      68617200 
+ 1621              	.LASF38:
+ 1622 0257 50756D70 		.ascii	"PumpCycle_trimAdjust\000"
+ 1622      4379636C 
+ 1622      655F7472 
+ 1622      696D4164 
+ 1622      6A757374 
+ 1623              	.LASF20:
+ 1624 026c 6E696262 		.ascii	"nibble\000"
+ 1624      6C6500
+ 1625              		.ident	"GCC: (Sourcery G++ Lite 2010q1-188) 4.4.1"

@@ -1,0 +1,748 @@
+--
+--	Conversion of AutoSampler.v to vh2:
+--
+--	Cypress Semiconductor - WARP Version 6.3 IR 41
+--	Thu May 22 19:17:04 2014
+--
+
+USE cypress.cypress.all;
+USE cypress.rtlpkg.all;
+ENTITY top_RTL IS
+ATTRIBUTE part_name of top_RTL:TYPE IS "cpsoc3";
+END top_RTL;
+--------------------------------------------------------
+ARCHITECTURE R_T_L OF top_RTL IS
+SIGNAL tmpOE__Pin_Sampler_Power_net_0 : bit;
+SIGNAL zero : bit;
+SIGNAL tmpFB_0__Pin_Sampler_Power_net_0 : bit;
+SIGNAL tmpIO_0__Pin_Sampler_Power_net_0 : bit;
+TERMINAL tmpSIOVREF__Pin_Sampler_Power_net_0 : bit;
+SIGNAL one : bit;
+SIGNAL tmpINTERRUPT_0__Pin_Sampler_Power_net_0 : bit;
+SIGNAL tmpOE__Pin_Sampler_Trigger_net_0 : bit;
+SIGNAL tmpFB_0__Pin_Sampler_Trigger_net_0 : bit;
+SIGNAL tmpIO_0__Pin_Sampler_Trigger_net_0 : bit;
+TERMINAL tmpSIOVREF__Pin_Sampler_Trigger_net_0 : bit;
+SIGNAL tmpINTERRUPT_0__Pin_Sampler_Trigger_net_0 : bit;
+SIGNAL tmpOE__Pin_Sampler_Completed_Sample_net_0 : bit;
+SIGNAL Net_629 : bit;
+SIGNAL tmpIO_0__Pin_Sampler_Completed_Sample_net_0 : bit;
+TERMINAL tmpSIOVREF__Pin_Sampler_Completed_Sample_net_0 : bit;
+SIGNAL tmpINTERRUPT_0__Pin_Sampler_Completed_Sample_net_0 : bit;
+SIGNAL tmpOE__Pin_Sampler_Sampler_Count_net_0 : bit;
+SIGNAL Net_860 : bit;
+SIGNAL tmpIO_0__Pin_Sampler_Sampler_Count_net_0 : bit;
+TERMINAL tmpSIOVREF__Pin_Sampler_Sampler_Count_net_0 : bit;
+SIGNAL tmpINTERRUPT_0__Pin_Sampler_Sampler_Count_net_0 : bit;
+SIGNAL Net_721 : bit;
+SIGNAL \PulseConvert_1:out_pulse\ : bit;
+SIGNAL Net_678 : bit;
+SIGNAL \PulseConvert_1:in_sample\ : bit;
+SIGNAL \PulseConvert_1:out_sample\ : bit;
+SIGNAL Net_681 : bit;
+SIGNAL Net_853 : bit;
+SIGNAL \PulseConvert_2:out_pulse\ : bit;
+SIGNAL Net_444 : bit;
+SIGNAL \PulseConvert_2:in_sample\ : bit;
+SIGNAL \PulseConvert_2:out_sample\ : bit;
+SIGNAL Net_869 : bit;
+SIGNAL Net_124 : bit;
+SIGNAL Net_130_7 : bit;
+SIGNAL \BasicCounter_2:add_vi_vv_MODGEN_1_7\ : bit;
+SIGNAL Net_130_6 : bit;
+SIGNAL \BasicCounter_2:add_vi_vv_MODGEN_1_6\ : bit;
+SIGNAL Net_130_5 : bit;
+SIGNAL \BasicCounter_2:add_vi_vv_MODGEN_1_5\ : bit;
+SIGNAL Net_130_4 : bit;
+SIGNAL \BasicCounter_2:add_vi_vv_MODGEN_1_4\ : bit;
+SIGNAL Net_130_3 : bit;
+SIGNAL \BasicCounter_2:add_vi_vv_MODGEN_1_3\ : bit;
+SIGNAL Net_130_2 : bit;
+SIGNAL \BasicCounter_2:add_vi_vv_MODGEN_1_2\ : bit;
+SIGNAL Net_130_1 : bit;
+SIGNAL \BasicCounter_2:add_vi_vv_MODGEN_1_1\ : bit;
+SIGNAL Net_130_0 : bit;
+SIGNAL \BasicCounter_2:add_vi_vv_MODGEN_1_0\ : bit;
+SIGNAL \BasicCounter_2:MODULE_1:b_31\ : bit;
+SIGNAL \BasicCounter_2:MODULE_1:b_30\ : bit;
+SIGNAL \BasicCounter_2:MODULE_1:b_29\ : bit;
+SIGNAL \BasicCounter_2:MODULE_1:b_28\ : bit;
+SIGNAL \BasicCounter_2:MODULE_1:b_27\ : bit;
+SIGNAL \BasicCounter_2:MODULE_1:b_26\ : bit;
+SIGNAL \BasicCounter_2:MODULE_1:b_25\ : bit;
+SIGNAL \BasicCounter_2:MODULE_1:b_24\ : bit;
+SIGNAL \BasicCounter_2:MODULE_1:b_23\ : bit;
+SIGNAL \BasicCounter_2:MODULE_1:b_22\ : bit;
+SIGNAL \BasicCounter_2:MODULE_1:b_21\ : bit;
+SIGNAL \BasicCounter_2:MODULE_1:b_20\ : bit;
+SIGNAL \BasicCounter_2:MODULE_1:b_19\ : bit;
+SIGNAL \BasicCounter_2:MODULE_1:b_18\ : bit;
+SIGNAL \BasicCounter_2:MODULE_1:b_17\ : bit;
+SIGNAL \BasicCounter_2:MODULE_1:b_16\ : bit;
+SIGNAL \BasicCounter_2:MODULE_1:b_15\ : bit;
+SIGNAL \BasicCounter_2:MODULE_1:b_14\ : bit;
+SIGNAL \BasicCounter_2:MODULE_1:b_13\ : bit;
+SIGNAL \BasicCounter_2:MODULE_1:b_12\ : bit;
+SIGNAL \BasicCounter_2:MODULE_1:b_11\ : bit;
+SIGNAL \BasicCounter_2:MODULE_1:b_10\ : bit;
+SIGNAL \BasicCounter_2:MODULE_1:b_9\ : bit;
+SIGNAL \BasicCounter_2:MODULE_1:b_8\ : bit;
+SIGNAL \BasicCounter_2:MODULE_1:b_7\ : bit;
+SIGNAL \BasicCounter_2:MODULE_1:b_6\ : bit;
+SIGNAL \BasicCounter_2:MODULE_1:b_5\ : bit;
+SIGNAL \BasicCounter_2:MODULE_1:b_4\ : bit;
+SIGNAL \BasicCounter_2:MODULE_1:b_3\ : bit;
+SIGNAL \BasicCounter_2:MODULE_1:b_2\ : bit;
+SIGNAL \BasicCounter_2:MODULE_1:b_1\ : bit;
+SIGNAL \BasicCounter_2:MODULE_1:b_0\ : bit;
+SIGNAL \BasicCounter_2:MODULE_1:g2:a0:a_31\ : bit;
+SIGNAL \BasicCounter_2:MODULE_1:g2:a0:a_30\ : bit;
+SIGNAL \BasicCounter_2:MODULE_1:g2:a0:a_29\ : bit;
+SIGNAL \BasicCounter_2:MODULE_1:g2:a0:a_28\ : bit;
+SIGNAL \BasicCounter_2:MODULE_1:g2:a0:a_27\ : bit;
+SIGNAL \BasicCounter_2:MODULE_1:g2:a0:a_26\ : bit;
+SIGNAL \BasicCounter_2:MODULE_1:g2:a0:a_25\ : bit;
+SIGNAL \BasicCounter_2:MODULE_1:g2:a0:a_24\ : bit;
+SIGNAL \BasicCounter_2:MODULE_1:g2:a0:a_23\ : bit;
+SIGNAL \BasicCounter_2:MODULE_1:g2:a0:a_22\ : bit;
+SIGNAL \BasicCounter_2:MODULE_1:g2:a0:a_21\ : bit;
+SIGNAL \BasicCounter_2:MODULE_1:g2:a0:a_20\ : bit;
+SIGNAL \BasicCounter_2:MODULE_1:g2:a0:a_19\ : bit;
+SIGNAL \BasicCounter_2:MODULE_1:g2:a0:a_18\ : bit;
+SIGNAL \BasicCounter_2:MODULE_1:g2:a0:a_17\ : bit;
+SIGNAL \BasicCounter_2:MODULE_1:g2:a0:a_16\ : bit;
+SIGNAL \BasicCounter_2:MODULE_1:g2:a0:a_15\ : bit;
+SIGNAL \BasicCounter_2:MODULE_1:g2:a0:a_14\ : bit;
+SIGNAL \BasicCounter_2:MODULE_1:g2:a0:a_13\ : bit;
+SIGNAL \BasicCounter_2:MODULE_1:g2:a0:a_12\ : bit;
+SIGNAL \BasicCounter_2:MODULE_1:g2:a0:a_11\ : bit;
+SIGNAL \BasicCounter_2:MODULE_1:g2:a0:a_10\ : bit;
+SIGNAL \BasicCounter_2:MODULE_1:g2:a0:a_9\ : bit;
+SIGNAL \BasicCounter_2:MODULE_1:g2:a0:a_8\ : bit;
+SIGNAL \BasicCounter_2:MODULE_1:g2:a0:a_7\ : bit;
+SIGNAL \BasicCounter_2:MODIN1_7\ : bit;
+SIGNAL \BasicCounter_2:MODULE_1:g2:a0:a_6\ : bit;
+SIGNAL \BasicCounter_2:MODIN1_6\ : bit;
+SIGNAL \BasicCounter_2:MODULE_1:g2:a0:a_5\ : bit;
+SIGNAL \BasicCounter_2:MODIN1_5\ : bit;
+SIGNAL \BasicCounter_2:MODULE_1:g2:a0:a_4\ : bit;
+SIGNAL \BasicCounter_2:MODIN1_4\ : bit;
+SIGNAL \BasicCounter_2:MODULE_1:g2:a0:a_3\ : bit;
+SIGNAL \BasicCounter_2:MODIN1_3\ : bit;
+SIGNAL \BasicCounter_2:MODULE_1:g2:a0:a_2\ : bit;
+SIGNAL \BasicCounter_2:MODIN1_2\ : bit;
+SIGNAL \BasicCounter_2:MODULE_1:g2:a0:a_1\ : bit;
+SIGNAL \BasicCounter_2:MODIN1_1\ : bit;
+SIGNAL \BasicCounter_2:MODULE_1:g2:a0:a_0\ : bit;
+SIGNAL \BasicCounter_2:MODIN1_0\ : bit;
+SIGNAL \BasicCounter_2:MODULE_1:g2:a0:b_31\ : bit;
+SIGNAL \BasicCounter_2:MODULE_1:g2:a0:b_30\ : bit;
+SIGNAL \BasicCounter_2:MODULE_1:g2:a0:b_29\ : bit;
+SIGNAL \BasicCounter_2:MODULE_1:g2:a0:b_28\ : bit;
+SIGNAL \BasicCounter_2:MODULE_1:g2:a0:b_27\ : bit;
+SIGNAL \BasicCounter_2:MODULE_1:g2:a0:b_26\ : bit;
+SIGNAL \BasicCounter_2:MODULE_1:g2:a0:b_25\ : bit;
+SIGNAL \BasicCounter_2:MODULE_1:g2:a0:b_24\ : bit;
+SIGNAL \BasicCounter_2:MODULE_1:g2:a0:b_23\ : bit;
+SIGNAL \BasicCounter_2:MODULE_1:g2:a0:b_22\ : bit;
+SIGNAL \BasicCounter_2:MODULE_1:g2:a0:b_21\ : bit;
+SIGNAL \BasicCounter_2:MODULE_1:g2:a0:b_20\ : bit;
+SIGNAL \BasicCounter_2:MODULE_1:g2:a0:b_19\ : bit;
+SIGNAL \BasicCounter_2:MODULE_1:g2:a0:b_18\ : bit;
+SIGNAL \BasicCounter_2:MODULE_1:g2:a0:b_17\ : bit;
+SIGNAL \BasicCounter_2:MODULE_1:g2:a0:b_16\ : bit;
+SIGNAL \BasicCounter_2:MODULE_1:g2:a0:b_15\ : bit;
+SIGNAL \BasicCounter_2:MODULE_1:g2:a0:b_14\ : bit;
+SIGNAL \BasicCounter_2:MODULE_1:g2:a0:b_13\ : bit;
+SIGNAL \BasicCounter_2:MODULE_1:g2:a0:b_12\ : bit;
+SIGNAL \BasicCounter_2:MODULE_1:g2:a0:b_11\ : bit;
+SIGNAL \BasicCounter_2:MODULE_1:g2:a0:b_10\ : bit;
+SIGNAL \BasicCounter_2:MODULE_1:g2:a0:b_9\ : bit;
+SIGNAL \BasicCounter_2:MODULE_1:g2:a0:b_8\ : bit;
+SIGNAL \BasicCounter_2:MODULE_1:g2:a0:b_7\ : bit;
+SIGNAL \BasicCounter_2:MODULE_1:g2:a0:b_6\ : bit;
+SIGNAL \BasicCounter_2:MODULE_1:g2:a0:b_5\ : bit;
+SIGNAL \BasicCounter_2:MODULE_1:g2:a0:b_4\ : bit;
+SIGNAL \BasicCounter_2:MODULE_1:g2:a0:b_3\ : bit;
+SIGNAL \BasicCounter_2:MODULE_1:g2:a0:b_2\ : bit;
+SIGNAL \BasicCounter_2:MODULE_1:g2:a0:b_1\ : bit;
+SIGNAL \BasicCounter_2:MODULE_1:g2:a0:b_0\ : bit;
+SIGNAL \BasicCounter_2:add_vi_vv_MODGEN_1_31\ : bit;
+SIGNAL \BasicCounter_2:MODULE_1:g2:a0:s_31\ : bit;
+SIGNAL \BasicCounter_2:add_vi_vv_MODGEN_1_30\ : bit;
+SIGNAL \BasicCounter_2:MODULE_1:g2:a0:s_30\ : bit;
+SIGNAL \BasicCounter_2:add_vi_vv_MODGEN_1_29\ : bit;
+SIGNAL \BasicCounter_2:MODULE_1:g2:a0:s_29\ : bit;
+SIGNAL \BasicCounter_2:add_vi_vv_MODGEN_1_28\ : bit;
+SIGNAL \BasicCounter_2:MODULE_1:g2:a0:s_28\ : bit;
+SIGNAL \BasicCounter_2:add_vi_vv_MODGEN_1_27\ : bit;
+SIGNAL \BasicCounter_2:MODULE_1:g2:a0:s_27\ : bit;
+SIGNAL \BasicCounter_2:add_vi_vv_MODGEN_1_26\ : bit;
+SIGNAL \BasicCounter_2:MODULE_1:g2:a0:s_26\ : bit;
+SIGNAL \BasicCounter_2:add_vi_vv_MODGEN_1_25\ : bit;
+SIGNAL \BasicCounter_2:MODULE_1:g2:a0:s_25\ : bit;
+SIGNAL \BasicCounter_2:add_vi_vv_MODGEN_1_24\ : bit;
+SIGNAL \BasicCounter_2:MODULE_1:g2:a0:s_24\ : bit;
+SIGNAL \BasicCounter_2:add_vi_vv_MODGEN_1_23\ : bit;
+SIGNAL \BasicCounter_2:MODULE_1:g2:a0:s_23\ : bit;
+SIGNAL \BasicCounter_2:add_vi_vv_MODGEN_1_22\ : bit;
+SIGNAL \BasicCounter_2:MODULE_1:g2:a0:s_22\ : bit;
+SIGNAL \BasicCounter_2:add_vi_vv_MODGEN_1_21\ : bit;
+SIGNAL \BasicCounter_2:MODULE_1:g2:a0:s_21\ : bit;
+SIGNAL \BasicCounter_2:add_vi_vv_MODGEN_1_20\ : bit;
+SIGNAL \BasicCounter_2:MODULE_1:g2:a0:s_20\ : bit;
+SIGNAL \BasicCounter_2:add_vi_vv_MODGEN_1_19\ : bit;
+SIGNAL \BasicCounter_2:MODULE_1:g2:a0:s_19\ : bit;
+SIGNAL \BasicCounter_2:add_vi_vv_MODGEN_1_18\ : bit;
+SIGNAL \BasicCounter_2:MODULE_1:g2:a0:s_18\ : bit;
+SIGNAL \BasicCounter_2:add_vi_vv_MODGEN_1_17\ : bit;
+SIGNAL \BasicCounter_2:MODULE_1:g2:a0:s_17\ : bit;
+SIGNAL \BasicCounter_2:add_vi_vv_MODGEN_1_16\ : bit;
+SIGNAL \BasicCounter_2:MODULE_1:g2:a0:s_16\ : bit;
+SIGNAL \BasicCounter_2:add_vi_vv_MODGEN_1_15\ : bit;
+SIGNAL \BasicCounter_2:MODULE_1:g2:a0:s_15\ : bit;
+SIGNAL \BasicCounter_2:add_vi_vv_MODGEN_1_14\ : bit;
+SIGNAL \BasicCounter_2:MODULE_1:g2:a0:s_14\ : bit;
+SIGNAL \BasicCounter_2:add_vi_vv_MODGEN_1_13\ : bit;
+SIGNAL \BasicCounter_2:MODULE_1:g2:a0:s_13\ : bit;
+SIGNAL \BasicCounter_2:add_vi_vv_MODGEN_1_12\ : bit;
+SIGNAL \BasicCounter_2:MODULE_1:g2:a0:s_12\ : bit;
+SIGNAL \BasicCounter_2:add_vi_vv_MODGEN_1_11\ : bit;
+SIGNAL \BasicCounter_2:MODULE_1:g2:a0:s_11\ : bit;
+SIGNAL \BasicCounter_2:add_vi_vv_MODGEN_1_10\ : bit;
+SIGNAL \BasicCounter_2:MODULE_1:g2:a0:s_10\ : bit;
+SIGNAL \BasicCounter_2:add_vi_vv_MODGEN_1_9\ : bit;
+SIGNAL \BasicCounter_2:MODULE_1:g2:a0:s_9\ : bit;
+SIGNAL \BasicCounter_2:add_vi_vv_MODGEN_1_8\ : bit;
+SIGNAL \BasicCounter_2:MODULE_1:g2:a0:s_8\ : bit;
+SIGNAL \BasicCounter_2:MODULE_1:g2:a0:s_7\ : bit;
+SIGNAL \BasicCounter_2:MODULE_1:g2:a0:s_6\ : bit;
+SIGNAL \BasicCounter_2:MODULE_1:g2:a0:s_5\ : bit;
+SIGNAL \BasicCounter_2:MODULE_1:g2:a0:s_4\ : bit;
+SIGNAL \BasicCounter_2:MODULE_1:g2:a0:s_3\ : bit;
+SIGNAL \BasicCounter_2:MODULE_1:g2:a0:s_2\ : bit;
+SIGNAL \BasicCounter_2:MODULE_1:g2:a0:s_1\ : bit;
+SIGNAL \BasicCounter_2:MODULE_1:g2:a0:s_0\ : bit;
+SIGNAL \BasicCounter_2:MODULE_1:g2:a0:g1:z1:s0:g1:u0:c_31\ : bit;
+SIGNAL \BasicCounter_2:MODULE_1:g2:a0:g1:z1:s0:g1:u0:c_30\ : bit;
+SIGNAL \BasicCounter_2:MODULE_1:g2:a0:g1:z1:s0:g1:u0:c_29\ : bit;
+SIGNAL \BasicCounter_2:MODULE_1:g2:a0:g1:z1:s0:g1:u0:c_28\ : bit;
+SIGNAL \BasicCounter_2:MODULE_1:g2:a0:g1:z1:s0:g1:u0:c_27\ : bit;
+SIGNAL \BasicCounter_2:MODULE_1:g2:a0:g1:z1:s0:g1:u0:c_26\ : bit;
+SIGNAL \BasicCounter_2:MODULE_1:g2:a0:g1:z1:s0:g1:u0:c_25\ : bit;
+SIGNAL \BasicCounter_2:MODULE_1:g2:a0:g1:z1:s0:g1:u0:c_24\ : bit;
+SIGNAL \BasicCounter_2:MODULE_1:g2:a0:g1:z1:s0:g1:u0:b_24\ : bit;
+SIGNAL \BasicCounter_2:MODULE_1:g2:a0:g1:z1:s0:g1:u0:c_23\ : bit;
+SIGNAL \BasicCounter_2:MODULE_1:g2:a0:g1:z1:s0:g1:u0:c_22\ : bit;
+SIGNAL \BasicCounter_2:MODULE_1:g2:a0:g1:z1:s0:g1:u0:c_21\ : bit;
+SIGNAL \BasicCounter_2:MODULE_1:g2:a0:g1:z1:s0:g1:u0:c_20\ : bit;
+SIGNAL \BasicCounter_2:MODULE_1:g2:a0:g1:z1:s0:g1:u0:c_19\ : bit;
+SIGNAL \BasicCounter_2:MODULE_1:g2:a0:g1:z1:s0:g1:u0:c_18\ : bit;
+SIGNAL \BasicCounter_2:MODULE_1:g2:a0:g1:z1:s0:g1:u0:c_17\ : bit;
+SIGNAL \BasicCounter_2:MODULE_1:g2:a0:g1:z1:s0:g1:u0:c_16\ : bit;
+SIGNAL \BasicCounter_2:MODULE_1:g2:a0:g1:z1:s0:g1:u0:b_16\ : bit;
+SIGNAL \BasicCounter_2:MODULE_1:g2:a0:g1:z1:s0:g1:u0:c_15\ : bit;
+SIGNAL \BasicCounter_2:MODULE_1:g2:a0:g1:z1:s0:g1:u0:c_14\ : bit;
+SIGNAL \BasicCounter_2:MODULE_1:g2:a0:g1:z1:s0:g1:u0:c_13\ : bit;
+SIGNAL \BasicCounter_2:MODULE_1:g2:a0:g1:z1:s0:g1:u0:c_12\ : bit;
+SIGNAL \BasicCounter_2:MODULE_1:g2:a0:g1:z1:s0:g1:u0:c_11\ : bit;
+SIGNAL \BasicCounter_2:MODULE_1:g2:a0:g1:z1:s0:g1:u0:c_10\ : bit;
+SIGNAL \BasicCounter_2:MODULE_1:g2:a0:g1:z1:s0:g1:u0:c_9\ : bit;
+SIGNAL \BasicCounter_2:MODULE_1:g2:a0:g1:z1:s0:g1:u0:c_8\ : bit;
+SIGNAL \BasicCounter_2:MODULE_1:g2:a0:g1:z1:s0:g1:u0:b_8\ : bit;
+SIGNAL \BasicCounter_2:MODULE_1:g2:a0:g1:z1:s0:g1:u0:c_7\ : bit;
+SIGNAL \BasicCounter_2:MODULE_1:g2:a0:g1:z1:s0:g1:u0:c_6\ : bit;
+SIGNAL \BasicCounter_2:MODULE_1:g2:a0:g1:z1:s0:g1:u0:c_5\ : bit;
+SIGNAL \BasicCounter_2:MODULE_1:g2:a0:g1:z1:s0:g1:u0:c_4\ : bit;
+SIGNAL \BasicCounter_2:MODULE_1:g2:a0:g1:z1:s0:g1:u0:c_3\ : bit;
+SIGNAL \BasicCounter_2:MODULE_1:g2:a0:g1:z1:s0:g1:u0:c_2\ : bit;
+SIGNAL \BasicCounter_2:MODULE_1:g2:a0:g1:z1:s0:g1:u0:c_1\ : bit;
+SIGNAL \BasicCounter_2:MODULE_1:g2:a0:g1:z1:s0:g1:u0:c_0\ : bit;
+SIGNAL \BasicCounter_2:MODULE_1:g2:a0:g1:z1:s0:g1:u0:b_0\ : bit;
+SIGNAL \BottleCount:status_7\ : bit;
+SIGNAL \BottleCount:status_6\ : bit;
+SIGNAL \BottleCount:status_5\ : bit;
+SIGNAL \BottleCount:status_4\ : bit;
+SIGNAL \BottleCount:status_3\ : bit;
+SIGNAL \BottleCount:status_2\ : bit;
+SIGNAL \BottleCount:status_1\ : bit;
+SIGNAL \BottleCount:status_0\ : bit;
+SIGNAL \PulseConvert_1:out_pulse\\D\ : bit;
+SIGNAL \PulseConvert_1:in_sample\\D\ : bit;
+SIGNAL \PulseConvert_1:out_sample\\D\ : bit;
+SIGNAL \PulseConvert_2:out_pulse\\D\ : bit;
+SIGNAL \PulseConvert_2:in_sample\\D\ : bit;
+SIGNAL \PulseConvert_2:out_sample\\D\ : bit;
+SIGNAL Net_130_7D : bit;
+SIGNAL Net_130_6D : bit;
+SIGNAL Net_130_5D : bit;
+SIGNAL Net_130_4D : bit;
+SIGNAL Net_130_3D : bit;
+SIGNAL Net_130_2D : bit;
+SIGNAL Net_130_1D : bit;
+SIGNAL Net_130_0D : bit;
+BEGIN
+
+zero <=  ('0') ;
+
+tmpOE__Pin_Sampler_Power_net_0 <=  ('1') ;
+
+\PulseConvert_1:in_sample\\D\ <= ((not \PulseConvert_1:out_sample\ and \PulseConvert_1:in_sample\)
+	OR Net_860);
+
+\PulseConvert_1:out_sample\\D\ <= ((not Net_721 and not \PulseConvert_1:out_sample\ and \PulseConvert_1:in_sample\)
+	OR Net_860);
+
+\PulseConvert_1:out_pulse\\D\ <= ((not \PulseConvert_1:out_sample\ and \PulseConvert_1:in_sample\)
+	OR (not \PulseConvert_1:out_sample\ and Net_860));
+
+\PulseConvert_2:in_sample\\D\ <= ((not \PulseConvert_2:out_sample\ and \PulseConvert_2:in_sample\)
+	OR Net_629);
+
+\PulseConvert_2:out_sample\\D\ <= ((not Net_853 and not \PulseConvert_2:out_sample\ and \PulseConvert_2:in_sample\)
+	OR Net_629);
+
+\PulseConvert_2:out_pulse\\D\ <= ((not \PulseConvert_2:out_sample\ and \PulseConvert_2:in_sample\)
+	OR (not \PulseConvert_2:out_sample\ and Net_629));
+
+Net_130_7D <= ((not Net_853 and not Net_130_7 and Net_721 and Net_130_6 and Net_130_5 and Net_130_4 and Net_130_3 and Net_130_2 and Net_130_1 and Net_130_0)
+	OR (not Net_853 and not Net_130_0 and Net_130_7)
+	OR (not Net_853 and not Net_130_1 and Net_130_7)
+	OR (not Net_853 and not Net_130_2 and Net_130_7)
+	OR (not Net_853 and not Net_130_3 and Net_130_7)
+	OR (not Net_853 and not Net_130_4 and Net_130_7)
+	OR (not Net_853 and not Net_130_5 and Net_130_7)
+	OR (not Net_853 and not Net_130_6 and Net_130_7)
+	OR (not Net_721 and not Net_853 and Net_130_7));
+
+Net_130_6D <= ((not Net_853 and not Net_130_6 and Net_721 and Net_130_5 and Net_130_4 and Net_130_3 and Net_130_2 and Net_130_1 and Net_130_0)
+	OR (not Net_853 and not Net_130_0 and Net_130_6)
+	OR (not Net_853 and not Net_130_1 and Net_130_6)
+	OR (not Net_853 and not Net_130_2 and Net_130_6)
+	OR (not Net_853 and not Net_130_3 and Net_130_6)
+	OR (not Net_853 and not Net_130_4 and Net_130_6)
+	OR (not Net_853 and not Net_130_5 and Net_130_6)
+	OR (not Net_721 and not Net_853 and Net_130_6));
+
+Net_130_5D <= ((not Net_853 and not Net_130_5 and Net_721 and Net_130_4 and Net_130_3 and Net_130_2 and Net_130_1 and Net_130_0)
+	OR (not Net_853 and not Net_130_0 and Net_130_5)
+	OR (not Net_853 and not Net_130_1 and Net_130_5)
+	OR (not Net_853 and not Net_130_2 and Net_130_5)
+	OR (not Net_853 and not Net_130_3 and Net_130_5)
+	OR (not Net_853 and not Net_130_4 and Net_130_5)
+	OR (not Net_721 and not Net_853 and Net_130_5));
+
+Net_130_4D <= ((not Net_853 and not Net_130_4 and Net_721 and Net_130_3 and Net_130_2 and Net_130_1 and Net_130_0)
+	OR (not Net_853 and not Net_130_0 and Net_130_4)
+	OR (not Net_853 and not Net_130_1 and Net_130_4)
+	OR (not Net_853 and not Net_130_2 and Net_130_4)
+	OR (not Net_853 and not Net_130_3 and Net_130_4)
+	OR (not Net_721 and not Net_853 and Net_130_4));
+
+Net_130_3D <= ((not Net_853 and not Net_130_3 and Net_721 and Net_130_2 and Net_130_1 and Net_130_0)
+	OR (not Net_853 and not Net_130_0 and Net_130_3)
+	OR (not Net_853 and not Net_130_1 and Net_130_3)
+	OR (not Net_853 and not Net_130_2 and Net_130_3)
+	OR (not Net_721 and not Net_853 and Net_130_3));
+
+Net_130_2D <= ((not Net_853 and not Net_130_2 and Net_721 and Net_130_1 and Net_130_0)
+	OR (not Net_853 and not Net_130_0 and Net_130_2)
+	OR (not Net_853 and not Net_130_1 and Net_130_2)
+	OR (not Net_721 and not Net_853 and Net_130_2));
+
+Net_130_1D <= ((not Net_853 and not Net_130_1 and Net_721 and Net_130_0)
+	OR (not Net_853 and not Net_130_0 and Net_130_1)
+	OR (not Net_721 and not Net_853 and Net_130_1));
+
+Net_130_0D <= ((not Net_853 and not Net_130_0 and Net_721)
+	OR (not Net_721 and not Net_853 and Net_130_0));
+
+\BasicCounter_2:MODULE_1:g2:a0:g1:z1:s0:g1:u0:b_8\ <= ((Net_130_7 and Net_130_6 and Net_130_5 and Net_130_4 and Net_130_3 and Net_130_2 and Net_130_1 and Net_130_0));
+
+Pin_Sampler_Power:cy_psoc3_pins_v1_10
+	GENERIC MAP(id=>"52f31aa9-2f0a-497d-9a1f-1424095e13e6",
+		drive_mode=>"110",
+		ibuf_enabled=>"1",
+		init_dr_st=>"1",
+		input_sync=>"1",
+		input_clk_en=>'0',
+		input_sync_mode=>"0",
+		intr_mode=>"00",
+		invert_in_clock=>'0',
+		invert_in_clock_en=>'0',
+		invert_in_reset=>'0',
+		invert_out_clock=>'0',
+		invert_out_clock_en=>'0',
+		invert_out_reset=>'0',
+		io_voltage=>"",
+		layout_mode=>"CONTIGUOUS",
+		output_conn=>"0",
+		output_sync=>"0",
+		output_clk_en=>'0',
+		output_mode=>"0",
+		output_reset=>'0',
+		output_clock_mode=>"0",
+		oe_sync=>"0",
+		oe_conn=>"0",
+		oe_reset=>'0',
+		pin_aliases=>"",
+		pin_mode=>"O",
+		por_state=>4,
+		sio_group_cnt=>0,
+		sio_hifreq=>"",
+		sio_hyst=>"0",
+		sio_ibuf=>"00000000",
+		sio_info=>"00",
+		sio_obuf=>"00000000",
+		sio_refsel=>"00000000",
+		sio_vtrip=>"00000000",
+		slew_rate=>"0",
+		spanning=>'0',
+		sw_only=>'0',
+		vtrip=>"10",
+		width=>1,
+		port_alias_required=>'0',
+		port_alias_group=>"",
+		use_annotation=>"0",
+		pa_in_clock=>-1,
+		pa_in_clock_en=>-1,
+		pa_in_reset=>-1,
+		pa_out_clock=>-1,
+		pa_out_clock_en=>-1,
+		pa_out_reset=>-1)
+	PORT MAP(oe=>(tmpOE__Pin_Sampler_Power_net_0),
+		y=>(zero),
+		fb=>(tmpFB_0__Pin_Sampler_Power_net_0),
+		analog=>(open),
+		io=>(tmpIO_0__Pin_Sampler_Power_net_0),
+		siovref=>(tmpSIOVREF__Pin_Sampler_Power_net_0),
+		annotation=>(open),
+		in_clock=>zero,
+		in_clock_en=>tmpOE__Pin_Sampler_Power_net_0,
+		in_reset=>zero,
+		out_clock=>zero,
+		out_clock_en=>tmpOE__Pin_Sampler_Power_net_0,
+		out_reset=>zero,
+		interrupt=>tmpINTERRUPT_0__Pin_Sampler_Power_net_0);
+Pin_Sampler_Trigger:cy_psoc3_pins_v1_10
+	GENERIC MAP(id=>"b41c8abe-876a-460f-af8a-b534f4d508e7",
+		drive_mode=>"110",
+		ibuf_enabled=>"1",
+		init_dr_st=>"1",
+		input_sync=>"1",
+		input_clk_en=>'0',
+		input_sync_mode=>"0",
+		intr_mode=>"00",
+		invert_in_clock=>'0',
+		invert_in_clock_en=>'0',
+		invert_in_reset=>'0',
+		invert_out_clock=>'0',
+		invert_out_clock_en=>'0',
+		invert_out_reset=>'0',
+		io_voltage=>"",
+		layout_mode=>"CONTIGUOUS",
+		output_conn=>"0",
+		output_sync=>"0",
+		output_clk_en=>'0',
+		output_mode=>"0",
+		output_reset=>'0',
+		output_clock_mode=>"0",
+		oe_sync=>"0",
+		oe_conn=>"0",
+		oe_reset=>'0',
+		pin_aliases=>"",
+		pin_mode=>"O",
+		por_state=>4,
+		sio_group_cnt=>0,
+		sio_hifreq=>"",
+		sio_hyst=>"0",
+		sio_ibuf=>"00000000",
+		sio_info=>"00",
+		sio_obuf=>"00000000",
+		sio_refsel=>"00000000",
+		sio_vtrip=>"00000000",
+		slew_rate=>"0",
+		spanning=>'0',
+		sw_only=>'0',
+		vtrip=>"10",
+		width=>1,
+		port_alias_required=>'0',
+		port_alias_group=>"",
+		use_annotation=>"0",
+		pa_in_clock=>-1,
+		pa_in_clock_en=>-1,
+		pa_in_reset=>-1,
+		pa_out_clock=>-1,
+		pa_out_clock_en=>-1,
+		pa_out_reset=>-1)
+	PORT MAP(oe=>(tmpOE__Pin_Sampler_Power_net_0),
+		y=>(zero),
+		fb=>(tmpFB_0__Pin_Sampler_Trigger_net_0),
+		analog=>(open),
+		io=>(tmpIO_0__Pin_Sampler_Trigger_net_0),
+		siovref=>(tmpSIOVREF__Pin_Sampler_Trigger_net_0),
+		annotation=>(open),
+		in_clock=>zero,
+		in_clock_en=>tmpOE__Pin_Sampler_Power_net_0,
+		in_reset=>zero,
+		out_clock=>zero,
+		out_clock_en=>tmpOE__Pin_Sampler_Power_net_0,
+		out_reset=>zero,
+		interrupt=>tmpINTERRUPT_0__Pin_Sampler_Trigger_net_0);
+Pin_Sampler_Completed_Sample:cy_psoc3_pins_v1_10
+	GENERIC MAP(id=>"4c15b41e-e284-4978-99e7-5aaee19bd0ce",
+		drive_mode=>"011",
+		ibuf_enabled=>"1",
+		init_dr_st=>"0",
+		input_sync=>"1",
+		input_clk_en=>'0',
+		input_sync_mode=>"0",
+		intr_mode=>"00",
+		invert_in_clock=>'0',
+		invert_in_clock_en=>'0',
+		invert_in_reset=>'0',
+		invert_out_clock=>'0',
+		invert_out_clock_en=>'0',
+		invert_out_reset=>'0',
+		io_voltage=>"",
+		layout_mode=>"CONTIGUOUS",
+		output_conn=>"0",
+		output_sync=>"0",
+		output_clk_en=>'0',
+		output_mode=>"0",
+		output_reset=>'0',
+		output_clock_mode=>"0",
+		oe_sync=>"0",
+		oe_conn=>"0",
+		oe_reset=>'0',
+		pin_aliases=>"",
+		pin_mode=>"I",
+		por_state=>4,
+		sio_group_cnt=>0,
+		sio_hifreq=>"",
+		sio_hyst=>"0",
+		sio_ibuf=>"00000000",
+		sio_info=>"00",
+		sio_obuf=>"00000000",
+		sio_refsel=>"00000000",
+		sio_vtrip=>"00000000",
+		slew_rate=>"0",
+		spanning=>'0',
+		sw_only=>'0',
+		vtrip=>"00",
+		width=>1,
+		port_alias_required=>'0',
+		port_alias_group=>"",
+		use_annotation=>"0",
+		pa_in_clock=>-1,
+		pa_in_clock_en=>-1,
+		pa_in_reset=>-1,
+		pa_out_clock=>-1,
+		pa_out_clock_en=>-1,
+		pa_out_reset=>-1)
+	PORT MAP(oe=>(tmpOE__Pin_Sampler_Power_net_0),
+		y=>(zero),
+		fb=>Net_629,
+		analog=>(open),
+		io=>(tmpIO_0__Pin_Sampler_Completed_Sample_net_0),
+		siovref=>(tmpSIOVREF__Pin_Sampler_Completed_Sample_net_0),
+		annotation=>(open),
+		in_clock=>zero,
+		in_clock_en=>tmpOE__Pin_Sampler_Power_net_0,
+		in_reset=>zero,
+		out_clock=>zero,
+		out_clock_en=>tmpOE__Pin_Sampler_Power_net_0,
+		out_reset=>zero,
+		interrupt=>tmpINTERRUPT_0__Pin_Sampler_Completed_Sample_net_0);
+Pin_Sampler_Sampler_Count:cy_psoc3_pins_v1_10
+	GENERIC MAP(id=>"e2a43758-5371-46fb-8a25-b7aa285a349d",
+		drive_mode=>"011",
+		ibuf_enabled=>"1",
+		init_dr_st=>"0",
+		input_sync=>"1",
+		input_clk_en=>'0',
+		input_sync_mode=>"0",
+		intr_mode=>"00",
+		invert_in_clock=>'0',
+		invert_in_clock_en=>'0',
+		invert_in_reset=>'0',
+		invert_out_clock=>'0',
+		invert_out_clock_en=>'0',
+		invert_out_reset=>'0',
+		io_voltage=>"",
+		layout_mode=>"CONTIGUOUS",
+		output_conn=>"0",
+		output_sync=>"0",
+		output_clk_en=>'0',
+		output_mode=>"0",
+		output_reset=>'0',
+		output_clock_mode=>"0",
+		oe_sync=>"0",
+		oe_conn=>"0",
+		oe_reset=>'0',
+		pin_aliases=>"",
+		pin_mode=>"I",
+		por_state=>4,
+		sio_group_cnt=>0,
+		sio_hifreq=>"",
+		sio_hyst=>"0",
+		sio_ibuf=>"00000000",
+		sio_info=>"00",
+		sio_obuf=>"00000000",
+		sio_refsel=>"00000000",
+		sio_vtrip=>"00000000",
+		slew_rate=>"0",
+		spanning=>'0',
+		sw_only=>'0',
+		vtrip=>"00",
+		width=>1,
+		port_alias_required=>'0',
+		port_alias_group=>"",
+		use_annotation=>"0",
+		pa_in_clock=>-1,
+		pa_in_clock_en=>-1,
+		pa_in_reset=>-1,
+		pa_out_clock=>-1,
+		pa_out_clock_en=>-1,
+		pa_out_reset=>-1)
+	PORT MAP(oe=>(tmpOE__Pin_Sampler_Power_net_0),
+		y=>(zero),
+		fb=>Net_860,
+		analog=>(open),
+		io=>(tmpIO_0__Pin_Sampler_Sampler_Count_net_0),
+		siovref=>(tmpSIOVREF__Pin_Sampler_Sampler_Count_net_0),
+		annotation=>(open),
+		in_clock=>zero,
+		in_clock_en=>tmpOE__Pin_Sampler_Power_net_0,
+		in_reset=>zero,
+		out_clock=>zero,
+		out_clock_en=>tmpOE__Pin_Sampler_Power_net_0,
+		out_reset=>zero,
+		interrupt=>tmpINTERRUPT_0__Pin_Sampler_Sampler_Count_net_0);
+Clock_3:cy_clock_v1_0
+	GENERIC MAP(cy_registers=>"",
+		id=>"0a6850cc-83e2-4b12-8872-94e8ff30e044",
+		source_clock_id=>"315365C3-2E3E-4f04-84A2-BB564A173261",
+		divisor=>0,
+		period=>"0",
+		is_direct=>'1',
+		is_digital=>'1')
+	PORT MAP(clock_out=>Net_444,
+		dig_domain_out=>open);
+Clock_4:cy_clock_v1_0
+	GENERIC MAP(cy_registers=>"",
+		id=>"50671698-37c0-4e44-a007-298b77a77b15",
+		source_clock_id=>"315365C3-2E3E-4f04-84A2-BB564A173261",
+		divisor=>0,
+		period=>"0",
+		is_direct=>'1',
+		is_digital=>'1')
+	PORT MAP(clock_out=>Net_678,
+		dig_domain_out=>open);
+Clock_5:cy_clock_v1_0
+	GENERIC MAP(cy_registers=>"",
+		id=>"a3ff0da9-0999-4372-984d-8a4f96b1e350",
+		source_clock_id=>"315365C3-2E3E-4f04-84A2-BB564A173261",
+		divisor=>0,
+		period=>"0",
+		is_direct=>'1',
+		is_digital=>'1')
+	PORT MAP(clock_out=>Net_124,
+		dig_domain_out=>open);
+SlowClock:cy_clock_v1_0
+	GENERIC MAP(cy_registers=>"",
+		id=>"920ac626-75fc-42be-bddc-386ba9cec7f2",
+		source_clock_id=>"",
+		divisor=>0,
+		period=>"25000000000000",
+		is_direct=>'0',
+		is_digital=>'1')
+	PORT MAP(clock_out=>Net_681,
+		dig_domain_out=>open);
+\BasicCounter_2:MODULE_1:g2:a0:g1:z1:s0:g1:u0:gs(24):g2:g3:ub\:cy_buf
+	PORT MAP(x=>zero,
+		y=>\BasicCounter_2:MODULE_1:g2:a0:g1:z1:s0:g1:u0:c_24\);
+\BasicCounter_2:MODULE_1:g2:a0:g1:z1:s0:g1:u0:gs(16):g2:g3:ub\:cy_buf
+	PORT MAP(x=>zero,
+		y=>\BasicCounter_2:MODULE_1:g2:a0:g1:z1:s0:g1:u0:c_16\);
+\BasicCounter_2:MODULE_1:g2:a0:g1:z1:s0:g1:u0:gs(8):g2:g3:ub\:cy_buf
+	PORT MAP(x=>\BasicCounter_2:MODULE_1:g2:a0:g1:z1:s0:g1:u0:b_8\,
+		y=>\BasicCounter_2:MODULE_1:g2:a0:g1:z1:s0:g1:u0:c_8\);
+isr_SampleCounter:cy_isr_v1_0
+	GENERIC MAP(int_type=>"10")
+	PORT MAP(int_signal=>Net_853);
+\BottleCount:sts:sts_reg\:cy_psoc3_status
+	GENERIC MAP(cy_force_order=>'1',
+		cy_md_select=>"00000000")
+	PORT MAP(reset=>zero,
+		clock=>Net_124,
+		status=>(Net_130_7, Net_130_6, Net_130_5, Net_130_4,
+			Net_130_3, Net_130_2, Net_130_1, Net_130_0));
+SlowClock_1:cy_clock_v1_0
+	GENERIC MAP(cy_registers=>"",
+		id=>"9a0d0d46-ccae-460f-8ef5-f45bc0cc875d",
+		source_clock_id=>"",
+		divisor=>0,
+		period=>"25000000000000",
+		is_direct=>'0',
+		is_digital=>'1')
+	PORT MAP(clock_out=>Net_869,
+		dig_domain_out=>open);
+\PulseConvert_1:out_pulse\:cy_dff
+	PORT MAP(d=>\PulseConvert_1:out_pulse\\D\,
+		clk=>Net_681,
+		q=>Net_721);
+\PulseConvert_1:in_sample\:cy_dff
+	PORT MAP(d=>\PulseConvert_1:in_sample\\D\,
+		clk=>Net_678,
+		q=>\PulseConvert_1:in_sample\);
+\PulseConvert_1:out_sample\:cy_dff
+	PORT MAP(d=>\PulseConvert_1:out_sample\\D\,
+		clk=>Net_681,
+		q=>\PulseConvert_1:out_sample\);
+\PulseConvert_2:out_pulse\:cy_dff
+	PORT MAP(d=>\PulseConvert_2:out_pulse\\D\,
+		clk=>Net_869,
+		q=>Net_853);
+\PulseConvert_2:in_sample\:cy_dff
+	PORT MAP(d=>\PulseConvert_2:in_sample\\D\,
+		clk=>Net_444,
+		q=>\PulseConvert_2:in_sample\);
+\PulseConvert_2:out_sample\:cy_dff
+	PORT MAP(d=>\PulseConvert_2:out_sample\\D\,
+		clk=>Net_869,
+		q=>\PulseConvert_2:out_sample\);
+Net_130_7:cy_dff
+	PORT MAP(d=>Net_130_7D,
+		clk=>Net_681,
+		q=>Net_130_7);
+Net_130_6:cy_dff
+	PORT MAP(d=>Net_130_6D,
+		clk=>Net_681,
+		q=>Net_130_6);
+Net_130_5:cy_dff
+	PORT MAP(d=>Net_130_5D,
+		clk=>Net_681,
+		q=>Net_130_5);
+Net_130_4:cy_dff
+	PORT MAP(d=>Net_130_4D,
+		clk=>Net_681,
+		q=>Net_130_4);
+Net_130_3:cy_dff
+	PORT MAP(d=>Net_130_3D,
+		clk=>Net_681,
+		q=>Net_130_3);
+Net_130_2:cy_dff
+	PORT MAP(d=>Net_130_2D,
+		clk=>Net_681,
+		q=>Net_130_2);
+Net_130_1:cy_dff
+	PORT MAP(d=>Net_130_1D,
+		clk=>Net_681,
+		q=>Net_130_1);
+Net_130_0:cy_dff
+	PORT MAP(d=>Net_130_0D,
+		clk=>Net_681,
+		q=>Net_130_0);
+
+END R_T_L;

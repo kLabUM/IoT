@@ -54,11 +54,11 @@
     #error Component UART_v2_30 requires cy_boot v3.0 or later
 #endif /* (CY_PSOC5LP) */
 
-#ifdef uart_BUART_sCR_AsyncCtl_CtrlReg__CONTROL_REG
+#ifdef uart_BUART_sCR_SyncCtl_CtrlReg__CONTROL_REG
     #define uart_CONTROL_REG_REMOVED            (0u)
 #else
     #define uart_CONTROL_REG_REMOVED            (1u)
-#endif /* End uart_BUART_sCR_AsyncCtl_CtrlReg__CONTROL_REG */
+#endif /* End uart_BUART_sCR_SyncCtl_CtrlReg__CONTROL_REG */
 
 
 /***************************************
@@ -391,7 +391,7 @@ extern uint8 uart_initVar;
 
 #define uart_INIT_TX_INTERRUPTS_MASK \
                                   (uint8)((0 << uart_TX_STS_COMPLETE_SHIFT) \
-                                        | (0 << uart_TX_STS_FIFO_EMPTY_SHIFT) \
+                                        | (1 << uart_TX_STS_FIFO_EMPTY_SHIFT) \
                                         | (0 << uart_TX_STS_FIFO_FULL_SHIFT) \
                                         | (0 << uart_TX_STS_FIFO_NOT_FULL_SHIFT))
 
@@ -400,12 +400,12 @@ extern uint8 uart_initVar;
 *              Registers
 ***************************************/
 
-#ifdef uart_BUART_sCR_AsyncCtl_CtrlReg__CONTROL_REG
+#ifdef uart_BUART_sCR_SyncCtl_CtrlReg__CONTROL_REG
     #define uart_CONTROL_REG \
-                            (* (reg8 *) uart_BUART_sCR_AsyncCtl_CtrlReg__CONTROL_REG )
+                            (* (reg8 *) uart_BUART_sCR_SyncCtl_CtrlReg__CONTROL_REG )
     #define uart_CONTROL_PTR \
-                            (  (reg8 *) uart_BUART_sCR_AsyncCtl_CtrlReg__CONTROL_REG )
-#endif /* End uart_BUART_sCR_AsyncCtl_CtrlReg__CONTROL_REG */
+                            (  (reg8 *) uart_BUART_sCR_SyncCtl_CtrlReg__CONTROL_REG )
+#endif /* End uart_BUART_sCR_SyncCtl_CtrlReg__CONTROL_REG */
 
 #if(uart_TX_ENABLED)
     #define uart_TXDATA_REG          (* (reg8 *) uart_BUART_sTX_TxShifter_u0__F0_REG)
@@ -545,9 +545,9 @@ extern uint8 uart_initVar;
     #define uart_RXBUFFER_OVERFLOW      uart_rxBufferOverflow
 #endif /* End uart_RX_ENABLED */
 
-#ifdef uart_BUART_sCR_AsyncCtl_CtrlReg__CONTROL_REG
+#ifdef uart_BUART_sCR_SyncCtl_CtrlReg__CONTROL_REG
     #define uart_CONTROL                uart_CONTROL_REG
-#endif /* End uart_BUART_sCR_AsyncCtl_CtrlReg__CONTROL_REG */
+#endif /* End uart_BUART_sCR_SyncCtl_CtrlReg__CONTROL_REG */
 
 #if(uart_TX_ENABLED)
     #define uart_TXDATA                 uart_TXDATA_REG

@@ -1,0 +1,633 @@
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\cc6n1J4P.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 6
+  11              		.eabi_attribute 18, 4
+  12              		.thumb
+  13              		.file	"emFile_1_SPI0_INT.c"
+  14              		.section	.debug_abbrev,"",%progbits
+  15              	.Ldebug_abbrev0:
+  16              		.section	.debug_info,"",%progbits
+  17              	.Ldebug_info0:
+  18              		.section	.debug_line,"",%progbits
+  19              	.Ldebug_line0:
+  20 0000 6E000000 		.text
+  20      02004300 
+  20      00000201 
+  20      FB0E0D00 
+  20      01010101 
+  21              	.Ltext0:
+  22              		.cfi_sections	.debug_frame
+  23              		.section	.text.emFile_1_SPI0_TX_ISR,"ax",%progbits
+  24              		.align	2
+  25              		.global	emFile_1_SPI0_TX_ISR
+  26              		.thumb
+  27              		.thumb_func
+  28              		.type	emFile_1_SPI0_TX_ISR, %function
+  29              	emFile_1_SPI0_TX_ISR:
+  30              	.LFB0:
+  31              		.file 1 ".\\Generated_Source\\PSoC5\\emFile_1_SPI0_INT.c"
+   1:.\Generated_Source\PSoC5/emFile_1_SPI0_INT.c **** /*******************************************************************************
+   2:.\Generated_Source\PSoC5/emFile_1_SPI0_INT.c **** * File Name: emFile_1_SPI0_INT.c
+   3:.\Generated_Source\PSoC5/emFile_1_SPI0_INT.c **** * Version 2.40
+   4:.\Generated_Source\PSoC5/emFile_1_SPI0_INT.c **** *
+   5:.\Generated_Source\PSoC5/emFile_1_SPI0_INT.c **** * Description:
+   6:.\Generated_Source\PSoC5/emFile_1_SPI0_INT.c **** *  This file provides all Interrupt Service Routine (ISR) for the SPI Master
+   7:.\Generated_Source\PSoC5/emFile_1_SPI0_INT.c **** *  component.
+   8:.\Generated_Source\PSoC5/emFile_1_SPI0_INT.c **** *
+   9:.\Generated_Source\PSoC5/emFile_1_SPI0_INT.c **** * Note:
+  10:.\Generated_Source\PSoC5/emFile_1_SPI0_INT.c **** *  None.
+  11:.\Generated_Source\PSoC5/emFile_1_SPI0_INT.c **** *
+  12:.\Generated_Source\PSoC5/emFile_1_SPI0_INT.c **** ********************************************************************************
+  13:.\Generated_Source\PSoC5/emFile_1_SPI0_INT.c **** * Copyright 2008-2012, Cypress Semiconductor Corporation.  All rights reserved.
+  14:.\Generated_Source\PSoC5/emFile_1_SPI0_INT.c **** * You may use this file only in accordance with the license, terms, conditions,
+  15:.\Generated_Source\PSoC5/emFile_1_SPI0_INT.c **** * disclaimers, and limitations in the end user license agreement accompanying
+  16:.\Generated_Source\PSoC5/emFile_1_SPI0_INT.c **** * the software package with which this file was provided.
+  17:.\Generated_Source\PSoC5/emFile_1_SPI0_INT.c **** *******************************************************************************/
+  18:.\Generated_Source\PSoC5/emFile_1_SPI0_INT.c **** 
+  19:.\Generated_Source\PSoC5/emFile_1_SPI0_INT.c **** #include "emFile_1_SPI0_PVT.h"
+  20:.\Generated_Source\PSoC5/emFile_1_SPI0_INT.c **** 
+  21:.\Generated_Source\PSoC5/emFile_1_SPI0_INT.c **** /* User code required at start of ISR */
+  22:.\Generated_Source\PSoC5/emFile_1_SPI0_INT.c **** /* `#START emFile_1_SPI0_ISR_START_DEF` */
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\cc6n1J4P.s 			page 2
+
+
+  23:.\Generated_Source\PSoC5/emFile_1_SPI0_INT.c **** 
+  24:.\Generated_Source\PSoC5/emFile_1_SPI0_INT.c **** /* `#END` */
+  25:.\Generated_Source\PSoC5/emFile_1_SPI0_INT.c **** 
+  26:.\Generated_Source\PSoC5/emFile_1_SPI0_INT.c **** 
+  27:.\Generated_Source\PSoC5/emFile_1_SPI0_INT.c **** /*******************************************************************************
+  28:.\Generated_Source\PSoC5/emFile_1_SPI0_INT.c **** * Function Name: emFile_1_SPI0_TX_ISR
+  29:.\Generated_Source\PSoC5/emFile_1_SPI0_INT.c **** ********************************************************************************
+  30:.\Generated_Source\PSoC5/emFile_1_SPI0_INT.c **** *
+  31:.\Generated_Source\PSoC5/emFile_1_SPI0_INT.c **** * Summary:
+  32:.\Generated_Source\PSoC5/emFile_1_SPI0_INT.c **** *  Interrupt Service Routine for TX portion of the SPI Master.
+  33:.\Generated_Source\PSoC5/emFile_1_SPI0_INT.c **** *
+  34:.\Generated_Source\PSoC5/emFile_1_SPI0_INT.c **** * Parameters:
+  35:.\Generated_Source\PSoC5/emFile_1_SPI0_INT.c **** *  None.
+  36:.\Generated_Source\PSoC5/emFile_1_SPI0_INT.c **** *
+  37:.\Generated_Source\PSoC5/emFile_1_SPI0_INT.c **** * Return:
+  38:.\Generated_Source\PSoC5/emFile_1_SPI0_INT.c **** *  None.
+  39:.\Generated_Source\PSoC5/emFile_1_SPI0_INT.c **** *
+  40:.\Generated_Source\PSoC5/emFile_1_SPI0_INT.c **** * Global variables:
+  41:.\Generated_Source\PSoC5/emFile_1_SPI0_INT.c **** *  emFile_1_SPI0_txBufferWrite - used for the account of the bytes which
+  42:.\Generated_Source\PSoC5/emFile_1_SPI0_INT.c **** *  have been written down in the TX software buffer.
+  43:.\Generated_Source\PSoC5/emFile_1_SPI0_INT.c **** *  emFile_1_SPI0_txBufferRead - used for the account of the bytes which
+  44:.\Generated_Source\PSoC5/emFile_1_SPI0_INT.c **** *  have been read from the TX software buffer, modified when exist data to
+  45:.\Generated_Source\PSoC5/emFile_1_SPI0_INT.c **** *  sending and FIFO Not Full.
+  46:.\Generated_Source\PSoC5/emFile_1_SPI0_INT.c **** *  emFile_1_SPI0_txBuffer[emFile_1_SPI0_TX_BUFFER_SIZE] - used to store
+  47:.\Generated_Source\PSoC5/emFile_1_SPI0_INT.c **** *  data to sending.
+  48:.\Generated_Source\PSoC5/emFile_1_SPI0_INT.c **** *  All described above Global variables are used when Software Buffer is used.
+  49:.\Generated_Source\PSoC5/emFile_1_SPI0_INT.c **** *
+  50:.\Generated_Source\PSoC5/emFile_1_SPI0_INT.c **** *******************************************************************************/
+  51:.\Generated_Source\PSoC5/emFile_1_SPI0_INT.c **** CY_ISR(emFile_1_SPI0_TX_ISR)
+  52:.\Generated_Source\PSoC5/emFile_1_SPI0_INT.c **** {
+  32              		.loc 1 52 0
+  33              		.cfi_startproc
+  34              		@ args = 0, pretend = 0, frame = 0
+  35              		@ frame_needed = 1, uses_anonymous_args = 0
+  36              		@ link register save eliminated.
+  37 0000 80B4     		push	{r7}
+  38              	.LCFI0:
+  39              		.cfi_def_cfa_offset 4
+  40 0002 00AF     		add	r7, sp, #0
+  41              		.cfi_offset 7, -4
+  42              	.LCFI1:
+  43              		.cfi_def_cfa_register 7
+  53:.\Generated_Source\PSoC5/emFile_1_SPI0_INT.c ****     #if(emFile_1_SPI0_TX_SOFTWARE_BUF_ENABLED)
+  54:.\Generated_Source\PSoC5/emFile_1_SPI0_INT.c ****         uint8 tmpStatus;
+  55:.\Generated_Source\PSoC5/emFile_1_SPI0_INT.c ****     #endif /* (emFile_1_SPI0_TX_SOFTWARE_BUF_ENABLED) */
+  56:.\Generated_Source\PSoC5/emFile_1_SPI0_INT.c **** 
+  57:.\Generated_Source\PSoC5/emFile_1_SPI0_INT.c ****     /* User code required at start of ISR */
+  58:.\Generated_Source\PSoC5/emFile_1_SPI0_INT.c ****     /* `#START emFile_1_SPI0_TX_ISR_START` */
+  59:.\Generated_Source\PSoC5/emFile_1_SPI0_INT.c **** 
+  60:.\Generated_Source\PSoC5/emFile_1_SPI0_INT.c ****     /* `#END` */
+  61:.\Generated_Source\PSoC5/emFile_1_SPI0_INT.c **** 
+  62:.\Generated_Source\PSoC5/emFile_1_SPI0_INT.c ****     #if(emFile_1_SPI0_TX_SOFTWARE_BUF_ENABLED)
+  63:.\Generated_Source\PSoC5/emFile_1_SPI0_INT.c ****         /* Check if TX data buffer is not empty and there is space in TX FIFO */
+  64:.\Generated_Source\PSoC5/emFile_1_SPI0_INT.c ****         while(emFile_1_SPI0_txBufferRead != emFile_1_SPI0_txBufferWrite)
+  65:.\Generated_Source\PSoC5/emFile_1_SPI0_INT.c ****         {
+  66:.\Generated_Source\PSoC5/emFile_1_SPI0_INT.c ****             tmpStatus = emFile_1_SPI0_GET_STATUS_TX(emFile_1_SPI0_swStatusTx);
+  67:.\Generated_Source\PSoC5/emFile_1_SPI0_INT.c ****             emFile_1_SPI0_swStatusTx = tmpStatus;
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\cc6n1J4P.s 			page 3
+
+
+  68:.\Generated_Source\PSoC5/emFile_1_SPI0_INT.c **** 
+  69:.\Generated_Source\PSoC5/emFile_1_SPI0_INT.c ****             if(0u != (emFile_1_SPI0_swStatusTx & emFile_1_SPI0_STS_TX_FIFO_NOT_FULL))
+  70:.\Generated_Source\PSoC5/emFile_1_SPI0_INT.c ****             {
+  71:.\Generated_Source\PSoC5/emFile_1_SPI0_INT.c ****                 if(0u == emFile_1_SPI0_txBufferFull)
+  72:.\Generated_Source\PSoC5/emFile_1_SPI0_INT.c ****                 {
+  73:.\Generated_Source\PSoC5/emFile_1_SPI0_INT.c ****                    emFile_1_SPI0_txBufferRead++;
+  74:.\Generated_Source\PSoC5/emFile_1_SPI0_INT.c **** 
+  75:.\Generated_Source\PSoC5/emFile_1_SPI0_INT.c ****                     if(emFile_1_SPI0_txBufferRead >= emFile_1_SPI0_TX_BUFFER_SIZE)
+  76:.\Generated_Source\PSoC5/emFile_1_SPI0_INT.c ****                     {
+  77:.\Generated_Source\PSoC5/emFile_1_SPI0_INT.c ****                         emFile_1_SPI0_txBufferRead = 0u;
+  78:.\Generated_Source\PSoC5/emFile_1_SPI0_INT.c ****                     }
+  79:.\Generated_Source\PSoC5/emFile_1_SPI0_INT.c ****                 }
+  80:.\Generated_Source\PSoC5/emFile_1_SPI0_INT.c ****                 else
+  81:.\Generated_Source\PSoC5/emFile_1_SPI0_INT.c ****                 {
+  82:.\Generated_Source\PSoC5/emFile_1_SPI0_INT.c ****                     emFile_1_SPI0_txBufferFull = 0u;
+  83:.\Generated_Source\PSoC5/emFile_1_SPI0_INT.c ****                 }
+  84:.\Generated_Source\PSoC5/emFile_1_SPI0_INT.c **** 
+  85:.\Generated_Source\PSoC5/emFile_1_SPI0_INT.c ****                 /* Move data from the Buffer to the FIFO */
+  86:.\Generated_Source\PSoC5/emFile_1_SPI0_INT.c ****                 CY_SET_REG8(emFile_1_SPI0_TXDATA_PTR,
+  87:.\Generated_Source\PSoC5/emFile_1_SPI0_INT.c ****                     emFile_1_SPI0_txBuffer[emFile_1_SPI0_txBufferRead]);
+  88:.\Generated_Source\PSoC5/emFile_1_SPI0_INT.c ****             }
+  89:.\Generated_Source\PSoC5/emFile_1_SPI0_INT.c ****             else
+  90:.\Generated_Source\PSoC5/emFile_1_SPI0_INT.c ****             {
+  91:.\Generated_Source\PSoC5/emFile_1_SPI0_INT.c ****                 break;
+  92:.\Generated_Source\PSoC5/emFile_1_SPI0_INT.c ****             }
+  93:.\Generated_Source\PSoC5/emFile_1_SPI0_INT.c ****         }
+  94:.\Generated_Source\PSoC5/emFile_1_SPI0_INT.c **** 
+  95:.\Generated_Source\PSoC5/emFile_1_SPI0_INT.c ****         if(emFile_1_SPI0_txBufferRead == emFile_1_SPI0_txBufferWrite)
+  96:.\Generated_Source\PSoC5/emFile_1_SPI0_INT.c ****         {
+  97:.\Generated_Source\PSoC5/emFile_1_SPI0_INT.c ****             /* TX Buffer is EMPTY: disable interrupt on TX NOT FULL */
+  98:.\Generated_Source\PSoC5/emFile_1_SPI0_INT.c ****             emFile_1_SPI0_TX_STATUS_MASK_REG &= ((uint8) ~emFile_1_SPI0_STS_TX_FIFO_NOT_FULL);
+  99:.\Generated_Source\PSoC5/emFile_1_SPI0_INT.c ****         }
+ 100:.\Generated_Source\PSoC5/emFile_1_SPI0_INT.c **** 
+ 101:.\Generated_Source\PSoC5/emFile_1_SPI0_INT.c ****     #endif /* (emFile_1_SPI0_TX_SOFTWARE_BUF_ENABLED) */
+ 102:.\Generated_Source\PSoC5/emFile_1_SPI0_INT.c **** 
+ 103:.\Generated_Source\PSoC5/emFile_1_SPI0_INT.c ****     /* User code required at end of ISR (Optional) */
+ 104:.\Generated_Source\PSoC5/emFile_1_SPI0_INT.c ****     /* `#START emFile_1_SPI0_TX_ISR_END` */
+ 105:.\Generated_Source\PSoC5/emFile_1_SPI0_INT.c **** 
+ 106:.\Generated_Source\PSoC5/emFile_1_SPI0_INT.c ****     /* `#END` */
+ 107:.\Generated_Source\PSoC5/emFile_1_SPI0_INT.c **** }
+  44              		.loc 1 107 0
+  45 0004 BD46     		mov	sp, r7
+  46 0006 80BC     		pop	{r7}
+  47 0008 7047     		bx	lr
+  48              		.cfi_endproc
+  49              	.LFE0:
+  50              		.size	emFile_1_SPI0_TX_ISR, .-emFile_1_SPI0_TX_ISR
+  51 000a 00BF     		.section	.text.emFile_1_SPI0_RX_ISR,"ax",%progbits
+  52              		.align	2
+  53              		.global	emFile_1_SPI0_RX_ISR
+  54              		.thumb
+  55              		.thumb_func
+  56              		.type	emFile_1_SPI0_RX_ISR, %function
+  57              	emFile_1_SPI0_RX_ISR:
+  58              	.LFB1:
+ 108:.\Generated_Source\PSoC5/emFile_1_SPI0_INT.c **** 
+ 109:.\Generated_Source\PSoC5/emFile_1_SPI0_INT.c **** 
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\cc6n1J4P.s 			page 4
+
+
+ 110:.\Generated_Source\PSoC5/emFile_1_SPI0_INT.c **** /*******************************************************************************
+ 111:.\Generated_Source\PSoC5/emFile_1_SPI0_INT.c **** * Function Name: emFile_1_SPI0_RX_ISR
+ 112:.\Generated_Source\PSoC5/emFile_1_SPI0_INT.c **** ********************************************************************************
+ 113:.\Generated_Source\PSoC5/emFile_1_SPI0_INT.c **** *
+ 114:.\Generated_Source\PSoC5/emFile_1_SPI0_INT.c **** * Summary:
+ 115:.\Generated_Source\PSoC5/emFile_1_SPI0_INT.c **** *  Interrupt Service Routine for RX portion of the SPI Master.
+ 116:.\Generated_Source\PSoC5/emFile_1_SPI0_INT.c **** *
+ 117:.\Generated_Source\PSoC5/emFile_1_SPI0_INT.c **** * Parameters:
+ 118:.\Generated_Source\PSoC5/emFile_1_SPI0_INT.c **** *  None.
+ 119:.\Generated_Source\PSoC5/emFile_1_SPI0_INT.c **** *
+ 120:.\Generated_Source\PSoC5/emFile_1_SPI0_INT.c **** * Return:
+ 121:.\Generated_Source\PSoC5/emFile_1_SPI0_INT.c **** *  None.
+ 122:.\Generated_Source\PSoC5/emFile_1_SPI0_INT.c **** *
+ 123:.\Generated_Source\PSoC5/emFile_1_SPI0_INT.c **** * Global variables:
+ 124:.\Generated_Source\PSoC5/emFile_1_SPI0_INT.c **** *  emFile_1_SPI0_rxBufferWrite - used for the account of the bytes which
+ 125:.\Generated_Source\PSoC5/emFile_1_SPI0_INT.c **** *  have been written down in the RX software buffer modified when FIFO contains
+ 126:.\Generated_Source\PSoC5/emFile_1_SPI0_INT.c **** *  new data.
+ 127:.\Generated_Source\PSoC5/emFile_1_SPI0_INT.c **** *  emFile_1_SPI0_rxBufferRead - used for the account of the bytes which
+ 128:.\Generated_Source\PSoC5/emFile_1_SPI0_INT.c **** *  have been read from the RX software buffer, modified when overflow occurred.
+ 129:.\Generated_Source\PSoC5/emFile_1_SPI0_INT.c **** *  emFile_1_SPI0_rxBuffer[emFile_1_SPI0_RX_BUFFER_SIZE] - used to store
+ 130:.\Generated_Source\PSoC5/emFile_1_SPI0_INT.c **** *  received data, modified when FIFO contains new data.
+ 131:.\Generated_Source\PSoC5/emFile_1_SPI0_INT.c **** *  All described above Global variables are used when Software Buffer is used.
+ 132:.\Generated_Source\PSoC5/emFile_1_SPI0_INT.c **** *
+ 133:.\Generated_Source\PSoC5/emFile_1_SPI0_INT.c **** *******************************************************************************/
+ 134:.\Generated_Source\PSoC5/emFile_1_SPI0_INT.c **** CY_ISR(emFile_1_SPI0_RX_ISR)
+ 135:.\Generated_Source\PSoC5/emFile_1_SPI0_INT.c **** {
+  59              		.loc 1 135 0
+  60              		.cfi_startproc
+  61              		@ args = 0, pretend = 0, frame = 0
+  62              		@ frame_needed = 1, uses_anonymous_args = 0
+  63              		@ link register save eliminated.
+  64 0000 80B4     		push	{r7}
+  65              	.LCFI2:
+  66              		.cfi_def_cfa_offset 4
+  67 0002 00AF     		add	r7, sp, #0
+  68              		.cfi_offset 7, -4
+  69              	.LCFI3:
+  70              		.cfi_def_cfa_register 7
+ 136:.\Generated_Source\PSoC5/emFile_1_SPI0_INT.c ****     #if(emFile_1_SPI0_RX_SOFTWARE_BUF_ENABLED)
+ 137:.\Generated_Source\PSoC5/emFile_1_SPI0_INT.c ****         uint8 tmpStatus;
+ 138:.\Generated_Source\PSoC5/emFile_1_SPI0_INT.c ****         uint8 rxData;
+ 139:.\Generated_Source\PSoC5/emFile_1_SPI0_INT.c ****     #endif /* (emFile_1_SPI0_RX_SOFTWARE_BUF_ENABLED) */
+ 140:.\Generated_Source\PSoC5/emFile_1_SPI0_INT.c **** 
+ 141:.\Generated_Source\PSoC5/emFile_1_SPI0_INT.c ****     /* User code required at start of ISR */
+ 142:.\Generated_Source\PSoC5/emFile_1_SPI0_INT.c ****     /* `#START emFile_1_SPI0_RX_ISR_START` */
+ 143:.\Generated_Source\PSoC5/emFile_1_SPI0_INT.c **** 
+ 144:.\Generated_Source\PSoC5/emFile_1_SPI0_INT.c ****     /* `#END` */
+ 145:.\Generated_Source\PSoC5/emFile_1_SPI0_INT.c **** 
+ 146:.\Generated_Source\PSoC5/emFile_1_SPI0_INT.c ****     #if(emFile_1_SPI0_RX_SOFTWARE_BUF_ENABLED)
+ 147:.\Generated_Source\PSoC5/emFile_1_SPI0_INT.c **** 
+ 148:.\Generated_Source\PSoC5/emFile_1_SPI0_INT.c ****         tmpStatus = emFile_1_SPI0_GET_STATUS_RX(emFile_1_SPI0_swStatusRx);
+ 149:.\Generated_Source\PSoC5/emFile_1_SPI0_INT.c ****         emFile_1_SPI0_swStatusRx = tmpStatus;
+ 150:.\Generated_Source\PSoC5/emFile_1_SPI0_INT.c **** 
+ 151:.\Generated_Source\PSoC5/emFile_1_SPI0_INT.c ****         /* Check if RX data FIFO has some data to be moved into the RX Buffer */
+ 152:.\Generated_Source\PSoC5/emFile_1_SPI0_INT.c ****         while(0u != (emFile_1_SPI0_swStatusRx & emFile_1_SPI0_STS_RX_FIFO_NOT_EMPTY))
+ 153:.\Generated_Source\PSoC5/emFile_1_SPI0_INT.c ****         {
+ 154:.\Generated_Source\PSoC5/emFile_1_SPI0_INT.c ****             rxData = CY_GET_REG8(emFile_1_SPI0_RXDATA_PTR);
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\cc6n1J4P.s 			page 5
+
+
+ 155:.\Generated_Source\PSoC5/emFile_1_SPI0_INT.c **** 
+ 156:.\Generated_Source\PSoC5/emFile_1_SPI0_INT.c ****             /* Set next pointer. */
+ 157:.\Generated_Source\PSoC5/emFile_1_SPI0_INT.c ****             emFile_1_SPI0_rxBufferWrite++;
+ 158:.\Generated_Source\PSoC5/emFile_1_SPI0_INT.c ****             if(emFile_1_SPI0_rxBufferWrite >= emFile_1_SPI0_RX_BUFFER_SIZE)
+ 159:.\Generated_Source\PSoC5/emFile_1_SPI0_INT.c ****             {
+ 160:.\Generated_Source\PSoC5/emFile_1_SPI0_INT.c ****                 emFile_1_SPI0_rxBufferWrite = 0u;
+ 161:.\Generated_Source\PSoC5/emFile_1_SPI0_INT.c ****             }
+ 162:.\Generated_Source\PSoC5/emFile_1_SPI0_INT.c **** 
+ 163:.\Generated_Source\PSoC5/emFile_1_SPI0_INT.c ****             if(emFile_1_SPI0_rxBufferWrite == emFile_1_SPI0_rxBufferRead)
+ 164:.\Generated_Source\PSoC5/emFile_1_SPI0_INT.c ****             {
+ 165:.\Generated_Source\PSoC5/emFile_1_SPI0_INT.c ****                 emFile_1_SPI0_rxBufferRead++;
+ 166:.\Generated_Source\PSoC5/emFile_1_SPI0_INT.c ****                 if(emFile_1_SPI0_rxBufferRead >= emFile_1_SPI0_RX_BUFFER_SIZE)
+ 167:.\Generated_Source\PSoC5/emFile_1_SPI0_INT.c ****                 {
+ 168:.\Generated_Source\PSoC5/emFile_1_SPI0_INT.c ****                     emFile_1_SPI0_rxBufferRead = 0u;
+ 169:.\Generated_Source\PSoC5/emFile_1_SPI0_INT.c ****                 }
+ 170:.\Generated_Source\PSoC5/emFile_1_SPI0_INT.c **** 
+ 171:.\Generated_Source\PSoC5/emFile_1_SPI0_INT.c ****                 emFile_1_SPI0_rxBufferFull = 1u;
+ 172:.\Generated_Source\PSoC5/emFile_1_SPI0_INT.c ****             }
+ 173:.\Generated_Source\PSoC5/emFile_1_SPI0_INT.c **** 
+ 174:.\Generated_Source\PSoC5/emFile_1_SPI0_INT.c ****             /* Move data from the FIFO to the Buffer */
+ 175:.\Generated_Source\PSoC5/emFile_1_SPI0_INT.c ****             emFile_1_SPI0_rxBuffer[emFile_1_SPI0_rxBufferWrite] = rxData;
+ 176:.\Generated_Source\PSoC5/emFile_1_SPI0_INT.c **** 
+ 177:.\Generated_Source\PSoC5/emFile_1_SPI0_INT.c ****             tmpStatus = emFile_1_SPI0_GET_STATUS_RX(emFile_1_SPI0_swStatusRx);
+ 178:.\Generated_Source\PSoC5/emFile_1_SPI0_INT.c ****             emFile_1_SPI0_swStatusRx = tmpStatus;
+ 179:.\Generated_Source\PSoC5/emFile_1_SPI0_INT.c ****         }
+ 180:.\Generated_Source\PSoC5/emFile_1_SPI0_INT.c **** 
+ 181:.\Generated_Source\PSoC5/emFile_1_SPI0_INT.c ****     #endif /* (emFile_1_SPI0_RX_SOFTWARE_BUF_ENABLED) */
+ 182:.\Generated_Source\PSoC5/emFile_1_SPI0_INT.c **** 
+ 183:.\Generated_Source\PSoC5/emFile_1_SPI0_INT.c ****     /* User code required at end of ISR (Optional) */
+ 184:.\Generated_Source\PSoC5/emFile_1_SPI0_INT.c ****     /* `#START emFile_1_SPI0_RX_ISR_END` */
+ 185:.\Generated_Source\PSoC5/emFile_1_SPI0_INT.c **** 
+ 186:.\Generated_Source\PSoC5/emFile_1_SPI0_INT.c ****     /* `#END` */
+ 187:.\Generated_Source\PSoC5/emFile_1_SPI0_INT.c **** }
+  71              		.loc 1 187 0
+  72 0004 BD46     		mov	sp, r7
+  73 0006 80BC     		pop	{r7}
+  74 0008 7047     		bx	lr
+  75              		.cfi_endproc
+  76              	.LFE1:
+  77              		.size	emFile_1_SPI0_RX_ISR, .-emFile_1_SPI0_RX_ISR
+  78 000a 00BF     		.text
+  79              	.Letext0:
+  80              		.section	.debug_loc,"",%progbits
+  81              	.Ldebug_loc0:
+  82              	.LLST0:
+  83 0000 00000000 		.4byte	.LFB0
+  84 0004 02000000 		.4byte	.LCFI0
+  85 0008 0100     		.2byte	0x1
+  86 000a 5D       		.byte	0x5d
+  87 000b 02000000 		.4byte	.LCFI0
+  88 000f 04000000 		.4byte	.LCFI1
+  89 0013 0200     		.2byte	0x2
+  90 0015 7D       		.byte	0x7d
+  91 0016 04       		.sleb128 4
+  92 0017 04000000 		.4byte	.LCFI1
+  93 001b 0A000000 		.4byte	.LFE0
+  94 001f 0200     		.2byte	0x2
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\cc6n1J4P.s 			page 6
+
+
+  95 0021 77       		.byte	0x77
+  96 0022 04       		.sleb128 4
+  97 0023 00000000 		.4byte	0x0
+  98 0027 00000000 		.4byte	0x0
+  99              	.LLST1:
+ 100 002b 00000000 		.4byte	.LFB1
+ 101 002f 02000000 		.4byte	.LCFI2
+ 102 0033 0100     		.2byte	0x1
+ 103 0035 5D       		.byte	0x5d
+ 104 0036 02000000 		.4byte	.LCFI2
+ 105 003a 04000000 		.4byte	.LCFI3
+ 106 003e 0200     		.2byte	0x2
+ 107 0040 7D       		.byte	0x7d
+ 108 0041 04       		.sleb128 4
+ 109 0042 04000000 		.4byte	.LCFI3
+ 110 0046 0A000000 		.4byte	.LFE1
+ 111 004a 0200     		.2byte	0x2
+ 112 004c 77       		.byte	0x77
+ 113 004d 04       		.sleb128 4
+ 114 004e 00000000 		.4byte	0x0
+ 115 0052 00000000 		.4byte	0x0
+ 116              		.section	.debug_info
+ 117 0000 AE000000 		.4byte	0xae
+ 118 0004 0200     		.2byte	0x2
+ 119 0006 00000000 		.4byte	.Ldebug_abbrev0
+ 120 000a 04       		.byte	0x4
+ 121 000b 01       		.uleb128 0x1
+ 122 000c BD000000 		.4byte	.LASF14
+ 123 0010 01       		.byte	0x1
+ 124 0011 EC000000 		.4byte	.LASF15
+ 125 0015 1B000000 		.4byte	.LASF16
+ 126 0019 00000000 		.4byte	0x0
+ 127 001d 00000000 		.4byte	0x0
+ 128 0021 00000000 		.4byte	.Ldebug_ranges0+0x0
+ 129 0025 00000000 		.4byte	.Ldebug_line0
+ 130 0029 02       		.uleb128 0x2
+ 131 002a 01       		.byte	0x1
+ 132 002b 06       		.byte	0x6
+ 133 002c 2C010000 		.4byte	.LASF0
+ 134 0030 02       		.uleb128 0x2
+ 135 0031 01       		.byte	0x1
+ 136 0032 08       		.byte	0x8
+ 137 0033 C9000000 		.4byte	.LASF1
+ 138 0037 02       		.uleb128 0x2
+ 139 0038 02       		.byte	0x2
+ 140 0039 05       		.byte	0x5
+ 141 003a 3E010000 		.4byte	.LASF2
+ 142 003e 02       		.uleb128 0x2
+ 143 003f 02       		.byte	0x2
+ 144 0040 07       		.byte	0x7
+ 145 0041 19010000 		.4byte	.LASF3
+ 146 0045 02       		.uleb128 0x2
+ 147 0046 04       		.byte	0x4
+ 148 0047 05       		.byte	0x5
+ 149 0048 DC000000 		.4byte	.LASF4
+ 150 004c 02       		.uleb128 0x2
+ 151 004d 04       		.byte	0x4
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\cc6n1J4P.s 			page 7
+
+
+ 152 004e 07       		.byte	0x7
+ 153 004f 94000000 		.4byte	.LASF5
+ 154 0053 02       		.uleb128 0x2
+ 155 0054 08       		.byte	0x8
+ 156 0055 05       		.byte	0x5
+ 157 0056 00000000 		.4byte	.LASF6
+ 158 005a 02       		.uleb128 0x2
+ 159 005b 08       		.byte	0x8
+ 160 005c 07       		.byte	0x7
+ 161 005d A6000000 		.4byte	.LASF7
+ 162 0061 03       		.uleb128 0x3
+ 163 0062 04       		.byte	0x4
+ 164 0063 05       		.byte	0x5
+ 165 0064 696E7400 		.ascii	"int\000"
+ 166 0068 02       		.uleb128 0x2
+ 167 0069 04       		.byte	0x4
+ 168 006a 07       		.byte	0x7
+ 169 006b 0E000000 		.4byte	.LASF8
+ 170 006f 02       		.uleb128 0x2
+ 171 0070 04       		.byte	0x4
+ 172 0071 04       		.byte	0x4
+ 173 0072 38010000 		.4byte	.LASF9
+ 174 0076 02       		.uleb128 0x2
+ 175 0077 08       		.byte	0x8
+ 176 0078 04       		.byte	0x4
+ 177 0079 E5000000 		.4byte	.LASF10
+ 178 007d 02       		.uleb128 0x2
+ 179 007e 01       		.byte	0x1
+ 180 007f 08       		.byte	0x8
+ 181 0080 D7000000 		.4byte	.LASF11
+ 182 0084 04       		.uleb128 0x4
+ 183 0085 04       		.byte	0x4
+ 184 0086 07       		.byte	0x7
+ 185 0087 05       		.uleb128 0x5
+ 186 0088 01       		.byte	0x1
+ 187 0089 7F000000 		.4byte	.LASF12
+ 188 008d 01       		.byte	0x1
+ 189 008e 33       		.byte	0x33
+ 190 008f 01       		.byte	0x1
+ 191 0090 00000000 		.4byte	.LFB0
+ 192 0094 0A000000 		.4byte	.LFE0
+ 193 0098 00000000 		.4byte	.LLST0
+ 194 009c 05       		.uleb128 0x5
+ 195 009d 01       		.byte	0x1
+ 196 009e 6A000000 		.4byte	.LASF13
+ 197 00a2 01       		.byte	0x1
+ 198 00a3 86       		.byte	0x86
+ 199 00a4 01       		.byte	0x1
+ 200 00a5 00000000 		.4byte	.LFB1
+ 201 00a9 0A000000 		.4byte	.LFE1
+ 202 00ad 2B000000 		.4byte	.LLST1
+ 203 00b1 00       		.byte	0x0
+ 204              		.section	.debug_abbrev
+ 205 0000 01       		.uleb128 0x1
+ 206 0001 11       		.uleb128 0x11
+ 207 0002 01       		.byte	0x1
+ 208 0003 25       		.uleb128 0x25
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\cc6n1J4P.s 			page 8
+
+
+ 209 0004 0E       		.uleb128 0xe
+ 210 0005 13       		.uleb128 0x13
+ 211 0006 0B       		.uleb128 0xb
+ 212 0007 03       		.uleb128 0x3
+ 213 0008 0E       		.uleb128 0xe
+ 214 0009 1B       		.uleb128 0x1b
+ 215 000a 0E       		.uleb128 0xe
+ 216 000b 11       		.uleb128 0x11
+ 217 000c 01       		.uleb128 0x1
+ 218 000d 52       		.uleb128 0x52
+ 219 000e 01       		.uleb128 0x1
+ 220 000f 55       		.uleb128 0x55
+ 221 0010 06       		.uleb128 0x6
+ 222 0011 10       		.uleb128 0x10
+ 223 0012 06       		.uleb128 0x6
+ 224 0013 00       		.byte	0x0
+ 225 0014 00       		.byte	0x0
+ 226 0015 02       		.uleb128 0x2
+ 227 0016 24       		.uleb128 0x24
+ 228 0017 00       		.byte	0x0
+ 229 0018 0B       		.uleb128 0xb
+ 230 0019 0B       		.uleb128 0xb
+ 231 001a 3E       		.uleb128 0x3e
+ 232 001b 0B       		.uleb128 0xb
+ 233 001c 03       		.uleb128 0x3
+ 234 001d 0E       		.uleb128 0xe
+ 235 001e 00       		.byte	0x0
+ 236 001f 00       		.byte	0x0
+ 237 0020 03       		.uleb128 0x3
+ 238 0021 24       		.uleb128 0x24
+ 239 0022 00       		.byte	0x0
+ 240 0023 0B       		.uleb128 0xb
+ 241 0024 0B       		.uleb128 0xb
+ 242 0025 3E       		.uleb128 0x3e
+ 243 0026 0B       		.uleb128 0xb
+ 244 0027 03       		.uleb128 0x3
+ 245 0028 08       		.uleb128 0x8
+ 246 0029 00       		.byte	0x0
+ 247 002a 00       		.byte	0x0
+ 248 002b 04       		.uleb128 0x4
+ 249 002c 24       		.uleb128 0x24
+ 250 002d 00       		.byte	0x0
+ 251 002e 0B       		.uleb128 0xb
+ 252 002f 0B       		.uleb128 0xb
+ 253 0030 3E       		.uleb128 0x3e
+ 254 0031 0B       		.uleb128 0xb
+ 255 0032 00       		.byte	0x0
+ 256 0033 00       		.byte	0x0
+ 257 0034 05       		.uleb128 0x5
+ 258 0035 2E       		.uleb128 0x2e
+ 259 0036 00       		.byte	0x0
+ 260 0037 3F       		.uleb128 0x3f
+ 261 0038 0C       		.uleb128 0xc
+ 262 0039 03       		.uleb128 0x3
+ 263 003a 0E       		.uleb128 0xe
+ 264 003b 3A       		.uleb128 0x3a
+ 265 003c 0B       		.uleb128 0xb
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\cc6n1J4P.s 			page 9
+
+
+ 266 003d 3B       		.uleb128 0x3b
+ 267 003e 0B       		.uleb128 0xb
+ 268 003f 27       		.uleb128 0x27
+ 269 0040 0C       		.uleb128 0xc
+ 270 0041 11       		.uleb128 0x11
+ 271 0042 01       		.uleb128 0x1
+ 272 0043 12       		.uleb128 0x12
+ 273 0044 01       		.uleb128 0x1
+ 274 0045 40       		.uleb128 0x40
+ 275 0046 06       		.uleb128 0x6
+ 276 0047 00       		.byte	0x0
+ 277 0048 00       		.byte	0x0
+ 278 0049 00       		.byte	0x0
+ 279              		.section	.debug_pubnames,"",%progbits
+ 280 0000 40000000 		.4byte	0x40
+ 281 0004 0200     		.2byte	0x2
+ 282 0006 00000000 		.4byte	.Ldebug_info0
+ 283 000a B2000000 		.4byte	0xb2
+ 284 000e 87000000 		.4byte	0x87
+ 285 0012 656D4669 		.ascii	"emFile_1_SPI0_TX_ISR\000"
+ 285      6C655F31 
+ 285      5F535049 
+ 285      305F5458 
+ 285      5F495352 
+ 286 0027 9C000000 		.4byte	0x9c
+ 287 002b 656D4669 		.ascii	"emFile_1_SPI0_RX_ISR\000"
+ 287      6C655F31 
+ 287      5F535049 
+ 287      305F5258 
+ 287      5F495352 
+ 288 0040 00000000 		.4byte	0x0
+ 289              		.section	.debug_aranges,"",%progbits
+ 290 0000 24000000 		.4byte	0x24
+ 291 0004 0200     		.2byte	0x2
+ 292 0006 00000000 		.4byte	.Ldebug_info0
+ 293 000a 04       		.byte	0x4
+ 294 000b 00       		.byte	0x0
+ 295 000c 0000     		.2byte	0x0
+ 296 000e 0000     		.2byte	0x0
+ 297 0010 00000000 		.4byte	.LFB0
+ 298 0014 0A000000 		.4byte	.LFE0-.LFB0
+ 299 0018 00000000 		.4byte	.LFB1
+ 300 001c 0A000000 		.4byte	.LFE1-.LFB1
+ 301 0020 00000000 		.4byte	0x0
+ 302 0024 00000000 		.4byte	0x0
+ 303              		.section	.debug_ranges,"",%progbits
+ 304              	.Ldebug_ranges0:
+ 305 0000 00000000 		.4byte	.Ltext0
+ 306 0004 00000000 		.4byte	.Letext0
+ 307 0008 00000000 		.4byte	.LFB0
+ 308 000c 0A000000 		.4byte	.LFE0
+ 309 0010 00000000 		.4byte	.LFB1
+ 310 0014 0A000000 		.4byte	.LFE1
+ 311 0018 00000000 		.4byte	0x0
+ 312 001c 00000000 		.4byte	0x0
+ 313              		.section	.debug_str,"MS",%progbits,1
+ 314              	.LASF6:
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\cc6n1J4P.s 			page 10
+
+
+ 315 0000 6C6F6E67 		.ascii	"long long int\000"
+ 315      206C6F6E 
+ 315      6720696E 
+ 315      7400
+ 316              	.LASF8:
+ 317 000e 756E7369 		.ascii	"unsigned int\000"
+ 317      676E6564 
+ 317      20696E74 
+ 317      00
+ 318              	.LASF16:
+ 319 001b 433A5C55 		.ascii	"C:\\Users\\karunmj\\Documents\\GitHub\\m2m\\hardwar"
+ 319      73657273 
+ 319      5C6B6172 
+ 319      756E6D6A 
+ 319      5C446F63 
+ 320 0048 655C7073 		.ascii	"e\\psoc5\\PSoC_Datalogger_SMS.cydsn\000"
+ 320      6F63355C 
+ 320      50536F43 
+ 320      5F446174 
+ 320      616C6F67 
+ 321              	.LASF13:
+ 322 006a 656D4669 		.ascii	"emFile_1_SPI0_RX_ISR\000"
+ 322      6C655F31 
+ 322      5F535049 
+ 322      305F5258 
+ 322      5F495352 
+ 323              	.LASF12:
+ 324 007f 656D4669 		.ascii	"emFile_1_SPI0_TX_ISR\000"
+ 324      6C655F31 
+ 324      5F535049 
+ 324      305F5458 
+ 324      5F495352 
+ 325              	.LASF5:
+ 326 0094 6C6F6E67 		.ascii	"long unsigned int\000"
+ 326      20756E73 
+ 326      69676E65 
+ 326      6420696E 
+ 326      7400
+ 327              	.LASF7:
+ 328 00a6 6C6F6E67 		.ascii	"long long unsigned int\000"
+ 328      206C6F6E 
+ 328      6720756E 
+ 328      7369676E 
+ 328      65642069 
+ 329              	.LASF14:
+ 330 00bd 474E5520 		.ascii	"GNU C 4.4.1\000"
+ 330      4320342E 
+ 330      342E3100 
+ 331              	.LASF1:
+ 332 00c9 756E7369 		.ascii	"unsigned char\000"
+ 332      676E6564 
+ 332      20636861 
+ 332      7200
+ 333              	.LASF11:
+ 334 00d7 63686172 		.ascii	"char\000"
+ 334      00
+ 335              	.LASF4:
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\cc6n1J4P.s 			page 11
+
+
+ 336 00dc 6C6F6E67 		.ascii	"long int\000"
+ 336      20696E74 
+ 336      00
+ 337              	.LASF10:
+ 338 00e5 646F7562 		.ascii	"double\000"
+ 338      6C6500
+ 339              	.LASF15:
+ 340 00ec 2E5C4765 		.ascii	".\\Generated_Source\\PSoC5\\emFile_1_SPI0_INT.c\000"
+ 340      6E657261 
+ 340      7465645F 
+ 340      536F7572 
+ 340      63655C50 
+ 341              	.LASF3:
+ 342 0119 73686F72 		.ascii	"short unsigned int\000"
+ 342      7420756E 
+ 342      7369676E 
+ 342      65642069 
+ 342      6E7400
+ 343              	.LASF0:
+ 344 012c 7369676E 		.ascii	"signed char\000"
+ 344      65642063 
+ 344      68617200 
+ 345              	.LASF9:
+ 346 0138 666C6F61 		.ascii	"float\000"
+ 346      7400
+ 347              	.LASF2:
+ 348 013e 73686F72 		.ascii	"short int\000"
+ 348      7420696E 
+ 348      7400
+ 349              		.ident	"GCC: (Sourcery G++ Lite 2010q1-188) 4.4.1"

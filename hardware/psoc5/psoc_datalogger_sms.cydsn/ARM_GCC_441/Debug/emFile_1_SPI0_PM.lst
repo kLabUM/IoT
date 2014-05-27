@@ -1,0 +1,930 @@
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccygO78K.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 6
+  11              		.eabi_attribute 18, 4
+  12              		.thumb
+  13              		.file	"emFile_1_SPI0_PM.c"
+  14              		.section	.debug_abbrev,"",%progbits
+  15              	.Ldebug_abbrev0:
+  16              		.section	.debug_info,"",%progbits
+  17              	.Ldebug_info0:
+  18              		.section	.debug_line,"",%progbits
+  19              	.Ldebug_line0:
+  20 0000 CF000000 		.text
+  20      02007C00 
+  20      00000201 
+  20      FB0E0D00 
+  20      01010101 
+  21              	.Ltext0:
+  22              		.cfi_sections	.debug_frame
+  23              		.data
+  24              		.align	2
+  25              		.type	emFile_1_SPI0_backup, %object
+  26              		.size	emFile_1_SPI0_backup, 2
+  27              	emFile_1_SPI0_backup:
+  28 0000 00       		.byte	0
+  29 0001 0F       		.byte	15
+  30 0002 0000     		.section	.text.emFile_1_SPI0_SaveConfig,"ax",%progbits
+  31              		.align	2
+  32              		.global	emFile_1_SPI0_SaveConfig
+  33              		.thumb
+  34              		.thumb_func
+  35              		.type	emFile_1_SPI0_SaveConfig, %function
+  36              	emFile_1_SPI0_SaveConfig:
+  37              	.LFB0:
+  38              		.file 1 ".\\Generated_Source\\PSoC5\\emFile_1_SPI0_PM.c"
+   1:.\Generated_Source\PSoC5/emFile_1_SPI0_PM.c **** /*******************************************************************************
+   2:.\Generated_Source\PSoC5/emFile_1_SPI0_PM.c **** * File Name: emFile_1_SPI0_PM.c
+   3:.\Generated_Source\PSoC5/emFile_1_SPI0_PM.c **** * Version 2.40
+   4:.\Generated_Source\PSoC5/emFile_1_SPI0_PM.c **** *
+   5:.\Generated_Source\PSoC5/emFile_1_SPI0_PM.c **** * Description:
+   6:.\Generated_Source\PSoC5/emFile_1_SPI0_PM.c **** *  This file contains the setup, control and status commands to support
+   7:.\Generated_Source\PSoC5/emFile_1_SPI0_PM.c **** *  component operations in low power mode.
+   8:.\Generated_Source\PSoC5/emFile_1_SPI0_PM.c **** *
+   9:.\Generated_Source\PSoC5/emFile_1_SPI0_PM.c **** * Note:
+  10:.\Generated_Source\PSoC5/emFile_1_SPI0_PM.c **** *
+  11:.\Generated_Source\PSoC5/emFile_1_SPI0_PM.c **** ********************************************************************************
+  12:.\Generated_Source\PSoC5/emFile_1_SPI0_PM.c **** * Copyright 2008-2012, Cypress Semiconductor Corporation.  All rights reserved.
+  13:.\Generated_Source\PSoC5/emFile_1_SPI0_PM.c **** * You may use this file only in accordance with the license, terms, conditions,
+  14:.\Generated_Source\PSoC5/emFile_1_SPI0_PM.c **** * disclaimers, and limitations in the end user license agreement accompanying
+  15:.\Generated_Source\PSoC5/emFile_1_SPI0_PM.c **** * the software package with which this file was provided.
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccygO78K.s 			page 2
+
+
+  16:.\Generated_Source\PSoC5/emFile_1_SPI0_PM.c **** *******************************************************************************/
+  17:.\Generated_Source\PSoC5/emFile_1_SPI0_PM.c **** 
+  18:.\Generated_Source\PSoC5/emFile_1_SPI0_PM.c **** #include "emFile_1_SPI0_PVT.h"
+  19:.\Generated_Source\PSoC5/emFile_1_SPI0_PM.c **** 
+  20:.\Generated_Source\PSoC5/emFile_1_SPI0_PM.c **** static emFile_1_SPI0_BACKUP_STRUCT emFile_1_SPI0_backup =
+  21:.\Generated_Source\PSoC5/emFile_1_SPI0_PM.c **** {
+  22:.\Generated_Source\PSoC5/emFile_1_SPI0_PM.c ****     emFile_1_SPI0_DISABLED,
+  23:.\Generated_Source\PSoC5/emFile_1_SPI0_PM.c ****     emFile_1_SPI0_BITCTR_INIT,
+  24:.\Generated_Source\PSoC5/emFile_1_SPI0_PM.c ****     #if(CY_UDB_V0)
+  25:.\Generated_Source\PSoC5/emFile_1_SPI0_PM.c ****         emFile_1_SPI0_TX_INIT_INTERRUPTS_MASK,
+  26:.\Generated_Source\PSoC5/emFile_1_SPI0_PM.c ****         emFile_1_SPI0_RX_INIT_INTERRUPTS_MASK
+  27:.\Generated_Source\PSoC5/emFile_1_SPI0_PM.c ****     #endif /* CY_UDB_V0 */
+  28:.\Generated_Source\PSoC5/emFile_1_SPI0_PM.c **** };
+  29:.\Generated_Source\PSoC5/emFile_1_SPI0_PM.c **** 
+  30:.\Generated_Source\PSoC5/emFile_1_SPI0_PM.c **** 
+  31:.\Generated_Source\PSoC5/emFile_1_SPI0_PM.c **** /*******************************************************************************
+  32:.\Generated_Source\PSoC5/emFile_1_SPI0_PM.c **** * Function Name: emFile_1_SPI0_SaveConfig
+  33:.\Generated_Source\PSoC5/emFile_1_SPI0_PM.c **** ********************************************************************************
+  34:.\Generated_Source\PSoC5/emFile_1_SPI0_PM.c **** *
+  35:.\Generated_Source\PSoC5/emFile_1_SPI0_PM.c **** * Summary:
+  36:.\Generated_Source\PSoC5/emFile_1_SPI0_PM.c **** *  Saves SPIM configuration.
+  37:.\Generated_Source\PSoC5/emFile_1_SPI0_PM.c **** *
+  38:.\Generated_Source\PSoC5/emFile_1_SPI0_PM.c **** * Parameters:
+  39:.\Generated_Source\PSoC5/emFile_1_SPI0_PM.c **** *  None.
+  40:.\Generated_Source\PSoC5/emFile_1_SPI0_PM.c **** *
+  41:.\Generated_Source\PSoC5/emFile_1_SPI0_PM.c **** * Return:
+  42:.\Generated_Source\PSoC5/emFile_1_SPI0_PM.c **** *  None.
+  43:.\Generated_Source\PSoC5/emFile_1_SPI0_PM.c **** *
+  44:.\Generated_Source\PSoC5/emFile_1_SPI0_PM.c **** * Global Variables:
+  45:.\Generated_Source\PSoC5/emFile_1_SPI0_PM.c **** *  emFile_1_SPI0_backup - modified when non-retention registers are saved.
+  46:.\Generated_Source\PSoC5/emFile_1_SPI0_PM.c **** *
+  47:.\Generated_Source\PSoC5/emFile_1_SPI0_PM.c **** * Reentrant:
+  48:.\Generated_Source\PSoC5/emFile_1_SPI0_PM.c **** *  No.
+  49:.\Generated_Source\PSoC5/emFile_1_SPI0_PM.c **** *
+  50:.\Generated_Source\PSoC5/emFile_1_SPI0_PM.c **** *******************************************************************************/
+  51:.\Generated_Source\PSoC5/emFile_1_SPI0_PM.c **** void emFile_1_SPI0_SaveConfig(void) 
+  52:.\Generated_Source\PSoC5/emFile_1_SPI0_PM.c **** {
+  39              		.loc 1 52 0
+  40              		.cfi_startproc
+  41              		@ args = 0, pretend = 0, frame = 0
+  42              		@ frame_needed = 1, uses_anonymous_args = 0
+  43              		@ link register save eliminated.
+  44 0000 80B4     		push	{r7}
+  45              	.LCFI0:
+  46              		.cfi_def_cfa_offset 4
+  47 0002 00AF     		add	r7, sp, #0
+  48              		.cfi_offset 7, -4
+  49              	.LCFI1:
+  50              		.cfi_def_cfa_register 7
+  53:.\Generated_Source\PSoC5/emFile_1_SPI0_PM.c ****     /* Store Status Mask registers */
+  54:.\Generated_Source\PSoC5/emFile_1_SPI0_PM.c ****     #if(CY_UDB_V0)
+  55:.\Generated_Source\PSoC5/emFile_1_SPI0_PM.c ****        emFile_1_SPI0_backup.cntrPeriod      = emFile_1_SPI0_COUNTER_PERIOD_REG;
+  56:.\Generated_Source\PSoC5/emFile_1_SPI0_PM.c ****        emFile_1_SPI0_backup.saveSrTxIntMask = emFile_1_SPI0_TX_STATUS_MASK_REG;
+  57:.\Generated_Source\PSoC5/emFile_1_SPI0_PM.c ****        emFile_1_SPI0_backup.saveSrRxIntMask = emFile_1_SPI0_RX_STATUS_MASK_REG;
+  58:.\Generated_Source\PSoC5/emFile_1_SPI0_PM.c ****     #endif /* (CY_UDB_V0) */
+  59:.\Generated_Source\PSoC5/emFile_1_SPI0_PM.c **** }
+  51              		.loc 1 59 0
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccygO78K.s 			page 3
+
+
+  52 0004 BD46     		mov	sp, r7
+  53 0006 80BC     		pop	{r7}
+  54 0008 7047     		bx	lr
+  55              		.cfi_endproc
+  56              	.LFE0:
+  57              		.size	emFile_1_SPI0_SaveConfig, .-emFile_1_SPI0_SaveConfig
+  58 000a 00BF     		.section	.text.emFile_1_SPI0_RestoreConfig,"ax",%progbits
+  59              		.align	2
+  60              		.global	emFile_1_SPI0_RestoreConfig
+  61              		.thumb
+  62              		.thumb_func
+  63              		.type	emFile_1_SPI0_RestoreConfig, %function
+  64              	emFile_1_SPI0_RestoreConfig:
+  65              	.LFB1:
+  60:.\Generated_Source\PSoC5/emFile_1_SPI0_PM.c **** 
+  61:.\Generated_Source\PSoC5/emFile_1_SPI0_PM.c **** 
+  62:.\Generated_Source\PSoC5/emFile_1_SPI0_PM.c **** /*******************************************************************************
+  63:.\Generated_Source\PSoC5/emFile_1_SPI0_PM.c **** * Function Name: emFile_1_SPI0_RestoreConfig
+  64:.\Generated_Source\PSoC5/emFile_1_SPI0_PM.c **** ********************************************************************************
+  65:.\Generated_Source\PSoC5/emFile_1_SPI0_PM.c **** *
+  66:.\Generated_Source\PSoC5/emFile_1_SPI0_PM.c **** * Summary:
+  67:.\Generated_Source\PSoC5/emFile_1_SPI0_PM.c **** *  Restores SPIM configuration.
+  68:.\Generated_Source\PSoC5/emFile_1_SPI0_PM.c **** *
+  69:.\Generated_Source\PSoC5/emFile_1_SPI0_PM.c **** * Parameters:
+  70:.\Generated_Source\PSoC5/emFile_1_SPI0_PM.c **** *  None.
+  71:.\Generated_Source\PSoC5/emFile_1_SPI0_PM.c **** *
+  72:.\Generated_Source\PSoC5/emFile_1_SPI0_PM.c **** * Return:
+  73:.\Generated_Source\PSoC5/emFile_1_SPI0_PM.c **** *  None.
+  74:.\Generated_Source\PSoC5/emFile_1_SPI0_PM.c **** *
+  75:.\Generated_Source\PSoC5/emFile_1_SPI0_PM.c **** * Global Variables:
+  76:.\Generated_Source\PSoC5/emFile_1_SPI0_PM.c **** *  emFile_1_SPI0_backup - used when non-retention registers are restored.
+  77:.\Generated_Source\PSoC5/emFile_1_SPI0_PM.c **** *
+  78:.\Generated_Source\PSoC5/emFile_1_SPI0_PM.c **** * Side Effects:
+  79:.\Generated_Source\PSoC5/emFile_1_SPI0_PM.c **** *  If this API is called without first calling SaveConfig then in the following
+  80:.\Generated_Source\PSoC5/emFile_1_SPI0_PM.c **** *  registers will be default values from Customizer:
+  81:.\Generated_Source\PSoC5/emFile_1_SPI0_PM.c **** *  emFile_1_SPI0_STATUS_MASK_REG and emFile_1_SPI0_COUNTER_PERIOD_REG.
+  82:.\Generated_Source\PSoC5/emFile_1_SPI0_PM.c **** *
+  83:.\Generated_Source\PSoC5/emFile_1_SPI0_PM.c **** *******************************************************************************/
+  84:.\Generated_Source\PSoC5/emFile_1_SPI0_PM.c **** void emFile_1_SPI0_RestoreConfig(void) 
+  85:.\Generated_Source\PSoC5/emFile_1_SPI0_PM.c **** {
+  66              		.loc 1 85 0
+  67              		.cfi_startproc
+  68              		@ args = 0, pretend = 0, frame = 0
+  69              		@ frame_needed = 1, uses_anonymous_args = 0
+  70              		@ link register save eliminated.
+  71 0000 80B4     		push	{r7}
+  72              	.LCFI2:
+  73              		.cfi_def_cfa_offset 4
+  74 0002 00AF     		add	r7, sp, #0
+  75              		.cfi_offset 7, -4
+  76              	.LCFI3:
+  77              		.cfi_def_cfa_register 7
+  86:.\Generated_Source\PSoC5/emFile_1_SPI0_PM.c ****     /* Restore the data, saved by SaveConfig() function */
+  87:.\Generated_Source\PSoC5/emFile_1_SPI0_PM.c ****     #if(CY_UDB_V0)
+  88:.\Generated_Source\PSoC5/emFile_1_SPI0_PM.c ****         emFile_1_SPI0_COUNTER_PERIOD_REG = emFile_1_SPI0_backup.cntrPeriod;
+  89:.\Generated_Source\PSoC5/emFile_1_SPI0_PM.c ****         emFile_1_SPI0_TX_STATUS_MASK_REG = ((uint8) emFile_1_SPI0_backup.saveSrTxIntMask);
+  90:.\Generated_Source\PSoC5/emFile_1_SPI0_PM.c ****         emFile_1_SPI0_RX_STATUS_MASK_REG = ((uint8) emFile_1_SPI0_backup.saveSrRxIntMask);
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccygO78K.s 			page 4
+
+
+  91:.\Generated_Source\PSoC5/emFile_1_SPI0_PM.c ****     #endif /* (CY_UDB_V0) */
+  92:.\Generated_Source\PSoC5/emFile_1_SPI0_PM.c **** }
+  78              		.loc 1 92 0
+  79 0004 BD46     		mov	sp, r7
+  80 0006 80BC     		pop	{r7}
+  81 0008 7047     		bx	lr
+  82              		.cfi_endproc
+  83              	.LFE1:
+  84              		.size	emFile_1_SPI0_RestoreConfig, .-emFile_1_SPI0_RestoreConfig
+  85 000a 00BF     		.section	.text.emFile_1_SPI0_Sleep,"ax",%progbits
+  86              		.align	2
+  87              		.global	emFile_1_SPI0_Sleep
+  88              		.thumb
+  89              		.thumb_func
+  90              		.type	emFile_1_SPI0_Sleep, %function
+  91              	emFile_1_SPI0_Sleep:
+  92              	.LFB2:
+  93:.\Generated_Source\PSoC5/emFile_1_SPI0_PM.c **** 
+  94:.\Generated_Source\PSoC5/emFile_1_SPI0_PM.c **** 
+  95:.\Generated_Source\PSoC5/emFile_1_SPI0_PM.c **** /*******************************************************************************
+  96:.\Generated_Source\PSoC5/emFile_1_SPI0_PM.c **** * Function Name: emFile_1_SPI0_Sleep
+  97:.\Generated_Source\PSoC5/emFile_1_SPI0_PM.c **** ********************************************************************************
+  98:.\Generated_Source\PSoC5/emFile_1_SPI0_PM.c **** *
+  99:.\Generated_Source\PSoC5/emFile_1_SPI0_PM.c **** * Summary:
+ 100:.\Generated_Source\PSoC5/emFile_1_SPI0_PM.c **** *  Prepare SPIM Component goes to sleep.
+ 101:.\Generated_Source\PSoC5/emFile_1_SPI0_PM.c **** *
+ 102:.\Generated_Source\PSoC5/emFile_1_SPI0_PM.c **** * Parameters:
+ 103:.\Generated_Source\PSoC5/emFile_1_SPI0_PM.c **** *  None.
+ 104:.\Generated_Source\PSoC5/emFile_1_SPI0_PM.c **** *
+ 105:.\Generated_Source\PSoC5/emFile_1_SPI0_PM.c **** * Return:
+ 106:.\Generated_Source\PSoC5/emFile_1_SPI0_PM.c **** *  None.
+ 107:.\Generated_Source\PSoC5/emFile_1_SPI0_PM.c **** *
+ 108:.\Generated_Source\PSoC5/emFile_1_SPI0_PM.c **** * Global Variables:
+ 109:.\Generated_Source\PSoC5/emFile_1_SPI0_PM.c **** *  emFile_1_SPI0_backup - modified when non-retention registers are saved.
+ 110:.\Generated_Source\PSoC5/emFile_1_SPI0_PM.c **** *
+ 111:.\Generated_Source\PSoC5/emFile_1_SPI0_PM.c **** * Reentrant:
+ 112:.\Generated_Source\PSoC5/emFile_1_SPI0_PM.c **** *  No.
+ 113:.\Generated_Source\PSoC5/emFile_1_SPI0_PM.c **** *
+ 114:.\Generated_Source\PSoC5/emFile_1_SPI0_PM.c **** *******************************************************************************/
+ 115:.\Generated_Source\PSoC5/emFile_1_SPI0_PM.c **** void emFile_1_SPI0_Sleep(void) 
+ 116:.\Generated_Source\PSoC5/emFile_1_SPI0_PM.c **** {
+  93              		.loc 1 116 0
+  94              		.cfi_startproc
+  95              		@ args = 0, pretend = 0, frame = 0
+  96              		@ frame_needed = 1, uses_anonymous_args = 0
+  97 0000 80B5     		push	{r7, lr}
+  98              	.LCFI4:
+  99              		.cfi_def_cfa_offset 8
+ 100 0002 00AF     		add	r7, sp, #0
+ 101              		.cfi_offset 14, -4
+ 102              		.cfi_offset 7, -8
+ 103              	.LCFI5:
+ 104              		.cfi_def_cfa_register 7
+ 117:.\Generated_Source\PSoC5/emFile_1_SPI0_PM.c ****     /* Save components enable state */
+ 118:.\Generated_Source\PSoC5/emFile_1_SPI0_PM.c ****     emFile_1_SPI0_backup.enableState = ((uint8) emFile_1_SPI0_IS_ENABLED);
+ 105              		.loc 1 118 0
+ 106 0004 46F29F43 		movw	r3, #:lower16:1073767583
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccygO78K.s 			page 5
+
+
+ 107 0008 C4F20003 		movt	r3, #:upper16:1073767583
+ 108 000c 1B78     		ldrb	r3, [r3, #0]
+ 109 000e DBB2     		uxtb	r3, r3
+ 110 0010 03F01003 		and	r3, r3, #16
+ 111 0014 002B     		cmp	r3, #0
+ 112 0016 0CBF     		ite	eq
+ 113 0018 0022     		moveq	r2, #0
+ 114 001a 0122     		movne	r2, #1
+ 115 001c 40F20003 		movw	r3, #:lower16:emFile_1_SPI0_backup
+ 116 0020 C0F20003 		movt	r3, #:upper16:emFile_1_SPI0_backup
+ 117 0024 1A70     		strb	r2, [r3, #0]
+ 119:.\Generated_Source\PSoC5/emFile_1_SPI0_PM.c **** 
+ 120:.\Generated_Source\PSoC5/emFile_1_SPI0_PM.c ****     emFile_1_SPI0_Stop();
+ 118              		.loc 1 120 0
+ 119 0026 FFF7FEFF 		bl	emFile_1_SPI0_Stop
+ 121:.\Generated_Source\PSoC5/emFile_1_SPI0_PM.c ****     emFile_1_SPI0_SaveConfig();
+ 120              		.loc 1 121 0
+ 121 002a FFF7FEFF 		bl	emFile_1_SPI0_SaveConfig
+ 122:.\Generated_Source\PSoC5/emFile_1_SPI0_PM.c **** }
+ 122              		.loc 1 122 0
+ 123 002e 80BD     		pop	{r7, pc}
+ 124              		.cfi_endproc
+ 125              	.LFE2:
+ 126              		.size	emFile_1_SPI0_Sleep, .-emFile_1_SPI0_Sleep
+ 127              		.section	.text.emFile_1_SPI0_Wakeup,"ax",%progbits
+ 128              		.align	2
+ 129              		.global	emFile_1_SPI0_Wakeup
+ 130              		.thumb
+ 131              		.thumb_func
+ 132              		.type	emFile_1_SPI0_Wakeup, %function
+ 133              	emFile_1_SPI0_Wakeup:
+ 134              	.LFB3:
+ 123:.\Generated_Source\PSoC5/emFile_1_SPI0_PM.c **** 
+ 124:.\Generated_Source\PSoC5/emFile_1_SPI0_PM.c **** 
+ 125:.\Generated_Source\PSoC5/emFile_1_SPI0_PM.c **** /*******************************************************************************
+ 126:.\Generated_Source\PSoC5/emFile_1_SPI0_PM.c **** * Function Name: emFile_1_SPI0_Wakeup
+ 127:.\Generated_Source\PSoC5/emFile_1_SPI0_PM.c **** ********************************************************************************
+ 128:.\Generated_Source\PSoC5/emFile_1_SPI0_PM.c **** *
+ 129:.\Generated_Source\PSoC5/emFile_1_SPI0_PM.c **** * Summary:
+ 130:.\Generated_Source\PSoC5/emFile_1_SPI0_PM.c **** *  Prepare SPIM Component to wake up.
+ 131:.\Generated_Source\PSoC5/emFile_1_SPI0_PM.c **** *
+ 132:.\Generated_Source\PSoC5/emFile_1_SPI0_PM.c **** * Parameters:
+ 133:.\Generated_Source\PSoC5/emFile_1_SPI0_PM.c **** *  None.
+ 134:.\Generated_Source\PSoC5/emFile_1_SPI0_PM.c **** *
+ 135:.\Generated_Source\PSoC5/emFile_1_SPI0_PM.c **** * Return:
+ 136:.\Generated_Source\PSoC5/emFile_1_SPI0_PM.c **** *  None.
+ 137:.\Generated_Source\PSoC5/emFile_1_SPI0_PM.c **** *
+ 138:.\Generated_Source\PSoC5/emFile_1_SPI0_PM.c **** * Global Variables:
+ 139:.\Generated_Source\PSoC5/emFile_1_SPI0_PM.c **** *  emFile_1_SPI0_backup - used when non-retention registers are restored.
+ 140:.\Generated_Source\PSoC5/emFile_1_SPI0_PM.c **** *  emFile_1_SPI0_txBufferWrite - modified every function call - resets to
+ 141:.\Generated_Source\PSoC5/emFile_1_SPI0_PM.c **** *  zero.
+ 142:.\Generated_Source\PSoC5/emFile_1_SPI0_PM.c **** *  emFile_1_SPI0_txBufferRead - modified every function call - resets to
+ 143:.\Generated_Source\PSoC5/emFile_1_SPI0_PM.c **** *  zero.
+ 144:.\Generated_Source\PSoC5/emFile_1_SPI0_PM.c **** *  emFile_1_SPI0_rxBufferWrite - modified every function call - resets to
+ 145:.\Generated_Source\PSoC5/emFile_1_SPI0_PM.c **** *  zero.
+ 146:.\Generated_Source\PSoC5/emFile_1_SPI0_PM.c **** *  emFile_1_SPI0_rxBufferRead - modified every function call - resets to
+ 147:.\Generated_Source\PSoC5/emFile_1_SPI0_PM.c **** *  zero.
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccygO78K.s 			page 6
+
+
+ 148:.\Generated_Source\PSoC5/emFile_1_SPI0_PM.c **** *
+ 149:.\Generated_Source\PSoC5/emFile_1_SPI0_PM.c **** * Reentrant:
+ 150:.\Generated_Source\PSoC5/emFile_1_SPI0_PM.c **** *  No.
+ 151:.\Generated_Source\PSoC5/emFile_1_SPI0_PM.c **** *
+ 152:.\Generated_Source\PSoC5/emFile_1_SPI0_PM.c **** *******************************************************************************/
+ 153:.\Generated_Source\PSoC5/emFile_1_SPI0_PM.c **** void emFile_1_SPI0_Wakeup(void) 
+ 154:.\Generated_Source\PSoC5/emFile_1_SPI0_PM.c **** {
+ 135              		.loc 1 154 0
+ 136              		.cfi_startproc
+ 137              		@ args = 0, pretend = 0, frame = 0
+ 138              		@ frame_needed = 1, uses_anonymous_args = 0
+ 139 0000 80B5     		push	{r7, lr}
+ 140              	.LCFI6:
+ 141              		.cfi_def_cfa_offset 8
+ 142 0002 00AF     		add	r7, sp, #0
+ 143              		.cfi_offset 14, -4
+ 144              		.cfi_offset 7, -8
+ 145              	.LCFI7:
+ 146              		.cfi_def_cfa_register 7
+ 155:.\Generated_Source\PSoC5/emFile_1_SPI0_PM.c ****     emFile_1_SPI0_RestoreConfig();
+ 147              		.loc 1 155 0
+ 148 0004 FFF7FEFF 		bl	emFile_1_SPI0_RestoreConfig
+ 156:.\Generated_Source\PSoC5/emFile_1_SPI0_PM.c **** 
+ 157:.\Generated_Source\PSoC5/emFile_1_SPI0_PM.c ****     #if(emFile_1_SPI0_RX_SOFTWARE_BUF_ENABLED)
+ 158:.\Generated_Source\PSoC5/emFile_1_SPI0_PM.c ****         emFile_1_SPI0_rxBufferFull  = 0u;
+ 159:.\Generated_Source\PSoC5/emFile_1_SPI0_PM.c ****         emFile_1_SPI0_rxBufferRead  = 0u;
+ 160:.\Generated_Source\PSoC5/emFile_1_SPI0_PM.c ****         emFile_1_SPI0_rxBufferWrite = 0u;
+ 161:.\Generated_Source\PSoC5/emFile_1_SPI0_PM.c ****     #endif /* (emFile_1_SPI0_RX_SOFTWARE_BUF_ENABLED) */
+ 162:.\Generated_Source\PSoC5/emFile_1_SPI0_PM.c **** 
+ 163:.\Generated_Source\PSoC5/emFile_1_SPI0_PM.c ****     #if(emFile_1_SPI0_TX_SOFTWARE_BUF_ENABLED)
+ 164:.\Generated_Source\PSoC5/emFile_1_SPI0_PM.c ****         emFile_1_SPI0_txBufferFull  = 0u;
+ 165:.\Generated_Source\PSoC5/emFile_1_SPI0_PM.c ****         emFile_1_SPI0_txBufferRead  = 0u;
+ 166:.\Generated_Source\PSoC5/emFile_1_SPI0_PM.c ****         emFile_1_SPI0_txBufferWrite = 0u;
+ 167:.\Generated_Source\PSoC5/emFile_1_SPI0_PM.c ****     #endif /* (emFile_1_SPI0_TX_SOFTWARE_BUF_ENABLED) */
+ 168:.\Generated_Source\PSoC5/emFile_1_SPI0_PM.c **** 
+ 169:.\Generated_Source\PSoC5/emFile_1_SPI0_PM.c ****     /* Clear any data from the RX and TX FIFO */
+ 170:.\Generated_Source\PSoC5/emFile_1_SPI0_PM.c ****     emFile_1_SPI0_ClearFIFO();
+ 149              		.loc 1 170 0
+ 150 0008 FFF7FEFF 		bl	emFile_1_SPI0_ClearFIFO
+ 171:.\Generated_Source\PSoC5/emFile_1_SPI0_PM.c **** 
+ 172:.\Generated_Source\PSoC5/emFile_1_SPI0_PM.c ****     /* Restore components block enable state */
+ 173:.\Generated_Source\PSoC5/emFile_1_SPI0_PM.c ****     if(0u != emFile_1_SPI0_backup.enableState)
+ 151              		.loc 1 173 0
+ 152 000c 40F20003 		movw	r3, #:lower16:emFile_1_SPI0_backup
+ 153 0010 C0F20003 		movt	r3, #:upper16:emFile_1_SPI0_backup
+ 154 0014 1B78     		ldrb	r3, [r3, #0]	@ zero_extendqisi2
+ 155 0016 002B     		cmp	r3, #0
+ 156 0018 01D0     		beq	.L9
+ 174:.\Generated_Source\PSoC5/emFile_1_SPI0_PM.c ****     {
+ 175:.\Generated_Source\PSoC5/emFile_1_SPI0_PM.c ****         emFile_1_SPI0_Enable();
+ 157              		.loc 1 175 0
+ 158 001a FFF7FEFF 		bl	emFile_1_SPI0_Enable
+ 159              	.L9:
+ 176:.\Generated_Source\PSoC5/emFile_1_SPI0_PM.c ****     }
+ 177:.\Generated_Source\PSoC5/emFile_1_SPI0_PM.c **** }
+ 160              		.loc 1 177 0
+ 161 001e 80BD     		pop	{r7, pc}
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccygO78K.s 			page 7
+
+
+ 162              		.cfi_endproc
+ 163              	.LFE3:
+ 164              		.size	emFile_1_SPI0_Wakeup, .-emFile_1_SPI0_Wakeup
+ 165              		.text
+ 166              	.Letext0:
+ 167              		.section	.debug_loc,"",%progbits
+ 168              	.Ldebug_loc0:
+ 169              	.LLST0:
+ 170 0000 00000000 		.4byte	.LFB0
+ 171 0004 02000000 		.4byte	.LCFI0
+ 172 0008 0100     		.2byte	0x1
+ 173 000a 5D       		.byte	0x5d
+ 174 000b 02000000 		.4byte	.LCFI0
+ 175 000f 04000000 		.4byte	.LCFI1
+ 176 0013 0200     		.2byte	0x2
+ 177 0015 7D       		.byte	0x7d
+ 178 0016 04       		.sleb128 4
+ 179 0017 04000000 		.4byte	.LCFI1
+ 180 001b 0A000000 		.4byte	.LFE0
+ 181 001f 0200     		.2byte	0x2
+ 182 0021 77       		.byte	0x77
+ 183 0022 04       		.sleb128 4
+ 184 0023 00000000 		.4byte	0x0
+ 185 0027 00000000 		.4byte	0x0
+ 186              	.LLST1:
+ 187 002b 00000000 		.4byte	.LFB1
+ 188 002f 02000000 		.4byte	.LCFI2
+ 189 0033 0100     		.2byte	0x1
+ 190 0035 5D       		.byte	0x5d
+ 191 0036 02000000 		.4byte	.LCFI2
+ 192 003a 04000000 		.4byte	.LCFI3
+ 193 003e 0200     		.2byte	0x2
+ 194 0040 7D       		.byte	0x7d
+ 195 0041 04       		.sleb128 4
+ 196 0042 04000000 		.4byte	.LCFI3
+ 197 0046 0A000000 		.4byte	.LFE1
+ 198 004a 0200     		.2byte	0x2
+ 199 004c 77       		.byte	0x77
+ 200 004d 04       		.sleb128 4
+ 201 004e 00000000 		.4byte	0x0
+ 202 0052 00000000 		.4byte	0x0
+ 203              	.LLST2:
+ 204 0056 00000000 		.4byte	.LFB2
+ 205 005a 02000000 		.4byte	.LCFI4
+ 206 005e 0100     		.2byte	0x1
+ 207 0060 5D       		.byte	0x5d
+ 208 0061 02000000 		.4byte	.LCFI4
+ 209 0065 04000000 		.4byte	.LCFI5
+ 210 0069 0200     		.2byte	0x2
+ 211 006b 7D       		.byte	0x7d
+ 212 006c 08       		.sleb128 8
+ 213 006d 04000000 		.4byte	.LCFI5
+ 214 0071 30000000 		.4byte	.LFE2
+ 215 0075 0200     		.2byte	0x2
+ 216 0077 77       		.byte	0x77
+ 217 0078 08       		.sleb128 8
+ 218 0079 00000000 		.4byte	0x0
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccygO78K.s 			page 8
+
+
+ 219 007d 00000000 		.4byte	0x0
+ 220              	.LLST3:
+ 221 0081 00000000 		.4byte	.LFB3
+ 222 0085 02000000 		.4byte	.LCFI6
+ 223 0089 0100     		.2byte	0x1
+ 224 008b 5D       		.byte	0x5d
+ 225 008c 02000000 		.4byte	.LCFI6
+ 226 0090 04000000 		.4byte	.LCFI7
+ 227 0094 0200     		.2byte	0x2
+ 228 0096 7D       		.byte	0x7d
+ 229 0097 08       		.sleb128 8
+ 230 0098 04000000 		.4byte	.LCFI7
+ 231 009c 20000000 		.4byte	.LFE3
+ 232 00a0 0200     		.2byte	0x2
+ 233 00a2 77       		.byte	0x77
+ 234 00a3 08       		.sleb128 8
+ 235 00a4 00000000 		.4byte	0x0
+ 236 00a8 00000000 		.4byte	0x0
+ 237              		.file 2 ".\\Generated_Source\\PSoC5\\/emFile_1_SPI0.h"
+ 238              		.file 3 ".\\Generated_Source\\PSoC5\\/cytypes.h"
+ 239              		.section	.debug_info
+ 240 0000 24010000 		.4byte	0x124
+ 241 0004 0200     		.2byte	0x2
+ 242 0006 00000000 		.4byte	.Ldebug_abbrev0
+ 243 000a 04       		.byte	0x4
+ 244 000b 01       		.uleb128 0x1
+ 245 000c DD000000 		.4byte	.LASF20
+ 246 0010 01       		.byte	0x1
+ 247 0011 FC000000 		.4byte	.LASF21
+ 248 0015 36000000 		.4byte	.LASF22
+ 249 0019 00000000 		.4byte	0x0
+ 250 001d 00000000 		.4byte	0x0
+ 251 0021 00000000 		.4byte	.Ldebug_ranges0+0x0
+ 252 0025 00000000 		.4byte	.Ldebug_line0
+ 253 0029 02       		.uleb128 0x2
+ 254 002a 01       		.byte	0x1
+ 255 002b 06       		.byte	0x6
+ 256 002c 64010000 		.4byte	.LASF0
+ 257 0030 02       		.uleb128 0x2
+ 258 0031 01       		.byte	0x1
+ 259 0032 08       		.byte	0x8
+ 260 0033 E9000000 		.4byte	.LASF1
+ 261 0037 02       		.uleb128 0x2
+ 262 0038 02       		.byte	0x2
+ 263 0039 05       		.byte	0x5
+ 264 003a 8B010000 		.4byte	.LASF2
+ 265 003e 02       		.uleb128 0x2
+ 266 003f 02       		.byte	0x2
+ 267 0040 07       		.byte	0x7
+ 268 0041 51010000 		.4byte	.LASF3
+ 269 0045 02       		.uleb128 0x2
+ 270 0046 04       		.byte	0x4
+ 271 0047 05       		.byte	0x5
+ 272 0048 28010000 		.4byte	.LASF4
+ 273 004c 02       		.uleb128 0x2
+ 274 004d 04       		.byte	0x4
+ 275 004e 07       		.byte	0x7
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccygO78K.s 			page 9
+
+
+ 276 004f 9F000000 		.4byte	.LASF5
+ 277 0053 02       		.uleb128 0x2
+ 278 0054 08       		.byte	0x8
+ 279 0055 05       		.byte	0x5
+ 280 0056 00000000 		.4byte	.LASF6
+ 281 005a 02       		.uleb128 0x2
+ 282 005b 08       		.byte	0x8
+ 283 005c 07       		.byte	0x7
+ 284 005d B1000000 		.4byte	.LASF7
+ 285 0061 03       		.uleb128 0x3
+ 286 0062 04       		.byte	0x4
+ 287 0063 05       		.byte	0x5
+ 288 0064 696E7400 		.ascii	"int\000"
+ 289 0068 02       		.uleb128 0x2
+ 290 0069 04       		.byte	0x4
+ 291 006a 07       		.byte	0x7
+ 292 006b 95010000 		.4byte	.LASF8
+ 293 006f 04       		.uleb128 0x4
+ 294 0070 99000000 		.4byte	.LASF14
+ 295 0074 03       		.byte	0x3
+ 296 0075 4C       		.byte	0x4c
+ 297 0076 30000000 		.4byte	0x30
+ 298 007a 02       		.uleb128 0x2
+ 299 007b 04       		.byte	0x4
+ 300 007c 04       		.byte	0x4
+ 301 007d 85010000 		.4byte	.LASF9
+ 302 0081 02       		.uleb128 0x2
+ 303 0082 08       		.byte	0x8
+ 304 0083 04       		.byte	0x4
+ 305 0084 31010000 		.4byte	.LASF10
+ 306 0088 02       		.uleb128 0x2
+ 307 0089 01       		.byte	0x1
+ 308 008a 08       		.byte	0x8
+ 309 008b F7000000 		.4byte	.LASF11
+ 310 008f 05       		.uleb128 0x5
+ 311 0090 04       		.byte	0x4
+ 312 0091 07       		.byte	0x7
+ 313 0092 06       		.uleb128 0x6
+ 314 0093 02       		.byte	0x2
+ 315 0094 02       		.byte	0x2
+ 316 0095 47       		.byte	0x47
+ 317 0096 B7000000 		.4byte	0xb7
+ 318 009a 07       		.uleb128 0x7
+ 319 009b 0E000000 		.4byte	.LASF12
+ 320 009f 02       		.byte	0x2
+ 321 00a0 48       		.byte	0x48
+ 322 00a1 6F000000 		.4byte	0x6f
+ 323 00a5 02       		.byte	0x2
+ 324 00a6 23       		.byte	0x23
+ 325 00a7 00       		.uleb128 0x0
+ 326 00a8 07       		.uleb128 0x7
+ 327 00a9 BE010000 		.4byte	.LASF13
+ 328 00ad 02       		.byte	0x2
+ 329 00ae 49       		.byte	0x49
+ 330 00af 6F000000 		.4byte	0x6f
+ 331 00b3 02       		.byte	0x2
+ 332 00b4 23       		.byte	0x23
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccygO78K.s 			page 10
+
+
+ 333 00b5 01       		.uleb128 0x1
+ 334 00b6 00       		.byte	0x0
+ 335 00b7 04       		.uleb128 0x4
+ 336 00b8 1A000000 		.4byte	.LASF15
+ 337 00bc 02       		.byte	0x2
+ 338 00bd 4F       		.byte	0x4f
+ 339 00be 92000000 		.4byte	0x92
+ 340 00c2 08       		.uleb128 0x8
+ 341 00c3 01       		.byte	0x1
+ 342 00c4 38010000 		.4byte	.LASF16
+ 343 00c8 01       		.byte	0x1
+ 344 00c9 33       		.byte	0x33
+ 345 00ca 01       		.byte	0x1
+ 346 00cb 00000000 		.4byte	.LFB0
+ 347 00cf 0A000000 		.4byte	.LFE0
+ 348 00d3 00000000 		.4byte	.LLST0
+ 349 00d7 08       		.uleb128 0x8
+ 350 00d8 01       		.byte	0x1
+ 351 00d9 A2010000 		.4byte	.LASF17
+ 352 00dd 01       		.byte	0x1
+ 353 00de 54       		.byte	0x54
+ 354 00df 01       		.byte	0x1
+ 355 00e0 00000000 		.4byte	.LFB1
+ 356 00e4 0A000000 		.4byte	.LFE1
+ 357 00e8 2B000000 		.4byte	.LLST1
+ 358 00ec 08       		.uleb128 0x8
+ 359 00ed 01       		.byte	0x1
+ 360 00ee 85000000 		.4byte	.LASF18
+ 361 00f2 01       		.byte	0x1
+ 362 00f3 73       		.byte	0x73
+ 363 00f4 01       		.byte	0x1
+ 364 00f5 00000000 		.4byte	.LFB2
+ 365 00f9 30000000 		.4byte	.LFE2
+ 366 00fd 56000000 		.4byte	.LLST2
+ 367 0101 08       		.uleb128 0x8
+ 368 0102 01       		.byte	0x1
+ 369 0103 70010000 		.4byte	.LASF19
+ 370 0107 01       		.byte	0x1
+ 371 0108 99       		.byte	0x99
+ 372 0109 01       		.byte	0x1
+ 373 010a 00000000 		.4byte	.LFB3
+ 374 010e 20000000 		.4byte	.LFE3
+ 375 0112 81000000 		.4byte	.LLST3
+ 376 0116 09       		.uleb128 0x9
+ 377 0117 C8000000 		.4byte	.LASF23
+ 378 011b 01       		.byte	0x1
+ 379 011c 14       		.byte	0x14
+ 380 011d B7000000 		.4byte	0xb7
+ 381 0121 05       		.byte	0x5
+ 382 0122 03       		.byte	0x3
+ 383 0123 00000000 		.4byte	emFile_1_SPI0_backup
+ 384 0127 00       		.byte	0x0
+ 385              		.section	.debug_abbrev
+ 386 0000 01       		.uleb128 0x1
+ 387 0001 11       		.uleb128 0x11
+ 388 0002 01       		.byte	0x1
+ 389 0003 25       		.uleb128 0x25
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccygO78K.s 			page 11
+
+
+ 390 0004 0E       		.uleb128 0xe
+ 391 0005 13       		.uleb128 0x13
+ 392 0006 0B       		.uleb128 0xb
+ 393 0007 03       		.uleb128 0x3
+ 394 0008 0E       		.uleb128 0xe
+ 395 0009 1B       		.uleb128 0x1b
+ 396 000a 0E       		.uleb128 0xe
+ 397 000b 11       		.uleb128 0x11
+ 398 000c 01       		.uleb128 0x1
+ 399 000d 52       		.uleb128 0x52
+ 400 000e 01       		.uleb128 0x1
+ 401 000f 55       		.uleb128 0x55
+ 402 0010 06       		.uleb128 0x6
+ 403 0011 10       		.uleb128 0x10
+ 404 0012 06       		.uleb128 0x6
+ 405 0013 00       		.byte	0x0
+ 406 0014 00       		.byte	0x0
+ 407 0015 02       		.uleb128 0x2
+ 408 0016 24       		.uleb128 0x24
+ 409 0017 00       		.byte	0x0
+ 410 0018 0B       		.uleb128 0xb
+ 411 0019 0B       		.uleb128 0xb
+ 412 001a 3E       		.uleb128 0x3e
+ 413 001b 0B       		.uleb128 0xb
+ 414 001c 03       		.uleb128 0x3
+ 415 001d 0E       		.uleb128 0xe
+ 416 001e 00       		.byte	0x0
+ 417 001f 00       		.byte	0x0
+ 418 0020 03       		.uleb128 0x3
+ 419 0021 24       		.uleb128 0x24
+ 420 0022 00       		.byte	0x0
+ 421 0023 0B       		.uleb128 0xb
+ 422 0024 0B       		.uleb128 0xb
+ 423 0025 3E       		.uleb128 0x3e
+ 424 0026 0B       		.uleb128 0xb
+ 425 0027 03       		.uleb128 0x3
+ 426 0028 08       		.uleb128 0x8
+ 427 0029 00       		.byte	0x0
+ 428 002a 00       		.byte	0x0
+ 429 002b 04       		.uleb128 0x4
+ 430 002c 16       		.uleb128 0x16
+ 431 002d 00       		.byte	0x0
+ 432 002e 03       		.uleb128 0x3
+ 433 002f 0E       		.uleb128 0xe
+ 434 0030 3A       		.uleb128 0x3a
+ 435 0031 0B       		.uleb128 0xb
+ 436 0032 3B       		.uleb128 0x3b
+ 437 0033 0B       		.uleb128 0xb
+ 438 0034 49       		.uleb128 0x49
+ 439 0035 13       		.uleb128 0x13
+ 440 0036 00       		.byte	0x0
+ 441 0037 00       		.byte	0x0
+ 442 0038 05       		.uleb128 0x5
+ 443 0039 24       		.uleb128 0x24
+ 444 003a 00       		.byte	0x0
+ 445 003b 0B       		.uleb128 0xb
+ 446 003c 0B       		.uleb128 0xb
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccygO78K.s 			page 12
+
+
+ 447 003d 3E       		.uleb128 0x3e
+ 448 003e 0B       		.uleb128 0xb
+ 449 003f 00       		.byte	0x0
+ 450 0040 00       		.byte	0x0
+ 451 0041 06       		.uleb128 0x6
+ 452 0042 13       		.uleb128 0x13
+ 453 0043 01       		.byte	0x1
+ 454 0044 0B       		.uleb128 0xb
+ 455 0045 0B       		.uleb128 0xb
+ 456 0046 3A       		.uleb128 0x3a
+ 457 0047 0B       		.uleb128 0xb
+ 458 0048 3B       		.uleb128 0x3b
+ 459 0049 0B       		.uleb128 0xb
+ 460 004a 01       		.uleb128 0x1
+ 461 004b 13       		.uleb128 0x13
+ 462 004c 00       		.byte	0x0
+ 463 004d 00       		.byte	0x0
+ 464 004e 07       		.uleb128 0x7
+ 465 004f 0D       		.uleb128 0xd
+ 466 0050 00       		.byte	0x0
+ 467 0051 03       		.uleb128 0x3
+ 468 0052 0E       		.uleb128 0xe
+ 469 0053 3A       		.uleb128 0x3a
+ 470 0054 0B       		.uleb128 0xb
+ 471 0055 3B       		.uleb128 0x3b
+ 472 0056 0B       		.uleb128 0xb
+ 473 0057 49       		.uleb128 0x49
+ 474 0058 13       		.uleb128 0x13
+ 475 0059 38       		.uleb128 0x38
+ 476 005a 0A       		.uleb128 0xa
+ 477 005b 00       		.byte	0x0
+ 478 005c 00       		.byte	0x0
+ 479 005d 08       		.uleb128 0x8
+ 480 005e 2E       		.uleb128 0x2e
+ 481 005f 00       		.byte	0x0
+ 482 0060 3F       		.uleb128 0x3f
+ 483 0061 0C       		.uleb128 0xc
+ 484 0062 03       		.uleb128 0x3
+ 485 0063 0E       		.uleb128 0xe
+ 486 0064 3A       		.uleb128 0x3a
+ 487 0065 0B       		.uleb128 0xb
+ 488 0066 3B       		.uleb128 0x3b
+ 489 0067 0B       		.uleb128 0xb
+ 490 0068 27       		.uleb128 0x27
+ 491 0069 0C       		.uleb128 0xc
+ 492 006a 11       		.uleb128 0x11
+ 493 006b 01       		.uleb128 0x1
+ 494 006c 12       		.uleb128 0x12
+ 495 006d 01       		.uleb128 0x1
+ 496 006e 40       		.uleb128 0x40
+ 497 006f 06       		.uleb128 0x6
+ 498 0070 00       		.byte	0x0
+ 499 0071 00       		.byte	0x0
+ 500 0072 09       		.uleb128 0x9
+ 501 0073 34       		.uleb128 0x34
+ 502 0074 00       		.byte	0x0
+ 503 0075 03       		.uleb128 0x3
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccygO78K.s 			page 13
+
+
+ 504 0076 0E       		.uleb128 0xe
+ 505 0077 3A       		.uleb128 0x3a
+ 506 0078 0B       		.uleb128 0xb
+ 507 0079 3B       		.uleb128 0x3b
+ 508 007a 0B       		.uleb128 0xb
+ 509 007b 49       		.uleb128 0x49
+ 510 007c 13       		.uleb128 0x13
+ 511 007d 02       		.uleb128 0x2
+ 512 007e 0A       		.uleb128 0xa
+ 513 007f 00       		.byte	0x0
+ 514 0080 00       		.byte	0x0
+ 515 0081 00       		.byte	0x0
+ 516              		.section	.debug_pubnames,"",%progbits
+ 517 0000 7C000000 		.4byte	0x7c
+ 518 0004 0200     		.2byte	0x2
+ 519 0006 00000000 		.4byte	.Ldebug_info0
+ 520 000a 28010000 		.4byte	0x128
+ 521 000e C2000000 		.4byte	0xc2
+ 522 0012 656D4669 		.ascii	"emFile_1_SPI0_SaveConfig\000"
+ 522      6C655F31 
+ 522      5F535049 
+ 522      305F5361 
+ 522      7665436F 
+ 523 002b D7000000 		.4byte	0xd7
+ 524 002f 656D4669 		.ascii	"emFile_1_SPI0_RestoreConfig\000"
+ 524      6C655F31 
+ 524      5F535049 
+ 524      305F5265 
+ 524      73746F72 
+ 525 004b EC000000 		.4byte	0xec
+ 526 004f 656D4669 		.ascii	"emFile_1_SPI0_Sleep\000"
+ 526      6C655F31 
+ 526      5F535049 
+ 526      305F536C 
+ 526      65657000 
+ 527 0063 01010000 		.4byte	0x101
+ 528 0067 656D4669 		.ascii	"emFile_1_SPI0_Wakeup\000"
+ 528      6C655F31 
+ 528      5F535049 
+ 528      305F5761 
+ 528      6B657570 
+ 529 007c 00000000 		.4byte	0x0
+ 530              		.section	.debug_aranges,"",%progbits
+ 531 0000 34000000 		.4byte	0x34
+ 532 0004 0200     		.2byte	0x2
+ 533 0006 00000000 		.4byte	.Ldebug_info0
+ 534 000a 04       		.byte	0x4
+ 535 000b 00       		.byte	0x0
+ 536 000c 0000     		.2byte	0x0
+ 537 000e 0000     		.2byte	0x0
+ 538 0010 00000000 		.4byte	.LFB0
+ 539 0014 0A000000 		.4byte	.LFE0-.LFB0
+ 540 0018 00000000 		.4byte	.LFB1
+ 541 001c 0A000000 		.4byte	.LFE1-.LFB1
+ 542 0020 00000000 		.4byte	.LFB2
+ 543 0024 30000000 		.4byte	.LFE2-.LFB2
+ 544 0028 00000000 		.4byte	.LFB3
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccygO78K.s 			page 14
+
+
+ 545 002c 20000000 		.4byte	.LFE3-.LFB3
+ 546 0030 00000000 		.4byte	0x0
+ 547 0034 00000000 		.4byte	0x0
+ 548              		.section	.debug_ranges,"",%progbits
+ 549              	.Ldebug_ranges0:
+ 550 0000 00000000 		.4byte	.Ltext0
+ 551 0004 00000000 		.4byte	.Letext0
+ 552 0008 00000000 		.4byte	.LFB0
+ 553 000c 0A000000 		.4byte	.LFE0
+ 554 0010 00000000 		.4byte	.LFB1
+ 555 0014 0A000000 		.4byte	.LFE1
+ 556 0018 00000000 		.4byte	.LFB2
+ 557 001c 30000000 		.4byte	.LFE2
+ 558 0020 00000000 		.4byte	.LFB3
+ 559 0024 20000000 		.4byte	.LFE3
+ 560 0028 00000000 		.4byte	0x0
+ 561 002c 00000000 		.4byte	0x0
+ 562              		.section	.debug_str,"MS",%progbits,1
+ 563              	.LASF6:
+ 564 0000 6C6F6E67 		.ascii	"long long int\000"
+ 564      206C6F6E 
+ 564      6720696E 
+ 564      7400
+ 565              	.LASF12:
+ 566 000e 656E6162 		.ascii	"enableState\000"
+ 566      6C655374 
+ 566      61746500 
+ 567              	.LASF15:
+ 568 001a 656D4669 		.ascii	"emFile_1_SPI0_BACKUP_STRUCT\000"
+ 568      6C655F31 
+ 568      5F535049 
+ 568      305F4241 
+ 568      434B5550 
+ 569              	.LASF22:
+ 570 0036 433A5C55 		.ascii	"C:\\Users\\karunmj\\Documents\\GitHub\\m2m\\hardwar"
+ 570      73657273 
+ 570      5C6B6172 
+ 570      756E6D6A 
+ 570      5C446F63 
+ 571 0063 655C7073 		.ascii	"e\\psoc5\\PSoC_Datalogger_SMS.cydsn\000"
+ 571      6F63355C 
+ 571      50536F43 
+ 571      5F446174 
+ 571      616C6F67 
+ 572              	.LASF18:
+ 573 0085 656D4669 		.ascii	"emFile_1_SPI0_Sleep\000"
+ 573      6C655F31 
+ 573      5F535049 
+ 573      305F536C 
+ 573      65657000 
+ 574              	.LASF14:
+ 575 0099 75696E74 		.ascii	"uint8\000"
+ 575      3800
+ 576              	.LASF5:
+ 577 009f 6C6F6E67 		.ascii	"long unsigned int\000"
+ 577      20756E73 
+ 577      69676E65 
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccygO78K.s 			page 15
+
+
+ 577      6420696E 
+ 577      7400
+ 578              	.LASF7:
+ 579 00b1 6C6F6E67 		.ascii	"long long unsigned int\000"
+ 579      206C6F6E 
+ 579      6720756E 
+ 579      7369676E 
+ 579      65642069 
+ 580              	.LASF23:
+ 581 00c8 656D4669 		.ascii	"emFile_1_SPI0_backup\000"
+ 581      6C655F31 
+ 581      5F535049 
+ 581      305F6261 
+ 581      636B7570 
+ 582              	.LASF20:
+ 583 00dd 474E5520 		.ascii	"GNU C 4.4.1\000"
+ 583      4320342E 
+ 583      342E3100 
+ 584              	.LASF1:
+ 585 00e9 756E7369 		.ascii	"unsigned char\000"
+ 585      676E6564 
+ 585      20636861 
+ 585      7200
+ 586              	.LASF11:
+ 587 00f7 63686172 		.ascii	"char\000"
+ 587      00
+ 588              	.LASF21:
+ 589 00fc 2E5C4765 		.ascii	".\\Generated_Source\\PSoC5\\emFile_1_SPI0_PM.c\000"
+ 589      6E657261 
+ 589      7465645F 
+ 589      536F7572 
+ 589      63655C50 
+ 590              	.LASF4:
+ 591 0128 6C6F6E67 		.ascii	"long int\000"
+ 591      20696E74 
+ 591      00
+ 592              	.LASF10:
+ 593 0131 646F7562 		.ascii	"double\000"
+ 593      6C6500
+ 594              	.LASF16:
+ 595 0138 656D4669 		.ascii	"emFile_1_SPI0_SaveConfig\000"
+ 595      6C655F31 
+ 595      5F535049 
+ 595      305F5361 
+ 595      7665436F 
+ 596              	.LASF3:
+ 597 0151 73686F72 		.ascii	"short unsigned int\000"
+ 597      7420756E 
+ 597      7369676E 
+ 597      65642069 
+ 597      6E7400
+ 598              	.LASF0:
+ 599 0164 7369676E 		.ascii	"signed char\000"
+ 599      65642063 
+ 599      68617200 
+ 600              	.LASF19:
+ 601 0170 656D4669 		.ascii	"emFile_1_SPI0_Wakeup\000"
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccygO78K.s 			page 16
+
+
+ 601      6C655F31 
+ 601      5F535049 
+ 601      305F5761 
+ 601      6B657570 
+ 602              	.LASF9:
+ 603 0185 666C6F61 		.ascii	"float\000"
+ 603      7400
+ 604              	.LASF2:
+ 605 018b 73686F72 		.ascii	"short int\000"
+ 605      7420696E 
+ 605      7400
+ 606              	.LASF8:
+ 607 0195 756E7369 		.ascii	"unsigned int\000"
+ 607      676E6564 
+ 607      20696E74 
+ 607      00
+ 608              	.LASF17:
+ 609 01a2 656D4669 		.ascii	"emFile_1_SPI0_RestoreConfig\000"
+ 609      6C655F31 
+ 609      5F535049 
+ 609      305F5265 
+ 609      73746F72 
+ 610              	.LASF13:
+ 611 01be 636E7472 		.ascii	"cntrPeriod\000"
+ 611      50657269 
+ 611      6F6400
+ 612              		.ident	"GCC: (Sourcery G++ Lite 2010q1-188) 4.4.1"

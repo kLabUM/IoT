@@ -16,7 +16,7 @@
 CY_ISR_PROTO(isr_byte_ultrasonic_rx);
 
 // Declare variables
-uint8 uart_ultrasonic_received_string[MAX_STRING_LENGTH];
+char uart_ultrasonic_received_string[MAX_STRING_LENGTH];
 uint8 uart_ultrasonic_string_index = 0;
 //uint8 rx_char_hold;
 
@@ -31,32 +31,29 @@ void ultrasonic_stop(){
     uart_ultrasonic_Stop();
 }
 
-
-
 // Provide power to the ultrasonic sensor
 uint8 ultrasonic_power_on(){
     ultrasonic_voltage_pin_Write(0u);
     return 1u;
 }
+
 // Cut power to the ultrasonic sensor
 uint8 ultrasonic_power_off(){
     ultrasonic_voltage_pin_Write(1u);
     return 0u;
 }
 
-
-
 // Start ISR, Fill array, Return array, Stop ISR
 uint8 ultrasonic_get_reading(UltrasonicReading *reading) {
     
-    int i, index, R_count;
-    uint8 depth[DEPTH_STRING_LENGTH], s;
+    int i, j;
+    char depth[DEPTH_STRING_LENGTH], s[MAX_STRING_LENGTH];
 
     // Reset variables
     (*reading).valid = 0u;
     (*reading).temp = -9999;    
     (*reading).depth = -9999;
-    void uart_ultrasonic_string_reset();
+    uart_ultrasonic_string_reset();
 
     isr_byte_ultrasonic_rx_StartEx(isr_byte_ultrasonic_rx); // Start the ISR to read the UART
     ultrasonic_power_on();                                  // Power on the sensor
@@ -66,14 +63,15 @@ uint8 ultrasonic_get_reading(UltrasonicReading *reading) {
     ultrasonic_power_off();                                 // Power off the sensor
 
     // store relevant strings to ultrasonic_packet
-    index = 0; R_count = 0;
+    strcpy(s,uart_ultrasonic_received_string);
+    /*
     for(i = 0; i < strlen(uart_ultrasonic_received_string); i++){
         s = uart_ultrasonic_received_string[i];
         
-        if(R_count > 7 && s == '\r'){
+        if(R_count > 4 && s == '\r'){
             (*reading).valid = 1u;
             break; 
-        }else if(R_count > 7){
+        }else if(R_count > 4){
             depth[index] = s;
             index++;
         }
@@ -81,19 +79,33 @@ uint8 ultrasonic_get_reading(UltrasonicReading *reading) {
             R_count++;      // increment everytime an "R" ascii character is encountered
         }
     }
+    */
+    uint8 len = strlen(s);
+    for(i = 0; i < MAX_STRING_LENGTH-1-DEPTH_STRING_LENGTH; i++){
+        if( s[i] == 'R' && s[i+1+DEPTH_STRING_LENGTH] == '\r' ) {
+            for(j = 0; j < DEPTH_STRING_LENGTH; j++) {
+                depth[j] = s[i+j+1];
+            }
+            (*reading).valid = 1u;
+            break;
+        }
+    }
     
     if ((*reading).valid) {
         (*reading).depth = (float)atof(depth);
-        if ((*reading).depth > 9999) { // Recorded depth greater than 4 digit spec... (eg 13582 vs 1358)
+/*        
+        //(*reading).depth = (float) ultrasonic_depth;
+        if ((*reading).depth > 9999) { // Recorded depth greater than 4 digits... (eg 13582 vs 1358)
             (*reading).depth = (float) (int)( (*reading).depth  / 10) ;
             
             debug_write("Ultrasonic Warning.  depth > 5 digits.  Truncated depth reported.");
             debug_write(uart_ultrasonic_received_string);           
         }
     }    
-    else if(R_count <= 7){
-        debug_write("Ultrasonic No Reading Found.  R_count <= 7.");
+    else if(R_count <= 4){
+        debug_write("Ultrasonic No Reading Found.  R_count <= 4.");
         debug_write(uart_ultrasonic_received_string);
+*/        
     }
     else {
         debug_write("Ultrasonic Invalid Reading.");

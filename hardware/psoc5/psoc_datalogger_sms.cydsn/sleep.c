@@ -21,6 +21,7 @@ void Components_Sleep(){
     uart_ultrasonic_Sleep();
     uart_solinst_Sleep();
     emFile_1_Sleep();
+    ADC_SAR_1_Sleep();
      NeoRTC_Sleep();
 }
 
@@ -29,6 +30,7 @@ void Components_Wakeup(){
     uart_ultrasonic_Wakeup();
     uart_solinst_Wakeup();
     emFile_1_Wakeup();
+    ADC_SAR_1_Wakeup();
     NeoRTC_Wakeup();
 }
 

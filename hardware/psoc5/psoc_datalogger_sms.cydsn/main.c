@@ -9,15 +9,21 @@
 #include "modem.h"
 #include "ultrasonic.h"
 #include "solinst_depth.h"
+#include "BatteryVoltage.h"
 
 // define global variables
 #define MAX_SEND_ATTEMPTS 2
-#define MAX_PACKET_SIZE 128
+#define MAX_PACKET_SIZE 700
 #define WRITE_DEBUG 1
+#define FEED_ID 966630999
+const char *API_KEY = "7inkCfgjLCcSq6t2E3RC7OnmZykBUXEU8Yv7K56c7JYUOxdn";
 uint8   data_packet[MAX_PACKET_SIZE], debug_packet[MAX_PACKET_SIZE];
 uint8   packet_ready;
 uint8   take_reading;
 uint8   send_attempts;
+
+// Set NeoMote ID Number
+uint8 moteID = 2;
 
 UltrasonicReading ultrasonic_reading = {.valid = 0};    // Initialize UltrasonicReading.valid to 0
 SolinstReading solinst_reading = {.valid = 0};          // Initialize SolinstReading.valid to 0
@@ -47,26 +53,26 @@ void main(){
     //modem_power_off();
     ultrasonic_start();
     solinst_start();
-
+    ADC_SAR_1_Start();
     
     packet_ready = 0u; 
-    take_reading = 0u;
+    take_reading = 1u;
     send_attempts = 0u;
 
     NeoRTC_Start(rtcCallBackReceived);      // Start and enable the RTC.   
-    NeoRTC_Set_Repeating_Minute_Alarm(2u);  // Set 1-minute alarm
+    NeoRTC_Set_Repeating_Minute_Alarm(10u);  // Set 1-minute alarm
    
     
     //  Uncomment below to set RTC
     /*
     NeoRtcTimeStruct tm = {
-      .second = 0,
-      .minute = 58,
-      .hour = 20,
-      .day = 20,
-      .weekday = 4,
-      .month = 11,
-      .year = 2013,
+      .second = 00,
+      .minute = 54,
+      .hour = 18,
+      .day = 27,
+      .weekday = 2,
+      .month = 5,
+      .year = 2014,
     } ;
     RTC_WriteTime(tm); //sets time
     */
@@ -77,6 +83,14 @@ void main(){
        
         
         if(take_reading){ 
+
+            if(modem_state == MODEM_STATE_OFF){
+                modem_power_on();
+                modem_reset();
+            }            
+            clear_packet(data_packet, MAX_PACKET_SIZE);
+            modem_retrieve_packet(&data_packet);
+
             
             take_reading = 0u;
             
@@ -89,18 +103,35 @@ void main(){
             // conductivity.
             solinst_get_reading(&solinst_reading);
             ultrasonic_get_reading(&ultrasonic_reading);
+            float vBattery = ReadBatterVoltage();
             
             NeoRtcTimeStruct tm_neo = NeoRTC_Read_Time();
 
-            sprintf(data_packet, "\r\n%d:%d:%d %d/%d/%d -- u_d=%f s_d=%f s_t=%f", tm_neo.hour, tm_neo.minute,
-                             tm_neo.second, tm_neo.day, tm_neo.month, tm_neo.year, 
-                             ultrasonic_reading.depth, solinst_reading.depth, solinst_reading.temp);
+            sprintf(data_packet, "\r\n%d:%d:%d %d/%d/%d -- [ID %d] u_d=%f s_d=%f s_t=%f v_b=%f", tm_neo.hour, tm_neo.minute,
+                             tm_neo.second, tm_neo.day, tm_neo.month, tm_neo.year, moteID,
+                             ultrasonic_reading.depth, solinst_reading.depth, solinst_reading.temp,vBattery);
             
             Write_To_SD_Card("data.txt","a",data_packet,strlen(data_packet));
 
-            sprintf(data_packet, "%d:%d:%d %d/%d/%d -- u_d=%f s_d=%f s_t=%f", tm_neo.hour, tm_neo.minute,
-                             tm_neo.second, tm_neo.day, tm_neo.month, tm_neo.year, 
-                             ultrasonic_reading.depth, solinst_reading.depth, solinst_reading.temp);
+            /* Old AWS packet
+            sprintf(data_packet, "\n%d:%d:%d %d/%d/%d -- [ID %d] u_d=%f s_d=%f s_t=%f v_b=%f", tm_neo.hour, tm_neo.minute,
+                             tm_neo.second, tm_neo.day, tm_neo.month, tm_neo.year, moteID,
+                             ultrasonic_reading.depth, solinst_reading.depth, solinst_reading.temp,vBattery);
+            */
+   
+            /* Create Xively Packet */
+            sprintf(data_packet, "{"
+                      "\"method\":\"put\","
+                      "\"resource\":\"/feeds/%d\","
+                      "\"headers\":{\"X-ApiKey\":\"%s\"},"
+                      "\"body\":{\"version\":\"1.0.0\",\"datastreams\":["
+                            "{ \"id\" : \"depth_sonic\", \"current_value\" : \"%f\"},"
+                            "{ \"id\" : \"depth_press\", \"current_value\" : \"%f\"},"
+                            "{ \"id\" : \"temp_press\", \"current_value\" : \"%f\"},"
+                            "{ \"id\" : \"V_batt\",  \"current_value\" : \"%f\"}"
+                      "]}}",
+                      FEED_ID,API_KEY,
+                      ultrasonic_reading.depth, solinst_reading.depth, solinst_reading.temp,vBattery);
             
             packet_ready = 1u; 
             send_attempts = 0u;
@@ -130,7 +161,9 @@ void main(){
                     
                     if (modem_send_packet(data_packet)){     
                     // the packet is sent within the number of maximum attempts allowed
+                        //debug_write("Packet sent within max attempts.");
                         modem_power_off();
+                        //debug_write("Modem powered off.");
                         clear_packet(data_packet, MAX_PACKET_SIZE);
                         send_attempts = 0u;
                     }
@@ -151,6 +184,7 @@ void main(){
         }else{
             Goto_Low_Power_Mode();
         }
+    CyDelay(1u);  // Quick Pause to prevent locking
     }
 }
 
