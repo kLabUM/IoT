@@ -17,11 +17,22 @@
 #include "debug.h"
 
 // declare varaiables
-char uart_received_string[700];
+uint8 modem_state, lock_acquired = 0;
 uint16 uart_string_index = 0;
+uint32 feed_id;
+char uart_received_string[700] = {0}, *api_key;
+
+
 
 // prototype modem interrupt
 CY_ISR_PROTO(isr_byte_rx);
+void uart_string_reset();
+
+uint8 modem_set_api_feed(uint32 id, char* key){
+    feed_id = id;
+    api_key = key;
+    return 1u;
+}
 
 // initialize modem
 void modem_start(){
@@ -35,9 +46,7 @@ void modem_start(){
 // send at-command to modem
 uint8 at_write_command(char* uart_string, char* expected_response, uint32 uart_timeout){
     uint8 response = 0u;
-    uint32 i = 0u;
-    uint32 delay = 100u;
-    uint32 interval = uart_timeout/delay;
+    uint32 i = 0u, delay = 100u, interval = uart_timeout/delay;
     
     uart_string_reset();
     uart_PutString(uart_string);
@@ -105,22 +114,30 @@ uint8 modem_reset(){
 }
 
 uint8 modem_connect(){
-    //if(at_write_command("AT+CREG=1\r","OK",5000u)){
-    //    if(at_write_command("AT+CREG?\r","OK",5000u)){
+    if(at_write_command("AT#SGACT=1,1\r","OK",15000u) == 1){
+        modem_state = MODEM_STATE_READY;
+        //return 1u; // connected to network
+    }
+    else debug_write("(AT#SGACT=1,1) No IP Address Assigned.");
+
+    return modem_state;
+    
+/*
+    if(at_write_command("AT+CREG=1\r","OK",5000u)){
+        if(at_write_command("AT+CREG?\r","OK",5000u)){
         //if(!at_write_command("AT#CGPADDR=1\r","\"",5000u)){
             if(at_write_command("AT#SGACT=1,1\r","OK",30000u)){
                 modem_state = MODEM_STATE_READY;
                 //return 1u; // connected to network
             }
             else debug_write("(AT#SGACT=1,1) No IP Address Assigned.");
-    //    }
-    //   else debug_write("(AT#CGPADDR=1) No IP Address Exists.");   Returns IP address.. should be called after SGACT=1,1
-    //}
-    //else debug_write("(AT+CREG=1) Could not register to network."); CREG reports registration status of the device, does not set it
+        }
+       else debug_write("(AT#CGPADDR=1) No IP Address Exists.");   Returns IP address.. should be called after SGACT=1,1
+    }
+    else debug_write("(AT+CREG=1) Could not register to network."); CREG reports registration status of the device, does not set it
     
-    //return 0u;
-    return modem_state;
-    
+    return 0u;
+*/
 /*
     at_write_command("AT+CSQ\r","OK",5000u); // get signal strength
     
@@ -145,160 +162,190 @@ uint8 modem_connect(){
     
     return success;
     */
+    
 }
 
 uint8 modem_disconnect(){
-    if(at_write_command("AT#SH=1","OK",15000u)){
-        if(at_write_command("AT#SGACT=1,0","OK",15000u)){
-            return 1u;
+    // Proceed if modem is not connected to network.  Otherwise, try to disconnect from the network and proceed.
+    if(modem_state != MODEM_STATE_READY) {
+        if(at_write_command("AT#SH=1","OK",10000u) == 1){
+            if(at_write_command("AT#SGACT=1,0","OK",10000u) == 1){
+                modem_state = MODEM_STATE_IDLE;
+                //return 1u;
+            }
+            else {
+                debug_write("(AT#SGACT=1,0) Could not disconnect.");
+            }
         }
         else {
-            debug_write("(AT#SGACT=1,0) Could not disconnect.");
+            debug_write("(AT#SH=1) Could not close socket.");
         }
     }
     else {
-        debug_write("(AT#SH=1) Could not close socket.");
+        if (modem_state == MODEM_STATE_OFF) {
+            debug_write( "(modem_state != MODEM_STATE_READY) modem_state = MODEM_STATE_OFF" );
+        }
+        else if (modem_state == MODEM_STATE_IDLE) {
+            debug_write( "(modem_state != MODEM_STATE_READY) modem_state = MODEM_STATE_IDLE" );
+        }
     }
-
-    return 0u; // failed to disconnect
+    return modem_state; 
+    //return 0u; // failed to disconnect
 }
 
 // send packet to Xively server
-uint8 modem_send_packet(uint8* packet){
+uint8 modem_send_packet(char* packet){
+
+    
+    /*
     // provide power to rx and tx pins
     //uart_rx_voltage_pin_Write(0u);
     //uart_tx_voltage_pin_Write(0u);
     
-    /*
     // join network
     uint8 connected = modem_connect();
     */
+    uint8 attempts = 0;
     
-    // Proceed if modem is already connected.  Otherwise, try to join the network
-    if( modem_state == MODEM_STATE_READY || modem_connect()){ 
-        // write to AWS server  - 184.72.228.61\",0,0,1
-        //if(at_write_command("AT#SD=1,0,50030,\"184.72.228.61\",0,0,1\r","OK",5000u) != 0){
-        if(at_write_command("AT#SD=1,0,8081,\"api.xively.com\",0,0,1\r","OK",10000u) != 0){
-            if(at_write_command("AT#SSEND=1\r",">",10000u) != 0){
-                //if(at_write_command(packet,"OK",20000u) != 0){
-                char sendBuffer[750];
-                sprintf(sendBuffer, "%s\032", packet);
-                if(at_write_command(sendBuffer,"OK",20000u) != 0){
-                    modem_state = MODEM_STATE_IDLE;
-                    CyDelay(1000u); //debug_write("Packet sent successfully.");
-                    return 1u;   // return 1 if succesfully sent sms
+    for(attempts = 0; attempts < MAX_SEND_ATTEMPTS; attempts++) {
+        
+        // Proceed if modem is already connected.  Otherwise, try to join the network and proceed
+        if( modem_state == MODEM_STATE_READY || modem_connect() != 0){ 
+            // write to AWS server  - 184.72.228.61\",0,0,1
+            //if(at_write_command("AT#SD=1,0,50030,\"184.72.228.61\",0,0,1\r","OK",5000u) != 0){
+            if(at_write_command("AT#SD=1,0,8081,\"api.xively.com\",0,0,1\r","OK",10000u) != 0){
+                if(at_write_command("AT#SSEND=1\r",">",10000u) != 0){
+                    //if(at_write_command(packet,"OK",20000u) != 0){
+                    char sendBuffer[750];
+                    sprintf(sendBuffer, "%s\032", packet);
+                    if(at_write_command(sendBuffer,"OK",15000u) != 0){
+                        modem_state = MODEM_STATE_IDLE;
+                        CyDelay(1000u); //debug_write("Packet sent successfully.");
+                        return 1u;   // return 1 if succesfully sent sms
+                    }
+                    else {
+                        debug_write("(at_write_command(sendBuffer,\"OK\"...) Data sent unsuccessfully.");
+                    }
                 }
                 else {
-                    debug_write("(at_write_command(sendBuffer,\"OK\"...) Data sent unsuccessfully.");
+                    debug_write("(AT#SSEND=1) Could not send data through connected socket.");
                 }
             }
             else {
-                debug_write("(AT#SSEND=1) Could not send data through connected socket.");
+                debug_write("(AT#SD=1,0,8081,\"api.xively.com\",0,0,1\r) Could not connect to server.");
             }
-            //uint8 disconnected = modem_disconnect();
-            modem_disconnect();
         }
-        else {
-            debug_write("(AT#SD=1,0,50030,\"184.72.228.61\",0,0,1) Could not connect to server.");
+    
+        if (attempts < MAX_SEND_ATTEMPTS-1) { // Don't reset the modem on the last attempt since it will be getting disconnected
+            modem_reset();
         }
-    }
-    
-    
+        
+    }    
     
     // cut power to rx and tx pins
     //uart_rx_voltage_pin_Write(1u);
     //uart_rx_voltage_pin_Write(1u);
-    
-    return 0u;   // return 0 if failure to send sms
-}
-
-
-// read packet from Xively server
-uint8 modem_retrieve_packet(uint8* packet){
-    // provide power to rx and tx pins
-    //uart_rx_voltage_pin_Write(0u);
-    //uart_tx_voltage_pin_Write(0u);
-    
-    /*
-    // join network
-    uint8 connected = modem_connect();
-    */
-    //char *a, *b, *sample_str;
-    
-    uint8 i = 0u, sample_val;
-    
-    // Join the network
-    if( modem_state == MODEM_STATE_READY || modem_connect() ){ 
-        // write to AWS server  - 184.72.228.61\",0,0,1
-        //if(at_write_command("AT#SD=1,0,50030,\"184.72.228.61\",0,0,1\r","OK",5000u) != 0){
-        if(at_write_command("AT#SD=1,0,80,\"api.xively.com\",0,0,1\r","OK",10000u) != 0){
-            if(at_write_command("AT#SSEND=1\r",">",10000u) != 0){
-                
-                uart_string_reset();
-                at_write_command("GET /v2/feeds/966630999.csv?datastreams=sample HTTP/1.0\r\n",">",10000u);// CyDelay(500u);
-                at_write_command("Host: api.xively.com\r\n",">",10000u);// CyDelay(500u);
-                at_write_command("Accept: text/csv\r\n",">",10000u);// CyDelay(500u);
-                at_write_command("X-ApiKey: 7inkCfgjLCcSq6t2E3RC7OnmZykBUXEU8Yv7K56c7JYUOxdn\r\n\r\n",">",10000u);// CyDelay(500u);
-                
-                // Successfully Sent AT-Commands for GET Request
-                if(at_write_command("\032\r","OK",20000u) != 0){
-                
-                    // Read GET response from the buffer
-                    uart_string_reset();
-                    CyDelay(5000u);
-                    at_write_command("AT#SRECV=1,700\r","OK",20000u);
-                    /*
-                    
-                      ENABLE RX INTERRUPT, READ FROM RX
-                      
-                    */
-                    strcpy(packet,uart_received_string);
-                    packet = strstr(packet,"\r\n\r\n")+strlen("\r\n\r\n");
-                    
-                    /*
-                    a = strstr(packet,"sample");
-                    a = strstr(a,"Z,")+strlen("Z,");
-                    b = strstr(a,"\r");
-                    strncpy(sample_str,a,b-a);
-                    sample_val = (uint8) strtol(sample_str,(char **) NULL, 10);
-                    */
-                    // http://www.cplusplus.com/reference/cstdlib/strtol/
-                    modem_state = MODEM_STATE_IDLE;
-                    CyDelay(1000u); //debug_write("Packet received successfully.");
-                    return 1u;   // return 1 if succesfully sent sms
-
-                }
-                else {
-                    debug_write("(at_write_command(sendBuffer,\"OK\"...) Data sent unsuccessfully.");
-                }
-            }
-            else {
-                debug_write("(AT#SSEND=1) Could not send data through connected socket.");
-            }
-            //uint8 disconnected = modem_disconnect();
-        }
-        else {
-            debug_write("(AT#SD=1,0,50030,\"184.72.228.61\",0,0,1) Could not connect to server.");
-        }
-    }
-    
-    
-    
-    // cut power to rx and tx pins
-    //uart_rx_voltage_pin_Write(1u);
-    //uart_rx_voltage_pin_Write(1u);
+    debug_write("MAX_SEND_ATTEMPTS Exceeded.");
     modem_disconnect();
     return 0u;   // return 0 if failure to send sms
 }
 
 
+// read packet from Xively server
+uint8 modem_get_packet(char* packet, char* csv){
+    
+    /*
+    // provide power to rx and tx pins
+    //uart_rx_voltage_pin_Write(0u);
+    //uart_tx_voltage_pin_Write(0u);    
+    
+    // join network
+    uint8 connected = modem_connect();
+    */
+    char get_str[200], key_str[100];
+    uint8 attempts = 0;
+    
+    if (strlen(csv) > 125) {
+        debug_write("modem_get_packet(): csv length > 100");
+        return 0u;
+    }
+            
+    for(attempts = 0; attempts < MAX_GET_ATTEMPTS; attempts++) {
+        // Proceed if modem is already connected.  Otherwise, try to join the network and proceed
+        if( modem_state == MODEM_STATE_READY || modem_connect() != 0 ){ 
+            // write to AWS server  - 184.72.228.61\",0,0,1
+            //if(at_write_command("AT#SD=1,0,50030,\"184.72.228.61\",0,0,1\r","OK",5000u) != 0){
+            if(at_write_command("AT#SD=1,0,80,\"api.xively.com\",0,0,1\r","OK",10000u) != 0){
+                if(at_write_command("AT#SSEND=1\r",">",10000u) != 0){
+                    
+                    sprintf(get_str,"GET /v2/feeds/%lu.csv?datastreams=%s HTTP/1.0\r\n", feed_id, csv);
+                    sprintf(key_str,"X-ApiKey: %s\r\n\r\n", api_key);
+                    
+                    uart_string_reset();
+                    at_write_command(get_str,">",10000u);// CyDelay(500u);
+                    at_write_command("Host: api.xively.com\r\n",">",10000u);// CyDelay(500u);
+                    at_write_command("Accept: text/csv\r\n",">",10000u);// CyDelay(500u);
+                    at_write_command(key_str,">",10000u);// CyDelay(500u);
+                    
+                    // Successfully Sent AT-Commands for GET Request
+                    if(at_write_command("\032\r","OK",15000u) != 0){
+                    
+                        // Read GET response from the buffer
+                        uart_string_reset();
+                        CyDelay(5000u);
+                        at_write_command("AT#SRECV=1,700\r","OK",15000u);
+                        //strcpy(packet, uart_received_string);
+                        strcpy(packet, strstr(uart_received_string, "\r\n\r\n")+strlen("\r\n\r\n"));
+                        
+                        CyDelay(1000u); //debug_write("Packet received successfully.");
+                        return 1u;   // return 1 if succesfully sent sms
+
+                    }
+                    else {
+                        debug_write("(at_write_command(sendBuffer,\"OK\"...) Data sent unsuccessfully.");
+                    }
+                }
+                else {
+                    debug_write("(AT#SSEND=1) Could not send data through connected socket.");
+                }
+                //uint8 disconnected = modem_disconnect();
+            }
+            else {
+                debug_write("(AT#SD=1,0,80,\"api.xively.com\",0,0,1) Could not connect to server.");
+            }
+        }
+        
+        if (attempts < MAX_GET_ATTEMPTS-1) { // Don't reset the modem on the last attempt since it will be getting disconnected
+            modem_reset();
+        }
+        
+    }
+    // cut power to rx and tx pins
+    //uart_rx_voltage_pin_Write(1u);
+    //uart_rx_voltage_pin_Write(1u);
+    debug_write("MAX_GET_ATTEMPTS Exceeded.");
+    modem_disconnect();
+    return 0u;   // return 0 if failure to send sms
+}
+
+uint8 modem_acquire_lock(){
+    return 1u;
+}
+
+uint8 modem_release_lock(){
+    return 1u;
+}
+
 void uart_string_reset(){
     // reset uart_received_string to zero
+    /*
     uint16 i = 0;
     
     for(i = 0; i < 700; i++){
         uart_received_string[i] = 0;
     }
+    */
+    memset(&uart_received_string[0],0,sizeof(uart_received_string));
     uart_string_index = 0;
     uart_ClearRxBuffer();
 //    uart_ClearTxBuffer();

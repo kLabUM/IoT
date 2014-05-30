@@ -1,0 +1,1341 @@
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccEpx3pH.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 6
+  11              		.eabi_attribute 18, 4
+  12              		.thumb
+  13              		.file	"packet.c"
+  14              		.section	.debug_abbrev,"",%progbits
+  15              	.Ldebug_abbrev0:
+  16              		.section	.debug_info,"",%progbits
+  17              	.Ldebug_info0:
+  18              		.section	.debug_line,"",%progbits
+  19              	.Ldebug_line0:
+  20 0000 C0000000 		.text
+  20      02005500 
+  20      00000201 
+  20      FB0E0D00 
+  20      01010101 
+  21              	.Ltext0:
+  22              		.cfi_sections	.debug_frame
+  23              		.comm	error_str,4,4
+  24              		.section	.rodata
+  25              		.align	2
+  26              	.LC0:
+  27 0000 2573206E 		.ascii	"%s not found in packet: \012%s\000"
+  27      6F742066 
+  27      6F756E64 
+  27      20696E20 
+  27      7061636B 
+  28              		.align	2
+  29              	.LC1:
+  30 001c 5A2C00   		.ascii	"Z,\000"
+  31 001f 00       		.align	2
+  32              	.LC2:
+  33 0020 275A2C27 		.ascii	"'Z,' not found in packet: \012%s\000"
+  33      206E6F74 
+  33      20666F75 
+  33      6E642069 
+  33      6E207061 
+  34 003e 0000     		.align	2
+  35              	.LC3:
+  36 0040 270D2720 		.ascii	"'\015' not found in packet: \012%s\000"
+  36      6E6F7420 
+  36      666F756E 
+  36      6420696E 
+  36      20706163 
+  37 005d 000000   		.section	.text.packet_get_value,"ax",%progbits
+  38              		.align	2
+  39              		.global	packet_get_value
+  40              		.thumb
+  41              		.thumb_func
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccEpx3pH.s 			page 2
+
+
+  42              		.type	packet_get_value, %function
+  43              	packet_get_value:
+  44              	.LFB29:
+  45              		.file 1 ".\\packet.c"
+   1:.\packet.c    **** /* ========================================
+   2:.\packet.c    ****  *
+   3:.\packet.c    ****  * Copyright YOUR COMPANY, THE YEAR
+   4:.\packet.c    ****  * All Rights Reserved
+   5:.\packet.c    ****  * UNPUBLISHED, LICENSED SOFTWARE.
+   6:.\packet.c    ****  *
+   7:.\packet.c    ****  * CONFIDENTIAL AND PROPRIETARY INFORMATION
+   8:.\packet.c    ****  * WHICH IS THE PROPERTY OF your company.
+   9:.\packet.c    ****  *
+  10:.\packet.c    ****  * ========================================
+  11:.\packet.c    **** */
+  12:.\packet.c    **** #include "packet.h"
+  13:.\packet.c    **** #include "debug.h"
+  14:.\packet.c    **** 
+  15:.\packet.c    **** char* error_str;
+  16:.\packet.c    **** 
+  17:.\packet.c    **** /*
+  18:.\packet.c    **** Searches Xively packet for name and returns the associated value
+  19:.\packet.c    **** as a char array.
+  20:.\packet.c    **** Returns 1 if successful, and 0 if there was an error.
+  21:.\packet.c    **** */
+  22:.\packet.c    **** uint8 packet_get_value(char* packet, char* name, char* value) {
+  46              		.loc 1 22 0
+  47              		.cfi_startproc
+  48              		@ args = 0, pretend = 0, frame = 24
+  49              		@ frame_needed = 1, uses_anonymous_args = 0
+  50 0000 80B5     		push	{r7, lr}
+  51              	.LCFI0:
+  52              		.cfi_def_cfa_offset 8
+  53 0002 86B0     		sub	sp, sp, #24
+  54              	.LCFI1:
+  55              		.cfi_def_cfa_offset 32
+  56 0004 00AF     		add	r7, sp, #0
+  57              		.cfi_offset 14, -4
+  58              		.cfi_offset 7, -8
+  59              	.LCFI2:
+  60              		.cfi_def_cfa_register 7
+  61 0006 F860     		str	r0, [r7, #12]
+  62 0008 B960     		str	r1, [r7, #8]
+  63 000a 7A60     		str	r2, [r7, #4]
+  23:.\packet.c    ****     char *a, *b;
+  24:.\packet.c    ****     
+  25:.\packet.c    ****     // Find the first occurence of "name" in "packet"
+  26:.\packet.c    ****     a = strstr(packet,name);
+  64              		.loc 1 26 0
+  65 000c F868     		ldr	r0, [r7, #12]
+  66 000e B968     		ldr	r1, [r7, #8]
+  67 0010 FFF7FEFF 		bl	strstr
+  68 0014 0346     		mov	r3, r0
+  69 0016 3B61     		str	r3, [r7, #16]
+  27:.\packet.c    ****     if (a == NULL) {
+  70              		.loc 1 27 0
+  71 0018 3B69     		ldr	r3, [r7, #16]
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccEpx3pH.s 			page 3
+
+
+  72 001a 002B     		cmp	r3, #0
+  73 001c 18D1     		bne	.L2
+  28:.\packet.c    ****         sprintf(error_str, "%s not found in packet: \n%s", name, packet);
+  74              		.loc 1 28 0
+  75 001e 40F20003 		movw	r3, #:lower16:error_str
+  76 0022 C0F20003 		movt	r3, #:upper16:error_str
+  77 0026 1B68     		ldr	r3, [r3, #0]
+  78 0028 1846     		mov	r0, r3
+  79 002a 40F20001 		movw	r1, #:lower16:.LC0
+  80 002e C0F20001 		movt	r1, #:upper16:.LC0
+  81 0032 BA68     		ldr	r2, [r7, #8]
+  82 0034 FB68     		ldr	r3, [r7, #12]
+  83 0036 FFF7FEFF 		bl	sprintf
+  29:.\packet.c    ****         debug_write( error_str );
+  84              		.loc 1 29 0
+  85 003a 40F20003 		movw	r3, #:lower16:error_str
+  86 003e C0F20003 		movt	r3, #:upper16:error_str
+  87 0042 1B68     		ldr	r3, [r3, #0]
+  88 0044 1846     		mov	r0, r3
+  89 0046 FFF7FEFF 		bl	debug_write
+  30:.\packet.c    ****         return 0u;
+  90              		.loc 1 30 0
+  91 004a 4FF00003 		mov	r3, #0
+  92 004e 52E0     		b	.L3
+  93              	.L2:
+  31:.\packet.c    ****     }
+  32:.\packet.c    ****     
+  33:.\packet.c    ****     // Move the pointer to the timestamp after the first occurence of "name"
+  34:.\packet.c    ****     // This marks where the value is
+  35:.\packet.c    ****     a = strstr(a,"Z,")+strlen("Z,");
+  94              		.loc 1 35 0
+  95 0050 3869     		ldr	r0, [r7, #16]
+  96 0052 40F20001 		movw	r1, #:lower16:.LC1
+  97 0056 C0F20001 		movt	r1, #:upper16:.LC1
+  98 005a FFF7FEFF 		bl	strstr
+  99 005e 0346     		mov	r3, r0
+ 100 0060 03F10203 		add	r3, r3, #2
+ 101 0064 3B61     		str	r3, [r7, #16]
+  36:.\packet.c    ****     if (a == NULL) {
+ 102              		.loc 1 36 0
+ 103 0066 3B69     		ldr	r3, [r7, #16]
+ 104 0068 002B     		cmp	r3, #0
+ 105 006a 17D1     		bne	.L4
+  37:.\packet.c    ****         sprintf(error_str, "'Z,' not found in packet: \n%s", packet);
+ 106              		.loc 1 37 0
+ 107 006c 40F20003 		movw	r3, #:lower16:error_str
+ 108 0070 C0F20003 		movt	r3, #:upper16:error_str
+ 109 0074 1B68     		ldr	r3, [r3, #0]
+ 110 0076 1846     		mov	r0, r3
+ 111 0078 40F20001 		movw	r1, #:lower16:.LC2
+ 112 007c C0F20001 		movt	r1, #:upper16:.LC2
+ 113 0080 FA68     		ldr	r2, [r7, #12]
+ 114 0082 FFF7FEFF 		bl	sprintf
+  38:.\packet.c    ****         debug_write( error_str );
+ 115              		.loc 1 38 0
+ 116 0086 40F20003 		movw	r3, #:lower16:error_str
+ 117 008a C0F20003 		movt	r3, #:upper16:error_str
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccEpx3pH.s 			page 4
+
+
+ 118 008e 1B68     		ldr	r3, [r3, #0]
+ 119 0090 1846     		mov	r0, r3
+ 120 0092 FFF7FEFF 		bl	debug_write
+  39:.\packet.c    ****         return 0u;
+ 121              		.loc 1 39 0
+ 122 0096 4FF00003 		mov	r3, #0
+ 123 009a 2CE0     		b	.L3
+ 124              	.L4:
+  40:.\packet.c    ****     }
+  41:.\packet.c    ****     
+  42:.\packet.c    ****     // Find the carriage return, marking the end of the value
+  43:.\packet.c    ****     b = strstr(a,"\n");
+ 125              		.loc 1 43 0
+ 126 009c 3869     		ldr	r0, [r7, #16]
+ 127 009e 4FF00A01 		mov	r1, #10
+ 128 00a2 FFF7FEFF 		bl	strchr
+ 129 00a6 0346     		mov	r3, r0
+ 130 00a8 7B61     		str	r3, [r7, #20]
+  44:.\packet.c    ****     if (b == NULL) {
+ 131              		.loc 1 44 0
+ 132 00aa 7B69     		ldr	r3, [r7, #20]
+ 133 00ac 002B     		cmp	r3, #0
+ 134 00ae 17D1     		bne	.L5
+  45:.\packet.c    ****         sprintf(error_str, "'\r' not found in packet: \n%s", packet);
+ 135              		.loc 1 45 0
+ 136 00b0 40F20003 		movw	r3, #:lower16:error_str
+ 137 00b4 C0F20003 		movt	r3, #:upper16:error_str
+ 138 00b8 1B68     		ldr	r3, [r3, #0]
+ 139 00ba 1846     		mov	r0, r3
+ 140 00bc 40F20001 		movw	r1, #:lower16:.LC3
+ 141 00c0 C0F20001 		movt	r1, #:upper16:.LC3
+ 142 00c4 FA68     		ldr	r2, [r7, #12]
+ 143 00c6 FFF7FEFF 		bl	sprintf
+  46:.\packet.c    ****         debug_write( error_str );
+ 144              		.loc 1 46 0
+ 145 00ca 40F20003 		movw	r3, #:lower16:error_str
+ 146 00ce C0F20003 		movt	r3, #:upper16:error_str
+ 147 00d2 1B68     		ldr	r3, [r3, #0]
+ 148 00d4 1846     		mov	r0, r3
+ 149 00d6 FFF7FEFF 		bl	debug_write
+  47:.\packet.c    ****         return 0u;
+ 150              		.loc 1 47 0
+ 151 00da 4FF00003 		mov	r3, #0
+ 152 00de 0AE0     		b	.L3
+ 153              	.L5:
+  48:.\packet.c    ****     }
+  49:.\packet.c    ****     
+  50:.\packet.c    ****     strncpy(value,a,b-a);   
+ 154              		.loc 1 50 0
+ 155 00e0 7A69     		ldr	r2, [r7, #20]
+ 156 00e2 3B69     		ldr	r3, [r7, #16]
+ 157 00e4 C3EB0203 		rsb	r3, r3, r2
+ 158 00e8 7868     		ldr	r0, [r7, #4]
+ 159 00ea 3969     		ldr	r1, [r7, #16]
+ 160 00ec 1A46     		mov	r2, r3
+ 161 00ee FFF7FEFF 		bl	strncpy
+  51:.\packet.c    ****     return 1u;
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccEpx3pH.s 			page 5
+
+
+ 162              		.loc 1 51 0
+ 163 00f2 4FF00103 		mov	r3, #1
+ 164              	.L3:
+  52:.\packet.c    **** }
+ 165              		.loc 1 52 0
+ 166 00f6 1846     		mov	r0, r3
+ 167 00f8 07F11807 		add	r7, r7, #24
+ 168 00fc BD46     		mov	sp, r7
+ 169 00fe 80BD     		pop	{r7, pc}
+ 170              		.cfi_endproc
+ 171              	.LFE29:
+ 172              		.size	packet_get_value, .-packet_get_value
+ 173              		.section	.text.packet_get_uint8,"ax",%progbits
+ 174              		.align	2
+ 175              		.global	packet_get_uint8
+ 176              		.thumb
+ 177              		.thumb_func
+ 178              		.type	packet_get_uint8, %function
+ 179              	packet_get_uint8:
+ 180              	.LFB30:
+  53:.\packet.c    **** 
+  54:.\packet.c    **** /*
+  55:.\packet.c    **** Searches Xively packet for name and returns the associated value
+  56:.\packet.c    **** as uint32.
+  57:.\packet.c    **** Returns 1 if successful, and 0 if there was an error.
+  58:.\packet.c    **** */
+  59:.\packet.c    **** uint8 packet_get_uint8(char* packet, char* name, uint8* value) {
+ 181              		.loc 1 59 0
+ 182              		.cfi_startproc
+ 183              		@ args = 0, pretend = 0, frame = 40
+ 184              		@ frame_needed = 1, uses_anonymous_args = 0
+ 185 0000 80B5     		push	{r7, lr}
+ 186              	.LCFI3:
+ 187              		.cfi_def_cfa_offset 8
+ 188 0002 8AB0     		sub	sp, sp, #40
+ 189              	.LCFI4:
+ 190              		.cfi_def_cfa_offset 48
+ 191 0004 00AF     		add	r7, sp, #0
+ 192              		.cfi_offset 14, -4
+ 193              		.cfi_offset 7, -8
+ 194              	.LCFI5:
+ 195              		.cfi_def_cfa_register 7
+ 196 0006 F860     		str	r0, [r7, #12]
+ 197 0008 B960     		str	r1, [r7, #8]
+ 198 000a 7A60     		str	r2, [r7, #4]
+  60:.\packet.c    ****     char value_str[20] = {0}; // uint8 is at most 3 digits long
+ 199              		.loc 1 60 0
+ 200 000c 07F11403 		add	r3, r7, #20
+ 201 0010 4FF00002 		mov	r2, #0
+ 202 0014 1A60     		str	r2, [r3, #0]
+ 203 0016 03F10403 		add	r3, r3, #4
+ 204 001a 4FF00002 		mov	r2, #0
+ 205 001e 1A60     		str	r2, [r3, #0]
+ 206 0020 03F10403 		add	r3, r3, #4
+ 207 0024 4FF00002 		mov	r2, #0
+ 208 0028 1A60     		str	r2, [r3, #0]
+ 209 002a 03F10403 		add	r3, r3, #4
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccEpx3pH.s 			page 6
+
+
+ 210 002e 4FF00002 		mov	r2, #0
+ 211 0032 1A60     		str	r2, [r3, #0]
+ 212 0034 03F10403 		add	r3, r3, #4
+ 213 0038 4FF00002 		mov	r2, #0
+ 214 003c 1A60     		str	r2, [r3, #0]
+ 215 003e 03F10403 		add	r3, r3, #4
+  61:.\packet.c    ****     
+  62:.\packet.c    ****     if( packet_get_value(packet, name, value_str) ){
+ 216              		.loc 1 62 0
+ 217 0042 07F11403 		add	r3, r7, #20
+ 218 0046 F868     		ldr	r0, [r7, #12]
+ 219 0048 B968     		ldr	r1, [r7, #8]
+ 220 004a 1A46     		mov	r2, r3
+ 221 004c FFF7FEFF 		bl	packet_get_value
+ 222 0050 0346     		mov	r3, r0
+ 223 0052 002B     		cmp	r3, #0
+ 224 0054 0FD0     		beq	.L8
+  63:.\packet.c    ****         *value = (uint8) strtol(value_str,(char **) NULL, 10); // Base 10
+ 225              		.loc 1 63 0
+ 226 0056 07F11403 		add	r3, r7, #20
+ 227 005a 1846     		mov	r0, r3
+ 228 005c 4FF00001 		mov	r1, #0
+ 229 0060 4FF00A02 		mov	r2, #10
+ 230 0064 FFF7FEFF 		bl	strtol
+ 231 0068 0346     		mov	r3, r0
+ 232 006a DAB2     		uxtb	r2, r3
+ 233 006c 7B68     		ldr	r3, [r7, #4]
+ 234 006e 1A70     		strb	r2, [r3, #0]
+  64:.\packet.c    ****         // http://www.cplusplus.com/reference/cstdlib/strtol/
+  65:.\packet.c    ****         return 1u;
+ 235              		.loc 1 65 0
+ 236 0070 4FF00103 		mov	r3, #1
+ 237 0074 17E0     		b	.L9
+ 238              	.L8:
+  66:.\packet.c    ****     }
+  67:.\packet.c    ****         
+  68:.\packet.c    ****     sprintf(error_str, "%s not found in packet: \n%s", name, packet);
+ 239              		.loc 1 68 0
+ 240 0076 40F20003 		movw	r3, #:lower16:error_str
+ 241 007a C0F20003 		movt	r3, #:upper16:error_str
+ 242 007e 1B68     		ldr	r3, [r3, #0]
+ 243 0080 1846     		mov	r0, r3
+ 244 0082 40F20001 		movw	r1, #:lower16:.LC0
+ 245 0086 C0F20001 		movt	r1, #:upper16:.LC0
+ 246 008a BA68     		ldr	r2, [r7, #8]
+ 247 008c FB68     		ldr	r3, [r7, #12]
+ 248 008e FFF7FEFF 		bl	sprintf
+  69:.\packet.c    ****     debug_write( error_str );
+ 249              		.loc 1 69 0
+ 250 0092 40F20003 		movw	r3, #:lower16:error_str
+ 251 0096 C0F20003 		movt	r3, #:upper16:error_str
+ 252 009a 1B68     		ldr	r3, [r3, #0]
+ 253 009c 1846     		mov	r0, r3
+ 254 009e FFF7FEFF 		bl	debug_write
+  70:.\packet.c    ****     return 0u;
+ 255              		.loc 1 70 0
+ 256 00a2 4FF00003 		mov	r3, #0
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccEpx3pH.s 			page 7
+
+
+ 257              	.L9:
+  71:.\packet.c    **** }
+ 258              		.loc 1 71 0
+ 259 00a6 1846     		mov	r0, r3
+ 260 00a8 07F12807 		add	r7, r7, #40
+ 261 00ac BD46     		mov	sp, r7
+ 262 00ae 80BD     		pop	{r7, pc}
+ 263              		.cfi_endproc
+ 264              	.LFE30:
+ 265              		.size	packet_get_uint8, .-packet_get_uint8
+ 266              		.section	.text.packet_get_uint32,"ax",%progbits
+ 267              		.align	2
+ 268              		.global	packet_get_uint32
+ 269              		.thumb
+ 270              		.thumb_func
+ 271              		.type	packet_get_uint32, %function
+ 272              	packet_get_uint32:
+ 273              	.LFB31:
+  72:.\packet.c    **** 
+  73:.\packet.c    **** /*
+  74:.\packet.c    **** Searches Xively packet for name and returns the associated value
+  75:.\packet.c    **** as uint32.
+  76:.\packet.c    **** Returns 1 if successful, and 0 if there was an error.
+  77:.\packet.c    **** */
+  78:.\packet.c    **** uint8 packet_get_uint32(char* packet, char* name, uint32* value) {
+ 274              		.loc 1 78 0
+ 275              		.cfi_startproc
+ 276              		@ args = 0, pretend = 0, frame = 40
+ 277              		@ frame_needed = 1, uses_anonymous_args = 0
+ 278 0000 80B5     		push	{r7, lr}
+ 279              	.LCFI6:
+ 280              		.cfi_def_cfa_offset 8
+ 281 0002 8AB0     		sub	sp, sp, #40
+ 282              	.LCFI7:
+ 283              		.cfi_def_cfa_offset 48
+ 284 0004 00AF     		add	r7, sp, #0
+ 285              		.cfi_offset 14, -4
+ 286              		.cfi_offset 7, -8
+ 287              	.LCFI8:
+ 288              		.cfi_def_cfa_register 7
+ 289 0006 F860     		str	r0, [r7, #12]
+ 290 0008 B960     		str	r1, [r7, #8]
+ 291 000a 7A60     		str	r2, [r7, #4]
+  79:.\packet.c    ****     char value_str[20] = {0}; // uint32 is at most 10 digits long
+ 292              		.loc 1 79 0
+ 293 000c 07F11403 		add	r3, r7, #20
+ 294 0010 4FF00002 		mov	r2, #0
+ 295 0014 1A60     		str	r2, [r3, #0]
+ 296 0016 03F10403 		add	r3, r3, #4
+ 297 001a 4FF00002 		mov	r2, #0
+ 298 001e 1A60     		str	r2, [r3, #0]
+ 299 0020 03F10403 		add	r3, r3, #4
+ 300 0024 4FF00002 		mov	r2, #0
+ 301 0028 1A60     		str	r2, [r3, #0]
+ 302 002a 03F10403 		add	r3, r3, #4
+ 303 002e 4FF00002 		mov	r2, #0
+ 304 0032 1A60     		str	r2, [r3, #0]
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccEpx3pH.s 			page 8
+
+
+ 305 0034 03F10403 		add	r3, r3, #4
+ 306 0038 4FF00002 		mov	r2, #0
+ 307 003c 1A60     		str	r2, [r3, #0]
+ 308 003e 03F10403 		add	r3, r3, #4
+  80:.\packet.c    ****     
+  81:.\packet.c    ****     if( packet_get_value(packet, name, value_str) ){
+ 309              		.loc 1 81 0
+ 310 0042 07F11403 		add	r3, r7, #20
+ 311 0046 F868     		ldr	r0, [r7, #12]
+ 312 0048 B968     		ldr	r1, [r7, #8]
+ 313 004a 1A46     		mov	r2, r3
+ 314 004c FFF7FEFF 		bl	packet_get_value
+ 315 0050 0346     		mov	r3, r0
+ 316 0052 002B     		cmp	r3, #0
+ 317 0054 10D0     		beq	.L12
+  82:.\packet.c    ****         *value = (uint32) strtol(value_str,(char **) NULL, 10); // Base 10
+ 318              		.loc 1 82 0
+ 319 0056 07F11403 		add	r3, r7, #20
+ 320 005a 1846     		mov	r0, r3
+ 321 005c 4FF00001 		mov	r1, #0
+ 322 0060 4FF00A02 		mov	r2, #10
+ 323 0064 FFF7FEFF 		bl	strtol
+ 324 0068 0346     		mov	r3, r0
+ 325 006a 1A46     		mov	r2, r3
+ 326 006c 7B68     		ldr	r3, [r7, #4]
+ 327 006e 1A60     		str	r2, [r3, #0]
+  83:.\packet.c    ****         // http://www.cplusplus.com/reference/cstdlib/strtol/
+  84:.\packet.c    ****         return 1u;
+ 328              		.loc 1 84 0
+ 329 0070 4FF00103 		mov	r3, #1
+  85:.\packet.c    ****     }
+  86:.\packet.c    ****         
+  87:.\packet.c    ****     sprintf(error_str, "%s not found in packet: \n%s", name, packet);
+  88:.\packet.c    ****     debug_write( error_str );
+  89:.\packet.c    **** }
+ 330              		.loc 1 89 0
+ 331 0074 1846     		mov	r0, r3
+ 332 0076 15E0     		b	.L13
+ 333              	.L12:
+ 334              		.loc 1 87 0
+ 335 0078 40F20003 		movw	r3, #:lower16:error_str
+ 336 007c C0F20003 		movt	r3, #:upper16:error_str
+ 337 0080 1B68     		ldr	r3, [r3, #0]
+ 338 0082 1846     		mov	r0, r3
+ 339 0084 40F20001 		movw	r1, #:lower16:.LC0
+ 340 0088 C0F20001 		movt	r1, #:upper16:.LC0
+ 341 008c BA68     		ldr	r2, [r7, #8]
+ 342 008e FB68     		ldr	r3, [r7, #12]
+ 343 0090 FFF7FEFF 		bl	sprintf
+ 344              		.loc 1 88 0
+ 345 0094 40F20003 		movw	r3, #:lower16:error_str
+ 346 0098 C0F20003 		movt	r3, #:upper16:error_str
+ 347 009c 1B68     		ldr	r3, [r3, #0]
+ 348 009e 1846     		mov	r0, r3
+ 349 00a0 FFF7FEFF 		bl	debug_write
+ 350              	.L13:
+ 351              		.loc 1 89 0
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccEpx3pH.s 			page 9
+
+
+ 352 00a4 07F12807 		add	r7, r7, #40
+ 353 00a8 BD46     		mov	sp, r7
+ 354 00aa 80BD     		pop	{r7, pc}
+ 355              		.cfi_endproc
+ 356              	.LFE31:
+ 357              		.size	packet_get_uint32, .-packet_get_uint32
+ 358              		.section	.text.clear_packet,"ax",%progbits
+ 359              		.align	2
+ 360              		.global	clear_packet
+ 361              		.thumb
+ 362              		.thumb_func
+ 363              		.type	clear_packet, %function
+ 364              	clear_packet:
+ 365              	.LFB32:
+  90:.\packet.c    **** 
+  91:.\packet.c    **** 
+  92:.\packet.c    **** uint8 clear_packet(char* packet){
+ 366              		.loc 1 92 0
+ 367              		.cfi_startproc
+ 368              		@ args = 0, pretend = 0, frame = 8
+ 369              		@ frame_needed = 1, uses_anonymous_args = 0
+ 370 0000 80B5     		push	{r7, lr}
+ 371              	.LCFI9:
+ 372              		.cfi_def_cfa_offset 8
+ 373 0002 82B0     		sub	sp, sp, #8
+ 374              	.LCFI10:
+ 375              		.cfi_def_cfa_offset 16
+ 376 0004 00AF     		add	r7, sp, #0
+ 377              		.cfi_offset 14, -4
+ 378              		.cfi_offset 7, -8
+ 379              	.LCFI11:
+ 380              		.cfi_def_cfa_register 7
+ 381 0006 7860     		str	r0, [r7, #4]
+  93:.\packet.c    **** 
+  94:.\packet.c    ****     memset(packet,0,sizeof(packet));
+ 382              		.loc 1 94 0
+ 383 0008 7868     		ldr	r0, [r7, #4]
+ 384 000a 4FF00001 		mov	r1, #0
+ 385 000e 4FF00402 		mov	r2, #4
+ 386 0012 FFF7FEFF 		bl	memset
+  95:.\packet.c    ****     return 1u;
+ 387              		.loc 1 95 0
+ 388 0016 4FF00103 		mov	r3, #1
+  96:.\packet.c    **** }
+ 389              		.loc 1 96 0
+ 390 001a 1846     		mov	r0, r3
+ 391 001c 07F10807 		add	r7, r7, #8
+ 392 0020 BD46     		mov	sp, r7
+ 393 0022 80BD     		pop	{r7, pc}
+ 394              		.cfi_endproc
+ 395              	.LFE32:
+ 396              		.size	clear_packet, .-clear_packet
+ 397              		.text
+ 398              	.Letext0:
+ 399              		.section	.debug_loc,"",%progbits
+ 400              	.Ldebug_loc0:
+ 401              	.LLST0:
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccEpx3pH.s 			page 10
+
+
+ 402 0000 00000000 		.4byte	.LFB29
+ 403 0004 02000000 		.4byte	.LCFI0
+ 404 0008 0100     		.2byte	0x1
+ 405 000a 5D       		.byte	0x5d
+ 406 000b 02000000 		.4byte	.LCFI0
+ 407 000f 04000000 		.4byte	.LCFI1
+ 408 0013 0200     		.2byte	0x2
+ 409 0015 7D       		.byte	0x7d
+ 410 0016 08       		.sleb128 8
+ 411 0017 04000000 		.4byte	.LCFI1
+ 412 001b 06000000 		.4byte	.LCFI2
+ 413 001f 0200     		.2byte	0x2
+ 414 0021 7D       		.byte	0x7d
+ 415 0022 20       		.sleb128 32
+ 416 0023 06000000 		.4byte	.LCFI2
+ 417 0027 00010000 		.4byte	.LFE29
+ 418 002b 0200     		.2byte	0x2
+ 419 002d 77       		.byte	0x77
+ 420 002e 20       		.sleb128 32
+ 421 002f 00000000 		.4byte	0x0
+ 422 0033 00000000 		.4byte	0x0
+ 423              	.LLST1:
+ 424 0037 00000000 		.4byte	.LFB30
+ 425 003b 02000000 		.4byte	.LCFI3
+ 426 003f 0100     		.2byte	0x1
+ 427 0041 5D       		.byte	0x5d
+ 428 0042 02000000 		.4byte	.LCFI3
+ 429 0046 04000000 		.4byte	.LCFI4
+ 430 004a 0200     		.2byte	0x2
+ 431 004c 7D       		.byte	0x7d
+ 432 004d 08       		.sleb128 8
+ 433 004e 04000000 		.4byte	.LCFI4
+ 434 0052 06000000 		.4byte	.LCFI5
+ 435 0056 0200     		.2byte	0x2
+ 436 0058 7D       		.byte	0x7d
+ 437 0059 30       		.sleb128 48
+ 438 005a 06000000 		.4byte	.LCFI5
+ 439 005e B0000000 		.4byte	.LFE30
+ 440 0062 0200     		.2byte	0x2
+ 441 0064 77       		.byte	0x77
+ 442 0065 30       		.sleb128 48
+ 443 0066 00000000 		.4byte	0x0
+ 444 006a 00000000 		.4byte	0x0
+ 445              	.LLST2:
+ 446 006e 00000000 		.4byte	.LFB31
+ 447 0072 02000000 		.4byte	.LCFI6
+ 448 0076 0100     		.2byte	0x1
+ 449 0078 5D       		.byte	0x5d
+ 450 0079 02000000 		.4byte	.LCFI6
+ 451 007d 04000000 		.4byte	.LCFI7
+ 452 0081 0200     		.2byte	0x2
+ 453 0083 7D       		.byte	0x7d
+ 454 0084 08       		.sleb128 8
+ 455 0085 04000000 		.4byte	.LCFI7
+ 456 0089 06000000 		.4byte	.LCFI8
+ 457 008d 0200     		.2byte	0x2
+ 458 008f 7D       		.byte	0x7d
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccEpx3pH.s 			page 11
+
+
+ 459 0090 30       		.sleb128 48
+ 460 0091 06000000 		.4byte	.LCFI8
+ 461 0095 AC000000 		.4byte	.LFE31
+ 462 0099 0200     		.2byte	0x2
+ 463 009b 77       		.byte	0x77
+ 464 009c 30       		.sleb128 48
+ 465 009d 00000000 		.4byte	0x0
+ 466 00a1 00000000 		.4byte	0x0
+ 467              	.LLST3:
+ 468 00a5 00000000 		.4byte	.LFB32
+ 469 00a9 02000000 		.4byte	.LCFI9
+ 470 00ad 0100     		.2byte	0x1
+ 471 00af 5D       		.byte	0x5d
+ 472 00b0 02000000 		.4byte	.LCFI9
+ 473 00b4 04000000 		.4byte	.LCFI10
+ 474 00b8 0200     		.2byte	0x2
+ 475 00ba 7D       		.byte	0x7d
+ 476 00bb 08       		.sleb128 8
+ 477 00bc 04000000 		.4byte	.LCFI10
+ 478 00c0 06000000 		.4byte	.LCFI11
+ 479 00c4 0200     		.2byte	0x2
+ 480 00c6 7D       		.byte	0x7d
+ 481 00c7 10       		.sleb128 16
+ 482 00c8 06000000 		.4byte	.LCFI11
+ 483 00cc 24000000 		.4byte	.LFE32
+ 484 00d0 0200     		.2byte	0x2
+ 485 00d2 77       		.byte	0x77
+ 486 00d3 10       		.sleb128 16
+ 487 00d4 00000000 		.4byte	0x0
+ 488 00d8 00000000 		.4byte	0x0
+ 489              		.file 2 "./Generated_Source/PSoC5/cytypes.h"
+ 490              		.file 3 "./Generated_Source/PSoC5/core_cm3.h"
+ 491              		.section	.debug_info
+ 492 0000 19020000 		.4byte	0x219
+ 493 0004 0200     		.2byte	0x2
+ 494 0006 00000000 		.4byte	.Ldebug_abbrev0
+ 495 000a 04       		.byte	0x4
+ 496 000b 01       		.uleb128 0x1
+ 497 000c CF000000 		.4byte	.LASF24
+ 498 0010 01       		.byte	0x1
+ 499 0011 EC000000 		.4byte	.LASF25
+ 500 0015 10000000 		.4byte	.LASF26
+ 501 0019 00000000 		.4byte	0x0
+ 502 001d 00000000 		.4byte	0x0
+ 503 0021 00000000 		.4byte	.Ldebug_ranges0+0x0
+ 504 0025 00000000 		.4byte	.Ldebug_line0
+ 505 0029 02       		.uleb128 0x2
+ 506 002a 01       		.byte	0x1
+ 507 002b 06       		.byte	0x6
+ 508 002c 31010000 		.4byte	.LASF0
+ 509 0030 02       		.uleb128 0x2
+ 510 0031 01       		.byte	0x1
+ 511 0032 08       		.byte	0x8
+ 512 0033 66000000 		.4byte	.LASF1
+ 513 0037 02       		.uleb128 0x2
+ 514 0038 02       		.byte	0x2
+ 515 0039 05       		.byte	0x5
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccEpx3pH.s 			page 12
+
+
+ 516 003a 66010000 		.4byte	.LASF2
+ 517 003e 02       		.uleb128 0x2
+ 518 003f 02       		.byte	0x2
+ 519 0040 07       		.byte	0x7
+ 520 0041 B5000000 		.4byte	.LASF3
+ 521 0045 02       		.uleb128 0x2
+ 522 0046 04       		.byte	0x4
+ 523 0047 05       		.byte	0x5
+ 524 0048 06010000 		.4byte	.LASF4
+ 525 004c 02       		.uleb128 0x2
+ 526 004d 04       		.byte	0x4
+ 527 004e 07       		.byte	0x7
+ 528 004f 7A000000 		.4byte	.LASF5
+ 529 0053 02       		.uleb128 0x2
+ 530 0054 08       		.byte	0x8
+ 531 0055 05       		.byte	0x5
+ 532 0056 16010000 		.4byte	.LASF6
+ 533 005a 02       		.uleb128 0x2
+ 534 005b 08       		.byte	0x8
+ 535 005c 07       		.byte	0x7
+ 536 005d 91000000 		.4byte	.LASF7
+ 537 0061 03       		.uleb128 0x3
+ 538 0062 04       		.byte	0x4
+ 539 0063 05       		.byte	0x5
+ 540 0064 696E7400 		.ascii	"int\000"
+ 541 0068 02       		.uleb128 0x2
+ 542 0069 04       		.byte	0x4
+ 543 006a 07       		.byte	0x7
+ 544 006b 70010000 		.4byte	.LASF8
+ 545 006f 04       		.uleb128 0x4
+ 546 0070 74000000 		.4byte	.LASF9
+ 547 0074 02       		.byte	0x2
+ 548 0075 4C       		.byte	0x4c
+ 549 0076 30000000 		.4byte	0x30
+ 550 007a 04       		.uleb128 0x4
+ 551 007b 5F000000 		.4byte	.LASF10
+ 552 007f 02       		.byte	0x2
+ 553 0080 4E       		.byte	0x4e
+ 554 0081 4C000000 		.4byte	0x4c
+ 555 0085 02       		.uleb128 0x2
+ 556 0086 04       		.byte	0x4
+ 557 0087 04       		.byte	0x4
+ 558 0088 60010000 		.4byte	.LASF11
+ 559 008c 02       		.uleb128 0x2
+ 560 008d 08       		.byte	0x8
+ 561 008e 04       		.byte	0x4
+ 562 008f 0F010000 		.4byte	.LASF12
+ 563 0093 02       		.uleb128 0x2
+ 564 0094 01       		.byte	0x1
+ 565 0095 08       		.byte	0x8
+ 566 0096 F7000000 		.4byte	.LASF13
+ 567 009a 05       		.uleb128 0x5
+ 568 009b 04       		.byte	0x4
+ 569 009c 07       		.byte	0x7
+ 570 009d 06       		.uleb128 0x6
+ 571 009e 04       		.byte	0x4
+ 572 009f 93000000 		.4byte	0x93
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccEpx3pH.s 			page 13
+
+
+ 573 00a3 07       		.uleb128 0x7
+ 574 00a4 01       		.byte	0x1
+ 575 00a5 3D010000 		.4byte	.LASF17
+ 576 00a9 01       		.byte	0x1
+ 577 00aa 16       		.byte	0x16
+ 578 00ab 01       		.byte	0x1
+ 579 00ac 6F000000 		.4byte	0x6f
+ 580 00b0 00000000 		.4byte	.LFB29
+ 581 00b4 00010000 		.4byte	.LFE29
+ 582 00b8 00000000 		.4byte	.LLST0
+ 583 00bc 03010000 		.4byte	0x103
+ 584 00c0 08       		.uleb128 0x8
+ 585 00c1 C8000000 		.4byte	.LASF14
+ 586 00c5 01       		.byte	0x1
+ 587 00c6 16       		.byte	0x16
+ 588 00c7 9D000000 		.4byte	0x9d
+ 589 00cb 02       		.byte	0x2
+ 590 00cc 91       		.byte	0x91
+ 591 00cd 6C       		.sleb128 -20
+ 592 00ce 08       		.uleb128 0x8
+ 593 00cf 8C000000 		.4byte	.LASF15
+ 594 00d3 01       		.byte	0x1
+ 595 00d4 16       		.byte	0x16
+ 596 00d5 9D000000 		.4byte	0x9d
+ 597 00d9 02       		.byte	0x2
+ 598 00da 91       		.byte	0x91
+ 599 00db 68       		.sleb128 -24
+ 600 00dc 08       		.uleb128 0x8
+ 601 00dd 0A000000 		.4byte	.LASF16
+ 602 00e1 01       		.byte	0x1
+ 603 00e2 16       		.byte	0x16
+ 604 00e3 9D000000 		.4byte	0x9d
+ 605 00e7 02       		.byte	0x2
+ 606 00e8 91       		.byte	0x91
+ 607 00e9 64       		.sleb128 -28
+ 608 00ea 09       		.uleb128 0x9
+ 609 00eb 6100     		.ascii	"a\000"
+ 610 00ed 01       		.byte	0x1
+ 611 00ee 17       		.byte	0x17
+ 612 00ef 9D000000 		.4byte	0x9d
+ 613 00f3 02       		.byte	0x2
+ 614 00f4 91       		.byte	0x91
+ 615 00f5 70       		.sleb128 -16
+ 616 00f6 09       		.uleb128 0x9
+ 617 00f7 6200     		.ascii	"b\000"
+ 618 00f9 01       		.byte	0x1
+ 619 00fa 17       		.byte	0x17
+ 620 00fb 9D000000 		.4byte	0x9d
+ 621 00ff 02       		.byte	0x2
+ 622 0100 91       		.byte	0x91
+ 623 0101 74       		.sleb128 -12
+ 624 0102 00       		.byte	0x0
+ 625 0103 07       		.uleb128 0x7
+ 626 0104 01       		.byte	0x1
+ 627 0105 DB000000 		.4byte	.LASF18
+ 628 0109 01       		.byte	0x1
+ 629 010a 3B       		.byte	0x3b
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccEpx3pH.s 			page 14
+
+
+ 630 010b 01       		.byte	0x1
+ 631 010c 6F000000 		.4byte	0x6f
+ 632 0110 00000000 		.4byte	.LFB30
+ 633 0114 B0000000 		.4byte	.LFE30
+ 634 0118 37000000 		.4byte	.LLST1
+ 635 011c 59010000 		.4byte	0x159
+ 636 0120 08       		.uleb128 0x8
+ 637 0121 C8000000 		.4byte	.LASF14
+ 638 0125 01       		.byte	0x1
+ 639 0126 3B       		.byte	0x3b
+ 640 0127 9D000000 		.4byte	0x9d
+ 641 012b 02       		.byte	0x2
+ 642 012c 91       		.byte	0x91
+ 643 012d 5C       		.sleb128 -36
+ 644 012e 08       		.uleb128 0x8
+ 645 012f 8C000000 		.4byte	.LASF15
+ 646 0133 01       		.byte	0x1
+ 647 0134 3B       		.byte	0x3b
+ 648 0135 9D000000 		.4byte	0x9d
+ 649 0139 02       		.byte	0x2
+ 650 013a 91       		.byte	0x91
+ 651 013b 58       		.sleb128 -40
+ 652 013c 08       		.uleb128 0x8
+ 653 013d 0A000000 		.4byte	.LASF16
+ 654 0141 01       		.byte	0x1
+ 655 0142 3B       		.byte	0x3b
+ 656 0143 59010000 		.4byte	0x159
+ 657 0147 02       		.byte	0x2
+ 658 0148 91       		.byte	0x91
+ 659 0149 54       		.sleb128 -44
+ 660 014a 0A       		.uleb128 0xa
+ 661 014b 00000000 		.4byte	.LASF19
+ 662 014f 01       		.byte	0x1
+ 663 0150 3C       		.byte	0x3c
+ 664 0151 5F010000 		.4byte	0x15f
+ 665 0155 02       		.byte	0x2
+ 666 0156 91       		.byte	0x91
+ 667 0157 64       		.sleb128 -28
+ 668 0158 00       		.byte	0x0
+ 669 0159 06       		.uleb128 0x6
+ 670 015a 04       		.byte	0x4
+ 671 015b 6F000000 		.4byte	0x6f
+ 672 015f 0B       		.uleb128 0xb
+ 673 0160 93000000 		.4byte	0x93
+ 674 0164 6F010000 		.4byte	0x16f
+ 675 0168 0C       		.uleb128 0xc
+ 676 0169 9A000000 		.4byte	0x9a
+ 677 016d 13       		.byte	0x13
+ 678 016e 00       		.byte	0x0
+ 679 016f 07       		.uleb128 0x7
+ 680 0170 01       		.byte	0x1
+ 681 0171 4E010000 		.4byte	.LASF20
+ 682 0175 01       		.byte	0x1
+ 683 0176 4E       		.byte	0x4e
+ 684 0177 01       		.byte	0x1
+ 685 0178 6F000000 		.4byte	0x6f
+ 686 017c 00000000 		.4byte	.LFB31
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccEpx3pH.s 			page 15
+
+
+ 687 0180 AC000000 		.4byte	.LFE31
+ 688 0184 6E000000 		.4byte	.LLST2
+ 689 0188 C5010000 		.4byte	0x1c5
+ 690 018c 08       		.uleb128 0x8
+ 691 018d C8000000 		.4byte	.LASF14
+ 692 0191 01       		.byte	0x1
+ 693 0192 4E       		.byte	0x4e
+ 694 0193 9D000000 		.4byte	0x9d
+ 695 0197 02       		.byte	0x2
+ 696 0198 91       		.byte	0x91
+ 697 0199 5C       		.sleb128 -36
+ 698 019a 08       		.uleb128 0x8
+ 699 019b 8C000000 		.4byte	.LASF15
+ 700 019f 01       		.byte	0x1
+ 701 01a0 4E       		.byte	0x4e
+ 702 01a1 9D000000 		.4byte	0x9d
+ 703 01a5 02       		.byte	0x2
+ 704 01a6 91       		.byte	0x91
+ 705 01a7 58       		.sleb128 -40
+ 706 01a8 08       		.uleb128 0x8
+ 707 01a9 0A000000 		.4byte	.LASF16
+ 708 01ad 01       		.byte	0x1
+ 709 01ae 4E       		.byte	0x4e
+ 710 01af C5010000 		.4byte	0x1c5
+ 711 01b3 02       		.byte	0x2
+ 712 01b4 91       		.byte	0x91
+ 713 01b5 54       		.sleb128 -44
+ 714 01b6 0A       		.uleb128 0xa
+ 715 01b7 00000000 		.4byte	.LASF19
+ 716 01bb 01       		.byte	0x1
+ 717 01bc 4F       		.byte	0x4f
+ 718 01bd 5F010000 		.4byte	0x15f
+ 719 01c1 02       		.byte	0x2
+ 720 01c2 91       		.byte	0x91
+ 721 01c3 64       		.sleb128 -28
+ 722 01c4 00       		.byte	0x0
+ 723 01c5 06       		.uleb128 0x6
+ 724 01c6 04       		.byte	0x4
+ 725 01c7 7A000000 		.4byte	0x7a
+ 726 01cb 07       		.uleb128 0x7
+ 727 01cc 01       		.byte	0x1
+ 728 01cd A8000000 		.4byte	.LASF21
+ 729 01d1 01       		.byte	0x1
+ 730 01d2 5C       		.byte	0x5c
+ 731 01d3 01       		.byte	0x1
+ 732 01d4 6F000000 		.4byte	0x6f
+ 733 01d8 00000000 		.4byte	.LFB32
+ 734 01dc 24000000 		.4byte	.LFE32
+ 735 01e0 A5000000 		.4byte	.LLST3
+ 736 01e4 F7010000 		.4byte	0x1f7
+ 737 01e8 08       		.uleb128 0x8
+ 738 01e9 C8000000 		.4byte	.LASF14
+ 739 01ed 01       		.byte	0x1
+ 740 01ee 5C       		.byte	0x5c
+ 741 01ef 9D000000 		.4byte	0x9d
+ 742 01f3 02       		.byte	0x2
+ 743 01f4 91       		.byte	0x91
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccEpx3pH.s 			page 16
+
+
+ 744 01f5 74       		.sleb128 -12
+ 745 01f6 00       		.byte	0x0
+ 746 01f7 0D       		.uleb128 0xd
+ 747 01f8 24010000 		.4byte	.LASF22
+ 748 01fc 03       		.byte	0x3
+ 749 01fd CE06     		.2byte	0x6ce
+ 750 01ff 05020000 		.4byte	0x205
+ 751 0203 01       		.byte	0x1
+ 752 0204 01       		.byte	0x1
+ 753 0205 0E       		.uleb128 0xe
+ 754 0206 61000000 		.4byte	0x61
+ 755 020a 0F       		.uleb128 0xf
+ 756 020b FC000000 		.4byte	.LASF23
+ 757 020f 01       		.byte	0x1
+ 758 0210 0F       		.byte	0xf
+ 759 0211 9D000000 		.4byte	0x9d
+ 760 0215 01       		.byte	0x1
+ 761 0216 05       		.byte	0x5
+ 762 0217 03       		.byte	0x3
+ 763 0218 00000000 		.4byte	error_str
+ 764 021c 00       		.byte	0x0
+ 765              		.section	.debug_abbrev
+ 766 0000 01       		.uleb128 0x1
+ 767 0001 11       		.uleb128 0x11
+ 768 0002 01       		.byte	0x1
+ 769 0003 25       		.uleb128 0x25
+ 770 0004 0E       		.uleb128 0xe
+ 771 0005 13       		.uleb128 0x13
+ 772 0006 0B       		.uleb128 0xb
+ 773 0007 03       		.uleb128 0x3
+ 774 0008 0E       		.uleb128 0xe
+ 775 0009 1B       		.uleb128 0x1b
+ 776 000a 0E       		.uleb128 0xe
+ 777 000b 11       		.uleb128 0x11
+ 778 000c 01       		.uleb128 0x1
+ 779 000d 52       		.uleb128 0x52
+ 780 000e 01       		.uleb128 0x1
+ 781 000f 55       		.uleb128 0x55
+ 782 0010 06       		.uleb128 0x6
+ 783 0011 10       		.uleb128 0x10
+ 784 0012 06       		.uleb128 0x6
+ 785 0013 00       		.byte	0x0
+ 786 0014 00       		.byte	0x0
+ 787 0015 02       		.uleb128 0x2
+ 788 0016 24       		.uleb128 0x24
+ 789 0017 00       		.byte	0x0
+ 790 0018 0B       		.uleb128 0xb
+ 791 0019 0B       		.uleb128 0xb
+ 792 001a 3E       		.uleb128 0x3e
+ 793 001b 0B       		.uleb128 0xb
+ 794 001c 03       		.uleb128 0x3
+ 795 001d 0E       		.uleb128 0xe
+ 796 001e 00       		.byte	0x0
+ 797 001f 00       		.byte	0x0
+ 798 0020 03       		.uleb128 0x3
+ 799 0021 24       		.uleb128 0x24
+ 800 0022 00       		.byte	0x0
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccEpx3pH.s 			page 17
+
+
+ 801 0023 0B       		.uleb128 0xb
+ 802 0024 0B       		.uleb128 0xb
+ 803 0025 3E       		.uleb128 0x3e
+ 804 0026 0B       		.uleb128 0xb
+ 805 0027 03       		.uleb128 0x3
+ 806 0028 08       		.uleb128 0x8
+ 807 0029 00       		.byte	0x0
+ 808 002a 00       		.byte	0x0
+ 809 002b 04       		.uleb128 0x4
+ 810 002c 16       		.uleb128 0x16
+ 811 002d 00       		.byte	0x0
+ 812 002e 03       		.uleb128 0x3
+ 813 002f 0E       		.uleb128 0xe
+ 814 0030 3A       		.uleb128 0x3a
+ 815 0031 0B       		.uleb128 0xb
+ 816 0032 3B       		.uleb128 0x3b
+ 817 0033 0B       		.uleb128 0xb
+ 818 0034 49       		.uleb128 0x49
+ 819 0035 13       		.uleb128 0x13
+ 820 0036 00       		.byte	0x0
+ 821 0037 00       		.byte	0x0
+ 822 0038 05       		.uleb128 0x5
+ 823 0039 24       		.uleb128 0x24
+ 824 003a 00       		.byte	0x0
+ 825 003b 0B       		.uleb128 0xb
+ 826 003c 0B       		.uleb128 0xb
+ 827 003d 3E       		.uleb128 0x3e
+ 828 003e 0B       		.uleb128 0xb
+ 829 003f 00       		.byte	0x0
+ 830 0040 00       		.byte	0x0
+ 831 0041 06       		.uleb128 0x6
+ 832 0042 0F       		.uleb128 0xf
+ 833 0043 00       		.byte	0x0
+ 834 0044 0B       		.uleb128 0xb
+ 835 0045 0B       		.uleb128 0xb
+ 836 0046 49       		.uleb128 0x49
+ 837 0047 13       		.uleb128 0x13
+ 838 0048 00       		.byte	0x0
+ 839 0049 00       		.byte	0x0
+ 840 004a 07       		.uleb128 0x7
+ 841 004b 2E       		.uleb128 0x2e
+ 842 004c 01       		.byte	0x1
+ 843 004d 3F       		.uleb128 0x3f
+ 844 004e 0C       		.uleb128 0xc
+ 845 004f 03       		.uleb128 0x3
+ 846 0050 0E       		.uleb128 0xe
+ 847 0051 3A       		.uleb128 0x3a
+ 848 0052 0B       		.uleb128 0xb
+ 849 0053 3B       		.uleb128 0x3b
+ 850 0054 0B       		.uleb128 0xb
+ 851 0055 27       		.uleb128 0x27
+ 852 0056 0C       		.uleb128 0xc
+ 853 0057 49       		.uleb128 0x49
+ 854 0058 13       		.uleb128 0x13
+ 855 0059 11       		.uleb128 0x11
+ 856 005a 01       		.uleb128 0x1
+ 857 005b 12       		.uleb128 0x12
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccEpx3pH.s 			page 18
+
+
+ 858 005c 01       		.uleb128 0x1
+ 859 005d 40       		.uleb128 0x40
+ 860 005e 06       		.uleb128 0x6
+ 861 005f 01       		.uleb128 0x1
+ 862 0060 13       		.uleb128 0x13
+ 863 0061 00       		.byte	0x0
+ 864 0062 00       		.byte	0x0
+ 865 0063 08       		.uleb128 0x8
+ 866 0064 05       		.uleb128 0x5
+ 867 0065 00       		.byte	0x0
+ 868 0066 03       		.uleb128 0x3
+ 869 0067 0E       		.uleb128 0xe
+ 870 0068 3A       		.uleb128 0x3a
+ 871 0069 0B       		.uleb128 0xb
+ 872 006a 3B       		.uleb128 0x3b
+ 873 006b 0B       		.uleb128 0xb
+ 874 006c 49       		.uleb128 0x49
+ 875 006d 13       		.uleb128 0x13
+ 876 006e 02       		.uleb128 0x2
+ 877 006f 0A       		.uleb128 0xa
+ 878 0070 00       		.byte	0x0
+ 879 0071 00       		.byte	0x0
+ 880 0072 09       		.uleb128 0x9
+ 881 0073 34       		.uleb128 0x34
+ 882 0074 00       		.byte	0x0
+ 883 0075 03       		.uleb128 0x3
+ 884 0076 08       		.uleb128 0x8
+ 885 0077 3A       		.uleb128 0x3a
+ 886 0078 0B       		.uleb128 0xb
+ 887 0079 3B       		.uleb128 0x3b
+ 888 007a 0B       		.uleb128 0xb
+ 889 007b 49       		.uleb128 0x49
+ 890 007c 13       		.uleb128 0x13
+ 891 007d 02       		.uleb128 0x2
+ 892 007e 0A       		.uleb128 0xa
+ 893 007f 00       		.byte	0x0
+ 894 0080 00       		.byte	0x0
+ 895 0081 0A       		.uleb128 0xa
+ 896 0082 34       		.uleb128 0x34
+ 897 0083 00       		.byte	0x0
+ 898 0084 03       		.uleb128 0x3
+ 899 0085 0E       		.uleb128 0xe
+ 900 0086 3A       		.uleb128 0x3a
+ 901 0087 0B       		.uleb128 0xb
+ 902 0088 3B       		.uleb128 0x3b
+ 903 0089 0B       		.uleb128 0xb
+ 904 008a 49       		.uleb128 0x49
+ 905 008b 13       		.uleb128 0x13
+ 906 008c 02       		.uleb128 0x2
+ 907 008d 0A       		.uleb128 0xa
+ 908 008e 00       		.byte	0x0
+ 909 008f 00       		.byte	0x0
+ 910 0090 0B       		.uleb128 0xb
+ 911 0091 01       		.uleb128 0x1
+ 912 0092 01       		.byte	0x1
+ 913 0093 49       		.uleb128 0x49
+ 914 0094 13       		.uleb128 0x13
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccEpx3pH.s 			page 19
+
+
+ 915 0095 01       		.uleb128 0x1
+ 916 0096 13       		.uleb128 0x13
+ 917 0097 00       		.byte	0x0
+ 918 0098 00       		.byte	0x0
+ 919 0099 0C       		.uleb128 0xc
+ 920 009a 21       		.uleb128 0x21
+ 921 009b 00       		.byte	0x0
+ 922 009c 49       		.uleb128 0x49
+ 923 009d 13       		.uleb128 0x13
+ 924 009e 2F       		.uleb128 0x2f
+ 925 009f 0B       		.uleb128 0xb
+ 926 00a0 00       		.byte	0x0
+ 927 00a1 00       		.byte	0x0
+ 928 00a2 0D       		.uleb128 0xd
+ 929 00a3 34       		.uleb128 0x34
+ 930 00a4 00       		.byte	0x0
+ 931 00a5 03       		.uleb128 0x3
+ 932 00a6 0E       		.uleb128 0xe
+ 933 00a7 3A       		.uleb128 0x3a
+ 934 00a8 0B       		.uleb128 0xb
+ 935 00a9 3B       		.uleb128 0x3b
+ 936 00aa 05       		.uleb128 0x5
+ 937 00ab 49       		.uleb128 0x49
+ 938 00ac 13       		.uleb128 0x13
+ 939 00ad 3F       		.uleb128 0x3f
+ 940 00ae 0C       		.uleb128 0xc
+ 941 00af 3C       		.uleb128 0x3c
+ 942 00b0 0C       		.uleb128 0xc
+ 943 00b1 00       		.byte	0x0
+ 944 00b2 00       		.byte	0x0
+ 945 00b3 0E       		.uleb128 0xe
+ 946 00b4 35       		.uleb128 0x35
+ 947 00b5 00       		.byte	0x0
+ 948 00b6 49       		.uleb128 0x49
+ 949 00b7 13       		.uleb128 0x13
+ 950 00b8 00       		.byte	0x0
+ 951 00b9 00       		.byte	0x0
+ 952 00ba 0F       		.uleb128 0xf
+ 953 00bb 34       		.uleb128 0x34
+ 954 00bc 00       		.byte	0x0
+ 955 00bd 03       		.uleb128 0x3
+ 956 00be 0E       		.uleb128 0xe
+ 957 00bf 3A       		.uleb128 0x3a
+ 958 00c0 0B       		.uleb128 0xb
+ 959 00c1 3B       		.uleb128 0x3b
+ 960 00c2 0B       		.uleb128 0xb
+ 961 00c3 49       		.uleb128 0x49
+ 962 00c4 13       		.uleb128 0x13
+ 963 00c5 3F       		.uleb128 0x3f
+ 964 00c6 0C       		.uleb128 0xc
+ 965 00c7 02       		.uleb128 0x2
+ 966 00c8 0A       		.uleb128 0xa
+ 967 00c9 00       		.byte	0x0
+ 968 00ca 00       		.byte	0x0
+ 969 00cb 00       		.byte	0x0
+ 970              		.section	.debug_pubnames,"",%progbits
+ 971 0000 6D000000 		.4byte	0x6d
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccEpx3pH.s 			page 20
+
+
+ 972 0004 0200     		.2byte	0x2
+ 973 0006 00000000 		.4byte	.Ldebug_info0
+ 974 000a 1D020000 		.4byte	0x21d
+ 975 000e A3000000 		.4byte	0xa3
+ 976 0012 7061636B 		.ascii	"packet_get_value\000"
+ 976      65745F67 
+ 976      65745F76 
+ 976      616C7565 
+ 976      00
+ 977 0023 03010000 		.4byte	0x103
+ 978 0027 7061636B 		.ascii	"packet_get_uint8\000"
+ 978      65745F67 
+ 978      65745F75 
+ 978      696E7438 
+ 978      00
+ 979 0038 6F010000 		.4byte	0x16f
+ 980 003c 7061636B 		.ascii	"packet_get_uint32\000"
+ 980      65745F67 
+ 980      65745F75 
+ 980      696E7433 
+ 980      3200
+ 981 004e CB010000 		.4byte	0x1cb
+ 982 0052 636C6561 		.ascii	"clear_packet\000"
+ 982      725F7061 
+ 982      636B6574 
+ 982      00
+ 983 005f 0A020000 		.4byte	0x20a
+ 984 0063 6572726F 		.ascii	"error_str\000"
+ 984      725F7374 
+ 984      7200
+ 985 006d 00000000 		.4byte	0x0
+ 986              		.section	.debug_aranges,"",%progbits
+ 987 0000 34000000 		.4byte	0x34
+ 988 0004 0200     		.2byte	0x2
+ 989 0006 00000000 		.4byte	.Ldebug_info0
+ 990 000a 04       		.byte	0x4
+ 991 000b 00       		.byte	0x0
+ 992 000c 0000     		.2byte	0x0
+ 993 000e 0000     		.2byte	0x0
+ 994 0010 00000000 		.4byte	.LFB29
+ 995 0014 00010000 		.4byte	.LFE29-.LFB29
+ 996 0018 00000000 		.4byte	.LFB30
+ 997 001c B0000000 		.4byte	.LFE30-.LFB30
+ 998 0020 00000000 		.4byte	.LFB31
+ 999 0024 AC000000 		.4byte	.LFE31-.LFB31
+ 1000 0028 00000000 		.4byte	.LFB32
+ 1001 002c 24000000 		.4byte	.LFE32-.LFB32
+ 1002 0030 00000000 		.4byte	0x0
+ 1003 0034 00000000 		.4byte	0x0
+ 1004              		.section	.debug_ranges,"",%progbits
+ 1005              	.Ldebug_ranges0:
+ 1006 0000 00000000 		.4byte	.Ltext0
+ 1007 0004 00000000 		.4byte	.Letext0
+ 1008 0008 00000000 		.4byte	.LFB29
+ 1009 000c 00010000 		.4byte	.LFE29
+ 1010 0010 00000000 		.4byte	.LFB30
+ 1011 0014 B0000000 		.4byte	.LFE30
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccEpx3pH.s 			page 21
+
+
+ 1012 0018 00000000 		.4byte	.LFB31
+ 1013 001c AC000000 		.4byte	.LFE31
+ 1014 0020 00000000 		.4byte	.LFB32
+ 1015 0024 24000000 		.4byte	.LFE32
+ 1016 0028 00000000 		.4byte	0x0
+ 1017 002c 00000000 		.4byte	0x0
+ 1018              		.section	.debug_str,"MS",%progbits,1
+ 1019              	.LASF19:
+ 1020 0000 76616C75 		.ascii	"value_str\000"
+ 1020      655F7374 
+ 1020      7200
+ 1021              	.LASF16:
+ 1022 000a 76616C75 		.ascii	"value\000"
+ 1022      6500
+ 1023              	.LASF26:
+ 1024 0010 433A5C55 		.ascii	"C:\\Users\\karunmj\\Documents\\GitHub\\m2m\\hardwar"
+ 1024      73657273 
+ 1024      5C6B6172 
+ 1024      756E6D6A 
+ 1024      5C446F63 
+ 1025 003d 655C7073 		.ascii	"e\\psoc5\\PSoC_Datalogger_SMS.cydsn\000"
+ 1025      6F63355C 
+ 1025      50536F43 
+ 1025      5F446174 
+ 1025      616C6F67 
+ 1026              	.LASF10:
+ 1027 005f 75696E74 		.ascii	"uint32\000"
+ 1027      333200
+ 1028              	.LASF1:
+ 1029 0066 756E7369 		.ascii	"unsigned char\000"
+ 1029      676E6564 
+ 1029      20636861 
+ 1029      7200
+ 1030              	.LASF9:
+ 1031 0074 75696E74 		.ascii	"uint8\000"
+ 1031      3800
+ 1032              	.LASF5:
+ 1033 007a 6C6F6E67 		.ascii	"long unsigned int\000"
+ 1033      20756E73 
+ 1033      69676E65 
+ 1033      6420696E 
+ 1033      7400
+ 1034              	.LASF15:
+ 1035 008c 6E616D65 		.ascii	"name\000"
+ 1035      00
+ 1036              	.LASF7:
+ 1037 0091 6C6F6E67 		.ascii	"long long unsigned int\000"
+ 1037      206C6F6E 
+ 1037      6720756E 
+ 1037      7369676E 
+ 1037      65642069 
+ 1038              	.LASF21:
+ 1039 00a8 636C6561 		.ascii	"clear_packet\000"
+ 1039      725F7061 
+ 1039      636B6574 
+ 1039      00
+ 1040              	.LASF3:
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccEpx3pH.s 			page 22
+
+
+ 1041 00b5 73686F72 		.ascii	"short unsigned int\000"
+ 1041      7420756E 
+ 1041      7369676E 
+ 1041      65642069 
+ 1041      6E7400
+ 1042              	.LASF14:
+ 1043 00c8 7061636B 		.ascii	"packet\000"
+ 1043      657400
+ 1044              	.LASF24:
+ 1045 00cf 474E5520 		.ascii	"GNU C 4.4.1\000"
+ 1045      4320342E 
+ 1045      342E3100 
+ 1046              	.LASF18:
+ 1047 00db 7061636B 		.ascii	"packet_get_uint8\000"
+ 1047      65745F67 
+ 1047      65745F75 
+ 1047      696E7438 
+ 1047      00
+ 1048              	.LASF25:
+ 1049 00ec 2E5C7061 		.ascii	".\\packet.c\000"
+ 1049      636B6574 
+ 1049      2E6300
+ 1050              	.LASF13:
+ 1051 00f7 63686172 		.ascii	"char\000"
+ 1051      00
+ 1052              	.LASF23:
+ 1053 00fc 6572726F 		.ascii	"error_str\000"
+ 1053      725F7374 
+ 1053      7200
+ 1054              	.LASF4:
+ 1055 0106 6C6F6E67 		.ascii	"long int\000"
+ 1055      20696E74 
+ 1055      00
+ 1056              	.LASF12:
+ 1057 010f 646F7562 		.ascii	"double\000"
+ 1057      6C6500
+ 1058              	.LASF6:
+ 1059 0116 6C6F6E67 		.ascii	"long long int\000"
+ 1059      206C6F6E 
+ 1059      6720696E 
+ 1059      7400
+ 1060              	.LASF22:
+ 1061 0124 49544D5F 		.ascii	"ITM_RxBuffer\000"
+ 1061      52784275 
+ 1061      66666572 
+ 1061      00
+ 1062              	.LASF0:
+ 1063 0131 7369676E 		.ascii	"signed char\000"
+ 1063      65642063 
+ 1063      68617200 
+ 1064              	.LASF17:
+ 1065 013d 7061636B 		.ascii	"packet_get_value\000"
+ 1065      65745F67 
+ 1065      65745F76 
+ 1065      616C7565 
+ 1065      00
+ 1066              	.LASF20:
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccEpx3pH.s 			page 23
+
+
+ 1067 014e 7061636B 		.ascii	"packet_get_uint32\000"
+ 1067      65745F67 
+ 1067      65745F75 
+ 1067      696E7433 
+ 1067      3200
+ 1068              	.LASF11:
+ 1069 0160 666C6F61 		.ascii	"float\000"
+ 1069      7400
+ 1070              	.LASF2:
+ 1071 0166 73686F72 		.ascii	"short int\000"
+ 1071      7420696E 
+ 1071      7400
+ 1072              	.LASF8:
+ 1073 0170 756E7369 		.ascii	"unsigned int\000"
+ 1073      676E6564 
+ 1073      20696E74 
+ 1073      00
+ 1074              		.ident	"GCC: (Sourcery G++ Lite 2010q1-188) 4.4.1"

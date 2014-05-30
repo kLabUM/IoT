@@ -9,18 +9,15 @@
  *
  * ========================================
 */
-//[] END OF FILE
 #include <device.h>
 #include <stdio.h>
-#include <stdlib.h>
+#include <stdlib.h> 
 #include <string.h>
-#include <FS.h>
+#include "modem.h"
 
-#define MAX_DEBUG_LENGTH 256
+uint8   packet_get_value(char* packet, char* name, char* value);
+uint8   packet_get_uint8(char* packet, char* name, uint8* value);
+uint8   packet_get_uint32(char* packet, char* name, uint32* value);
+uint8   clear_packet(char* packet);
 
-uint8 debug_on();
-uint8 debug_off();
-uint8 debug_is_on();
-void debug_write(const void *pData);
-void Write_Debug_To_SD_Card(const char* fileName, const char* pMode, const void* pData, U32 NumBytes);
-void clear_debug_packet();
+//[] END OF FILE

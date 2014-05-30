@@ -59,7 +59,7 @@ uint8 ultrasonic_get_reading(UltrasonicReading *reading) {
     ultrasonic_power_on();                                  // Power on the sensor
     CyDelay(1500u);                                         // Wait for UART to get readings from sensor
     
-    isr_byte_ultrasonic_rx_Stop();                            // Stop the ISR to read the UART
+    isr_byte_ultrasonic_rx_Stop();                          // Stop the ISR to read the UART
     ultrasonic_power_off();                                 // Power off the sensor
 
     // store relevant strings to ultrasonic_packet
@@ -80,7 +80,7 @@ uint8 ultrasonic_get_reading(UltrasonicReading *reading) {
         }
     }
     */
-    uint8 len = strlen(s);
+
     for(i = 0; i < MAX_STRING_LENGTH-1-DEPTH_STRING_LENGTH; i++){
         if( s[i] == 'R' && s[i+1+DEPTH_STRING_LENGTH] == '\r' ) {
             for(j = 0; j < DEPTH_STRING_LENGTH; j++) {
@@ -92,7 +92,7 @@ uint8 ultrasonic_get_reading(UltrasonicReading *reading) {
     }
     
     if ((*reading).valid) {
-        (*reading).depth = (float)atof(depth);
+        (*reading).depth = strtof(depth,(char **) NULL); //(float)atof(depth);
 /*        
         //(*reading).depth = (float) ultrasonic_depth;
         if ((*reading).depth > 9999) { // Recorded depth greater than 4 digits... (eg 13582 vs 1358)
@@ -159,11 +159,14 @@ uint8 ultrasonic_read(uint8* ultrasonic_packet, uint8 ultrasonic_packet_size){
 */
 void uart_ultrasonic_string_reset(){
     // reset uart_received_string to zero
-    uint8 i = 0;
+   
+/*    uint8 i = 0;
     
     for(i = 0; i < MAX_STRING_LENGTH; i++){
         uart_ultrasonic_received_string[i] = 0;
     }
+*/    
+    memset(&uart_ultrasonic_received_string[0],0,sizeof(uart_ultrasonic_received_string));
     uart_ultrasonic_string_index = 0;
     uart_ultrasonic_ClearRxBuffer();
 }

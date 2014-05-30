@@ -14,7 +14,7 @@
 #include "debug.h"
 
 // Declare variables
-uint8 uart_solinst_received_string[MAX_STRING_LENGTH];
+char uart_solinst_received_string[MAX_STRING_LENGTH] = {0};
 uint8 uart_solinst_string_index = 0;
 
 // prototype modem interrupt
@@ -53,10 +53,11 @@ uint8 solinst_power_off(){
 uint8 solinst_get_reading(SolinstReading *reading){
 
     int i, index;
-    int temp_sign = 1, depth_sign = 1;
-    uint8 temp[TEMP_STRING_LENGTH], depth[DEPTH_STRING_LENGTH], t;
     uint8 valid = 0;
     uint8 command[6] = {0x00, 0x61, 0xff, 0x18, 0x24, 0x10};
+    
+    float temp_sign = 1.0, depth_sign = 1.0;
+    char temp[TEMP_STRING_LENGTH] = {0}, depth[DEPTH_STRING_LENGTH] = {0}, t;
     
     // Reset variables
     (*reading).valid = 0u;
@@ -89,7 +90,7 @@ uint8 solinst_get_reading(SolinstReading *reading){
         else if (t == '+')
             continue;
         else if (t == '-') {
-            temp_sign = -1;
+            temp_sign = -1.0;
         }
         else if (t == 'C') {
             valid = 1u;
@@ -112,7 +113,7 @@ uint8 solinst_get_reading(SolinstReading *reading){
         else if (t == '+')
             continue;
         else if (t == '-') {
-            depth_sign = -1;  
+            depth_sign = -1.0;  
         }
         else if (t == 'm') {
             (*reading).valid = 1u & valid;
@@ -131,8 +132,8 @@ uint8 solinst_get_reading(SolinstReading *reading){
     */
     
     if ((*reading).valid) {
-        (*reading).temp = (float)temp_sign * (float)atof(temp);
-        (*reading).depth = (float)depth_sign * (float)atof(depth);
+        (*reading).temp = temp_sign * strtof(temp,(char **) NULL); //(float)atof(temp);
+        (*reading).depth = depth_sign * strtof(depth ,(char **) NULL); //(float)atof(depth);
     }    
     else{
         debug_write("Solinst Invalid Temperature and/or Depth Reading.");
@@ -157,11 +158,14 @@ CY_ISR(isr_solinst_byte_rx){
 
 void uart_solinst_string_reset(){
     // reset uart_received_string to zero
+    /*
     uint8 i = 0;
     
     for(i = 0; i < MAX_STRING_LENGTH; i++){
         uart_solinst_received_string[i] = 0;
     }
+    */
+    memset(&uart_solinst_received_string[0],0,sizeof(uart_solinst_received_string));
     uart_solinst_string_index = 0;
     uart_solinst_ClearRxBuffer();
 }

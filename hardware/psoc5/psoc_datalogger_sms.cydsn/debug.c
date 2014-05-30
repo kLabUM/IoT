@@ -10,9 +10,11 @@
  * ========================================
 */
 #include "debug.h"
+#include "neomote.h"
 
 uint8 write_to_log = 1u;
-uint8 debug_packet[MAX_DEBUG_LENGTH];
+char debug_packet[MAX_DEBUG_LENGTH];
+char* debug_file = "debuglog.txt";
 
 uint8 debug_on() {
     //FS_Init() command needed?
@@ -37,11 +39,11 @@ void debug_write(const void *pData){
 */
         NeoRtcTimeStruct tm_neo = NeoRTC_Read_Time();
 
-        sprintf(debug_packet, "\r\n%d:%d:%d %d/%d/%d -- [ID %d] %s", tm_neo.hour, tm_neo.minute,
+        sprintf((char*) &debug_packet[0], "\r\n%d:%d:%d %d/%d/%d -- [ID %d] %s", tm_neo.hour, tm_neo.minute,
                          tm_neo.second, tm_neo.day, tm_neo.month, tm_neo.year, 
-                         moteID, pData);
+                         moteID, (const char*) pData);
                          
-        Write_Debug_To_SD_Card("debuglog.txt", "a",  debug_packet, strlen(debug_packet));
+        Write_Debug_To_SD_Card((const char*) debug_file, "a",  debug_packet, strlen(debug_packet));
     }
 }
 
@@ -70,11 +72,13 @@ void Write_Debug_To_SD_Card(const char* fileName, const char* pMode, const void*
 }
 
 void clear_debug_packet() {
-
+/*
     uint8 i;
     for(i = 0u; i < MAX_DEBUG_LENGTH; i++){
         debug_packet[i] = 0u;
     }
+*/
+    memset(&debug_packet[0],0,sizeof(debug_packet));
 }
 
 

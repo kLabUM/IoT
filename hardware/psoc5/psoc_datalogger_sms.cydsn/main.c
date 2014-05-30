@@ -7,24 +7,25 @@
 #include "neomote.h"
 #include "sleep.h"
 #include "modem.h"
+#include "packet.h"
 #include "ultrasonic.h"
 #include "solinst_depth.h"
 #include "BatteryVoltage.h"
+#include "debug.h"
 
 // define global variables
-#define MAX_SEND_ATTEMPTS 2
-#define MAX_PACKET_SIZE 700
 #define WRITE_DEBUG 1
 #define FEED_ID 966630999
+
 const char *API_KEY = "7inkCfgjLCcSq6t2E3RC7OnmZykBUXEU8Yv7K56c7JYUOxdn";
-uint8   data_packet[MAX_PACKET_SIZE], debug_packet[MAX_PACKET_SIZE];
-uint8   packet_ready;
-uint8   take_reading;
-uint8   send_attempts;
+char   data_packet[MAX_PACKET_LENGTH] = {0}, debug_packet[MAX_PACKET_LENGTH] = {0};
+uint8   packet_ready, take_reading;
+float   vBattery;
 
 // Set NeoMote ID Number
 uint8 moteID = 2;
 
+uint8 t_sample, trigger_sampler, tmp;
 UltrasonicReading ultrasonic_reading = {.valid = 0};    // Initialize UltrasonicReading.valid to 0
 SolinstReading solinst_reading = {.valid = 0};          // Initialize SolinstReading.valid to 0
 
@@ -32,9 +33,9 @@ SolinstReading solinst_reading = {.valid = 0};          // Initialize SolinstRea
 void rtcCallBackReceived(uint8 alarmType);
 
 // prototype functions
-void read_packet(uint8* packet, uint8 size);
-void write_packet(uint8* dest, uint8* src_ultrasonic, uint8* src_pressure, uint8 size);
-void clear_packet(uint8* packet, uint8 size);
+//void read_packet(uint8* packet, uint8 size);
+//void write_packet(uint8* dest, uint8* src_ultrasonic, uint8* src_pressure, uint8 size);
+//void clear_packet(char* packet);
 void Write_To_SD_Card(const char* fileName, const char* pMode, const void* pData, U32 NumBytes);
 CY_ISR_PROTO(isr_timer);
 void Goto_Low_Power_Mode();
@@ -43,12 +44,11 @@ void debugLog(const void *pData);
 
 void main(){
 
-
-
     CyGlobalIntEnable;
-     SleepTimer_Start();
+    SleepTimer_Start();
     isr_SleepTimer_StartEx(sleepTimerWake_INT);
     FS_Init();
+    modem_set_api_feed(FEED_ID, API_KEY);
     modem_start();
     //modem_power_off();
     ultrasonic_start();
@@ -57,10 +57,11 @@ void main(){
     
     packet_ready = 0u; 
     take_reading = 1u;
-    send_attempts = 0u;
+    t_sample = 2u;                                  // Initialize Sample Period to 2 minutes
+    trigger_sampler = 0u;                           // Initialize automated sampler to not take a sample    
 
-    NeoRTC_Start(rtcCallBackReceived);      // Start and enable the RTC.   
-    NeoRTC_Set_Repeating_Minute_Alarm(10u);  // Set 1-minute alarm
+    NeoRTC_Start(rtcCallBackReceived);              // Start and enable the RTC.   
+    NeoRTC_Set_Repeating_Minute_Alarm(t_sample);    // Set 1-minute alarm
    
     
     //  Uncomment below to set RTC
@@ -78,32 +79,50 @@ void main(){
     */
 
     for(;;){
-        // No need to pause for short time in loop?
+    
         RTC_Process_Tasks();
-       
-        
+         
         if(take_reading){ 
 
             if(modem_state == MODEM_STATE_OFF){
                 modem_power_on();
-                modem_reset();
             }            
-            clear_packet(data_packet, MAX_PACKET_SIZE);
-            modem_retrieve_packet(&data_packet);
+            if (clear_packet(data_packet)) {
+                packet_ready = 0u;
+            }
+            
+            modem_acquire_lock();
+            
+            // modem_get_packet(data_packet);
+            if (modem_get_packet(data_packet,"t_sample,trigger_sampler")) {
+                // Read in any updated values
+                if(packet_get_uint8(data_packet, "t_sample", &tmp)){
+                    t_sample = tmp;
+                }
+                if(packet_get_uint8(data_packet, "trigger_sampler", &tmp)){
+                    trigger_sampler = tmp;
+                }
+                //!\ Ack. trigger_sampler on Xively ASAP.. /!\
+                //   A signal to sample can be missed if the 
+                // signal is sent after trigger_sampler is read
+                // and before trigger_sampler is updated
+            }
+            
+            modem_release_lock();
 
-            
-            take_reading = 0u;
-            
+
+            /*
             if (send_attempts > 0) {
                 debug_write("New reading taken before previous packet was sent");
             }
+            */
             
             // Get Readings for:
             // depth, pressure, temp
             // conductivity.
             solinst_get_reading(&solinst_reading);
             ultrasonic_get_reading(&ultrasonic_reading);
-            float vBattery = ReadBatterVoltage();
+            vBattery = ReadBatterVoltage();
             
             NeoRtcTimeStruct tm_neo = NeoRTC_Read_Time();
 
@@ -128,33 +147,47 @@ void main(){
                             "{ \"id\" : \"depth_sonic\", \"current_value\" : \"%f\"},"
                             "{ \"id\" : \"depth_press\", \"current_value\" : \"%f\"},"
                             "{ \"id\" : \"temp_press\", \"current_value\" : \"%f\"},"
+                            "{ \"id\" : \"trigger_sampler\", \"current_value\" : \"%d\"},"
                             "{ \"id\" : \"V_batt\",  \"current_value\" : \"%f\"}"
                       "]}}",
                       FEED_ID,API_KEY,
-                      ultrasonic_reading.depth, solinst_reading.depth, solinst_reading.temp,vBattery);
+                      ultrasonic_reading.depth, solinst_reading.depth, solinst_reading.temp,trigger_sampler+1,vBattery);
             
-            packet_ready = 1u; 
-            send_attempts = 0u;
+            packet_ready = 1u;
+            //send_attempts = 0u;
+            take_reading = 0u;
             
-            
+  
         } else if(packet_ready){
-            isr_SleepTimer_Stop;
+            isr_SleepTimer_Stop;  //  <============= ADDRESS THIS WITH B.K.
+            
             if(modem_state == MODEM_STATE_OFF){
                 modem_power_on();
             }
-            else if(modem_state == MODEM_STATE_IDLE){
+            
+            // modem_state should now be IDLE or READY
+            modem_send_packet(data_packet);
+            
+            modem_power_off();
+            if (clear_packet(data_packet)) {
+                packet_ready = 0u;
+            }
+            
+            /*
+            // else if(modem_state == MODEM_STATE_IDLE){
+            else { // modem state is ON (aka IDLE or READY)
                 
-                /*
+                
+                ////if(modem_send_packet(data_packet)){     // if packet sent
                 //if(modem_send_packet(data_packet)){     // if packet sent
-                if(modem_send_packet(data_packet)){     // if packet sent
-                    modem_power_off();
-                    clear_packet(data_packet, MAX_PACKET_SIZE);
-                }
-                else{                                   // if packet not sent
-                    modem_reset();
-                    modem_power_off();
-                }
-                */
+                //    modem_power_off();
+                //    clear_packet(data_packet);
+                //}
+                //else{                                   // if packet not sent
+                //    modem_reset();
+                //    modem_power_off();
+                //}
+                
                 if(send_attempts < MAX_SEND_ATTEMPTS){
                     
                     send_attempts++;
@@ -164,7 +197,7 @@ void main(){
                         //debug_write("Packet sent within max attempts.");
                         modem_power_off();
                         //debug_write("Modem powered off.");
-                        clear_packet(data_packet, MAX_PACKET_SIZE);
+                        clear_packet(data_packet);
                         send_attempts = 0u;
                     }
                     else {
@@ -173,15 +206,19 @@ void main(){
                     
                 } 
                 else {
+                // SEND ATTEMPTS MOVED TO modem.c
                 // the number of maximum attempts allowed has been exceeded
                     modem_power_off();
-                    clear_packet(data_packet, MAX_PACKET_SIZE);
+                    clear_packet(data_packet);
                     send_attempts = 0u;
-                    debug_write("MAX_SEND_ATTEMPTS Exceeded");                    
+                    debug_write("MAX_SEND_ATTEMPTS Exceeded");     
+                
                 }                
                  
             }
+            */
         }else{
+            NeoRTC_Set_Repeating_Minute_Alarm(t_sample);  // Set 1-minute alarm
             Goto_Low_Power_Mode();
         }
     CyDelay(1u);  // Quick Pause to prevent locking
@@ -209,16 +246,18 @@ CY_ISR(isr_timer){
 //void read_packet(){
 //}
 
-
-void clear_packet(uint8* packet, uint8 packet_size){
-    uint8 i;
-    for(i = 0u; i < packet_size; i++){
-        packet[i] = 0u;
-    }
+/*
+void clear_packet(char* packet){
     
+    //uint8 i;
+    //for(i = 0u; i < packet_size; i++){
+    //    packet[i] = 0u;
+    //}
+    
+    memset(packet,0,sizeof(packet));
     packet_ready = 0u;
 }
-
+*/
 void rtcCallBackReceived(uint8 alarmType){ // RTC Event Handler.
       
     if(alarmType == RTC_MINUTE_ALARM){
