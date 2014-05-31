@@ -14,11 +14,12 @@
 #include <device.h>
 #include <string.h>
 #include "modem.h"
+#include "packet.h"
 #include "debug.h"
 
 // declare varaiables
-uint8 modem_state, lock_acquired = 0;
-uint16 uart_string_index = 0;
+uint8 modem_state, lock_acquired = 0u;
+uint16 uart_string_index = 0u;
 uint32 feed_id;
 char uart_received_string[700] = {0}, *api_key;
 
@@ -262,7 +263,7 @@ uint8 modem_get_packet(char* packet, char* csv){
     // join network
     uint8 connected = modem_connect();
     */
-    char get_str[200], key_str[100];
+    char get_str[200]={0}, key_str[100]={0};
     uint8 attempts = 0;
     
     if (strlen(csv) > 125) {
@@ -329,11 +330,73 @@ uint8 modem_get_packet(char* packet, char* csv){
 }
 
 uint8 modem_acquire_lock(){
-    return 1u;
+    
+    /*
+    if (lock_acquired == 1u) {
+        return 1u;
+    }
+    */
+    
+    uint8 lock = 0u;
+    uint32 i = 0u, delay = 100u, lock_attempts = 2u;    
+    char data_packet[300] = {0};
+            
+    for(i=0u; i < lock_attempts; i++) {
+        if(modem_get_packet(data_packet,"lock")){
+            if(packet_get_uint8(data_packet, "lock", &lock) && lock == 0u){
+            
+                memset(&data_packet[0],0,sizeof(data_packet));
+                sprintf(data_packet, "{"
+                      "\"method\":\"put\","
+                      "\"resource\":\"/feeds/%lu\","
+                      "\"headers\":{\"X-ApiKey\":\"%s\"},"
+                      "\"body\":{\"version\":\"1.0.0\",\"datastreams\":["
+                            "{ \"id\" : \"lock\", \"current_value\" : \"%u\"}"
+                      "]}}",
+                      feed_id,api_key,1u);
+                      
+                if(modem_send_packet(data_packet)) {
+                    lock_acquired = 1u;
+                    return 1u;
+                }
+            }  
+        }
+        CyDelay(delay);
+    }
+         
+    return 0u;
 }
 
 uint8 modem_release_lock(){
-    return 1u;
+    /*
+    if (lock_acquired == 0u) {
+        return 1u;
+    }
+    */
+    
+    uint32 i = 0u, delay = 100u, lock_attempts = 2u;    
+    char data_packet[300] = {0};
+    
+    sprintf(data_packet, "{"
+          "\"method\":\"put\","
+          "\"resource\":\"/feeds/%lu\","
+          "\"headers\":{\"X-ApiKey\":\"%s\"},"
+          "\"body\":{\"version\":\"1.0.0\",\"datastreams\":["
+                "{ \"id\" : \"lock\", \"current_value\" : \"%u\"}"
+          "]}}",
+          feed_id, api_key, 0u);
+        
+    for(i=0u; i < lock_attempts; i++) {
+
+        if(modem_send_packet(data_packet)) {
+            lock_acquired = 0u;
+            return 1u;
+        }
+        
+        CyDelay(delay);
+    }
+         
+    return 0u;
 }
 
 void uart_string_reset(){

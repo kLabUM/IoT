@@ -86,6 +86,7 @@ uint8 packet_get_uint32(char* packet, char* name, uint32* value) {
         
     sprintf(error_str, "%s not found in packet: \n%s", name, packet);
     debug_write( error_str );
+    return 0u;
 }
 
 
