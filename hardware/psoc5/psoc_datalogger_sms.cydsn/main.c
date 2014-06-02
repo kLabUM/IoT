@@ -10,6 +10,7 @@
 #include "packet.h"
 #include "ultrasonic.h"
 #include "solinst_depth.h"
+#include "autosampler.h"
 #include "BatteryVoltage.h"
 #include "debug.h"
 
@@ -25,7 +26,7 @@ float   vBattery;
 // Set NeoMote ID Number
 uint8 moteID = 2;
 
-uint8 t_sample, trigger_sampler, tmp;
+uint8 t_sample, trigger_sampler, bottle_count, tmp;
 UltrasonicReading ultrasonic_reading = {.valid = 0};    // Initialize UltrasonicReading.valid to 0
 SolinstReading solinst_reading = {.valid = 0};          // Initialize SolinstReading.valid to 0
 
@@ -59,6 +60,7 @@ void main(){
     take_reading = 1u;
     t_sample = 2u;                                  // Initialize Sample Period to 2 minutes
     trigger_sampler = 0u;                           // Initialize automated sampler to not take a sample    
+    bottle_count = 0u;                              // Initialize bottle count to zero
 
     NeoRTC_Start(rtcCallBackReceived);              // Start and enable the RTC.   
     NeoRTC_Set_Repeating_Minute_Alarm(t_sample);    // Set 1-minute alarm
@@ -84,17 +86,18 @@ void main(){
          
         if(take_reading){ 
 
-            if(modem_state == MODEM_STATE_OFF){
-                modem_power_on();
-            }            
+            modem_power_on();   
+           
             if (clear_packet(data_packet)) {
                 packet_ready = 0u;
             }
-            
-            modem_acquire_lock();
-            
+                        
             // modem_get_packet(data_packet);
             if (modem_get_packet(data_packet,"t_sample,trigger_sampler")) {
+                // Send in acknowledgement that packet containing
+                // info re:automated sampler has been received:
+                modem_send_packet("trigger_sampler, 0");
+                
                 // Read in any updated values
                 if(packet_get_uint8(data_packet, "t_sample", &tmp)){
                     t_sample = tmp;
@@ -102,13 +105,7 @@ void main(){
                 if(packet_get_uint8(data_packet, "trigger_sampler", &tmp)){
                     trigger_sampler = tmp;
                 }
-                //!\ Ack. trigger_sampler on Xively ASAP.. /!\
-                //   A signal to sample can be missed if the 
-                // signal is sent after trigger_sampler is read
-                // and before trigger_sampler is updated
             }
-            
-            modem_release_lock();
 
 
             /*
@@ -116,14 +113,56 @@ void main(){
                 debug_write("New reading taken before previous packet was sent");
             }
             */
+            if (trigger_sampler){
+            
+                if (bottle_count < MAX_BOTTLE_COUNT) {
+                    // Turn off modem to conserve energy
+                    modem_power_off();
+                    
+                    autosampler_start();
+                    autosampler_power_on();
+                    
+                    /*
+                    if (autosampler_take_sample(&bottle_count) ) {
+                        sprintf(data_packet,"%s, %u\r\n",
+                            "bottle", bottle_count);
+                    }
+                    */ 
+                    
+                    autosampler_take_sample(&bottle_count);
+                    
+                    autosampler_power_off(); 
+                    autosampler_stop();    
+                }
+                else {
+                    debug_write("bottle_count >= MAX_BOTTLE_COUNT");
+                }
+            }
             
             // Get Readings for:
             // depth, pressure, temp
             // conductivity.
-            solinst_get_reading(&solinst_reading);
-            ultrasonic_get_reading(&ultrasonic_reading);
-            vBattery = ReadBatterVoltage();
+            sprintf(data_packet,"%s, %u\r\n",
+                "bottle", bottle_count);
+                
+            if (solinst_get_reading(&solinst_reading)){
+                sprintf(data_packet,"%s%s, %f\r\n", data_packet,
+                    "depth_press", solinst_reading.depth);            
+                    
+                sprintf(data_packet,"%s%s, %f\r\n", data_packet,
+                    "temp_press", solinst_reading.temp);                      
+            }
             
+            if (ultrasonic_get_reading(&ultrasonic_reading)){
+                sprintf(data_packet,"%s%s, %f\r\n", data_packet,
+                    "depth_sonic", ultrasonic_reading.depth);              
+            }
+            if (ReadBatteryVoltage(&vBattery)){
+                sprintf(data_packet,"%s%s, %f\r\n", data_packet,
+                    "V_batt", vBattery);              
+            }
+            
+            /* Moved to after packet is written to server
             NeoRtcTimeStruct tm_neo = NeoRTC_Read_Time();
 
             sprintf(data_packet, "\r\n%d:%d:%d %d/%d/%d -- [ID %d] u_d=%f s_d=%f s_t=%f v_b=%f", tm_neo.hour, tm_neo.minute,
@@ -131,7 +170,7 @@ void main(){
                              ultrasonic_reading.depth, solinst_reading.depth, solinst_reading.temp,vBattery);
             
             Write_To_SD_Card("data.txt","a",data_packet,strlen(data_packet));
-
+            */
             /* Old AWS packet
             sprintf(data_packet, "\n%d:%d:%d %d/%d/%d -- [ID %d] u_d=%f s_d=%f s_t=%f v_b=%f", tm_neo.hour, tm_neo.minute,
                              tm_neo.second, tm_neo.day, tm_neo.month, tm_neo.year, moteID,
@@ -139,6 +178,7 @@ void main(){
             */
    
             /* Create Xively Packet */
+            /*
             sprintf(data_packet, "{"
                       "\"method\":\"put\","
                       "\"resource\":\"/feeds/%d\","
@@ -151,8 +191,16 @@ void main(){
                             "{ \"id\" : \"V_batt\",  \"current_value\" : \"%f\"}"
                       "]}}",
                       FEED_ID,API_KEY,
-                      ultrasonic_reading.depth, solinst_reading.depth, solinst_reading.temp,trigger_sampler+1,vBattery);
-            
+                      ultrasonic_reading.depth, solinst_reading.depth, solinst_reading.temp,0u,vBattery);
+            */
+            /*
+            sprintf(data_packet, "%s, %f\r\n%s, %f\r\n%s, %f\r\n%s, %f",
+                "depth_sonic", ultrasonic_reading.depth,
+                "depth_press", solinst_reading.depth,
+                "temp_press", solinst_reading.temp,
+                "V_batt", vBattery
+                );
+            */
             packet_ready = 1u;
             //send_attempts = 0u;
             take_reading = 0u;
@@ -161,14 +209,23 @@ void main(){
         } else if(packet_ready){
             isr_SleepTimer_Stop;  //  <============= ADDRESS THIS WITH B.K.
             
-            if(modem_state == MODEM_STATE_OFF){
-                modem_power_on();
-            }
+            // Power on the modem in case it was turned off
+            modem_power_on();
             
             // modem_state should now be IDLE or READY
             modem_send_packet(data_packet);
             
             modem_power_off();
+            
+            // Backup data to SD Card
+            NeoRtcTimeStruct tm_neo = NeoRTC_Read_Time();
+
+            sprintf(data_packet, "\r\n%d:%d:%d %d/%d/%d -- [ID %d] u_d=%f s_d=%f s_t=%f bottle=%d v_b=%f", tm_neo.hour, tm_neo.minute,
+                             tm_neo.second, tm_neo.day, tm_neo.month, tm_neo.year, moteID,
+                             ultrasonic_reading.depth, solinst_reading.depth, solinst_reading.temp,bottle_count,vBattery);
+            
+            Write_To_SD_Card("data.txt","a",data_packet,strlen(data_packet));
+            
             if (clear_packet(data_packet)) {
                 packet_ready = 0u;
             }

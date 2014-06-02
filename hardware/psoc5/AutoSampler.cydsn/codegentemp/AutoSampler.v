@@ -1,6 +1,6 @@
 // ======================================================================
 // AutoSampler.v generated from TopDesign.cysch
-// 05/22/2014 at 19:17
+// 06/01/2014 at 23:54
 // This file is auto generated. ANY EDITS YOU MAKE MAY BE LOST WHEN THIS FILE IS REGENERATED!!!
 // ======================================================================
 
@@ -20,9 +20,9 @@
 `define CYDEV_CHIP_DIE_PSOC5LP 4
 `define CYDEV_CHIP_REV_PSOC5LP_PRODUCTION 0
 `define CYDEV_CHIP_REV_PSOC5LP_ES0 0
-`define CYDEV_CHIP_DIE_EXPECT 3
-`define CYDEV_CHIP_REV_EXPECT 1
-`define CYDEV_CHIP_DIE_ACTUAL 3
+`define CYDEV_CHIP_DIE_EXPECT 4
+`define CYDEV_CHIP_REV_EXPECT 0
+`define CYDEV_CHIP_DIE_ACTUAL 4
 /* -- WARNING: The previous section of defines are deprecated and will be removed in a future release -- */
 `define CYDEV_CHIP_FAMILY_UNKNOWN 0
 `define CYDEV_CHIP_MEMBER_UNKNOWN 0
@@ -45,8 +45,8 @@
 `define CYDEV_CHIP_REVISION_5B_PRODUCTION 0
 `define CYDEV_CHIP_REVISION_5B_ES0 0
 `define CYDEV_CHIP_FAMILY_USED 3
-`define CYDEV_CHIP_MEMBER_USED 3
-`define CYDEV_CHIP_REVISION_USED 1
+`define CYDEV_CHIP_MEMBER_USED 4
+`define CYDEV_CHIP_REVISION_USED 0
 // Component: PulseConvert_v1_0
 `ifdef CY_BLK_DIR
 `undef CY_BLK_DIR

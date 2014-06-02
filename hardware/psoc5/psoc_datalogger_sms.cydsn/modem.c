@@ -67,6 +67,12 @@ uint8 at_write_command(char* uart_string, char* expected_response, uint32 uart_t
 }
 
 uint8 modem_power_on(){
+
+    if (modem_state != MODEM_STATE_OFF) {
+        // Modem is already on
+        return 1u;
+    }
+
     modem_power_pin_Write(1u);
     modem_reset_pin_Write(1u);
     modem_voltage_pin_Write(0u); //provide power to modem
@@ -84,6 +90,16 @@ uint8 modem_power_on(){
 }
 
 uint8 modem_power_off(){
+
+    if (modem_state == MODEM_STATE_OFF) {
+        // Modem is already off
+        return 1u;
+    }
+
+    // Try to disconnect the modem.  
+    // Continue whether or not disconnect is successful
+    modem_disconnect();
+    
     modem_power_pin_Write(0u);
     CyDelay(2500u);  // To turn the CC864-DUAL off, the ON/OFF Pin must be tied low for 2 second and then released.
     modem_power_pin_Write(1u);
@@ -172,7 +188,7 @@ uint8 modem_disconnect(){
         if(at_write_command("AT#SH=1","OK",10000u) == 1){
             if(at_write_command("AT#SGACT=1,0","OK",10000u) == 1){
                 modem_state = MODEM_STATE_IDLE;
-                //return 1u;
+                return 1u;
             }
             else {
                 debug_write("(AT#SGACT=1,0) Could not disconnect.");
@@ -190,12 +206,12 @@ uint8 modem_disconnect(){
             debug_write( "(modem_state != MODEM_STATE_READY) modem_state = MODEM_STATE_IDLE" );
         }
     }
-    return modem_state; 
-    //return 0u; // failed to disconnect
+    
+    return 0u; // failed to disconnect
 }
 
 // send packet to Xively server
-uint8 modem_send_packet(char* packet){
+uint8 modem_send_packet(char* body){
 
     
     /*
@@ -207,6 +223,7 @@ uint8 modem_send_packet(char* packet){
     uint8 connected = modem_connect();
     */
     uint8 attempts = 0;
+    //char put_str[MAX_PACKET_LENGTH] = {0}, key_str[100]={0};
     
     for(attempts = 0; attempts < MAX_SEND_ATTEMPTS; attempts++) {
         
@@ -214,12 +231,23 @@ uint8 modem_send_packet(char* packet){
         if( modem_state == MODEM_STATE_READY || modem_connect() != 0){ 
             // write to AWS server  - 184.72.228.61\",0,0,1
             //if(at_write_command("AT#SD=1,0,50030,\"184.72.228.61\",0,0,1\r","OK",5000u) != 0){
-            if(at_write_command("AT#SD=1,0,8081,\"api.xively.com\",0,0,1\r","OK",10000u) != 0){
+            if(at_write_command("AT#SD=1,0,80,\"api.xively.com\",0,0,1\r","OK",10000u) != 0){
                 if(at_write_command("AT#SSEND=1\r",">",10000u) != 0){
                     //if(at_write_command(packet,"OK",20000u) != 0){
-                    char sendBuffer[750];
-                    sprintf(sendBuffer, "%s\032", packet);
-                    if(at_write_command(sendBuffer,"OK",15000u) != 0){
+                    //char sendBuffer[MAX_PACKET_LENGTH];
+                    char put_str[MAX_PACKET_LENGTH], key_str[100];
+                    
+                    sprintf(put_str,"PUT /v2/feeds/%lu.csv HTTP/1.0\r\n", feed_id);
+                    sprintf(key_str,"X-ApiKey: %s\r\n", api_key);
+                    sprintf(put_str,"%s%s%s%s%d%s%s%s",
+                        put_str,
+                        key_str,
+                        "Host: api.xively.com\r\n",
+                        "Content-Length: ", strlen(body),
+                        "\r\n\r\n", body, "\032\r");
+                        
+                    //sprintf(sendBuffer, "%s\032", packet);
+                    if(at_write_command(put_str,"OK",15000u) != 0){
                         modem_state = MODEM_STATE_IDLE;
                         CyDelay(1000u); //debug_write("Packet sent successfully.");
                         return 1u;   // return 1 if succesfully sent sms
@@ -263,7 +291,7 @@ uint8 modem_get_packet(char* packet, char* csv){
     // join network
     uint8 connected = modem_connect();
     */
-    char get_str[200]={0}, key_str[100]={0};
+    //char get_str[MAX_PACKET_LENGTH]={0}, key_str[100]={0};
     uint8 attempts = 0;
     
     if (strlen(csv) > 125) {
@@ -278,22 +306,32 @@ uint8 modem_get_packet(char* packet, char* csv){
             //if(at_write_command("AT#SD=1,0,50030,\"184.72.228.61\",0,0,1\r","OK",5000u) != 0){
             if(at_write_command("AT#SD=1,0,80,\"api.xively.com\",0,0,1\r","OK",10000u) != 0){
                 if(at_write_command("AT#SSEND=1\r",">",10000u) != 0){
-                    
+                    char get_str[MAX_PACKET_LENGTH], key_str[100];
                     sprintf(get_str,"GET /v2/feeds/%lu.csv?datastreams=%s HTTP/1.0\r\n", feed_id, csv);
-                    sprintf(key_str,"X-ApiKey: %s\r\n\r\n", api_key);
+                    sprintf(key_str,"X-ApiKey: %s\r\n", api_key);
+                    sprintf(get_str,"%s%s%s%s%s",
+                        get_str,
+                        key_str,
+                        "Host: api.xively.com\r\n",
+                        "Accept: text/csv\r\n",
+                        "\r\n\032\r");
+                    //at_write_command(get_str,">",10000u);// CyDelay(500u);
                     
                     uart_string_reset();
+                    
+                    /*
                     at_write_command(get_str,">",10000u);// CyDelay(500u);
                     at_write_command("Host: api.xively.com\r\n",">",10000u);// CyDelay(500u);
                     at_write_command("Accept: text/csv\r\n",">",10000u);// CyDelay(500u);
                     at_write_command(key_str,">",10000u);// CyDelay(500u);
-                    
+                    */
                     // Successfully Sent AT-Commands for GET Request
-                    if(at_write_command("\032\r","OK",15000u) != 0){
+                    //if(at_write_command("\032\r","OK",15000u) != 0){
                     
+                    if(at_write_command(get_str,"SRING: 1",15000u) != 0){
                         // Read GET response from the buffer
                         uart_string_reset();
-                        CyDelay(5000u);
+                        //CyDelay(5000u);
                         at_write_command("AT#SRECV=1,700\r","OK",15000u);
                         //strcpy(packet, uart_received_string);
                         strcpy(packet, strstr(uart_received_string, "\r\n\r\n")+strlen("\r\n\r\n"));

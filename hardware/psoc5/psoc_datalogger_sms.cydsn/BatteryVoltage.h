@@ -13,4 +13,4 @@
 
 #include <device.h>
 
-float ReadBatterVoltage();
+uint8   ReadBatteryVoltage(float* voltage);

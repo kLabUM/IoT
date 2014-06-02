@@ -1,5 +1,5 @@
 /*******************************************************************************
-* File Name: pump_active.c  
+* File Name: Pin_Sampler_Completed_Sample.c  
 * Version 1.90
 *
 * Description:
@@ -15,15 +15,15 @@
 *******************************************************************************/
 
 #include "cytypes.h"
-#include "pump_active.h"
+#include "Pin_Sampler_Completed_Sample.h"
 
 /* APIs are not generated for P15[7:6] on PSoC 5 */
 #if !(CY_PSOC5A &&\
-	 pump_active__PORT == 15 && ((pump_active__MASK & 0xC0) != 0))
+	 Pin_Sampler_Completed_Sample__PORT == 15 && ((Pin_Sampler_Completed_Sample__MASK & 0xC0) != 0))
 
 
 /*******************************************************************************
-* Function Name: pump_active_Write
+* Function Name: Pin_Sampler_Completed_Sample_Write
 ********************************************************************************
 *
 * Summary:
@@ -36,15 +36,15 @@
 *  None
 *  
 *******************************************************************************/
-void pump_active_Write(uint8 value) 
+void Pin_Sampler_Completed_Sample_Write(uint8 value) 
 {
-    uint8 staticBits = (pump_active_DR & (uint8)(~pump_active_MASK));
-    pump_active_DR = staticBits | ((uint8)(value << pump_active_SHIFT) & pump_active_MASK);
+    uint8 staticBits = (Pin_Sampler_Completed_Sample_DR & (uint8)(~Pin_Sampler_Completed_Sample_MASK));
+    Pin_Sampler_Completed_Sample_DR = staticBits | ((uint8)(value << Pin_Sampler_Completed_Sample_SHIFT) & Pin_Sampler_Completed_Sample_MASK);
 }
 
 
 /*******************************************************************************
-* Function Name: pump_active_SetDriveMode
+* Function Name: Pin_Sampler_Completed_Sample_SetDriveMode
 ********************************************************************************
 *
 * Summary:
@@ -57,14 +57,14 @@ void pump_active_Write(uint8 value)
 *  None
 *
 *******************************************************************************/
-void pump_active_SetDriveMode(uint8 mode) 
+void Pin_Sampler_Completed_Sample_SetDriveMode(uint8 mode) 
 {
-	CyPins_SetPinDriveMode(pump_active_0, mode);
+	CyPins_SetPinDriveMode(Pin_Sampler_Completed_Sample_0, mode);
 }
 
 
 /*******************************************************************************
-* Function Name: pump_active_Read
+* Function Name: Pin_Sampler_Completed_Sample_Read
 ********************************************************************************
 *
 * Summary:
@@ -78,17 +78,17 @@ void pump_active_SetDriveMode(uint8 mode)
 *  Returns the current value of the Digital Port as a right justified number
 *  
 * Note:
-*  Macro pump_active_ReadPS calls this function. 
+*  Macro Pin_Sampler_Completed_Sample_ReadPS calls this function. 
 *  
 *******************************************************************************/
-uint8 pump_active_Read(void) 
+uint8 Pin_Sampler_Completed_Sample_Read(void) 
 {
-    return (pump_active_PS & pump_active_MASK) >> pump_active_SHIFT;
+    return (Pin_Sampler_Completed_Sample_PS & Pin_Sampler_Completed_Sample_MASK) >> Pin_Sampler_Completed_Sample_SHIFT;
 }
 
 
 /*******************************************************************************
-* Function Name: pump_active_ReadDataReg
+* Function Name: Pin_Sampler_Completed_Sample_ReadDataReg
 ********************************************************************************
 *
 * Summary:
@@ -101,17 +101,17 @@ uint8 pump_active_Read(void)
 *  Returns the current value assigned to the Digital Port's data output register
 *  
 *******************************************************************************/
-uint8 pump_active_ReadDataReg(void) 
+uint8 Pin_Sampler_Completed_Sample_ReadDataReg(void) 
 {
-    return (pump_active_DR & pump_active_MASK) >> pump_active_SHIFT;
+    return (Pin_Sampler_Completed_Sample_DR & Pin_Sampler_Completed_Sample_MASK) >> Pin_Sampler_Completed_Sample_SHIFT;
 }
 
 
 /* If Interrupts Are Enabled for this Pins component */ 
-#if defined(pump_active_INTSTAT) 
+#if defined(Pin_Sampler_Completed_Sample_INTSTAT) 
 
     /*******************************************************************************
-    * Function Name: pump_active_ClearInterrupt
+    * Function Name: Pin_Sampler_Completed_Sample_ClearInterrupt
     ********************************************************************************
     * Summary:
     *  Clears any active interrupts attached to port and returns the value of the 
@@ -124,9 +124,9 @@ uint8 pump_active_ReadDataReg(void)
     *  Returns the value of the interrupt status register
     *  
     *******************************************************************************/
-    uint8 pump_active_ClearInterrupt(void) 
+    uint8 Pin_Sampler_Completed_Sample_ClearInterrupt(void) 
     {
-        return (pump_active_INTSTAT & pump_active_MASK) >> pump_active_SHIFT;
+        return (Pin_Sampler_Completed_Sample_INTSTAT & Pin_Sampler_Completed_Sample_MASK) >> Pin_Sampler_Completed_Sample_SHIFT;
     }
 
 #endif /* If Interrupts Are Enabled for this Pins component */ 

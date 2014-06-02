@@ -80,93 +80,6 @@ static void CyClockStartupError(uint8 errorCode)
 		#define CY_CFG_MEMORY_BARRIER() __sync_synchronize()
 	#endif
 	
-	/*******************************************************************************
-	* Function Name: CYMEMZERO8
-	********************************************************************************
-	* Summary:
-	*  This function is provided as a way to initialize a block of memory to zero
-	*  one byte at a time.  While this is a 32bit processor, some of the 
-	*  configuration registers are only 8bits wide.  This allows us to initialize
-	*  just the registers we care about.
-	*
-	* Parameters:  
-	*   addr  - The first address to start writing zero to.
-	*   count - The number of bytes to write 0 to.
-	*
-	* Return:
-	*   void
-	*
-	*******************************************************************************/
-	__attribute__ ((unused))
-	static void CYMEMZERO8(void *addr, uint32 count);
-	__attribute__ ((unused))
-	static void CYMEMZERO8(void *addr, uint32 count)
-	{
-		volatile uint8 * const addr8 = (volatile uint8 *)addr;
-		uint32 i;
-		for (i = 0u; i < count; i++)
-		{
-			addr8[i] = 0u;
-		}
-	}
-
-	/*******************************************************************************
-	* Function Name: CYCONFIGCPY8
-	********************************************************************************
-	* Summary:
-	*  This function is provided as a way to copy data from one location to another
-	*  one byte at a time.  While this is a 32bit processor, some of the 
-	*  configuration registers are only 8bits wide.  This allows us to initialize
-	*  just the registers we care about.
-	*
-	* Parameters:  
-	*   dest  - The destination address to copy data to.
-	*   src   - The source address to copy data from.
-	*   count - The number of bytes to copy from 'src' to 'dest'.
-	*
-	* Return:
-	*   void
-	*
-	*******************************************************************************/
-	__attribute__ ((unused))
-	static void CYCONFIGCPY8(void *dest, const void *src, uint32 count);
-	__attribute__ ((unused))
-	static void CYCONFIGCPY8(void *dest, const void *src, uint32 count)
-	{
-		volatile uint8 * const dest8 = (volatile uint8 *)dest;
-		const uint8 * const src8 = (const uint8 *)src;
-		uint32 i;
-		for (i = 0u; i < count; i++)
-		{
-			dest8[i] = src8[i];
-		}
-	}
-
-	/*******************************************************************************
-	* Function Name: CYCONFIGCPYCODE8
-	********************************************************************************
-	* Summary:
-	*  This function is provided as a way to copy data from one location to another
-	*  one byte at a time.  While this is a 32bit processor, some of the 
-	*  configuration registers are only 8bits wide.  This allows us to initialize
-	*  just the registers we care about.
-	*
-	* Parameters:  
-	*   dest  - The destination address to copy data to.
-	*   src   - The source address to copy data from.
-	*   count - The number of bytes to copy from 'src' to 'dest'.
-	*
-	* Return:
-	*   void
-	*
-	*******************************************************************************/
-	__attribute__ ((unused))
-	static void CYCONFIGCPYCODE8(void *dest, const void *src, uint32 count);
-	__attribute__ ((unused))
-	static void CYCONFIGCPYCODE8(void *dest, const void *src, uint32 count)
-	{
-		CYCONFIGCPY8(dest, src, count);
-	}
 
 	__attribute__ ((unused))
 	static void CYMEMZERO(void *s, size_t n);
@@ -193,7 +106,7 @@ static void CyClockStartupError(uint8 errorCode)
 	#error Unsupported toolchain
 #endif
 
-#define CY_CFG_BASE_ADDR_COUNT 15u
+#define CY_CFG_BASE_ADDR_COUNT 13u
 typedef struct
 {
 	uint8 offset;
@@ -201,13 +114,10 @@ typedef struct
 } CYPACKED cy_cfg_addrvalue_t;
 
 #define cy_cfg_addr_table ((const uint32 CYFAR *)0x48000000u)
-#define cy_cfg_data_table ((const cy_cfg_addrvalue_t CYFAR *)0x4800003Cu)
+#define cy_cfg_data_table ((const cy_cfg_addrvalue_t CYFAR *)0x48000034u)
 
 /* IOPINS0_4 Address: CYREG_PRT4_DR Size (bytes): 10 */
 #define BS_IOPINS0_4_VAL ((const uint8 CYFAR *)0x48000164u)
-
-/* IOPORT_4 Address: CYDEV_PRTDSI_PRT4_BASE Size (bytes): 7 */
-#define BS_IOPORT_4_VAL ((const uint8 CYFAR *)0x48000170u)
 
 
 /*******************************************************************************
@@ -262,6 +172,8 @@ static void cfg_write_bytes32(const uint32 addr_table[], const cy_cfg_addrvalue_
 static void ClockSetup(void);
 static void ClockSetup(void)
 {
+	uint32 timeout;
+	uint8 pllLock;
 
 
 	/* Configure Digital Clocks based on settings from Clock DWR */
@@ -281,13 +193,15 @@ static void ClockSetup(void)
 	/* Configure PLL based on settings from Clock DWR */
 	CY_SET_XTND_REG16((void CYFAR *)(CYREG_FASTCLK_PLL_P), 0x0008u);
 	CY_SET_XTND_REG16((void CYFAR *)(CYREG_FASTCLK_PLL_CFG0), 0x1051u);
-	/* Wait 250us for the PLL to lock */
-	CyDelayCycles(250u * 12u); /* Delay 250us based on 12MHz clock */
+	/* Wait up to 250us for the PLL to lock */
+	pllLock = 0u;
+	for (timeout = 250u / 10u; (timeout > 0u) && (pllLock != 0x03u); timeout--) { 
+		pllLock = 0x03u & ((uint8)((uint8)pllLock << 1) | ((CY_GET_XTND_REG8((void CYFAR *)CYREG_FASTCLK_PLL_SR) & 0x01u) >> 0));
+		CyDelayCycles(10u * 48u); /* Delay 10us based on 48MHz clock */
+	}
 
 	/* Configure Bus/Master Clock based on settings from Clock DWR */
-	CY_SET_XTND_REG8((void CYFAR *)(CYREG_CLKDIST_MSTR0), 0x03u);
-	CY_SET_XTND_REG8((void CYFAR *)(CYREG_CLKDIST_MSTR1), 0x01u);
-	CY_SET_XTND_REG8((void CYFAR *)(CYREG_CLKDIST_MSTR0), 0x00u);
+	CY_SET_XTND_REG16((void CYFAR *)(CYREG_CLKDIST_MSTR0), 0x0100u);
 	CY_SET_XTND_REG8((void CYFAR *)(CYREG_CLKDIST_MSTR0), 0x07u);
 	CY_SET_XTND_REG8((void CYFAR *)(CYREG_CLKDIST_BCFG0), 0x00u);
 	CY_SET_XTND_REG8((void CYFAR *)(CYREG_CLKDIST_BCFG2), 0x48u);
@@ -319,15 +233,9 @@ static void ClockSetup(void)
 static void AnalogSetDefault(void);
 static void AnalogSetDefault(void)
 {
-	CY_SET_XTND_REG16((void CYFAR *)CYREG_PM_ACT_CFG10, 0x0310u);
-	CY_SET_XTND_REG8((void CYFAR *)CYREG_DAC0_CR0, 0x1Eu);
-	CY_SET_XTND_REG8((void CYFAR *)CYREG_DAC1_CR0, 0x1Eu);
-	CY_SET_XTND_REG8((void CYFAR *)CYREG_DAC2_CR0, 0x1Eu);
-	CY_SET_XTND_REG8((void CYFAR *)CYREG_DAC3_CR0, 0x1Eu);
-	CY_SET_XTND_REG8((void CYFAR *)CYREG_SAR0_CSR0, 0xC0u);
-	CY_SET_XTND_REG8((void CYFAR *)CYREG_SAR0_CSR3, 0x0Cu);
-	CY_SET_XTND_REG8((void CYFAR *)CYREG_SAR1_CSR0, 0xC0u);
-	CY_SET_XTND_REG8((void CYFAR *)CYREG_SAR1_CSR3, 0x0Cu);
+	uint8 bg_xover_inl_trim = CY_GET_XTND_REG8((void CYFAR *)(CYREG_FLSHID_MFG_CFG_BG_XOVER_INL_TRIM + 1u));
+	CY_SET_XTND_REG8((void CYFAR *)CYREG_BG_DFT0, bg_xover_inl_trim & 0x07u);
+	CY_SET_XTND_REG8((void CYFAR *)CYREG_BG_DFT1, ((uint8)((uint8)bg_xover_inl_trim >> 4)) & 0x0Fu);
 	CY_SET_XTND_REG8((void CYFAR *)CYREG_PUMP_CR0, 0x44u);
 }
 
@@ -390,23 +298,8 @@ void cyfitter_cfg(void)
 	CYGlobalIntDisable
 #endif
 
-
-	/* Set Flash Cycles based on max possible frequency in case a glitch occurs during ClockSetup(). */
-	CY_SET_XTND_REG8((void CYFAR *)(CYREG_CACHE_CC_CTL), (((CYDEV_INSTRUCT_CACHE_ENABLED) != 0) ? 0x00u : 0x01u));
-	/* Setup clocks based on selections from Clock DWR */
-	ClockSetup();
-	/* Set Flash Cycles based on newly configured 24.00MHz Bus Clock. */
-	CY_SET_XTND_REG8((void CYFAR *)(CYREG_CACHE_CC_CTL), (((CYDEV_INSTRUCT_CACHE_ENABLED) != 0) ? 0x80u : 0x81u));
-
-	/* Disable DMA channels so they can be configured for chip initialization */
-	CY_SET_XTND_REG8((void CYFAR *)(CYREG_PHUB_CH0_BASIC_CFG), 0x00u);
-	CY_SET_XTND_REG8((void CYFAR *)(CYREG_PHUB_CH1_BASIC_CFG), 0x00u);
-
-	/* Enable analog pulldown switches */
-	CY_SET_XTND_REG8((void CYFAR *)(CYREG_ANAIF_CFG_MISC_CR0), 0x01u);
-
 	/* Enable/Disable Debug functionality based on settings from System DWR */
-	CY_SET_XTND_REG8((void CYFAR *)CYREG_MLOGIC_DBG_DBE, (CY_GET_XTND_REG8((void CYFAR *)CYREG_MLOGIC_DBG_DBE) | 0x01u));
+	CY_SET_XTND_REG8((void CYFAR *)CYREG_MLOGIC_DEBUG, (CY_GET_XTND_REG8((void CYFAR *)CYREG_MLOGIC_DEBUG) | 0x04u));
 
 	{
 
@@ -425,6 +318,7 @@ void cyfitter_cfg(void)
 			{(void CYFAR *)(CYDEV_UCFG_B1_P2_U0_BASE), 2048u},
 			{(void CYFAR *)(CYDEV_UCFG_DSI0_BASE), 2560u},
 			{(void CYFAR *)(CYDEV_UCFG_DSI12_BASE), 512u},
+			{(void CYFAR *)(CYREG_BCTL0_MDCLK_EN), 32u},
 		};
 
 		uint8 CYDATA i;
@@ -438,17 +332,6 @@ void cyfitter_cfg(void)
 
 		cfg_write_bytes32(cy_cfg_addr_table, cy_cfg_data_table);
 
-		/* Perform normal device configuration. Order is not critical for these items. */
-		CYMEMZERO8((void CYFAR *)(CYDEV_PRTDSI_PRT0_BASE), 7u);
-		CYMEMZERO8((void CYFAR *)(CYDEV_PRTDSI_PRT1_BASE), 7u);
-		CYMEMZERO8((void CYFAR *)(CYDEV_PRTDSI_PRT2_BASE), 7u);
-		CYMEMZERO8((void CYFAR *)(CYDEV_PRTDSI_PRT3_BASE), 7u);
-		CYCONFIGCPY8((void CYFAR *)(CYDEV_PRTDSI_PRT4_BASE), (const void CYFAR *)(BS_IOPORT_4_VAL), 7u);
-		CYMEMZERO8((void CYFAR *)(CYDEV_PRTDSI_PRT5_BASE), 7u);
-		CYMEMZERO8((void CYFAR *)(CYDEV_PRTDSI_PRT6_BASE), 7u);
-		CYMEMZERO8((void CYFAR *)(CYDEV_PRTDSI_PRT12_BASE), 6u);
-		CYMEMZERO8((void CYFAR *)(CYDEV_PRTDSI_PRT15_BASE), 7u);
-
 		/* Enable digital routing */
 		CY_SET_XTND_REG8((void CYFAR *)CYREG_BCTL0_BANK_CTL, CY_GET_XTND_REG8((void CYFAR *)CYREG_BCTL0_BANK_CTL) | 0x02u);
 		CY_SET_XTND_REG8((void CYFAR *)CYREG_BCTL1_BANK_CTL, CY_GET_XTND_REG8((void CYFAR *)CYREG_BCTL1_BANK_CTL) | 0x02u);
@@ -461,11 +344,20 @@ void cyfitter_cfg(void)
 	/* Perform second pass device configuration. These items must be configured in specific order after the regular configuration is done. */
 	CYCONFIGCPY((void CYFAR *)(CYREG_PRT4_DR), (const void CYFAR *)(BS_IOPINS0_4_VAL), 10u);
 
+	/* Switch Boost to the precision bandgap reference from its internal reference */
+	CY_SET_REG8((void CYXDATA *)CYDEV_BOOST_CR2, (CY_GET_REG8((void CYXDATA *)CYDEV_BOOST_CR2) | 0x08u));
+
+	/* Set Flash Cycles based on max possible frequency in case a glitch occurs during ClockSetup(). */
+	CY_SET_XTND_REG8((void CYFAR *)(CYREG_CACHE_CC_CTL), (((CYDEV_INSTRUCT_CACHE_ENABLED) != 0) ? 0x01u : 0x00u));
+	/* Setup clocks based on selections from Clock DWR */
+	ClockSetup();
+	/* Set Flash Cycles based on newly configured 24.00MHz Bus Clock. */
+	CY_SET_XTND_REG8((void CYFAR *)(CYREG_CACHE_CC_CTL), (((CYDEV_INSTRUCT_CACHE_ENABLED) != 0) ? 0x81u : 0x80u));
+	CY_SET_XTND_REG8((void CYFAR *)(CYREG_PANTHER_WAITPIPE), 0x01u);
 
 	/* Perform basic analog initialization to defaults */
 	AnalogSetDefault();
 
 	/* Configure alternate active mode */
-	CYCONFIGCPY((void CYFAR *)CYDEV_PM_STBY_BASE, (const void CYFAR *)CYDEV_PM_ACT_BASE, 12u);
-	CY_SET_XTND_REG8((void CYFAR *)CYREG_PM_STBY_CFG0, CY_GET_XTND_REG8((void CYFAR *)CYREG_PM_STBY_CFG0) & (uint8)~0x02u);	/* Disable CPU */
+	CYCONFIGCPY((void CYFAR *)CYDEV_PM_STBY_BASE, (const void CYFAR *)CYDEV_PM_ACT_BASE, 14u);
 }

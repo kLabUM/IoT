@@ -1,5 +1,5 @@
 /*******************************************************************************
-* File Name: pump_active.h  
+* File Name: Pin_Sampler_Sampler_Count.h  
 * Version 1.90
 *
 * Description:
@@ -14,8 +14,8 @@
 * the software package with which this file was provided.
 *******************************************************************************/
 
-#if !defined(CY_PINS_pump_active_ALIASES_H) /* Pins pump_active_ALIASES_H */
-#define CY_PINS_pump_active_ALIASES_H
+#if !defined(CY_PINS_Pin_Sampler_Sampler_Count_ALIASES_H) /* Pins Pin_Sampler_Sampler_Count_ALIASES_H */
+#define CY_PINS_Pin_Sampler_Sampler_Count_ALIASES_H
 
 #include "cytypes.h"
 #include "cyfitter.h"
@@ -25,8 +25,8 @@
 /***************************************
 *              Constants        
 ***************************************/
-#define pump_active_0		pump_active__0__PC
+#define Pin_Sampler_Sampler_Count_0		Pin_Sampler_Sampler_Count__0__PC
 
-#endif /* End Pins pump_active_ALIASES_H */
+#endif /* End Pins Pin_Sampler_Sampler_Count_ALIASES_H */
 
 /* [] END OF FILE */
