@@ -76,7 +76,7 @@ uint8 autosampler_take_sample(uint8* count){
     //while(Pin_Sampler_Completed_Sample_Read()==0);
     for (i = 0; i < interval ; i++) {  
         CyDelay(delay);
-        if (Pin_Sampler_Completed_Sample_Read()!=0) {
+        if (Pin_Sampler_Completed_Sample_Read()!=0) { // Event pin on autosampler is HI
             break;
         }
     }
@@ -88,7 +88,7 @@ uint8 autosampler_take_sample(uint8* count){
         interval =  4u*60*1000/delay;       // Wait Max of 4 Minutes for pumping to complete
         for (i = 0; i < interval ; i++) { 
             CyDelay(delay);
-            if (Pin_Sampler_Completed_Sample_Read()==0) {
+            if (Pin_Sampler_Completed_Sample_Read()==0) { // Event pin on autosampler is HI
                 break;
             }
         }

@@ -94,9 +94,6 @@ void main(){
                         
             // modem_get_packet(data_packet);
             if (modem_get_packet(data_packet,"t_sample,trigger_sampler")) {
-                // Send in acknowledgement that packet containing
-                // info re:automated sampler has been received:
-                modem_send_packet("trigger_sampler, 0");
                 
                 // Read in any updated values
                 if(packet_get_uint8(data_packet, "t_sample", &tmp)){
@@ -114,7 +111,13 @@ void main(){
             }
             */
             if (trigger_sampler){
-            
+                
+                // Send in acknowledgement that packet containing
+                // info re:automated sampler has been received:
+                modem_send_packet("trigger_sampler, 0");
+                
+                trigger_sampler = 0; // Update the value locally
+                
                 if (bottle_count < MAX_BOTTLE_COUNT) {
                     // Turn off modem to conserve energy
                     modem_power_off();
