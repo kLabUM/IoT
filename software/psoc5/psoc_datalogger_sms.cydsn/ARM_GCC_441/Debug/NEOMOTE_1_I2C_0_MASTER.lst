@@ -1,0 +1,3728 @@
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccmNVPZc.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 6
+  11              		.eabi_attribute 18, 4
+  12              		.thumb
+  13              		.file	"NEOMOTE_1_I2C_0_MASTER.c"
+  14              		.section	.debug_abbrev,"",%progbits
+  15              	.Ldebug_abbrev0:
+  16              		.section	.debug_info,"",%progbits
+  17              	.Ldebug_info0:
+  18              		.section	.debug_line,"",%progbits
+  19              	.Ldebug_line0:
+  20 0000 FE010000 		.text
+  20      02008800 
+  20      00000201 
+  20      FB0E0D00 
+  20      01010101 
+  21              	.Ltext0:
+  22              		.cfi_sections	.debug_frame
+  23              		.comm	NEOMOTE_1_I2C_0_mstrStatus,1,1
+  24              		.comm	NEOMOTE_1_I2C_0_mstrControl,1,1
+  25              		.comm	NEOMOTE_1_I2C_0_mstrRdBufPtr,4,4
+  26              		.comm	NEOMOTE_1_I2C_0_mstrRdBufSize,1,1
+  27              		.comm	NEOMOTE_1_I2C_0_mstrRdBufIndex,1,1
+  28              		.comm	NEOMOTE_1_I2C_0_mstrWrBufPtr,4,4
+  29              		.comm	NEOMOTE_1_I2C_0_mstrWrBufSize,1,1
+  30              		.comm	NEOMOTE_1_I2C_0_mstrWrBufIndex,1,1
+  31              		.section	.text.NEOMOTE_1_I2C_0_MasterWriteBuf,"ax",%progbits
+  32              		.align	2
+  33              		.global	NEOMOTE_1_I2C_0_MasterWriteBuf
+  34              		.thumb
+  35              		.thumb_func
+  36              		.type	NEOMOTE_1_I2C_0_MasterWriteBuf, %function
+  37              	NEOMOTE_1_I2C_0_MasterWriteBuf:
+  38              	.LFB0:
+  39              		.file 1 ".\\Generated_Source\\PSoC5\\NEOMOTE_1_I2C_0_MASTER.c"
+   1:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** /*******************************************************************************
+   2:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** * File Name: NEOMOTE_1_I2C_0_MASTER.c
+   3:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** * Version 3.30
+   4:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** *
+   5:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** * Description:
+   6:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** *  This file provides the source code of APIs for the I2C component Master mode.
+   7:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** *
+   8:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** * Note:
+   9:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** *
+  10:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** *******************************************************************************
+  11:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** * Copyright 2012, Cypress Semiconductor Corporation.  All rights reserved.
+  12:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** * You may use this file only in accordance with the license, terms, conditions,
+  13:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** * disclaimers, and limitations in the end user license agreement accompanying
+  14:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** * the software package with which this file was provided.
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccmNVPZc.s 			page 2
+
+
+  15:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** *******************************************************************************/
+  16:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** 
+  17:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** #include "NEOMOTE_1_I2C_0_PVT.h"
+  18:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** 
+  19:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** #if(NEOMOTE_1_I2C_0_MODE_MASTER_ENABLED)
+  20:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** 
+  21:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** /**********************************
+  22:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** *      System variables
+  23:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** **********************************/
+  24:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** 
+  25:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** volatile uint8 NEOMOTE_1_I2C_0_mstrStatus;     /* Master Status byte  */
+  26:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** volatile uint8 NEOMOTE_1_I2C_0_mstrControl;    /* Master Control byte */
+  27:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** 
+  28:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** /* Transmit buffer variables */
+  29:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** volatile uint8 * NEOMOTE_1_I2C_0_mstrRdBufPtr;     /* Pointer to Master Read buffer */
+  30:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** volatile uint8   NEOMOTE_1_I2C_0_mstrRdBufSize;    /* Master Read buffer size       */
+  31:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** volatile uint8   NEOMOTE_1_I2C_0_mstrRdBufIndex;   /* Master Read buffer Index      */
+  32:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** 
+  33:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** /* Receive buffer variables */
+  34:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** volatile uint8 * NEOMOTE_1_I2C_0_mstrWrBufPtr;     /* Pointer to Master Write buffer */
+  35:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** volatile uint8   NEOMOTE_1_I2C_0_mstrWrBufSize;    /* Master Write buffer size       */
+  36:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** volatile uint8   NEOMOTE_1_I2C_0_mstrWrBufIndex;   /* Master Write buffer Index      */
+  37:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** 
+  38:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** 
+  39:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** /*******************************************************************************
+  40:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** * Function Name: NEOMOTE_1_I2C_0_MasterWriteBuf
+  41:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** ********************************************************************************
+  42:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** *
+  43:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** * Summary:
+  44:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** *  Automatically writes an entire buffer of data to a slave device. Once the
+  45:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** *  data transfer is initiated by this function, further data transfer is handled
+  46:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** *  by the included ISR in byte by byte mode.
+  47:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** *
+  48:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** * Parameters:
+  49:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** *  slaveAddr: 7-bit slave address.
+  50:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** *  xferData:  Pointer to buffer of data to be sent.
+  51:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** *  cnt:       Size of buffer to send.
+  52:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** *  mode:      Transfer mode defines: start or restart condition generation at
+  53:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** *             begin of the transfer and complete the transfer or halt before
+  54:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** *             generating a stop.
+  55:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** *
+  56:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** * Return:
+  57:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** *  Status error - zero means no errors.
+  58:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** *
+  59:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** * Side Effects:
+  60:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** *  The included ISR will start transfer after start or restart condition will
+  61:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** *  be generated.
+  62:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** *
+  63:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** * Global variables:
+  64:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** *  NEOMOTE_1_I2C_0_mstrStatus  - used to store current status of I2C Master.
+  65:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** *  NEOMOTE_1_I2C_0_state       - used to store current state of software FSM.
+  66:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** *  NEOMOTE_1_I2C_0_mstrControl - used to control master end of transaction with
+  67:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** *  or without the Stop generation.
+  68:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** *  NEOMOTE_1_I2C_0_mstrWrBufPtr - used to store pointer to master write buffer.
+  69:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** *  NEOMOTE_1_I2C_0_mstrWrBufIndex - used to current index within master write
+  70:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** *  buffer.
+  71:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** *  NEOMOTE_1_I2C_0_mstrWrBufSize - used to store master write buffer size.
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccmNVPZc.s 			page 3
+
+
+  72:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** *
+  73:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** * Reentrant:
+  74:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** *  No
+  75:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** *
+  76:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** *******************************************************************************/
+  77:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** uint8 NEOMOTE_1_I2C_0_MasterWriteBuf(uint8 slaveAddress, uint8 * wrData, uint8 cnt, uint8 mode)
+  78:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****       
+  79:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** {
+  40              		.loc 1 79 0
+  41              		.cfi_startproc
+  42              		@ args = 0, pretend = 0, frame = 24
+  43              		@ frame_needed = 1, uses_anonymous_args = 0
+  44              		@ link register save eliminated.
+  45 0000 80B4     		push	{r7}
+  46              	.LCFI0:
+  47              		.cfi_def_cfa_offset 4
+  48 0002 87B0     		sub	sp, sp, #28
+  49              	.LCFI1:
+  50              		.cfi_def_cfa_offset 32
+  51 0004 00AF     		add	r7, sp, #0
+  52              		.cfi_offset 7, -4
+  53              	.LCFI2:
+  54              		.cfi_def_cfa_register 7
+  55 0006 B960     		str	r1, [r7, #8]
+  56 0008 0146     		mov	r1, r0
+  57 000a F973     		strb	r1, [r7, #15]
+  58 000c FA71     		strb	r2, [r7, #7]
+  59 000e BB71     		strb	r3, [r7, #6]
+  80:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****     uint8 errStatus;
+  81:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** 
+  82:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****     errStatus = NEOMOTE_1_I2C_0_MSTR_NOT_READY;
+  60              		.loc 1 82 0
+  61 0010 4FF00203 		mov	r3, #2
+  62 0014 FB75     		strb	r3, [r7, #23]
+  83:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** 
+  84:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****     if(NULL != wrData)
+  63              		.loc 1 84 0
+  64 0016 BB68     		ldr	r3, [r7, #8]
+  65 0018 002B     		cmp	r3, #0
+  66 001a 00F09780 		beq	.L2
+  85:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****     {
+  86:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****         /* Check I2C state before transfer: valid are IDLE or HALT */
+  87:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****         if(NEOMOTE_1_I2C_0_SM_IDLE == NEOMOTE_1_I2C_0_state)
+  67              		.loc 1 87 0
+  68 001e 40F20003 		movw	r3, #:lower16:NEOMOTE_1_I2C_0_state
+  69 0022 C0F20003 		movt	r3, #:upper16:NEOMOTE_1_I2C_0_state
+  70 0026 1B78     		ldrb	r3, [r3, #0]
+  71 0028 DBB2     		uxtb	r3, r3
+  72 002a 102B     		cmp	r3, #16
+  73 002c 11D1     		bne	.L3
+  88:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****         {
+  89:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****             /* Check if free: Master is ready to transaction */
+  90:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****             if(NEOMOTE_1_I2C_0_CHECK_BUS_FREE(NEOMOTE_1_I2C_0_MCSR_REG))
+  74              		.loc 1 90 0
+  75 002e 44F6D913 		movw	r3, #:lower16:1073760729
+  76 0032 C4F20003 		movt	r3, #:upper16:1073760729
+  77 0036 1B78     		ldrb	r3, [r3, #0]
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccmNVPZc.s 			page 4
+
+
+  78 0038 DBB2     		uxtb	r3, r3
+  79 003a 03F00803 		and	r3, r3, #8
+  80 003e 002B     		cmp	r3, #0
+  81 0040 03D1     		bne	.L4
+  91:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****             {
+  92:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****                 errStatus = NEOMOTE_1_I2C_0_MSTR_NO_ERROR;
+  82              		.loc 1 92 0
+  83 0042 4FF00003 		mov	r3, #0
+  84 0046 FB75     		strb	r3, [r7, #23]
+  93:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****             }
+  94:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****             else
+  95:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****             {
+  96:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****                 errStatus = NEOMOTE_1_I2C_0_MSTR_BUS_BUSY;
+  85              		.loc 1 96 0
+  86 0048 23E0     		b	.L6
+  87              	.L4:
+  88 004a 4FF00103 		mov	r3, #1
+  89 004e FB75     		strb	r3, [r7, #23]
+  90 0050 1FE0     		b	.L6
+  91              	.L3:
+  97:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****             }
+  98:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****         }
+  99:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****         else if(NEOMOTE_1_I2C_0_SM_MSTR_HALT == NEOMOTE_1_I2C_0_state)
+  92              		.loc 1 99 0
+  93 0052 40F20003 		movw	r3, #:lower16:NEOMOTE_1_I2C_0_state
+  94 0056 C0F20003 		movt	r3, #:upper16:NEOMOTE_1_I2C_0_state
+  95 005a 1B78     		ldrb	r3, [r3, #0]
+  96 005c DBB2     		uxtb	r3, r3
+  97 005e 602B     		cmp	r3, #96
+  98 0060 17D1     		bne	.L6
+ 100:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****         {
+ 101:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****             errStatus = NEOMOTE_1_I2C_0_MSTR_NO_ERROR;
+  99              		.loc 1 101 0
+ 100 0062 4FF00003 		mov	r3, #0
+ 101 0066 FB75     		strb	r3, [r7, #23]
+ 102:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** 
+ 103:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****             CyIntClearPending(NEOMOTE_1_I2C_0_ISR_NUMBER);
+ 102              		.loc 1 103 0
+ 103 0068 4EF28023 		movw	r3, #:lower16:-536812928
+ 104 006c CEF20003 		movt	r3, #:upper16:-536812928
+ 105 0070 4FF40042 		mov	r2, #32768
+ 106 0074 1A60     		str	r2, [r3, #0]
+ 104:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****             NEOMOTE_1_I2C_0_mstrStatus &= ((uint8) ~NEOMOTE_1_I2C_0_MSTAT_XFER_HALT);
+ 107              		.loc 1 104 0
+ 108 0076 40F20003 		movw	r3, #:lower16:NEOMOTE_1_I2C_0_mstrStatus
+ 109 007a C0F20003 		movt	r3, #:upper16:NEOMOTE_1_I2C_0_mstrStatus
+ 110 007e 1B78     		ldrb	r3, [r3, #0]
+ 111 0080 DBB2     		uxtb	r3, r3
+ 112 0082 1A46     		mov	r2, r3
+ 113 0084 02F0F702 		and	r2, r2, #247
+ 114 0088 40F20003 		movw	r3, #:lower16:NEOMOTE_1_I2C_0_mstrStatus
+ 115 008c C0F20003 		movt	r3, #:upper16:NEOMOTE_1_I2C_0_mstrStatus
+ 116 0090 1A70     		strb	r2, [r3, #0]
+ 117              	.L6:
+ 105:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****         }
+ 106:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****         else
+ 107:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****         {
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccmNVPZc.s 			page 5
+
+
+ 108:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****             /* errStatus = NEOMOTE_1_I2C_0_MSTR_NOT_READY was send before */
+ 109:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****         }
+ 110:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** 
+ 111:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****         if(NEOMOTE_1_I2C_0_MSTR_NO_ERROR == errStatus)
+ 118              		.loc 1 111 0
+ 119 0092 FB7D     		ldrb	r3, [r7, #23]	@ zero_extendqisi2
+ 120 0094 002B     		cmp	r3, #0
+ 121 0096 59D1     		bne	.L2
+ 112:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****         {
+ 113:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****             NEOMOTE_1_I2C_0_state    = NEOMOTE_1_I2C_0_SM_MSTR_WR_ADDR;
+ 122              		.loc 1 113 0
+ 123 0098 40F20003 		movw	r3, #:lower16:NEOMOTE_1_I2C_0_state
+ 124 009c C0F20003 		movt	r3, #:upper16:NEOMOTE_1_I2C_0_state
+ 125 00a0 4FF04502 		mov	r2, #69
+ 126 00a4 1A70     		strb	r2, [r3, #0]
+ 114:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****             NEOMOTE_1_I2C_0_DATA_REG = ((uint8) (slaveAddress << NEOMOTE_1_I2C_0_SLAVE_ADDR_SHIFT))
+ 127              		.loc 1 114 0
+ 128 00a6 44F6D813 		movw	r3, #:lower16:1073760728
+ 129 00aa C4F20003 		movt	r3, #:upper16:1073760728
+ 130 00ae FA7B     		ldrb	r2, [r7, #15]
+ 131 00b0 4FEA4202 		lsl	r2, r2, #1
+ 132 00b4 D2B2     		uxtb	r2, r2
+ 133 00b6 1A70     		strb	r2, [r3, #0]
+ 115:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** 
+ 116:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****             NEOMOTE_1_I2C_0_mstrWrBufIndex = 0u;
+ 134              		.loc 1 116 0
+ 135 00b8 40F20003 		movw	r3, #:lower16:NEOMOTE_1_I2C_0_mstrWrBufIndex
+ 136 00bc C0F20003 		movt	r3, #:upper16:NEOMOTE_1_I2C_0_mstrWrBufIndex
+ 137 00c0 4FF00002 		mov	r2, #0
+ 138 00c4 1A70     		strb	r2, [r3, #0]
+ 117:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****             NEOMOTE_1_I2C_0_mstrWrBufSize  = cnt;
+ 139              		.loc 1 117 0
+ 140 00c6 40F20003 		movw	r3, #:lower16:NEOMOTE_1_I2C_0_mstrWrBufSize
+ 141 00ca C0F20003 		movt	r3, #:upper16:NEOMOTE_1_I2C_0_mstrWrBufSize
+ 142 00ce FA79     		ldrb	r2, [r7, #7]
+ 143 00d0 1A70     		strb	r2, [r3, #0]
+ 118:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****             NEOMOTE_1_I2C_0_mstrWrBufPtr   = (volatile uint8 *) wrData;
+ 144              		.loc 1 118 0
+ 145 00d2 BA68     		ldr	r2, [r7, #8]
+ 146 00d4 40F20003 		movw	r3, #:lower16:NEOMOTE_1_I2C_0_mstrWrBufPtr
+ 147 00d8 C0F20003 		movt	r3, #:upper16:NEOMOTE_1_I2C_0_mstrWrBufPtr
+ 148 00dc 1A60     		str	r2, [r3, #0]
+ 119:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** 
+ 120:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****             NEOMOTE_1_I2C_0_mstrControl = mode;    /* Save transaction mode */
+ 149              		.loc 1 120 0
+ 150 00de 40F20003 		movw	r3, #:lower16:NEOMOTE_1_I2C_0_mstrControl
+ 151 00e2 C0F20003 		movt	r3, #:upper16:NEOMOTE_1_I2C_0_mstrControl
+ 152 00e6 BA79     		ldrb	r2, [r7, #6]
+ 153 00e8 1A70     		strb	r2, [r3, #0]
+ 121:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** 
+ 122:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****             /* Generate a Start or ReStart depends on mode */
+ 123:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****             if(NEOMOTE_1_I2C_0_CHECK_RESTART(mode))
+ 154              		.loc 1 123 0
+ 155 00ea BB79     		ldrb	r3, [r7, #6]	@ zero_extendqisi2
+ 156 00ec 03F00103 		and	r3, r3, #1
+ 157 00f0 DBB2     		uxtb	r3, r3
+ 158 00f2 002B     		cmp	r3, #0
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccmNVPZc.s 			page 6
+
+
+ 159 00f4 0ED0     		beq	.L7
+ 124:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****             {
+ 125:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****                 NEOMOTE_1_I2C_0_GENERATE_RESTART;
+ 160              		.loc 1 125 0
+ 161 00f6 44F6D913 		movw	r3, #:lower16:1073760729
+ 162 00fa C4F20003 		movt	r3, #:upper16:1073760729
+ 163 00fe 4FF01202 		mov	r2, #18
+ 164 0102 1A70     		strb	r2, [r3, #0]
+ 165 0104 44F6D713 		movw	r3, #:lower16:1073760727
+ 166 0108 C4F20003 		movt	r3, #:upper16:1073760727
+ 167 010c 4FF00402 		mov	r2, #4
+ 168 0110 1A70     		strb	r2, [r3, #0]
+ 169 0112 06E0     		b	.L8
+ 170              	.L7:
+ 126:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****             }
+ 127:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****             else
+ 128:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****             {
+ 129:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****                 NEOMOTE_1_I2C_0_GENERATE_START;
+ 171              		.loc 1 129 0
+ 172 0114 44F6D913 		movw	r3, #:lower16:1073760729
+ 173 0118 C4F20003 		movt	r3, #:upper16:1073760729
+ 174 011c 4FF00102 		mov	r2, #1
+ 175 0120 1A70     		strb	r2, [r3, #0]
+ 176              	.L8:
+ 130:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****             }
+ 131:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** 
+ 132:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****             NEOMOTE_1_I2C_0_mstrStatus &= ((uint8) ~NEOMOTE_1_I2C_0_MSTAT_WR_CMPLT);
+ 177              		.loc 1 132 0
+ 178 0122 40F20003 		movw	r3, #:lower16:NEOMOTE_1_I2C_0_mstrStatus
+ 179 0126 C0F20003 		movt	r3, #:upper16:NEOMOTE_1_I2C_0_mstrStatus
+ 180 012a 1B78     		ldrb	r3, [r3, #0]
+ 181 012c DBB2     		uxtb	r3, r3
+ 182 012e 1A46     		mov	r2, r3
+ 183 0130 02F0FD02 		and	r2, r2, #253
+ 184 0134 40F20003 		movw	r3, #:lower16:NEOMOTE_1_I2C_0_mstrStatus
+ 185 0138 C0F20003 		movt	r3, #:upper16:NEOMOTE_1_I2C_0_mstrStatus
+ 186 013c 1A70     		strb	r2, [r3, #0]
+ 133:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** 
+ 134:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****             NEOMOTE_1_I2C_0_EnableInt();   /* Enable intr to complete transfer */
+ 187              		.loc 1 134 0
+ 188 013e 4EF20013 		movw	r3, #:lower16:-536813312
+ 189 0142 CEF20003 		movt	r3, #:upper16:-536813312
+ 190 0146 4FF40042 		mov	r2, #32768
+ 191 014a 1A60     		str	r2, [r3, #0]
+ 192              	.L2:
+ 135:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****         }
+ 136:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****     }
+ 137:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** 
+ 138:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****     return(errStatus);
+ 193              		.loc 1 138 0
+ 194 014c FB7D     		ldrb	r3, [r7, #23]	@ zero_extendqisi2
+ 139:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** }
+ 195              		.loc 1 139 0
+ 196 014e 1846     		mov	r0, r3
+ 197 0150 07F11C07 		add	r7, r7, #28
+ 198 0154 BD46     		mov	sp, r7
+ 199 0156 80BC     		pop	{r7}
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccmNVPZc.s 			page 7
+
+
+ 200 0158 7047     		bx	lr
+ 201              		.cfi_endproc
+ 202              	.LFE0:
+ 203              		.size	NEOMOTE_1_I2C_0_MasterWriteBuf, .-NEOMOTE_1_I2C_0_MasterWriteBuf
+ 204 015a 00BF     		.section	.text.NEOMOTE_1_I2C_0_MasterReadBuf,"ax",%progbits
+ 205              		.align	2
+ 206              		.global	NEOMOTE_1_I2C_0_MasterReadBuf
+ 207              		.thumb
+ 208              		.thumb_func
+ 209              		.type	NEOMOTE_1_I2C_0_MasterReadBuf, %function
+ 210              	NEOMOTE_1_I2C_0_MasterReadBuf:
+ 211              	.LFB1:
+ 140:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** 
+ 141:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** 
+ 142:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** /*******************************************************************************
+ 143:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** * Function Name: NEOMOTE_1_I2C_0_MasterReadBuf
+ 144:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** ********************************************************************************
+ 145:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** *
+ 146:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** * Summary:
+ 147:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** *  Automatically writes an entire buffer of data to a slave device. Once the
+ 148:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** *  data transfer is initiated by this function, further data transfer is handled
+ 149:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** *  by the included ISR in byte by byte mode.
+ 150:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** *
+ 151:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** * Parameters:
+ 152:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** *  slaveAddr: 7-bit slave address.
+ 153:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** *  xferData:  Pointer to buffer where to put data from slave.
+ 154:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** *  cnt:       Size of buffer to read.
+ 155:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** *  mode:      Transfer mode defines: start or restart condition generation at
+ 156:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** *             begin of the transfer and complete the transfer or halt before
+ 157:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** *             generating a stop.
+ 158:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** *
+ 159:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** * Return:
+ 160:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** *  Status error - zero means no errors.
+ 161:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** *
+ 162:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** * Side Effects:
+ 163:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** *  The included ISR will start transfer after start or restart condition will
+ 164:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** *  be generated.
+ 165:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** *
+ 166:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** * Global variables:
+ 167:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** *  NEOMOTE_1_I2C_0_mstrStatus  - used to store current status of I2C Master.
+ 168:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** *  NEOMOTE_1_I2C_0_state       - used to store current state of software FSM.
+ 169:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** *  NEOMOTE_1_I2C_0_mstrControl - used to control master end of transaction with
+ 170:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** *  or without the Stop generation.
+ 171:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** *  NEOMOTE_1_I2C_0_mstrRdBufPtr - used to store pointer to master write buffer.
+ 172:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** *  NEOMOTE_1_I2C_0_mstrRdBufIndex - used to current index within master write
+ 173:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** *  buffer.
+ 174:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** *  NEOMOTE_1_I2C_0_mstrRdBufSize - used to store master write buffer size.
+ 175:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** *
+ 176:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** * Reentrant:
+ 177:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** *  No
+ 178:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** *
+ 179:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** *******************************************************************************/
+ 180:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** uint8 NEOMOTE_1_I2C_0_MasterReadBuf(uint8 slaveAddress, uint8 * rdData, uint8 cnt, uint8 mode)
+ 181:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****       
+ 182:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** {
+ 212              		.loc 1 182 0
+ 213              		.cfi_startproc
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccmNVPZc.s 			page 8
+
+
+ 214              		@ args = 0, pretend = 0, frame = 24
+ 215              		@ frame_needed = 1, uses_anonymous_args = 0
+ 216              		@ link register save eliminated.
+ 217 0000 80B4     		push	{r7}
+ 218              	.LCFI3:
+ 219              		.cfi_def_cfa_offset 4
+ 220 0002 87B0     		sub	sp, sp, #28
+ 221              	.LCFI4:
+ 222              		.cfi_def_cfa_offset 32
+ 223 0004 00AF     		add	r7, sp, #0
+ 224              		.cfi_offset 7, -4
+ 225              	.LCFI5:
+ 226              		.cfi_def_cfa_register 7
+ 227 0006 B960     		str	r1, [r7, #8]
+ 228 0008 0146     		mov	r1, r0
+ 229 000a F973     		strb	r1, [r7, #15]
+ 230 000c FA71     		strb	r2, [r7, #7]
+ 231 000e BB71     		strb	r3, [r7, #6]
+ 183:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****     uint8 errStatus;
+ 184:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** 
+ 185:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****     errStatus = NEOMOTE_1_I2C_0_MSTR_NOT_READY;
+ 232              		.loc 1 185 0
+ 233 0010 4FF00203 		mov	r3, #2
+ 234 0014 FB75     		strb	r3, [r7, #23]
+ 186:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** 
+ 187:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****     if(NULL != rdData)
+ 235              		.loc 1 187 0
+ 236 0016 BB68     		ldr	r3, [r7, #8]
+ 237 0018 002B     		cmp	r3, #0
+ 238 001a 00F09A80 		beq	.L11
+ 188:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****     {
+ 189:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****         /* Check I2C state before transfer: valid are IDLE or HALT */
+ 190:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****         if(NEOMOTE_1_I2C_0_SM_IDLE == NEOMOTE_1_I2C_0_state)
+ 239              		.loc 1 190 0
+ 240 001e 40F20003 		movw	r3, #:lower16:NEOMOTE_1_I2C_0_state
+ 241 0022 C0F20003 		movt	r3, #:upper16:NEOMOTE_1_I2C_0_state
+ 242 0026 1B78     		ldrb	r3, [r3, #0]
+ 243 0028 DBB2     		uxtb	r3, r3
+ 244 002a 102B     		cmp	r3, #16
+ 245 002c 11D1     		bne	.L12
+ 191:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****         {
+ 192:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****             /* Check if free: Master is ready to transaction */
+ 193:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****             if(NEOMOTE_1_I2C_0_CHECK_BUS_FREE(NEOMOTE_1_I2C_0_MCSR_REG))
+ 246              		.loc 1 193 0
+ 247 002e 44F6D913 		movw	r3, #:lower16:1073760729
+ 248 0032 C4F20003 		movt	r3, #:upper16:1073760729
+ 249 0036 1B78     		ldrb	r3, [r3, #0]
+ 250 0038 DBB2     		uxtb	r3, r3
+ 251 003a 03F00803 		and	r3, r3, #8
+ 252 003e 002B     		cmp	r3, #0
+ 253 0040 03D1     		bne	.L13
+ 194:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****             {
+ 195:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****                 errStatus = NEOMOTE_1_I2C_0_MSTR_NO_ERROR;
+ 254              		.loc 1 195 0
+ 255 0042 4FF00003 		mov	r3, #0
+ 256 0046 FB75     		strb	r3, [r7, #23]
+ 196:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****             }
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccmNVPZc.s 			page 9
+
+
+ 197:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****             else
+ 198:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****             {
+ 199:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****                 errStatus = NEOMOTE_1_I2C_0_MSTR_BUS_BUSY;
+ 257              		.loc 1 199 0
+ 258 0048 23E0     		b	.L15
+ 259              	.L13:
+ 260 004a 4FF00103 		mov	r3, #1
+ 261 004e FB75     		strb	r3, [r7, #23]
+ 262 0050 1FE0     		b	.L15
+ 263              	.L12:
+ 200:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****             }
+ 201:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****         }
+ 202:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****         else if(NEOMOTE_1_I2C_0_SM_MSTR_HALT == NEOMOTE_1_I2C_0_state)
+ 264              		.loc 1 202 0
+ 265 0052 40F20003 		movw	r3, #:lower16:NEOMOTE_1_I2C_0_state
+ 266 0056 C0F20003 		movt	r3, #:upper16:NEOMOTE_1_I2C_0_state
+ 267 005a 1B78     		ldrb	r3, [r3, #0]
+ 268 005c DBB2     		uxtb	r3, r3
+ 269 005e 602B     		cmp	r3, #96
+ 270 0060 17D1     		bne	.L15
+ 203:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****         {
+ 204:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****             errStatus = NEOMOTE_1_I2C_0_MSTR_NO_ERROR;
+ 271              		.loc 1 204 0
+ 272 0062 4FF00003 		mov	r3, #0
+ 273 0066 FB75     		strb	r3, [r7, #23]
+ 205:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** 
+ 206:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****             CyIntClearPending(NEOMOTE_1_I2C_0_ISR_NUMBER);
+ 274              		.loc 1 206 0
+ 275 0068 4EF28023 		movw	r3, #:lower16:-536812928
+ 276 006c CEF20003 		movt	r3, #:upper16:-536812928
+ 277 0070 4FF40042 		mov	r2, #32768
+ 278 0074 1A60     		str	r2, [r3, #0]
+ 207:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****             NEOMOTE_1_I2C_0_mstrStatus &= ((uint8) ~NEOMOTE_1_I2C_0_MSTAT_XFER_HALT);
+ 279              		.loc 1 207 0
+ 280 0076 40F20003 		movw	r3, #:lower16:NEOMOTE_1_I2C_0_mstrStatus
+ 281 007a C0F20003 		movt	r3, #:upper16:NEOMOTE_1_I2C_0_mstrStatus
+ 282 007e 1B78     		ldrb	r3, [r3, #0]
+ 283 0080 DBB2     		uxtb	r3, r3
+ 284 0082 1A46     		mov	r2, r3
+ 285 0084 02F0F702 		and	r2, r2, #247
+ 286 0088 40F20003 		movw	r3, #:lower16:NEOMOTE_1_I2C_0_mstrStatus
+ 287 008c C0F20003 		movt	r3, #:upper16:NEOMOTE_1_I2C_0_mstrStatus
+ 288 0090 1A70     		strb	r2, [r3, #0]
+ 289              	.L15:
+ 208:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****         }
+ 209:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****         else
+ 210:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****         {
+ 211:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****             /* errStatus = NEOMOTE_1_I2C_0_MSTR_NOT_READY was send before */
+ 212:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****         }
+ 213:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** 
+ 214:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****         if(NEOMOTE_1_I2C_0_MSTR_NO_ERROR == errStatus)
+ 290              		.loc 1 214 0
+ 291 0092 FB7D     		ldrb	r3, [r7, #23]	@ zero_extendqisi2
+ 292 0094 002B     		cmp	r3, #0
+ 293 0096 5CD1     		bne	.L11
+ 215:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****         {
+ 216:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****             NEOMOTE_1_I2C_0_state    = NEOMOTE_1_I2C_0_SM_MSTR_RD_ADDR;
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccmNVPZc.s 			page 10
+
+
+ 294              		.loc 1 216 0
+ 295 0098 40F20003 		movw	r3, #:lower16:NEOMOTE_1_I2C_0_state
+ 296 009c C0F20003 		movt	r3, #:upper16:NEOMOTE_1_I2C_0_state
+ 297 00a0 4FF04902 		mov	r2, #73
+ 298 00a4 1A70     		strb	r2, [r3, #0]
+ 217:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****             NEOMOTE_1_I2C_0_DATA_REG = (((uint8) (slaveAddress << NEOMOTE_1_I2C_0_SLAVE_ADDR_SHIFT)
+ 299              		.loc 1 217 0
+ 300 00a6 44F6D813 		movw	r3, #:lower16:1073760728
+ 301 00aa C4F20003 		movt	r3, #:upper16:1073760728
+ 302 00ae FA7B     		ldrb	r2, [r7, #15]
+ 303 00b0 4FEA4202 		lsl	r2, r2, #1
+ 304 00b4 D2B2     		uxtb	r2, r2
+ 305 00b6 42F00102 		orr	r2, r2, #1
+ 306 00ba D2B2     		uxtb	r2, r2
+ 307 00bc 1A70     		strb	r2, [r3, #0]
+ 218:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****                                                    NEOMOTE_1_I2C_0_READ_FLAG);
+ 219:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** 
+ 220:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****             NEOMOTE_1_I2C_0_mstrRdBufIndex  = 0u;
+ 308              		.loc 1 220 0
+ 309 00be 40F20003 		movw	r3, #:lower16:NEOMOTE_1_I2C_0_mstrRdBufIndex
+ 310 00c2 C0F20003 		movt	r3, #:upper16:NEOMOTE_1_I2C_0_mstrRdBufIndex
+ 311 00c6 4FF00002 		mov	r2, #0
+ 312 00ca 1A70     		strb	r2, [r3, #0]
+ 221:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****             NEOMOTE_1_I2C_0_mstrRdBufSize   = cnt;
+ 313              		.loc 1 221 0
+ 314 00cc 40F20003 		movw	r3, #:lower16:NEOMOTE_1_I2C_0_mstrRdBufSize
+ 315 00d0 C0F20003 		movt	r3, #:upper16:NEOMOTE_1_I2C_0_mstrRdBufSize
+ 316 00d4 FA79     		ldrb	r2, [r7, #7]
+ 317 00d6 1A70     		strb	r2, [r3, #0]
+ 222:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****             NEOMOTE_1_I2C_0_mstrRdBufPtr    = (volatile uint8 *) rdData;
+ 318              		.loc 1 222 0
+ 319 00d8 BA68     		ldr	r2, [r7, #8]
+ 320 00da 40F20003 		movw	r3, #:lower16:NEOMOTE_1_I2C_0_mstrRdBufPtr
+ 321 00de C0F20003 		movt	r3, #:upper16:NEOMOTE_1_I2C_0_mstrRdBufPtr
+ 322 00e2 1A60     		str	r2, [r3, #0]
+ 223:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** 
+ 224:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****             NEOMOTE_1_I2C_0_mstrControl = mode;    /* Save transaction mode */
+ 323              		.loc 1 224 0
+ 324 00e4 40F20003 		movw	r3, #:lower16:NEOMOTE_1_I2C_0_mstrControl
+ 325 00e8 C0F20003 		movt	r3, #:upper16:NEOMOTE_1_I2C_0_mstrControl
+ 326 00ec BA79     		ldrb	r2, [r7, #6]
+ 327 00ee 1A70     		strb	r2, [r3, #0]
+ 225:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** 
+ 226:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****             /* Generate a Start or ReStart depends on mode */
+ 227:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****             if(NEOMOTE_1_I2C_0_CHECK_RESTART(mode))
+ 328              		.loc 1 227 0
+ 329 00f0 BB79     		ldrb	r3, [r7, #6]	@ zero_extendqisi2
+ 330 00f2 03F00103 		and	r3, r3, #1
+ 331 00f6 DBB2     		uxtb	r3, r3
+ 332 00f8 002B     		cmp	r3, #0
+ 333 00fa 0ED0     		beq	.L16
+ 228:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****             {
+ 229:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****                 NEOMOTE_1_I2C_0_GENERATE_RESTART;
+ 334              		.loc 1 229 0
+ 335 00fc 44F6D913 		movw	r3, #:lower16:1073760729
+ 336 0100 C4F20003 		movt	r3, #:upper16:1073760729
+ 337 0104 4FF01202 		mov	r2, #18
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccmNVPZc.s 			page 11
+
+
+ 338 0108 1A70     		strb	r2, [r3, #0]
+ 339 010a 44F6D713 		movw	r3, #:lower16:1073760727
+ 340 010e C4F20003 		movt	r3, #:upper16:1073760727
+ 341 0112 4FF00402 		mov	r2, #4
+ 342 0116 1A70     		strb	r2, [r3, #0]
+ 343 0118 06E0     		b	.L17
+ 344              	.L16:
+ 230:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****             }
+ 231:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****             else
+ 232:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****             {
+ 233:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****                 NEOMOTE_1_I2C_0_GENERATE_START;
+ 345              		.loc 1 233 0
+ 346 011a 44F6D913 		movw	r3, #:lower16:1073760729
+ 347 011e C4F20003 		movt	r3, #:upper16:1073760729
+ 348 0122 4FF00102 		mov	r2, #1
+ 349 0126 1A70     		strb	r2, [r3, #0]
+ 350              	.L17:
+ 234:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****             }
+ 235:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** 
+ 236:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****             NEOMOTE_1_I2C_0_mstrStatus &= ((uint8) ~NEOMOTE_1_I2C_0_MSTAT_RD_CMPLT);
+ 351              		.loc 1 236 0
+ 352 0128 40F20003 		movw	r3, #:lower16:NEOMOTE_1_I2C_0_mstrStatus
+ 353 012c C0F20003 		movt	r3, #:upper16:NEOMOTE_1_I2C_0_mstrStatus
+ 354 0130 1B78     		ldrb	r3, [r3, #0]
+ 355 0132 DBB2     		uxtb	r3, r3
+ 356 0134 1A46     		mov	r2, r3
+ 357 0136 02F0FE02 		and	r2, r2, #254
+ 358 013a 40F20003 		movw	r3, #:lower16:NEOMOTE_1_I2C_0_mstrStatus
+ 359 013e C0F20003 		movt	r3, #:upper16:NEOMOTE_1_I2C_0_mstrStatus
+ 360 0142 1A70     		strb	r2, [r3, #0]
+ 237:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** 
+ 238:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****             NEOMOTE_1_I2C_0_EnableInt();   /* Enable intr to complete transfer */
+ 361              		.loc 1 238 0
+ 362 0144 4EF20013 		movw	r3, #:lower16:-536813312
+ 363 0148 CEF20003 		movt	r3, #:upper16:-536813312
+ 364 014c 4FF40042 		mov	r2, #32768
+ 365 0150 1A60     		str	r2, [r3, #0]
+ 366              	.L11:
+ 239:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****         }
+ 240:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****     }
+ 241:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** 
+ 242:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****     return(errStatus);
+ 367              		.loc 1 242 0
+ 368 0152 FB7D     		ldrb	r3, [r7, #23]	@ zero_extendqisi2
+ 243:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** }
+ 369              		.loc 1 243 0
+ 370 0154 1846     		mov	r0, r3
+ 371 0156 07F11C07 		add	r7, r7, #28
+ 372 015a BD46     		mov	sp, r7
+ 373 015c 80BC     		pop	{r7}
+ 374 015e 7047     		bx	lr
+ 375              		.cfi_endproc
+ 376              	.LFE1:
+ 377              		.size	NEOMOTE_1_I2C_0_MasterReadBuf, .-NEOMOTE_1_I2C_0_MasterReadBuf
+ 378              		.section	.text.NEOMOTE_1_I2C_0_MasterSendStart,"ax",%progbits
+ 379              		.align	2
+ 380              		.global	NEOMOTE_1_I2C_0_MasterSendStart
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccmNVPZc.s 			page 12
+
+
+ 381              		.thumb
+ 382              		.thumb_func
+ 383              		.type	NEOMOTE_1_I2C_0_MasterSendStart, %function
+ 384              	NEOMOTE_1_I2C_0_MasterSendStart:
+ 385              	.LFB2:
+ 244:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** 
+ 245:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** 
+ 246:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** /*******************************************************************************
+ 247:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** * Function Name: NEOMOTE_1_I2C_0_MasterSendStart
+ 248:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** ********************************************************************************
+ 249:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** *
+ 250:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** * Summary:
+ 251:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** *  Generates Start condition and sends slave address with read/write bit.
+ 252:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** *
+ 253:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** * Parameters:
+ 254:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** *  slaveAddress:  7-bit slave address.
+ 255:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** *  R_nW:          Zero, send write command, non-zero send read command.
+ 256:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** *
+ 257:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** * Return:
+ 258:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** *  Status error - zero means no errors.
+ 259:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** *
+ 260:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** * Side Effects:
+ 261:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** *  This function is entered without a 'byte complete' bit set in the I2C_CSR
+ 262:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** *  register. It does not exit until it will be set.
+ 263:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** *
+ 264:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** * Global variables:
+ 265:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** *  NEOMOTE_1_I2C_0_state - used to store current state of software FSM.
+ 266:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** *
+ 267:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** * Reentrant:
+ 268:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** *  No
+ 269:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** *
+ 270:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** *******************************************************************************/
+ 271:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** uint8 NEOMOTE_1_I2C_0_MasterSendStart(uint8 slaveAddress, uint8 R_nW)
+ 272:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****       
+ 273:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** {
+ 386              		.loc 1 273 0
+ 387              		.cfi_startproc
+ 388              		@ args = 0, pretend = 0, frame = 16
+ 389              		@ frame_needed = 1, uses_anonymous_args = 0
+ 390              		@ link register save eliminated.
+ 391 0000 80B4     		push	{r7}
+ 392              	.LCFI6:
+ 393              		.cfi_def_cfa_offset 4
+ 394 0002 85B0     		sub	sp, sp, #20
+ 395              	.LCFI7:
+ 396              		.cfi_def_cfa_offset 24
+ 397 0004 00AF     		add	r7, sp, #0
+ 398              		.cfi_offset 7, -4
+ 399              	.LCFI8:
+ 400              		.cfi_def_cfa_register 7
+ 401 0006 0246     		mov	r2, r0
+ 402 0008 0B46     		mov	r3, r1
+ 403 000a FA71     		strb	r2, [r7, #7]
+ 404 000c BB71     		strb	r3, [r7, #6]
+ 274:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****     uint8 errStatus;
+ 275:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** 
+ 276:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****     errStatus = NEOMOTE_1_I2C_0_MSTR_NOT_READY;
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccmNVPZc.s 			page 13
+
+
+ 405              		.loc 1 276 0
+ 406 000e 4FF00203 		mov	r3, #2
+ 407 0012 FB73     		strb	r3, [r7, #15]
+ 277:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** 
+ 278:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****     /* If IDLE, check if bus is free */
+ 279:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****     if(NEOMOTE_1_I2C_0_SM_IDLE == NEOMOTE_1_I2C_0_state)
+ 408              		.loc 1 279 0
+ 409 0014 40F20003 		movw	r3, #:lower16:NEOMOTE_1_I2C_0_state
+ 410 0018 C0F20003 		movt	r3, #:upper16:NEOMOTE_1_I2C_0_state
+ 411 001c 1B78     		ldrb	r3, [r3, #0]
+ 412 001e DBB2     		uxtb	r3, r3
+ 413 0020 102B     		cmp	r3, #16
+ 414 0022 5DD1     		bne	.L20
+ 280:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****     {
+ 281:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****         /* If bus is free, generate Start condition */
+ 282:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****         if(NEOMOTE_1_I2C_0_CHECK_BUS_FREE(NEOMOTE_1_I2C_0_MCSR_REG))
+ 415              		.loc 1 282 0
+ 416 0024 44F6D913 		movw	r3, #:lower16:1073760729
+ 417 0028 C4F20003 		movt	r3, #:upper16:1073760729
+ 418 002c 1B78     		ldrb	r3, [r3, #0]
+ 419 002e DBB2     		uxtb	r3, r3
+ 420 0030 03F00803 		and	r3, r3, #8
+ 421 0034 002B     		cmp	r3, #0
+ 422 0036 50D1     		bne	.L21
+ 283:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****         {
+ 284:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****             NEOMOTE_1_I2C_0_DisableInt();  /* Disable ISR for Manual functions */
+ 423              		.loc 1 284 0
+ 424 0038 4EF28013 		movw	r3, #:lower16:-536813184
+ 425 003c CEF20003 		movt	r3, #:upper16:-536813184
+ 426 0040 4FF40042 		mov	r2, #32768
+ 427 0044 1A60     		str	r2, [r3, #0]
+ 285:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** 
+ 286:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****             slaveAddress = ((uint8) (slaveAddress << NEOMOTE_1_I2C_0_SLAVE_ADDR_SHIFT)); /* Set Add
+ 428              		.loc 1 286 0
+ 429 0046 FB79     		ldrb	r3, [r7, #7]
+ 430 0048 4FEA4303 		lsl	r3, r3, #1
+ 431 004c FB71     		strb	r3, [r7, #7]
+ 287:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****             if(0u != R_nW)                                      /* Set the Read/Write flag */
+ 432              		.loc 1 287 0
+ 433 004e BB79     		ldrb	r3, [r7, #6]	@ zero_extendqisi2
+ 434 0050 002B     		cmp	r3, #0
+ 435 0052 0BD0     		beq	.L22
+ 288:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****             {
+ 289:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****                 slaveAddress |= NEOMOTE_1_I2C_0_READ_FLAG;
+ 436              		.loc 1 289 0
+ 437 0054 FB79     		ldrb	r3, [r7, #7]
+ 438 0056 43F00103 		orr	r3, r3, #1
+ 439 005a FB71     		strb	r3, [r7, #7]
+ 290:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****                 NEOMOTE_1_I2C_0_state = NEOMOTE_1_I2C_0_SM_MSTR_RD_ADDR;
+ 440              		.loc 1 290 0
+ 441 005c 40F20003 		movw	r3, #:lower16:NEOMOTE_1_I2C_0_state
+ 442 0060 C0F20003 		movt	r3, #:upper16:NEOMOTE_1_I2C_0_state
+ 443 0064 4FF04902 		mov	r2, #73
+ 444 0068 1A70     		strb	r2, [r3, #0]
+ 445 006a 06E0     		b	.L23
+ 446              	.L22:
+ 291:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****             }
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccmNVPZc.s 			page 14
+
+
+ 292:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****             else
+ 293:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****             {
+ 294:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****                 NEOMOTE_1_I2C_0_state = NEOMOTE_1_I2C_0_SM_MSTR_WR_ADDR;
+ 447              		.loc 1 294 0
+ 448 006c 40F20003 		movw	r3, #:lower16:NEOMOTE_1_I2C_0_state
+ 449 0070 C0F20003 		movt	r3, #:upper16:NEOMOTE_1_I2C_0_state
+ 450 0074 4FF04502 		mov	r2, #69
+ 451 0078 1A70     		strb	r2, [r3, #0]
+ 452              	.L23:
+ 295:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****             }
+ 296:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****             NEOMOTE_1_I2C_0_DATA_REG = slaveAddress;   /* Write address to data reg */
+ 453              		.loc 1 296 0
+ 454 007a 44F6D813 		movw	r3, #:lower16:1073760728
+ 455 007e C4F20003 		movt	r3, #:upper16:1073760728
+ 456 0082 FA79     		ldrb	r2, [r7, #7]
+ 457 0084 1A70     		strb	r2, [r3, #0]
+ 297:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** 
+ 298:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** 
+ 299:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****             NEOMOTE_1_I2C_0_GENERATE_START;
+ 458              		.loc 1 299 0
+ 459 0086 44F6D913 		movw	r3, #:lower16:1073760729
+ 460 008a C4F20003 		movt	r3, #:upper16:1073760729
+ 461 008e 4FF00102 		mov	r2, #1
+ 462 0092 1A70     		strb	r2, [r3, #0]
+ 463              	.L24:
+ 300:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****             while(NEOMOTE_1_I2C_0_WAIT_BYTE_COMPLETE(NEOMOTE_1_I2C_0_CSR_REG))
+ 464              		.loc 1 300 0
+ 465 0094 44F6D713 		movw	r3, #:lower16:1073760727
+ 466 0098 C4F20003 		movt	r3, #:upper16:1073760727
+ 467 009c 1B78     		ldrb	r3, [r3, #0]
+ 468 009e DBB2     		uxtb	r3, r3
+ 469 00a0 03F00103 		and	r3, r3, #1
+ 470 00a4 002B     		cmp	r3, #0
+ 471 00a6 F5D0     		beq	.L24
+ 301:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****             {
+ 302:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****                 ; /* Wait for the address to be transfered */
+ 303:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****             }
+ 304:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** 
+ 305:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****             #if(NEOMOTE_1_I2C_0_MODE_MULTI_MASTER_SLAVE_ENABLED)
+ 306:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****                 if(NEOMOTE_1_I2C_0_CHECK_START_GEN(NEOMOTE_1_I2C_0_MCSR_REG))
+ 307:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****                 {
+ 308:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****                     NEOMOTE_1_I2C_0_CLEAR_START_GEN;
+ 309:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** 
+ 310:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****                     /* Start condition was not generated: reset FSM to IDLE */
+ 311:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****                     NEOMOTE_1_I2C_0_state = NEOMOTE_1_I2C_0_SM_IDLE;
+ 312:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****                     errStatus = NEOMOTE_1_I2C_0_MSTR_ERR_ABORT_START_GEN;
+ 313:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****                 }
+ 314:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****                 else
+ 315:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****             #endif /* (NEOMOTE_1_I2C_0_MODE_MULTI_MASTER_SLAVE_ENABLED) */
+ 316:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** 
+ 317:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****             #if(NEOMOTE_1_I2C_0_MODE_MULTI_MASTER_ENABLED)
+ 318:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** 
+ 319:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****                 if(NEOMOTE_1_I2C_0_CHECK_LOST_ARB(NEOMOTE_1_I2C_0_CSR_REG))
+ 320:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****                 {
+ 321:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****                     NEOMOTE_1_I2C_0_BUS_RELEASE;
+ 322:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** 
+ 323:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****                     /* Master lost arbitrage: reset FSM to IDLE */
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccmNVPZc.s 			page 15
+
+
+ 324:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****                     NEOMOTE_1_I2C_0_state = NEOMOTE_1_I2C_0_SM_IDLE;
+ 325:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****                     errStatus = NEOMOTE_1_I2C_0_MSTR_ERR_ARB_LOST;
+ 326:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****                 }
+ 327:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****                 else
+ 328:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****             #endif /* (NEOMOTE_1_I2C_0_MODE_MULTI_MASTER_ENABLED) */
+ 329:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** 
+ 330:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****                 if(NEOMOTE_1_I2C_0_CHECK_ADDR_NAK(NEOMOTE_1_I2C_0_CSR_REG))
+ 472              		.loc 1 330 0
+ 473 00a8 44F6D713 		movw	r3, #:lower16:1073760727
+ 474 00ac C4F20003 		movt	r3, #:upper16:1073760727
+ 475 00b0 1B78     		ldrb	r3, [r3, #0]
+ 476 00b2 DBB2     		uxtb	r3, r3
+ 477 00b4 03F00A03 		and	r3, r3, #10
+ 478 00b8 0A2B     		cmp	r3, #10
+ 479 00ba 0AD1     		bne	.L25
+ 331:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****                 {
+ 332:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****                     /* Address has been NACKed: reset FSM to IDLE */
+ 333:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****                     NEOMOTE_1_I2C_0_state = NEOMOTE_1_I2C_0_SM_IDLE;
+ 480              		.loc 1 333 0
+ 481 00bc 40F20003 		movw	r3, #:lower16:NEOMOTE_1_I2C_0_state
+ 482 00c0 C0F20003 		movt	r3, #:upper16:NEOMOTE_1_I2C_0_state
+ 483 00c4 4FF01002 		mov	r2, #16
+ 484 00c8 1A70     		strb	r2, [r3, #0]
+ 334:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****                     errStatus = NEOMOTE_1_I2C_0_MSTR_ERR_LB_NAK;
+ 485              		.loc 1 334 0
+ 486 00ca 4FF00303 		mov	r3, #3
+ 487 00ce FB73     		strb	r3, [r7, #15]
+ 335:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****                 }
+ 336:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****                 else
+ 337:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****                 {
+ 338:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****                     /* Start was sent witout errors */
+ 339:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****                     errStatus = NEOMOTE_1_I2C_0_MSTR_NO_ERROR;
+ 488              		.loc 1 339 0
+ 489 00d0 06E0     		b	.L20
+ 490              	.L25:
+ 491 00d2 4FF00003 		mov	r3, #0
+ 492 00d6 FB73     		strb	r3, [r7, #15]
+ 493 00d8 02E0     		b	.L20
+ 494              	.L21:
+ 340:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****                 }
+ 341:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****         }
+ 342:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****         else
+ 343:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****         {
+ 344:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****             errStatus = NEOMOTE_1_I2C_0_MSTR_BUS_BUSY; /* Bus is busy */
+ 495              		.loc 1 344 0
+ 496 00da 4FF00103 		mov	r3, #1
+ 497 00de FB73     		strb	r3, [r7, #15]
+ 498              	.L20:
+ 345:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****         }
+ 346:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****     }
+ 347:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** 
+ 348:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****     return(errStatus);
+ 499              		.loc 1 348 0
+ 500 00e0 FB7B     		ldrb	r3, [r7, #15]	@ zero_extendqisi2
+ 349:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** }
+ 501              		.loc 1 349 0
+ 502 00e2 1846     		mov	r0, r3
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccmNVPZc.s 			page 16
+
+
+ 503 00e4 07F11407 		add	r7, r7, #20
+ 504 00e8 BD46     		mov	sp, r7
+ 505 00ea 80BC     		pop	{r7}
+ 506 00ec 7047     		bx	lr
+ 507              		.cfi_endproc
+ 508              	.LFE2:
+ 509              		.size	NEOMOTE_1_I2C_0_MasterSendStart, .-NEOMOTE_1_I2C_0_MasterSendStart
+ 510 00ee 00BF     		.section	.text.NEOMOTE_1_I2C_0_MasterSendRestart,"ax",%progbits
+ 511              		.align	2
+ 512              		.global	NEOMOTE_1_I2C_0_MasterSendRestart
+ 513              		.thumb
+ 514              		.thumb_func
+ 515              		.type	NEOMOTE_1_I2C_0_MasterSendRestart, %function
+ 516              	NEOMOTE_1_I2C_0_MasterSendRestart:
+ 517              	.LFB3:
+ 350:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** 
+ 351:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** 
+ 352:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** /*******************************************************************************
+ 353:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** * Function Name: NEOMOTE_1_I2C_0_MasterSendRestart
+ 354:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** ********************************************************************************
+ 355:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** *
+ 356:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** * Summary:
+ 357:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** *  Generates ReStart condition and sends slave address with read/write bit.
+ 358:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** *
+ 359:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** * Parameters:
+ 360:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** *  slaveAddress:  7-bit slave address.
+ 361:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** *  R_nW:          Zero, send write command, non-zero send read command.
+ 362:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** *
+ 363:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** * Return:
+ 364:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** *  Status error - zero means no errors.
+ 365:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** *
+ 366:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** * Side Effects:
+ 367:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** *  This function is entered without a 'byte complete' bit set in the I2C_CSR
+ 368:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** *  register. It does not exit until it will be set.
+ 369:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** *
+ 370:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** * Global variables:
+ 371:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** *  NEOMOTE_1_I2C_0_state - used to store current state of software FSM.
+ 372:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** *
+ 373:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** * Reentrant:
+ 374:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** *  No
+ 375:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** *
+ 376:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** *******************************************************************************/
+ 377:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** uint8 NEOMOTE_1_I2C_0_MasterSendRestart(uint8 slaveAddress, uint8 R_nW)
+ 378:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****       
+ 379:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** {
+ 518              		.loc 1 379 0
+ 519              		.cfi_startproc
+ 520              		@ args = 0, pretend = 0, frame = 16
+ 521              		@ frame_needed = 1, uses_anonymous_args = 0
+ 522              		@ link register save eliminated.
+ 523 0000 80B4     		push	{r7}
+ 524              	.LCFI9:
+ 525              		.cfi_def_cfa_offset 4
+ 526 0002 85B0     		sub	sp, sp, #20
+ 527              	.LCFI10:
+ 528              		.cfi_def_cfa_offset 24
+ 529 0004 00AF     		add	r7, sp, #0
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccmNVPZc.s 			page 17
+
+
+ 530              		.cfi_offset 7, -4
+ 531              	.LCFI11:
+ 532              		.cfi_def_cfa_register 7
+ 533 0006 0246     		mov	r2, r0
+ 534 0008 0B46     		mov	r3, r1
+ 535 000a FA71     		strb	r2, [r7, #7]
+ 536 000c BB71     		strb	r3, [r7, #6]
+ 380:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****     uint8 errStatus;
+ 381:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** 
+ 382:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****     errStatus = NEOMOTE_1_I2C_0_MSTR_NOT_READY;
+ 537              		.loc 1 382 0
+ 538 000e 4FF00203 		mov	r3, #2
+ 539 0012 FB73     		strb	r3, [r7, #15]
+ 383:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** 
+ 384:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****     /* Check if START condition was generated */
+ 385:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****     if(NEOMOTE_1_I2C_0_CHECK_MASTER_MODE(NEOMOTE_1_I2C_0_MCSR_REG))
+ 540              		.loc 1 385 0
+ 541 0014 44F6D913 		movw	r3, #:lower16:1073760729
+ 542 0018 C4F20003 		movt	r3, #:upper16:1073760729
+ 543 001c 1B78     		ldrb	r3, [r3, #0]
+ 544 001e DBB2     		uxtb	r3, r3
+ 545 0020 03F00403 		and	r3, r3, #4
+ 546 0024 002B     		cmp	r3, #0
+ 547 0026 4FD0     		beq	.L29
+ 386:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****     {
+ 387:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****         slaveAddress = ((uint8) (slaveAddress << NEOMOTE_1_I2C_0_SLAVE_ADDR_SHIFT)); /* Set Address
+ 548              		.loc 1 387 0
+ 549 0028 FB79     		ldrb	r3, [r7, #7]
+ 550 002a 4FEA4303 		lsl	r3, r3, #1
+ 551 002e FB71     		strb	r3, [r7, #7]
+ 388:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****         if(0u != R_nW)  /* Set the Read/Write flag */
+ 552              		.loc 1 388 0
+ 553 0030 BB79     		ldrb	r3, [r7, #6]	@ zero_extendqisi2
+ 554 0032 002B     		cmp	r3, #0
+ 555 0034 0BD0     		beq	.L30
+ 389:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****         {
+ 390:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****             slaveAddress |= NEOMOTE_1_I2C_0_READ_FLAG;
+ 556              		.loc 1 390 0
+ 557 0036 FB79     		ldrb	r3, [r7, #7]
+ 558 0038 43F00103 		orr	r3, r3, #1
+ 559 003c FB71     		strb	r3, [r7, #7]
+ 391:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****             NEOMOTE_1_I2C_0_state = NEOMOTE_1_I2C_0_SM_MSTR_RD_ADDR;
+ 560              		.loc 1 391 0
+ 561 003e 40F20003 		movw	r3, #:lower16:NEOMOTE_1_I2C_0_state
+ 562 0042 C0F20003 		movt	r3, #:upper16:NEOMOTE_1_I2C_0_state
+ 563 0046 4FF04902 		mov	r2, #73
+ 564 004a 1A70     		strb	r2, [r3, #0]
+ 565 004c 06E0     		b	.L31
+ 566              	.L30:
+ 392:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****         }
+ 393:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****         else
+ 394:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****         {
+ 395:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****             NEOMOTE_1_I2C_0_state = NEOMOTE_1_I2C_0_SM_MSTR_WR_ADDR;
+ 567              		.loc 1 395 0
+ 568 004e 40F20003 		movw	r3, #:lower16:NEOMOTE_1_I2C_0_state
+ 569 0052 C0F20003 		movt	r3, #:upper16:NEOMOTE_1_I2C_0_state
+ 570 0056 4FF04502 		mov	r2, #69
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccmNVPZc.s 			page 18
+
+
+ 571 005a 1A70     		strb	r2, [r3, #0]
+ 572              	.L31:
+ 396:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****         }
+ 397:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****         NEOMOTE_1_I2C_0_DATA_REG = slaveAddress;    /* Write address to data reg */
+ 573              		.loc 1 397 0
+ 574 005c 44F6D813 		movw	r3, #:lower16:1073760728
+ 575 0060 C4F20003 		movt	r3, #:upper16:1073760728
+ 576 0064 FA79     		ldrb	r2, [r7, #7]
+ 577 0066 1A70     		strb	r2, [r3, #0]
+ 398:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** 
+ 399:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** 
+ 400:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****         NEOMOTE_1_I2C_0_GENERATE_RESTART_MANUAL;
+ 578              		.loc 1 400 0
+ 579 0068 44F6D913 		movw	r3, #:lower16:1073760729
+ 580 006c C4F20003 		movt	r3, #:upper16:1073760729
+ 581 0070 4FF01202 		mov	r2, #18
+ 582 0074 1A70     		strb	r2, [r3, #0]
+ 583 0076 44F6D713 		movw	r3, #:lower16:1073760727
+ 584 007a C4F20003 		movt	r3, #:upper16:1073760727
+ 585 007e 4FF00402 		mov	r2, #4
+ 586 0082 1A70     		strb	r2, [r3, #0]
+ 587              	.L32:
+ 401:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****         while(NEOMOTE_1_I2C_0_WAIT_BYTE_COMPLETE(NEOMOTE_1_I2C_0_CSR_REG))
+ 588              		.loc 1 401 0
+ 589 0084 44F6D713 		movw	r3, #:lower16:1073760727
+ 590 0088 C4F20003 		movt	r3, #:upper16:1073760727
+ 591 008c 1B78     		ldrb	r3, [r3, #0]
+ 592 008e DBB2     		uxtb	r3, r3
+ 593 0090 03F00103 		and	r3, r3, #1
+ 594 0094 002B     		cmp	r3, #0
+ 595 0096 F5D0     		beq	.L32
+ 402:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****         {
+ 403:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****             ; /* Wait for the address to be transfered */
+ 404:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****         }
+ 405:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** 
+ 406:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****         #if(NEOMOTE_1_I2C_0_MODE_MULTI_MASTER_ENABLED)
+ 407:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****             if(NEOMOTE_1_I2C_0_CHECK_LOST_ARB(NEOMOTE_1_I2C_0_CSR_REG))
+ 408:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****             {
+ 409:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****                 NEOMOTE_1_I2C_0_BUS_RELEASE;
+ 410:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** 
+ 411:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****                 /* Master lost arbitrage: reset FSM to IDLE */
+ 412:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****                 NEOMOTE_1_I2C_0_state = NEOMOTE_1_I2C_0_SM_IDLE;
+ 413:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****                 errStatus = NEOMOTE_1_I2C_0_MSTR_ERR_ARB_LOST;
+ 414:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****             }
+ 415:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****             else
+ 416:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****         #endif /* (NEOMOTE_1_I2C_0_MODE_MULTI_MASTER_ENABLED) */
+ 417:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** 
+ 418:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****             if(NEOMOTE_1_I2C_0_CHECK_ADDR_NAK(NEOMOTE_1_I2C_0_CSR_REG))
+ 596              		.loc 1 418 0
+ 597 0098 44F6D713 		movw	r3, #:lower16:1073760727
+ 598 009c C4F20003 		movt	r3, #:upper16:1073760727
+ 599 00a0 1B78     		ldrb	r3, [r3, #0]
+ 600 00a2 DBB2     		uxtb	r3, r3
+ 601 00a4 03F00A03 		and	r3, r3, #10
+ 602 00a8 0A2B     		cmp	r3, #10
+ 603 00aa 0AD1     		bne	.L33
+ 419:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****             {
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccmNVPZc.s 			page 19
+
+
+ 420:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****                 /* Address has been NACKed: reset FSM to IDLE */
+ 421:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****                 NEOMOTE_1_I2C_0_state = NEOMOTE_1_I2C_0_SM_IDLE;
+ 604              		.loc 1 421 0
+ 605 00ac 40F20003 		movw	r3, #:lower16:NEOMOTE_1_I2C_0_state
+ 606 00b0 C0F20003 		movt	r3, #:upper16:NEOMOTE_1_I2C_0_state
+ 607 00b4 4FF01002 		mov	r2, #16
+ 608 00b8 1A70     		strb	r2, [r3, #0]
+ 422:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****                 errStatus = NEOMOTE_1_I2C_0_MSTR_ERR_LB_NAK;
+ 609              		.loc 1 422 0
+ 610 00ba 4FF00303 		mov	r3, #3
+ 611 00be FB73     		strb	r3, [r7, #15]
+ 612 00c0 02E0     		b	.L29
+ 613              	.L33:
+ 423:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****             }
+ 424:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****             else
+ 425:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****             {
+ 426:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****                 /* ReStart was sent witout errors */
+ 427:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****                 errStatus = NEOMOTE_1_I2C_0_MSTR_NO_ERROR;
+ 614              		.loc 1 427 0
+ 615 00c2 4FF00003 		mov	r3, #0
+ 616 00c6 FB73     		strb	r3, [r7, #15]
+ 617              	.L29:
+ 428:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****             }
+ 429:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****     }
+ 430:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** 
+ 431:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****     return(errStatus);
+ 618              		.loc 1 431 0
+ 619 00c8 FB7B     		ldrb	r3, [r7, #15]	@ zero_extendqisi2
+ 432:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** }
+ 620              		.loc 1 432 0
+ 621 00ca 1846     		mov	r0, r3
+ 622 00cc 07F11407 		add	r7, r7, #20
+ 623 00d0 BD46     		mov	sp, r7
+ 624 00d2 80BC     		pop	{r7}
+ 625 00d4 7047     		bx	lr
+ 626              		.cfi_endproc
+ 627              	.LFE3:
+ 628              		.size	NEOMOTE_1_I2C_0_MasterSendRestart, .-NEOMOTE_1_I2C_0_MasterSendRestart
+ 629 00d6 00BF     		.section	.text.NEOMOTE_1_I2C_0_MasterSendStop,"ax",%progbits
+ 630              		.align	2
+ 631              		.global	NEOMOTE_1_I2C_0_MasterSendStop
+ 632              		.thumb
+ 633              		.thumb_func
+ 634              		.type	NEOMOTE_1_I2C_0_MasterSendStop, %function
+ 635              	NEOMOTE_1_I2C_0_MasterSendStop:
+ 636              	.LFB4:
+ 433:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** 
+ 434:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** 
+ 435:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** /*******************************************************************************
+ 436:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** * Function Name: NEOMOTE_1_I2C_0_MasterSendStop
+ 437:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** ********************************************************************************
+ 438:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** *
+ 439:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** * Summary:
+ 440:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** *  Generates I2C Stop condition on bus. Function do nothing if Start or Restart
+ 441:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** *  condition was failed before call this function.
+ 442:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** *
+ 443:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** * Parameters:
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccmNVPZc.s 			page 20
+
+
+ 444:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** *  None
+ 445:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** *
+ 446:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** * Return:
+ 447:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** *  Status error - zero means no errors.
+ 448:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** *
+ 449:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** * Side Effects:
+ 450:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** *  The Stop generation is required to complete transaction.
+ 451:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** *  This function does not wait whileStop condition will be generated.
+ 452:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** *
+ 453:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** * Global variables:
+ 454:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** *  NEOMOTE_1_I2C_0_state - used to store current state of software FSM.
+ 455:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** *
+ 456:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** * Reentrant:
+ 457:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** *  No
+ 458:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** *
+ 459:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** *******************************************************************************/
+ 460:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** uint8 NEOMOTE_1_I2C_0_MasterSendStop(void) 
+ 461:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** {
+ 637              		.loc 1 461 0
+ 638              		.cfi_startproc
+ 639              		@ args = 0, pretend = 0, frame = 8
+ 640              		@ frame_needed = 1, uses_anonymous_args = 0
+ 641              		@ link register save eliminated.
+ 642 0000 80B4     		push	{r7}
+ 643              	.LCFI12:
+ 644              		.cfi_def_cfa_offset 4
+ 645 0002 83B0     		sub	sp, sp, #12
+ 646              	.LCFI13:
+ 647              		.cfi_def_cfa_offset 16
+ 648 0004 00AF     		add	r7, sp, #0
+ 649              		.cfi_offset 7, -4
+ 650              	.LCFI14:
+ 651              		.cfi_def_cfa_register 7
+ 462:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****     uint8 errStatus;
+ 463:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** 
+ 464:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****     errStatus = NEOMOTE_1_I2C_0_MSTR_NOT_READY;
+ 652              		.loc 1 464 0
+ 653 0006 4FF00203 		mov	r3, #2
+ 654 000a FB71     		strb	r3, [r7, #7]
+ 465:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** 
+ 466:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****     /* Check if START condition was generated */
+ 467:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****     if(NEOMOTE_1_I2C_0_CHECK_MASTER_MODE(NEOMOTE_1_I2C_0_MCSR_REG))
+ 655              		.loc 1 467 0
+ 656 000c 44F6D913 		movw	r3, #:lower16:1073760729
+ 657 0010 C4F20003 		movt	r3, #:upper16:1073760729
+ 658 0014 1B78     		ldrb	r3, [r3, #0]
+ 659 0016 DBB2     		uxtb	r3, r3
+ 660 0018 03F00403 		and	r3, r3, #4
+ 661 001c 002B     		cmp	r3, #0
+ 662 001e 21D0     		beq	.L36
+ 468:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****     {
+ 469:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****         NEOMOTE_1_I2C_0_GENERATE_STOP_MANUAL;              /* Generate STOP */
+ 663              		.loc 1 469 0
+ 664 0020 44F6D913 		movw	r3, #:lower16:1073760729
+ 665 0024 C4F20003 		movt	r3, #:upper16:1073760729
+ 666 0028 4FF01002 		mov	r2, #16
+ 667 002c 1A70     		strb	r2, [r3, #0]
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccmNVPZc.s 			page 21
+
+
+ 668 002e 44F6D713 		movw	r3, #:lower16:1073760727
+ 669 0032 C4F20003 		movt	r3, #:upper16:1073760727
+ 670 0036 4FF00402 		mov	r2, #4
+ 671 003a 1A70     		strb	r2, [r3, #0]
+ 470:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****         NEOMOTE_1_I2C_0_state = NEOMOTE_1_I2C_0_SM_IDLE;  /* Reset state to IDLE */
+ 672              		.loc 1 470 0
+ 673 003c 40F20003 		movw	r3, #:lower16:NEOMOTE_1_I2C_0_state
+ 674 0040 C0F20003 		movt	r3, #:upper16:NEOMOTE_1_I2C_0_state
+ 675 0044 4FF01002 		mov	r2, #16
+ 676 0048 1A70     		strb	r2, [r3, #0]
+ 677              	.L37:
+ 471:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** 
+ 472:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****         while(NEOMOTE_1_I2C_0_WAIT_STOP_COMPLETE(NEOMOTE_1_I2C_0_CSR_REG))
+ 678              		.loc 1 472 0
+ 679 004a 44F6D713 		movw	r3, #:lower16:1073760727
+ 680 004e C4F20003 		movt	r3, #:upper16:1073760727
+ 681 0052 1B78     		ldrb	r3, [r3, #0]
+ 682 0054 DBB2     		uxtb	r3, r3
+ 683 0056 03F02103 		and	r3, r3, #33
+ 684 005a 002B     		cmp	r3, #0
+ 685 005c F5D0     		beq	.L37
+ 473:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****         {
+ 474:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****             ; /* Wait for Stop to be generated */
+ 475:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****         }
+ 476:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** 
+ 477:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****         errStatus = NEOMOTE_1_I2C_0_MSTR_NO_ERROR;
+ 686              		.loc 1 477 0
+ 687 005e 4FF00003 		mov	r3, #0
+ 688 0062 FB71     		strb	r3, [r7, #7]
+ 689              	.L36:
+ 478:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****         #if(NEOMOTE_1_I2C_0_MODE_MULTI_MASTER_ENABLED)
+ 479:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****             if(NEOMOTE_1_I2C_0_CHECK_LOST_ARB(NEOMOTE_1_I2C_0_CSR_REG))
+ 480:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****             {
+ 481:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****                 NEOMOTE_1_I2C_0_BUS_RELEASE;
+ 482:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** 
+ 483:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****                 /* NACK was generated by enother instead Stop */
+ 484:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****                 errStatus = NEOMOTE_1_I2C_0_MSTR_ERR_ARB_LOST;
+ 485:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****             }
+ 486:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****         #endif /* (NEOMOTE_1_I2C_0_MODE_MULTI_MASTER_ENABLED) */
+ 487:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****     }
+ 488:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** 
+ 489:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****     return(errStatus);
+ 690              		.loc 1 489 0
+ 691 0064 FB79     		ldrb	r3, [r7, #7]	@ zero_extendqisi2
+ 490:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** }
+ 692              		.loc 1 490 0
+ 693 0066 1846     		mov	r0, r3
+ 694 0068 07F10C07 		add	r7, r7, #12
+ 695 006c BD46     		mov	sp, r7
+ 696 006e 80BC     		pop	{r7}
+ 697 0070 7047     		bx	lr
+ 698              		.cfi_endproc
+ 699              	.LFE4:
+ 700              		.size	NEOMOTE_1_I2C_0_MasterSendStop, .-NEOMOTE_1_I2C_0_MasterSendStop
+ 701 0072 00BF     		.section	.text.NEOMOTE_1_I2C_0_MasterWriteByte,"ax",%progbits
+ 702              		.align	2
+ 703              		.global	NEOMOTE_1_I2C_0_MasterWriteByte
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccmNVPZc.s 			page 22
+
+
+ 704              		.thumb
+ 705              		.thumb_func
+ 706              		.type	NEOMOTE_1_I2C_0_MasterWriteByte, %function
+ 707              	NEOMOTE_1_I2C_0_MasterWriteByte:
+ 708              	.LFB5:
+ 491:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** 
+ 492:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** 
+ 493:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** /*******************************************************************************
+ 494:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** * Function Name: NEOMOTE_1_I2C_0_MasterWriteByte
+ 495:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** ********************************************************************************
+ 496:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** *
+ 497:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** * Summary:
+ 498:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** *  Sends one byte to a slave. A valid Start or ReStart condition must be
+ 499:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** *  generated before this call this function. Function do nothing if Start or
+ 500:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** *  Restart condition was failed before call this function.
+ 501:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** *
+ 502:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** * Parameters:
+ 503:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** *  data:  The data byte to send to the slave.
+ 504:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** *
+ 505:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** * Return:
+ 506:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** *  Status error - zero means no errors.
+ 507:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** *
+ 508:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** * Side Effects:
+ 509:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** *  This function is entered without a 'byte complete' bit set in the I2C_CSR
+ 510:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** *  register. It does not exit until it will be set.
+ 511:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** *
+ 512:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** * Global variables:
+ 513:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** *  NEOMOTE_1_I2C_0_state - used to store current state of software FSM.
+ 514:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** *
+ 515:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** *******************************************************************************/
+ 516:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** uint8 NEOMOTE_1_I2C_0_MasterWriteByte(uint8 theByte) 
+ 517:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** {
+ 709              		.loc 1 517 0
+ 710              		.cfi_startproc
+ 711              		@ args = 0, pretend = 0, frame = 16
+ 712              		@ frame_needed = 1, uses_anonymous_args = 0
+ 713              		@ link register save eliminated.
+ 714 0000 80B4     		push	{r7}
+ 715              	.LCFI15:
+ 716              		.cfi_def_cfa_offset 4
+ 717 0002 85B0     		sub	sp, sp, #20
+ 718              	.LCFI16:
+ 719              		.cfi_def_cfa_offset 24
+ 720 0004 00AF     		add	r7, sp, #0
+ 721              		.cfi_offset 7, -4
+ 722              	.LCFI17:
+ 723              		.cfi_def_cfa_register 7
+ 724 0006 0346     		mov	r3, r0
+ 725 0008 FB71     		strb	r3, [r7, #7]
+ 518:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****     uint8 errStatus;
+ 519:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** 
+ 520:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****     errStatus = NEOMOTE_1_I2C_0_MSTR_NOT_READY;
+ 726              		.loc 1 520 0
+ 727 000a 4FF00203 		mov	r3, #2
+ 728 000e FB73     		strb	r3, [r7, #15]
+ 521:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** 
+ 522:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****     /* Check if START condition was generated */
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccmNVPZc.s 			page 23
+
+
+ 523:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****     if(NEOMOTE_1_I2C_0_CHECK_MASTER_MODE(NEOMOTE_1_I2C_0_MCSR_REG))
+ 729              		.loc 1 523 0
+ 730 0010 44F6D913 		movw	r3, #:lower16:1073760729
+ 731 0014 C4F20003 		movt	r3, #:upper16:1073760729
+ 732 0018 1B78     		ldrb	r3, [r3, #0]
+ 733 001a DBB2     		uxtb	r3, r3
+ 734 001c 03F00403 		and	r3, r3, #4
+ 735 0020 002B     		cmp	r3, #0
+ 736 0022 3CD0     		beq	.L40
+ 524:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****     {
+ 525:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****         NEOMOTE_1_I2C_0_DATA_REG = theByte;                        /* Write DATA register */
+ 737              		.loc 1 525 0
+ 738 0024 44F6D813 		movw	r3, #:lower16:1073760728
+ 739 0028 C4F20003 		movt	r3, #:upper16:1073760728
+ 740 002c FA79     		ldrb	r2, [r7, #7]
+ 741 002e 1A70     		strb	r2, [r3, #0]
+ 526:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****         NEOMOTE_1_I2C_0_TRANSMIT_DATA_MANUAL;                      /* Set transmit mode */
+ 742              		.loc 1 526 0
+ 743 0030 44F6D713 		movw	r3, #:lower16:1073760727
+ 744 0034 C4F20003 		movt	r3, #:upper16:1073760727
+ 745 0038 4FF00402 		mov	r2, #4
+ 746 003c 1A70     		strb	r2, [r3, #0]
+ 527:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****         NEOMOTE_1_I2C_0_state = NEOMOTE_1_I2C_0_SM_MSTR_WR_DATA;  /* Set state WR_DATA */
+ 747              		.loc 1 527 0
+ 748 003e 40F20003 		movw	r3, #:lower16:NEOMOTE_1_I2C_0_state
+ 749 0042 C0F20003 		movt	r3, #:upper16:NEOMOTE_1_I2C_0_state
+ 750 0046 4FF04602 		mov	r2, #70
+ 751 004a 1A70     		strb	r2, [r3, #0]
+ 752              	.L41:
+ 528:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** 
+ 529:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****         /* Make sure the last byte has been transfered first */
+ 530:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****         while(NEOMOTE_1_I2C_0_WAIT_BYTE_COMPLETE(NEOMOTE_1_I2C_0_CSR_REG))
+ 753              		.loc 1 530 0
+ 754 004c 44F6D713 		movw	r3, #:lower16:1073760727
+ 755 0050 C4F20003 		movt	r3, #:upper16:1073760727
+ 756 0054 1B78     		ldrb	r3, [r3, #0]
+ 757 0056 DBB2     		uxtb	r3, r3
+ 758 0058 03F00103 		and	r3, r3, #1
+ 759 005c 002B     		cmp	r3, #0
+ 760 005e F5D0     		beq	.L41
+ 531:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****         {
+ 532:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****             ; /* Wait for byte to be written */
+ 533:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****         }
+ 534:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** 
+ 535:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****         #if(NEOMOTE_1_I2C_0_MODE_MULTI_MASTER_ENABLED)
+ 536:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****             if(NEOMOTE_1_I2C_0_CHECK_LOST_ARB(NEOMOTE_1_I2C_0_CSR_REG))
+ 537:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****             {
+ 538:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****                 NEOMOTE_1_I2C_0_BUS_RELEASE;
+ 539:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** 
+ 540:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****                 /* Master lost arbitrage: reset FSM to IDLE */
+ 541:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****                 NEOMOTE_1_I2C_0_state = NEOMOTE_1_I2C_0_SM_IDLE;
+ 542:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****                 errStatus = NEOMOTE_1_I2C_0_MSTR_ERR_ARB_LOST;
+ 543:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****             }
+ 544:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****             /* Check LRB bit */
+ 545:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****             else
+ 546:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****         #endif /* (NEOMOTE_1_I2C_0_MODE_MULTI_MASTER_ENABLED) */
+ 547:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** 
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccmNVPZc.s 			page 24
+
+
+ 548:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****             if(NEOMOTE_1_I2C_0_CHECK_DATA_ACK(NEOMOTE_1_I2C_0_CSR_REG))
+ 761              		.loc 1 548 0
+ 762 0060 44F6D713 		movw	r3, #:lower16:1073760727
+ 763 0064 C4F20003 		movt	r3, #:upper16:1073760727
+ 764 0068 1B78     		ldrb	r3, [r3, #0]
+ 765 006a DBB2     		uxtb	r3, r3
+ 766 006c 03F00203 		and	r3, r3, #2
+ 767 0070 002B     		cmp	r3, #0
+ 768 0072 0AD1     		bne	.L42
+ 549:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****             {
+ 550:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****                 NEOMOTE_1_I2C_0_state = NEOMOTE_1_I2C_0_SM_MSTR_HALT;     /* Set state to HALT */
+ 769              		.loc 1 550 0
+ 770 0074 40F20003 		movw	r3, #:lower16:NEOMOTE_1_I2C_0_state
+ 771 0078 C0F20003 		movt	r3, #:upper16:NEOMOTE_1_I2C_0_state
+ 772 007c 4FF06002 		mov	r2, #96
+ 773 0080 1A70     		strb	r2, [r3, #0]
+ 551:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****                 errStatus = NEOMOTE_1_I2C_0_MSTR_NO_ERROR;                 /* The LRB was ACKed */
+ 774              		.loc 1 551 0
+ 775 0082 4FF00003 		mov	r3, #0
+ 776 0086 FB73     		strb	r3, [r7, #15]
+ 777 0088 09E0     		b	.L40
+ 778              	.L42:
+ 552:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****             }
+ 553:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****             else
+ 554:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****             {
+ 555:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****                 NEOMOTE_1_I2C_0_state = NEOMOTE_1_I2C_0_SM_MSTR_HALT;     /* Set state to HALT */
+ 779              		.loc 1 555 0
+ 780 008a 40F20003 		movw	r3, #:lower16:NEOMOTE_1_I2C_0_state
+ 781 008e C0F20003 		movt	r3, #:upper16:NEOMOTE_1_I2C_0_state
+ 782 0092 4FF06002 		mov	r2, #96
+ 783 0096 1A70     		strb	r2, [r3, #0]
+ 556:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****                 errStatus = NEOMOTE_1_I2C_0_MSTR_ERR_LB_NAK;               /* The LRB was NACKed */
+ 784              		.loc 1 556 0
+ 785 0098 4FF00303 		mov	r3, #3
+ 786 009c FB73     		strb	r3, [r7, #15]
+ 787              	.L40:
+ 557:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****             }
+ 558:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****     }
+ 559:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** 
+ 560:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****     return(errStatus);
+ 788              		.loc 1 560 0
+ 789 009e FB7B     		ldrb	r3, [r7, #15]	@ zero_extendqisi2
+ 561:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** }
+ 790              		.loc 1 561 0
+ 791 00a0 1846     		mov	r0, r3
+ 792 00a2 07F11407 		add	r7, r7, #20
+ 793 00a6 BD46     		mov	sp, r7
+ 794 00a8 80BC     		pop	{r7}
+ 795 00aa 7047     		bx	lr
+ 796              		.cfi_endproc
+ 797              	.LFE5:
+ 798              		.size	NEOMOTE_1_I2C_0_MasterWriteByte, .-NEOMOTE_1_I2C_0_MasterWriteByte
+ 799              		.section	.text.NEOMOTE_1_I2C_0_MasterReadByte,"ax",%progbits
+ 800              		.align	2
+ 801              		.global	NEOMOTE_1_I2C_0_MasterReadByte
+ 802              		.thumb
+ 803              		.thumb_func
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccmNVPZc.s 			page 25
+
+
+ 804              		.type	NEOMOTE_1_I2C_0_MasterReadByte, %function
+ 805              	NEOMOTE_1_I2C_0_MasterReadByte:
+ 806              	.LFB6:
+ 562:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** 
+ 563:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** 
+ 564:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** /*******************************************************************************
+ 565:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** * Function Name: NEOMOTE_1_I2C_0_MasterReadByte
+ 566:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** ********************************************************************************
+ 567:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** *
+ 568:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** * Summary:
+ 569:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** *  Reads one byte from a slave and ACK or NACK the transfer. A valid Start or
+ 570:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** *  ReStart condition must be generated before this call this function. Function
+ 571:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** *  do nothing if Start or Restart condition was failed before call this
+ 572:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** *  function.
+ 573:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** *
+ 574:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** * Parameters:
+ 575:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** *  acknNack:  Zero, response with NACK, if non-zero response with ACK.
+ 576:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** *
+ 577:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** * Return:
+ 578:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** *  Byte read from slave.
+ 579:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** *
+ 580:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** * Side Effects:
+ 581:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** *  This function is entered without a 'byte complete' bit set in the I2C_CSR
+ 582:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** *  register. It does not exit until it will be set.
+ 583:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** *
+ 584:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** * Global variables:
+ 585:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** *  NEOMOTE_1_I2C_0_state - used to store current state of software FSM.
+ 586:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** *
+ 587:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** * Reentrant:
+ 588:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** *  No
+ 589:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** *
+ 590:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** *******************************************************************************/
+ 591:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** uint8 NEOMOTE_1_I2C_0_MasterReadByte(uint8 acknNak) 
+ 592:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** {
+ 807              		.loc 1 592 0
+ 808              		.cfi_startproc
+ 809              		@ args = 0, pretend = 0, frame = 16
+ 810              		@ frame_needed = 1, uses_anonymous_args = 0
+ 811              		@ link register save eliminated.
+ 812 0000 80B4     		push	{r7}
+ 813              	.LCFI18:
+ 814              		.cfi_def_cfa_offset 4
+ 815 0002 85B0     		sub	sp, sp, #20
+ 816              	.LCFI19:
+ 817              		.cfi_def_cfa_offset 24
+ 818 0004 00AF     		add	r7, sp, #0
+ 819              		.cfi_offset 7, -4
+ 820              	.LCFI20:
+ 821              		.cfi_def_cfa_register 7
+ 822 0006 0346     		mov	r3, r0
+ 823 0008 FB71     		strb	r3, [r7, #7]
+ 593:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****     uint8 theByte;
+ 594:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** 
+ 595:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****     theByte = 0u;
+ 824              		.loc 1 595 0
+ 825 000a 4FF00003 		mov	r3, #0
+ 826 000e FB73     		strb	r3, [r7, #15]
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccmNVPZc.s 			page 26
+
+
+ 596:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** 
+ 597:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****     /* Check if START condition was generated */
+ 598:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****     if(NEOMOTE_1_I2C_0_CHECK_MASTER_MODE(NEOMOTE_1_I2C_0_MCSR_REG))
+ 827              		.loc 1 598 0
+ 828 0010 44F6D913 		movw	r3, #:lower16:1073760729
+ 829 0014 C4F20003 		movt	r3, #:upper16:1073760729
+ 830 0018 1B78     		ldrb	r3, [r3, #0]
+ 831 001a DBB2     		uxtb	r3, r3
+ 832 001c 03F00403 		and	r3, r3, #4
+ 833 0020 002B     		cmp	r3, #0
+ 834 0022 37D0     		beq	.L45
+ 599:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****     {
+ 600:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****         /* When address phase need release the bus and receive the byte, then decide ACK or NACK */
+ 601:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****         if(NEOMOTE_1_I2C_0_SM_MSTR_RD_ADDR == NEOMOTE_1_I2C_0_state)
+ 835              		.loc 1 601 0
+ 836 0024 40F20003 		movw	r3, #:lower16:NEOMOTE_1_I2C_0_state
+ 837 0028 C0F20003 		movt	r3, #:upper16:NEOMOTE_1_I2C_0_state
+ 838 002c 1B78     		ldrb	r3, [r3, #0]
+ 839 002e DBB2     		uxtb	r3, r3
+ 840 0030 492B     		cmp	r3, #73
+ 841 0032 0DD1     		bne	.L46
+ 602:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****         {
+ 603:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****             NEOMOTE_1_I2C_0_state = NEOMOTE_1_I2C_0_SM_MSTR_RD_DATA;
+ 842              		.loc 1 603 0
+ 843 0034 40F20003 		movw	r3, #:lower16:NEOMOTE_1_I2C_0_state
+ 844 0038 C0F20003 		movt	r3, #:upper16:NEOMOTE_1_I2C_0_state
+ 845 003c 4FF04A02 		mov	r2, #74
+ 846 0040 1A70     		strb	r2, [r3, #0]
+ 604:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****             NEOMOTE_1_I2C_0_READY_TO_READ_MANUAL;
+ 847              		.loc 1 604 0
+ 848 0042 44F6D713 		movw	r3, #:lower16:1073760727
+ 849 0046 C4F20003 		movt	r3, #:upper16:1073760727
+ 850 004a 4FF00002 		mov	r2, #0
+ 851 004e 1A70     		strb	r2, [r3, #0]
+ 852              	.L46:
+ 605:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****         }
+ 606:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** 
+ 607:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****         while(NEOMOTE_1_I2C_0_WAIT_BYTE_COMPLETE(NEOMOTE_1_I2C_0_CSR_REG))
+ 853              		.loc 1 607 0
+ 854 0050 44F6D713 		movw	r3, #:lower16:1073760727
+ 855 0054 C4F20003 		movt	r3, #:upper16:1073760727
+ 856 0058 1B78     		ldrb	r3, [r3, #0]
+ 857 005a DBB2     		uxtb	r3, r3
+ 858 005c 03F00103 		and	r3, r3, #1
+ 859 0060 002B     		cmp	r3, #0
+ 860 0062 F5D0     		beq	.L46
+ 608:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****         {
+ 609:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****             ; /* Wait for byte to be read */
+ 610:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****         }
+ 611:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** 
+ 612:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****         theByte = NEOMOTE_1_I2C_0_DATA_REG;
+ 861              		.loc 1 612 0
+ 862 0064 44F6D813 		movw	r3, #:lower16:1073760728
+ 863 0068 C4F20003 		movt	r3, #:upper16:1073760728
+ 864 006c 1B78     		ldrb	r3, [r3, #0]
+ 865 006e FB73     		strb	r3, [r7, #15]
+ 613:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** 
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccmNVPZc.s 			page 27
+
+
+ 614:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****         /* Now if the ACK flag was set, ACK the data which will release the bus and
+ 615:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****            start the next byte in otherwise do NOTHING to the CSR reg.
+ 616:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****            This will allow the calling routine to generate a repeat start or
+ 617:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****            stop depending on it's preference. */
+ 618:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****         if(acknNak != 0u)   /* Do ACK */
+ 866              		.loc 1 618 0
+ 867 0070 FB79     		ldrb	r3, [r7, #7]	@ zero_extendqisi2
+ 868 0072 002B     		cmp	r3, #0
+ 869 0074 07D0     		beq	.L47
+ 619:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****         {
+ 620:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****             NEOMOTE_1_I2C_0_ACK_AND_RECEIVE_MANUAL;
+ 870              		.loc 1 620 0
+ 871 0076 44F6D713 		movw	r3, #:lower16:1073760727
+ 872 007a C4F20003 		movt	r3, #:upper16:1073760727
+ 873 007e 4FF01002 		mov	r2, #16
+ 874 0082 1A70     		strb	r2, [r3, #0]
+ 875 0084 06E0     		b	.L45
+ 876              	.L47:
+ 621:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****         }
+ 622:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****         else                /* Do NACK */
+ 623:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****         {
+ 624:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****             /* Do nothing to be able work with ReStart */
+ 625:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****             NEOMOTE_1_I2C_0_state = NEOMOTE_1_I2C_0_SM_MSTR_HALT;
+ 877              		.loc 1 625 0
+ 878 0086 40F20003 		movw	r3, #:lower16:NEOMOTE_1_I2C_0_state
+ 879 008a C0F20003 		movt	r3, #:upper16:NEOMOTE_1_I2C_0_state
+ 880 008e 4FF06002 		mov	r2, #96
+ 881 0092 1A70     		strb	r2, [r3, #0]
+ 882              	.L45:
+ 626:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****         }
+ 627:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****     }
+ 628:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** 
+ 629:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****     return(theByte);
+ 883              		.loc 1 629 0
+ 884 0094 FB7B     		ldrb	r3, [r7, #15]	@ zero_extendqisi2
+ 630:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** }
+ 885              		.loc 1 630 0
+ 886 0096 1846     		mov	r0, r3
+ 887 0098 07F11407 		add	r7, r7, #20
+ 888 009c BD46     		mov	sp, r7
+ 889 009e 80BC     		pop	{r7}
+ 890 00a0 7047     		bx	lr
+ 891              		.cfi_endproc
+ 892              	.LFE6:
+ 893              		.size	NEOMOTE_1_I2C_0_MasterReadByte, .-NEOMOTE_1_I2C_0_MasterReadByte
+ 894 00a2 00BF     		.section	.text.NEOMOTE_1_I2C_0_MasterStatus,"ax",%progbits
+ 895              		.align	2
+ 896              		.global	NEOMOTE_1_I2C_0_MasterStatus
+ 897              		.thumb
+ 898              		.thumb_func
+ 899              		.type	NEOMOTE_1_I2C_0_MasterStatus, %function
+ 900              	NEOMOTE_1_I2C_0_MasterStatus:
+ 901              	.LFB7:
+ 631:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** 
+ 632:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** 
+ 633:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** /*******************************************************************************
+ 634:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** * Function Name: NEOMOTE_1_I2C_0_MasterStatus
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccmNVPZc.s 			page 28
+
+
+ 635:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** ********************************************************************************
+ 636:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** *
+ 637:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** * Summary:
+ 638:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** *  Returns the master's communication status.
+ 639:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** *
+ 640:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** * Parameters:
+ 641:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** *  None
+ 642:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** *
+ 643:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** * Return:
+ 644:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** *  Current status of I2C master.
+ 645:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** *
+ 646:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** * Global variables:
+ 647:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** *  NEOMOTE_1_I2C_0_mstrStatus - used to store current status of I2C Master.
+ 648:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** *
+ 649:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** *******************************************************************************/
+ 650:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** uint8 NEOMOTE_1_I2C_0_MasterStatus(void) 
+ 651:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** {
+ 902              		.loc 1 651 0
+ 903              		.cfi_startproc
+ 904              		@ args = 0, pretend = 0, frame = 8
+ 905              		@ frame_needed = 1, uses_anonymous_args = 0
+ 906              		@ link register save eliminated.
+ 907 0000 80B4     		push	{r7}
+ 908              	.LCFI21:
+ 909              		.cfi_def_cfa_offset 4
+ 910 0002 83B0     		sub	sp, sp, #12
+ 911              	.LCFI22:
+ 912              		.cfi_def_cfa_offset 16
+ 913 0004 00AF     		add	r7, sp, #0
+ 914              		.cfi_offset 7, -4
+ 915              	.LCFI23:
+ 916              		.cfi_def_cfa_register 7
+ 652:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****     uint8 status;
+ 653:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** 
+ 654:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****     status = NEOMOTE_1_I2C_0_mstrStatus;
+ 917              		.loc 1 654 0
+ 918 0006 40F20003 		movw	r3, #:lower16:NEOMOTE_1_I2C_0_mstrStatus
+ 919 000a C0F20003 		movt	r3, #:upper16:NEOMOTE_1_I2C_0_mstrStatus
+ 920 000e 1B78     		ldrb	r3, [r3, #0]
+ 921 0010 FB71     		strb	r3, [r7, #7]
+ 655:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** 
+ 656:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****     /* When in Master state only transaction is in progress */
+ 657:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****     if(NEOMOTE_1_I2C_0_CHECK_SM_MASTER)
+ 922              		.loc 1 657 0
+ 923 0012 40F20003 		movw	r3, #:lower16:NEOMOTE_1_I2C_0_state
+ 924 0016 C0F20003 		movt	r3, #:upper16:NEOMOTE_1_I2C_0_state
+ 925 001a 1B78     		ldrb	r3, [r3, #0]
+ 926 001c DBB2     		uxtb	r3, r3
+ 927 001e 03F04003 		and	r3, r3, #64
+ 928 0022 002B     		cmp	r3, #0
+ 929 0024 03D0     		beq	.L50
+ 658:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****     {
+ 659:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****         /* Add transaction in progress activity to master status */
+ 660:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****         status |= NEOMOTE_1_I2C_0_MSTAT_XFER_INP;
+ 930              		.loc 1 660 0
+ 931 0026 FB79     		ldrb	r3, [r7, #7]
+ 932 0028 43F00403 		orr	r3, r3, #4
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccmNVPZc.s 			page 29
+
+
+ 933 002c FB71     		strb	r3, [r7, #7]
+ 934              	.L50:
+ 661:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****     }
+ 662:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****     else
+ 663:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****     {
+ 664:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****         /* Current master status is valid */
+ 665:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****     }
+ 666:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** 
+ 667:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****     return(status);
+ 935              		.loc 1 667 0
+ 936 002e FB79     		ldrb	r3, [r7, #7]	@ zero_extendqisi2
+ 668:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** }
+ 937              		.loc 1 668 0
+ 938 0030 1846     		mov	r0, r3
+ 939 0032 07F10C07 		add	r7, r7, #12
+ 940 0036 BD46     		mov	sp, r7
+ 941 0038 80BC     		pop	{r7}
+ 942 003a 7047     		bx	lr
+ 943              		.cfi_endproc
+ 944              	.LFE7:
+ 945              		.size	NEOMOTE_1_I2C_0_MasterStatus, .-NEOMOTE_1_I2C_0_MasterStatus
+ 946              		.section	.text.NEOMOTE_1_I2C_0_MasterClearStatus,"ax",%progbits
+ 947              		.align	2
+ 948              		.global	NEOMOTE_1_I2C_0_MasterClearStatus
+ 949              		.thumb
+ 950              		.thumb_func
+ 951              		.type	NEOMOTE_1_I2C_0_MasterClearStatus, %function
+ 952              	NEOMOTE_1_I2C_0_MasterClearStatus:
+ 953              	.LFB8:
+ 669:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** 
+ 670:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** 
+ 671:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** /*******************************************************************************
+ 672:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** * Function Name: NEOMOTE_1_I2C_0_MasterClearStatus
+ 673:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** ********************************************************************************
+ 674:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** *
+ 675:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** * Summary:
+ 676:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** *  Clears all status flags and returns the master status.
+ 677:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** *
+ 678:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** * Parameters:
+ 679:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** *  None
+ 680:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** *
+ 681:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** * Return:
+ 682:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** *  Current status of I2C master.
+ 683:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** *
+ 684:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** * Global variables:
+ 685:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** *  NEOMOTE_1_I2C_0_mstrStatus - used to store current status of I2C Master.
+ 686:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** *
+ 687:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** * Reentrant:
+ 688:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** *  No
+ 689:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** *
+ 690:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** *******************************************************************************/
+ 691:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** uint8 NEOMOTE_1_I2C_0_MasterClearStatus(void) 
+ 692:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** {
+ 954              		.loc 1 692 0
+ 955              		.cfi_startproc
+ 956              		@ args = 0, pretend = 0, frame = 8
+ 957              		@ frame_needed = 1, uses_anonymous_args = 0
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccmNVPZc.s 			page 30
+
+
+ 958              		@ link register save eliminated.
+ 959 0000 80B4     		push	{r7}
+ 960              	.LCFI24:
+ 961              		.cfi_def_cfa_offset 4
+ 962 0002 83B0     		sub	sp, sp, #12
+ 963              	.LCFI25:
+ 964              		.cfi_def_cfa_offset 16
+ 965 0004 00AF     		add	r7, sp, #0
+ 966              		.cfi_offset 7, -4
+ 967              	.LCFI26:
+ 968              		.cfi_def_cfa_register 7
+ 693:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****     /* Current master status */
+ 694:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****     uint8 status;
+ 695:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** 
+ 696:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****     /* Read and clear master status */
+ 697:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****     status = NEOMOTE_1_I2C_0_mstrStatus;
+ 969              		.loc 1 697 0
+ 970 0006 40F20003 		movw	r3, #:lower16:NEOMOTE_1_I2C_0_mstrStatus
+ 971 000a C0F20003 		movt	r3, #:upper16:NEOMOTE_1_I2C_0_mstrStatus
+ 972 000e 1B78     		ldrb	r3, [r3, #0]
+ 973 0010 FB71     		strb	r3, [r7, #7]
+ 698:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****     NEOMOTE_1_I2C_0_mstrStatus = NEOMOTE_1_I2C_0_MSTAT_CLEAR;
+ 974              		.loc 1 698 0
+ 975 0012 40F20003 		movw	r3, #:lower16:NEOMOTE_1_I2C_0_mstrStatus
+ 976 0016 C0F20003 		movt	r3, #:upper16:NEOMOTE_1_I2C_0_mstrStatus
+ 977 001a 4FF00002 		mov	r2, #0
+ 978 001e 1A70     		strb	r2, [r3, #0]
+ 699:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** 
+ 700:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****     return(status);
+ 979              		.loc 1 700 0
+ 980 0020 FB79     		ldrb	r3, [r7, #7]	@ zero_extendqisi2
+ 701:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** }
+ 981              		.loc 1 701 0
+ 982 0022 1846     		mov	r0, r3
+ 983 0024 07F10C07 		add	r7, r7, #12
+ 984 0028 BD46     		mov	sp, r7
+ 985 002a 80BC     		pop	{r7}
+ 986 002c 7047     		bx	lr
+ 987              		.cfi_endproc
+ 988              	.LFE8:
+ 989              		.size	NEOMOTE_1_I2C_0_MasterClearStatus, .-NEOMOTE_1_I2C_0_MasterClearStatus
+ 990 002e 00BF     		.section	.text.NEOMOTE_1_I2C_0_MasterGetReadBufSize,"ax",%progbits
+ 991              		.align	2
+ 992              		.global	NEOMOTE_1_I2C_0_MasterGetReadBufSize
+ 993              		.thumb
+ 994              		.thumb_func
+ 995              		.type	NEOMOTE_1_I2C_0_MasterGetReadBufSize, %function
+ 996              	NEOMOTE_1_I2C_0_MasterGetReadBufSize:
+ 997              	.LFB9:
+ 702:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** 
+ 703:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** 
+ 704:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** /*******************************************************************************
+ 705:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** * Function Name: NEOMOTE_1_I2C_0_MasterGetReadBufSize
+ 706:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** ********************************************************************************
+ 707:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** *
+ 708:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** * Summary:
+ 709:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** *  Returns the amount of bytes that has been transferred with an
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccmNVPZc.s 			page 31
+
+
+ 710:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** *  I2C_MasterReadBuf command.
+ 711:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** *
+ 712:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** * Parameters:
+ 713:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** *  None
+ 714:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** *
+ 715:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** * Return:
+ 716:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** *  Byte count of transfer. If the transfer is not yet complete, it will return
+ 717:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** *  the byte count transferred so far.
+ 718:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** *
+ 719:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** * Global variables:
+ 720:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** *  NEOMOTE_1_I2C_0_mstrRdBufIndex - used to current index within master read
+ 721:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** *  buffer.
+ 722:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** *
+ 723:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** *******************************************************************************/
+ 724:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** uint8 NEOMOTE_1_I2C_0_MasterGetReadBufSize(void) 
+ 725:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** {
+ 998              		.loc 1 725 0
+ 999              		.cfi_startproc
+ 1000              		@ args = 0, pretend = 0, frame = 0
+ 1001              		@ frame_needed = 1, uses_anonymous_args = 0
+ 1002              		@ link register save eliminated.
+ 1003 0000 80B4     		push	{r7}
+ 1004              	.LCFI27:
+ 1005              		.cfi_def_cfa_offset 4
+ 1006 0002 00AF     		add	r7, sp, #0
+ 1007              		.cfi_offset 7, -4
+ 1008              	.LCFI28:
+ 1009              		.cfi_def_cfa_register 7
+ 726:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****     return(NEOMOTE_1_I2C_0_mstrRdBufIndex);
+ 1010              		.loc 1 726 0
+ 1011 0004 40F20003 		movw	r3, #:lower16:NEOMOTE_1_I2C_0_mstrRdBufIndex
+ 1012 0008 C0F20003 		movt	r3, #:upper16:NEOMOTE_1_I2C_0_mstrRdBufIndex
+ 1013 000c 1B78     		ldrb	r3, [r3, #0]
+ 1014 000e DBB2     		uxtb	r3, r3
+ 727:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** }
+ 1015              		.loc 1 727 0
+ 1016 0010 1846     		mov	r0, r3
+ 1017 0012 BD46     		mov	sp, r7
+ 1018 0014 80BC     		pop	{r7}
+ 1019 0016 7047     		bx	lr
+ 1020              		.cfi_endproc
+ 1021              	.LFE9:
+ 1022              		.size	NEOMOTE_1_I2C_0_MasterGetReadBufSize, .-NEOMOTE_1_I2C_0_MasterGetReadBufSize
+ 1023              		.section	.text.NEOMOTE_1_I2C_0_MasterGetWriteBufSize,"ax",%progbits
+ 1024              		.align	2
+ 1025              		.global	NEOMOTE_1_I2C_0_MasterGetWriteBufSize
+ 1026              		.thumb
+ 1027              		.thumb_func
+ 1028              		.type	NEOMOTE_1_I2C_0_MasterGetWriteBufSize, %function
+ 1029              	NEOMOTE_1_I2C_0_MasterGetWriteBufSize:
+ 1030              	.LFB10:
+ 728:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** 
+ 729:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** 
+ 730:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** /*******************************************************************************
+ 731:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** * Function Name: NEOMOTE_1_I2C_0_MasterGetWriteBufSize
+ 732:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** ********************************************************************************
+ 733:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** *
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccmNVPZc.s 			page 32
+
+
+ 734:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** * Summary:
+ 735:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** *  Returns the amount of bytes that has been transferred with an
+ 736:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** *  I2C_MasterWriteBuf command.
+ 737:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** *
+ 738:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** * Parameters:
+ 739:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** *  None
+ 740:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** *
+ 741:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** * Return:
+ 742:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** *  Byte count of transfer. If the transfer is not yet complete, it will return
+ 743:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** *  the byte count transferred so far.
+ 744:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** *
+ 745:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** * Global variables:
+ 746:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** *  NEOMOTE_1_I2C_0_mstrWrBufIndex - used to current index within master write
+ 747:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** *  buffer.
+ 748:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** *
+ 749:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** *******************************************************************************/
+ 750:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** uint8 NEOMOTE_1_I2C_0_MasterGetWriteBufSize(void) 
+ 751:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** {
+ 1031              		.loc 1 751 0
+ 1032              		.cfi_startproc
+ 1033              		@ args = 0, pretend = 0, frame = 0
+ 1034              		@ frame_needed = 1, uses_anonymous_args = 0
+ 1035              		@ link register save eliminated.
+ 1036 0000 80B4     		push	{r7}
+ 1037              	.LCFI29:
+ 1038              		.cfi_def_cfa_offset 4
+ 1039 0002 00AF     		add	r7, sp, #0
+ 1040              		.cfi_offset 7, -4
+ 1041              	.LCFI30:
+ 1042              		.cfi_def_cfa_register 7
+ 752:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****     return(NEOMOTE_1_I2C_0_mstrWrBufIndex);
+ 1043              		.loc 1 752 0
+ 1044 0004 40F20003 		movw	r3, #:lower16:NEOMOTE_1_I2C_0_mstrWrBufIndex
+ 1045 0008 C0F20003 		movt	r3, #:upper16:NEOMOTE_1_I2C_0_mstrWrBufIndex
+ 1046 000c 1B78     		ldrb	r3, [r3, #0]
+ 1047 000e DBB2     		uxtb	r3, r3
+ 753:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** }
+ 1048              		.loc 1 753 0
+ 1049 0010 1846     		mov	r0, r3
+ 1050 0012 BD46     		mov	sp, r7
+ 1051 0014 80BC     		pop	{r7}
+ 1052 0016 7047     		bx	lr
+ 1053              		.cfi_endproc
+ 1054              	.LFE10:
+ 1055              		.size	NEOMOTE_1_I2C_0_MasterGetWriteBufSize, .-NEOMOTE_1_I2C_0_MasterGetWriteBufSize
+ 1056              		.section	.text.NEOMOTE_1_I2C_0_MasterClearReadBuf,"ax",%progbits
+ 1057              		.align	2
+ 1058              		.global	NEOMOTE_1_I2C_0_MasterClearReadBuf
+ 1059              		.thumb
+ 1060              		.thumb_func
+ 1061              		.type	NEOMOTE_1_I2C_0_MasterClearReadBuf, %function
+ 1062              	NEOMOTE_1_I2C_0_MasterClearReadBuf:
+ 1063              	.LFB11:
+ 754:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** 
+ 755:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** 
+ 756:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** /*******************************************************************************
+ 757:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** * Function Name: NEOMOTE_1_I2C_0_MasterClearReadBuf
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccmNVPZc.s 			page 33
+
+
+ 758:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** ********************************************************************************
+ 759:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** *
+ 760:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** * Summary:
+ 761:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** *  Resets the read buffer pointer back to the first byte in the buffer.
+ 762:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** *
+ 763:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** * Parameters:
+ 764:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** *  None
+ 765:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** *
+ 766:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** * Return:
+ 767:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** *  None
+ 768:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** *
+ 769:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** * Global variables:
+ 770:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** *  NEOMOTE_1_I2C_0_mstrRdBufIndex - used to current index within master read
+ 771:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** *   buffer.
+ 772:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** *  NEOMOTE_1_I2C_0_mstrStatus - used to store current status of I2C Master.
+ 773:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** *
+ 774:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** * Reentrant:
+ 775:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** *  No
+ 776:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** *
+ 777:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** *******************************************************************************/
+ 778:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** void NEOMOTE_1_I2C_0_MasterClearReadBuf(void) 
+ 779:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** {
+ 1064              		.loc 1 779 0
+ 1065              		.cfi_startproc
+ 1066              		@ args = 0, pretend = 0, frame = 0
+ 1067              		@ frame_needed = 1, uses_anonymous_args = 0
+ 1068              		@ link register save eliminated.
+ 1069 0000 80B4     		push	{r7}
+ 1070              	.LCFI31:
+ 1071              		.cfi_def_cfa_offset 4
+ 1072 0002 00AF     		add	r7, sp, #0
+ 1073              		.cfi_offset 7, -4
+ 1074              	.LCFI32:
+ 1075              		.cfi_def_cfa_register 7
+ 780:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****     NEOMOTE_1_I2C_0_mstrRdBufIndex = 0u;
+ 1076              		.loc 1 780 0
+ 1077 0004 40F20003 		movw	r3, #:lower16:NEOMOTE_1_I2C_0_mstrRdBufIndex
+ 1078 0008 C0F20003 		movt	r3, #:upper16:NEOMOTE_1_I2C_0_mstrRdBufIndex
+ 1079 000c 4FF00002 		mov	r2, #0
+ 1080 0010 1A70     		strb	r2, [r3, #0]
+ 781:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****     NEOMOTE_1_I2C_0_mstrStatus    &= ((uint8) ~NEOMOTE_1_I2C_0_MSTAT_RD_CMPLT);
+ 1081              		.loc 1 781 0
+ 1082 0012 40F20003 		movw	r3, #:lower16:NEOMOTE_1_I2C_0_mstrStatus
+ 1083 0016 C0F20003 		movt	r3, #:upper16:NEOMOTE_1_I2C_0_mstrStatus
+ 1084 001a 1B78     		ldrb	r3, [r3, #0]
+ 1085 001c DBB2     		uxtb	r3, r3
+ 1086 001e 1A46     		mov	r2, r3
+ 1087 0020 02F0FE02 		and	r2, r2, #254
+ 1088 0024 40F20003 		movw	r3, #:lower16:NEOMOTE_1_I2C_0_mstrStatus
+ 1089 0028 C0F20003 		movt	r3, #:upper16:NEOMOTE_1_I2C_0_mstrStatus
+ 1090 002c 1A70     		strb	r2, [r3, #0]
+ 782:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** }
+ 1091              		.loc 1 782 0
+ 1092 002e BD46     		mov	sp, r7
+ 1093 0030 80BC     		pop	{r7}
+ 1094 0032 7047     		bx	lr
+ 1095              		.cfi_endproc
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccmNVPZc.s 			page 34
+
+
+ 1096              	.LFE11:
+ 1097              		.size	NEOMOTE_1_I2C_0_MasterClearReadBuf, .-NEOMOTE_1_I2C_0_MasterClearReadBuf
+ 1098              		.section	.text.NEOMOTE_1_I2C_0_MasterClearWriteBuf,"ax",%progbits
+ 1099              		.align	2
+ 1100              		.global	NEOMOTE_1_I2C_0_MasterClearWriteBuf
+ 1101              		.thumb
+ 1102              		.thumb_func
+ 1103              		.type	NEOMOTE_1_I2C_0_MasterClearWriteBuf, %function
+ 1104              	NEOMOTE_1_I2C_0_MasterClearWriteBuf:
+ 1105              	.LFB12:
+ 783:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** 
+ 784:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** 
+ 785:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** /*******************************************************************************
+ 786:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** * Function Name: NEOMOTE_1_I2C_0_MasterClearWriteBuf
+ 787:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** ********************************************************************************
+ 788:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** *
+ 789:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** * Summary:
+ 790:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** *  Resets the write buffer pointer back to the first byte in the buffer.
+ 791:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** *
+ 792:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** * Parameters:
+ 793:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** *  None
+ 794:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** *
+ 795:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** * Return:
+ 796:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** *  None
+ 797:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** *
+ 798:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** * Global variables:
+ 799:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** *  NEOMOTE_1_I2C_0_mstrRdBufIndex - used to current index within master read
+ 800:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** *   buffer.
+ 801:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** *  NEOMOTE_1_I2C_0_mstrStatus - used to store current status of I2C Master.
+ 802:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** *
+ 803:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** * Reentrant:
+ 804:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** *  No
+ 805:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** *
+ 806:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** *******************************************************************************/
+ 807:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** void NEOMOTE_1_I2C_0_MasterClearWriteBuf(void) 
+ 808:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** {
+ 1106              		.loc 1 808 0
+ 1107              		.cfi_startproc
+ 1108              		@ args = 0, pretend = 0, frame = 0
+ 1109              		@ frame_needed = 1, uses_anonymous_args = 0
+ 1110              		@ link register save eliminated.
+ 1111 0000 80B4     		push	{r7}
+ 1112              	.LCFI33:
+ 1113              		.cfi_def_cfa_offset 4
+ 1114 0002 00AF     		add	r7, sp, #0
+ 1115              		.cfi_offset 7, -4
+ 1116              	.LCFI34:
+ 1117              		.cfi_def_cfa_register 7
+ 809:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****     NEOMOTE_1_I2C_0_mstrWrBufIndex = 0u;
+ 1118              		.loc 1 809 0
+ 1119 0004 40F20003 		movw	r3, #:lower16:NEOMOTE_1_I2C_0_mstrWrBufIndex
+ 1120 0008 C0F20003 		movt	r3, #:upper16:NEOMOTE_1_I2C_0_mstrWrBufIndex
+ 1121 000c 4FF00002 		mov	r2, #0
+ 1122 0010 1A70     		strb	r2, [r3, #0]
+ 810:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****     NEOMOTE_1_I2C_0_mstrStatus    &= ((uint8) ~NEOMOTE_1_I2C_0_MSTAT_WR_CMPLT);
+ 1123              		.loc 1 810 0
+ 1124 0012 40F20003 		movw	r3, #:lower16:NEOMOTE_1_I2C_0_mstrStatus
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccmNVPZc.s 			page 35
+
+
+ 1125 0016 C0F20003 		movt	r3, #:upper16:NEOMOTE_1_I2C_0_mstrStatus
+ 1126 001a 1B78     		ldrb	r3, [r3, #0]
+ 1127 001c DBB2     		uxtb	r3, r3
+ 1128 001e 1A46     		mov	r2, r3
+ 1129 0020 02F0FD02 		and	r2, r2, #253
+ 1130 0024 40F20003 		movw	r3, #:lower16:NEOMOTE_1_I2C_0_mstrStatus
+ 1131 0028 C0F20003 		movt	r3, #:upper16:NEOMOTE_1_I2C_0_mstrStatus
+ 1132 002c 1A70     		strb	r2, [r3, #0]
+ 811:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** }
+ 1133              		.loc 1 811 0
+ 1134 002e BD46     		mov	sp, r7
+ 1135 0030 80BC     		pop	{r7}
+ 1136 0032 7047     		bx	lr
+ 1137              		.cfi_endproc
+ 1138              	.LFE12:
+ 1139              		.size	NEOMOTE_1_I2C_0_MasterClearWriteBuf, .-NEOMOTE_1_I2C_0_MasterClearWriteBuf
+ 1140              		.section	.text.NEOMOTE_1_I2C_0_Workaround,"ax",%progbits
+ 1141              		.align	2
+ 1142              		.global	NEOMOTE_1_I2C_0_Workaround
+ 1143              		.thumb
+ 1144              		.thumb_func
+ 1145              		.type	NEOMOTE_1_I2C_0_Workaround, %function
+ 1146              	NEOMOTE_1_I2C_0_Workaround:
+ 1147              	.LFB13:
+ 812:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** 
+ 813:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** 
+ 814:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** /*******************************************************************************
+ 815:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** * Function Name: NEOMOTE_1_I2C_0_Workaround
+ 816:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** ********************************************************************************
+ 817:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** *
+ 818:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** * Summary:
+ 819:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** *  Do nothing. This fake fuction use as workaround for CDT 78083.
+ 820:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** *
+ 821:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** * Parameters:
+ 822:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** *  None
+ 823:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** *
+ 824:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** * Return:
+ 825:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** *  None
+ 826:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** *
+ 827:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** * Reentrant:
+ 828:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** *  No
+ 829:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** *
+ 830:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** *******************************************************************************/
+ 831:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** void NEOMOTE_1_I2C_0_Workaround(void) 
+ 832:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** {
+ 1148              		.loc 1 832 0
+ 1149              		.cfi_startproc
+ 1150              		@ args = 0, pretend = 0, frame = 0
+ 1151              		@ frame_needed = 1, uses_anonymous_args = 0
+ 1152              		@ link register save eliminated.
+ 1153 0000 80B4     		push	{r7}
+ 1154              	.LCFI35:
+ 1155              		.cfi_def_cfa_offset 4
+ 1156 0002 00AF     		add	r7, sp, #0
+ 1157              		.cfi_offset 7, -4
+ 1158              	.LCFI36:
+ 1159              		.cfi_def_cfa_register 7
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccmNVPZc.s 			page 36
+
+
+ 833:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c ****     /* Does nothing */
+ 834:.\Generated_Source\PSoC5/NEOMOTE_1_I2C_0_MASTER.c **** }
+ 1160              		.loc 1 834 0
+ 1161 0004 BD46     		mov	sp, r7
+ 1162 0006 80BC     		pop	{r7}
+ 1163 0008 7047     		bx	lr
+ 1164              		.cfi_endproc
+ 1165              	.LFE13:
+ 1166              		.size	NEOMOTE_1_I2C_0_Workaround, .-NEOMOTE_1_I2C_0_Workaround
+ 1167 000a 00BF     		.text
+ 1168              	.Letext0:
+ 1169              		.section	.debug_loc,"",%progbits
+ 1170              	.Ldebug_loc0:
+ 1171              	.LLST0:
+ 1172 0000 00000000 		.4byte	.LFB0
+ 1173 0004 02000000 		.4byte	.LCFI0
+ 1174 0008 0100     		.2byte	0x1
+ 1175 000a 5D       		.byte	0x5d
+ 1176 000b 02000000 		.4byte	.LCFI0
+ 1177 000f 04000000 		.4byte	.LCFI1
+ 1178 0013 0200     		.2byte	0x2
+ 1179 0015 7D       		.byte	0x7d
+ 1180 0016 04       		.sleb128 4
+ 1181 0017 04000000 		.4byte	.LCFI1
+ 1182 001b 06000000 		.4byte	.LCFI2
+ 1183 001f 0200     		.2byte	0x2
+ 1184 0021 7D       		.byte	0x7d
+ 1185 0022 20       		.sleb128 32
+ 1186 0023 06000000 		.4byte	.LCFI2
+ 1187 0027 5A010000 		.4byte	.LFE0
+ 1188 002b 0200     		.2byte	0x2
+ 1189 002d 77       		.byte	0x77
+ 1190 002e 20       		.sleb128 32
+ 1191 002f 00000000 		.4byte	0x0
+ 1192 0033 00000000 		.4byte	0x0
+ 1193              	.LLST1:
+ 1194 0037 00000000 		.4byte	.LFB1
+ 1195 003b 02000000 		.4byte	.LCFI3
+ 1196 003f 0100     		.2byte	0x1
+ 1197 0041 5D       		.byte	0x5d
+ 1198 0042 02000000 		.4byte	.LCFI3
+ 1199 0046 04000000 		.4byte	.LCFI4
+ 1200 004a 0200     		.2byte	0x2
+ 1201 004c 7D       		.byte	0x7d
+ 1202 004d 04       		.sleb128 4
+ 1203 004e 04000000 		.4byte	.LCFI4
+ 1204 0052 06000000 		.4byte	.LCFI5
+ 1205 0056 0200     		.2byte	0x2
+ 1206 0058 7D       		.byte	0x7d
+ 1207 0059 20       		.sleb128 32
+ 1208 005a 06000000 		.4byte	.LCFI5
+ 1209 005e 60010000 		.4byte	.LFE1
+ 1210 0062 0200     		.2byte	0x2
+ 1211 0064 77       		.byte	0x77
+ 1212 0065 20       		.sleb128 32
+ 1213 0066 00000000 		.4byte	0x0
+ 1214 006a 00000000 		.4byte	0x0
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccmNVPZc.s 			page 37
+
+
+ 1215              	.LLST2:
+ 1216 006e 00000000 		.4byte	.LFB2
+ 1217 0072 02000000 		.4byte	.LCFI6
+ 1218 0076 0100     		.2byte	0x1
+ 1219 0078 5D       		.byte	0x5d
+ 1220 0079 02000000 		.4byte	.LCFI6
+ 1221 007d 04000000 		.4byte	.LCFI7
+ 1222 0081 0200     		.2byte	0x2
+ 1223 0083 7D       		.byte	0x7d
+ 1224 0084 04       		.sleb128 4
+ 1225 0085 04000000 		.4byte	.LCFI7
+ 1226 0089 06000000 		.4byte	.LCFI8
+ 1227 008d 0200     		.2byte	0x2
+ 1228 008f 7D       		.byte	0x7d
+ 1229 0090 18       		.sleb128 24
+ 1230 0091 06000000 		.4byte	.LCFI8
+ 1231 0095 EE000000 		.4byte	.LFE2
+ 1232 0099 0200     		.2byte	0x2
+ 1233 009b 77       		.byte	0x77
+ 1234 009c 18       		.sleb128 24
+ 1235 009d 00000000 		.4byte	0x0
+ 1236 00a1 00000000 		.4byte	0x0
+ 1237              	.LLST3:
+ 1238 00a5 00000000 		.4byte	.LFB3
+ 1239 00a9 02000000 		.4byte	.LCFI9
+ 1240 00ad 0100     		.2byte	0x1
+ 1241 00af 5D       		.byte	0x5d
+ 1242 00b0 02000000 		.4byte	.LCFI9
+ 1243 00b4 04000000 		.4byte	.LCFI10
+ 1244 00b8 0200     		.2byte	0x2
+ 1245 00ba 7D       		.byte	0x7d
+ 1246 00bb 04       		.sleb128 4
+ 1247 00bc 04000000 		.4byte	.LCFI10
+ 1248 00c0 06000000 		.4byte	.LCFI11
+ 1249 00c4 0200     		.2byte	0x2
+ 1250 00c6 7D       		.byte	0x7d
+ 1251 00c7 18       		.sleb128 24
+ 1252 00c8 06000000 		.4byte	.LCFI11
+ 1253 00cc D6000000 		.4byte	.LFE3
+ 1254 00d0 0200     		.2byte	0x2
+ 1255 00d2 77       		.byte	0x77
+ 1256 00d3 18       		.sleb128 24
+ 1257 00d4 00000000 		.4byte	0x0
+ 1258 00d8 00000000 		.4byte	0x0
+ 1259              	.LLST4:
+ 1260 00dc 00000000 		.4byte	.LFB4
+ 1261 00e0 02000000 		.4byte	.LCFI12
+ 1262 00e4 0100     		.2byte	0x1
+ 1263 00e6 5D       		.byte	0x5d
+ 1264 00e7 02000000 		.4byte	.LCFI12
+ 1265 00eb 04000000 		.4byte	.LCFI13
+ 1266 00ef 0200     		.2byte	0x2
+ 1267 00f1 7D       		.byte	0x7d
+ 1268 00f2 04       		.sleb128 4
+ 1269 00f3 04000000 		.4byte	.LCFI13
+ 1270 00f7 06000000 		.4byte	.LCFI14
+ 1271 00fb 0200     		.2byte	0x2
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccmNVPZc.s 			page 38
+
+
+ 1272 00fd 7D       		.byte	0x7d
+ 1273 00fe 10       		.sleb128 16
+ 1274 00ff 06000000 		.4byte	.LCFI14
+ 1275 0103 72000000 		.4byte	.LFE4
+ 1276 0107 0200     		.2byte	0x2
+ 1277 0109 77       		.byte	0x77
+ 1278 010a 10       		.sleb128 16
+ 1279 010b 00000000 		.4byte	0x0
+ 1280 010f 00000000 		.4byte	0x0
+ 1281              	.LLST5:
+ 1282 0113 00000000 		.4byte	.LFB5
+ 1283 0117 02000000 		.4byte	.LCFI15
+ 1284 011b 0100     		.2byte	0x1
+ 1285 011d 5D       		.byte	0x5d
+ 1286 011e 02000000 		.4byte	.LCFI15
+ 1287 0122 04000000 		.4byte	.LCFI16
+ 1288 0126 0200     		.2byte	0x2
+ 1289 0128 7D       		.byte	0x7d
+ 1290 0129 04       		.sleb128 4
+ 1291 012a 04000000 		.4byte	.LCFI16
+ 1292 012e 06000000 		.4byte	.LCFI17
+ 1293 0132 0200     		.2byte	0x2
+ 1294 0134 7D       		.byte	0x7d
+ 1295 0135 18       		.sleb128 24
+ 1296 0136 06000000 		.4byte	.LCFI17
+ 1297 013a AC000000 		.4byte	.LFE5
+ 1298 013e 0200     		.2byte	0x2
+ 1299 0140 77       		.byte	0x77
+ 1300 0141 18       		.sleb128 24
+ 1301 0142 00000000 		.4byte	0x0
+ 1302 0146 00000000 		.4byte	0x0
+ 1303              	.LLST6:
+ 1304 014a 00000000 		.4byte	.LFB6
+ 1305 014e 02000000 		.4byte	.LCFI18
+ 1306 0152 0100     		.2byte	0x1
+ 1307 0154 5D       		.byte	0x5d
+ 1308 0155 02000000 		.4byte	.LCFI18
+ 1309 0159 04000000 		.4byte	.LCFI19
+ 1310 015d 0200     		.2byte	0x2
+ 1311 015f 7D       		.byte	0x7d
+ 1312 0160 04       		.sleb128 4
+ 1313 0161 04000000 		.4byte	.LCFI19
+ 1314 0165 06000000 		.4byte	.LCFI20
+ 1315 0169 0200     		.2byte	0x2
+ 1316 016b 7D       		.byte	0x7d
+ 1317 016c 18       		.sleb128 24
+ 1318 016d 06000000 		.4byte	.LCFI20
+ 1319 0171 A2000000 		.4byte	.LFE6
+ 1320 0175 0200     		.2byte	0x2
+ 1321 0177 77       		.byte	0x77
+ 1322 0178 18       		.sleb128 24
+ 1323 0179 00000000 		.4byte	0x0
+ 1324 017d 00000000 		.4byte	0x0
+ 1325              	.LLST7:
+ 1326 0181 00000000 		.4byte	.LFB7
+ 1327 0185 02000000 		.4byte	.LCFI21
+ 1328 0189 0100     		.2byte	0x1
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccmNVPZc.s 			page 39
+
+
+ 1329 018b 5D       		.byte	0x5d
+ 1330 018c 02000000 		.4byte	.LCFI21
+ 1331 0190 04000000 		.4byte	.LCFI22
+ 1332 0194 0200     		.2byte	0x2
+ 1333 0196 7D       		.byte	0x7d
+ 1334 0197 04       		.sleb128 4
+ 1335 0198 04000000 		.4byte	.LCFI22
+ 1336 019c 06000000 		.4byte	.LCFI23
+ 1337 01a0 0200     		.2byte	0x2
+ 1338 01a2 7D       		.byte	0x7d
+ 1339 01a3 10       		.sleb128 16
+ 1340 01a4 06000000 		.4byte	.LCFI23
+ 1341 01a8 3C000000 		.4byte	.LFE7
+ 1342 01ac 0200     		.2byte	0x2
+ 1343 01ae 77       		.byte	0x77
+ 1344 01af 10       		.sleb128 16
+ 1345 01b0 00000000 		.4byte	0x0
+ 1346 01b4 00000000 		.4byte	0x0
+ 1347              	.LLST8:
+ 1348 01b8 00000000 		.4byte	.LFB8
+ 1349 01bc 02000000 		.4byte	.LCFI24
+ 1350 01c0 0100     		.2byte	0x1
+ 1351 01c2 5D       		.byte	0x5d
+ 1352 01c3 02000000 		.4byte	.LCFI24
+ 1353 01c7 04000000 		.4byte	.LCFI25
+ 1354 01cb 0200     		.2byte	0x2
+ 1355 01cd 7D       		.byte	0x7d
+ 1356 01ce 04       		.sleb128 4
+ 1357 01cf 04000000 		.4byte	.LCFI25
+ 1358 01d3 06000000 		.4byte	.LCFI26
+ 1359 01d7 0200     		.2byte	0x2
+ 1360 01d9 7D       		.byte	0x7d
+ 1361 01da 10       		.sleb128 16
+ 1362 01db 06000000 		.4byte	.LCFI26
+ 1363 01df 2E000000 		.4byte	.LFE8
+ 1364 01e3 0200     		.2byte	0x2
+ 1365 01e5 77       		.byte	0x77
+ 1366 01e6 10       		.sleb128 16
+ 1367 01e7 00000000 		.4byte	0x0
+ 1368 01eb 00000000 		.4byte	0x0
+ 1369              	.LLST9:
+ 1370 01ef 00000000 		.4byte	.LFB9
+ 1371 01f3 02000000 		.4byte	.LCFI27
+ 1372 01f7 0100     		.2byte	0x1
+ 1373 01f9 5D       		.byte	0x5d
+ 1374 01fa 02000000 		.4byte	.LCFI27
+ 1375 01fe 04000000 		.4byte	.LCFI28
+ 1376 0202 0200     		.2byte	0x2
+ 1377 0204 7D       		.byte	0x7d
+ 1378 0205 04       		.sleb128 4
+ 1379 0206 04000000 		.4byte	.LCFI28
+ 1380 020a 18000000 		.4byte	.LFE9
+ 1381 020e 0200     		.2byte	0x2
+ 1382 0210 77       		.byte	0x77
+ 1383 0211 04       		.sleb128 4
+ 1384 0212 00000000 		.4byte	0x0
+ 1385 0216 00000000 		.4byte	0x0
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccmNVPZc.s 			page 40
+
+
+ 1386              	.LLST10:
+ 1387 021a 00000000 		.4byte	.LFB10
+ 1388 021e 02000000 		.4byte	.LCFI29
+ 1389 0222 0100     		.2byte	0x1
+ 1390 0224 5D       		.byte	0x5d
+ 1391 0225 02000000 		.4byte	.LCFI29
+ 1392 0229 04000000 		.4byte	.LCFI30
+ 1393 022d 0200     		.2byte	0x2
+ 1394 022f 7D       		.byte	0x7d
+ 1395 0230 04       		.sleb128 4
+ 1396 0231 04000000 		.4byte	.LCFI30
+ 1397 0235 18000000 		.4byte	.LFE10
+ 1398 0239 0200     		.2byte	0x2
+ 1399 023b 77       		.byte	0x77
+ 1400 023c 04       		.sleb128 4
+ 1401 023d 00000000 		.4byte	0x0
+ 1402 0241 00000000 		.4byte	0x0
+ 1403              	.LLST11:
+ 1404 0245 00000000 		.4byte	.LFB11
+ 1405 0249 02000000 		.4byte	.LCFI31
+ 1406 024d 0100     		.2byte	0x1
+ 1407 024f 5D       		.byte	0x5d
+ 1408 0250 02000000 		.4byte	.LCFI31
+ 1409 0254 04000000 		.4byte	.LCFI32
+ 1410 0258 0200     		.2byte	0x2
+ 1411 025a 7D       		.byte	0x7d
+ 1412 025b 04       		.sleb128 4
+ 1413 025c 04000000 		.4byte	.LCFI32
+ 1414 0260 34000000 		.4byte	.LFE11
+ 1415 0264 0200     		.2byte	0x2
+ 1416 0266 77       		.byte	0x77
+ 1417 0267 04       		.sleb128 4
+ 1418 0268 00000000 		.4byte	0x0
+ 1419 026c 00000000 		.4byte	0x0
+ 1420              	.LLST12:
+ 1421 0270 00000000 		.4byte	.LFB12
+ 1422 0274 02000000 		.4byte	.LCFI33
+ 1423 0278 0100     		.2byte	0x1
+ 1424 027a 5D       		.byte	0x5d
+ 1425 027b 02000000 		.4byte	.LCFI33
+ 1426 027f 04000000 		.4byte	.LCFI34
+ 1427 0283 0200     		.2byte	0x2
+ 1428 0285 7D       		.byte	0x7d
+ 1429 0286 04       		.sleb128 4
+ 1430 0287 04000000 		.4byte	.LCFI34
+ 1431 028b 34000000 		.4byte	.LFE12
+ 1432 028f 0200     		.2byte	0x2
+ 1433 0291 77       		.byte	0x77
+ 1434 0292 04       		.sleb128 4
+ 1435 0293 00000000 		.4byte	0x0
+ 1436 0297 00000000 		.4byte	0x0
+ 1437              	.LLST13:
+ 1438 029b 00000000 		.4byte	.LFB13
+ 1439 029f 02000000 		.4byte	.LCFI35
+ 1440 02a3 0100     		.2byte	0x1
+ 1441 02a5 5D       		.byte	0x5d
+ 1442 02a6 02000000 		.4byte	.LCFI35
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccmNVPZc.s 			page 41
+
+
+ 1443 02aa 04000000 		.4byte	.LCFI36
+ 1444 02ae 0200     		.2byte	0x2
+ 1445 02b0 7D       		.byte	0x7d
+ 1446 02b1 04       		.sleb128 4
+ 1447 02b2 04000000 		.4byte	.LCFI36
+ 1448 02b6 0A000000 		.4byte	.LFE13
+ 1449 02ba 0200     		.2byte	0x2
+ 1450 02bc 77       		.byte	0x77
+ 1451 02bd 04       		.sleb128 4
+ 1452 02be 00000000 		.4byte	0x0
+ 1453 02c2 00000000 		.4byte	0x0
+ 1454              		.file 2 ".\\Generated_Source\\PSoC5\\/NEOMOTE_1_I2C_0_PVT.h"
+ 1455              		.file 3 ".\\Generated_Source\\PSoC5\\/cytypes.h"
+ 1456              		.section	.debug_info
+ 1457 0000 17040000 		.4byte	0x417
+ 1458 0004 0200     		.2byte	0x2
+ 1459 0006 00000000 		.4byte	.Ldebug_abbrev0
+ 1460 000a 04       		.byte	0x4
+ 1461 000b 01       		.uleb128 0x1
+ 1462 000c 0A030000 		.4byte	.LASF44
+ 1463 0010 01       		.byte	0x1
+ 1464 0011 B2000000 		.4byte	.LASF45
+ 1465 0015 66010000 		.4byte	.LASF46
+ 1466 0019 00000000 		.4byte	0x0
+ 1467 001d 00000000 		.4byte	0x0
+ 1468 0021 00000000 		.4byte	.Ldebug_ranges0+0x0
+ 1469 0025 00000000 		.4byte	.Ldebug_line0
+ 1470 0029 02       		.uleb128 0x2
+ 1471 002a 01       		.byte	0x1
+ 1472 002b 06       		.byte	0x6
+ 1473 002c CE030000 		.4byte	.LASF0
+ 1474 0030 02       		.uleb128 0x2
+ 1475 0031 01       		.byte	0x1
+ 1476 0032 08       		.byte	0x8
+ 1477 0033 B5010000 		.4byte	.LASF1
+ 1478 0037 02       		.uleb128 0x2
+ 1479 0038 02       		.byte	0x2
+ 1480 0039 05       		.byte	0x5
+ 1481 003a 72030000 		.4byte	.LASF2
+ 1482 003e 02       		.uleb128 0x2
+ 1483 003f 02       		.byte	0x2
+ 1484 0040 07       		.byte	0x7
+ 1485 0041 92000000 		.4byte	.LASF3
+ 1486 0045 02       		.uleb128 0x2
+ 1487 0046 04       		.byte	0x4
+ 1488 0047 05       		.byte	0x5
+ 1489 0048 A6030000 		.4byte	.LASF4
+ 1490 004c 02       		.uleb128 0x2
+ 1491 004d 04       		.byte	0x4
+ 1492 004e 07       		.byte	0x7
+ 1493 004f C3010000 		.4byte	.LASF5
+ 1494 0053 02       		.uleb128 0x2
+ 1495 0054 08       		.byte	0x8
+ 1496 0055 05       		.byte	0x5
+ 1497 0056 00000000 		.4byte	.LASF6
+ 1498 005a 02       		.uleb128 0x2
+ 1499 005b 08       		.byte	0x8
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccmNVPZc.s 			page 42
+
+
+ 1500 005c 07       		.byte	0x7
+ 1501 005d C3020000 		.4byte	.LASF7
+ 1502 0061 03       		.uleb128 0x3
+ 1503 0062 04       		.byte	0x4
+ 1504 0063 05       		.byte	0x5
+ 1505 0064 696E7400 		.ascii	"int\000"
+ 1506 0068 02       		.uleb128 0x2
+ 1507 0069 04       		.byte	0x4
+ 1508 006a 07       		.byte	0x7
+ 1509 006b A5000000 		.4byte	.LASF8
+ 1510 006f 04       		.uleb128 0x4
+ 1511 0070 FB010000 		.4byte	.LASF47
+ 1512 0074 03       		.byte	0x3
+ 1513 0075 4C       		.byte	0x4c
+ 1514 0076 30000000 		.4byte	0x30
+ 1515 007a 02       		.uleb128 0x2
+ 1516 007b 04       		.byte	0x4
+ 1517 007c 04       		.byte	0x4
+ 1518 007d 21010000 		.4byte	.LASF9
+ 1519 0081 02       		.uleb128 0x2
+ 1520 0082 08       		.byte	0x8
+ 1521 0083 04       		.byte	0x4
+ 1522 0084 67020000 		.4byte	.LASF10
+ 1523 0088 02       		.uleb128 0x2
+ 1524 0089 01       		.byte	0x1
+ 1525 008a 08       		.byte	0x8
+ 1526 008b 33030000 		.4byte	.LASF11
+ 1527 008f 05       		.uleb128 0x5
+ 1528 0090 6F000000 		.4byte	0x6f
+ 1529 0094 06       		.uleb128 0x6
+ 1530 0095 04       		.byte	0x4
+ 1531 0096 07       		.byte	0x7
+ 1532 0097 07       		.uleb128 0x7
+ 1533 0098 01       		.byte	0x1
+ 1534 0099 47010000 		.4byte	.LASF15
+ 1535 009d 01       		.byte	0x1
+ 1536 009e 4D       		.byte	0x4d
+ 1537 009f 01       		.byte	0x1
+ 1538 00a0 6F000000 		.4byte	0x6f
+ 1539 00a4 00000000 		.4byte	.LFB0
+ 1540 00a8 5A010000 		.4byte	.LFE0
+ 1541 00ac 00000000 		.4byte	.LLST0
+ 1542 00b0 FB000000 		.4byte	0xfb
+ 1543 00b4 08       		.uleb128 0x8
+ 1544 00b5 FD020000 		.4byte	.LASF12
+ 1545 00b9 01       		.byte	0x1
+ 1546 00ba 4D       		.byte	0x4d
+ 1547 00bb 6F000000 		.4byte	0x6f
+ 1548 00bf 02       		.byte	0x2
+ 1549 00c0 91       		.byte	0x91
+ 1550 00c1 6F       		.sleb128 -17
+ 1551 00c2 08       		.uleb128 0x8
+ 1552 00c3 BC020000 		.4byte	.LASF13
+ 1553 00c7 01       		.byte	0x1
+ 1554 00c8 4D       		.byte	0x4d
+ 1555 00c9 FB000000 		.4byte	0xfb
+ 1556 00cd 02       		.byte	0x2
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccmNVPZc.s 			page 43
+
+
+ 1557 00ce 91       		.byte	0x91
+ 1558 00cf 68       		.sleb128 -24
+ 1559 00d0 09       		.uleb128 0x9
+ 1560 00d1 636E7400 		.ascii	"cnt\000"
+ 1561 00d5 01       		.byte	0x1
+ 1562 00d6 4D       		.byte	0x4d
+ 1563 00d7 6F000000 		.4byte	0x6f
+ 1564 00db 02       		.byte	0x2
+ 1565 00dc 91       		.byte	0x91
+ 1566 00dd 67       		.sleb128 -25
+ 1567 00de 08       		.uleb128 0x8
+ 1568 00df F8020000 		.4byte	.LASF14
+ 1569 00e3 01       		.byte	0x1
+ 1570 00e4 4D       		.byte	0x4d
+ 1571 00e5 6F000000 		.4byte	0x6f
+ 1572 00e9 02       		.byte	0x2
+ 1573 00ea 91       		.byte	0x91
+ 1574 00eb 66       		.sleb128 -26
+ 1575 00ec 0A       		.uleb128 0xa
+ 1576 00ed 3B020000 		.4byte	.LASF18
+ 1577 00f1 01       		.byte	0x1
+ 1578 00f2 50       		.byte	0x50
+ 1579 00f3 6F000000 		.4byte	0x6f
+ 1580 00f7 02       		.byte	0x2
+ 1581 00f8 91       		.byte	0x91
+ 1582 00f9 77       		.sleb128 -9
+ 1583 00fa 00       		.byte	0x0
+ 1584 00fb 0B       		.uleb128 0xb
+ 1585 00fc 04       		.byte	0x4
+ 1586 00fd 6F000000 		.4byte	0x6f
+ 1587 0101 07       		.uleb128 0x7
+ 1588 0102 01       		.byte	0x1
+ 1589 0103 DA020000 		.4byte	.LASF16
+ 1590 0107 01       		.byte	0x1
+ 1591 0108 B4       		.byte	0xb4
+ 1592 0109 01       		.byte	0x1
+ 1593 010a 6F000000 		.4byte	0x6f
+ 1594 010e 00000000 		.4byte	.LFB1
+ 1595 0112 60010000 		.4byte	.LFE1
+ 1596 0116 37000000 		.4byte	.LLST1
+ 1597 011a 65010000 		.4byte	0x165
+ 1598 011e 08       		.uleb128 0x8
+ 1599 011f FD020000 		.4byte	.LASF12
+ 1600 0123 01       		.byte	0x1
+ 1601 0124 B4       		.byte	0xb4
+ 1602 0125 6F000000 		.4byte	0x6f
+ 1603 0129 02       		.byte	0x2
+ 1604 012a 91       		.byte	0x91
+ 1605 012b 6F       		.sleb128 -17
+ 1606 012c 08       		.uleb128 0x8
+ 1607 012d AD020000 		.4byte	.LASF17
+ 1608 0131 01       		.byte	0x1
+ 1609 0132 B4       		.byte	0xb4
+ 1610 0133 FB000000 		.4byte	0xfb
+ 1611 0137 02       		.byte	0x2
+ 1612 0138 91       		.byte	0x91
+ 1613 0139 68       		.sleb128 -24
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccmNVPZc.s 			page 44
+
+
+ 1614 013a 09       		.uleb128 0x9
+ 1615 013b 636E7400 		.ascii	"cnt\000"
+ 1616 013f 01       		.byte	0x1
+ 1617 0140 B4       		.byte	0xb4
+ 1618 0141 6F000000 		.4byte	0x6f
+ 1619 0145 02       		.byte	0x2
+ 1620 0146 91       		.byte	0x91
+ 1621 0147 67       		.sleb128 -25
+ 1622 0148 08       		.uleb128 0x8
+ 1623 0149 F8020000 		.4byte	.LASF14
+ 1624 014d 01       		.byte	0x1
+ 1625 014e B4       		.byte	0xb4
+ 1626 014f 6F000000 		.4byte	0x6f
+ 1627 0153 02       		.byte	0x2
+ 1628 0154 91       		.byte	0x91
+ 1629 0155 66       		.sleb128 -26
+ 1630 0156 0A       		.uleb128 0xa
+ 1631 0157 3B020000 		.4byte	.LASF18
+ 1632 015b 01       		.byte	0x1
+ 1633 015c B7       		.byte	0xb7
+ 1634 015d 6F000000 		.4byte	0x6f
+ 1635 0161 02       		.byte	0x2
+ 1636 0162 91       		.byte	0x91
+ 1637 0163 77       		.sleb128 -9
+ 1638 0164 00       		.byte	0x0
+ 1639 0165 0C       		.uleb128 0xc
+ 1640 0166 01       		.byte	0x1
+ 1641 0167 27010000 		.4byte	.LASF19
+ 1642 016b 01       		.byte	0x1
+ 1643 016c 0F01     		.2byte	0x10f
+ 1644 016e 01       		.byte	0x1
+ 1645 016f 6F000000 		.4byte	0x6f
+ 1646 0173 00000000 		.4byte	.LFB2
+ 1647 0177 EE000000 		.4byte	.LFE2
+ 1648 017b 6E000000 		.4byte	.LLST2
+ 1649 017f B1010000 		.4byte	0x1b1
+ 1650 0183 0D       		.uleb128 0xd
+ 1651 0184 FD020000 		.4byte	.LASF12
+ 1652 0188 01       		.byte	0x1
+ 1653 0189 0F01     		.2byte	0x10f
+ 1654 018b 6F000000 		.4byte	0x6f
+ 1655 018f 02       		.byte	0x2
+ 1656 0190 91       		.byte	0x91
+ 1657 0191 6F       		.sleb128 -17
+ 1658 0192 0D       		.uleb128 0xd
+ 1659 0193 84020000 		.4byte	.LASF20
+ 1660 0197 01       		.byte	0x1
+ 1661 0198 0F01     		.2byte	0x10f
+ 1662 019a 6F000000 		.4byte	0x6f
+ 1663 019e 02       		.byte	0x2
+ 1664 019f 91       		.byte	0x91
+ 1665 01a0 6E       		.sleb128 -18
+ 1666 01a1 0E       		.uleb128 0xe
+ 1667 01a2 3B020000 		.4byte	.LASF18
+ 1668 01a6 01       		.byte	0x1
+ 1669 01a7 1201     		.2byte	0x112
+ 1670 01a9 6F000000 		.4byte	0x6f
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccmNVPZc.s 			page 45
+
+
+ 1671 01ad 02       		.byte	0x2
+ 1672 01ae 91       		.byte	0x91
+ 1673 01af 77       		.sleb128 -9
+ 1674 01b0 00       		.byte	0x0
+ 1675 01b1 0C       		.uleb128 0xc
+ 1676 01b2 01       		.byte	0x1
+ 1677 01b3 45020000 		.4byte	.LASF21
+ 1678 01b7 01       		.byte	0x1
+ 1679 01b8 7901     		.2byte	0x179
+ 1680 01ba 01       		.byte	0x1
+ 1681 01bb 6F000000 		.4byte	0x6f
+ 1682 01bf 00000000 		.4byte	.LFB3
+ 1683 01c3 D6000000 		.4byte	.LFE3
+ 1684 01c7 A5000000 		.4byte	.LLST3
+ 1685 01cb FD010000 		.4byte	0x1fd
+ 1686 01cf 0D       		.uleb128 0xd
+ 1687 01d0 FD020000 		.4byte	.LASF12
+ 1688 01d4 01       		.byte	0x1
+ 1689 01d5 7901     		.2byte	0x179
+ 1690 01d7 6F000000 		.4byte	0x6f
+ 1691 01db 02       		.byte	0x2
+ 1692 01dc 91       		.byte	0x91
+ 1693 01dd 6F       		.sleb128 -17
+ 1694 01de 0D       		.uleb128 0xd
+ 1695 01df 84020000 		.4byte	.LASF20
+ 1696 01e3 01       		.byte	0x1
+ 1697 01e4 7901     		.2byte	0x179
+ 1698 01e6 6F000000 		.4byte	0x6f
+ 1699 01ea 02       		.byte	0x2
+ 1700 01eb 91       		.byte	0x91
+ 1701 01ec 6E       		.sleb128 -18
+ 1702 01ed 0E       		.uleb128 0xe
+ 1703 01ee 3B020000 		.4byte	.LASF18
+ 1704 01f2 01       		.byte	0x1
+ 1705 01f3 7C01     		.2byte	0x17c
+ 1706 01f5 6F000000 		.4byte	0x6f
+ 1707 01f9 02       		.byte	0x2
+ 1708 01fa 91       		.byte	0x91
+ 1709 01fb 77       		.sleb128 -9
+ 1710 01fc 00       		.byte	0x0
+ 1711 01fd 0C       		.uleb128 0xc
+ 1712 01fe 01       		.byte	0x1
+ 1713 01ff 35000000 		.4byte	.LASF22
+ 1714 0203 01       		.byte	0x1
+ 1715 0204 CC01     		.2byte	0x1cc
+ 1716 0206 01       		.byte	0x1
+ 1717 0207 6F000000 		.4byte	0x6f
+ 1718 020b 00000000 		.4byte	.LFB4
+ 1719 020f 72000000 		.4byte	.LFE4
+ 1720 0213 DC000000 		.4byte	.LLST4
+ 1721 0217 2B020000 		.4byte	0x22b
+ 1722 021b 0E       		.uleb128 0xe
+ 1723 021c 3B020000 		.4byte	.LASF18
+ 1724 0220 01       		.byte	0x1
+ 1725 0221 CE01     		.2byte	0x1ce
+ 1726 0223 6F000000 		.4byte	0x6f
+ 1727 0227 02       		.byte	0x2
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccmNVPZc.s 			page 46
+
+
+ 1728 0228 91       		.byte	0x91
+ 1729 0229 77       		.sleb128 -9
+ 1730 022a 00       		.byte	0x0
+ 1731 022b 0C       		.uleb128 0xc
+ 1732 022c 01       		.byte	0x1
+ 1733 022d 0E000000 		.4byte	.LASF23
+ 1734 0231 01       		.byte	0x1
+ 1735 0232 0402     		.2byte	0x204
+ 1736 0234 01       		.byte	0x1
+ 1737 0235 6F000000 		.4byte	0x6f
+ 1738 0239 00000000 		.4byte	.LFB5
+ 1739 023d AC000000 		.4byte	.LFE5
+ 1740 0241 13010000 		.4byte	.LLST5
+ 1741 0245 68020000 		.4byte	0x268
+ 1742 0249 0D       		.uleb128 0xd
+ 1743 024a 7C030000 		.4byte	.LASF24
+ 1744 024e 01       		.byte	0x1
+ 1745 024f 0402     		.2byte	0x204
+ 1746 0251 6F000000 		.4byte	0x6f
+ 1747 0255 02       		.byte	0x2
+ 1748 0256 91       		.byte	0x91
+ 1749 0257 6F       		.sleb128 -17
+ 1750 0258 0E       		.uleb128 0xe
+ 1751 0259 3B020000 		.4byte	.LASF18
+ 1752 025d 01       		.byte	0x1
+ 1753 025e 0602     		.2byte	0x206
+ 1754 0260 6F000000 		.4byte	0x6f
+ 1755 0264 02       		.byte	0x2
+ 1756 0265 91       		.byte	0x91
+ 1757 0266 77       		.sleb128 -9
+ 1758 0267 00       		.byte	0x0
+ 1759 0268 0C       		.uleb128 0xc
+ 1760 0269 01       		.byte	0x1
+ 1761 026a 38030000 		.4byte	.LASF25
+ 1762 026e 01       		.byte	0x1
+ 1763 026f 4F02     		.2byte	0x24f
+ 1764 0271 01       		.byte	0x1
+ 1765 0272 6F000000 		.4byte	0x6f
+ 1766 0276 00000000 		.4byte	.LFB6
+ 1767 027a A2000000 		.4byte	.LFE6
+ 1768 027e 4A010000 		.4byte	.LLST6
+ 1769 0282 A5020000 		.4byte	0x2a5
+ 1770 0286 0D       		.uleb128 0xd
+ 1771 0287 B4020000 		.4byte	.LASF26
+ 1772 028b 01       		.byte	0x1
+ 1773 028c 4F02     		.2byte	0x24f
+ 1774 028e 6F000000 		.4byte	0x6f
+ 1775 0292 02       		.byte	0x2
+ 1776 0293 91       		.byte	0x91
+ 1777 0294 6F       		.sleb128 -17
+ 1778 0295 0E       		.uleb128 0xe
+ 1779 0296 7C030000 		.4byte	.LASF24
+ 1780 029a 01       		.byte	0x1
+ 1781 029b 5102     		.2byte	0x251
+ 1782 029d 6F000000 		.4byte	0x6f
+ 1783 02a1 02       		.byte	0x2
+ 1784 02a2 91       		.byte	0x91
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccmNVPZc.s 			page 47
+
+
+ 1785 02a3 77       		.sleb128 -9
+ 1786 02a4 00       		.byte	0x0
+ 1787 02a5 0C       		.uleb128 0xc
+ 1788 02a6 01       		.byte	0x1
+ 1789 02a7 1E020000 		.4byte	.LASF27
+ 1790 02ab 01       		.byte	0x1
+ 1791 02ac 8A02     		.2byte	0x28a
+ 1792 02ae 01       		.byte	0x1
+ 1793 02af 6F000000 		.4byte	0x6f
+ 1794 02b3 00000000 		.4byte	.LFB7
+ 1795 02b7 3C000000 		.4byte	.LFE7
+ 1796 02bb 81010000 		.4byte	.LLST7
+ 1797 02bf D3020000 		.4byte	0x2d3
+ 1798 02c3 0E       		.uleb128 0xe
+ 1799 02c4 2E000000 		.4byte	.LASF28
+ 1800 02c8 01       		.byte	0x1
+ 1801 02c9 8C02     		.2byte	0x28c
+ 1802 02cb 6F000000 		.4byte	0x6f
+ 1803 02cf 02       		.byte	0x2
+ 1804 02d0 91       		.byte	0x91
+ 1805 02d1 77       		.sleb128 -9
+ 1806 02d2 00       		.byte	0x0
+ 1807 02d3 0C       		.uleb128 0xc
+ 1808 02d4 01       		.byte	0x1
+ 1809 02d5 84030000 		.4byte	.LASF29
+ 1810 02d9 01       		.byte	0x1
+ 1811 02da B302     		.2byte	0x2b3
+ 1812 02dc 01       		.byte	0x1
+ 1813 02dd 6F000000 		.4byte	0x6f
+ 1814 02e1 00000000 		.4byte	.LFB8
+ 1815 02e5 2E000000 		.4byte	.LFE8
+ 1816 02e9 B8010000 		.4byte	.LLST8
+ 1817 02ed 01030000 		.4byte	0x301
+ 1818 02f1 0E       		.uleb128 0xe
+ 1819 02f2 2E000000 		.4byte	.LASF28
+ 1820 02f6 01       		.byte	0x1
+ 1821 02f7 B602     		.2byte	0x2b6
+ 1822 02f9 6F000000 		.4byte	0x6f
+ 1823 02fd 02       		.byte	0x2
+ 1824 02fe 91       		.byte	0x91
+ 1825 02ff 77       		.sleb128 -9
+ 1826 0300 00       		.byte	0x0
+ 1827 0301 0F       		.uleb128 0xf
+ 1828 0302 01       		.byte	0x1
+ 1829 0303 14040000 		.4byte	.LASF30
+ 1830 0307 01       		.byte	0x1
+ 1831 0308 D402     		.2byte	0x2d4
+ 1832 030a 01       		.byte	0x1
+ 1833 030b 6F000000 		.4byte	0x6f
+ 1834 030f 00000000 		.4byte	.LFB9
+ 1835 0313 18000000 		.4byte	.LFE9
+ 1836 0317 EF010000 		.4byte	.LLST9
+ 1837 031b 0F       		.uleb128 0xf
+ 1838 031c 01       		.byte	0x1
+ 1839 031d D5010000 		.4byte	.LASF31
+ 1840 0321 01       		.byte	0x1
+ 1841 0322 EE02     		.2byte	0x2ee
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccmNVPZc.s 			page 48
+
+
+ 1842 0324 01       		.byte	0x1
+ 1843 0325 6F000000 		.4byte	0x6f
+ 1844 0329 00000000 		.4byte	.LFB10
+ 1845 032d 18000000 		.4byte	.LFE10
+ 1846 0331 1A020000 		.4byte	.LLST10
+ 1847 0335 10       		.uleb128 0x10
+ 1848 0336 01       		.byte	0x1
+ 1849 0337 6F000000 		.4byte	.LASF32
+ 1850 033b 01       		.byte	0x1
+ 1851 033c 0A03     		.2byte	0x30a
+ 1852 033e 01       		.byte	0x1
+ 1853 033f 00000000 		.4byte	.LFB11
+ 1854 0343 34000000 		.4byte	.LFE11
+ 1855 0347 45020000 		.4byte	.LLST11
+ 1856 034b 10       		.uleb128 0x10
+ 1857 034c 01       		.byte	0x1
+ 1858 034d 89020000 		.4byte	.LASF33
+ 1859 0351 01       		.byte	0x1
+ 1860 0352 2703     		.2byte	0x327
+ 1861 0354 01       		.byte	0x1
+ 1862 0355 00000000 		.4byte	.LFB12
+ 1863 0359 34000000 		.4byte	.LFE12
+ 1864 035d 70020000 		.4byte	.LLST12
+ 1865 0361 10       		.uleb128 0x10
+ 1866 0362 01       		.byte	0x1
+ 1867 0363 57030000 		.4byte	.LASF34
+ 1868 0367 01       		.byte	0x1
+ 1869 0368 3F03     		.2byte	0x33f
+ 1870 036a 01       		.byte	0x1
+ 1871 036b 00000000 		.4byte	.LFB13
+ 1872 036f 0A000000 		.4byte	.LFE13
+ 1873 0373 9B020000 		.4byte	.LLST13
+ 1874 0377 11       		.uleb128 0x11
+ 1875 0378 6E020000 		.4byte	.LASF35
+ 1876 037c 02       		.byte	0x2
+ 1877 037d 23       		.byte	0x23
+ 1878 037e 8F000000 		.4byte	0x8f
+ 1879 0382 01       		.byte	0x1
+ 1880 0383 01       		.byte	0x1
+ 1881 0384 12       		.uleb128 0x12
+ 1882 0385 54000000 		.4byte	.LASF36
+ 1883 0389 01       		.byte	0x1
+ 1884 038a 19       		.byte	0x19
+ 1885 038b 8F000000 		.4byte	0x8f
+ 1886 038f 01       		.byte	0x1
+ 1887 0390 05       		.byte	0x5
+ 1888 0391 03       		.byte	0x3
+ 1889 0392 00000000 		.4byte	NEOMOTE_1_I2C_0_mstrStatus
+ 1890 0396 12       		.uleb128 0x12
+ 1891 0397 F8030000 		.4byte	.LASF37
+ 1892 039b 01       		.byte	0x1
+ 1893 039c 1A       		.byte	0x1a
+ 1894 039d 8F000000 		.4byte	0x8f
+ 1895 03a1 01       		.byte	0x1
+ 1896 03a2 05       		.byte	0x5
+ 1897 03a3 03       		.byte	0x3
+ 1898 03a4 00000000 		.4byte	NEOMOTE_1_I2C_0_mstrControl
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccmNVPZc.s 			page 49
+
+
+ 1899 03a8 12       		.uleb128 0x12
+ 1900 03a9 01020000 		.4byte	.LASF38
+ 1901 03ad 01       		.byte	0x1
+ 1902 03ae 1D       		.byte	0x1d
+ 1903 03af BA030000 		.4byte	0x3ba
+ 1904 03b3 01       		.byte	0x1
+ 1905 03b4 05       		.byte	0x5
+ 1906 03b5 03       		.byte	0x3
+ 1907 03b6 00000000 		.4byte	NEOMOTE_1_I2C_0_mstrRdBufPtr
+ 1908 03ba 0B       		.uleb128 0xb
+ 1909 03bb 04       		.byte	0x4
+ 1910 03bc 8F000000 		.4byte	0x8f
+ 1911 03c0 12       		.uleb128 0x12
+ 1912 03c1 DA030000 		.4byte	.LASF39
+ 1913 03c5 01       		.byte	0x1
+ 1914 03c6 1E       		.byte	0x1e
+ 1915 03c7 8F000000 		.4byte	0x8f
+ 1916 03cb 01       		.byte	0x1
+ 1917 03cc 05       		.byte	0x5
+ 1918 03cd 03       		.byte	0x3
+ 1919 03ce 00000000 		.4byte	NEOMOTE_1_I2C_0_mstrRdBufSize
+ 1920 03d2 12       		.uleb128 0x12
+ 1921 03d3 02010000 		.4byte	.LASF40
+ 1922 03d7 01       		.byte	0x1
+ 1923 03d8 1F       		.byte	0x1f
+ 1924 03d9 8F000000 		.4byte	0x8f
+ 1925 03dd 01       		.byte	0x1
+ 1926 03de 05       		.byte	0x5
+ 1927 03df 03       		.byte	0x3
+ 1928 03e0 00000000 		.4byte	NEOMOTE_1_I2C_0_mstrRdBufIndex
+ 1929 03e4 12       		.uleb128 0x12
+ 1930 03e5 16030000 		.4byte	.LASF41
+ 1931 03e9 01       		.byte	0x1
+ 1932 03ea 22       		.byte	0x22
+ 1933 03eb BA030000 		.4byte	0x3ba
+ 1934 03ef 01       		.byte	0x1
+ 1935 03f0 05       		.byte	0x5
+ 1936 03f1 03       		.byte	0x3
+ 1937 03f2 00000000 		.4byte	NEOMOTE_1_I2C_0_mstrWrBufPtr
+ 1938 03f6 12       		.uleb128 0x12
+ 1939 03f7 E4000000 		.4byte	.LASF42
+ 1940 03fb 01       		.byte	0x1
+ 1941 03fc 23       		.byte	0x23
+ 1942 03fd 8F000000 		.4byte	0x8f
+ 1943 0401 01       		.byte	0x1
+ 1944 0402 05       		.byte	0x5
+ 1945 0403 03       		.byte	0x3
+ 1946 0404 00000000 		.4byte	NEOMOTE_1_I2C_0_mstrWrBufSize
+ 1947 0408 12       		.uleb128 0x12
+ 1948 0409 AF030000 		.4byte	.LASF43
+ 1949 040d 01       		.byte	0x1
+ 1950 040e 24       		.byte	0x24
+ 1951 040f 8F000000 		.4byte	0x8f
+ 1952 0413 01       		.byte	0x1
+ 1953 0414 05       		.byte	0x5
+ 1954 0415 03       		.byte	0x3
+ 1955 0416 00000000 		.4byte	NEOMOTE_1_I2C_0_mstrWrBufIndex
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccmNVPZc.s 			page 50
+
+
+ 1956 041a 00       		.byte	0x0
+ 1957              		.section	.debug_abbrev
+ 1958 0000 01       		.uleb128 0x1
+ 1959 0001 11       		.uleb128 0x11
+ 1960 0002 01       		.byte	0x1
+ 1961 0003 25       		.uleb128 0x25
+ 1962 0004 0E       		.uleb128 0xe
+ 1963 0005 13       		.uleb128 0x13
+ 1964 0006 0B       		.uleb128 0xb
+ 1965 0007 03       		.uleb128 0x3
+ 1966 0008 0E       		.uleb128 0xe
+ 1967 0009 1B       		.uleb128 0x1b
+ 1968 000a 0E       		.uleb128 0xe
+ 1969 000b 11       		.uleb128 0x11
+ 1970 000c 01       		.uleb128 0x1
+ 1971 000d 52       		.uleb128 0x52
+ 1972 000e 01       		.uleb128 0x1
+ 1973 000f 55       		.uleb128 0x55
+ 1974 0010 06       		.uleb128 0x6
+ 1975 0011 10       		.uleb128 0x10
+ 1976 0012 06       		.uleb128 0x6
+ 1977 0013 00       		.byte	0x0
+ 1978 0014 00       		.byte	0x0
+ 1979 0015 02       		.uleb128 0x2
+ 1980 0016 24       		.uleb128 0x24
+ 1981 0017 00       		.byte	0x0
+ 1982 0018 0B       		.uleb128 0xb
+ 1983 0019 0B       		.uleb128 0xb
+ 1984 001a 3E       		.uleb128 0x3e
+ 1985 001b 0B       		.uleb128 0xb
+ 1986 001c 03       		.uleb128 0x3
+ 1987 001d 0E       		.uleb128 0xe
+ 1988 001e 00       		.byte	0x0
+ 1989 001f 00       		.byte	0x0
+ 1990 0020 03       		.uleb128 0x3
+ 1991 0021 24       		.uleb128 0x24
+ 1992 0022 00       		.byte	0x0
+ 1993 0023 0B       		.uleb128 0xb
+ 1994 0024 0B       		.uleb128 0xb
+ 1995 0025 3E       		.uleb128 0x3e
+ 1996 0026 0B       		.uleb128 0xb
+ 1997 0027 03       		.uleb128 0x3
+ 1998 0028 08       		.uleb128 0x8
+ 1999 0029 00       		.byte	0x0
+ 2000 002a 00       		.byte	0x0
+ 2001 002b 04       		.uleb128 0x4
+ 2002 002c 16       		.uleb128 0x16
+ 2003 002d 00       		.byte	0x0
+ 2004 002e 03       		.uleb128 0x3
+ 2005 002f 0E       		.uleb128 0xe
+ 2006 0030 3A       		.uleb128 0x3a
+ 2007 0031 0B       		.uleb128 0xb
+ 2008 0032 3B       		.uleb128 0x3b
+ 2009 0033 0B       		.uleb128 0xb
+ 2010 0034 49       		.uleb128 0x49
+ 2011 0035 13       		.uleb128 0x13
+ 2012 0036 00       		.byte	0x0
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccmNVPZc.s 			page 51
+
+
+ 2013 0037 00       		.byte	0x0
+ 2014 0038 05       		.uleb128 0x5
+ 2015 0039 35       		.uleb128 0x35
+ 2016 003a 00       		.byte	0x0
+ 2017 003b 49       		.uleb128 0x49
+ 2018 003c 13       		.uleb128 0x13
+ 2019 003d 00       		.byte	0x0
+ 2020 003e 00       		.byte	0x0
+ 2021 003f 06       		.uleb128 0x6
+ 2022 0040 24       		.uleb128 0x24
+ 2023 0041 00       		.byte	0x0
+ 2024 0042 0B       		.uleb128 0xb
+ 2025 0043 0B       		.uleb128 0xb
+ 2026 0044 3E       		.uleb128 0x3e
+ 2027 0045 0B       		.uleb128 0xb
+ 2028 0046 00       		.byte	0x0
+ 2029 0047 00       		.byte	0x0
+ 2030 0048 07       		.uleb128 0x7
+ 2031 0049 2E       		.uleb128 0x2e
+ 2032 004a 01       		.byte	0x1
+ 2033 004b 3F       		.uleb128 0x3f
+ 2034 004c 0C       		.uleb128 0xc
+ 2035 004d 03       		.uleb128 0x3
+ 2036 004e 0E       		.uleb128 0xe
+ 2037 004f 3A       		.uleb128 0x3a
+ 2038 0050 0B       		.uleb128 0xb
+ 2039 0051 3B       		.uleb128 0x3b
+ 2040 0052 0B       		.uleb128 0xb
+ 2041 0053 27       		.uleb128 0x27
+ 2042 0054 0C       		.uleb128 0xc
+ 2043 0055 49       		.uleb128 0x49
+ 2044 0056 13       		.uleb128 0x13
+ 2045 0057 11       		.uleb128 0x11
+ 2046 0058 01       		.uleb128 0x1
+ 2047 0059 12       		.uleb128 0x12
+ 2048 005a 01       		.uleb128 0x1
+ 2049 005b 40       		.uleb128 0x40
+ 2050 005c 06       		.uleb128 0x6
+ 2051 005d 01       		.uleb128 0x1
+ 2052 005e 13       		.uleb128 0x13
+ 2053 005f 00       		.byte	0x0
+ 2054 0060 00       		.byte	0x0
+ 2055 0061 08       		.uleb128 0x8
+ 2056 0062 05       		.uleb128 0x5
+ 2057 0063 00       		.byte	0x0
+ 2058 0064 03       		.uleb128 0x3
+ 2059 0065 0E       		.uleb128 0xe
+ 2060 0066 3A       		.uleb128 0x3a
+ 2061 0067 0B       		.uleb128 0xb
+ 2062 0068 3B       		.uleb128 0x3b
+ 2063 0069 0B       		.uleb128 0xb
+ 2064 006a 49       		.uleb128 0x49
+ 2065 006b 13       		.uleb128 0x13
+ 2066 006c 02       		.uleb128 0x2
+ 2067 006d 0A       		.uleb128 0xa
+ 2068 006e 00       		.byte	0x0
+ 2069 006f 00       		.byte	0x0
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccmNVPZc.s 			page 52
+
+
+ 2070 0070 09       		.uleb128 0x9
+ 2071 0071 05       		.uleb128 0x5
+ 2072 0072 00       		.byte	0x0
+ 2073 0073 03       		.uleb128 0x3
+ 2074 0074 08       		.uleb128 0x8
+ 2075 0075 3A       		.uleb128 0x3a
+ 2076 0076 0B       		.uleb128 0xb
+ 2077 0077 3B       		.uleb128 0x3b
+ 2078 0078 0B       		.uleb128 0xb
+ 2079 0079 49       		.uleb128 0x49
+ 2080 007a 13       		.uleb128 0x13
+ 2081 007b 02       		.uleb128 0x2
+ 2082 007c 0A       		.uleb128 0xa
+ 2083 007d 00       		.byte	0x0
+ 2084 007e 00       		.byte	0x0
+ 2085 007f 0A       		.uleb128 0xa
+ 2086 0080 34       		.uleb128 0x34
+ 2087 0081 00       		.byte	0x0
+ 2088 0082 03       		.uleb128 0x3
+ 2089 0083 0E       		.uleb128 0xe
+ 2090 0084 3A       		.uleb128 0x3a
+ 2091 0085 0B       		.uleb128 0xb
+ 2092 0086 3B       		.uleb128 0x3b
+ 2093 0087 0B       		.uleb128 0xb
+ 2094 0088 49       		.uleb128 0x49
+ 2095 0089 13       		.uleb128 0x13
+ 2096 008a 02       		.uleb128 0x2
+ 2097 008b 0A       		.uleb128 0xa
+ 2098 008c 00       		.byte	0x0
+ 2099 008d 00       		.byte	0x0
+ 2100 008e 0B       		.uleb128 0xb
+ 2101 008f 0F       		.uleb128 0xf
+ 2102 0090 00       		.byte	0x0
+ 2103 0091 0B       		.uleb128 0xb
+ 2104 0092 0B       		.uleb128 0xb
+ 2105 0093 49       		.uleb128 0x49
+ 2106 0094 13       		.uleb128 0x13
+ 2107 0095 00       		.byte	0x0
+ 2108 0096 00       		.byte	0x0
+ 2109 0097 0C       		.uleb128 0xc
+ 2110 0098 2E       		.uleb128 0x2e
+ 2111 0099 01       		.byte	0x1
+ 2112 009a 3F       		.uleb128 0x3f
+ 2113 009b 0C       		.uleb128 0xc
+ 2114 009c 03       		.uleb128 0x3
+ 2115 009d 0E       		.uleb128 0xe
+ 2116 009e 3A       		.uleb128 0x3a
+ 2117 009f 0B       		.uleb128 0xb
+ 2118 00a0 3B       		.uleb128 0x3b
+ 2119 00a1 05       		.uleb128 0x5
+ 2120 00a2 27       		.uleb128 0x27
+ 2121 00a3 0C       		.uleb128 0xc
+ 2122 00a4 49       		.uleb128 0x49
+ 2123 00a5 13       		.uleb128 0x13
+ 2124 00a6 11       		.uleb128 0x11
+ 2125 00a7 01       		.uleb128 0x1
+ 2126 00a8 12       		.uleb128 0x12
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccmNVPZc.s 			page 53
+
+
+ 2127 00a9 01       		.uleb128 0x1
+ 2128 00aa 40       		.uleb128 0x40
+ 2129 00ab 06       		.uleb128 0x6
+ 2130 00ac 01       		.uleb128 0x1
+ 2131 00ad 13       		.uleb128 0x13
+ 2132 00ae 00       		.byte	0x0
+ 2133 00af 00       		.byte	0x0
+ 2134 00b0 0D       		.uleb128 0xd
+ 2135 00b1 05       		.uleb128 0x5
+ 2136 00b2 00       		.byte	0x0
+ 2137 00b3 03       		.uleb128 0x3
+ 2138 00b4 0E       		.uleb128 0xe
+ 2139 00b5 3A       		.uleb128 0x3a
+ 2140 00b6 0B       		.uleb128 0xb
+ 2141 00b7 3B       		.uleb128 0x3b
+ 2142 00b8 05       		.uleb128 0x5
+ 2143 00b9 49       		.uleb128 0x49
+ 2144 00ba 13       		.uleb128 0x13
+ 2145 00bb 02       		.uleb128 0x2
+ 2146 00bc 0A       		.uleb128 0xa
+ 2147 00bd 00       		.byte	0x0
+ 2148 00be 00       		.byte	0x0
+ 2149 00bf 0E       		.uleb128 0xe
+ 2150 00c0 34       		.uleb128 0x34
+ 2151 00c1 00       		.byte	0x0
+ 2152 00c2 03       		.uleb128 0x3
+ 2153 00c3 0E       		.uleb128 0xe
+ 2154 00c4 3A       		.uleb128 0x3a
+ 2155 00c5 0B       		.uleb128 0xb
+ 2156 00c6 3B       		.uleb128 0x3b
+ 2157 00c7 05       		.uleb128 0x5
+ 2158 00c8 49       		.uleb128 0x49
+ 2159 00c9 13       		.uleb128 0x13
+ 2160 00ca 02       		.uleb128 0x2
+ 2161 00cb 0A       		.uleb128 0xa
+ 2162 00cc 00       		.byte	0x0
+ 2163 00cd 00       		.byte	0x0
+ 2164 00ce 0F       		.uleb128 0xf
+ 2165 00cf 2E       		.uleb128 0x2e
+ 2166 00d0 00       		.byte	0x0
+ 2167 00d1 3F       		.uleb128 0x3f
+ 2168 00d2 0C       		.uleb128 0xc
+ 2169 00d3 03       		.uleb128 0x3
+ 2170 00d4 0E       		.uleb128 0xe
+ 2171 00d5 3A       		.uleb128 0x3a
+ 2172 00d6 0B       		.uleb128 0xb
+ 2173 00d7 3B       		.uleb128 0x3b
+ 2174 00d8 05       		.uleb128 0x5
+ 2175 00d9 27       		.uleb128 0x27
+ 2176 00da 0C       		.uleb128 0xc
+ 2177 00db 49       		.uleb128 0x49
+ 2178 00dc 13       		.uleb128 0x13
+ 2179 00dd 11       		.uleb128 0x11
+ 2180 00de 01       		.uleb128 0x1
+ 2181 00df 12       		.uleb128 0x12
+ 2182 00e0 01       		.uleb128 0x1
+ 2183 00e1 40       		.uleb128 0x40
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccmNVPZc.s 			page 54
+
+
+ 2184 00e2 06       		.uleb128 0x6
+ 2185 00e3 00       		.byte	0x0
+ 2186 00e4 00       		.byte	0x0
+ 2187 00e5 10       		.uleb128 0x10
+ 2188 00e6 2E       		.uleb128 0x2e
+ 2189 00e7 00       		.byte	0x0
+ 2190 00e8 3F       		.uleb128 0x3f
+ 2191 00e9 0C       		.uleb128 0xc
+ 2192 00ea 03       		.uleb128 0x3
+ 2193 00eb 0E       		.uleb128 0xe
+ 2194 00ec 3A       		.uleb128 0x3a
+ 2195 00ed 0B       		.uleb128 0xb
+ 2196 00ee 3B       		.uleb128 0x3b
+ 2197 00ef 05       		.uleb128 0x5
+ 2198 00f0 27       		.uleb128 0x27
+ 2199 00f1 0C       		.uleb128 0xc
+ 2200 00f2 11       		.uleb128 0x11
+ 2201 00f3 01       		.uleb128 0x1
+ 2202 00f4 12       		.uleb128 0x12
+ 2203 00f5 01       		.uleb128 0x1
+ 2204 00f6 40       		.uleb128 0x40
+ 2205 00f7 06       		.uleb128 0x6
+ 2206 00f8 00       		.byte	0x0
+ 2207 00f9 00       		.byte	0x0
+ 2208 00fa 11       		.uleb128 0x11
+ 2209 00fb 34       		.uleb128 0x34
+ 2210 00fc 00       		.byte	0x0
+ 2211 00fd 03       		.uleb128 0x3
+ 2212 00fe 0E       		.uleb128 0xe
+ 2213 00ff 3A       		.uleb128 0x3a
+ 2214 0100 0B       		.uleb128 0xb
+ 2215 0101 3B       		.uleb128 0x3b
+ 2216 0102 0B       		.uleb128 0xb
+ 2217 0103 49       		.uleb128 0x49
+ 2218 0104 13       		.uleb128 0x13
+ 2219 0105 3F       		.uleb128 0x3f
+ 2220 0106 0C       		.uleb128 0xc
+ 2221 0107 3C       		.uleb128 0x3c
+ 2222 0108 0C       		.uleb128 0xc
+ 2223 0109 00       		.byte	0x0
+ 2224 010a 00       		.byte	0x0
+ 2225 010b 12       		.uleb128 0x12
+ 2226 010c 34       		.uleb128 0x34
+ 2227 010d 00       		.byte	0x0
+ 2228 010e 03       		.uleb128 0x3
+ 2229 010f 0E       		.uleb128 0xe
+ 2230 0110 3A       		.uleb128 0x3a
+ 2231 0111 0B       		.uleb128 0xb
+ 2232 0112 3B       		.uleb128 0x3b
+ 2233 0113 0B       		.uleb128 0xb
+ 2234 0114 49       		.uleb128 0x49
+ 2235 0115 13       		.uleb128 0x13
+ 2236 0116 3F       		.uleb128 0x3f
+ 2237 0117 0C       		.uleb128 0xc
+ 2238 0118 02       		.uleb128 0x2
+ 2239 0119 0A       		.uleb128 0xa
+ 2240 011a 00       		.byte	0x0
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccmNVPZc.s 			page 55
+
+
+ 2241 011b 00       		.byte	0x0
+ 2242 011c 00       		.byte	0x0
+ 2243              		.section	.debug_pubnames,"",%progbits
+ 2244 0000 1A030000 		.4byte	0x31a
+ 2245 0004 0200     		.2byte	0x2
+ 2246 0006 00000000 		.4byte	.Ldebug_info0
+ 2247 000a 1B040000 		.4byte	0x41b
+ 2248 000e 97000000 		.4byte	0x97
+ 2249 0012 4E454F4D 		.ascii	"NEOMOTE_1_I2C_0_MasterWriteBuf\000"
+ 2249      4F54455F 
+ 2249      315F4932 
+ 2249      435F305F 
+ 2249      4D617374 
+ 2250 0031 01010000 		.4byte	0x101
+ 2251 0035 4E454F4D 		.ascii	"NEOMOTE_1_I2C_0_MasterReadBuf\000"
+ 2251      4F54455F 
+ 2251      315F4932 
+ 2251      435F305F 
+ 2251      4D617374 
+ 2252 0053 65010000 		.4byte	0x165
+ 2253 0057 4E454F4D 		.ascii	"NEOMOTE_1_I2C_0_MasterSendStart\000"
+ 2253      4F54455F 
+ 2253      315F4932 
+ 2253      435F305F 
+ 2253      4D617374 
+ 2254 0077 B1010000 		.4byte	0x1b1
+ 2255 007b 4E454F4D 		.ascii	"NEOMOTE_1_I2C_0_MasterSendRestart\000"
+ 2255      4F54455F 
+ 2255      315F4932 
+ 2255      435F305F 
+ 2255      4D617374 
+ 2256 009d FD010000 		.4byte	0x1fd
+ 2257 00a1 4E454F4D 		.ascii	"NEOMOTE_1_I2C_0_MasterSendStop\000"
+ 2257      4F54455F 
+ 2257      315F4932 
+ 2257      435F305F 
+ 2257      4D617374 
+ 2258 00c0 2B020000 		.4byte	0x22b
+ 2259 00c4 4E454F4D 		.ascii	"NEOMOTE_1_I2C_0_MasterWriteByte\000"
+ 2259      4F54455F 
+ 2259      315F4932 
+ 2259      435F305F 
+ 2259      4D617374 
+ 2260 00e4 68020000 		.4byte	0x268
+ 2261 00e8 4E454F4D 		.ascii	"NEOMOTE_1_I2C_0_MasterReadByte\000"
+ 2261      4F54455F 
+ 2261      315F4932 
+ 2261      435F305F 
+ 2261      4D617374 
+ 2262 0107 A5020000 		.4byte	0x2a5
+ 2263 010b 4E454F4D 		.ascii	"NEOMOTE_1_I2C_0_MasterStatus\000"
+ 2263      4F54455F 
+ 2263      315F4932 
+ 2263      435F305F 
+ 2263      4D617374 
+ 2264 0128 D3020000 		.4byte	0x2d3
+ 2265 012c 4E454F4D 		.ascii	"NEOMOTE_1_I2C_0_MasterClearStatus\000"
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccmNVPZc.s 			page 56
+
+
+ 2265      4F54455F 
+ 2265      315F4932 
+ 2265      435F305F 
+ 2265      4D617374 
+ 2266 014e 01030000 		.4byte	0x301
+ 2267 0152 4E454F4D 		.ascii	"NEOMOTE_1_I2C_0_MasterGetReadBufSize\000"
+ 2267      4F54455F 
+ 2267      315F4932 
+ 2267      435F305F 
+ 2267      4D617374 
+ 2268 0177 1B030000 		.4byte	0x31b
+ 2269 017b 4E454F4D 		.ascii	"NEOMOTE_1_I2C_0_MasterGetWriteBufSize\000"
+ 2269      4F54455F 
+ 2269      315F4932 
+ 2269      435F305F 
+ 2269      4D617374 
+ 2270 01a1 35030000 		.4byte	0x335
+ 2271 01a5 4E454F4D 		.ascii	"NEOMOTE_1_I2C_0_MasterClearReadBuf\000"
+ 2271      4F54455F 
+ 2271      315F4932 
+ 2271      435F305F 
+ 2271      4D617374 
+ 2272 01c8 4B030000 		.4byte	0x34b
+ 2273 01cc 4E454F4D 		.ascii	"NEOMOTE_1_I2C_0_MasterClearWriteBuf\000"
+ 2273      4F54455F 
+ 2273      315F4932 
+ 2273      435F305F 
+ 2273      4D617374 
+ 2274 01f0 61030000 		.4byte	0x361
+ 2275 01f4 4E454F4D 		.ascii	"NEOMOTE_1_I2C_0_Workaround\000"
+ 2275      4F54455F 
+ 2275      315F4932 
+ 2275      435F305F 
+ 2275      576F726B 
+ 2276 020f 84030000 		.4byte	0x384
+ 2277 0213 4E454F4D 		.ascii	"NEOMOTE_1_I2C_0_mstrStatus\000"
+ 2277      4F54455F 
+ 2277      315F4932 
+ 2277      435F305F 
+ 2277      6D737472 
+ 2278 022e 96030000 		.4byte	0x396
+ 2279 0232 4E454F4D 		.ascii	"NEOMOTE_1_I2C_0_mstrControl\000"
+ 2279      4F54455F 
+ 2279      315F4932 
+ 2279      435F305F 
+ 2279      6D737472 
+ 2280 024e A8030000 		.4byte	0x3a8
+ 2281 0252 4E454F4D 		.ascii	"NEOMOTE_1_I2C_0_mstrRdBufPtr\000"
+ 2281      4F54455F 
+ 2281      315F4932 
+ 2281      435F305F 
+ 2281      6D737472 
+ 2282 026f C0030000 		.4byte	0x3c0
+ 2283 0273 4E454F4D 		.ascii	"NEOMOTE_1_I2C_0_mstrRdBufSize\000"
+ 2283      4F54455F 
+ 2283      315F4932 
+ 2283      435F305F 
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccmNVPZc.s 			page 57
+
+
+ 2283      6D737472 
+ 2284 0291 D2030000 		.4byte	0x3d2
+ 2285 0295 4E454F4D 		.ascii	"NEOMOTE_1_I2C_0_mstrRdBufIndex\000"
+ 2285      4F54455F 
+ 2285      315F4932 
+ 2285      435F305F 
+ 2285      6D737472 
+ 2286 02b4 E4030000 		.4byte	0x3e4
+ 2287 02b8 4E454F4D 		.ascii	"NEOMOTE_1_I2C_0_mstrWrBufPtr\000"
+ 2287      4F54455F 
+ 2287      315F4932 
+ 2287      435F305F 
+ 2287      6D737472 
+ 2288 02d5 F6030000 		.4byte	0x3f6
+ 2289 02d9 4E454F4D 		.ascii	"NEOMOTE_1_I2C_0_mstrWrBufSize\000"
+ 2289      4F54455F 
+ 2289      315F4932 
+ 2289      435F305F 
+ 2289      6D737472 
+ 2290 02f7 08040000 		.4byte	0x408
+ 2291 02fb 4E454F4D 		.ascii	"NEOMOTE_1_I2C_0_mstrWrBufIndex\000"
+ 2291      4F54455F 
+ 2291      315F4932 
+ 2291      435F305F 
+ 2291      6D737472 
+ 2292 031a 00000000 		.4byte	0x0
+ 2293              		.section	.debug_aranges,"",%progbits
+ 2294 0000 84000000 		.4byte	0x84
+ 2295 0004 0200     		.2byte	0x2
+ 2296 0006 00000000 		.4byte	.Ldebug_info0
+ 2297 000a 04       		.byte	0x4
+ 2298 000b 00       		.byte	0x0
+ 2299 000c 0000     		.2byte	0x0
+ 2300 000e 0000     		.2byte	0x0
+ 2301 0010 00000000 		.4byte	.LFB0
+ 2302 0014 5A010000 		.4byte	.LFE0-.LFB0
+ 2303 0018 00000000 		.4byte	.LFB1
+ 2304 001c 60010000 		.4byte	.LFE1-.LFB1
+ 2305 0020 00000000 		.4byte	.LFB2
+ 2306 0024 EE000000 		.4byte	.LFE2-.LFB2
+ 2307 0028 00000000 		.4byte	.LFB3
+ 2308 002c D6000000 		.4byte	.LFE3-.LFB3
+ 2309 0030 00000000 		.4byte	.LFB4
+ 2310 0034 72000000 		.4byte	.LFE4-.LFB4
+ 2311 0038 00000000 		.4byte	.LFB5
+ 2312 003c AC000000 		.4byte	.LFE5-.LFB5
+ 2313 0040 00000000 		.4byte	.LFB6
+ 2314 0044 A2000000 		.4byte	.LFE6-.LFB6
+ 2315 0048 00000000 		.4byte	.LFB7
+ 2316 004c 3C000000 		.4byte	.LFE7-.LFB7
+ 2317 0050 00000000 		.4byte	.LFB8
+ 2318 0054 2E000000 		.4byte	.LFE8-.LFB8
+ 2319 0058 00000000 		.4byte	.LFB9
+ 2320 005c 18000000 		.4byte	.LFE9-.LFB9
+ 2321 0060 00000000 		.4byte	.LFB10
+ 2322 0064 18000000 		.4byte	.LFE10-.LFB10
+ 2323 0068 00000000 		.4byte	.LFB11
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccmNVPZc.s 			page 58
+
+
+ 2324 006c 34000000 		.4byte	.LFE11-.LFB11
+ 2325 0070 00000000 		.4byte	.LFB12
+ 2326 0074 34000000 		.4byte	.LFE12-.LFB12
+ 2327 0078 00000000 		.4byte	.LFB13
+ 2328 007c 0A000000 		.4byte	.LFE13-.LFB13
+ 2329 0080 00000000 		.4byte	0x0
+ 2330 0084 00000000 		.4byte	0x0
+ 2331              		.section	.debug_ranges,"",%progbits
+ 2332              	.Ldebug_ranges0:
+ 2333 0000 00000000 		.4byte	.Ltext0
+ 2334 0004 00000000 		.4byte	.Letext0
+ 2335 0008 00000000 		.4byte	.LFB0
+ 2336 000c 5A010000 		.4byte	.LFE0
+ 2337 0010 00000000 		.4byte	.LFB1
+ 2338 0014 60010000 		.4byte	.LFE1
+ 2339 0018 00000000 		.4byte	.LFB2
+ 2340 001c EE000000 		.4byte	.LFE2
+ 2341 0020 00000000 		.4byte	.LFB3
+ 2342 0024 D6000000 		.4byte	.LFE3
+ 2343 0028 00000000 		.4byte	.LFB4
+ 2344 002c 72000000 		.4byte	.LFE4
+ 2345 0030 00000000 		.4byte	.LFB5
+ 2346 0034 AC000000 		.4byte	.LFE5
+ 2347 0038 00000000 		.4byte	.LFB6
+ 2348 003c A2000000 		.4byte	.LFE6
+ 2349 0040 00000000 		.4byte	.LFB7
+ 2350 0044 3C000000 		.4byte	.LFE7
+ 2351 0048 00000000 		.4byte	.LFB8
+ 2352 004c 2E000000 		.4byte	.LFE8
+ 2353 0050 00000000 		.4byte	.LFB9
+ 2354 0054 18000000 		.4byte	.LFE9
+ 2355 0058 00000000 		.4byte	.LFB10
+ 2356 005c 18000000 		.4byte	.LFE10
+ 2357 0060 00000000 		.4byte	.LFB11
+ 2358 0064 34000000 		.4byte	.LFE11
+ 2359 0068 00000000 		.4byte	.LFB12
+ 2360 006c 34000000 		.4byte	.LFE12
+ 2361 0070 00000000 		.4byte	.LFB13
+ 2362 0074 0A000000 		.4byte	.LFE13
+ 2363 0078 00000000 		.4byte	0x0
+ 2364 007c 00000000 		.4byte	0x0
+ 2365              		.section	.debug_str,"MS",%progbits,1
+ 2366              	.LASF6:
+ 2367 0000 6C6F6E67 		.ascii	"long long int\000"
+ 2367      206C6F6E 
+ 2367      6720696E 
+ 2367      7400
+ 2368              	.LASF23:
+ 2369 000e 4E454F4D 		.ascii	"NEOMOTE_1_I2C_0_MasterWriteByte\000"
+ 2369      4F54455F 
+ 2369      315F4932 
+ 2369      435F305F 
+ 2369      4D617374 
+ 2370              	.LASF28:
+ 2371 002e 73746174 		.ascii	"status\000"
+ 2371      757300
+ 2372              	.LASF22:
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccmNVPZc.s 			page 59
+
+
+ 2373 0035 4E454F4D 		.ascii	"NEOMOTE_1_I2C_0_MasterSendStop\000"
+ 2373      4F54455F 
+ 2373      315F4932 
+ 2373      435F305F 
+ 2373      4D617374 
+ 2374              	.LASF36:
+ 2375 0054 4E454F4D 		.ascii	"NEOMOTE_1_I2C_0_mstrStatus\000"
+ 2375      4F54455F 
+ 2375      315F4932 
+ 2375      435F305F 
+ 2375      6D737472 
+ 2376              	.LASF32:
+ 2377 006f 4E454F4D 		.ascii	"NEOMOTE_1_I2C_0_MasterClearReadBuf\000"
+ 2377      4F54455F 
+ 2377      315F4932 
+ 2377      435F305F 
+ 2377      4D617374 
+ 2378              	.LASF3:
+ 2379 0092 73686F72 		.ascii	"short unsigned int\000"
+ 2379      7420756E 
+ 2379      7369676E 
+ 2379      65642069 
+ 2379      6E7400
+ 2380              	.LASF8:
+ 2381 00a5 756E7369 		.ascii	"unsigned int\000"
+ 2381      676E6564 
+ 2381      20696E74 
+ 2381      00
+ 2382              	.LASF45:
+ 2383 00b2 2E5C4765 		.ascii	".\\Generated_Source\\PSoC5\\NEOMOTE_1_I2C_0_MASTER."
+ 2383      6E657261 
+ 2383      7465645F 
+ 2383      536F7572 
+ 2383      63655C50 
+ 2384 00e2 6300     		.ascii	"c\000"
+ 2385              	.LASF42:
+ 2386 00e4 4E454F4D 		.ascii	"NEOMOTE_1_I2C_0_mstrWrBufSize\000"
+ 2386      4F54455F 
+ 2386      315F4932 
+ 2386      435F305F 
+ 2386      6D737472 
+ 2387              	.LASF40:
+ 2388 0102 4E454F4D 		.ascii	"NEOMOTE_1_I2C_0_mstrRdBufIndex\000"
+ 2388      4F54455F 
+ 2388      315F4932 
+ 2388      435F305F 
+ 2388      6D737472 
+ 2389              	.LASF9:
+ 2390 0121 666C6F61 		.ascii	"float\000"
+ 2390      7400
+ 2391              	.LASF19:
+ 2392 0127 4E454F4D 		.ascii	"NEOMOTE_1_I2C_0_MasterSendStart\000"
+ 2392      4F54455F 
+ 2392      315F4932 
+ 2392      435F305F 
+ 2392      4D617374 
+ 2393              	.LASF15:
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccmNVPZc.s 			page 60
+
+
+ 2394 0147 4E454F4D 		.ascii	"NEOMOTE_1_I2C_0_MasterWriteBuf\000"
+ 2394      4F54455F 
+ 2394      315F4932 
+ 2394      435F305F 
+ 2394      4D617374 
+ 2395              	.LASF46:
+ 2396 0166 433A5C55 		.ascii	"C:\\Users\\karunmj\\Documents\\GitHub\\m2m\\hardwar"
+ 2396      73657273 
+ 2396      5C6B6172 
+ 2396      756E6D6A 
+ 2396      5C446F63 
+ 2397 0193 655C7073 		.ascii	"e\\psoc5\\PSoC_Datalogger_SMS.cydsn\000"
+ 2397      6F63355C 
+ 2397      50536F43 
+ 2397      5F446174 
+ 2397      616C6F67 
+ 2398              	.LASF1:
+ 2399 01b5 756E7369 		.ascii	"unsigned char\000"
+ 2399      676E6564 
+ 2399      20636861 
+ 2399      7200
+ 2400              	.LASF5:
+ 2401 01c3 6C6F6E67 		.ascii	"long unsigned int\000"
+ 2401      20756E73 
+ 2401      69676E65 
+ 2401      6420696E 
+ 2401      7400
+ 2402              	.LASF31:
+ 2403 01d5 4E454F4D 		.ascii	"NEOMOTE_1_I2C_0_MasterGetWriteBufSize\000"
+ 2403      4F54455F 
+ 2403      315F4932 
+ 2403      435F305F 
+ 2403      4D617374 
+ 2404              	.LASF47:
+ 2405 01fb 75696E74 		.ascii	"uint8\000"
+ 2405      3800
+ 2406              	.LASF38:
+ 2407 0201 4E454F4D 		.ascii	"NEOMOTE_1_I2C_0_mstrRdBufPtr\000"
+ 2407      4F54455F 
+ 2407      315F4932 
+ 2407      435F305F 
+ 2407      6D737472 
+ 2408              	.LASF27:
+ 2409 021e 4E454F4D 		.ascii	"NEOMOTE_1_I2C_0_MasterStatus\000"
+ 2409      4F54455F 
+ 2409      315F4932 
+ 2409      435F305F 
+ 2409      4D617374 
+ 2410              	.LASF18:
+ 2411 023b 65727253 		.ascii	"errStatus\000"
+ 2411      74617475 
+ 2411      7300
+ 2412              	.LASF21:
+ 2413 0245 4E454F4D 		.ascii	"NEOMOTE_1_I2C_0_MasterSendRestart\000"
+ 2413      4F54455F 
+ 2413      315F4932 
+ 2413      435F305F 
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccmNVPZc.s 			page 61
+
+
+ 2413      4D617374 
+ 2414              	.LASF10:
+ 2415 0267 646F7562 		.ascii	"double\000"
+ 2415      6C6500
+ 2416              	.LASF35:
+ 2417 026e 4E454F4D 		.ascii	"NEOMOTE_1_I2C_0_state\000"
+ 2417      4F54455F 
+ 2417      315F4932 
+ 2417      435F305F 
+ 2417      73746174 
+ 2418              	.LASF20:
+ 2419 0284 525F6E57 		.ascii	"R_nW\000"
+ 2419      00
+ 2420              	.LASF33:
+ 2421 0289 4E454F4D 		.ascii	"NEOMOTE_1_I2C_0_MasterClearWriteBuf\000"
+ 2421      4F54455F 
+ 2421      315F4932 
+ 2421      435F305F 
+ 2421      4D617374 
+ 2422              	.LASF17:
+ 2423 02ad 72644461 		.ascii	"rdData\000"
+ 2423      746100
+ 2424              	.LASF26:
+ 2425 02b4 61636B6E 		.ascii	"acknNak\000"
+ 2425      4E616B00 
+ 2426              	.LASF13:
+ 2427 02bc 77724461 		.ascii	"wrData\000"
+ 2427      746100
+ 2428              	.LASF7:
+ 2429 02c3 6C6F6E67 		.ascii	"long long unsigned int\000"
+ 2429      206C6F6E 
+ 2429      6720756E 
+ 2429      7369676E 
+ 2429      65642069 
+ 2430              	.LASF16:
+ 2431 02da 4E454F4D 		.ascii	"NEOMOTE_1_I2C_0_MasterReadBuf\000"
+ 2431      4F54455F 
+ 2431      315F4932 
+ 2431      435F305F 
+ 2431      4D617374 
+ 2432              	.LASF14:
+ 2433 02f8 6D6F6465 		.ascii	"mode\000"
+ 2433      00
+ 2434              	.LASF12:
+ 2435 02fd 736C6176 		.ascii	"slaveAddress\000"
+ 2435      65416464 
+ 2435      72657373 
+ 2435      00
+ 2436              	.LASF44:
+ 2437 030a 474E5520 		.ascii	"GNU C 4.4.1\000"
+ 2437      4320342E 
+ 2437      342E3100 
+ 2438              	.LASF41:
+ 2439 0316 4E454F4D 		.ascii	"NEOMOTE_1_I2C_0_mstrWrBufPtr\000"
+ 2439      4F54455F 
+ 2439      315F4932 
+ 2439      435F305F 
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccmNVPZc.s 			page 62
+
+
+ 2439      6D737472 
+ 2440              	.LASF11:
+ 2441 0333 63686172 		.ascii	"char\000"
+ 2441      00
+ 2442              	.LASF25:
+ 2443 0338 4E454F4D 		.ascii	"NEOMOTE_1_I2C_0_MasterReadByte\000"
+ 2443      4F54455F 
+ 2443      315F4932 
+ 2443      435F305F 
+ 2443      4D617374 
+ 2444              	.LASF34:
+ 2445 0357 4E454F4D 		.ascii	"NEOMOTE_1_I2C_0_Workaround\000"
+ 2445      4F54455F 
+ 2445      315F4932 
+ 2445      435F305F 
+ 2445      576F726B 
+ 2446              	.LASF2:
+ 2447 0372 73686F72 		.ascii	"short int\000"
+ 2447      7420696E 
+ 2447      7400
+ 2448              	.LASF24:
+ 2449 037c 74686542 		.ascii	"theByte\000"
+ 2449      79746500 
+ 2450              	.LASF29:
+ 2451 0384 4E454F4D 		.ascii	"NEOMOTE_1_I2C_0_MasterClearStatus\000"
+ 2451      4F54455F 
+ 2451      315F4932 
+ 2451      435F305F 
+ 2451      4D617374 
+ 2452              	.LASF4:
+ 2453 03a6 6C6F6E67 		.ascii	"long int\000"
+ 2453      20696E74 
+ 2453      00
+ 2454              	.LASF43:
+ 2455 03af 4E454F4D 		.ascii	"NEOMOTE_1_I2C_0_mstrWrBufIndex\000"
+ 2455      4F54455F 
+ 2455      315F4932 
+ 2455      435F305F 
+ 2455      6D737472 
+ 2456              	.LASF0:
+ 2457 03ce 7369676E 		.ascii	"signed char\000"
+ 2457      65642063 
+ 2457      68617200 
+ 2458              	.LASF39:
+ 2459 03da 4E454F4D 		.ascii	"NEOMOTE_1_I2C_0_mstrRdBufSize\000"
+ 2459      4F54455F 
+ 2459      315F4932 
+ 2459      435F305F 
+ 2459      6D737472 
+ 2460              	.LASF37:
+ 2461 03f8 4E454F4D 		.ascii	"NEOMOTE_1_I2C_0_mstrControl\000"
+ 2461      4F54455F 
+ 2461      315F4932 
+ 2461      435F305F 
+ 2461      6D737472 
+ 2462              	.LASF30:
+ 2463 0414 4E454F4D 		.ascii	"NEOMOTE_1_I2C_0_MasterGetReadBufSize\000"
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccmNVPZc.s 			page 63
+
+
+ 2463      4F54455F 
+ 2463      315F4932 
+ 2463      435F305F 
+ 2463      4D617374 
+ 2464              		.ident	"GCC: (Sourcery G++ Lite 2010q1-188) 4.4.1"

@@ -1,0 +1,2507 @@
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccuKANu2.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 6
+  11              		.eabi_attribute 18, 4
+  12              		.thumb
+  13              		.file	"emFile_1_Clock_1.c"
+  14              		.section	.debug_abbrev,"",%progbits
+  15              	.Ldebug_abbrev0:
+  16              		.section	.debug_info,"",%progbits
+  17              	.Ldebug_info0:
+  18              		.section	.debug_line,"",%progbits
+  19              	.Ldebug_line0:
+  20 0000 81010000 		.text
+  20      02006800 
+  20      00000201 
+  20      FB0E0D00 
+  20      01010101 
+  21              	.Ltext0:
+  22              		.cfi_sections	.debug_frame
+  23              		.section	.text.emFile_1_Clock_1_Start,"ax",%progbits
+  24              		.align	2
+  25              		.global	emFile_1_Clock_1_Start
+  26              		.thumb
+  27              		.thumb_func
+  28              		.type	emFile_1_Clock_1_Start, %function
+  29              	emFile_1_Clock_1_Start:
+  30              	.LFB0:
+  31              		.file 1 ".\\Generated_Source\\PSoC5\\emFile_1_Clock_1.c"
+   1:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** /*******************************************************************************
+   2:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** * File Name: emFile_1_Clock_1.c
+   3:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** * Version 2.0
+   4:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** *
+   5:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** *  Description:
+   6:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** *   This file provides the source code to the API for the clock component.
+   7:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** *
+   8:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** *  Note:
+   9:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** *
+  10:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** ********************************************************************************
+  11:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** * Copyright 2008-2012, Cypress Semiconductor Corporation.  All rights reserved.
+  12:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** * You may use this file only in accordance with the license, terms, conditions, 
+  13:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** * disclaimers, and limitations in the end user license agreement accompanying 
+  14:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** * the software package with which this file was provided.
+  15:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** *******************************************************************************/
+  16:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** 
+  17:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** #include <cydevice_trm.h>
+  18:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** #include "emFile_1_Clock_1.h"
+  19:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** 
+  20:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** /* Clock Distribution registers. */
+  21:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** #define CLK_DIST_LD              (* (reg8 *) CYREG_CLKDIST_LD)
+  22:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** #define CLK_DIST_BCFG2           (* (reg8 *) CYREG_CLKDIST_BCFG2)
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccuKANu2.s 			page 2
+
+
+  23:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** #define BCFG2_MASK               (0x80u)
+  24:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** #define CLK_DIST_DMASK           (* (reg8 *) CYREG_CLKDIST_DMASK)
+  25:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** #define CLK_DIST_AMASK           (* (reg8 *) CYREG_CLKDIST_AMASK)
+  26:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** 
+  27:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** #define HAS_CLKDIST_LD_DISABLE   (CY_PSOC3 || CY_PSOC5LP)
+  28:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** 
+  29:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** 
+  30:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** /*******************************************************************************
+  31:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** * Function Name: emFile_1_Clock_1_Start
+  32:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** ********************************************************************************
+  33:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** *
+  34:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** * Summary:
+  35:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** *  Starts the clock. Note that on startup, clocks may be already running if the
+  36:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** *  "Start on Reset" option is enabled in the DWR.
+  37:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** *
+  38:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** * Parameters:
+  39:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** *  None
+  40:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** *
+  41:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** * Returns:
+  42:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** *  None
+  43:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** *
+  44:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** *******************************************************************************/
+  45:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** void emFile_1_Clock_1_Start(void) 
+  46:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** {
+  32              		.loc 1 46 0
+  33              		.cfi_startproc
+  34              		@ args = 0, pretend = 0, frame = 0
+  35              		@ frame_needed = 1, uses_anonymous_args = 0
+  36              		@ link register save eliminated.
+  37 0000 80B4     		push	{r7}
+  38              	.LCFI0:
+  39              		.cfi_def_cfa_offset 4
+  40 0002 00AF     		add	r7, sp, #0
+  41              		.cfi_offset 7, -4
+  42              	.LCFI1:
+  43              		.cfi_def_cfa_register 7
+  47:.\Generated_Source\PSoC5/emFile_1_Clock_1.c ****     /* Set the bit to enable the clock. */
+  48:.\Generated_Source\PSoC5/emFile_1_Clock_1.c ****     emFile_1_Clock_1_CLKEN |= emFile_1_Clock_1_CLKEN_MASK;
+  44              		.loc 1 48 0
+  45 0004 44F2A233 		movw	r3, #:lower16:1073759138
+  46 0008 C4F20003 		movt	r3, #:upper16:1073759138
+  47 000c 44F2A232 		movw	r2, #:lower16:1073759138
+  48 0010 C4F20002 		movt	r2, #:upper16:1073759138
+  49 0014 1278     		ldrb	r2, [r2, #0]
+  50 0016 D2B2     		uxtb	r2, r2
+  51 0018 42F00102 		orr	r2, r2, #1
+  52 001c D2B2     		uxtb	r2, r2
+  53 001e 1A70     		strb	r2, [r3, #0]
+  49:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** 	emFile_1_Clock_1_CLKSTBY |= emFile_1_Clock_1_CLKSTBY_MASK;
+  54              		.loc 1 49 0
+  55 0020 44F2B233 		movw	r3, #:lower16:1073759154
+  56 0024 C4F20003 		movt	r3, #:upper16:1073759154
+  57 0028 44F2B232 		movw	r2, #:lower16:1073759154
+  58 002c C4F20002 		movt	r2, #:upper16:1073759154
+  59 0030 1278     		ldrb	r2, [r2, #0]
+  60 0032 D2B2     		uxtb	r2, r2
+  61 0034 42F00102 		orr	r2, r2, #1
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccuKANu2.s 			page 3
+
+
+  62 0038 D2B2     		uxtb	r2, r2
+  63 003a 1A70     		strb	r2, [r3, #0]
+  50:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** }
+  64              		.loc 1 50 0
+  65 003c BD46     		mov	sp, r7
+  66 003e 80BC     		pop	{r7}
+  67 0040 7047     		bx	lr
+  68              		.cfi_endproc
+  69              	.LFE0:
+  70              		.size	emFile_1_Clock_1_Start, .-emFile_1_Clock_1_Start
+  71 0042 00BF     		.section	.text.emFile_1_Clock_1_Stop,"ax",%progbits
+  72              		.align	2
+  73              		.global	emFile_1_Clock_1_Stop
+  74              		.thumb
+  75              		.thumb_func
+  76              		.type	emFile_1_Clock_1_Stop, %function
+  77              	emFile_1_Clock_1_Stop:
+  78              	.LFB1:
+  51:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** 
+  52:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** 
+  53:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** /*******************************************************************************
+  54:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** * Function Name: emFile_1_Clock_1_Stop
+  55:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** ********************************************************************************
+  56:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** *
+  57:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** * Summary:
+  58:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** *  Stops the clock and returns immediately. This API does not require the
+  59:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** *  source clock to be running but may return before the hardware is actually
+  60:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** *  disabled. If the settings of the clock are changed after calling this
+  61:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** *  function, the clock may glitch when it is started. To avoid the clock
+  62:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** *  glitch, use the StopBlock function.
+  63:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** *
+  64:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** * Parameters:
+  65:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** *  None
+  66:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** *
+  67:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** * Returns:
+  68:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** *  None
+  69:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** *
+  70:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** *******************************************************************************/
+  71:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** void emFile_1_Clock_1_Stop(void) 
+  72:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** {
+  79              		.loc 1 72 0
+  80              		.cfi_startproc
+  81              		@ args = 0, pretend = 0, frame = 0
+  82              		@ frame_needed = 1, uses_anonymous_args = 0
+  83              		@ link register save eliminated.
+  84 0000 80B4     		push	{r7}
+  85              	.LCFI2:
+  86              		.cfi_def_cfa_offset 4
+  87 0002 00AF     		add	r7, sp, #0
+  88              		.cfi_offset 7, -4
+  89              	.LCFI3:
+  90              		.cfi_def_cfa_register 7
+  73:.\Generated_Source\PSoC5/emFile_1_Clock_1.c ****     /* Clear the bit to disable the clock. */
+  74:.\Generated_Source\PSoC5/emFile_1_Clock_1.c ****     emFile_1_Clock_1_CLKEN &= (uint8)(~emFile_1_Clock_1_CLKEN_MASK);
+  91              		.loc 1 74 0
+  92 0004 44F2A233 		movw	r3, #:lower16:1073759138
+  93 0008 C4F20003 		movt	r3, #:upper16:1073759138
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccuKANu2.s 			page 4
+
+
+  94 000c 44F2A232 		movw	r2, #:lower16:1073759138
+  95 0010 C4F20002 		movt	r2, #:upper16:1073759138
+  96 0014 1278     		ldrb	r2, [r2, #0]
+  97 0016 D2B2     		uxtb	r2, r2
+  98 0018 02F0FE02 		and	r2, r2, #254
+  99 001c 1A70     		strb	r2, [r3, #0]
+  75:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** 	emFile_1_Clock_1_CLKSTBY &= (uint8)(~emFile_1_Clock_1_CLKSTBY_MASK);
+ 100              		.loc 1 75 0
+ 101 001e 44F2B233 		movw	r3, #:lower16:1073759154
+ 102 0022 C4F20003 		movt	r3, #:upper16:1073759154
+ 103 0026 44F2B232 		movw	r2, #:lower16:1073759154
+ 104 002a C4F20002 		movt	r2, #:upper16:1073759154
+ 105 002e 1278     		ldrb	r2, [r2, #0]
+ 106 0030 D2B2     		uxtb	r2, r2
+ 107 0032 02F0FE02 		and	r2, r2, #254
+ 108 0036 1A70     		strb	r2, [r3, #0]
+  76:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** }
+ 109              		.loc 1 76 0
+ 110 0038 BD46     		mov	sp, r7
+ 111 003a 80BC     		pop	{r7}
+ 112 003c 7047     		bx	lr
+ 113              		.cfi_endproc
+ 114              	.LFE1:
+ 115              		.size	emFile_1_Clock_1_Stop, .-emFile_1_Clock_1_Stop
+ 116 003e 00BF     		.section	.text.emFile_1_Clock_1_StopBlock,"ax",%progbits
+ 117              		.align	2
+ 118              		.global	emFile_1_Clock_1_StopBlock
+ 119              		.thumb
+ 120              		.thumb_func
+ 121              		.type	emFile_1_Clock_1_StopBlock, %function
+ 122              	emFile_1_Clock_1_StopBlock:
+ 123              	.LFB2:
+  77:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** 
+  78:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** 
+  79:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** #if(CY_PSOC3 || CY_PSOC5LP)
+  80:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** 
+  81:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** 
+  82:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** /*******************************************************************************
+  83:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** * Function Name: emFile_1_Clock_1_StopBlock
+  84:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** ********************************************************************************
+  85:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** *
+  86:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** * Summary:
+  87:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** *  Stops the clock and waits for the hardware to actually be disabled before
+  88:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** *  returning. This ensures that the clock is never truncated (high part of the
+  89:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** *  cycle will terminate before the clock is disabled and the API returns).
+  90:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** *  Note that the source clock must be running or this API will never return as
+  91:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** *  a stopped clock cannot be disabled.
+  92:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** *
+  93:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** * Parameters:
+  94:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** *  None
+  95:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** *
+  96:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** * Returns:
+  97:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** *  None
+  98:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** *
+  99:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** *******************************************************************************/
+ 100:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** void emFile_1_Clock_1_StopBlock(void) 
+ 101:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** {
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccuKANu2.s 			page 5
+
+
+ 124              		.loc 1 101 0
+ 125              		.cfi_startproc
+ 126              		@ args = 0, pretend = 0, frame = 8
+ 127              		@ frame_needed = 1, uses_anonymous_args = 0
+ 128              		@ link register save eliminated.
+ 129 0000 80B4     		push	{r7}
+ 130              	.LCFI4:
+ 131              		.cfi_def_cfa_offset 4
+ 132 0002 83B0     		sub	sp, sp, #12
+ 133              	.LCFI5:
+ 134              		.cfi_def_cfa_offset 16
+ 135 0004 00AF     		add	r7, sp, #0
+ 136              		.cfi_offset 7, -4
+ 137              	.LCFI6:
+ 138              		.cfi_def_cfa_register 7
+ 102:.\Generated_Source\PSoC5/emFile_1_Clock_1.c ****     if ((emFile_1_Clock_1_CLKEN & emFile_1_Clock_1_CLKEN_MASK) != 0u)
+ 139              		.loc 1 102 0
+ 140 0006 44F2A233 		movw	r3, #:lower16:1073759138
+ 141 000a C4F20003 		movt	r3, #:upper16:1073759138
+ 142 000e 1B78     		ldrb	r3, [r3, #0]
+ 143 0010 DBB2     		uxtb	r3, r3
+ 144 0012 03F00103 		and	r3, r3, #1
+ 145 0016 DBB2     		uxtb	r3, r3
+ 146 0018 002B     		cmp	r3, #0
+ 147 001a 66D0     		beq	.L8
+ 148              	.LBB2:
+ 103:.\Generated_Source\PSoC5/emFile_1_Clock_1.c ****     {
+ 104:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** #if HAS_CLKDIST_LD_DISABLE
+ 105:.\Generated_Source\PSoC5/emFile_1_Clock_1.c ****         uint16 oldDivider;
+ 106:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** 
+ 107:.\Generated_Source\PSoC5/emFile_1_Clock_1.c ****         CLK_DIST_LD = 0u;
+ 149              		.loc 1 107 0
+ 150 001c 44F20103 		movw	r3, #:lower16:1073758209
+ 151 0020 C4F20003 		movt	r3, #:upper16:1073758209
+ 152 0024 4FF00002 		mov	r2, #0
+ 153 0028 1A70     		strb	r2, [r3, #0]
+ 108:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** 
+ 109:.\Generated_Source\PSoC5/emFile_1_Clock_1.c ****         /* Clear all the mask bits except ours. */
+ 110:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** #if defined(emFile_1_Clock_1__CFG3)
+ 111:.\Generated_Source\PSoC5/emFile_1_Clock_1.c ****         CLK_DIST_AMASK = emFile_1_Clock_1_CLKEN_MASK;
+ 112:.\Generated_Source\PSoC5/emFile_1_Clock_1.c ****         CLK_DIST_DMASK = 0x00u;
+ 113:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** #else
+ 114:.\Generated_Source\PSoC5/emFile_1_Clock_1.c ****         CLK_DIST_DMASK = emFile_1_Clock_1_CLKEN_MASK;
+ 154              		.loc 1 114 0
+ 155 002a 44F21003 		movw	r3, #:lower16:1073758224
+ 156 002e C4F20003 		movt	r3, #:upper16:1073758224
+ 157 0032 4FF00102 		mov	r2, #1
+ 158 0036 1A70     		strb	r2, [r3, #0]
+ 115:.\Generated_Source\PSoC5/emFile_1_Clock_1.c ****         CLK_DIST_AMASK = 0x00u;
+ 159              		.loc 1 115 0
+ 160 0038 44F21403 		movw	r3, #:lower16:1073758228
+ 161 003c C4F20003 		movt	r3, #:upper16:1073758228
+ 162 0040 4FF00002 		mov	r2, #0
+ 163 0044 1A70     		strb	r2, [r3, #0]
+ 116:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** #endif /* emFile_1_Clock_1__CFG3 */
+ 117:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** 
+ 118:.\Generated_Source\PSoC5/emFile_1_Clock_1.c ****         /* Clear mask of bus clock. */
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccuKANu2.s 			page 6
+
+
+ 119:.\Generated_Source\PSoC5/emFile_1_Clock_1.c ****         CLK_DIST_BCFG2 &= (uint8)(~BCFG2_MASK);
+ 164              		.loc 1 119 0
+ 165 0046 44F20803 		movw	r3, #:lower16:1073758216
+ 166 004a C4F20003 		movt	r3, #:upper16:1073758216
+ 167 004e 44F20802 		movw	r2, #:lower16:1073758216
+ 168 0052 C4F20002 		movt	r2, #:upper16:1073758216
+ 169 0056 1278     		ldrb	r2, [r2, #0]
+ 170 0058 D2B2     		uxtb	r2, r2
+ 171 005a 02F07F02 		and	r2, r2, #127
+ 172 005e 1A70     		strb	r2, [r3, #0]
+ 120:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** 
+ 121:.\Generated_Source\PSoC5/emFile_1_Clock_1.c ****         oldDivider = CY_GET_REG16(emFile_1_Clock_1_DIV_PTR);
+ 173              		.loc 1 121 0
+ 174 0060 44F28003 		movw	r3, #:lower16:1073758336
+ 175 0064 C4F20003 		movt	r3, #:upper16:1073758336
+ 176 0068 1B88     		ldrh	r3, [r3, #0]	@ movhi
+ 177 006a FB80     		strh	r3, [r7, #6]	@ movhi
+ 122:.\Generated_Source\PSoC5/emFile_1_Clock_1.c ****         CY_SET_REG16(CYREG_CLKDIST_WRK0, oldDivider);
+ 178              		.loc 1 122 0
+ 179 006c 44F20203 		movw	r3, #:lower16:1073758210
+ 180 0070 C4F20003 		movt	r3, #:upper16:1073758210
+ 181 0074 FA88     		ldrh	r2, [r7, #6]	@ movhi
+ 182 0076 1A80     		strh	r2, [r3, #0]	@ movhi
+ 123:.\Generated_Source\PSoC5/emFile_1_Clock_1.c ****         CLK_DIST_LD = CYCLK_LD_DISABLE | CYCLK_LD_SYNC_EN | CYCLK_LD_LOAD;
+ 183              		.loc 1 123 0
+ 184 0078 44F20103 		movw	r3, #:lower16:1073758209
+ 185 007c C4F20003 		movt	r3, #:upper16:1073758209
+ 186 0080 4FF00702 		mov	r2, #7
+ 187 0084 1A70     		strb	r2, [r3, #0]
+ 188              	.L7:
+ 124:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** 
+ 125:.\Generated_Source\PSoC5/emFile_1_Clock_1.c ****         /* Wait for clock to be disabled */
+ 126:.\Generated_Source\PSoC5/emFile_1_Clock_1.c ****         while ((CLK_DIST_LD & CYCLK_LD_LOAD) != 0u) { }
+ 189              		.loc 1 126 0
+ 190 0086 44F20103 		movw	r3, #:lower16:1073758209
+ 191 008a C4F20003 		movt	r3, #:upper16:1073758209
+ 192 008e 1B78     		ldrb	r3, [r3, #0]
+ 193 0090 DBB2     		uxtb	r3, r3
+ 194 0092 03F00103 		and	r3, r3, #1
+ 195 0096 DBB2     		uxtb	r3, r3
+ 196 0098 002B     		cmp	r3, #0
+ 197 009a F4D1     		bne	.L7
+ 127:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** #endif /* HAS_CLKDIST_LD_DISABLE */
+ 128:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** 
+ 129:.\Generated_Source\PSoC5/emFile_1_Clock_1.c ****         /* Clear the bit to disable the clock. */
+ 130:.\Generated_Source\PSoC5/emFile_1_Clock_1.c ****         emFile_1_Clock_1_CLKEN &= (uint8)(~emFile_1_Clock_1_CLKEN_MASK);
+ 198              		.loc 1 130 0
+ 199 009c 44F2A233 		movw	r3, #:lower16:1073759138
+ 200 00a0 C4F20003 		movt	r3, #:upper16:1073759138
+ 201 00a4 44F2A232 		movw	r2, #:lower16:1073759138
+ 202 00a8 C4F20002 		movt	r2, #:upper16:1073759138
+ 203 00ac 1278     		ldrb	r2, [r2, #0]
+ 204 00ae D2B2     		uxtb	r2, r2
+ 205 00b0 02F0FE02 		and	r2, r2, #254
+ 206 00b4 1A70     		strb	r2, [r3, #0]
+ 131:.\Generated_Source\PSoC5/emFile_1_Clock_1.c ****         emFile_1_Clock_1_CLKSTBY &= (uint8)(~emFile_1_Clock_1_CLKSTBY_MASK);
+ 207              		.loc 1 131 0
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccuKANu2.s 			page 7
+
+
+ 208 00b6 44F2B233 		movw	r3, #:lower16:1073759154
+ 209 00ba C4F20003 		movt	r3, #:upper16:1073759154
+ 210 00be 44F2B232 		movw	r2, #:lower16:1073759154
+ 211 00c2 C4F20002 		movt	r2, #:upper16:1073759154
+ 212 00c6 1278     		ldrb	r2, [r2, #0]
+ 213 00c8 D2B2     		uxtb	r2, r2
+ 214 00ca 02F0FE02 		and	r2, r2, #254
+ 215 00ce 1A70     		strb	r2, [r3, #0]
+ 132:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** 
+ 133:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** #if HAS_CLKDIST_LD_DISABLE
+ 134:.\Generated_Source\PSoC5/emFile_1_Clock_1.c ****         /* Clear the disable bit */
+ 135:.\Generated_Source\PSoC5/emFile_1_Clock_1.c ****         CLK_DIST_LD = 0x00u;
+ 216              		.loc 1 135 0
+ 217 00d0 44F20103 		movw	r3, #:lower16:1073758209
+ 218 00d4 C4F20003 		movt	r3, #:upper16:1073758209
+ 219 00d8 4FF00002 		mov	r2, #0
+ 220 00dc 1A70     		strb	r2, [r3, #0]
+ 136:.\Generated_Source\PSoC5/emFile_1_Clock_1.c ****         CY_SET_REG16(emFile_1_Clock_1_DIV_PTR, oldDivider);
+ 221              		.loc 1 136 0
+ 222 00de 44F28003 		movw	r3, #:lower16:1073758336
+ 223 00e2 C4F20003 		movt	r3, #:upper16:1073758336
+ 224 00e6 FA88     		ldrh	r2, [r7, #6]	@ movhi
+ 225 00e8 1A80     		strh	r2, [r3, #0]	@ movhi
+ 226              	.L8:
+ 227              	.LBE2:
+ 137:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** #endif /* HAS_CLKDIST_LD_DISABLE */
+ 138:.\Generated_Source\PSoC5/emFile_1_Clock_1.c ****     }
+ 139:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** }
+ 228              		.loc 1 139 0
+ 229 00ea 07F10C07 		add	r7, r7, #12
+ 230 00ee BD46     		mov	sp, r7
+ 231 00f0 80BC     		pop	{r7}
+ 232 00f2 7047     		bx	lr
+ 233              		.cfi_endproc
+ 234              	.LFE2:
+ 235              		.size	emFile_1_Clock_1_StopBlock, .-emFile_1_Clock_1_StopBlock
+ 236              		.section	.text.emFile_1_Clock_1_StandbyPower,"ax",%progbits
+ 237              		.align	2
+ 238              		.global	emFile_1_Clock_1_StandbyPower
+ 239              		.thumb
+ 240              		.thumb_func
+ 241              		.type	emFile_1_Clock_1_StandbyPower, %function
+ 242              	emFile_1_Clock_1_StandbyPower:
+ 243              	.LFB3:
+ 140:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** #endif /* (CY_PSOC3 || CY_PSOC5LP) */
+ 141:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** 
+ 142:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** 
+ 143:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** /*******************************************************************************
+ 144:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** * Function Name: emFile_1_Clock_1_StandbyPower
+ 145:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** ********************************************************************************
+ 146:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** *
+ 147:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** * Summary:
+ 148:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** *  Sets whether the clock is active in standby mode.
+ 149:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** *
+ 150:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** * Parameters:
+ 151:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** *  state:  0 to disable clock during standby, nonzero to enable.
+ 152:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** *
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccuKANu2.s 			page 8
+
+
+ 153:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** * Returns:
+ 154:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** *  None
+ 155:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** *
+ 156:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** *******************************************************************************/
+ 157:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** void emFile_1_Clock_1_StandbyPower(uint8 state) 
+ 158:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** {
+ 244              		.loc 1 158 0
+ 245              		.cfi_startproc
+ 246              		@ args = 0, pretend = 0, frame = 8
+ 247              		@ frame_needed = 1, uses_anonymous_args = 0
+ 248              		@ link register save eliminated.
+ 249 0000 80B4     		push	{r7}
+ 250              	.LCFI7:
+ 251              		.cfi_def_cfa_offset 4
+ 252 0002 83B0     		sub	sp, sp, #12
+ 253              	.LCFI8:
+ 254              		.cfi_def_cfa_offset 16
+ 255 0004 00AF     		add	r7, sp, #0
+ 256              		.cfi_offset 7, -4
+ 257              	.LCFI9:
+ 258              		.cfi_def_cfa_register 7
+ 259 0006 0346     		mov	r3, r0
+ 260 0008 FB71     		strb	r3, [r7, #7]
+ 159:.\Generated_Source\PSoC5/emFile_1_Clock_1.c ****     if(state == 0u)
+ 261              		.loc 1 159 0
+ 262 000a FB79     		ldrb	r3, [r7, #7]	@ zero_extendqisi2
+ 263 000c 002B     		cmp	r3, #0
+ 264 000e 0DD1     		bne	.L10
+ 160:.\Generated_Source\PSoC5/emFile_1_Clock_1.c ****     {
+ 161:.\Generated_Source\PSoC5/emFile_1_Clock_1.c ****         emFile_1_Clock_1_CLKSTBY &= (uint8)(~emFile_1_Clock_1_CLKSTBY_MASK);
+ 265              		.loc 1 161 0
+ 266 0010 44F2B233 		movw	r3, #:lower16:1073759154
+ 267 0014 C4F20003 		movt	r3, #:upper16:1073759154
+ 268 0018 44F2B232 		movw	r2, #:lower16:1073759154
+ 269 001c C4F20002 		movt	r2, #:upper16:1073759154
+ 270 0020 1278     		ldrb	r2, [r2, #0]
+ 271 0022 D2B2     		uxtb	r2, r2
+ 272 0024 02F0FE02 		and	r2, r2, #254
+ 273 0028 1A70     		strb	r2, [r3, #0]
+ 274 002a 0DE0     		b	.L12
+ 275              	.L10:
+ 162:.\Generated_Source\PSoC5/emFile_1_Clock_1.c ****     }
+ 163:.\Generated_Source\PSoC5/emFile_1_Clock_1.c ****     else
+ 164:.\Generated_Source\PSoC5/emFile_1_Clock_1.c ****     {
+ 165:.\Generated_Source\PSoC5/emFile_1_Clock_1.c ****         emFile_1_Clock_1_CLKSTBY |= emFile_1_Clock_1_CLKSTBY_MASK;
+ 276              		.loc 1 165 0
+ 277 002c 44F2B233 		movw	r3, #:lower16:1073759154
+ 278 0030 C4F20003 		movt	r3, #:upper16:1073759154
+ 279 0034 44F2B232 		movw	r2, #:lower16:1073759154
+ 280 0038 C4F20002 		movt	r2, #:upper16:1073759154
+ 281 003c 1278     		ldrb	r2, [r2, #0]
+ 282 003e D2B2     		uxtb	r2, r2
+ 283 0040 42F00102 		orr	r2, r2, #1
+ 284 0044 D2B2     		uxtb	r2, r2
+ 285 0046 1A70     		strb	r2, [r3, #0]
+ 286              	.L12:
+ 166:.\Generated_Source\PSoC5/emFile_1_Clock_1.c ****     }
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccuKANu2.s 			page 9
+
+
+ 167:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** }
+ 287              		.loc 1 167 0
+ 288 0048 07F10C07 		add	r7, r7, #12
+ 289 004c BD46     		mov	sp, r7
+ 290 004e 80BC     		pop	{r7}
+ 291 0050 7047     		bx	lr
+ 292              		.cfi_endproc
+ 293              	.LFE3:
+ 294              		.size	emFile_1_Clock_1_StandbyPower, .-emFile_1_Clock_1_StandbyPower
+ 295 0052 00BF     		.section	.text.emFile_1_Clock_1_SetDividerRegister,"ax",%progbits
+ 296              		.align	2
+ 297              		.global	emFile_1_Clock_1_SetDividerRegister
+ 298              		.thumb
+ 299              		.thumb_func
+ 300              		.type	emFile_1_Clock_1_SetDividerRegister, %function
+ 301              	emFile_1_Clock_1_SetDividerRegister:
+ 302              	.LFB4:
+ 168:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** 
+ 169:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** 
+ 170:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** /*******************************************************************************
+ 171:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** * Function Name: emFile_1_Clock_1_SetDividerRegister
+ 172:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** ********************************************************************************
+ 173:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** *
+ 174:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** * Summary:
+ 175:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** *  Modifies the clock divider and, thus, the frequency. When the clock divider
+ 176:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** *  register is set to zero or changed from zero, the clock will be temporarily
+ 177:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** *  disabled in order to change the SSS mode bit. If the clock is enabled when
+ 178:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** *  SetDividerRegister is called, then the source clock must be running.
+ 179:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** *
+ 180:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** * Parameters:
+ 181:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** *  clkDivider:  Divider register value (0-65,535). This value is NOT the
+ 182:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** *    divider; the clock hardware divides by clkDivider plus one. For example,
+ 183:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** *    to divide the clock by 2, this parameter should be set to 1.
+ 184:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** *  restart:  If nonzero, restarts the clock divider: the current clock cycle
+ 185:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** *   will be truncated and the new divide value will take effect immediately. If
+ 186:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** *   zero, the new divide value will take effect at the end of the current clock
+ 187:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** *   cycle.
+ 188:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** *
+ 189:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** * Returns:
+ 190:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** *  None
+ 191:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** *
+ 192:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** *******************************************************************************/
+ 193:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** void emFile_1_Clock_1_SetDividerRegister(uint16 clkDivider, uint8 restart)
+ 194:.\Generated_Source\PSoC5/emFile_1_Clock_1.c ****                                 
+ 195:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** {
+ 303              		.loc 1 195 0
+ 304              		.cfi_startproc
+ 305              		@ args = 0, pretend = 0, frame = 16
+ 306              		@ frame_needed = 1, uses_anonymous_args = 0
+ 307 0000 80B5     		push	{r7, lr}
+ 308              	.LCFI10:
+ 309              		.cfi_def_cfa_offset 8
+ 310 0002 84B0     		sub	sp, sp, #16
+ 311              	.LCFI11:
+ 312              		.cfi_def_cfa_offset 24
+ 313 0004 00AF     		add	r7, sp, #0
+ 314              		.cfi_offset 14, -4
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccuKANu2.s 			page 10
+
+
+ 315              		.cfi_offset 7, -8
+ 316              	.LCFI12:
+ 317              		.cfi_def_cfa_register 7
+ 318 0006 0246     		mov	r2, r0
+ 319 0008 0B46     		mov	r3, r1
+ 320 000a FA80     		strh	r2, [r7, #6]	@ movhi
+ 321 000c 7B71     		strb	r3, [r7, #5]
+ 196:.\Generated_Source\PSoC5/emFile_1_Clock_1.c ****     uint8 enabled;
+ 197:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** 
+ 198:.\Generated_Source\PSoC5/emFile_1_Clock_1.c ****     uint8 currSrc = emFile_1_Clock_1_GetSourceRegister();
+ 322              		.loc 1 198 0
+ 323 000e FFF7FEFF 		bl	emFile_1_Clock_1_GetSourceRegister
+ 324 0012 0346     		mov	r3, r0
+ 325 0014 7B73     		strb	r3, [r7, #13]
+ 199:.\Generated_Source\PSoC5/emFile_1_Clock_1.c ****     uint16 oldDivider = emFile_1_Clock_1_GetDividerRegister();
+ 326              		.loc 1 199 0
+ 327 0016 FFF7FEFF 		bl	emFile_1_Clock_1_GetDividerRegister
+ 328 001a 0346     		mov	r3, r0
+ 329 001c FB81     		strh	r3, [r7, #14]	@ movhi
+ 200:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** 
+ 201:.\Generated_Source\PSoC5/emFile_1_Clock_1.c ****     if (clkDivider != oldDivider)
+ 330              		.loc 1 201 0
+ 331 001e FA88     		ldrh	r2, [r7, #6]
+ 332 0020 FB89     		ldrh	r3, [r7, #14]
+ 333 0022 9A42     		cmp	r2, r3
+ 334 0024 00F0DB80 		beq	.L26
+ 202:.\Generated_Source\PSoC5/emFile_1_Clock_1.c ****     {
+ 203:.\Generated_Source\PSoC5/emFile_1_Clock_1.c ****         enabled = emFile_1_Clock_1_CLKEN & emFile_1_Clock_1_CLKEN_MASK;
+ 335              		.loc 1 203 0
+ 336 0028 44F2A233 		movw	r3, #:lower16:1073759138
+ 337 002c C4F20003 		movt	r3, #:upper16:1073759138
+ 338 0030 1B78     		ldrb	r3, [r3, #0]
+ 339 0032 DBB2     		uxtb	r3, r3
+ 340 0034 03F00103 		and	r3, r3, #1
+ 341 0038 3B73     		strb	r3, [r7, #12]
+ 204:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** 
+ 205:.\Generated_Source\PSoC5/emFile_1_Clock_1.c ****         if ((currSrc == (uint8)CYCLK_SRC_SEL_CLK_SYNC_D) && ((oldDivider == 0u) || (clkDivider == 0
+ 342              		.loc 1 205 0
+ 343 003a 7B7B     		ldrb	r3, [r7, #13]	@ zero_extendqisi2
+ 344 003c 002B     		cmp	r3, #0
+ 345 003e 31D1     		bne	.L15
+ 346 0040 FB89     		ldrh	r3, [r7, #14]
+ 347 0042 002B     		cmp	r3, #0
+ 348 0044 02D0     		beq	.L16
+ 349 0046 FB88     		ldrh	r3, [r7, #6]
+ 350 0048 002B     		cmp	r3, #0
+ 351 004a 2BD1     		bne	.L15
+ 352              	.L16:
+ 206:.\Generated_Source\PSoC5/emFile_1_Clock_1.c ****         {
+ 207:.\Generated_Source\PSoC5/emFile_1_Clock_1.c ****             /* Moving to/from SSS requires correct ordering to prevent halting the clock    */
+ 208:.\Generated_Source\PSoC5/emFile_1_Clock_1.c ****             if (oldDivider == 0u)
+ 353              		.loc 1 208 0
+ 354 004c FB89     		ldrh	r3, [r7, #14]
+ 355 004e 002B     		cmp	r3, #0
+ 356 0050 13D1     		bne	.L17
+ 209:.\Generated_Source\PSoC5/emFile_1_Clock_1.c ****             {
+ 210:.\Generated_Source\PSoC5/emFile_1_Clock_1.c ****                 /* Moving away from SSS, set the divider first so when SSS is cleared we    */
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccuKANu2.s 			page 11
+
+
+ 211:.\Generated_Source\PSoC5/emFile_1_Clock_1.c ****                 /* don't halt the clock.  Using the shadow load isn't required as the       */
+ 212:.\Generated_Source\PSoC5/emFile_1_Clock_1.c ****                 /* divider is ignored while SSS is set.                                     */
+ 213:.\Generated_Source\PSoC5/emFile_1_Clock_1.c ****                 CY_SET_REG16(emFile_1_Clock_1_DIV_PTR, clkDivider);
+ 357              		.loc 1 213 0
+ 358 0052 44F28003 		movw	r3, #:lower16:1073758336
+ 359 0056 C4F20003 		movt	r3, #:upper16:1073758336
+ 360 005a FA88     		ldrh	r2, [r7, #6]	@ movhi
+ 361 005c 1A80     		strh	r2, [r3, #0]	@ movhi
+ 214:.\Generated_Source\PSoC5/emFile_1_Clock_1.c ****                 emFile_1_Clock_1_MOD_SRC &= (uint8)(~CYCLK_SSS);
+ 362              		.loc 1 214 0
+ 363 005e 44F28203 		movw	r3, #:lower16:1073758338
+ 364 0062 C4F20003 		movt	r3, #:upper16:1073758338
+ 365 0066 44F28202 		movw	r2, #:lower16:1073758338
+ 366 006a C4F20002 		movt	r2, #:upper16:1073758338
+ 367 006e 1278     		ldrb	r2, [r2, #0]
+ 368 0070 D2B2     		uxtb	r2, r2
+ 369 0072 02F0BF02 		and	r2, r2, #191
+ 370 0076 1A70     		strb	r2, [r3, #0]
+ 371              		.loc 1 205 0
+ 372 0078 B1E0     		b	.L26
+ 373              	.L17:
+ 215:.\Generated_Source\PSoC5/emFile_1_Clock_1.c ****             }
+ 216:.\Generated_Source\PSoC5/emFile_1_Clock_1.c ****             else
+ 217:.\Generated_Source\PSoC5/emFile_1_Clock_1.c ****             {
+ 218:.\Generated_Source\PSoC5/emFile_1_Clock_1.c ****                 /* Moving to SSS, set SSS which then ignores the divider and we can set     */
+ 219:.\Generated_Source\PSoC5/emFile_1_Clock_1.c ****                 /* it without bothering with the shadow load.                               */
+ 220:.\Generated_Source\PSoC5/emFile_1_Clock_1.c ****                 emFile_1_Clock_1_MOD_SRC |= CYCLK_SSS;
+ 374              		.loc 1 220 0
+ 375 007a 44F28203 		movw	r3, #:lower16:1073758338
+ 376 007e C4F20003 		movt	r3, #:upper16:1073758338
+ 377 0082 44F28202 		movw	r2, #:lower16:1073758338
+ 378 0086 C4F20002 		movt	r2, #:upper16:1073758338
+ 379 008a 1278     		ldrb	r2, [r2, #0]
+ 380 008c D2B2     		uxtb	r2, r2
+ 381 008e 42F04002 		orr	r2, r2, #64
+ 382 0092 D2B2     		uxtb	r2, r2
+ 383 0094 1A70     		strb	r2, [r3, #0]
+ 221:.\Generated_Source\PSoC5/emFile_1_Clock_1.c ****                 CY_SET_REG16(emFile_1_Clock_1_DIV_PTR, clkDivider);
+ 384              		.loc 1 221 0
+ 385 0096 44F28003 		movw	r3, #:lower16:1073758336
+ 386 009a C4F20003 		movt	r3, #:upper16:1073758336
+ 387 009e FA88     		ldrh	r2, [r7, #6]	@ movhi
+ 388 00a0 1A80     		strh	r2, [r3, #0]	@ movhi
+ 389              		.loc 1 205 0
+ 390 00a2 9CE0     		b	.L26
+ 391              	.L15:
+ 222:.\Generated_Source\PSoC5/emFile_1_Clock_1.c ****             }
+ 223:.\Generated_Source\PSoC5/emFile_1_Clock_1.c ****         }
+ 224:.\Generated_Source\PSoC5/emFile_1_Clock_1.c ****         else
+ 225:.\Generated_Source\PSoC5/emFile_1_Clock_1.c ****         {
+ 226:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** 			
+ 227:.\Generated_Source\PSoC5/emFile_1_Clock_1.c ****             if (enabled != 0u)
+ 392              		.loc 1 227 0
+ 393 00a4 3B7B     		ldrb	r3, [r7, #12]	@ zero_extendqisi2
+ 394 00a6 002B     		cmp	r3, #0
+ 395 00a8 5AD0     		beq	.L19
+ 228:.\Generated_Source\PSoC5/emFile_1_Clock_1.c ****             {
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccuKANu2.s 			page 12
+
+
+ 229:.\Generated_Source\PSoC5/emFile_1_Clock_1.c ****                 CLK_DIST_LD = 0x00u;
+ 396              		.loc 1 229 0
+ 397 00aa 44F20103 		movw	r3, #:lower16:1073758209
+ 398 00ae C4F20003 		movt	r3, #:upper16:1073758209
+ 399 00b2 4FF00002 		mov	r2, #0
+ 400 00b6 1A70     		strb	r2, [r3, #0]
+ 230:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** 
+ 231:.\Generated_Source\PSoC5/emFile_1_Clock_1.c ****                 /* Clear all the mask bits except ours. */
+ 232:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** #if defined(emFile_1_Clock_1__CFG3)
+ 233:.\Generated_Source\PSoC5/emFile_1_Clock_1.c ****                 CLK_DIST_AMASK = emFile_1_Clock_1_CLKEN_MASK;
+ 234:.\Generated_Source\PSoC5/emFile_1_Clock_1.c ****                 CLK_DIST_DMASK = 0x00u;
+ 235:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** #else
+ 236:.\Generated_Source\PSoC5/emFile_1_Clock_1.c ****                 CLK_DIST_DMASK = emFile_1_Clock_1_CLKEN_MASK;
+ 401              		.loc 1 236 0
+ 402 00b8 44F21003 		movw	r3, #:lower16:1073758224
+ 403 00bc C4F20003 		movt	r3, #:upper16:1073758224
+ 404 00c0 4FF00102 		mov	r2, #1
+ 405 00c4 1A70     		strb	r2, [r3, #0]
+ 237:.\Generated_Source\PSoC5/emFile_1_Clock_1.c ****                 CLK_DIST_AMASK = 0x00u;
+ 406              		.loc 1 237 0
+ 407 00c6 44F21403 		movw	r3, #:lower16:1073758228
+ 408 00ca C4F20003 		movt	r3, #:upper16:1073758228
+ 409 00ce 4FF00002 		mov	r2, #0
+ 410 00d2 1A70     		strb	r2, [r3, #0]
+ 238:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** #endif /* emFile_1_Clock_1__CFG3 */
+ 239:.\Generated_Source\PSoC5/emFile_1_Clock_1.c ****                 /* Clear mask of bus clock. */
+ 240:.\Generated_Source\PSoC5/emFile_1_Clock_1.c ****                 CLK_DIST_BCFG2 &= (uint8)(~BCFG2_MASK);
+ 411              		.loc 1 240 0
+ 412 00d4 44F20803 		movw	r3, #:lower16:1073758216
+ 413 00d8 C4F20003 		movt	r3, #:upper16:1073758216
+ 414 00dc 44F20802 		movw	r2, #:lower16:1073758216
+ 415 00e0 C4F20002 		movt	r2, #:upper16:1073758216
+ 416 00e4 1278     		ldrb	r2, [r2, #0]
+ 417 00e6 D2B2     		uxtb	r2, r2
+ 418 00e8 02F07F02 		and	r2, r2, #127
+ 419 00ec 1A70     		strb	r2, [r3, #0]
+ 241:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** 
+ 242:.\Generated_Source\PSoC5/emFile_1_Clock_1.c ****                 /* If clock is currently enabled, disable it if async or going from N-to-1*/
+ 243:.\Generated_Source\PSoC5/emFile_1_Clock_1.c ****                 if (((emFile_1_Clock_1_MOD_SRC & CYCLK_SYNC) == 0u) || (clkDivider == 0u))
+ 420              		.loc 1 243 0
+ 421 00ee 44F28203 		movw	r3, #:lower16:1073758338
+ 422 00f2 C4F20003 		movt	r3, #:upper16:1073758338
+ 423 00f6 1B78     		ldrb	r3, [r3, #0]
+ 424 00f8 DBB2     		uxtb	r3, r3
+ 425 00fa 03F00803 		and	r3, r3, #8
+ 426 00fe 002B     		cmp	r3, #0
+ 427 0100 02D0     		beq	.L20
+ 428 0102 FB88     		ldrh	r3, [r7, #6]
+ 429 0104 002B     		cmp	r3, #0
+ 430 0106 2BD1     		bne	.L19
+ 431              	.L20:
+ 244:.\Generated_Source\PSoC5/emFile_1_Clock_1.c ****                 {
+ 245:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** #if HAS_CLKDIST_LD_DISABLE
+ 246:.\Generated_Source\PSoC5/emFile_1_Clock_1.c ****                     CY_SET_REG16(CYREG_CLKDIST_WRK0, oldDivider);
+ 432              		.loc 1 246 0
+ 433 0108 44F20203 		movw	r3, #:lower16:1073758210
+ 434 010c C4F20003 		movt	r3, #:upper16:1073758210
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccuKANu2.s 			page 13
+
+
+ 435 0110 FA89     		ldrh	r2, [r7, #14]	@ movhi
+ 436 0112 1A80     		strh	r2, [r3, #0]	@ movhi
+ 247:.\Generated_Source\PSoC5/emFile_1_Clock_1.c ****                     CLK_DIST_LD = CYCLK_LD_DISABLE|CYCLK_LD_SYNC_EN|CYCLK_LD_LOAD;
+ 437              		.loc 1 247 0
+ 438 0114 44F20103 		movw	r3, #:lower16:1073758209
+ 439 0118 C4F20003 		movt	r3, #:upper16:1073758209
+ 440 011c 4FF00702 		mov	r2, #7
+ 441 0120 1A70     		strb	r2, [r3, #0]
+ 442              	.L21:
+ 248:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** 
+ 249:.\Generated_Source\PSoC5/emFile_1_Clock_1.c ****                     /* Wait for clock to be disabled */
+ 250:.\Generated_Source\PSoC5/emFile_1_Clock_1.c ****                     while ((CLK_DIST_LD & CYCLK_LD_LOAD) != 0u) { }
+ 443              		.loc 1 250 0
+ 444 0122 44F20103 		movw	r3, #:lower16:1073758209
+ 445 0126 C4F20003 		movt	r3, #:upper16:1073758209
+ 446 012a 1B78     		ldrb	r3, [r3, #0]
+ 447 012c DBB2     		uxtb	r3, r3
+ 448 012e 03F00103 		and	r3, r3, #1
+ 449 0132 DBB2     		uxtb	r3, r3
+ 450 0134 002B     		cmp	r3, #0
+ 451 0136 F4D1     		bne	.L21
+ 251:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** #endif /* HAS_CLKDIST_LD_DISABLE */
+ 252:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** 
+ 253:.\Generated_Source\PSoC5/emFile_1_Clock_1.c ****                     emFile_1_Clock_1_CLKEN &= (uint8)(~emFile_1_Clock_1_CLKEN_MASK);
+ 452              		.loc 1 253 0
+ 453 0138 44F2A233 		movw	r3, #:lower16:1073759138
+ 454 013c C4F20003 		movt	r3, #:upper16:1073759138
+ 455 0140 44F2A232 		movw	r2, #:lower16:1073759138
+ 456 0144 C4F20002 		movt	r2, #:upper16:1073759138
+ 457 0148 1278     		ldrb	r2, [r2, #0]
+ 458 014a D2B2     		uxtb	r2, r2
+ 459 014c 02F0FE02 		and	r2, r2, #254
+ 460 0150 1A70     		strb	r2, [r3, #0]
+ 254:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** 
+ 255:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** #if HAS_CLKDIST_LD_DISABLE
+ 256:.\Generated_Source\PSoC5/emFile_1_Clock_1.c ****                     /* Clear the disable bit */
+ 257:.\Generated_Source\PSoC5/emFile_1_Clock_1.c ****                     CLK_DIST_LD = 0x00u;
+ 461              		.loc 1 257 0
+ 462 0152 44F20103 		movw	r3, #:lower16:1073758209
+ 463 0156 C4F20003 		movt	r3, #:upper16:1073758209
+ 464 015a 4FF00002 		mov	r2, #0
+ 465 015e 1A70     		strb	r2, [r3, #0]
+ 466              	.L19:
+ 258:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** #endif /* HAS_CLKDIST_LD_DISABLE */
+ 259:.\Generated_Source\PSoC5/emFile_1_Clock_1.c ****                 }
+ 260:.\Generated_Source\PSoC5/emFile_1_Clock_1.c ****             }
+ 261:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** 
+ 262:.\Generated_Source\PSoC5/emFile_1_Clock_1.c ****             /* Load divide value. */
+ 263:.\Generated_Source\PSoC5/emFile_1_Clock_1.c ****             if ((emFile_1_Clock_1_CLKEN & emFile_1_Clock_1_CLKEN_MASK) != 0u)
+ 467              		.loc 1 263 0
+ 468 0160 44F2A233 		movw	r3, #:lower16:1073759138
+ 469 0164 C4F20003 		movt	r3, #:upper16:1073759138
+ 470 0168 1B78     		ldrb	r3, [r3, #0]
+ 471 016a DBB2     		uxtb	r3, r3
+ 472 016c 03F00103 		and	r3, r3, #1
+ 473 0170 DBB2     		uxtb	r3, r3
+ 474 0172 002B     		cmp	r3, #0
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccuKANu2.s 			page 14
+
+
+ 475 0174 1ED0     		beq	.L22
+ 264:.\Generated_Source\PSoC5/emFile_1_Clock_1.c ****             {
+ 265:.\Generated_Source\PSoC5/emFile_1_Clock_1.c ****                 /* If the clock is still enabled, use the shadow registers */
+ 266:.\Generated_Source\PSoC5/emFile_1_Clock_1.c ****                 CY_SET_REG16(CYREG_CLKDIST_WRK0, clkDivider);
+ 476              		.loc 1 266 0
+ 477 0176 44F20203 		movw	r3, #:lower16:1073758210
+ 478 017a C4F20003 		movt	r3, #:upper16:1073758210
+ 479 017e FA88     		ldrh	r2, [r7, #6]	@ movhi
+ 480 0180 1A80     		strh	r2, [r3, #0]	@ movhi
+ 267:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** 
+ 268:.\Generated_Source\PSoC5/emFile_1_Clock_1.c ****                 CLK_DIST_LD = (CYCLK_LD_LOAD | ((restart != 0u) ? CYCLK_LD_SYNC_EN : 0x00u));
+ 481              		.loc 1 268 0
+ 482 0182 44F20103 		movw	r3, #:lower16:1073758209
+ 483 0186 C4F20003 		movt	r3, #:upper16:1073758209
+ 484 018a 7A79     		ldrb	r2, [r7, #5]	@ zero_extendqisi2
+ 485 018c 002A     		cmp	r2, #0
+ 486 018e 02D0     		beq	.L23
+ 487 0190 4FF00302 		mov	r2, #3
+ 488 0194 01E0     		b	.L24
+ 489              	.L23:
+ 490 0196 4FF00102 		mov	r2, #1
+ 491              	.L24:
+ 492 019a 1A70     		strb	r2, [r3, #0]
+ 493              	.L25:
+ 269:.\Generated_Source\PSoC5/emFile_1_Clock_1.c ****                 while ((CLK_DIST_LD & CYCLK_LD_LOAD) != 0u) { }
+ 494              		.loc 1 269 0
+ 495 019c 44F20103 		movw	r3, #:lower16:1073758209
+ 496 01a0 C4F20003 		movt	r3, #:upper16:1073758209
+ 497 01a4 1B78     		ldrb	r3, [r3, #0]
+ 498 01a6 DBB2     		uxtb	r3, r3
+ 499 01a8 03F00103 		and	r3, r3, #1
+ 500 01ac DBB2     		uxtb	r3, r3
+ 501 01ae 002B     		cmp	r3, #0
+ 502 01b0 F4D1     		bne	.L25
+ 503 01b2 14E0     		b	.L26
+ 504              	.L22:
+ 270:.\Generated_Source\PSoC5/emFile_1_Clock_1.c ****             }
+ 271:.\Generated_Source\PSoC5/emFile_1_Clock_1.c ****             else
+ 272:.\Generated_Source\PSoC5/emFile_1_Clock_1.c ****             {
+ 273:.\Generated_Source\PSoC5/emFile_1_Clock_1.c ****                 /* If the clock is disabled, set the divider directly */
+ 274:.\Generated_Source\PSoC5/emFile_1_Clock_1.c ****                 CY_SET_REG16(emFile_1_Clock_1_DIV_PTR, clkDivider);
+ 505              		.loc 1 274 0
+ 506 01b4 44F28003 		movw	r3, #:lower16:1073758336
+ 507 01b8 C4F20003 		movt	r3, #:upper16:1073758336
+ 508 01bc FA88     		ldrh	r2, [r7, #6]	@ movhi
+ 509 01be 1A80     		strh	r2, [r3, #0]	@ movhi
+ 275:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** 				emFile_1_Clock_1_CLKEN |= enabled;
+ 510              		.loc 1 275 0
+ 511 01c0 44F2A233 		movw	r3, #:lower16:1073759138
+ 512 01c4 C4F20003 		movt	r3, #:upper16:1073759138
+ 513 01c8 44F2A232 		movw	r2, #:lower16:1073759138
+ 514 01cc C4F20002 		movt	r2, #:upper16:1073759138
+ 515 01d0 1278     		ldrb	r2, [r2, #0]
+ 516 01d2 D1B2     		uxtb	r1, r2
+ 517 01d4 3A7B     		ldrb	r2, [r7, #12]
+ 518 01d6 41EA0202 		orr	r2, r1, r2
+ 519 01da D2B2     		uxtb	r2, r2
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccuKANu2.s 			page 15
+
+
+ 520 01dc 1A70     		strb	r2, [r3, #0]
+ 521              	.L26:
+ 276:.\Generated_Source\PSoC5/emFile_1_Clock_1.c ****             }
+ 277:.\Generated_Source\PSoC5/emFile_1_Clock_1.c ****         }
+ 278:.\Generated_Source\PSoC5/emFile_1_Clock_1.c ****     }
+ 279:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** }
+ 522              		.loc 1 279 0
+ 523 01de 07F11007 		add	r7, r7, #16
+ 524 01e2 BD46     		mov	sp, r7
+ 525 01e4 80BD     		pop	{r7, pc}
+ 526              		.cfi_endproc
+ 527              	.LFE4:
+ 528              		.size	emFile_1_Clock_1_SetDividerRegister, .-emFile_1_Clock_1_SetDividerRegister
+ 529 01e6 00BF     		.section	.text.emFile_1_Clock_1_GetDividerRegister,"ax",%progbits
+ 530              		.align	2
+ 531              		.global	emFile_1_Clock_1_GetDividerRegister
+ 532              		.thumb
+ 533              		.thumb_func
+ 534              		.type	emFile_1_Clock_1_GetDividerRegister, %function
+ 535              	emFile_1_Clock_1_GetDividerRegister:
+ 536              	.LFB5:
+ 280:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** 
+ 281:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** 
+ 282:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** /*******************************************************************************
+ 283:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** * Function Name: emFile_1_Clock_1_GetDividerRegister
+ 284:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** ********************************************************************************
+ 285:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** *
+ 286:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** * Summary:
+ 287:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** *  Gets the clock divider register value.
+ 288:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** *
+ 289:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** * Parameters:
+ 290:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** *  None
+ 291:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** *
+ 292:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** * Returns:
+ 293:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** *  Divide value of the clock minus 1. For example, if the clock is set to
+ 294:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** *  divide by 2, the return value will be 1.
+ 295:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** *
+ 296:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** *******************************************************************************/
+ 297:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** uint16 emFile_1_Clock_1_GetDividerRegister(void) 
+ 298:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** {
+ 537              		.loc 1 298 0
+ 538              		.cfi_startproc
+ 539              		@ args = 0, pretend = 0, frame = 0
+ 540              		@ frame_needed = 1, uses_anonymous_args = 0
+ 541              		@ link register save eliminated.
+ 542 0000 80B4     		push	{r7}
+ 543              	.LCFI13:
+ 544              		.cfi_def_cfa_offset 4
+ 545 0002 00AF     		add	r7, sp, #0
+ 546              		.cfi_offset 7, -4
+ 547              	.LCFI14:
+ 548              		.cfi_def_cfa_register 7
+ 299:.\Generated_Source\PSoC5/emFile_1_Clock_1.c ****     return CY_GET_REG16(emFile_1_Clock_1_DIV_PTR);
+ 549              		.loc 1 299 0
+ 550 0004 44F28003 		movw	r3, #:lower16:1073758336
+ 551 0008 C4F20003 		movt	r3, #:upper16:1073758336
+ 552 000c 1B88     		ldrh	r3, [r3, #0]	@ movhi
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccuKANu2.s 			page 16
+
+
+ 553 000e 9BB2     		uxth	r3, r3
+ 300:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** }
+ 554              		.loc 1 300 0
+ 555 0010 1846     		mov	r0, r3
+ 556 0012 BD46     		mov	sp, r7
+ 557 0014 80BC     		pop	{r7}
+ 558 0016 7047     		bx	lr
+ 559              		.cfi_endproc
+ 560              	.LFE5:
+ 561              		.size	emFile_1_Clock_1_GetDividerRegister, .-emFile_1_Clock_1_GetDividerRegister
+ 562              		.section	.text.emFile_1_Clock_1_SetModeRegister,"ax",%progbits
+ 563              		.align	2
+ 564              		.global	emFile_1_Clock_1_SetModeRegister
+ 565              		.thumb
+ 566              		.thumb_func
+ 567              		.type	emFile_1_Clock_1_SetModeRegister, %function
+ 568              	emFile_1_Clock_1_SetModeRegister:
+ 569              	.LFB6:
+ 301:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** 
+ 302:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** 
+ 303:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** /*******************************************************************************
+ 304:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** * Function Name: emFile_1_Clock_1_SetModeRegister
+ 305:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** ********************************************************************************
+ 306:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** *
+ 307:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** * Summary:
+ 308:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** *  Sets flags that control the operating mode of the clock. This function only
+ 309:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** *  changes flags from 0 to 1; flags that are already 1 will remain unchanged.
+ 310:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** *  To clear flags, use the ClearModeRegister function. The clock must be
+ 311:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** *  disabled before changing the mode.
+ 312:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** *
+ 313:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** * Parameters:
+ 314:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** *  clkMode: Bit mask containing the bits to set. For PSoC 3 and PSoC 5,
+ 315:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** *   clkMode should be a set of the following optional bits or'ed together.
+ 316:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** *   - CYCLK_EARLY Enable early phase mode. Rising edge of output clock will
+ 317:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** *                 occur when the divider count reaches half of the divide
+ 318:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** *                 value.
+ 319:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** *   - CYCLK_DUTY  Enable 50% duty cycle output. When enabled, the output clock
+ 320:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** *                 is asserted for approximately half of its period. When
+ 321:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** *                 disabled, the output clock is asserted for one period of the
+ 322:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** *                 source clock.
+ 323:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** *   - CYCLK_SYNC  Enable output synchronization to master clock. This should
+ 324:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** *                 be enabled for all synchronous clocks.
+ 325:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** *   See the Technical Reference Manual for details about setting the mode of
+ 326:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** *   the clock. Specifically, see the CLKDIST.DCFG.CFG2 register.
+ 327:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** *
+ 328:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** * Returns:
+ 329:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** *  None
+ 330:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** *
+ 331:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** *******************************************************************************/
+ 332:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** void emFile_1_Clock_1_SetModeRegister(uint8 modeBitMask) 
+ 333:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** {
+ 570              		.loc 1 333 0
+ 571              		.cfi_startproc
+ 572              		@ args = 0, pretend = 0, frame = 8
+ 573              		@ frame_needed = 1, uses_anonymous_args = 0
+ 574              		@ link register save eliminated.
+ 575 0000 80B4     		push	{r7}
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccuKANu2.s 			page 17
+
+
+ 576              	.LCFI15:
+ 577              		.cfi_def_cfa_offset 4
+ 578 0002 83B0     		sub	sp, sp, #12
+ 579              	.LCFI16:
+ 580              		.cfi_def_cfa_offset 16
+ 581 0004 00AF     		add	r7, sp, #0
+ 582              		.cfi_offset 7, -4
+ 583              	.LCFI17:
+ 584              		.cfi_def_cfa_register 7
+ 585 0006 0346     		mov	r3, r0
+ 586 0008 FB71     		strb	r3, [r7, #7]
+ 334:.\Generated_Source\PSoC5/emFile_1_Clock_1.c ****     emFile_1_Clock_1_MOD_SRC |= modeBitMask & (uint8)emFile_1_Clock_1_MODE_MASK;
+ 587              		.loc 1 334 0
+ 588 000a 44F28203 		movw	r3, #:lower16:1073758338
+ 589 000e C4F20003 		movt	r3, #:upper16:1073758338
+ 590 0012 44F28202 		movw	r2, #:lower16:1073758338
+ 591 0016 C4F20002 		movt	r2, #:upper16:1073758338
+ 592 001a 1278     		ldrb	r2, [r2, #0]
+ 593 001c D2B2     		uxtb	r2, r2
+ 594 001e 1146     		mov	r1, r2
+ 595 0020 FA79     		ldrb	r2, [r7, #7]	@ zero_extendqisi2
+ 596 0022 D2B2     		uxtb	r2, r2
+ 597 0024 02F0F802 		and	r2, r2, #248
+ 598 0028 41EA0202 		orr	r2, r1, r2
+ 599 002c D2B2     		uxtb	r2, r2
+ 600 002e D2B2     		uxtb	r2, r2
+ 601 0030 1A70     		strb	r2, [r3, #0]
+ 335:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** }
+ 602              		.loc 1 335 0
+ 603 0032 07F10C07 		add	r7, r7, #12
+ 604 0036 BD46     		mov	sp, r7
+ 605 0038 80BC     		pop	{r7}
+ 606 003a 7047     		bx	lr
+ 607              		.cfi_endproc
+ 608              	.LFE6:
+ 609              		.size	emFile_1_Clock_1_SetModeRegister, .-emFile_1_Clock_1_SetModeRegister
+ 610              		.section	.text.emFile_1_Clock_1_ClearModeRegister,"ax",%progbits
+ 611              		.align	2
+ 612              		.global	emFile_1_Clock_1_ClearModeRegister
+ 613              		.thumb
+ 614              		.thumb_func
+ 615              		.type	emFile_1_Clock_1_ClearModeRegister, %function
+ 616              	emFile_1_Clock_1_ClearModeRegister:
+ 617              	.LFB7:
+ 336:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** 
+ 337:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** 
+ 338:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** /*******************************************************************************
+ 339:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** * Function Name: emFile_1_Clock_1_ClearModeRegister
+ 340:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** ********************************************************************************
+ 341:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** *
+ 342:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** * Summary:
+ 343:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** *  Clears flags that control the operating mode of the clock. This function
+ 344:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** *  only changes flags from 1 to 0; flags that are already 0 will remain
+ 345:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** *  unchanged. To set flags, use the SetModeRegister function. The clock must be
+ 346:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** *  disabled before changing the mode.
+ 347:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** *
+ 348:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** * Parameters:
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccuKANu2.s 			page 18
+
+
+ 349:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** *  clkMode: Bit mask containing the bits to clear. For PSoC 3 and PSoC 5,
+ 350:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** *   clkMode should be a set of the following optional bits or'ed together.
+ 351:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** *   - CYCLK_EARLY Enable early phase mode. Rising edge of output clock will
+ 352:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** *                 occur when the divider count reaches half of the divide
+ 353:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** *                 value.
+ 354:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** *   - CYCLK_DUTY  Enable 50% duty cycle output. When enabled, the output clock
+ 355:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** *                 is asserted for approximately half of its period. When
+ 356:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** *                 disabled, the output clock is asserted for one period of the
+ 357:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** *                 source clock.
+ 358:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** *   - CYCLK_SYNC  Enable output synchronization to master clock. This should
+ 359:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** *                 be enabled for all synchronous clocks.
+ 360:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** *   See the Technical Reference Manual for details about setting the mode of
+ 361:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** *   the clock. Specifically, see the CLKDIST.DCFG.CFG2 register.
+ 362:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** *
+ 363:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** * Returns:
+ 364:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** *  None
+ 365:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** *
+ 366:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** *******************************************************************************/
+ 367:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** void emFile_1_Clock_1_ClearModeRegister(uint8 modeBitMask) 
+ 368:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** {
+ 618              		.loc 1 368 0
+ 619              		.cfi_startproc
+ 620              		@ args = 0, pretend = 0, frame = 8
+ 621              		@ frame_needed = 1, uses_anonymous_args = 0
+ 622              		@ link register save eliminated.
+ 623 0000 80B4     		push	{r7}
+ 624              	.LCFI18:
+ 625              		.cfi_def_cfa_offset 4
+ 626 0002 83B0     		sub	sp, sp, #12
+ 627              	.LCFI19:
+ 628              		.cfi_def_cfa_offset 16
+ 629 0004 00AF     		add	r7, sp, #0
+ 630              		.cfi_offset 7, -4
+ 631              	.LCFI20:
+ 632              		.cfi_def_cfa_register 7
+ 633 0006 0346     		mov	r3, r0
+ 634 0008 FB71     		strb	r3, [r7, #7]
+ 369:.\Generated_Source\PSoC5/emFile_1_Clock_1.c ****     emFile_1_Clock_1_MOD_SRC &= (uint8)(~modeBitMask) | (uint8)(~(uint8)(emFile_1_Clock_1_MODE_MASK
+ 635              		.loc 1 369 0
+ 636 000a 44F28203 		movw	r3, #:lower16:1073758338
+ 637 000e C4F20003 		movt	r3, #:upper16:1073758338
+ 638 0012 44F28202 		movw	r2, #:lower16:1073758338
+ 639 0016 C4F20002 		movt	r2, #:upper16:1073758338
+ 640 001a 1278     		ldrb	r2, [r2, #0]
+ 641 001c D1B2     		uxtb	r1, r2
+ 642 001e FA79     		ldrb	r2, [r7, #7]
+ 643 0020 6FEA0202 		mvn	r2, r2
+ 644 0024 D2B2     		uxtb	r2, r2
+ 645 0026 42F00702 		orr	r2, r2, #7
+ 646 002a D2B2     		uxtb	r2, r2
+ 647 002c 01EA0202 		and	r2, r1, r2
+ 648 0030 D2B2     		uxtb	r2, r2
+ 649 0032 1A70     		strb	r2, [r3, #0]
+ 370:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** }
+ 650              		.loc 1 370 0
+ 651 0034 07F10C07 		add	r7, r7, #12
+ 652 0038 BD46     		mov	sp, r7
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccuKANu2.s 			page 19
+
+
+ 653 003a 80BC     		pop	{r7}
+ 654 003c 7047     		bx	lr
+ 655              		.cfi_endproc
+ 656              	.LFE7:
+ 657              		.size	emFile_1_Clock_1_ClearModeRegister, .-emFile_1_Clock_1_ClearModeRegister
+ 658 003e 00BF     		.section	.text.emFile_1_Clock_1_GetModeRegister,"ax",%progbits
+ 659              		.align	2
+ 660              		.global	emFile_1_Clock_1_GetModeRegister
+ 661              		.thumb
+ 662              		.thumb_func
+ 663              		.type	emFile_1_Clock_1_GetModeRegister, %function
+ 664              	emFile_1_Clock_1_GetModeRegister:
+ 665              	.LFB8:
+ 371:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** 
+ 372:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** 
+ 373:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** /*******************************************************************************
+ 374:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** * Function Name: emFile_1_Clock_1_GetModeRegister
+ 375:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** ********************************************************************************
+ 376:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** *
+ 377:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** * Summary:
+ 378:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** *  Gets the clock mode register value.
+ 379:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** *
+ 380:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** * Parameters:
+ 381:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** *  None
+ 382:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** *
+ 383:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** * Returns:
+ 384:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** *  Bit mask representing the enabled mode bits. See the SetModeRegister and
+ 385:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** *  ClearModeRegister descriptions for details about the mode bits.
+ 386:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** *
+ 387:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** *******************************************************************************/
+ 388:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** uint8 emFile_1_Clock_1_GetModeRegister(void) 
+ 389:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** {
+ 666              		.loc 1 389 0
+ 667              		.cfi_startproc
+ 668              		@ args = 0, pretend = 0, frame = 0
+ 669              		@ frame_needed = 1, uses_anonymous_args = 0
+ 670              		@ link register save eliminated.
+ 671 0000 80B4     		push	{r7}
+ 672              	.LCFI21:
+ 673              		.cfi_def_cfa_offset 4
+ 674 0002 00AF     		add	r7, sp, #0
+ 675              		.cfi_offset 7, -4
+ 676              	.LCFI22:
+ 677              		.cfi_def_cfa_register 7
+ 390:.\Generated_Source\PSoC5/emFile_1_Clock_1.c ****     return emFile_1_Clock_1_MOD_SRC & (uint8)(emFile_1_Clock_1_MODE_MASK);
+ 678              		.loc 1 390 0
+ 679 0004 44F28203 		movw	r3, #:lower16:1073758338
+ 680 0008 C4F20003 		movt	r3, #:upper16:1073758338
+ 681 000c 1B78     		ldrb	r3, [r3, #0]
+ 682 000e DBB2     		uxtb	r3, r3
+ 683 0010 03F0F803 		and	r3, r3, #248
+ 391:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** }
+ 684              		.loc 1 391 0
+ 685 0014 1846     		mov	r0, r3
+ 686 0016 BD46     		mov	sp, r7
+ 687 0018 80BC     		pop	{r7}
+ 688 001a 7047     		bx	lr
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccuKANu2.s 			page 20
+
+
+ 689              		.cfi_endproc
+ 690              	.LFE8:
+ 691              		.size	emFile_1_Clock_1_GetModeRegister, .-emFile_1_Clock_1_GetModeRegister
+ 692              		.section	.text.emFile_1_Clock_1_SetSourceRegister,"ax",%progbits
+ 693              		.align	2
+ 694              		.global	emFile_1_Clock_1_SetSourceRegister
+ 695              		.thumb
+ 696              		.thumb_func
+ 697              		.type	emFile_1_Clock_1_SetSourceRegister, %function
+ 698              	emFile_1_Clock_1_SetSourceRegister:
+ 699              	.LFB9:
+ 392:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** 
+ 393:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** 
+ 394:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** /*******************************************************************************
+ 395:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** * Function Name: emFile_1_Clock_1_SetSourceRegister
+ 396:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** ********************************************************************************
+ 397:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** *
+ 398:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** * Summary:
+ 399:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** *  Sets the input source of the clock. The clock must be disabled before
+ 400:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** *  changing the source. The old and new clock sources must be running.
+ 401:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** *
+ 402:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** * Parameters:
+ 403:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** *  clkSource:  For PSoC 3 and PSoC 5 devices, clkSource should be one of the
+ 404:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** *   following input sources:
+ 405:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** *   - CYCLK_SRC_SEL_SYNC_DIG
+ 406:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** *   - CYCLK_SRC_SEL_IMO
+ 407:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** *   - CYCLK_SRC_SEL_XTALM
+ 408:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** *   - CYCLK_SRC_SEL_ILO
+ 409:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** *   - CYCLK_SRC_SEL_PLL
+ 410:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** *   - CYCLK_SRC_SEL_XTALK
+ 411:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** *   - CYCLK_SRC_SEL_DSI_G
+ 412:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** *   - CYCLK_SRC_SEL_DSI_D/CYCLK_SRC_SEL_DSI_A
+ 413:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** *   See the Technical Reference Manual for details on clock sources.
+ 414:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** *
+ 415:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** * Returns:
+ 416:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** *  None
+ 417:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** *
+ 418:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** *******************************************************************************/
+ 419:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** void emFile_1_Clock_1_SetSourceRegister(uint8 clkSource) 
+ 420:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** {
+ 700              		.loc 1 420 0
+ 701              		.cfi_startproc
+ 702              		@ args = 0, pretend = 0, frame = 16
+ 703              		@ frame_needed = 1, uses_anonymous_args = 0
+ 704 0000 80B5     		push	{r7, lr}
+ 705              	.LCFI23:
+ 706              		.cfi_def_cfa_offset 8
+ 707 0002 84B0     		sub	sp, sp, #16
+ 708              	.LCFI24:
+ 709              		.cfi_def_cfa_offset 24
+ 710 0004 00AF     		add	r7, sp, #0
+ 711              		.cfi_offset 14, -4
+ 712              		.cfi_offset 7, -8
+ 713              	.LCFI25:
+ 714              		.cfi_def_cfa_register 7
+ 715 0006 0346     		mov	r3, r0
+ 716 0008 FB71     		strb	r3, [r7, #7]
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccuKANu2.s 			page 21
+
+
+ 421:.\Generated_Source\PSoC5/emFile_1_Clock_1.c ****     uint16 currDiv = emFile_1_Clock_1_GetDividerRegister();
+ 717              		.loc 1 421 0
+ 718 000a FFF7FEFF 		bl	emFile_1_Clock_1_GetDividerRegister
+ 719 000e 0346     		mov	r3, r0
+ 720 0010 BB81     		strh	r3, [r7, #12]	@ movhi
+ 422:.\Generated_Source\PSoC5/emFile_1_Clock_1.c ****     uint8 oldSrc = emFile_1_Clock_1_GetSourceRegister();
+ 721              		.loc 1 422 0
+ 722 0012 FFF7FEFF 		bl	emFile_1_Clock_1_GetSourceRegister
+ 723 0016 0346     		mov	r3, r0
+ 724 0018 FB73     		strb	r3, [r7, #15]
+ 423:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** 
+ 424:.\Generated_Source\PSoC5/emFile_1_Clock_1.c ****     if (((oldSrc != ((uint8)CYCLK_SRC_SEL_CLK_SYNC_D)) && 
+ 725              		.loc 1 424 0
+ 726 001a FB7B     		ldrb	r3, [r7, #15]	@ zero_extendqisi2
+ 727 001c 002B     		cmp	r3, #0
+ 728 001e 29D0     		beq	.L36
+ 729 0020 FB79     		ldrb	r3, [r7, #7]	@ zero_extendqisi2
+ 730 0022 002B     		cmp	r3, #0
+ 731 0024 26D1     		bne	.L36
+ 732 0026 BB89     		ldrh	r3, [r7, #12]
+ 733 0028 002B     		cmp	r3, #0
+ 734 002a 23D1     		bne	.L36
+ 425:.\Generated_Source\PSoC5/emFile_1_Clock_1.c ****         (clkSource == ((uint8)CYCLK_SRC_SEL_CLK_SYNC_D))) && (currDiv == 0u))
+ 426:.\Generated_Source\PSoC5/emFile_1_Clock_1.c ****     {
+ 427:.\Generated_Source\PSoC5/emFile_1_Clock_1.c ****         /* Switching to Master and divider is 1, set SSS, which will output master, */
+ 428:.\Generated_Source\PSoC5/emFile_1_Clock_1.c ****         /* then set the source so we are consistent.                                */
+ 429:.\Generated_Source\PSoC5/emFile_1_Clock_1.c ****         emFile_1_Clock_1_MOD_SRC |= CYCLK_SSS;
+ 735              		.loc 1 429 0
+ 736 002c 44F28203 		movw	r3, #:lower16:1073758338
+ 737 0030 C4F20003 		movt	r3, #:upper16:1073758338
+ 738 0034 44F28202 		movw	r2, #:lower16:1073758338
+ 739 0038 C4F20002 		movt	r2, #:upper16:1073758338
+ 740 003c 1278     		ldrb	r2, [r2, #0]
+ 741 003e D2B2     		uxtb	r2, r2
+ 742 0040 42F04002 		orr	r2, r2, #64
+ 743 0044 D2B2     		uxtb	r2, r2
+ 744 0046 1A70     		strb	r2, [r3, #0]
+ 430:.\Generated_Source\PSoC5/emFile_1_Clock_1.c ****         emFile_1_Clock_1_MOD_SRC =
+ 745              		.loc 1 430 0
+ 746 0048 44F28203 		movw	r3, #:lower16:1073758338
+ 747 004c C4F20003 		movt	r3, #:upper16:1073758338
+ 431:.\Generated_Source\PSoC5/emFile_1_Clock_1.c ****             (emFile_1_Clock_1_MOD_SRC & (uint8)(~emFile_1_Clock_1_SRC_SEL_MSK)) | clkSource;
+ 748              		.loc 1 431 0
+ 749 0050 44F28202 		movw	r2, #:lower16:1073758338
+ 750 0054 C4F20002 		movt	r2, #:upper16:1073758338
+ 751 0058 1278     		ldrb	r2, [r2, #0]
+ 752 005a D2B2     		uxtb	r2, r2
+ 753              		.loc 1 430 0
+ 754 005c D2B2     		uxtb	r2, r2
+ 755 005e 02F0F802 		and	r2, r2, #248
+ 756 0062 F879     		ldrb	r0, [r7, #7]	@ zero_extendqisi2
+ 757 0064 1146     		mov	r1, r2
+ 758 0066 0246     		mov	r2, r0
+ 759 0068 41EA0202 		orr	r2, r1, r2
+ 760 006c D2B2     		uxtb	r2, r2
+ 761 006e D2B2     		uxtb	r2, r2
+ 762 0070 1A70     		strb	r2, [r3, #0]
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccuKANu2.s 			page 22
+
+
+ 763              		.loc 1 424 0
+ 764 0072 40E0     		b	.L39
+ 765              	.L36:
+ 432:.\Generated_Source\PSoC5/emFile_1_Clock_1.c ****     }
+ 433:.\Generated_Source\PSoC5/emFile_1_Clock_1.c ****     else if (((oldSrc == ((uint8)CYCLK_SRC_SEL_CLK_SYNC_D)) && 
+ 766              		.loc 1 433 0
+ 767 0074 FB7B     		ldrb	r3, [r7, #15]	@ zero_extendqisi2
+ 768 0076 002B     		cmp	r3, #0
+ 769 0078 28D1     		bne	.L38
+ 770 007a FB79     		ldrb	r3, [r7, #7]	@ zero_extendqisi2
+ 771 007c 002B     		cmp	r3, #0
+ 772 007e 25D0     		beq	.L38
+ 773 0080 BB89     		ldrh	r3, [r7, #12]
+ 774 0082 002B     		cmp	r3, #0
+ 775 0084 22D1     		bne	.L38
+ 434:.\Generated_Source\PSoC5/emFile_1_Clock_1.c ****             (clkSource != ((uint8)CYCLK_SRC_SEL_CLK_SYNC_D))) && (currDiv == 0u))
+ 435:.\Generated_Source\PSoC5/emFile_1_Clock_1.c ****     {
+ 436:.\Generated_Source\PSoC5/emFile_1_Clock_1.c ****         /* Switching from Master to not and divider is 1, set source, so we don't   */
+ 437:.\Generated_Source\PSoC5/emFile_1_Clock_1.c ****         /* lock when we clear SSS.                                                  */
+ 438:.\Generated_Source\PSoC5/emFile_1_Clock_1.c ****         emFile_1_Clock_1_MOD_SRC =
+ 776              		.loc 1 438 0
+ 777 0086 44F28203 		movw	r3, #:lower16:1073758338
+ 778 008a C4F20003 		movt	r3, #:upper16:1073758338
+ 439:.\Generated_Source\PSoC5/emFile_1_Clock_1.c ****             (emFile_1_Clock_1_MOD_SRC & (uint8)(~emFile_1_Clock_1_SRC_SEL_MSK)) | clkSource;
+ 779              		.loc 1 439 0
+ 780 008e 44F28202 		movw	r2, #:lower16:1073758338
+ 781 0092 C4F20002 		movt	r2, #:upper16:1073758338
+ 782 0096 1278     		ldrb	r2, [r2, #0]
+ 783 0098 D2B2     		uxtb	r2, r2
+ 784              		.loc 1 438 0
+ 785 009a D2B2     		uxtb	r2, r2
+ 786 009c 02F0F802 		and	r2, r2, #248
+ 787 00a0 F879     		ldrb	r0, [r7, #7]	@ zero_extendqisi2
+ 788 00a2 1146     		mov	r1, r2
+ 789 00a4 0246     		mov	r2, r0
+ 790 00a6 41EA0202 		orr	r2, r1, r2
+ 791 00aa D2B2     		uxtb	r2, r2
+ 792 00ac D2B2     		uxtb	r2, r2
+ 793 00ae 1A70     		strb	r2, [r3, #0]
+ 440:.\Generated_Source\PSoC5/emFile_1_Clock_1.c ****         emFile_1_Clock_1_MOD_SRC &= (uint8)(~CYCLK_SSS);
+ 794              		.loc 1 440 0
+ 795 00b0 44F28203 		movw	r3, #:lower16:1073758338
+ 796 00b4 C4F20003 		movt	r3, #:upper16:1073758338
+ 797 00b8 44F28202 		movw	r2, #:lower16:1073758338
+ 798 00bc C4F20002 		movt	r2, #:upper16:1073758338
+ 799 00c0 1278     		ldrb	r2, [r2, #0]
+ 800 00c2 D2B2     		uxtb	r2, r2
+ 801 00c4 02F0BF02 		and	r2, r2, #191
+ 802 00c8 1A70     		strb	r2, [r3, #0]
+ 803              		.loc 1 433 0
+ 804 00ca 14E0     		b	.L39
+ 805              	.L38:
+ 441:.\Generated_Source\PSoC5/emFile_1_Clock_1.c ****     }
+ 442:.\Generated_Source\PSoC5/emFile_1_Clock_1.c ****     else
+ 443:.\Generated_Source\PSoC5/emFile_1_Clock_1.c ****     {
+ 444:.\Generated_Source\PSoC5/emFile_1_Clock_1.c ****         emFile_1_Clock_1_MOD_SRC =
+ 806              		.loc 1 444 0
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccuKANu2.s 			page 23
+
+
+ 807 00cc 44F28203 		movw	r3, #:lower16:1073758338
+ 808 00d0 C4F20003 		movt	r3, #:upper16:1073758338
+ 445:.\Generated_Source\PSoC5/emFile_1_Clock_1.c ****             (emFile_1_Clock_1_MOD_SRC & (uint8)(~emFile_1_Clock_1_SRC_SEL_MSK)) | clkSource;
+ 809              		.loc 1 445 0
+ 810 00d4 44F28202 		movw	r2, #:lower16:1073758338
+ 811 00d8 C4F20002 		movt	r2, #:upper16:1073758338
+ 812 00dc 1278     		ldrb	r2, [r2, #0]
+ 813 00de D2B2     		uxtb	r2, r2
+ 814              		.loc 1 444 0
+ 815 00e0 D2B2     		uxtb	r2, r2
+ 816 00e2 02F0F802 		and	r2, r2, #248
+ 817 00e6 F879     		ldrb	r0, [r7, #7]	@ zero_extendqisi2
+ 818 00e8 1146     		mov	r1, r2
+ 819 00ea 0246     		mov	r2, r0
+ 820 00ec 41EA0202 		orr	r2, r1, r2
+ 821 00f0 D2B2     		uxtb	r2, r2
+ 822 00f2 D2B2     		uxtb	r2, r2
+ 823 00f4 1A70     		strb	r2, [r3, #0]
+ 824              	.L39:
+ 446:.\Generated_Source\PSoC5/emFile_1_Clock_1.c ****     }
+ 447:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** }
+ 825              		.loc 1 447 0
+ 826 00f6 07F11007 		add	r7, r7, #16
+ 827 00fa BD46     		mov	sp, r7
+ 828 00fc 80BD     		pop	{r7, pc}
+ 829              		.cfi_endproc
+ 830              	.LFE9:
+ 831              		.size	emFile_1_Clock_1_SetSourceRegister, .-emFile_1_Clock_1_SetSourceRegister
+ 832 00fe 00BF     		.section	.text.emFile_1_Clock_1_GetSourceRegister,"ax",%progbits
+ 833              		.align	2
+ 834              		.global	emFile_1_Clock_1_GetSourceRegister
+ 835              		.thumb
+ 836              		.thumb_func
+ 837              		.type	emFile_1_Clock_1_GetSourceRegister, %function
+ 838              	emFile_1_Clock_1_GetSourceRegister:
+ 839              	.LFB10:
+ 448:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** 
+ 449:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** 
+ 450:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** /*******************************************************************************
+ 451:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** * Function Name: emFile_1_Clock_1_GetSourceRegister
+ 452:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** ********************************************************************************
+ 453:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** *
+ 454:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** * Summary:
+ 455:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** *  Gets the input source of the clock.
+ 456:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** *
+ 457:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** * Parameters:
+ 458:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** *  None
+ 459:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** *
+ 460:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** * Returns:
+ 461:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** *  The input source of the clock. See SetSourceRegister for details.
+ 462:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** *
+ 463:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** *******************************************************************************/
+ 464:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** uint8 emFile_1_Clock_1_GetSourceRegister(void) 
+ 465:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** {
+ 840              		.loc 1 465 0
+ 841              		.cfi_startproc
+ 842              		@ args = 0, pretend = 0, frame = 0
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccuKANu2.s 			page 24
+
+
+ 843              		@ frame_needed = 1, uses_anonymous_args = 0
+ 844              		@ link register save eliminated.
+ 845 0000 80B4     		push	{r7}
+ 846              	.LCFI26:
+ 847              		.cfi_def_cfa_offset 4
+ 848 0002 00AF     		add	r7, sp, #0
+ 849              		.cfi_offset 7, -4
+ 850              	.LCFI27:
+ 851              		.cfi_def_cfa_register 7
+ 466:.\Generated_Source\PSoC5/emFile_1_Clock_1.c ****     return emFile_1_Clock_1_MOD_SRC & emFile_1_Clock_1_SRC_SEL_MSK;
+ 852              		.loc 1 466 0
+ 853 0004 44F28203 		movw	r3, #:lower16:1073758338
+ 854 0008 C4F20003 		movt	r3, #:upper16:1073758338
+ 855 000c 1B78     		ldrb	r3, [r3, #0]
+ 856 000e DBB2     		uxtb	r3, r3
+ 857 0010 03F00703 		and	r3, r3, #7
+ 467:.\Generated_Source\PSoC5/emFile_1_Clock_1.c **** }
+ 858              		.loc 1 467 0
+ 859 0014 1846     		mov	r0, r3
+ 860 0016 BD46     		mov	sp, r7
+ 861 0018 80BC     		pop	{r7}
+ 862 001a 7047     		bx	lr
+ 863              		.cfi_endproc
+ 864              	.LFE10:
+ 865              		.size	emFile_1_Clock_1_GetSourceRegister, .-emFile_1_Clock_1_GetSourceRegister
+ 866              		.text
+ 867              	.Letext0:
+ 868              		.section	.debug_loc,"",%progbits
+ 869              	.Ldebug_loc0:
+ 870              	.LLST0:
+ 871 0000 00000000 		.4byte	.LFB0
+ 872 0004 02000000 		.4byte	.LCFI0
+ 873 0008 0100     		.2byte	0x1
+ 874 000a 5D       		.byte	0x5d
+ 875 000b 02000000 		.4byte	.LCFI0
+ 876 000f 04000000 		.4byte	.LCFI1
+ 877 0013 0200     		.2byte	0x2
+ 878 0015 7D       		.byte	0x7d
+ 879 0016 04       		.sleb128 4
+ 880 0017 04000000 		.4byte	.LCFI1
+ 881 001b 42000000 		.4byte	.LFE0
+ 882 001f 0200     		.2byte	0x2
+ 883 0021 77       		.byte	0x77
+ 884 0022 04       		.sleb128 4
+ 885 0023 00000000 		.4byte	0x0
+ 886 0027 00000000 		.4byte	0x0
+ 887              	.LLST1:
+ 888 002b 00000000 		.4byte	.LFB1
+ 889 002f 02000000 		.4byte	.LCFI2
+ 890 0033 0100     		.2byte	0x1
+ 891 0035 5D       		.byte	0x5d
+ 892 0036 02000000 		.4byte	.LCFI2
+ 893 003a 04000000 		.4byte	.LCFI3
+ 894 003e 0200     		.2byte	0x2
+ 895 0040 7D       		.byte	0x7d
+ 896 0041 04       		.sleb128 4
+ 897 0042 04000000 		.4byte	.LCFI3
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccuKANu2.s 			page 25
+
+
+ 898 0046 3E000000 		.4byte	.LFE1
+ 899 004a 0200     		.2byte	0x2
+ 900 004c 77       		.byte	0x77
+ 901 004d 04       		.sleb128 4
+ 902 004e 00000000 		.4byte	0x0
+ 903 0052 00000000 		.4byte	0x0
+ 904              	.LLST2:
+ 905 0056 00000000 		.4byte	.LFB2
+ 906 005a 02000000 		.4byte	.LCFI4
+ 907 005e 0100     		.2byte	0x1
+ 908 0060 5D       		.byte	0x5d
+ 909 0061 02000000 		.4byte	.LCFI4
+ 910 0065 04000000 		.4byte	.LCFI5
+ 911 0069 0200     		.2byte	0x2
+ 912 006b 7D       		.byte	0x7d
+ 913 006c 04       		.sleb128 4
+ 914 006d 04000000 		.4byte	.LCFI5
+ 915 0071 06000000 		.4byte	.LCFI6
+ 916 0075 0200     		.2byte	0x2
+ 917 0077 7D       		.byte	0x7d
+ 918 0078 10       		.sleb128 16
+ 919 0079 06000000 		.4byte	.LCFI6
+ 920 007d F4000000 		.4byte	.LFE2
+ 921 0081 0200     		.2byte	0x2
+ 922 0083 77       		.byte	0x77
+ 923 0084 10       		.sleb128 16
+ 924 0085 00000000 		.4byte	0x0
+ 925 0089 00000000 		.4byte	0x0
+ 926              	.LLST3:
+ 927 008d 00000000 		.4byte	.LFB3
+ 928 0091 02000000 		.4byte	.LCFI7
+ 929 0095 0100     		.2byte	0x1
+ 930 0097 5D       		.byte	0x5d
+ 931 0098 02000000 		.4byte	.LCFI7
+ 932 009c 04000000 		.4byte	.LCFI8
+ 933 00a0 0200     		.2byte	0x2
+ 934 00a2 7D       		.byte	0x7d
+ 935 00a3 04       		.sleb128 4
+ 936 00a4 04000000 		.4byte	.LCFI8
+ 937 00a8 06000000 		.4byte	.LCFI9
+ 938 00ac 0200     		.2byte	0x2
+ 939 00ae 7D       		.byte	0x7d
+ 940 00af 10       		.sleb128 16
+ 941 00b0 06000000 		.4byte	.LCFI9
+ 942 00b4 52000000 		.4byte	.LFE3
+ 943 00b8 0200     		.2byte	0x2
+ 944 00ba 77       		.byte	0x77
+ 945 00bb 10       		.sleb128 16
+ 946 00bc 00000000 		.4byte	0x0
+ 947 00c0 00000000 		.4byte	0x0
+ 948              	.LLST4:
+ 949 00c4 00000000 		.4byte	.LFB4
+ 950 00c8 02000000 		.4byte	.LCFI10
+ 951 00cc 0100     		.2byte	0x1
+ 952 00ce 5D       		.byte	0x5d
+ 953 00cf 02000000 		.4byte	.LCFI10
+ 954 00d3 04000000 		.4byte	.LCFI11
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccuKANu2.s 			page 26
+
+
+ 955 00d7 0200     		.2byte	0x2
+ 956 00d9 7D       		.byte	0x7d
+ 957 00da 08       		.sleb128 8
+ 958 00db 04000000 		.4byte	.LCFI11
+ 959 00df 06000000 		.4byte	.LCFI12
+ 960 00e3 0200     		.2byte	0x2
+ 961 00e5 7D       		.byte	0x7d
+ 962 00e6 18       		.sleb128 24
+ 963 00e7 06000000 		.4byte	.LCFI12
+ 964 00eb E6010000 		.4byte	.LFE4
+ 965 00ef 0200     		.2byte	0x2
+ 966 00f1 77       		.byte	0x77
+ 967 00f2 18       		.sleb128 24
+ 968 00f3 00000000 		.4byte	0x0
+ 969 00f7 00000000 		.4byte	0x0
+ 970              	.LLST5:
+ 971 00fb 00000000 		.4byte	.LFB5
+ 972 00ff 02000000 		.4byte	.LCFI13
+ 973 0103 0100     		.2byte	0x1
+ 974 0105 5D       		.byte	0x5d
+ 975 0106 02000000 		.4byte	.LCFI13
+ 976 010a 04000000 		.4byte	.LCFI14
+ 977 010e 0200     		.2byte	0x2
+ 978 0110 7D       		.byte	0x7d
+ 979 0111 04       		.sleb128 4
+ 980 0112 04000000 		.4byte	.LCFI14
+ 981 0116 18000000 		.4byte	.LFE5
+ 982 011a 0200     		.2byte	0x2
+ 983 011c 77       		.byte	0x77
+ 984 011d 04       		.sleb128 4
+ 985 011e 00000000 		.4byte	0x0
+ 986 0122 00000000 		.4byte	0x0
+ 987              	.LLST6:
+ 988 0126 00000000 		.4byte	.LFB6
+ 989 012a 02000000 		.4byte	.LCFI15
+ 990 012e 0100     		.2byte	0x1
+ 991 0130 5D       		.byte	0x5d
+ 992 0131 02000000 		.4byte	.LCFI15
+ 993 0135 04000000 		.4byte	.LCFI16
+ 994 0139 0200     		.2byte	0x2
+ 995 013b 7D       		.byte	0x7d
+ 996 013c 04       		.sleb128 4
+ 997 013d 04000000 		.4byte	.LCFI16
+ 998 0141 06000000 		.4byte	.LCFI17
+ 999 0145 0200     		.2byte	0x2
+ 1000 0147 7D       		.byte	0x7d
+ 1001 0148 10       		.sleb128 16
+ 1002 0149 06000000 		.4byte	.LCFI17
+ 1003 014d 3C000000 		.4byte	.LFE6
+ 1004 0151 0200     		.2byte	0x2
+ 1005 0153 77       		.byte	0x77
+ 1006 0154 10       		.sleb128 16
+ 1007 0155 00000000 		.4byte	0x0
+ 1008 0159 00000000 		.4byte	0x0
+ 1009              	.LLST7:
+ 1010 015d 00000000 		.4byte	.LFB7
+ 1011 0161 02000000 		.4byte	.LCFI18
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccuKANu2.s 			page 27
+
+
+ 1012 0165 0100     		.2byte	0x1
+ 1013 0167 5D       		.byte	0x5d
+ 1014 0168 02000000 		.4byte	.LCFI18
+ 1015 016c 04000000 		.4byte	.LCFI19
+ 1016 0170 0200     		.2byte	0x2
+ 1017 0172 7D       		.byte	0x7d
+ 1018 0173 04       		.sleb128 4
+ 1019 0174 04000000 		.4byte	.LCFI19
+ 1020 0178 06000000 		.4byte	.LCFI20
+ 1021 017c 0200     		.2byte	0x2
+ 1022 017e 7D       		.byte	0x7d
+ 1023 017f 10       		.sleb128 16
+ 1024 0180 06000000 		.4byte	.LCFI20
+ 1025 0184 3E000000 		.4byte	.LFE7
+ 1026 0188 0200     		.2byte	0x2
+ 1027 018a 77       		.byte	0x77
+ 1028 018b 10       		.sleb128 16
+ 1029 018c 00000000 		.4byte	0x0
+ 1030 0190 00000000 		.4byte	0x0
+ 1031              	.LLST8:
+ 1032 0194 00000000 		.4byte	.LFB8
+ 1033 0198 02000000 		.4byte	.LCFI21
+ 1034 019c 0100     		.2byte	0x1
+ 1035 019e 5D       		.byte	0x5d
+ 1036 019f 02000000 		.4byte	.LCFI21
+ 1037 01a3 04000000 		.4byte	.LCFI22
+ 1038 01a7 0200     		.2byte	0x2
+ 1039 01a9 7D       		.byte	0x7d
+ 1040 01aa 04       		.sleb128 4
+ 1041 01ab 04000000 		.4byte	.LCFI22
+ 1042 01af 1C000000 		.4byte	.LFE8
+ 1043 01b3 0200     		.2byte	0x2
+ 1044 01b5 77       		.byte	0x77
+ 1045 01b6 04       		.sleb128 4
+ 1046 01b7 00000000 		.4byte	0x0
+ 1047 01bb 00000000 		.4byte	0x0
+ 1048              	.LLST9:
+ 1049 01bf 00000000 		.4byte	.LFB9
+ 1050 01c3 02000000 		.4byte	.LCFI23
+ 1051 01c7 0100     		.2byte	0x1
+ 1052 01c9 5D       		.byte	0x5d
+ 1053 01ca 02000000 		.4byte	.LCFI23
+ 1054 01ce 04000000 		.4byte	.LCFI24
+ 1055 01d2 0200     		.2byte	0x2
+ 1056 01d4 7D       		.byte	0x7d
+ 1057 01d5 08       		.sleb128 8
+ 1058 01d6 04000000 		.4byte	.LCFI24
+ 1059 01da 06000000 		.4byte	.LCFI25
+ 1060 01de 0200     		.2byte	0x2
+ 1061 01e0 7D       		.byte	0x7d
+ 1062 01e1 18       		.sleb128 24
+ 1063 01e2 06000000 		.4byte	.LCFI25
+ 1064 01e6 FE000000 		.4byte	.LFE9
+ 1065 01ea 0200     		.2byte	0x2
+ 1066 01ec 77       		.byte	0x77
+ 1067 01ed 18       		.sleb128 24
+ 1068 01ee 00000000 		.4byte	0x0
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccuKANu2.s 			page 28
+
+
+ 1069 01f2 00000000 		.4byte	0x0
+ 1070              	.LLST10:
+ 1071 01f6 00000000 		.4byte	.LFB10
+ 1072 01fa 02000000 		.4byte	.LCFI26
+ 1073 01fe 0100     		.2byte	0x1
+ 1074 0200 5D       		.byte	0x5d
+ 1075 0201 02000000 		.4byte	.LCFI26
+ 1076 0205 04000000 		.4byte	.LCFI27
+ 1077 0209 0200     		.2byte	0x2
+ 1078 020b 7D       		.byte	0x7d
+ 1079 020c 04       		.sleb128 4
+ 1080 020d 04000000 		.4byte	.LCFI27
+ 1081 0211 1C000000 		.4byte	.LFE10
+ 1082 0215 0200     		.2byte	0x2
+ 1083 0217 77       		.byte	0x77
+ 1084 0218 04       		.sleb128 4
+ 1085 0219 00000000 		.4byte	0x0
+ 1086 021d 00000000 		.4byte	0x0
+ 1087              		.file 2 "./Generated_Source/PSoC5/cytypes.h"
+ 1088              		.section	.debug_info
+ 1089 0000 65020000 		.4byte	0x265
+ 1090 0004 0200     		.2byte	0x2
+ 1091 0006 00000000 		.4byte	.Ldebug_abbrev0
+ 1092 000a 04       		.byte	0x4
+ 1093 000b 01       		.uleb128 0x1
+ 1094 000c 46020000 		.4byte	.LASF35
+ 1095 0010 01       		.byte	0x1
+ 1096 0011 0E000000 		.4byte	.LASF36
+ 1097 0015 8C000000 		.4byte	.LASF37
+ 1098 0019 00000000 		.4byte	0x0
+ 1099 001d 00000000 		.4byte	0x0
+ 1100 0021 00000000 		.4byte	.Ldebug_ranges0+0x0
+ 1101 0025 00000000 		.4byte	.Ldebug_line0
+ 1102 0029 02       		.uleb128 0x2
+ 1103 002a 01       		.byte	0x1
+ 1104 002b 06       		.byte	0x6
+ 1105 002c C9020000 		.4byte	.LASF0
+ 1106 0030 02       		.uleb128 0x2
+ 1107 0031 01       		.byte	0x1
+ 1108 0032 08       		.byte	0x8
+ 1109 0033 DB000000 		.4byte	.LASF1
+ 1110 0037 02       		.uleb128 0x2
+ 1111 0038 02       		.byte	0x2
+ 1112 0039 05       		.byte	0x5
+ 1113 003a 83020000 		.4byte	.LASF2
+ 1114 003e 02       		.uleb128 0x2
+ 1115 003f 02       		.byte	0x2
+ 1116 0040 07       		.byte	0x7
+ 1117 0041 45010000 		.4byte	.LASF3
+ 1118 0045 02       		.uleb128 0x2
+ 1119 0046 04       		.byte	0x4
+ 1120 0047 05       		.byte	0x5
+ 1121 0048 93020000 		.4byte	.LASF4
+ 1122 004c 02       		.uleb128 0x2
+ 1123 004d 04       		.byte	0x4
+ 1124 004e 07       		.byte	0x7
+ 1125 004f 33010000 		.4byte	.LASF5
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccuKANu2.s 			page 29
+
+
+ 1126 0053 02       		.uleb128 0x2
+ 1127 0054 08       		.byte	0x8
+ 1128 0055 05       		.byte	0x5
+ 1129 0056 00000000 		.4byte	.LASF6
+ 1130 005a 02       		.uleb128 0x2
+ 1131 005b 08       		.byte	0x8
+ 1132 005c 07       		.byte	0x7
+ 1133 005d E5010000 		.4byte	.LASF7
+ 1134 0061 03       		.uleb128 0x3
+ 1135 0062 04       		.byte	0x4
+ 1136 0063 05       		.byte	0x5
+ 1137 0064 696E7400 		.ascii	"int\000"
+ 1138 0068 02       		.uleb128 0x2
+ 1139 0069 04       		.byte	0x4
+ 1140 006a 07       		.byte	0x7
+ 1141 006b D0010000 		.4byte	.LASF8
+ 1142 006f 04       		.uleb128 0x4
+ 1143 0070 8D020000 		.4byte	.LASF9
+ 1144 0074 02       		.byte	0x2
+ 1145 0075 4C       		.byte	0x4c
+ 1146 0076 30000000 		.4byte	0x30
+ 1147 007a 04       		.uleb128 0x4
+ 1148 007b C9010000 		.4byte	.LASF10
+ 1149 007f 02       		.byte	0x2
+ 1150 0080 4D       		.byte	0x4d
+ 1151 0081 3E000000 		.4byte	0x3e
+ 1152 0085 02       		.uleb128 0x2
+ 1153 0086 04       		.byte	0x4
+ 1154 0087 04       		.byte	0x4
+ 1155 0088 86000000 		.4byte	.LASF11
+ 1156 008c 02       		.uleb128 0x2
+ 1157 008d 08       		.byte	0x8
+ 1158 008e 04       		.byte	0x4
+ 1159 008f 86010000 		.4byte	.LASF12
+ 1160 0093 02       		.uleb128 0x2
+ 1161 0094 01       		.byte	0x1
+ 1162 0095 08       		.byte	0x8
+ 1163 0096 76020000 		.4byte	.LASF13
+ 1164 009a 05       		.uleb128 0x5
+ 1165 009b 01       		.byte	0x1
+ 1166 009c 6F000000 		.4byte	.LASF14
+ 1167 00a0 01       		.byte	0x1
+ 1168 00a1 2D       		.byte	0x2d
+ 1169 00a2 01       		.byte	0x1
+ 1170 00a3 00000000 		.4byte	.LFB0
+ 1171 00a7 42000000 		.4byte	.LFE0
+ 1172 00ab 00000000 		.4byte	.LLST0
+ 1173 00af 05       		.uleb128 0x5
+ 1174 00b0 01       		.byte	0x1
+ 1175 00b1 8D010000 		.4byte	.LASF15
+ 1176 00b5 01       		.byte	0x1
+ 1177 00b6 47       		.byte	0x47
+ 1178 00b7 01       		.byte	0x1
+ 1179 00b8 00000000 		.4byte	.LFB1
+ 1180 00bc 3E000000 		.4byte	.LFE1
+ 1181 00c0 2B000000 		.4byte	.LLST1
+ 1182 00c4 06       		.uleb128 0x6
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccuKANu2.s 			page 30
+
+
+ 1183 00c5 01       		.byte	0x1
+ 1184 00c6 FC010000 		.4byte	.LASF16
+ 1185 00ca 01       		.byte	0x1
+ 1186 00cb 64       		.byte	0x64
+ 1187 00cc 01       		.byte	0x1
+ 1188 00cd 00000000 		.4byte	.LFB2
+ 1189 00d1 F4000000 		.4byte	.LFE2
+ 1190 00d5 56000000 		.4byte	.LLST2
+ 1191 00d9 F6000000 		.4byte	0xf6
+ 1192 00dd 07       		.uleb128 0x7
+ 1193 00de 1C000000 		.4byte	.LBB2
+ 1194 00e2 EA000000 		.4byte	.LBE2
+ 1195 00e6 08       		.uleb128 0x8
+ 1196 00e7 64000000 		.4byte	.LASF22
+ 1197 00eb 01       		.byte	0x1
+ 1198 00ec 69       		.byte	0x69
+ 1199 00ed 7A000000 		.4byte	0x7a
+ 1200 00f1 02       		.byte	0x2
+ 1201 00f2 91       		.byte	0x91
+ 1202 00f3 76       		.sleb128 -10
+ 1203 00f4 00       		.byte	0x0
+ 1204 00f5 00       		.byte	0x0
+ 1205 00f6 06       		.uleb128 0x6
+ 1206 00f7 01       		.byte	0x1
+ 1207 00f8 AB010000 		.4byte	.LASF17
+ 1208 00fc 01       		.byte	0x1
+ 1209 00fd 9D       		.byte	0x9d
+ 1210 00fe 01       		.byte	0x1
+ 1211 00ff 00000000 		.4byte	.LFB3
+ 1212 0103 52000000 		.4byte	.LFE3
+ 1213 0107 8D000000 		.4byte	.LLST3
+ 1214 010b 1E010000 		.4byte	0x11e
+ 1215 010f 09       		.uleb128 0x9
+ 1216 0110 3A000000 		.4byte	.LASF19
+ 1217 0114 01       		.byte	0x1
+ 1218 0115 9D       		.byte	0x9d
+ 1219 0116 6F000000 		.4byte	0x6f
+ 1220 011a 02       		.byte	0x2
+ 1221 011b 91       		.byte	0x91
+ 1222 011c 77       		.sleb128 -9
+ 1223 011d 00       		.byte	0x0
+ 1224 011e 06       		.uleb128 0x6
+ 1225 011f 01       		.byte	0x1
+ 1226 0120 40000000 		.4byte	.LASF18
+ 1227 0124 01       		.byte	0x1
+ 1228 0125 C1       		.byte	0xc1
+ 1229 0126 01       		.byte	0x1
+ 1230 0127 00000000 		.4byte	.LFB4
+ 1231 012b E6010000 		.4byte	.LFE4
+ 1232 012f C4000000 		.4byte	.LLST4
+ 1233 0133 7E010000 		.4byte	0x17e
+ 1234 0137 09       		.uleb128 0x9
+ 1235 0138 7B010000 		.4byte	.LASF20
+ 1236 013c 01       		.byte	0x1
+ 1237 013d C1       		.byte	0xc1
+ 1238 013e 7A000000 		.4byte	0x7a
+ 1239 0142 02       		.byte	0x2
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccuKANu2.s 			page 31
+
+
+ 1240 0143 91       		.byte	0x91
+ 1241 0144 6E       		.sleb128 -18
+ 1242 0145 09       		.uleb128 0x9
+ 1243 0146 A3010000 		.4byte	.LASF21
+ 1244 014a 01       		.byte	0x1
+ 1245 014b C1       		.byte	0xc1
+ 1246 014c 6F000000 		.4byte	0x6f
+ 1247 0150 02       		.byte	0x2
+ 1248 0151 91       		.byte	0x91
+ 1249 0152 6D       		.sleb128 -19
+ 1250 0153 08       		.uleb128 0x8
+ 1251 0154 2B010000 		.4byte	.LASF23
+ 1252 0158 01       		.byte	0x1
+ 1253 0159 C4       		.byte	0xc4
+ 1254 015a 6F000000 		.4byte	0x6f
+ 1255 015e 02       		.byte	0x2
+ 1256 015f 91       		.byte	0x91
+ 1257 0160 74       		.sleb128 -12
+ 1258 0161 08       		.uleb128 0x8
+ 1259 0162 DD010000 		.4byte	.LASF24
+ 1260 0166 01       		.byte	0x1
+ 1261 0167 C6       		.byte	0xc6
+ 1262 0168 6F000000 		.4byte	0x6f
+ 1263 016c 02       		.byte	0x2
+ 1264 016d 91       		.byte	0x91
+ 1265 016e 75       		.sleb128 -11
+ 1266 016f 08       		.uleb128 0x8
+ 1267 0170 64000000 		.4byte	.LASF22
+ 1268 0174 01       		.byte	0x1
+ 1269 0175 C7       		.byte	0xc7
+ 1270 0176 7A000000 		.4byte	0x7a
+ 1271 017a 02       		.byte	0x2
+ 1272 017b 91       		.byte	0x91
+ 1273 017c 76       		.sleb128 -10
+ 1274 017d 00       		.byte	0x0
+ 1275 017e 0A       		.uleb128 0xa
+ 1276 017f 01       		.byte	0x1
+ 1277 0180 52020000 		.4byte	.LASF28
+ 1278 0184 01       		.byte	0x1
+ 1279 0185 2901     		.2byte	0x129
+ 1280 0187 01       		.byte	0x1
+ 1281 0188 7A000000 		.4byte	0x7a
+ 1282 018c 00000000 		.4byte	.LFB5
+ 1283 0190 18000000 		.4byte	.LFE5
+ 1284 0194 FB000000 		.4byte	.LLST5
+ 1285 0198 0B       		.uleb128 0xb
+ 1286 0199 01       		.byte	0x1
+ 1287 019a E9000000 		.4byte	.LASF25
+ 1288 019e 01       		.byte	0x1
+ 1289 019f 4C01     		.2byte	0x14c
+ 1290 01a1 01       		.byte	0x1
+ 1291 01a2 00000000 		.4byte	.LFB6
+ 1292 01a6 3C000000 		.4byte	.LFE6
+ 1293 01aa 26010000 		.4byte	.LLST6
+ 1294 01ae C2010000 		.4byte	0x1c2
+ 1295 01b2 0C       		.uleb128 0xc
+ 1296 01b3 3A020000 		.4byte	.LASF26
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccuKANu2.s 			page 32
+
+
+ 1297 01b7 01       		.byte	0x1
+ 1298 01b8 4C01     		.2byte	0x14c
+ 1299 01ba 6F000000 		.4byte	0x6f
+ 1300 01be 02       		.byte	0x2
+ 1301 01bf 91       		.byte	0x91
+ 1302 01c0 77       		.sleb128 -9
+ 1303 01c1 00       		.byte	0x0
+ 1304 01c2 0B       		.uleb128 0xb
+ 1305 01c3 01       		.byte	0x1
+ 1306 01c4 A6020000 		.4byte	.LASF27
+ 1307 01c8 01       		.byte	0x1
+ 1308 01c9 6F01     		.2byte	0x16f
+ 1309 01cb 01       		.byte	0x1
+ 1310 01cc 00000000 		.4byte	.LFB7
+ 1311 01d0 3E000000 		.4byte	.LFE7
+ 1312 01d4 5D010000 		.4byte	.LLST7
+ 1313 01d8 EC010000 		.4byte	0x1ec
+ 1314 01dc 0C       		.uleb128 0xc
+ 1315 01dd 3A020000 		.4byte	.LASF26
+ 1316 01e1 01       		.byte	0x1
+ 1317 01e2 6F01     		.2byte	0x16f
+ 1318 01e4 6F000000 		.4byte	0x6f
+ 1319 01e8 02       		.byte	0x2
+ 1320 01e9 91       		.byte	0x91
+ 1321 01ea 77       		.sleb128 -9
+ 1322 01eb 00       		.byte	0x0
+ 1323 01ec 0A       		.uleb128 0xa
+ 1324 01ed 01       		.byte	0x1
+ 1325 01ee 0A010000 		.4byte	.LASF29
+ 1326 01f2 01       		.byte	0x1
+ 1327 01f3 8401     		.2byte	0x184
+ 1328 01f5 01       		.byte	0x1
+ 1329 01f6 6F000000 		.4byte	0x6f
+ 1330 01fa 00000000 		.4byte	.LFB8
+ 1331 01fe 1C000000 		.4byte	.LFE8
+ 1332 0202 94010000 		.4byte	.LLST8
+ 1333 0206 0B       		.uleb128 0xb
+ 1334 0207 01       		.byte	0x1
+ 1335 0208 17020000 		.4byte	.LASF30
+ 1336 020c 01       		.byte	0x1
+ 1337 020d A301     		.2byte	0x1a3
+ 1338 020f 01       		.byte	0x1
+ 1339 0210 00000000 		.4byte	.LFB9
+ 1340 0214 FE000000 		.4byte	.LFE9
+ 1341 0218 BF010000 		.4byte	.LLST9
+ 1342 021c 4E020000 		.4byte	0x24e
+ 1343 0220 0C       		.uleb128 0xc
+ 1344 0221 9C020000 		.4byte	.LASF31
+ 1345 0225 01       		.byte	0x1
+ 1346 0226 A301     		.2byte	0x1a3
+ 1347 0228 6F000000 		.4byte	0x6f
+ 1348 022c 02       		.byte	0x2
+ 1349 022d 91       		.byte	0x91
+ 1350 022e 6F       		.sleb128 -17
+ 1351 022f 0D       		.uleb128 0xd
+ 1352 0230 7B020000 		.4byte	.LASF32
+ 1353 0234 01       		.byte	0x1
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccuKANu2.s 			page 33
+
+
+ 1354 0235 A501     		.2byte	0x1a5
+ 1355 0237 7A000000 		.4byte	0x7a
+ 1356 023b 02       		.byte	0x2
+ 1357 023c 91       		.byte	0x91
+ 1358 023d 74       		.sleb128 -12
+ 1359 023e 0D       		.uleb128 0xd
+ 1360 023f D5020000 		.4byte	.LASF33
+ 1361 0243 01       		.byte	0x1
+ 1362 0244 A601     		.2byte	0x1a6
+ 1363 0246 6F000000 		.4byte	0x6f
+ 1364 024a 02       		.byte	0x2
+ 1365 024b 91       		.byte	0x91
+ 1366 024c 77       		.sleb128 -9
+ 1367 024d 00       		.byte	0x0
+ 1368 024e 0A       		.uleb128 0xa
+ 1369 024f 01       		.byte	0x1
+ 1370 0250 58010000 		.4byte	.LASF34
+ 1371 0254 01       		.byte	0x1
+ 1372 0255 D001     		.2byte	0x1d0
+ 1373 0257 01       		.byte	0x1
+ 1374 0258 6F000000 		.4byte	0x6f
+ 1375 025c 00000000 		.4byte	.LFB10
+ 1376 0260 1C000000 		.4byte	.LFE10
+ 1377 0264 F6010000 		.4byte	.LLST10
+ 1378 0268 00       		.byte	0x0
+ 1379              		.section	.debug_abbrev
+ 1380 0000 01       		.uleb128 0x1
+ 1381 0001 11       		.uleb128 0x11
+ 1382 0002 01       		.byte	0x1
+ 1383 0003 25       		.uleb128 0x25
+ 1384 0004 0E       		.uleb128 0xe
+ 1385 0005 13       		.uleb128 0x13
+ 1386 0006 0B       		.uleb128 0xb
+ 1387 0007 03       		.uleb128 0x3
+ 1388 0008 0E       		.uleb128 0xe
+ 1389 0009 1B       		.uleb128 0x1b
+ 1390 000a 0E       		.uleb128 0xe
+ 1391 000b 11       		.uleb128 0x11
+ 1392 000c 01       		.uleb128 0x1
+ 1393 000d 52       		.uleb128 0x52
+ 1394 000e 01       		.uleb128 0x1
+ 1395 000f 55       		.uleb128 0x55
+ 1396 0010 06       		.uleb128 0x6
+ 1397 0011 10       		.uleb128 0x10
+ 1398 0012 06       		.uleb128 0x6
+ 1399 0013 00       		.byte	0x0
+ 1400 0014 00       		.byte	0x0
+ 1401 0015 02       		.uleb128 0x2
+ 1402 0016 24       		.uleb128 0x24
+ 1403 0017 00       		.byte	0x0
+ 1404 0018 0B       		.uleb128 0xb
+ 1405 0019 0B       		.uleb128 0xb
+ 1406 001a 3E       		.uleb128 0x3e
+ 1407 001b 0B       		.uleb128 0xb
+ 1408 001c 03       		.uleb128 0x3
+ 1409 001d 0E       		.uleb128 0xe
+ 1410 001e 00       		.byte	0x0
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccuKANu2.s 			page 34
+
+
+ 1411 001f 00       		.byte	0x0
+ 1412 0020 03       		.uleb128 0x3
+ 1413 0021 24       		.uleb128 0x24
+ 1414 0022 00       		.byte	0x0
+ 1415 0023 0B       		.uleb128 0xb
+ 1416 0024 0B       		.uleb128 0xb
+ 1417 0025 3E       		.uleb128 0x3e
+ 1418 0026 0B       		.uleb128 0xb
+ 1419 0027 03       		.uleb128 0x3
+ 1420 0028 08       		.uleb128 0x8
+ 1421 0029 00       		.byte	0x0
+ 1422 002a 00       		.byte	0x0
+ 1423 002b 04       		.uleb128 0x4
+ 1424 002c 16       		.uleb128 0x16
+ 1425 002d 00       		.byte	0x0
+ 1426 002e 03       		.uleb128 0x3
+ 1427 002f 0E       		.uleb128 0xe
+ 1428 0030 3A       		.uleb128 0x3a
+ 1429 0031 0B       		.uleb128 0xb
+ 1430 0032 3B       		.uleb128 0x3b
+ 1431 0033 0B       		.uleb128 0xb
+ 1432 0034 49       		.uleb128 0x49
+ 1433 0035 13       		.uleb128 0x13
+ 1434 0036 00       		.byte	0x0
+ 1435 0037 00       		.byte	0x0
+ 1436 0038 05       		.uleb128 0x5
+ 1437 0039 2E       		.uleb128 0x2e
+ 1438 003a 00       		.byte	0x0
+ 1439 003b 3F       		.uleb128 0x3f
+ 1440 003c 0C       		.uleb128 0xc
+ 1441 003d 03       		.uleb128 0x3
+ 1442 003e 0E       		.uleb128 0xe
+ 1443 003f 3A       		.uleb128 0x3a
+ 1444 0040 0B       		.uleb128 0xb
+ 1445 0041 3B       		.uleb128 0x3b
+ 1446 0042 0B       		.uleb128 0xb
+ 1447 0043 27       		.uleb128 0x27
+ 1448 0044 0C       		.uleb128 0xc
+ 1449 0045 11       		.uleb128 0x11
+ 1450 0046 01       		.uleb128 0x1
+ 1451 0047 12       		.uleb128 0x12
+ 1452 0048 01       		.uleb128 0x1
+ 1453 0049 40       		.uleb128 0x40
+ 1454 004a 06       		.uleb128 0x6
+ 1455 004b 00       		.byte	0x0
+ 1456 004c 00       		.byte	0x0
+ 1457 004d 06       		.uleb128 0x6
+ 1458 004e 2E       		.uleb128 0x2e
+ 1459 004f 01       		.byte	0x1
+ 1460 0050 3F       		.uleb128 0x3f
+ 1461 0051 0C       		.uleb128 0xc
+ 1462 0052 03       		.uleb128 0x3
+ 1463 0053 0E       		.uleb128 0xe
+ 1464 0054 3A       		.uleb128 0x3a
+ 1465 0055 0B       		.uleb128 0xb
+ 1466 0056 3B       		.uleb128 0x3b
+ 1467 0057 0B       		.uleb128 0xb
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccuKANu2.s 			page 35
+
+
+ 1468 0058 27       		.uleb128 0x27
+ 1469 0059 0C       		.uleb128 0xc
+ 1470 005a 11       		.uleb128 0x11
+ 1471 005b 01       		.uleb128 0x1
+ 1472 005c 12       		.uleb128 0x12
+ 1473 005d 01       		.uleb128 0x1
+ 1474 005e 40       		.uleb128 0x40
+ 1475 005f 06       		.uleb128 0x6
+ 1476 0060 01       		.uleb128 0x1
+ 1477 0061 13       		.uleb128 0x13
+ 1478 0062 00       		.byte	0x0
+ 1479 0063 00       		.byte	0x0
+ 1480 0064 07       		.uleb128 0x7
+ 1481 0065 0B       		.uleb128 0xb
+ 1482 0066 01       		.byte	0x1
+ 1483 0067 11       		.uleb128 0x11
+ 1484 0068 01       		.uleb128 0x1
+ 1485 0069 12       		.uleb128 0x12
+ 1486 006a 01       		.uleb128 0x1
+ 1487 006b 00       		.byte	0x0
+ 1488 006c 00       		.byte	0x0
+ 1489 006d 08       		.uleb128 0x8
+ 1490 006e 34       		.uleb128 0x34
+ 1491 006f 00       		.byte	0x0
+ 1492 0070 03       		.uleb128 0x3
+ 1493 0071 0E       		.uleb128 0xe
+ 1494 0072 3A       		.uleb128 0x3a
+ 1495 0073 0B       		.uleb128 0xb
+ 1496 0074 3B       		.uleb128 0x3b
+ 1497 0075 0B       		.uleb128 0xb
+ 1498 0076 49       		.uleb128 0x49
+ 1499 0077 13       		.uleb128 0x13
+ 1500 0078 02       		.uleb128 0x2
+ 1501 0079 0A       		.uleb128 0xa
+ 1502 007a 00       		.byte	0x0
+ 1503 007b 00       		.byte	0x0
+ 1504 007c 09       		.uleb128 0x9
+ 1505 007d 05       		.uleb128 0x5
+ 1506 007e 00       		.byte	0x0
+ 1507 007f 03       		.uleb128 0x3
+ 1508 0080 0E       		.uleb128 0xe
+ 1509 0081 3A       		.uleb128 0x3a
+ 1510 0082 0B       		.uleb128 0xb
+ 1511 0083 3B       		.uleb128 0x3b
+ 1512 0084 0B       		.uleb128 0xb
+ 1513 0085 49       		.uleb128 0x49
+ 1514 0086 13       		.uleb128 0x13
+ 1515 0087 02       		.uleb128 0x2
+ 1516 0088 0A       		.uleb128 0xa
+ 1517 0089 00       		.byte	0x0
+ 1518 008a 00       		.byte	0x0
+ 1519 008b 0A       		.uleb128 0xa
+ 1520 008c 2E       		.uleb128 0x2e
+ 1521 008d 00       		.byte	0x0
+ 1522 008e 3F       		.uleb128 0x3f
+ 1523 008f 0C       		.uleb128 0xc
+ 1524 0090 03       		.uleb128 0x3
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccuKANu2.s 			page 36
+
+
+ 1525 0091 0E       		.uleb128 0xe
+ 1526 0092 3A       		.uleb128 0x3a
+ 1527 0093 0B       		.uleb128 0xb
+ 1528 0094 3B       		.uleb128 0x3b
+ 1529 0095 05       		.uleb128 0x5
+ 1530 0096 27       		.uleb128 0x27
+ 1531 0097 0C       		.uleb128 0xc
+ 1532 0098 49       		.uleb128 0x49
+ 1533 0099 13       		.uleb128 0x13
+ 1534 009a 11       		.uleb128 0x11
+ 1535 009b 01       		.uleb128 0x1
+ 1536 009c 12       		.uleb128 0x12
+ 1537 009d 01       		.uleb128 0x1
+ 1538 009e 40       		.uleb128 0x40
+ 1539 009f 06       		.uleb128 0x6
+ 1540 00a0 00       		.byte	0x0
+ 1541 00a1 00       		.byte	0x0
+ 1542 00a2 0B       		.uleb128 0xb
+ 1543 00a3 2E       		.uleb128 0x2e
+ 1544 00a4 01       		.byte	0x1
+ 1545 00a5 3F       		.uleb128 0x3f
+ 1546 00a6 0C       		.uleb128 0xc
+ 1547 00a7 03       		.uleb128 0x3
+ 1548 00a8 0E       		.uleb128 0xe
+ 1549 00a9 3A       		.uleb128 0x3a
+ 1550 00aa 0B       		.uleb128 0xb
+ 1551 00ab 3B       		.uleb128 0x3b
+ 1552 00ac 05       		.uleb128 0x5
+ 1553 00ad 27       		.uleb128 0x27
+ 1554 00ae 0C       		.uleb128 0xc
+ 1555 00af 11       		.uleb128 0x11
+ 1556 00b0 01       		.uleb128 0x1
+ 1557 00b1 12       		.uleb128 0x12
+ 1558 00b2 01       		.uleb128 0x1
+ 1559 00b3 40       		.uleb128 0x40
+ 1560 00b4 06       		.uleb128 0x6
+ 1561 00b5 01       		.uleb128 0x1
+ 1562 00b6 13       		.uleb128 0x13
+ 1563 00b7 00       		.byte	0x0
+ 1564 00b8 00       		.byte	0x0
+ 1565 00b9 0C       		.uleb128 0xc
+ 1566 00ba 05       		.uleb128 0x5
+ 1567 00bb 00       		.byte	0x0
+ 1568 00bc 03       		.uleb128 0x3
+ 1569 00bd 0E       		.uleb128 0xe
+ 1570 00be 3A       		.uleb128 0x3a
+ 1571 00bf 0B       		.uleb128 0xb
+ 1572 00c0 3B       		.uleb128 0x3b
+ 1573 00c1 05       		.uleb128 0x5
+ 1574 00c2 49       		.uleb128 0x49
+ 1575 00c3 13       		.uleb128 0x13
+ 1576 00c4 02       		.uleb128 0x2
+ 1577 00c5 0A       		.uleb128 0xa
+ 1578 00c6 00       		.byte	0x0
+ 1579 00c7 00       		.byte	0x0
+ 1580 00c8 0D       		.uleb128 0xd
+ 1581 00c9 34       		.uleb128 0x34
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccuKANu2.s 			page 37
+
+
+ 1582 00ca 00       		.byte	0x0
+ 1583 00cb 03       		.uleb128 0x3
+ 1584 00cc 0E       		.uleb128 0xe
+ 1585 00cd 3A       		.uleb128 0x3a
+ 1586 00ce 0B       		.uleb128 0xb
+ 1587 00cf 3B       		.uleb128 0x3b
+ 1588 00d0 05       		.uleb128 0x5
+ 1589 00d1 49       		.uleb128 0x49
+ 1590 00d2 13       		.uleb128 0x13
+ 1591 00d3 02       		.uleb128 0x2
+ 1592 00d4 0A       		.uleb128 0xa
+ 1593 00d5 00       		.byte	0x0
+ 1594 00d6 00       		.byte	0x0
+ 1595 00d7 00       		.byte	0x0
+ 1596              		.section	.debug_pubnames,"",%progbits
+ 1597 0000 93010000 		.4byte	0x193
+ 1598 0004 0200     		.2byte	0x2
+ 1599 0006 00000000 		.4byte	.Ldebug_info0
+ 1600 000a 69020000 		.4byte	0x269
+ 1601 000e 9A000000 		.4byte	0x9a
+ 1602 0012 656D4669 		.ascii	"emFile_1_Clock_1_Start\000"
+ 1602      6C655F31 
+ 1602      5F436C6F 
+ 1602      636B5F31 
+ 1602      5F537461 
+ 1603 0029 AF000000 		.4byte	0xaf
+ 1604 002d 656D4669 		.ascii	"emFile_1_Clock_1_Stop\000"
+ 1604      6C655F31 
+ 1604      5F436C6F 
+ 1604      636B5F31 
+ 1604      5F53746F 
+ 1605 0043 C4000000 		.4byte	0xc4
+ 1606 0047 656D4669 		.ascii	"emFile_1_Clock_1_StopBlock\000"
+ 1606      6C655F31 
+ 1606      5F436C6F 
+ 1606      636B5F31 
+ 1606      5F53746F 
+ 1607 0062 F6000000 		.4byte	0xf6
+ 1608 0066 656D4669 		.ascii	"emFile_1_Clock_1_StandbyPower\000"
+ 1608      6C655F31 
+ 1608      5F436C6F 
+ 1608      636B5F31 
+ 1608      5F537461 
+ 1609 0084 1E010000 		.4byte	0x11e
+ 1610 0088 656D4669 		.ascii	"emFile_1_Clock_1_SetDividerRegister\000"
+ 1610      6C655F31 
+ 1610      5F436C6F 
+ 1610      636B5F31 
+ 1610      5F536574 
+ 1611 00ac 7E010000 		.4byte	0x17e
+ 1612 00b0 656D4669 		.ascii	"emFile_1_Clock_1_GetDividerRegister\000"
+ 1612      6C655F31 
+ 1612      5F436C6F 
+ 1612      636B5F31 
+ 1612      5F476574 
+ 1613 00d4 98010000 		.4byte	0x198
+ 1614 00d8 656D4669 		.ascii	"emFile_1_Clock_1_SetModeRegister\000"
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccuKANu2.s 			page 38
+
+
+ 1614      6C655F31 
+ 1614      5F436C6F 
+ 1614      636B5F31 
+ 1614      5F536574 
+ 1615 00f9 C2010000 		.4byte	0x1c2
+ 1616 00fd 656D4669 		.ascii	"emFile_1_Clock_1_ClearModeRegister\000"
+ 1616      6C655F31 
+ 1616      5F436C6F 
+ 1616      636B5F31 
+ 1616      5F436C65 
+ 1617 0120 EC010000 		.4byte	0x1ec
+ 1618 0124 656D4669 		.ascii	"emFile_1_Clock_1_GetModeRegister\000"
+ 1618      6C655F31 
+ 1618      5F436C6F 
+ 1618      636B5F31 
+ 1618      5F476574 
+ 1619 0145 06020000 		.4byte	0x206
+ 1620 0149 656D4669 		.ascii	"emFile_1_Clock_1_SetSourceRegister\000"
+ 1620      6C655F31 
+ 1620      5F436C6F 
+ 1620      636B5F31 
+ 1620      5F536574 
+ 1621 016c 4E020000 		.4byte	0x24e
+ 1622 0170 656D4669 		.ascii	"emFile_1_Clock_1_GetSourceRegister\000"
+ 1622      6C655F31 
+ 1622      5F436C6F 
+ 1622      636B5F31 
+ 1622      5F476574 
+ 1623 0193 00000000 		.4byte	0x0
+ 1624              		.section	.debug_aranges,"",%progbits
+ 1625 0000 6C000000 		.4byte	0x6c
+ 1626 0004 0200     		.2byte	0x2
+ 1627 0006 00000000 		.4byte	.Ldebug_info0
+ 1628 000a 04       		.byte	0x4
+ 1629 000b 00       		.byte	0x0
+ 1630 000c 0000     		.2byte	0x0
+ 1631 000e 0000     		.2byte	0x0
+ 1632 0010 00000000 		.4byte	.LFB0
+ 1633 0014 42000000 		.4byte	.LFE0-.LFB0
+ 1634 0018 00000000 		.4byte	.LFB1
+ 1635 001c 3E000000 		.4byte	.LFE1-.LFB1
+ 1636 0020 00000000 		.4byte	.LFB2
+ 1637 0024 F4000000 		.4byte	.LFE2-.LFB2
+ 1638 0028 00000000 		.4byte	.LFB3
+ 1639 002c 52000000 		.4byte	.LFE3-.LFB3
+ 1640 0030 00000000 		.4byte	.LFB4
+ 1641 0034 E6010000 		.4byte	.LFE4-.LFB4
+ 1642 0038 00000000 		.4byte	.LFB5
+ 1643 003c 18000000 		.4byte	.LFE5-.LFB5
+ 1644 0040 00000000 		.4byte	.LFB6
+ 1645 0044 3C000000 		.4byte	.LFE6-.LFB6
+ 1646 0048 00000000 		.4byte	.LFB7
+ 1647 004c 3E000000 		.4byte	.LFE7-.LFB7
+ 1648 0050 00000000 		.4byte	.LFB8
+ 1649 0054 1C000000 		.4byte	.LFE8-.LFB8
+ 1650 0058 00000000 		.4byte	.LFB9
+ 1651 005c FE000000 		.4byte	.LFE9-.LFB9
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccuKANu2.s 			page 39
+
+
+ 1652 0060 00000000 		.4byte	.LFB10
+ 1653 0064 1C000000 		.4byte	.LFE10-.LFB10
+ 1654 0068 00000000 		.4byte	0x0
+ 1655 006c 00000000 		.4byte	0x0
+ 1656              		.section	.debug_ranges,"",%progbits
+ 1657              	.Ldebug_ranges0:
+ 1658 0000 00000000 		.4byte	.Ltext0
+ 1659 0004 00000000 		.4byte	.Letext0
+ 1660 0008 00000000 		.4byte	.LFB0
+ 1661 000c 42000000 		.4byte	.LFE0
+ 1662 0010 00000000 		.4byte	.LFB1
+ 1663 0014 3E000000 		.4byte	.LFE1
+ 1664 0018 00000000 		.4byte	.LFB2
+ 1665 001c F4000000 		.4byte	.LFE2
+ 1666 0020 00000000 		.4byte	.LFB3
+ 1667 0024 52000000 		.4byte	.LFE3
+ 1668 0028 00000000 		.4byte	.LFB4
+ 1669 002c E6010000 		.4byte	.LFE4
+ 1670 0030 00000000 		.4byte	.LFB5
+ 1671 0034 18000000 		.4byte	.LFE5
+ 1672 0038 00000000 		.4byte	.LFB6
+ 1673 003c 3C000000 		.4byte	.LFE6
+ 1674 0040 00000000 		.4byte	.LFB7
+ 1675 0044 3E000000 		.4byte	.LFE7
+ 1676 0048 00000000 		.4byte	.LFB8
+ 1677 004c 1C000000 		.4byte	.LFE8
+ 1678 0050 00000000 		.4byte	.LFB9
+ 1679 0054 FE000000 		.4byte	.LFE9
+ 1680 0058 00000000 		.4byte	.LFB10
+ 1681 005c 1C000000 		.4byte	.LFE10
+ 1682 0060 00000000 		.4byte	0x0
+ 1683 0064 00000000 		.4byte	0x0
+ 1684              		.section	.debug_str,"MS",%progbits,1
+ 1685              	.LASF6:
+ 1686 0000 6C6F6E67 		.ascii	"long long int\000"
+ 1686      206C6F6E 
+ 1686      6720696E 
+ 1686      7400
+ 1687              	.LASF36:
+ 1688 000e 2E5C4765 		.ascii	".\\Generated_Source\\PSoC5\\emFile_1_Clock_1.c\000"
+ 1688      6E657261 
+ 1688      7465645F 
+ 1688      536F7572 
+ 1688      63655C50 
+ 1689              	.LASF19:
+ 1690 003a 73746174 		.ascii	"state\000"
+ 1690      6500
+ 1691              	.LASF18:
+ 1692 0040 656D4669 		.ascii	"emFile_1_Clock_1_SetDividerRegister\000"
+ 1692      6C655F31 
+ 1692      5F436C6F 
+ 1692      636B5F31 
+ 1692      5F536574 
+ 1693              	.LASF22:
+ 1694 0064 6F6C6444 		.ascii	"oldDivider\000"
+ 1694      69766964 
+ 1694      657200
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccuKANu2.s 			page 40
+
+
+ 1695              	.LASF14:
+ 1696 006f 656D4669 		.ascii	"emFile_1_Clock_1_Start\000"
+ 1696      6C655F31 
+ 1696      5F436C6F 
+ 1696      636B5F31 
+ 1696      5F537461 
+ 1697              	.LASF11:
+ 1698 0086 666C6F61 		.ascii	"float\000"
+ 1698      7400
+ 1699              	.LASF37:
+ 1700 008c 433A5C55 		.ascii	"C:\\Users\\karunmj\\Documents\\GitHub\\m2m\\hardwar"
+ 1700      73657273 
+ 1700      5C6B6172 
+ 1700      756E6D6A 
+ 1700      5C446F63 
+ 1701 00b9 655C7073 		.ascii	"e\\psoc5\\PSoC_Datalogger_SMS.cydsn\000"
+ 1701      6F63355C 
+ 1701      50536F43 
+ 1701      5F446174 
+ 1701      616C6F67 
+ 1702              	.LASF1:
+ 1703 00db 756E7369 		.ascii	"unsigned char\000"
+ 1703      676E6564 
+ 1703      20636861 
+ 1703      7200
+ 1704              	.LASF25:
+ 1705 00e9 656D4669 		.ascii	"emFile_1_Clock_1_SetModeRegister\000"
+ 1705      6C655F31 
+ 1705      5F436C6F 
+ 1705      636B5F31 
+ 1705      5F536574 
+ 1706              	.LASF29:
+ 1707 010a 656D4669 		.ascii	"emFile_1_Clock_1_GetModeRegister\000"
+ 1707      6C655F31 
+ 1707      5F436C6F 
+ 1707      636B5F31 
+ 1707      5F476574 
+ 1708              	.LASF23:
+ 1709 012b 656E6162 		.ascii	"enabled\000"
+ 1709      6C656400 
+ 1710              	.LASF5:
+ 1711 0133 6C6F6E67 		.ascii	"long unsigned int\000"
+ 1711      20756E73 
+ 1711      69676E65 
+ 1711      6420696E 
+ 1711      7400
+ 1712              	.LASF3:
+ 1713 0145 73686F72 		.ascii	"short unsigned int\000"
+ 1713      7420756E 
+ 1713      7369676E 
+ 1713      65642069 
+ 1713      6E7400
+ 1714              	.LASF34:
+ 1715 0158 656D4669 		.ascii	"emFile_1_Clock_1_GetSourceRegister\000"
+ 1715      6C655F31 
+ 1715      5F436C6F 
+ 1715      636B5F31 
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccuKANu2.s 			page 41
+
+
+ 1715      5F476574 
+ 1716              	.LASF20:
+ 1717 017b 636C6B44 		.ascii	"clkDivider\000"
+ 1717      69766964 
+ 1717      657200
+ 1718              	.LASF12:
+ 1719 0186 646F7562 		.ascii	"double\000"
+ 1719      6C6500
+ 1720              	.LASF15:
+ 1721 018d 656D4669 		.ascii	"emFile_1_Clock_1_Stop\000"
+ 1721      6C655F31 
+ 1721      5F436C6F 
+ 1721      636B5F31 
+ 1721      5F53746F 
+ 1722              	.LASF21:
+ 1723 01a3 72657374 		.ascii	"restart\000"
+ 1723      61727400 
+ 1724              	.LASF17:
+ 1725 01ab 656D4669 		.ascii	"emFile_1_Clock_1_StandbyPower\000"
+ 1725      6C655F31 
+ 1725      5F436C6F 
+ 1725      636B5F31 
+ 1725      5F537461 
+ 1726              	.LASF10:
+ 1727 01c9 75696E74 		.ascii	"uint16\000"
+ 1727      313600
+ 1728              	.LASF8:
+ 1729 01d0 756E7369 		.ascii	"unsigned int\000"
+ 1729      676E6564 
+ 1729      20696E74 
+ 1729      00
+ 1730              	.LASF24:
+ 1731 01dd 63757272 		.ascii	"currSrc\000"
+ 1731      53726300 
+ 1732              	.LASF7:
+ 1733 01e5 6C6F6E67 		.ascii	"long long unsigned int\000"
+ 1733      206C6F6E 
+ 1733      6720756E 
+ 1733      7369676E 
+ 1733      65642069 
+ 1734              	.LASF16:
+ 1735 01fc 656D4669 		.ascii	"emFile_1_Clock_1_StopBlock\000"
+ 1735      6C655F31 
+ 1735      5F436C6F 
+ 1735      636B5F31 
+ 1735      5F53746F 
+ 1736              	.LASF30:
+ 1737 0217 656D4669 		.ascii	"emFile_1_Clock_1_SetSourceRegister\000"
+ 1737      6C655F31 
+ 1737      5F436C6F 
+ 1737      636B5F31 
+ 1737      5F536574 
+ 1738              	.LASF26:
+ 1739 023a 6D6F6465 		.ascii	"modeBitMask\000"
+ 1739      4269744D 
+ 1739      61736B00 
+ 1740              	.LASF35:
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccuKANu2.s 			page 42
+
+
+ 1741 0246 474E5520 		.ascii	"GNU C 4.4.1\000"
+ 1741      4320342E 
+ 1741      342E3100 
+ 1742              	.LASF28:
+ 1743 0252 656D4669 		.ascii	"emFile_1_Clock_1_GetDividerRegister\000"
+ 1743      6C655F31 
+ 1743      5F436C6F 
+ 1743      636B5F31 
+ 1743      5F476574 
+ 1744              	.LASF13:
+ 1745 0276 63686172 		.ascii	"char\000"
+ 1745      00
+ 1746              	.LASF32:
+ 1747 027b 63757272 		.ascii	"currDiv\000"
+ 1747      44697600 
+ 1748              	.LASF2:
+ 1749 0283 73686F72 		.ascii	"short int\000"
+ 1749      7420696E 
+ 1749      7400
+ 1750              	.LASF9:
+ 1751 028d 75696E74 		.ascii	"uint8\000"
+ 1751      3800
+ 1752              	.LASF4:
+ 1753 0293 6C6F6E67 		.ascii	"long int\000"
+ 1753      20696E74 
+ 1753      00
+ 1754              	.LASF31:
+ 1755 029c 636C6B53 		.ascii	"clkSource\000"
+ 1755      6F757263 
+ 1755      6500
+ 1756              	.LASF27:
+ 1757 02a6 656D4669 		.ascii	"emFile_1_Clock_1_ClearModeRegister\000"
+ 1757      6C655F31 
+ 1757      5F436C6F 
+ 1757      636B5F31 
+ 1757      5F436C65 
+ 1758              	.LASF0:
+ 1759 02c9 7369676E 		.ascii	"signed char\000"
+ 1759      65642063 
+ 1759      68617200 
+ 1760              	.LASF33:
+ 1761 02d5 6F6C6453 		.ascii	"oldSrc\000"
+ 1761      726300
+ 1762              		.ident	"GCC: (Sourcery G++ Lite 2010q1-188) 4.4.1"
