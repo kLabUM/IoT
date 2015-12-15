@@ -1,0 +1,824 @@
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccR55w8d.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 6
+  11              		.eabi_attribute 18, 4
+  12              		.thumb
+  13              		.file	"ADC_SAR_Seq_1_TempBuf_dma.c"
+  14              		.section	.debug_abbrev,"",%progbits
+  15              	.Ldebug_abbrev0:
+  16              		.section	.debug_info,"",%progbits
+  17              	.Ldebug_info0:
+  18              		.section	.debug_line,"",%progbits
+  19              	.Ldebug_line0:
+  20 0000 A0000000 		.text
+  20      02007100 
+  20      00000201 
+  20      FB0E0D00 
+  20      01010101 
+  21              	.Ltext0:
+  22              		.cfi_sections	.debug_frame
+  23              		.global	ADC_SAR_Seq_1_TempBuf_DmaHandle
+  24              		.data
+  25              		.type	ADC_SAR_Seq_1_TempBuf_DmaHandle, %object
+  26              		.size	ADC_SAR_Seq_1_TempBuf_DmaHandle, 1
+  27              	ADC_SAR_Seq_1_TempBuf_DmaHandle:
+  28 0000 FF       		.byte	-1
+  29              		.section	.text.ADC_SAR_Seq_1_TempBuf_DmaInitialize,"ax",%progbits
+  30              		.align	2
+  31              		.global	ADC_SAR_Seq_1_TempBuf_DmaInitialize
+  32              		.thumb
+  33              		.thumb_func
+  34              		.type	ADC_SAR_Seq_1_TempBuf_DmaInitialize, %function
+  35              	ADC_SAR_Seq_1_TempBuf_DmaInitialize:
+  36              	.LFB0:
+  37              		.file 1 ".\\Generated_Source\\PSoC5\\ADC_SAR_Seq_1_TempBuf_dma.c"
+   1:.\Generated_Source\PSoC5/ADC_SAR_Seq_1_TempBuf_dma.c **** /***************************************************************************
+   2:.\Generated_Source\PSoC5/ADC_SAR_Seq_1_TempBuf_dma.c **** * File Name: ADC_SAR_Seq_1_TempBuf_dma.c  
+   3:.\Generated_Source\PSoC5/ADC_SAR_Seq_1_TempBuf_dma.c **** * Version 1.70
+   4:.\Generated_Source\PSoC5/ADC_SAR_Seq_1_TempBuf_dma.c **** *
+   5:.\Generated_Source\PSoC5/ADC_SAR_Seq_1_TempBuf_dma.c **** *  Description:
+   6:.\Generated_Source\PSoC5/ADC_SAR_Seq_1_TempBuf_dma.c **** *   Provides an API for the DMAC component. The API includes functions
+   7:.\Generated_Source\PSoC5/ADC_SAR_Seq_1_TempBuf_dma.c **** *   for the DMA controller, DMA channels and Transfer Descriptors.
+   8:.\Generated_Source\PSoC5/ADC_SAR_Seq_1_TempBuf_dma.c **** *
+   9:.\Generated_Source\PSoC5/ADC_SAR_Seq_1_TempBuf_dma.c **** *
+  10:.\Generated_Source\PSoC5/ADC_SAR_Seq_1_TempBuf_dma.c **** *   Note:
+  11:.\Generated_Source\PSoC5/ADC_SAR_Seq_1_TempBuf_dma.c **** *     This module requires the developer to finish or fill in the auto
+  12:.\Generated_Source\PSoC5/ADC_SAR_Seq_1_TempBuf_dma.c **** *     generated funcions and setup the dma channel and TD's.
+  13:.\Generated_Source\PSoC5/ADC_SAR_Seq_1_TempBuf_dma.c **** *
+  14:.\Generated_Source\PSoC5/ADC_SAR_Seq_1_TempBuf_dma.c **** ********************************************************************************
+  15:.\Generated_Source\PSoC5/ADC_SAR_Seq_1_TempBuf_dma.c **** * Copyright 2008-2010, Cypress Semiconductor Corporation.  All rights reserved.
+  16:.\Generated_Source\PSoC5/ADC_SAR_Seq_1_TempBuf_dma.c **** * You may use this file only in accordance with the license, terms, conditions, 
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccR55w8d.s 			page 2
+
+
+  17:.\Generated_Source\PSoC5/ADC_SAR_Seq_1_TempBuf_dma.c **** * disclaimers, and limitations in the end user license agreement accompanying 
+  18:.\Generated_Source\PSoC5/ADC_SAR_Seq_1_TempBuf_dma.c **** * the software package with which this file was provided.
+  19:.\Generated_Source\PSoC5/ADC_SAR_Seq_1_TempBuf_dma.c **** ********************************************************************************/
+  20:.\Generated_Source\PSoC5/ADC_SAR_Seq_1_TempBuf_dma.c **** #include <CYLIB.H>
+  21:.\Generated_Source\PSoC5/ADC_SAR_Seq_1_TempBuf_dma.c **** #include <CYDMAC.H>
+  22:.\Generated_Source\PSoC5/ADC_SAR_Seq_1_TempBuf_dma.c **** #include <ADC_SAR_Seq_1_TempBuf_dma.H>
+  23:.\Generated_Source\PSoC5/ADC_SAR_Seq_1_TempBuf_dma.c **** 
+  24:.\Generated_Source\PSoC5/ADC_SAR_Seq_1_TempBuf_dma.c **** 
+  25:.\Generated_Source\PSoC5/ADC_SAR_Seq_1_TempBuf_dma.c **** 
+  26:.\Generated_Source\PSoC5/ADC_SAR_Seq_1_TempBuf_dma.c **** /****************************************************************************
+  27:.\Generated_Source\PSoC5/ADC_SAR_Seq_1_TempBuf_dma.c **** * 
+  28:.\Generated_Source\PSoC5/ADC_SAR_Seq_1_TempBuf_dma.c **** * The following defines are available in Cyfitter.h
+  29:.\Generated_Source\PSoC5/ADC_SAR_Seq_1_TempBuf_dma.c **** * 
+  30:.\Generated_Source\PSoC5/ADC_SAR_Seq_1_TempBuf_dma.c **** * 
+  31:.\Generated_Source\PSoC5/ADC_SAR_Seq_1_TempBuf_dma.c **** * 
+  32:.\Generated_Source\PSoC5/ADC_SAR_Seq_1_TempBuf_dma.c **** * ADC_SAR_Seq_1_TempBuf__DRQ_CTL_REG
+  33:.\Generated_Source\PSoC5/ADC_SAR_Seq_1_TempBuf_dma.c **** * 
+  34:.\Generated_Source\PSoC5/ADC_SAR_Seq_1_TempBuf_dma.c **** * 
+  35:.\Generated_Source\PSoC5/ADC_SAR_Seq_1_TempBuf_dma.c **** * ADC_SAR_Seq_1_TempBuf__DRQ_NUMBER
+  36:.\Generated_Source\PSoC5/ADC_SAR_Seq_1_TempBuf_dma.c **** * 
+  37:.\Generated_Source\PSoC5/ADC_SAR_Seq_1_TempBuf_dma.c **** * Number of TD's used by this channel.
+  38:.\Generated_Source\PSoC5/ADC_SAR_Seq_1_TempBuf_dma.c **** * ADC_SAR_Seq_1_TempBuf__NUMBEROF_TDS
+  39:.\Generated_Source\PSoC5/ADC_SAR_Seq_1_TempBuf_dma.c **** * 
+  40:.\Generated_Source\PSoC5/ADC_SAR_Seq_1_TempBuf_dma.c **** * Priority of this channel.
+  41:.\Generated_Source\PSoC5/ADC_SAR_Seq_1_TempBuf_dma.c **** * ADC_SAR_Seq_1_TempBuf__PRIORITY
+  42:.\Generated_Source\PSoC5/ADC_SAR_Seq_1_TempBuf_dma.c **** * 
+  43:.\Generated_Source\PSoC5/ADC_SAR_Seq_1_TempBuf_dma.c **** * True if ADC_SAR_Seq_1_TempBuf_TERMIN_SEL is used.
+  44:.\Generated_Source\PSoC5/ADC_SAR_Seq_1_TempBuf_dma.c **** * ADC_SAR_Seq_1_TempBuf__TERMIN_EN
+  45:.\Generated_Source\PSoC5/ADC_SAR_Seq_1_TempBuf_dma.c **** * 
+  46:.\Generated_Source\PSoC5/ADC_SAR_Seq_1_TempBuf_dma.c **** * TERMIN interrupt line to signal terminate.
+  47:.\Generated_Source\PSoC5/ADC_SAR_Seq_1_TempBuf_dma.c **** * ADC_SAR_Seq_1_TempBuf__TERMIN_SEL
+  48:.\Generated_Source\PSoC5/ADC_SAR_Seq_1_TempBuf_dma.c **** * 
+  49:.\Generated_Source\PSoC5/ADC_SAR_Seq_1_TempBuf_dma.c **** * 
+  50:.\Generated_Source\PSoC5/ADC_SAR_Seq_1_TempBuf_dma.c **** * True if ADC_SAR_Seq_1_TempBuf_TERMOUT0_SEL is used.
+  51:.\Generated_Source\PSoC5/ADC_SAR_Seq_1_TempBuf_dma.c **** * ADC_SAR_Seq_1_TempBuf__TERMOUT0_EN
+  52:.\Generated_Source\PSoC5/ADC_SAR_Seq_1_TempBuf_dma.c **** * 
+  53:.\Generated_Source\PSoC5/ADC_SAR_Seq_1_TempBuf_dma.c **** * 
+  54:.\Generated_Source\PSoC5/ADC_SAR_Seq_1_TempBuf_dma.c **** * TERMOUT0 interrupt line to signal completion.
+  55:.\Generated_Source\PSoC5/ADC_SAR_Seq_1_TempBuf_dma.c **** * ADC_SAR_Seq_1_TempBuf__TERMOUT0_SEL
+  56:.\Generated_Source\PSoC5/ADC_SAR_Seq_1_TempBuf_dma.c **** * 
+  57:.\Generated_Source\PSoC5/ADC_SAR_Seq_1_TempBuf_dma.c **** * 
+  58:.\Generated_Source\PSoC5/ADC_SAR_Seq_1_TempBuf_dma.c **** * True if ADC_SAR_Seq_1_TempBuf_TERMOUT1_SEL is used.
+  59:.\Generated_Source\PSoC5/ADC_SAR_Seq_1_TempBuf_dma.c **** * ADC_SAR_Seq_1_TempBuf__TERMOUT1_EN
+  60:.\Generated_Source\PSoC5/ADC_SAR_Seq_1_TempBuf_dma.c **** * 
+  61:.\Generated_Source\PSoC5/ADC_SAR_Seq_1_TempBuf_dma.c **** * 
+  62:.\Generated_Source\PSoC5/ADC_SAR_Seq_1_TempBuf_dma.c **** * TERMOUT1 interrupt line to signal completion.
+  63:.\Generated_Source\PSoC5/ADC_SAR_Seq_1_TempBuf_dma.c **** * ADC_SAR_Seq_1_TempBuf__TERMOUT1_SEL
+  64:.\Generated_Source\PSoC5/ADC_SAR_Seq_1_TempBuf_dma.c **** * 
+  65:.\Generated_Source\PSoC5/ADC_SAR_Seq_1_TempBuf_dma.c **** ****************************************************************************/
+  66:.\Generated_Source\PSoC5/ADC_SAR_Seq_1_TempBuf_dma.c **** 
+  67:.\Generated_Source\PSoC5/ADC_SAR_Seq_1_TempBuf_dma.c **** 
+  68:.\Generated_Source\PSoC5/ADC_SAR_Seq_1_TempBuf_dma.c **** /* Zero based index of ADC_SAR_Seq_1_TempBuf dma channel */
+  69:.\Generated_Source\PSoC5/ADC_SAR_Seq_1_TempBuf_dma.c **** uint8 ADC_SAR_Seq_1_TempBuf_DmaHandle = DMA_INVALID_CHANNEL;
+  70:.\Generated_Source\PSoC5/ADC_SAR_Seq_1_TempBuf_dma.c **** 
+  71:.\Generated_Source\PSoC5/ADC_SAR_Seq_1_TempBuf_dma.c **** /*********************************************************************
+  72:.\Generated_Source\PSoC5/ADC_SAR_Seq_1_TempBuf_dma.c **** * Function Name: uint8 ADC_SAR_Seq_1_TempBuf_DmaInitalize
+  73:.\Generated_Source\PSoC5/ADC_SAR_Seq_1_TempBuf_dma.c **** **********************************************************************
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccR55w8d.s 			page 3
+
+
+  74:.\Generated_Source\PSoC5/ADC_SAR_Seq_1_TempBuf_dma.c **** * Summary:
+  75:.\Generated_Source\PSoC5/ADC_SAR_Seq_1_TempBuf_dma.c **** *   Allocates and initialises a channel of the DMAC to be used by the
+  76:.\Generated_Source\PSoC5/ADC_SAR_Seq_1_TempBuf_dma.c **** *   caller.
+  77:.\Generated_Source\PSoC5/ADC_SAR_Seq_1_TempBuf_dma.c **** *
+  78:.\Generated_Source\PSoC5/ADC_SAR_Seq_1_TempBuf_dma.c **** * Parameters:
+  79:.\Generated_Source\PSoC5/ADC_SAR_Seq_1_TempBuf_dma.c **** *   BurstCount.
+  80:.\Generated_Source\PSoC5/ADC_SAR_Seq_1_TempBuf_dma.c **** *       
+  81:.\Generated_Source\PSoC5/ADC_SAR_Seq_1_TempBuf_dma.c **** *       
+  82:.\Generated_Source\PSoC5/ADC_SAR_Seq_1_TempBuf_dma.c **** *   ReqestPerBurst.
+  83:.\Generated_Source\PSoC5/ADC_SAR_Seq_1_TempBuf_dma.c **** *       
+  84:.\Generated_Source\PSoC5/ADC_SAR_Seq_1_TempBuf_dma.c **** *       
+  85:.\Generated_Source\PSoC5/ADC_SAR_Seq_1_TempBuf_dma.c **** *   UpperSrcAddress.
+  86:.\Generated_Source\PSoC5/ADC_SAR_Seq_1_TempBuf_dma.c **** *       
+  87:.\Generated_Source\PSoC5/ADC_SAR_Seq_1_TempBuf_dma.c **** *       
+  88:.\Generated_Source\PSoC5/ADC_SAR_Seq_1_TempBuf_dma.c **** *   UpperDestAddress.
+  89:.\Generated_Source\PSoC5/ADC_SAR_Seq_1_TempBuf_dma.c **** *       
+  90:.\Generated_Source\PSoC5/ADC_SAR_Seq_1_TempBuf_dma.c **** *
+  91:.\Generated_Source\PSoC5/ADC_SAR_Seq_1_TempBuf_dma.c **** * Return:
+  92:.\Generated_Source\PSoC5/ADC_SAR_Seq_1_TempBuf_dma.c **** *   The channel that can be used by the caller for DMA activity.
+  93:.\Generated_Source\PSoC5/ADC_SAR_Seq_1_TempBuf_dma.c **** *   DMA_INVALID_CHANNEL (0xFF) if there are no channels left. 
+  94:.\Generated_Source\PSoC5/ADC_SAR_Seq_1_TempBuf_dma.c **** *
+  95:.\Generated_Source\PSoC5/ADC_SAR_Seq_1_TempBuf_dma.c **** *
+  96:.\Generated_Source\PSoC5/ADC_SAR_Seq_1_TempBuf_dma.c **** *******************************************************************/
+  97:.\Generated_Source\PSoC5/ADC_SAR_Seq_1_TempBuf_dma.c **** uint8 ADC_SAR_Seq_1_TempBuf_DmaInitialize(uint8 BurstCount, uint8 ReqestPerBurst, uint16 UpperSrcAd
+  98:.\Generated_Source\PSoC5/ADC_SAR_Seq_1_TempBuf_dma.c **** {
+  38              		.loc 1 98 0
+  39              		.cfi_startproc
+  40              		@ args = 0, pretend = 0, frame = 8
+  41              		@ frame_needed = 1, uses_anonymous_args = 0
+  42 0000 80B5     		push	{r7, lr}
+  43              	.LCFI0:
+  44              		.cfi_def_cfa_offset 8
+  45 0002 84B0     		sub	sp, sp, #16
+  46              	.LCFI1:
+  47              		.cfi_def_cfa_offset 24
+  48 0004 02AF     		add	r7, sp, #8
+  49              		.cfi_offset 14, -4
+  50              		.cfi_offset 7, -8
+  51              	.LCFI2:
+  52              		.cfi_def_cfa 7, 16
+  53 0006 F871     		strb	r0, [r7, #7]
+  54 0008 B971     		strb	r1, [r7, #6]
+  55 000a BA80     		strh	r2, [r7, #4]	@ movhi
+  56 000c 7B80     		strh	r3, [r7, #2]	@ movhi
+  99:.\Generated_Source\PSoC5/ADC_SAR_Seq_1_TempBuf_dma.c **** 
+ 100:.\Generated_Source\PSoC5/ADC_SAR_Seq_1_TempBuf_dma.c ****     /* Allocate a DMA channel. */
+ 101:.\Generated_Source\PSoC5/ADC_SAR_Seq_1_TempBuf_dma.c ****     ADC_SAR_Seq_1_TempBuf_DmaHandle = (uint8)ADC_SAR_Seq_1_TempBuf__DRQ_NUMBER;
+  57              		.loc 1 101 0
+  58 000e 40F20003 		movw	r3, #:lower16:ADC_SAR_Seq_1_TempBuf_DmaHandle
+  59 0012 C0F20003 		movt	r3, #:upper16:ADC_SAR_Seq_1_TempBuf_DmaHandle
+  60 0016 4FF00102 		mov	r2, #1
+  61 001a 1A70     		strb	r2, [r3, #0]
+ 102:.\Generated_Source\PSoC5/ADC_SAR_Seq_1_TempBuf_dma.c **** 
+ 103:.\Generated_Source\PSoC5/ADC_SAR_Seq_1_TempBuf_dma.c ****     /* Configure the channel. */
+ 104:.\Generated_Source\PSoC5/ADC_SAR_Seq_1_TempBuf_dma.c ****     (void)CyDmaChSetConfiguration(ADC_SAR_Seq_1_TempBuf_DmaHandle,
+  62              		.loc 1 104 0
+  63 001c 40F20003 		movw	r3, #:lower16:ADC_SAR_Seq_1_TempBuf_DmaHandle
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccR55w8d.s 			page 4
+
+
+  64 0020 C0F20003 		movt	r3, #:upper16:ADC_SAR_Seq_1_TempBuf_DmaHandle
+  65 0024 1978     		ldrb	r1, [r3, #0]	@ zero_extendqisi2
+  66 0026 FA79     		ldrb	r2, [r7, #7]	@ zero_extendqisi2
+  67 0028 BB79     		ldrb	r3, [r7, #6]	@ zero_extendqisi2
+  68 002a 4FF00000 		mov	r0, #0
+  69 002e 0090     		str	r0, [sp, #0]
+  70 0030 4FF00000 		mov	r0, #0
+  71 0034 0190     		str	r0, [sp, #4]
+  72 0036 0846     		mov	r0, r1
+  73 0038 1146     		mov	r1, r2
+  74 003a 1A46     		mov	r2, r3
+  75 003c 4FF00103 		mov	r3, #1
+  76 0040 FFF7FEFF 		bl	CyDmaChSetConfiguration
+ 105:.\Generated_Source\PSoC5/ADC_SAR_Seq_1_TempBuf_dma.c ****                                   BurstCount,
+ 106:.\Generated_Source\PSoC5/ADC_SAR_Seq_1_TempBuf_dma.c ****                                   ReqestPerBurst,
+ 107:.\Generated_Source\PSoC5/ADC_SAR_Seq_1_TempBuf_dma.c ****                                   (uint8)ADC_SAR_Seq_1_TempBuf__TERMOUT0_SEL,
+ 108:.\Generated_Source\PSoC5/ADC_SAR_Seq_1_TempBuf_dma.c ****                                   (uint8)ADC_SAR_Seq_1_TempBuf__TERMOUT1_SEL,
+ 109:.\Generated_Source\PSoC5/ADC_SAR_Seq_1_TempBuf_dma.c ****                                   (uint8)ADC_SAR_Seq_1_TempBuf__TERMIN_SEL);
+ 110:.\Generated_Source\PSoC5/ADC_SAR_Seq_1_TempBuf_dma.c **** 
+ 111:.\Generated_Source\PSoC5/ADC_SAR_Seq_1_TempBuf_dma.c ****     /* Set the extended address for the transfers */
+ 112:.\Generated_Source\PSoC5/ADC_SAR_Seq_1_TempBuf_dma.c ****     (void)CyDmaChSetExtendedAddress(ADC_SAR_Seq_1_TempBuf_DmaHandle, UpperSrcAddress, UpperDestAddr
+  77              		.loc 1 112 0
+  78 0044 40F20003 		movw	r3, #:lower16:ADC_SAR_Seq_1_TempBuf_DmaHandle
+  79 0048 C0F20003 		movt	r3, #:upper16:ADC_SAR_Seq_1_TempBuf_DmaHandle
+  80 004c 1978     		ldrb	r1, [r3, #0]	@ zero_extendqisi2
+  81 004e BA88     		ldrh	r2, [r7, #4]
+  82 0050 7B88     		ldrh	r3, [r7, #2]
+  83 0052 0846     		mov	r0, r1
+  84 0054 1146     		mov	r1, r2
+  85 0056 1A46     		mov	r2, r3
+  86 0058 FFF7FEFF 		bl	CyDmaChSetExtendedAddress
+ 113:.\Generated_Source\PSoC5/ADC_SAR_Seq_1_TempBuf_dma.c **** 
+ 114:.\Generated_Source\PSoC5/ADC_SAR_Seq_1_TempBuf_dma.c ****     /* Set the priority for this channel */
+ 115:.\Generated_Source\PSoC5/ADC_SAR_Seq_1_TempBuf_dma.c ****     (void)CyDmaChPriority(ADC_SAR_Seq_1_TempBuf_DmaHandle, (uint8)ADC_SAR_Seq_1_TempBuf__PRIORITY);
+  87              		.loc 1 115 0
+  88 005c 40F20003 		movw	r3, #:lower16:ADC_SAR_Seq_1_TempBuf_DmaHandle
+  89 0060 C0F20003 		movt	r3, #:upper16:ADC_SAR_Seq_1_TempBuf_DmaHandle
+  90 0064 1B78     		ldrb	r3, [r3, #0]	@ zero_extendqisi2
+  91 0066 1846     		mov	r0, r3
+  92 0068 4FF00201 		mov	r1, #2
+  93 006c FFF7FEFF 		bl	CyDmaChPriority
+ 116:.\Generated_Source\PSoC5/ADC_SAR_Seq_1_TempBuf_dma.c ****     
+ 117:.\Generated_Source\PSoC5/ADC_SAR_Seq_1_TempBuf_dma.c ****     return ADC_SAR_Seq_1_TempBuf_DmaHandle;
+  94              		.loc 1 117 0
+  95 0070 40F20003 		movw	r3, #:lower16:ADC_SAR_Seq_1_TempBuf_DmaHandle
+  96 0074 C0F20003 		movt	r3, #:upper16:ADC_SAR_Seq_1_TempBuf_DmaHandle
+  97 0078 1B78     		ldrb	r3, [r3, #0]	@ zero_extendqisi2
+ 118:.\Generated_Source\PSoC5/ADC_SAR_Seq_1_TempBuf_dma.c **** }
+  98              		.loc 1 118 0
+  99 007a 1846     		mov	r0, r3
+ 100 007c 07F10807 		add	r7, r7, #8
+ 101 0080 BD46     		mov	sp, r7
+ 102 0082 80BD     		pop	{r7, pc}
+ 103              		.cfi_endproc
+ 104              	.LFE0:
+ 105              		.size	ADC_SAR_Seq_1_TempBuf_DmaInitialize, .-ADC_SAR_Seq_1_TempBuf_DmaInitialize
+ 106              		.section	.text.ADC_SAR_Seq_1_TempBuf_DmaRelease,"ax",%progbits
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccR55w8d.s 			page 5
+
+
+ 107              		.align	2
+ 108              		.global	ADC_SAR_Seq_1_TempBuf_DmaRelease
+ 109              		.thumb
+ 110              		.thumb_func
+ 111              		.type	ADC_SAR_Seq_1_TempBuf_DmaRelease, %function
+ 112              	ADC_SAR_Seq_1_TempBuf_DmaRelease:
+ 113              	.LFB1:
+ 119:.\Generated_Source\PSoC5/ADC_SAR_Seq_1_TempBuf_dma.c **** 
+ 120:.\Generated_Source\PSoC5/ADC_SAR_Seq_1_TempBuf_dma.c **** /*********************************************************************
+ 121:.\Generated_Source\PSoC5/ADC_SAR_Seq_1_TempBuf_dma.c **** * Function Name: void ADC_SAR_Seq_1_TempBuf_DmaRelease
+ 122:.\Generated_Source\PSoC5/ADC_SAR_Seq_1_TempBuf_dma.c **** **********************************************************************
+ 123:.\Generated_Source\PSoC5/ADC_SAR_Seq_1_TempBuf_dma.c **** * Summary:
+ 124:.\Generated_Source\PSoC5/ADC_SAR_Seq_1_TempBuf_dma.c **** *   Frees the channel associated with ADC_SAR_Seq_1_TempBuf.
+ 125:.\Generated_Source\PSoC5/ADC_SAR_Seq_1_TempBuf_dma.c **** *
+ 126:.\Generated_Source\PSoC5/ADC_SAR_Seq_1_TempBuf_dma.c **** *
+ 127:.\Generated_Source\PSoC5/ADC_SAR_Seq_1_TempBuf_dma.c **** * Parameters:
+ 128:.\Generated_Source\PSoC5/ADC_SAR_Seq_1_TempBuf_dma.c **** *   void.
+ 129:.\Generated_Source\PSoC5/ADC_SAR_Seq_1_TempBuf_dma.c **** *
+ 130:.\Generated_Source\PSoC5/ADC_SAR_Seq_1_TempBuf_dma.c **** *
+ 131:.\Generated_Source\PSoC5/ADC_SAR_Seq_1_TempBuf_dma.c **** *
+ 132:.\Generated_Source\PSoC5/ADC_SAR_Seq_1_TempBuf_dma.c **** * Return:
+ 133:.\Generated_Source\PSoC5/ADC_SAR_Seq_1_TempBuf_dma.c **** *   void.
+ 134:.\Generated_Source\PSoC5/ADC_SAR_Seq_1_TempBuf_dma.c **** *
+ 135:.\Generated_Source\PSoC5/ADC_SAR_Seq_1_TempBuf_dma.c **** *******************************************************************/
+ 136:.\Generated_Source\PSoC5/ADC_SAR_Seq_1_TempBuf_dma.c **** void ADC_SAR_Seq_1_TempBuf_DmaRelease(void) 
+ 137:.\Generated_Source\PSoC5/ADC_SAR_Seq_1_TempBuf_dma.c **** {
+ 114              		.loc 1 137 0
+ 115              		.cfi_startproc
+ 116              		@ args = 0, pretend = 0, frame = 0
+ 117              		@ frame_needed = 1, uses_anonymous_args = 0
+ 118 0000 80B5     		push	{r7, lr}
+ 119              	.LCFI3:
+ 120              		.cfi_def_cfa_offset 8
+ 121 0002 00AF     		add	r7, sp, #0
+ 122              		.cfi_offset 14, -4
+ 123              		.cfi_offset 7, -8
+ 124              	.LCFI4:
+ 125              		.cfi_def_cfa_register 7
+ 138:.\Generated_Source\PSoC5/ADC_SAR_Seq_1_TempBuf_dma.c ****     /* Disable the channel */
+ 139:.\Generated_Source\PSoC5/ADC_SAR_Seq_1_TempBuf_dma.c ****     (void)CyDmaChDisable(ADC_SAR_Seq_1_TempBuf_DmaHandle);
+ 126              		.loc 1 139 0
+ 127 0004 40F20003 		movw	r3, #:lower16:ADC_SAR_Seq_1_TempBuf_DmaHandle
+ 128 0008 C0F20003 		movt	r3, #:upper16:ADC_SAR_Seq_1_TempBuf_DmaHandle
+ 129 000c 1B78     		ldrb	r3, [r3, #0]	@ zero_extendqisi2
+ 130 000e 1846     		mov	r0, r3
+ 131 0010 FFF7FEFF 		bl	CyDmaChDisable
+ 140:.\Generated_Source\PSoC5/ADC_SAR_Seq_1_TempBuf_dma.c **** }
+ 132              		.loc 1 140 0
+ 133 0014 80BD     		pop	{r7, pc}
+ 134              		.cfi_endproc
+ 135              	.LFE1:
+ 136              		.size	ADC_SAR_Seq_1_TempBuf_DmaRelease, .-ADC_SAR_Seq_1_TempBuf_DmaRelease
+ 137 0016 00BF     		.text
+ 138              	.Letext0:
+ 139              		.section	.debug_loc,"",%progbits
+ 140              	.Ldebug_loc0:
+ 141              	.LLST0:
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccR55w8d.s 			page 6
+
+
+ 142 0000 00000000 		.4byte	.LFB0
+ 143 0004 02000000 		.4byte	.LCFI0
+ 144 0008 0100     		.2byte	0x1
+ 145 000a 5D       		.byte	0x5d
+ 146 000b 02000000 		.4byte	.LCFI0
+ 147 000f 04000000 		.4byte	.LCFI1
+ 148 0013 0200     		.2byte	0x2
+ 149 0015 7D       		.byte	0x7d
+ 150 0016 08       		.sleb128 8
+ 151 0017 04000000 		.4byte	.LCFI1
+ 152 001b 06000000 		.4byte	.LCFI2
+ 153 001f 0200     		.2byte	0x2
+ 154 0021 7D       		.byte	0x7d
+ 155 0022 18       		.sleb128 24
+ 156 0023 06000000 		.4byte	.LCFI2
+ 157 0027 84000000 		.4byte	.LFE0
+ 158 002b 0200     		.2byte	0x2
+ 159 002d 77       		.byte	0x77
+ 160 002e 10       		.sleb128 16
+ 161 002f 00000000 		.4byte	0x0
+ 162 0033 00000000 		.4byte	0x0
+ 163              	.LLST1:
+ 164 0037 00000000 		.4byte	.LFB1
+ 165 003b 02000000 		.4byte	.LCFI3
+ 166 003f 0100     		.2byte	0x1
+ 167 0041 5D       		.byte	0x5d
+ 168 0042 02000000 		.4byte	.LCFI3
+ 169 0046 04000000 		.4byte	.LCFI4
+ 170 004a 0200     		.2byte	0x2
+ 171 004c 7D       		.byte	0x7d
+ 172 004d 08       		.sleb128 8
+ 173 004e 04000000 		.4byte	.LCFI4
+ 174 0052 16000000 		.4byte	.LFE1
+ 175 0056 0200     		.2byte	0x2
+ 176 0058 77       		.byte	0x77
+ 177 0059 08       		.sleb128 8
+ 178 005a 00000000 		.4byte	0x0
+ 179 005e 00000000 		.4byte	0x0
+ 180              		.file 2 "./Generated_Source/PSoC5/cytypes.h"
+ 181              		.section	.debug_info
+ 182 0000 17010000 		.4byte	0x117
+ 183 0004 0200     		.2byte	0x2
+ 184 0006 00000000 		.4byte	.Ldebug_abbrev0
+ 185 000a 04       		.byte	0x4
+ 186 000b 01       		.uleb128 0x1
+ 187 000c 86000000 		.4byte	.LASF18
+ 188 0010 01       		.byte	0x1
+ 189 0011 25010000 		.4byte	.LASF19
+ 190 0015 AE000000 		.4byte	.LASF20
+ 191 0019 00000000 		.4byte	0x0
+ 192 001d 00000000 		.4byte	0x0
+ 193 0021 00000000 		.4byte	.Ldebug_ranges0+0x0
+ 194 0025 00000000 		.4byte	.Ldebug_line0
+ 195 0029 02       		.uleb128 0x2
+ 196 002a 01       		.byte	0x1
+ 197 002b 06       		.byte	0x6
+ 198 002c 19010000 		.4byte	.LASF0
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccR55w8d.s 			page 7
+
+
+ 199 0030 02       		.uleb128 0x2
+ 200 0031 01       		.byte	0x1
+ 201 0032 08       		.byte	0x8
+ 202 0033 92000000 		.4byte	.LASF1
+ 203 0037 02       		.uleb128 0x2
+ 204 0038 02       		.byte	0x2
+ 205 0039 05       		.byte	0x5
+ 206 003a A4010000 		.4byte	.LASF2
+ 207 003e 02       		.uleb128 0x2
+ 208 003f 02       		.byte	0x2
+ 209 0040 07       		.byte	0x7
+ 210 0041 06010000 		.4byte	.LASF3
+ 211 0045 03       		.uleb128 0x3
+ 212 0046 04       		.byte	0x4
+ 213 0047 05       		.byte	0x5
+ 214 0048 696E7400 		.ascii	"int\000"
+ 215 004c 02       		.uleb128 0x2
+ 216 004d 04       		.byte	0x4
+ 217 004e 07       		.byte	0x7
+ 218 004f 1E000000 		.4byte	.LASF4
+ 219 0053 02       		.uleb128 0x2
+ 220 0054 08       		.byte	0x8
+ 221 0055 05       		.byte	0x5
+ 222 0056 00000000 		.4byte	.LASF5
+ 223 005a 02       		.uleb128 0x2
+ 224 005b 08       		.byte	0x8
+ 225 005c 07       		.byte	0x7
+ 226 005d 6F000000 		.4byte	.LASF6
+ 227 0061 02       		.uleb128 0x2
+ 228 0062 04       		.byte	0x4
+ 229 0063 05       		.byte	0x5
+ 230 0064 A5000000 		.4byte	.LASF7
+ 231 0068 04       		.uleb128 0x4
+ 232 0069 04       		.byte	0x4
+ 233 006a 07       		.byte	0x7
+ 234 006b 02       		.uleb128 0x2
+ 235 006c 04       		.byte	0x4
+ 236 006d 07       		.byte	0x7
+ 237 006e 5D000000 		.4byte	.LASF8
+ 238 0072 02       		.uleb128 0x2
+ 239 0073 01       		.byte	0x1
+ 240 0074 08       		.byte	0x8
+ 241 0075 A0000000 		.4byte	.LASF9
+ 242 0079 05       		.uleb128 0x5
+ 243 007a 57000000 		.4byte	.LASF10
+ 244 007e 02       		.byte	0x2
+ 245 007f 4C       		.byte	0x4c
+ 246 0080 30000000 		.4byte	0x30
+ 247 0084 05       		.uleb128 0x5
+ 248 0085 AE010000 		.4byte	.LASF11
+ 249 0089 02       		.byte	0x2
+ 250 008a 4D       		.byte	0x4d
+ 251 008b 3E000000 		.4byte	0x3e
+ 252 008f 02       		.uleb128 0x2
+ 253 0090 04       		.byte	0x4
+ 254 0091 04       		.byte	0x4
+ 255 0092 8D010000 		.4byte	.LASF12
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccR55w8d.s 			page 8
+
+
+ 256 0096 02       		.uleb128 0x2
+ 257 0097 08       		.byte	0x8
+ 258 0098 04       		.byte	0x4
+ 259 0099 FF000000 		.4byte	.LASF13
+ 260 009d 06       		.uleb128 0x6
+ 261 009e 01       		.byte	0x1
+ 262 009f 5A010000 		.4byte	.LASF21
+ 263 00a3 01       		.byte	0x1
+ 264 00a4 61       		.byte	0x61
+ 265 00a5 01       		.byte	0x1
+ 266 00a6 79000000 		.4byte	0x79
+ 267 00aa 00000000 		.4byte	.LFB0
+ 268 00ae 84000000 		.4byte	.LFE0
+ 269 00b2 00000000 		.4byte	.LLST0
+ 270 00b6 F3000000 		.4byte	0xf3
+ 271 00ba 07       		.uleb128 0x7
+ 272 00bb 4C000000 		.4byte	.LASF14
+ 273 00bf 01       		.byte	0x1
+ 274 00c0 61       		.byte	0x61
+ 275 00c1 79000000 		.4byte	0x79
+ 276 00c5 02       		.byte	0x2
+ 277 00c6 91       		.byte	0x91
+ 278 00c7 77       		.sleb128 -9
+ 279 00c8 07       		.uleb128 0x7
+ 280 00c9 7E010000 		.4byte	.LASF15
+ 281 00cd 01       		.byte	0x1
+ 282 00ce 61       		.byte	0x61
+ 283 00cf 79000000 		.4byte	0x79
+ 284 00d3 02       		.byte	0x2
+ 285 00d4 91       		.byte	0x91
+ 286 00d5 76       		.sleb128 -10
+ 287 00d6 07       		.uleb128 0x7
+ 288 00d7 0E000000 		.4byte	.LASF16
+ 289 00db 01       		.byte	0x1
+ 290 00dc 61       		.byte	0x61
+ 291 00dd 84000000 		.4byte	0x84
+ 292 00e1 02       		.byte	0x2
+ 293 00e2 91       		.byte	0x91
+ 294 00e3 74       		.sleb128 -12
+ 295 00e4 07       		.uleb128 0x7
+ 296 00e5 93010000 		.4byte	.LASF17
+ 297 00e9 01       		.byte	0x1
+ 298 00ea 61       		.byte	0x61
+ 299 00eb 84000000 		.4byte	0x84
+ 300 00ef 02       		.byte	0x2
+ 301 00f0 91       		.byte	0x91
+ 302 00f1 72       		.sleb128 -14
+ 303 00f2 00       		.byte	0x0
+ 304 00f3 08       		.uleb128 0x8
+ 305 00f4 01       		.byte	0x1
+ 306 00f5 2B000000 		.4byte	.LASF22
+ 307 00f9 01       		.byte	0x1
+ 308 00fa 88       		.byte	0x88
+ 309 00fb 01       		.byte	0x1
+ 310 00fc 00000000 		.4byte	.LFB1
+ 311 0100 16000000 		.4byte	.LFE1
+ 312 0104 37000000 		.4byte	.LLST1
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccR55w8d.s 			page 9
+
+
+ 313 0108 09       		.uleb128 0x9
+ 314 0109 B5010000 		.4byte	.LASF23
+ 315 010d 01       		.byte	0x1
+ 316 010e 45       		.byte	0x45
+ 317 010f 79000000 		.4byte	0x79
+ 318 0113 01       		.byte	0x1
+ 319 0114 05       		.byte	0x5
+ 320 0115 03       		.byte	0x3
+ 321 0116 00000000 		.4byte	ADC_SAR_Seq_1_TempBuf_DmaHandle
+ 322 011a 00       		.byte	0x0
+ 323              		.section	.debug_abbrev
+ 324 0000 01       		.uleb128 0x1
+ 325 0001 11       		.uleb128 0x11
+ 326 0002 01       		.byte	0x1
+ 327 0003 25       		.uleb128 0x25
+ 328 0004 0E       		.uleb128 0xe
+ 329 0005 13       		.uleb128 0x13
+ 330 0006 0B       		.uleb128 0xb
+ 331 0007 03       		.uleb128 0x3
+ 332 0008 0E       		.uleb128 0xe
+ 333 0009 1B       		.uleb128 0x1b
+ 334 000a 0E       		.uleb128 0xe
+ 335 000b 11       		.uleb128 0x11
+ 336 000c 01       		.uleb128 0x1
+ 337 000d 52       		.uleb128 0x52
+ 338 000e 01       		.uleb128 0x1
+ 339 000f 55       		.uleb128 0x55
+ 340 0010 06       		.uleb128 0x6
+ 341 0011 10       		.uleb128 0x10
+ 342 0012 06       		.uleb128 0x6
+ 343 0013 00       		.byte	0x0
+ 344 0014 00       		.byte	0x0
+ 345 0015 02       		.uleb128 0x2
+ 346 0016 24       		.uleb128 0x24
+ 347 0017 00       		.byte	0x0
+ 348 0018 0B       		.uleb128 0xb
+ 349 0019 0B       		.uleb128 0xb
+ 350 001a 3E       		.uleb128 0x3e
+ 351 001b 0B       		.uleb128 0xb
+ 352 001c 03       		.uleb128 0x3
+ 353 001d 0E       		.uleb128 0xe
+ 354 001e 00       		.byte	0x0
+ 355 001f 00       		.byte	0x0
+ 356 0020 03       		.uleb128 0x3
+ 357 0021 24       		.uleb128 0x24
+ 358 0022 00       		.byte	0x0
+ 359 0023 0B       		.uleb128 0xb
+ 360 0024 0B       		.uleb128 0xb
+ 361 0025 3E       		.uleb128 0x3e
+ 362 0026 0B       		.uleb128 0xb
+ 363 0027 03       		.uleb128 0x3
+ 364 0028 08       		.uleb128 0x8
+ 365 0029 00       		.byte	0x0
+ 366 002a 00       		.byte	0x0
+ 367 002b 04       		.uleb128 0x4
+ 368 002c 24       		.uleb128 0x24
+ 369 002d 00       		.byte	0x0
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccR55w8d.s 			page 10
+
+
+ 370 002e 0B       		.uleb128 0xb
+ 371 002f 0B       		.uleb128 0xb
+ 372 0030 3E       		.uleb128 0x3e
+ 373 0031 0B       		.uleb128 0xb
+ 374 0032 00       		.byte	0x0
+ 375 0033 00       		.byte	0x0
+ 376 0034 05       		.uleb128 0x5
+ 377 0035 16       		.uleb128 0x16
+ 378 0036 00       		.byte	0x0
+ 379 0037 03       		.uleb128 0x3
+ 380 0038 0E       		.uleb128 0xe
+ 381 0039 3A       		.uleb128 0x3a
+ 382 003a 0B       		.uleb128 0xb
+ 383 003b 3B       		.uleb128 0x3b
+ 384 003c 0B       		.uleb128 0xb
+ 385 003d 49       		.uleb128 0x49
+ 386 003e 13       		.uleb128 0x13
+ 387 003f 00       		.byte	0x0
+ 388 0040 00       		.byte	0x0
+ 389 0041 06       		.uleb128 0x6
+ 390 0042 2E       		.uleb128 0x2e
+ 391 0043 01       		.byte	0x1
+ 392 0044 3F       		.uleb128 0x3f
+ 393 0045 0C       		.uleb128 0xc
+ 394 0046 03       		.uleb128 0x3
+ 395 0047 0E       		.uleb128 0xe
+ 396 0048 3A       		.uleb128 0x3a
+ 397 0049 0B       		.uleb128 0xb
+ 398 004a 3B       		.uleb128 0x3b
+ 399 004b 0B       		.uleb128 0xb
+ 400 004c 27       		.uleb128 0x27
+ 401 004d 0C       		.uleb128 0xc
+ 402 004e 49       		.uleb128 0x49
+ 403 004f 13       		.uleb128 0x13
+ 404 0050 11       		.uleb128 0x11
+ 405 0051 01       		.uleb128 0x1
+ 406 0052 12       		.uleb128 0x12
+ 407 0053 01       		.uleb128 0x1
+ 408 0054 40       		.uleb128 0x40
+ 409 0055 06       		.uleb128 0x6
+ 410 0056 01       		.uleb128 0x1
+ 411 0057 13       		.uleb128 0x13
+ 412 0058 00       		.byte	0x0
+ 413 0059 00       		.byte	0x0
+ 414 005a 07       		.uleb128 0x7
+ 415 005b 05       		.uleb128 0x5
+ 416 005c 00       		.byte	0x0
+ 417 005d 03       		.uleb128 0x3
+ 418 005e 0E       		.uleb128 0xe
+ 419 005f 3A       		.uleb128 0x3a
+ 420 0060 0B       		.uleb128 0xb
+ 421 0061 3B       		.uleb128 0x3b
+ 422 0062 0B       		.uleb128 0xb
+ 423 0063 49       		.uleb128 0x49
+ 424 0064 13       		.uleb128 0x13
+ 425 0065 02       		.uleb128 0x2
+ 426 0066 0A       		.uleb128 0xa
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccR55w8d.s 			page 11
+
+
+ 427 0067 00       		.byte	0x0
+ 428 0068 00       		.byte	0x0
+ 429 0069 08       		.uleb128 0x8
+ 430 006a 2E       		.uleb128 0x2e
+ 431 006b 00       		.byte	0x0
+ 432 006c 3F       		.uleb128 0x3f
+ 433 006d 0C       		.uleb128 0xc
+ 434 006e 03       		.uleb128 0x3
+ 435 006f 0E       		.uleb128 0xe
+ 436 0070 3A       		.uleb128 0x3a
+ 437 0071 0B       		.uleb128 0xb
+ 438 0072 3B       		.uleb128 0x3b
+ 439 0073 0B       		.uleb128 0xb
+ 440 0074 27       		.uleb128 0x27
+ 441 0075 0C       		.uleb128 0xc
+ 442 0076 11       		.uleb128 0x11
+ 443 0077 01       		.uleb128 0x1
+ 444 0078 12       		.uleb128 0x12
+ 445 0079 01       		.uleb128 0x1
+ 446 007a 40       		.uleb128 0x40
+ 447 007b 06       		.uleb128 0x6
+ 448 007c 00       		.byte	0x0
+ 449 007d 00       		.byte	0x0
+ 450 007e 09       		.uleb128 0x9
+ 451 007f 34       		.uleb128 0x34
+ 452 0080 00       		.byte	0x0
+ 453 0081 03       		.uleb128 0x3
+ 454 0082 0E       		.uleb128 0xe
+ 455 0083 3A       		.uleb128 0x3a
+ 456 0084 0B       		.uleb128 0xb
+ 457 0085 3B       		.uleb128 0x3b
+ 458 0086 0B       		.uleb128 0xb
+ 459 0087 49       		.uleb128 0x49
+ 460 0088 13       		.uleb128 0x13
+ 461 0089 3F       		.uleb128 0x3f
+ 462 008a 0C       		.uleb128 0xc
+ 463 008b 02       		.uleb128 0x2
+ 464 008c 0A       		.uleb128 0xa
+ 465 008d 00       		.byte	0x0
+ 466 008e 00       		.byte	0x0
+ 467 008f 00       		.byte	0x0
+ 468              		.section	.debug_pubnames,"",%progbits
+ 469 0000 7F000000 		.4byte	0x7f
+ 470 0004 0200     		.2byte	0x2
+ 471 0006 00000000 		.4byte	.Ldebug_info0
+ 472 000a 1B010000 		.4byte	0x11b
+ 473 000e 9D000000 		.4byte	0x9d
+ 474 0012 4144435F 		.ascii	"ADC_SAR_Seq_1_TempBuf_DmaInitialize\000"
+ 474      5341525F 
+ 474      5365715F 
+ 474      315F5465 
+ 474      6D704275 
+ 475 0036 F3000000 		.4byte	0xf3
+ 476 003a 4144435F 		.ascii	"ADC_SAR_Seq_1_TempBuf_DmaRelease\000"
+ 476      5341525F 
+ 476      5365715F 
+ 476      315F5465 
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccR55w8d.s 			page 12
+
+
+ 476      6D704275 
+ 477 005b 08010000 		.4byte	0x108
+ 478 005f 4144435F 		.ascii	"ADC_SAR_Seq_1_TempBuf_DmaHandle\000"
+ 478      5341525F 
+ 478      5365715F 
+ 478      315F5465 
+ 478      6D704275 
+ 479 007f 00000000 		.4byte	0x0
+ 480              		.section	.debug_aranges,"",%progbits
+ 481 0000 24000000 		.4byte	0x24
+ 482 0004 0200     		.2byte	0x2
+ 483 0006 00000000 		.4byte	.Ldebug_info0
+ 484 000a 04       		.byte	0x4
+ 485 000b 00       		.byte	0x0
+ 486 000c 0000     		.2byte	0x0
+ 487 000e 0000     		.2byte	0x0
+ 488 0010 00000000 		.4byte	.LFB0
+ 489 0014 84000000 		.4byte	.LFE0-.LFB0
+ 490 0018 00000000 		.4byte	.LFB1
+ 491 001c 16000000 		.4byte	.LFE1-.LFB1
+ 492 0020 00000000 		.4byte	0x0
+ 493 0024 00000000 		.4byte	0x0
+ 494              		.section	.debug_ranges,"",%progbits
+ 495              	.Ldebug_ranges0:
+ 496 0000 00000000 		.4byte	.Ltext0
+ 497 0004 00000000 		.4byte	.Letext0
+ 498 0008 00000000 		.4byte	.LFB0
+ 499 000c 84000000 		.4byte	.LFE0
+ 500 0010 00000000 		.4byte	.LFB1
+ 501 0014 16000000 		.4byte	.LFE1
+ 502 0018 00000000 		.4byte	0x0
+ 503 001c 00000000 		.4byte	0x0
+ 504              		.section	.debug_str,"MS",%progbits,1
+ 505              	.LASF5:
+ 506 0000 6C6F6E67 		.ascii	"long long int\000"
+ 506      206C6F6E 
+ 506      6720696E 
+ 506      7400
+ 507              	.LASF16:
+ 508 000e 55707065 		.ascii	"UpperSrcAddress\000"
+ 508      72537263 
+ 508      41646472 
+ 508      65737300 
+ 509              	.LASF4:
+ 510 001e 756E7369 		.ascii	"unsigned int\000"
+ 510      676E6564 
+ 510      20696E74 
+ 510      00
+ 511              	.LASF22:
+ 512 002b 4144435F 		.ascii	"ADC_SAR_Seq_1_TempBuf_DmaRelease\000"
+ 512      5341525F 
+ 512      5365715F 
+ 512      315F5465 
+ 512      6D704275 
+ 513              	.LASF14:
+ 514 004c 42757273 		.ascii	"BurstCount\000"
+ 514      74436F75 
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccR55w8d.s 			page 13
+
+
+ 514      6E7400
+ 515              	.LASF10:
+ 516 0057 75696E74 		.ascii	"uint8\000"
+ 516      3800
+ 517              	.LASF8:
+ 518 005d 6C6F6E67 		.ascii	"long unsigned int\000"
+ 518      20756E73 
+ 518      69676E65 
+ 518      6420696E 
+ 518      7400
+ 519              	.LASF6:
+ 520 006f 6C6F6E67 		.ascii	"long long unsigned int\000"
+ 520      206C6F6E 
+ 520      6720756E 
+ 520      7369676E 
+ 520      65642069 
+ 521              	.LASF18:
+ 522 0086 474E5520 		.ascii	"GNU C 4.4.1\000"
+ 522      4320342E 
+ 522      342E3100 
+ 523              	.LASF1:
+ 524 0092 756E7369 		.ascii	"unsigned char\000"
+ 524      676E6564 
+ 524      20636861 
+ 524      7200
+ 525              	.LASF9:
+ 526 00a0 63686172 		.ascii	"char\000"
+ 526      00
+ 527              	.LASF7:
+ 528 00a5 6C6F6E67 		.ascii	"long int\000"
+ 528      20696E74 
+ 528      00
+ 529              	.LASF20:
+ 530 00ae 433A5C55 		.ascii	"C:\\Users\\karunmj\\Documents\\GitHub\\m2m\\hardwar"
+ 530      73657273 
+ 530      5C6B6172 
+ 530      756E6D6A 
+ 530      5C446F63 
+ 531 00db 655C7073 		.ascii	"e\\psoc5\\Campbell_Conductivity.cydsn\000"
+ 531      6F63355C 
+ 531      43616D70 
+ 531      62656C6C 
+ 531      5F436F6E 
+ 532              	.LASF13:
+ 533 00ff 646F7562 		.ascii	"double\000"
+ 533      6C6500
+ 534              	.LASF3:
+ 535 0106 73686F72 		.ascii	"short unsigned int\000"
+ 535      7420756E 
+ 535      7369676E 
+ 535      65642069 
+ 535      6E7400
+ 536              	.LASF0:
+ 537 0119 7369676E 		.ascii	"signed char\000"
+ 537      65642063 
+ 537      68617200 
+ 538              	.LASF19:
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccR55w8d.s 			page 14
+
+
+ 539 0125 2E5C4765 		.ascii	".\\Generated_Source\\PSoC5\\ADC_SAR_Seq_1_TempBuf_d"
+ 539      6E657261 
+ 539      7465645F 
+ 539      536F7572 
+ 539      63655C50 
+ 540 0155 6D612E63 		.ascii	"ma.c\000"
+ 540      00
+ 541              	.LASF21:
+ 542 015a 4144435F 		.ascii	"ADC_SAR_Seq_1_TempBuf_DmaInitialize\000"
+ 542      5341525F 
+ 542      5365715F 
+ 542      315F5465 
+ 542      6D704275 
+ 543              	.LASF15:
+ 544 017e 52657165 		.ascii	"ReqestPerBurst\000"
+ 544      73745065 
+ 544      72427572 
+ 544      737400
+ 545              	.LASF12:
+ 546 018d 666C6F61 		.ascii	"float\000"
+ 546      7400
+ 547              	.LASF17:
+ 548 0193 55707065 		.ascii	"UpperDestAddress\000"
+ 548      72446573 
+ 548      74416464 
+ 548      72657373 
+ 548      00
+ 549              	.LASF2:
+ 550 01a4 73686F72 		.ascii	"short int\000"
+ 550      7420696E 
+ 550      7400
+ 551              	.LASF11:
+ 552 01ae 75696E74 		.ascii	"uint16\000"
+ 552      313600
+ 553              	.LASF23:
+ 554 01b5 4144435F 		.ascii	"ADC_SAR_Seq_1_TempBuf_DmaHandle\000"
+ 554      5341525F 
+ 554      5365715F 
+ 554      315F5465 
+ 554      6D704275 
+ 555              		.ident	"GCC: (Sourcery G++ Lite 2010q1-188) 4.4.1"

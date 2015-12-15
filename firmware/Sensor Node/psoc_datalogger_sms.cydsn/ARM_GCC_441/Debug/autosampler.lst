@@ -1,0 +1,1357 @@
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccQOaEPV.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 6
+  11              		.eabi_attribute 18, 4
+  12              		.thumb
+  13              		.file	"autosampler.c"
+  14              		.section	.debug_abbrev,"",%progbits
+  15              	.Ldebug_abbrev0:
+  16              		.section	.debug_info,"",%progbits
+  17              	.Ldebug_info0:
+  18              		.section	.debug_line,"",%progbits
+  19              	.Ldebug_line0:
+  20 0000 FB000000 		.text
+  20      02006D00 
+  20      00000201 
+  20      FB0E0D00 
+  20      01010101 
+  21              	.Ltext0:
+  22              		.cfi_sections	.debug_frame
+  23              		.global	SampleCount
+  24              		.bss
+  25              		.type	SampleCount, %object
+  26              		.size	SampleCount, 1
+  27              	SampleCount:
+  28 0000 00       		.space	1
+  29              		.global	SampleCount1
+  30              		.type	SampleCount1, %object
+  31              		.size	SampleCount1, 1
+  32              	SampleCount1:
+  33 0001 00       		.space	1
+  34              		.comm	autosampler_state,1,1
+  35              		.section	.text.autosampler_start,"ax",%progbits
+  36              		.align	2
+  37              		.global	autosampler_start
+  38              		.thumb
+  39              		.thumb_func
+  40              		.type	autosampler_start, %function
+  41              	autosampler_start:
+  42              	.LFB29:
+  43              		.file 1 "..\\AutoSampler.cydsn\\autosampler.c"
+   1:..\AutoSampler.cydsn/autosampler.c **** /* ========================================
+   2:..\AutoSampler.cydsn/autosampler.c ****  *
+   3:..\AutoSampler.cydsn/autosampler.c ****  * Copyright YOUR COMPANY, THE YEAR
+   4:..\AutoSampler.cydsn/autosampler.c ****  * All Rights Reserved
+   5:..\AutoSampler.cydsn/autosampler.c ****  * UNPUBLISHED, LICENSED SOFTWARE.
+   6:..\AutoSampler.cydsn/autosampler.c ****  *
+   7:..\AutoSampler.cydsn/autosampler.c ****  * CONFIDENTIAL AND PROPRIETARY INFORMATION
+   8:..\AutoSampler.cydsn/autosampler.c ****  * WHICH IS THE PROPERTY OF your company.
+   9:..\AutoSampler.cydsn/autosampler.c ****  *
+  10:..\AutoSampler.cydsn/autosampler.c ****  * ========================================
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccQOaEPV.s 			page 2
+
+
+  11:..\AutoSampler.cydsn/autosampler.c **** */
+  12:..\AutoSampler.cydsn/autosampler.c **** #include <device.h>
+  13:..\AutoSampler.cydsn/autosampler.c **** #include <string.h>
+  14:..\AutoSampler.cydsn/autosampler.c **** #include "autosampler.h"
+  15:..\AutoSampler.cydsn/autosampler.c **** #include "debug.h"
+  16:..\AutoSampler.cydsn/autosampler.c **** 
+  17:..\AutoSampler.cydsn/autosampler.c **** // prototype bottle_count interrupt
+  18:..\AutoSampler.cydsn/autosampler.c **** CY_ISR_PROTO(isr_SampleCounter);
+  19:..\AutoSampler.cydsn/autosampler.c **** 
+  20:..\AutoSampler.cydsn/autosampler.c **** // Declare variables
+  21:..\AutoSampler.cydsn/autosampler.c **** uint8 SampleCount = 0, SampleCount1 = 0, autosampler_state;;
+  22:..\AutoSampler.cydsn/autosampler.c **** 
+  23:..\AutoSampler.cydsn/autosampler.c **** uint8 autosampler_start(){
+  44              		.loc 1 23 0
+  45              		.cfi_startproc
+  46              		@ args = 0, pretend = 0, frame = 0
+  47              		@ frame_needed = 1, uses_anonymous_args = 0
+  48 0000 80B5     		push	{r7, lr}
+  49              	.LCFI0:
+  50              		.cfi_def_cfa_offset 8
+  51 0002 00AF     		add	r7, sp, #0
+  52              		.cfi_offset 14, -4
+  53              		.cfi_offset 7, -8
+  54              	.LCFI1:
+  55              		.cfi_def_cfa_register 7
+  24:..\AutoSampler.cydsn/autosampler.c ****     isr_SampleCounter_StartEx(isr_SampleCounter);
+  56              		.loc 1 24 0
+  57 0004 40F20000 		movw	r0, #:lower16:isr_SampleCounter
+  58 0008 C0F20000 		movt	r0, #:upper16:isr_SampleCounter
+  59 000c FFF7FEFF 		bl	isr_SampleCounter_StartEx
+  25:..\AutoSampler.cydsn/autosampler.c ****     autosampler_state = AUTOSAMPLER_STATE_OFF;
+  60              		.loc 1 25 0
+  61 0010 40F20003 		movw	r3, #:lower16:autosampler_state
+  62 0014 C0F20003 		movt	r3, #:upper16:autosampler_state
+  63 0018 4FF00002 		mov	r2, #0
+  64 001c 1A70     		strb	r2, [r3, #0]
+  26:..\AutoSampler.cydsn/autosampler.c ****     
+  27:..\AutoSampler.cydsn/autosampler.c ****     return 1u;
+  65              		.loc 1 27 0
+  66 001e 4FF00103 		mov	r3, #1
+  28:..\AutoSampler.cydsn/autosampler.c **** }
+  67              		.loc 1 28 0
+  68 0022 1846     		mov	r0, r3
+  69 0024 80BD     		pop	{r7, pc}
+  70              		.cfi_endproc
+  71              	.LFE29:
+  72              		.size	autosampler_start, .-autosampler_start
+  73 0026 00BF     		.section	.text.autosampler_stop,"ax",%progbits
+  74              		.align	2
+  75              		.global	autosampler_stop
+  76              		.thumb
+  77              		.thumb_func
+  78              		.type	autosampler_stop, %function
+  79              	autosampler_stop:
+  80              	.LFB30:
+  29:..\AutoSampler.cydsn/autosampler.c **** 
+  30:..\AutoSampler.cydsn/autosampler.c **** uint8 autosampler_stop() {
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccQOaEPV.s 			page 3
+
+
+  81              		.loc 1 30 0
+  82              		.cfi_startproc
+  83              		@ args = 0, pretend = 0, frame = 0
+  84              		@ frame_needed = 1, uses_anonymous_args = 0
+  85              		@ link register save eliminated.
+  86 0000 80B4     		push	{r7}
+  87              	.LCFI2:
+  88              		.cfi_def_cfa_offset 4
+  89 0002 00AF     		add	r7, sp, #0
+  90              		.cfi_offset 7, -4
+  91              	.LCFI3:
+  92              		.cfi_def_cfa_register 7
+  31:..\AutoSampler.cydsn/autosampler.c ****     return 1u;
+  93              		.loc 1 31 0
+  94 0004 4FF00103 		mov	r3, #1
+  32:..\AutoSampler.cydsn/autosampler.c **** }
+  95              		.loc 1 32 0
+  96 0008 1846     		mov	r0, r3
+  97 000a BD46     		mov	sp, r7
+  98 000c 80BC     		pop	{r7}
+  99 000e 7047     		bx	lr
+ 100              		.cfi_endproc
+ 101              	.LFE30:
+ 102              		.size	autosampler_stop, .-autosampler_stop
+ 103              		.section	.text.autosampler_power_on,"ax",%progbits
+ 104              		.align	2
+ 105              		.global	autosampler_power_on
+ 106              		.thumb
+ 107              		.thumb_func
+ 108              		.type	autosampler_power_on, %function
+ 109              	autosampler_power_on:
+ 110              	.LFB31:
+  33:..\AutoSampler.cydsn/autosampler.c **** 
+  34:..\AutoSampler.cydsn/autosampler.c **** /*
+  35:..\AutoSampler.cydsn/autosampler.c **** Start the autosampler.  Then power it on.
+  36:..\AutoSampler.cydsn/autosampler.c **** */
+  37:..\AutoSampler.cydsn/autosampler.c **** uint8 autosampler_power_on() {
+ 111              		.loc 1 37 0
+ 112              		.cfi_startproc
+ 113              		@ args = 0, pretend = 0, frame = 0
+ 114              		@ frame_needed = 1, uses_anonymous_args = 0
+ 115 0000 80B5     		push	{r7, lr}
+ 116              	.LCFI4:
+ 117              		.cfi_def_cfa_offset 8
+ 118 0002 00AF     		add	r7, sp, #0
+ 119              		.cfi_offset 14, -4
+ 120              		.cfi_offset 7, -8
+ 121              	.LCFI5:
+ 122              		.cfi_def_cfa_register 7
+  38:..\AutoSampler.cydsn/autosampler.c ****     Pin_Sampler_Power_Write(0u);
+ 123              		.loc 1 38 0
+ 124 0004 4FF00000 		mov	r0, #0
+ 125 0008 FFF7FEFF 		bl	Pin_Sampler_Power_Write
+  39:..\AutoSampler.cydsn/autosampler.c ****     CyDelay(1000u);//give the sampler time to boot
+ 126              		.loc 1 39 0
+ 127 000c 4FF47A70 		mov	r0, #1000
+ 128 0010 FFF7FEFF 		bl	CyDelay
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccQOaEPV.s 			page 4
+
+
+  40:..\AutoSampler.cydsn/autosampler.c ****     
+  41:..\AutoSampler.cydsn/autosampler.c ****     autosampler_state = AUTOSAMPLER_STATE_IDLE;
+ 129              		.loc 1 41 0
+ 130 0014 40F20003 		movw	r3, #:lower16:autosampler_state
+ 131 0018 C0F20003 		movt	r3, #:upper16:autosampler_state
+ 132 001c 4FF00102 		mov	r2, #1
+ 133 0020 1A70     		strb	r2, [r3, #0]
+  42:..\AutoSampler.cydsn/autosampler.c ****     
+  43:..\AutoSampler.cydsn/autosampler.c ****     return 1u;
+ 134              		.loc 1 43 0
+ 135 0022 4FF00103 		mov	r3, #1
+  44:..\AutoSampler.cydsn/autosampler.c **** }
+ 136              		.loc 1 44 0
+ 137 0026 1846     		mov	r0, r3
+ 138 0028 80BD     		pop	{r7, pc}
+ 139              		.cfi_endproc
+ 140              	.LFE31:
+ 141              		.size	autosampler_power_on, .-autosampler_power_on
+ 142 002a 00BF     		.section	.text.autosampler_power_off,"ax",%progbits
+ 143              		.align	2
+ 144              		.global	autosampler_power_off
+ 145              		.thumb
+ 146              		.thumb_func
+ 147              		.type	autosampler_power_off, %function
+ 148              	autosampler_power_off:
+ 149              	.LFB32:
+  45:..\AutoSampler.cydsn/autosampler.c **** 
+  46:..\AutoSampler.cydsn/autosampler.c **** uint8 autosampler_power_off() {
+ 150              		.loc 1 46 0
+ 151              		.cfi_startproc
+ 152              		@ args = 0, pretend = 0, frame = 0
+ 153              		@ frame_needed = 1, uses_anonymous_args = 0
+ 154 0000 80B5     		push	{r7, lr}
+ 155              	.LCFI6:
+ 156              		.cfi_def_cfa_offset 8
+ 157 0002 00AF     		add	r7, sp, #0
+ 158              		.cfi_offset 14, -4
+ 159              		.cfi_offset 7, -8
+ 160              	.LCFI7:
+ 161              		.cfi_def_cfa_register 7
+  47:..\AutoSampler.cydsn/autosampler.c ****     Pin_Sampler_Power_Write(1u);
+ 162              		.loc 1 47 0
+ 163 0004 4FF00100 		mov	r0, #1
+ 164 0008 FFF7FEFF 		bl	Pin_Sampler_Power_Write
+  48:..\AutoSampler.cydsn/autosampler.c ****     autosampler_state = AUTOSAMPLER_STATE_OFF;
+ 165              		.loc 1 48 0
+ 166 000c 40F20003 		movw	r3, #:lower16:autosampler_state
+ 167 0010 C0F20003 		movt	r3, #:upper16:autosampler_state
+ 168 0014 4FF00002 		mov	r2, #0
+ 169 0018 1A70     		strb	r2, [r3, #0]
+  49:..\AutoSampler.cydsn/autosampler.c ****     
+  50:..\AutoSampler.cydsn/autosampler.c ****     return 1u;
+ 170              		.loc 1 50 0
+ 171 001a 4FF00103 		mov	r3, #1
+  51:..\AutoSampler.cydsn/autosampler.c **** }
+ 172              		.loc 1 51 0
+ 173 001e 1846     		mov	r0, r3
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccQOaEPV.s 			page 5
+
+
+ 174 0020 80BD     		pop	{r7, pc}
+ 175              		.cfi_endproc
+ 176              	.LFE32:
+ 177              		.size	autosampler_power_off, .-autosampler_power_off
+ 178 0022 00BF     		.section	.rodata
+ 179              		.align	2
+ 180              	.LC0:
+ 181 0000 28617574 		.ascii	"(autosampler(): MAX_BOTTLE_COUNT met\000"
+ 181      6F73616D 
+ 181      706C6572 
+ 181      28293A20 
+ 181      4D41585F 
+ 182 0025 000000   		.section	.text.autosampler_take_sample,"ax",%progbits
+ 183              		.align	2
+ 184              		.global	autosampler_take_sample
+ 185              		.thumb
+ 186              		.thumb_func
+ 187              		.type	autosampler_take_sample, %function
+ 188              	autosampler_take_sample:
+ 189              	.LFB33:
+  52:..\AutoSampler.cydsn/autosampler.c **** 
+  53:..\AutoSampler.cydsn/autosampler.c **** uint8 autosampler_take_sample(uint8* count){
+ 190              		.loc 1 53 0
+ 191              		.cfi_startproc
+ 192              		@ args = 0, pretend = 0, frame = 24
+ 193              		@ frame_needed = 1, uses_anonymous_args = 0
+ 194 0000 80B5     		push	{r7, lr}
+ 195              	.LCFI8:
+ 196              		.cfi_def_cfa_offset 8
+ 197 0002 86B0     		sub	sp, sp, #24
+ 198              	.LCFI9:
+ 199              		.cfi_def_cfa_offset 32
+ 200 0004 00AF     		add	r7, sp, #0
+ 201              		.cfi_offset 14, -4
+ 202              		.cfi_offset 7, -8
+ 203              	.LCFI10:
+ 204              		.cfi_def_cfa_register 7
+ 205 0006 7860     		str	r0, [r7, #4]
+  54:..\AutoSampler.cydsn/autosampler.c ****     
+  55:..\AutoSampler.cydsn/autosampler.c ****     if (*count >= MAX_BOTTLE_COUNT) {        
+ 206              		.loc 1 55 0
+ 207 0008 7B68     		ldr	r3, [r7, #4]
+ 208 000a 1B78     		ldrb	r3, [r3, #0]	@ zero_extendqisi2
+ 209 000c 172B     		cmp	r3, #23
+ 210 000e 08D9     		bls	.L10
+  56:..\AutoSampler.cydsn/autosampler.c ****         debug_write("(autosampler(): MAX_BOTTLE_COUNT met");
+ 211              		.loc 1 56 0
+ 212 0010 40F20000 		movw	r0, #:lower16:.LC0
+ 213 0014 C0F20000 		movt	r0, #:upper16:.LC0
+ 214 0018 FFF7FEFF 		bl	debug_write
+  57:..\AutoSampler.cydsn/autosampler.c ****         return 0;
+ 215              		.loc 1 57 0
+ 216 001c 4FF00003 		mov	r3, #0
+ 217 0020 74E0     		b	.L11
+ 218              	.L10:
+  58:..\AutoSampler.cydsn/autosampler.c ****     }
+  59:..\AutoSampler.cydsn/autosampler.c ****     
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccQOaEPV.s 			page 6
+
+
+  60:..\AutoSampler.cydsn/autosampler.c ****     uint32 i = 0u, delay = 100u, interval;
+ 219              		.loc 1 60 0
+ 220 0022 4FF00003 		mov	r3, #0
+ 221 0026 FB60     		str	r3, [r7, #12]
+ 222 0028 4FF06403 		mov	r3, #100
+ 223 002c 3B61     		str	r3, [r7, #16]
+  61:..\AutoSampler.cydsn/autosampler.c ****     
+  62:..\AutoSampler.cydsn/autosampler.c ****     autosampler_state = AUTOSAMPLER_STATE_BUSY;
+ 224              		.loc 1 62 0
+ 225 002e 40F20003 		movw	r3, #:lower16:autosampler_state
+ 226 0032 C0F20003 		movt	r3, #:upper16:autosampler_state
+ 227 0036 4FF00302 		mov	r2, #3
+ 228 003a 1A70     		strb	r2, [r3, #0]
+  63:..\AutoSampler.cydsn/autosampler.c ****     
+  64:..\AutoSampler.cydsn/autosampler.c ****     // Initially set trigger high
+  65:..\AutoSampler.cydsn/autosampler.c ****     Pin_Sampler_Trigger_Write(1u);
+ 229              		.loc 1 65 0
+ 230 003c 4FF00100 		mov	r0, #1
+ 231 0040 FFF7FEFF 		bl	Pin_Sampler_Trigger_Write
+  66:..\AutoSampler.cydsn/autosampler.c ****         
+  67:..\AutoSampler.cydsn/autosampler.c ****     // Send PULSE_COUNT pulses @ 10Hz to trigger sampler
+  68:..\AutoSampler.cydsn/autosampler.c ****     for(i=0; i < PULSE_COUNT; i++){
+ 232              		.loc 1 68 0
+ 233 0044 4FF00003 		mov	r3, #0
+ 234 0048 FB60     		str	r3, [r7, #12]
+ 235 004a 13E0     		b	.L12
+ 236              	.L13:
+  69:..\AutoSampler.cydsn/autosampler.c ****         Pin_Sampler_Trigger_Write(0u);
+ 237              		.loc 1 69 0
+ 238 004c 4FF00000 		mov	r0, #0
+ 239 0050 FFF7FEFF 		bl	Pin_Sampler_Trigger_Write
+  70:..\AutoSampler.cydsn/autosampler.c ****         CyDelay(100u);
+ 240              		.loc 1 70 0
+ 241 0054 4FF06400 		mov	r0, #100
+ 242 0058 FFF7FEFF 		bl	CyDelay
+  71:..\AutoSampler.cydsn/autosampler.c ****         Pin_Sampler_Trigger_Write(1u);
+ 243              		.loc 1 71 0
+ 244 005c 4FF00100 		mov	r0, #1
+ 245 0060 FFF7FEFF 		bl	Pin_Sampler_Trigger_Write
+  72:..\AutoSampler.cydsn/autosampler.c ****         CyDelay(100u);
+ 246              		.loc 1 72 0
+ 247 0064 4FF06400 		mov	r0, #100
+ 248 0068 FFF7FEFF 		bl	CyDelay
+ 249              		.loc 1 68 0
+ 250 006c FB68     		ldr	r3, [r7, #12]
+ 251 006e 03F10103 		add	r3, r3, #1
+ 252 0072 FB60     		str	r3, [r7, #12]
+ 253              	.L12:
+ 254 0074 FB68     		ldr	r3, [r7, #12]
+ 255 0076 132B     		cmp	r3, #19
+ 256 0078 E8D9     		bls	.L13
+  73:..\AutoSampler.cydsn/autosampler.c ****     }
+  74:..\AutoSampler.cydsn/autosampler.c ****     
+  75:..\AutoSampler.cydsn/autosampler.c ****     interval =  2u*60*1000/delay;           // Wait Max of 2 Minutes for distributor arm to move
+ 257              		.loc 1 75 0
+ 258 007a 4DF2C043 		movw	r3, #:lower16:120000
+ 259 007e C0F20103 		movt	r3, #:upper16:120000
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccQOaEPV.s 			page 7
+
+
+ 260 0082 3A69     		ldr	r2, [r7, #16]
+ 261 0084 B3FBF2F3 		udiv	r3, r3, r2
+ 262 0088 7B61     		str	r3, [r7, #20]
+  76:..\AutoSampler.cydsn/autosampler.c ****     //while(Pin_Sampler_Completed_Sample_Read()==0);
+  77:..\AutoSampler.cydsn/autosampler.c ****     for (i = 0; i < interval ; i++) {  
+ 263              		.loc 1 77 0
+ 264 008a 4FF00003 		mov	r3, #0
+ 265 008e FB60     		str	r3, [r7, #12]
+ 266 0090 0BE0     		b	.L14
+ 267              	.L17:
+  78:..\AutoSampler.cydsn/autosampler.c ****         CyDelay(delay);
+ 268              		.loc 1 78 0
+ 269 0092 3869     		ldr	r0, [r7, #16]
+ 270 0094 FFF7FEFF 		bl	CyDelay
+  79:..\AutoSampler.cydsn/autosampler.c ****         if (Pin_Sampler_Completed_Sample_Read()!=0) { // Event pin on autosampler is HI
+ 271              		.loc 1 79 0
+ 272 0098 FFF7FEFF 		bl	Pin_Sampler_Completed_Sample_Read
+ 273 009c 0346     		mov	r3, r0
+ 274 009e 002B     		cmp	r3, #0
+ 275 00a0 08D1     		bne	.L23
+ 276              	.L15:
+ 277              		.loc 1 77 0
+ 278 00a2 FB68     		ldr	r3, [r7, #12]
+ 279 00a4 03F10103 		add	r3, r3, #1
+ 280 00a8 FB60     		str	r3, [r7, #12]
+ 281              	.L14:
+ 282 00aa FA68     		ldr	r2, [r7, #12]
+ 283 00ac 7B69     		ldr	r3, [r7, #20]
+ 284 00ae 9A42     		cmp	r2, r3
+ 285 00b0 EFD3     		bcc	.L17
+ 286 00b2 00E0     		b	.L16
+ 287              	.L23:
+  80:..\AutoSampler.cydsn/autosampler.c ****             break;
+ 288              		.loc 1 80 0
+ 289 00b4 00BF     		nop
+ 290              	.L16:
+  81:..\AutoSampler.cydsn/autosampler.c ****         }
+  82:..\AutoSampler.cydsn/autosampler.c ****     }
+  83:..\AutoSampler.cydsn/autosampler.c ****     
+  84:..\AutoSampler.cydsn/autosampler.c ****     //while(Pin_Sampler_Completed_Sample_Read()!=0);
+  85:..\AutoSampler.cydsn/autosampler.c ****     if (Pin_Sampler_Completed_Sample_Read() != 0) {
+ 291              		.loc 1 85 0
+ 292 00b6 FFF7FEFF 		bl	Pin_Sampler_Completed_Sample_Read
+ 293 00ba 0346     		mov	r3, r0
+ 294 00bc 002B     		cmp	r3, #0
+ 295 00be 1DD0     		beq	.L18
+  86:..\AutoSampler.cydsn/autosampler.c ****         //SampleCount = BottleCount_Read(); // Should be zero always
+  87:..\AutoSampler.cydsn/autosampler.c ****         
+  88:..\AutoSampler.cydsn/autosampler.c ****         interval =  4u*60*1000/delay;       // Wait Max of 4 Minutes for pumping to complete
+ 296              		.loc 1 88 0
+ 297 00c0 4AF68013 		movw	r3, #:lower16:240000
+ 298 00c4 C0F20303 		movt	r3, #:upper16:240000
+ 299 00c8 3A69     		ldr	r2, [r7, #16]
+ 300 00ca B3FBF2F3 		udiv	r3, r3, r2
+ 301 00ce 7B61     		str	r3, [r7, #20]
+  89:..\AutoSampler.cydsn/autosampler.c ****         for (i = 0; i < interval ; i++) { 
+ 302              		.loc 1 89 0
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccQOaEPV.s 			page 8
+
+
+ 303 00d0 4FF00003 		mov	r3, #0
+ 304 00d4 FB60     		str	r3, [r7, #12]
+ 305 00d6 0BE0     		b	.L19
+ 306              	.L21:
+  90:..\AutoSampler.cydsn/autosampler.c ****             CyDelay(delay);
+ 307              		.loc 1 90 0
+ 308 00d8 3869     		ldr	r0, [r7, #16]
+ 309 00da FFF7FEFF 		bl	CyDelay
+  91:..\AutoSampler.cydsn/autosampler.c ****             if (Pin_Sampler_Completed_Sample_Read()==0) { // Event pin on autosampler is HI
+ 310              		.loc 1 91 0
+ 311 00de FFF7FEFF 		bl	Pin_Sampler_Completed_Sample_Read
+ 312 00e2 0346     		mov	r3, r0
+ 313 00e4 002B     		cmp	r3, #0
+ 314 00e6 08D0     		beq	.L24
+ 315              	.L20:
+ 316              		.loc 1 89 0
+ 317 00e8 FB68     		ldr	r3, [r7, #12]
+ 318 00ea 03F10103 		add	r3, r3, #1
+ 319 00ee FB60     		str	r3, [r7, #12]
+ 320              	.L19:
+ 321 00f0 FA68     		ldr	r2, [r7, #12]
+ 322 00f2 7B69     		ldr	r3, [r7, #20]
+ 323 00f4 9A42     		cmp	r2, r3
+ 324 00f6 EFD3     		bcc	.L21
+ 325 00f8 00E0     		b	.L18
+ 326              	.L24:
+  92:..\AutoSampler.cydsn/autosampler.c ****                 break;
+ 327              		.loc 1 92 0
+ 328 00fa 00BF     		nop
+ 329              	.L18:
+  93:..\AutoSampler.cydsn/autosampler.c ****             }
+  94:..\AutoSampler.cydsn/autosampler.c ****         }
+  95:..\AutoSampler.cydsn/autosampler.c ****     }
+  96:..\AutoSampler.cydsn/autosampler.c ****     *count = BottleCount_Read();
+ 330              		.loc 1 96 0
+ 331 00fc FFF7FEFF 		bl	BottleCount_Read
+ 332 0100 0346     		mov	r3, r0
+ 333 0102 1A46     		mov	r2, r3
+ 334 0104 7B68     		ldr	r3, [r7, #4]
+ 335 0106 1A70     		strb	r2, [r3, #0]
+  97:..\AutoSampler.cydsn/autosampler.c ****     return 1u;
+ 336              		.loc 1 97 0
+ 337 0108 4FF00103 		mov	r3, #1
+ 338              	.L11:
+  98:..\AutoSampler.cydsn/autosampler.c **** }
+ 339              		.loc 1 98 0
+ 340 010c 1846     		mov	r0, r3
+ 341 010e 07F11807 		add	r7, r7, #24
+ 342 0112 BD46     		mov	sp, r7
+ 343 0114 80BD     		pop	{r7, pc}
+ 344              		.cfi_endproc
+ 345              	.LFE33:
+ 346              		.size	autosampler_take_sample, .-autosampler_take_sample
+ 347 0116 00BF     		.section	.text.isr_SampleCounter,"ax",%progbits
+ 348              		.align	2
+ 349              		.global	isr_SampleCounter
+ 350              		.thumb
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccQOaEPV.s 			page 9
+
+
+ 351              		.thumb_func
+ 352              		.type	isr_SampleCounter, %function
+ 353              	isr_SampleCounter:
+ 354              	.LFB34:
+  99:..\AutoSampler.cydsn/autosampler.c **** 
+ 100:..\AutoSampler.cydsn/autosampler.c **** CY_ISR(isr_SampleCounter){
+ 355              		.loc 1 100 0
+ 356              		.cfi_startproc
+ 357              		@ args = 0, pretend = 0, frame = 0
+ 358              		@ frame_needed = 1, uses_anonymous_args = 0
+ 359              		@ link register save eliminated.
+ 360 0000 80B4     		push	{r7}
+ 361              	.LCFI11:
+ 362              		.cfi_def_cfa_offset 4
+ 363 0002 00AF     		add	r7, sp, #0
+ 364              		.cfi_offset 7, -4
+ 365              	.LCFI12:
+ 366              		.cfi_def_cfa_register 7
+ 101:..\AutoSampler.cydsn/autosampler.c ****     SampleCount1++;
+ 367              		.loc 1 101 0
+ 368 0004 40F20003 		movw	r3, #:lower16:SampleCount1
+ 369 0008 C0F20003 		movt	r3, #:upper16:SampleCount1
+ 370 000c 1B78     		ldrb	r3, [r3, #0]	@ zero_extendqisi2
+ 371 000e 03F10103 		add	r3, r3, #1
+ 372 0012 DAB2     		uxtb	r2, r3
+ 373 0014 40F20003 		movw	r3, #:lower16:SampleCount1
+ 374 0018 C0F20003 		movt	r3, #:upper16:SampleCount1
+ 375 001c 1A70     		strb	r2, [r3, #0]
+ 102:..\AutoSampler.cydsn/autosampler.c **** }
+ 376              		.loc 1 102 0
+ 377 001e BD46     		mov	sp, r7
+ 378 0020 80BC     		pop	{r7}
+ 379 0022 7047     		bx	lr
+ 380              		.cfi_endproc
+ 381              	.LFE34:
+ 382              		.size	isr_SampleCounter, .-isr_SampleCounter
+ 383              		.text
+ 384              	.Letext0:
+ 385              		.section	.debug_loc,"",%progbits
+ 386              	.Ldebug_loc0:
+ 387              	.LLST0:
+ 388 0000 00000000 		.4byte	.LFB29
+ 389 0004 02000000 		.4byte	.LCFI0
+ 390 0008 0100     		.2byte	0x1
+ 391 000a 5D       		.byte	0x5d
+ 392 000b 02000000 		.4byte	.LCFI0
+ 393 000f 04000000 		.4byte	.LCFI1
+ 394 0013 0200     		.2byte	0x2
+ 395 0015 7D       		.byte	0x7d
+ 396 0016 08       		.sleb128 8
+ 397 0017 04000000 		.4byte	.LCFI1
+ 398 001b 26000000 		.4byte	.LFE29
+ 399 001f 0200     		.2byte	0x2
+ 400 0021 77       		.byte	0x77
+ 401 0022 08       		.sleb128 8
+ 402 0023 00000000 		.4byte	0x0
+ 403 0027 00000000 		.4byte	0x0
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccQOaEPV.s 			page 10
+
+
+ 404              	.LLST1:
+ 405 002b 00000000 		.4byte	.LFB30
+ 406 002f 02000000 		.4byte	.LCFI2
+ 407 0033 0100     		.2byte	0x1
+ 408 0035 5D       		.byte	0x5d
+ 409 0036 02000000 		.4byte	.LCFI2
+ 410 003a 04000000 		.4byte	.LCFI3
+ 411 003e 0200     		.2byte	0x2
+ 412 0040 7D       		.byte	0x7d
+ 413 0041 04       		.sleb128 4
+ 414 0042 04000000 		.4byte	.LCFI3
+ 415 0046 10000000 		.4byte	.LFE30
+ 416 004a 0200     		.2byte	0x2
+ 417 004c 77       		.byte	0x77
+ 418 004d 04       		.sleb128 4
+ 419 004e 00000000 		.4byte	0x0
+ 420 0052 00000000 		.4byte	0x0
+ 421              	.LLST2:
+ 422 0056 00000000 		.4byte	.LFB31
+ 423 005a 02000000 		.4byte	.LCFI4
+ 424 005e 0100     		.2byte	0x1
+ 425 0060 5D       		.byte	0x5d
+ 426 0061 02000000 		.4byte	.LCFI4
+ 427 0065 04000000 		.4byte	.LCFI5
+ 428 0069 0200     		.2byte	0x2
+ 429 006b 7D       		.byte	0x7d
+ 430 006c 08       		.sleb128 8
+ 431 006d 04000000 		.4byte	.LCFI5
+ 432 0071 2A000000 		.4byte	.LFE31
+ 433 0075 0200     		.2byte	0x2
+ 434 0077 77       		.byte	0x77
+ 435 0078 08       		.sleb128 8
+ 436 0079 00000000 		.4byte	0x0
+ 437 007d 00000000 		.4byte	0x0
+ 438              	.LLST3:
+ 439 0081 00000000 		.4byte	.LFB32
+ 440 0085 02000000 		.4byte	.LCFI6
+ 441 0089 0100     		.2byte	0x1
+ 442 008b 5D       		.byte	0x5d
+ 443 008c 02000000 		.4byte	.LCFI6
+ 444 0090 04000000 		.4byte	.LCFI7
+ 445 0094 0200     		.2byte	0x2
+ 446 0096 7D       		.byte	0x7d
+ 447 0097 08       		.sleb128 8
+ 448 0098 04000000 		.4byte	.LCFI7
+ 449 009c 22000000 		.4byte	.LFE32
+ 450 00a0 0200     		.2byte	0x2
+ 451 00a2 77       		.byte	0x77
+ 452 00a3 08       		.sleb128 8
+ 453 00a4 00000000 		.4byte	0x0
+ 454 00a8 00000000 		.4byte	0x0
+ 455              	.LLST4:
+ 456 00ac 00000000 		.4byte	.LFB33
+ 457 00b0 02000000 		.4byte	.LCFI8
+ 458 00b4 0100     		.2byte	0x1
+ 459 00b6 5D       		.byte	0x5d
+ 460 00b7 02000000 		.4byte	.LCFI8
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccQOaEPV.s 			page 11
+
+
+ 461 00bb 04000000 		.4byte	.LCFI9
+ 462 00bf 0200     		.2byte	0x2
+ 463 00c1 7D       		.byte	0x7d
+ 464 00c2 08       		.sleb128 8
+ 465 00c3 04000000 		.4byte	.LCFI9
+ 466 00c7 06000000 		.4byte	.LCFI10
+ 467 00cb 0200     		.2byte	0x2
+ 468 00cd 7D       		.byte	0x7d
+ 469 00ce 20       		.sleb128 32
+ 470 00cf 06000000 		.4byte	.LCFI10
+ 471 00d3 16010000 		.4byte	.LFE33
+ 472 00d7 0200     		.2byte	0x2
+ 473 00d9 77       		.byte	0x77
+ 474 00da 20       		.sleb128 32
+ 475 00db 00000000 		.4byte	0x0
+ 476 00df 00000000 		.4byte	0x0
+ 477              	.LLST5:
+ 478 00e3 00000000 		.4byte	.LFB34
+ 479 00e7 02000000 		.4byte	.LCFI11
+ 480 00eb 0100     		.2byte	0x1
+ 481 00ed 5D       		.byte	0x5d
+ 482 00ee 02000000 		.4byte	.LCFI11
+ 483 00f2 04000000 		.4byte	.LCFI12
+ 484 00f6 0200     		.2byte	0x2
+ 485 00f8 7D       		.byte	0x7d
+ 486 00f9 04       		.sleb128 4
+ 487 00fa 04000000 		.4byte	.LCFI12
+ 488 00fe 24000000 		.4byte	.LFE34
+ 489 0102 0200     		.2byte	0x2
+ 490 0104 77       		.byte	0x77
+ 491 0105 04       		.sleb128 4
+ 492 0106 00000000 		.4byte	0x0
+ 493 010a 00000000 		.4byte	0x0
+ 494              		.file 2 "./Generated_Source/PSoC5/cytypes.h"
+ 495              		.file 3 "./Generated_Source/PSoC5/core_cm3.h"
+ 496              		.section	.debug_info
+ 497 0000 B2010000 		.4byte	0x1b2
+ 498 0004 0200     		.2byte	0x2
+ 499 0006 00000000 		.4byte	.Ldebug_abbrev0
+ 500 000a 04       		.byte	0x4
+ 501 000b 01       		.uleb128 0x1
+ 502 000c 55010000 		.4byte	.LASF25
+ 503 0010 01       		.byte	0x1
+ 504 0011 B7010000 		.4byte	.LASF26
+ 505 0015 4B000000 		.4byte	.LASF27
+ 506 0019 00000000 		.4byte	0x0
+ 507 001d 00000000 		.4byte	0x0
+ 508 0021 00000000 		.4byte	.Ldebug_ranges0+0x0
+ 509 0025 00000000 		.4byte	.Ldebug_line0
+ 510 0029 02       		.uleb128 0x2
+ 511 002a 01       		.byte	0x1
+ 512 002b 06       		.byte	0x6
+ 513 002c DA010000 		.4byte	.LASF0
+ 514 0030 02       		.uleb128 0x2
+ 515 0031 01       		.byte	0x1
+ 516 0032 08       		.byte	0x8
+ 517 0033 9A000000 		.4byte	.LASF1
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccQOaEPV.s 			page 12
+
+
+ 518 0037 02       		.uleb128 0x2
+ 519 0038 02       		.byte	0x2
+ 520 0039 05       		.byte	0x5
+ 521 003a 78010000 		.4byte	.LASF2
+ 522 003e 02       		.uleb128 0x2
+ 523 003f 02       		.byte	0x2
+ 524 0040 07       		.byte	0x7
+ 525 0041 D6000000 		.4byte	.LASF3
+ 526 0045 02       		.uleb128 0x2
+ 527 0046 04       		.byte	0x4
+ 528 0047 05       		.byte	0x5
+ 529 0048 AE010000 		.4byte	.LASF4
+ 530 004c 02       		.uleb128 0x2
+ 531 004d 04       		.byte	0x4
+ 532 004e 07       		.byte	0x7
+ 533 004f F6000000 		.4byte	.LASF5
+ 534 0053 02       		.uleb128 0x2
+ 535 0054 08       		.byte	0x8
+ 536 0055 05       		.byte	0x5
+ 537 0056 00000000 		.4byte	.LASF6
+ 538 005a 02       		.uleb128 0x2
+ 539 005b 08       		.byte	0x8
+ 540 005c 07       		.byte	0x7
+ 541 005d 1C010000 		.4byte	.LASF7
+ 542 0061 03       		.uleb128 0x3
+ 543 0062 04       		.byte	0x4
+ 544 0063 05       		.byte	0x5
+ 545 0064 696E7400 		.ascii	"int\000"
+ 546 0068 02       		.uleb128 0x2
+ 547 0069 04       		.byte	0x4
+ 548 006a 07       		.byte	0x7
+ 549 006b 0F010000 		.4byte	.LASF8
+ 550 006f 04       		.uleb128 0x4
+ 551 0070 3F000000 		.4byte	.LASF9
+ 552 0074 02       		.byte	0x2
+ 553 0075 4C       		.byte	0x4c
+ 554 0076 30000000 		.4byte	0x30
+ 555 007a 04       		.uleb128 0x4
+ 556 007b 08010000 		.4byte	.LASF10
+ 557 007f 02       		.byte	0x2
+ 558 0080 4E       		.byte	0x4e
+ 559 0081 4C000000 		.4byte	0x4c
+ 560 0085 02       		.uleb128 0x2
+ 561 0086 04       		.byte	0x4
+ 562 0087 04       		.byte	0x4
+ 563 0088 39000000 		.4byte	.LASF11
+ 564 008c 02       		.uleb128 0x2
+ 565 008d 08       		.byte	0x8
+ 566 008e 04       		.byte	0x4
+ 567 008f 20000000 		.4byte	.LASF12
+ 568 0093 02       		.uleb128 0x2
+ 569 0094 01       		.byte	0x1
+ 570 0095 08       		.byte	0x8
+ 571 0096 61010000 		.4byte	.LASF13
+ 572 009a 05       		.uleb128 0x5
+ 573 009b 04       		.byte	0x4
+ 574 009c 07       		.byte	0x7
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccQOaEPV.s 			page 13
+
+
+ 575 009d 06       		.uleb128 0x6
+ 576 009e 01       		.byte	0x1
+ 577 009f 9C010000 		.4byte	.LASF14
+ 578 00a3 01       		.byte	0x1
+ 579 00a4 17       		.byte	0x17
+ 580 00a5 6F000000 		.4byte	0x6f
+ 581 00a9 00000000 		.4byte	.LFB29
+ 582 00ad 26000000 		.4byte	.LFE29
+ 583 00b1 00000000 		.4byte	.LLST0
+ 584 00b5 06       		.uleb128 0x6
+ 585 00b6 01       		.byte	0x1
+ 586 00b7 8B010000 		.4byte	.LASF15
+ 587 00bb 01       		.byte	0x1
+ 588 00bc 1E       		.byte	0x1e
+ 589 00bd 6F000000 		.4byte	0x6f
+ 590 00c1 00000000 		.4byte	.LFB30
+ 591 00c5 10000000 		.4byte	.LFE30
+ 592 00c9 2B000000 		.4byte	.LLST1
+ 593 00cd 06       		.uleb128 0x6
+ 594 00ce 01       		.byte	0x1
+ 595 00cf 33010000 		.4byte	.LASF16
+ 596 00d3 01       		.byte	0x1
+ 597 00d4 25       		.byte	0x25
+ 598 00d5 6F000000 		.4byte	0x6f
+ 599 00d9 00000000 		.4byte	.LFB31
+ 600 00dd 2A000000 		.4byte	.LFE31
+ 601 00e1 56000000 		.4byte	.LLST2
+ 602 00e5 06       		.uleb128 0x6
+ 603 00e6 01       		.byte	0x1
+ 604 00e7 A8000000 		.4byte	.LASF17
+ 605 00eb 01       		.byte	0x1
+ 606 00ec 2E       		.byte	0x2e
+ 607 00ed 6F000000 		.4byte	0x6f
+ 608 00f1 00000000 		.4byte	.LFB32
+ 609 00f5 22000000 		.4byte	.LFE32
+ 610 00f9 81000000 		.4byte	.LLST3
+ 611 00fd 07       		.uleb128 0x7
+ 612 00fe 01       		.byte	0x1
+ 613 00ff BE000000 		.4byte	.LASF28
+ 614 0103 01       		.byte	0x1
+ 615 0104 35       		.byte	0x35
+ 616 0105 01       		.byte	0x1
+ 617 0106 6F000000 		.4byte	0x6f
+ 618 010a 00000000 		.4byte	.LFB33
+ 619 010e 16010000 		.4byte	.LFE33
+ 620 0112 AC000000 		.4byte	.LLST4
+ 621 0116 51010000 		.4byte	0x151
+ 622 011a 08       		.uleb128 0x8
+ 623 011b 0E000000 		.4byte	.LASF29
+ 624 011f 01       		.byte	0x1
+ 625 0120 35       		.byte	0x35
+ 626 0121 51010000 		.4byte	0x151
+ 627 0125 02       		.byte	0x2
+ 628 0126 91       		.byte	0x91
+ 629 0127 64       		.sleb128 -28
+ 630 0128 09       		.uleb128 0x9
+ 631 0129 6900     		.ascii	"i\000"
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccQOaEPV.s 			page 14
+
+
+ 632 012b 01       		.byte	0x1
+ 633 012c 3C       		.byte	0x3c
+ 634 012d 7A000000 		.4byte	0x7a
+ 635 0131 02       		.byte	0x2
+ 636 0132 91       		.byte	0x91
+ 637 0133 6C       		.sleb128 -20
+ 638 0134 0A       		.uleb128 0xa
+ 639 0135 45000000 		.4byte	.LASF18
+ 640 0139 01       		.byte	0x1
+ 641 013a 3C       		.byte	0x3c
+ 642 013b 7A000000 		.4byte	0x7a
+ 643 013f 02       		.byte	0x2
+ 644 0140 91       		.byte	0x91
+ 645 0141 70       		.sleb128 -16
+ 646 0142 0A       		.uleb128 0xa
+ 647 0143 82010000 		.4byte	.LASF19
+ 648 0147 01       		.byte	0x1
+ 649 0148 3C       		.byte	0x3c
+ 650 0149 7A000000 		.4byte	0x7a
+ 651 014d 02       		.byte	0x2
+ 652 014e 91       		.byte	0x91
+ 653 014f 74       		.sleb128 -12
+ 654 0150 00       		.byte	0x0
+ 655 0151 0B       		.uleb128 0xb
+ 656 0152 04       		.byte	0x4
+ 657 0153 6F000000 		.4byte	0x6f
+ 658 0157 0C       		.uleb128 0xc
+ 659 0158 01       		.byte	0x1
+ 660 0159 27000000 		.4byte	.LASF20
+ 661 015d 01       		.byte	0x1
+ 662 015e 64       		.byte	0x64
+ 663 015f 01       		.byte	0x1
+ 664 0160 00000000 		.4byte	.LFB34
+ 665 0164 24000000 		.4byte	.LFE34
+ 666 0168 E3000000 		.4byte	.LLST5
+ 667 016c 0D       		.uleb128 0xd
+ 668 016d E9000000 		.4byte	.LASF21
+ 669 0171 03       		.byte	0x3
+ 670 0172 CE06     		.2byte	0x6ce
+ 671 0174 7A010000 		.4byte	0x17a
+ 672 0178 01       		.byte	0x1
+ 673 0179 01       		.byte	0x1
+ 674 017a 0E       		.uleb128 0xe
+ 675 017b 61000000 		.4byte	0x61
+ 676 017f 0F       		.uleb128 0xf
+ 677 0180 66010000 		.4byte	.LASF22
+ 678 0184 01       		.byte	0x1
+ 679 0185 15       		.byte	0x15
+ 680 0186 6F000000 		.4byte	0x6f
+ 681 018a 01       		.byte	0x1
+ 682 018b 05       		.byte	0x5
+ 683 018c 03       		.byte	0x3
+ 684 018d 00000000 		.4byte	autosampler_state
+ 685 0191 0F       		.uleb128 0xf
+ 686 0192 14000000 		.4byte	.LASF23
+ 687 0196 01       		.byte	0x1
+ 688 0197 15       		.byte	0x15
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccQOaEPV.s 			page 15
+
+
+ 689 0198 6F000000 		.4byte	0x6f
+ 690 019c 01       		.byte	0x1
+ 691 019d 05       		.byte	0x5
+ 692 019e 03       		.byte	0x3
+ 693 019f 00000000 		.4byte	SampleCount
+ 694 01a3 0F       		.uleb128 0xf
+ 695 01a4 48010000 		.4byte	.LASF24
+ 696 01a8 01       		.byte	0x1
+ 697 01a9 15       		.byte	0x15
+ 698 01aa 6F000000 		.4byte	0x6f
+ 699 01ae 01       		.byte	0x1
+ 700 01af 05       		.byte	0x5
+ 701 01b0 03       		.byte	0x3
+ 702 01b1 00000000 		.4byte	SampleCount1
+ 703 01b5 00       		.byte	0x0
+ 704              		.section	.debug_abbrev
+ 705 0000 01       		.uleb128 0x1
+ 706 0001 11       		.uleb128 0x11
+ 707 0002 01       		.byte	0x1
+ 708 0003 25       		.uleb128 0x25
+ 709 0004 0E       		.uleb128 0xe
+ 710 0005 13       		.uleb128 0x13
+ 711 0006 0B       		.uleb128 0xb
+ 712 0007 03       		.uleb128 0x3
+ 713 0008 0E       		.uleb128 0xe
+ 714 0009 1B       		.uleb128 0x1b
+ 715 000a 0E       		.uleb128 0xe
+ 716 000b 11       		.uleb128 0x11
+ 717 000c 01       		.uleb128 0x1
+ 718 000d 52       		.uleb128 0x52
+ 719 000e 01       		.uleb128 0x1
+ 720 000f 55       		.uleb128 0x55
+ 721 0010 06       		.uleb128 0x6
+ 722 0011 10       		.uleb128 0x10
+ 723 0012 06       		.uleb128 0x6
+ 724 0013 00       		.byte	0x0
+ 725 0014 00       		.byte	0x0
+ 726 0015 02       		.uleb128 0x2
+ 727 0016 24       		.uleb128 0x24
+ 728 0017 00       		.byte	0x0
+ 729 0018 0B       		.uleb128 0xb
+ 730 0019 0B       		.uleb128 0xb
+ 731 001a 3E       		.uleb128 0x3e
+ 732 001b 0B       		.uleb128 0xb
+ 733 001c 03       		.uleb128 0x3
+ 734 001d 0E       		.uleb128 0xe
+ 735 001e 00       		.byte	0x0
+ 736 001f 00       		.byte	0x0
+ 737 0020 03       		.uleb128 0x3
+ 738 0021 24       		.uleb128 0x24
+ 739 0022 00       		.byte	0x0
+ 740 0023 0B       		.uleb128 0xb
+ 741 0024 0B       		.uleb128 0xb
+ 742 0025 3E       		.uleb128 0x3e
+ 743 0026 0B       		.uleb128 0xb
+ 744 0027 03       		.uleb128 0x3
+ 745 0028 08       		.uleb128 0x8
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccQOaEPV.s 			page 16
+
+
+ 746 0029 00       		.byte	0x0
+ 747 002a 00       		.byte	0x0
+ 748 002b 04       		.uleb128 0x4
+ 749 002c 16       		.uleb128 0x16
+ 750 002d 00       		.byte	0x0
+ 751 002e 03       		.uleb128 0x3
+ 752 002f 0E       		.uleb128 0xe
+ 753 0030 3A       		.uleb128 0x3a
+ 754 0031 0B       		.uleb128 0xb
+ 755 0032 3B       		.uleb128 0x3b
+ 756 0033 0B       		.uleb128 0xb
+ 757 0034 49       		.uleb128 0x49
+ 758 0035 13       		.uleb128 0x13
+ 759 0036 00       		.byte	0x0
+ 760 0037 00       		.byte	0x0
+ 761 0038 05       		.uleb128 0x5
+ 762 0039 24       		.uleb128 0x24
+ 763 003a 00       		.byte	0x0
+ 764 003b 0B       		.uleb128 0xb
+ 765 003c 0B       		.uleb128 0xb
+ 766 003d 3E       		.uleb128 0x3e
+ 767 003e 0B       		.uleb128 0xb
+ 768 003f 00       		.byte	0x0
+ 769 0040 00       		.byte	0x0
+ 770 0041 06       		.uleb128 0x6
+ 771 0042 2E       		.uleb128 0x2e
+ 772 0043 00       		.byte	0x0
+ 773 0044 3F       		.uleb128 0x3f
+ 774 0045 0C       		.uleb128 0xc
+ 775 0046 03       		.uleb128 0x3
+ 776 0047 0E       		.uleb128 0xe
+ 777 0048 3A       		.uleb128 0x3a
+ 778 0049 0B       		.uleb128 0xb
+ 779 004a 3B       		.uleb128 0x3b
+ 780 004b 0B       		.uleb128 0xb
+ 781 004c 49       		.uleb128 0x49
+ 782 004d 13       		.uleb128 0x13
+ 783 004e 11       		.uleb128 0x11
+ 784 004f 01       		.uleb128 0x1
+ 785 0050 12       		.uleb128 0x12
+ 786 0051 01       		.uleb128 0x1
+ 787 0052 40       		.uleb128 0x40
+ 788 0053 06       		.uleb128 0x6
+ 789 0054 00       		.byte	0x0
+ 790 0055 00       		.byte	0x0
+ 791 0056 07       		.uleb128 0x7
+ 792 0057 2E       		.uleb128 0x2e
+ 793 0058 01       		.byte	0x1
+ 794 0059 3F       		.uleb128 0x3f
+ 795 005a 0C       		.uleb128 0xc
+ 796 005b 03       		.uleb128 0x3
+ 797 005c 0E       		.uleb128 0xe
+ 798 005d 3A       		.uleb128 0x3a
+ 799 005e 0B       		.uleb128 0xb
+ 800 005f 3B       		.uleb128 0x3b
+ 801 0060 0B       		.uleb128 0xb
+ 802 0061 27       		.uleb128 0x27
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccQOaEPV.s 			page 17
+
+
+ 803 0062 0C       		.uleb128 0xc
+ 804 0063 49       		.uleb128 0x49
+ 805 0064 13       		.uleb128 0x13
+ 806 0065 11       		.uleb128 0x11
+ 807 0066 01       		.uleb128 0x1
+ 808 0067 12       		.uleb128 0x12
+ 809 0068 01       		.uleb128 0x1
+ 810 0069 40       		.uleb128 0x40
+ 811 006a 06       		.uleb128 0x6
+ 812 006b 01       		.uleb128 0x1
+ 813 006c 13       		.uleb128 0x13
+ 814 006d 00       		.byte	0x0
+ 815 006e 00       		.byte	0x0
+ 816 006f 08       		.uleb128 0x8
+ 817 0070 05       		.uleb128 0x5
+ 818 0071 00       		.byte	0x0
+ 819 0072 03       		.uleb128 0x3
+ 820 0073 0E       		.uleb128 0xe
+ 821 0074 3A       		.uleb128 0x3a
+ 822 0075 0B       		.uleb128 0xb
+ 823 0076 3B       		.uleb128 0x3b
+ 824 0077 0B       		.uleb128 0xb
+ 825 0078 49       		.uleb128 0x49
+ 826 0079 13       		.uleb128 0x13
+ 827 007a 02       		.uleb128 0x2
+ 828 007b 0A       		.uleb128 0xa
+ 829 007c 00       		.byte	0x0
+ 830 007d 00       		.byte	0x0
+ 831 007e 09       		.uleb128 0x9
+ 832 007f 34       		.uleb128 0x34
+ 833 0080 00       		.byte	0x0
+ 834 0081 03       		.uleb128 0x3
+ 835 0082 08       		.uleb128 0x8
+ 836 0083 3A       		.uleb128 0x3a
+ 837 0084 0B       		.uleb128 0xb
+ 838 0085 3B       		.uleb128 0x3b
+ 839 0086 0B       		.uleb128 0xb
+ 840 0087 49       		.uleb128 0x49
+ 841 0088 13       		.uleb128 0x13
+ 842 0089 02       		.uleb128 0x2
+ 843 008a 0A       		.uleb128 0xa
+ 844 008b 00       		.byte	0x0
+ 845 008c 00       		.byte	0x0
+ 846 008d 0A       		.uleb128 0xa
+ 847 008e 34       		.uleb128 0x34
+ 848 008f 00       		.byte	0x0
+ 849 0090 03       		.uleb128 0x3
+ 850 0091 0E       		.uleb128 0xe
+ 851 0092 3A       		.uleb128 0x3a
+ 852 0093 0B       		.uleb128 0xb
+ 853 0094 3B       		.uleb128 0x3b
+ 854 0095 0B       		.uleb128 0xb
+ 855 0096 49       		.uleb128 0x49
+ 856 0097 13       		.uleb128 0x13
+ 857 0098 02       		.uleb128 0x2
+ 858 0099 0A       		.uleb128 0xa
+ 859 009a 00       		.byte	0x0
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccQOaEPV.s 			page 18
+
+
+ 860 009b 00       		.byte	0x0
+ 861 009c 0B       		.uleb128 0xb
+ 862 009d 0F       		.uleb128 0xf
+ 863 009e 00       		.byte	0x0
+ 864 009f 0B       		.uleb128 0xb
+ 865 00a0 0B       		.uleb128 0xb
+ 866 00a1 49       		.uleb128 0x49
+ 867 00a2 13       		.uleb128 0x13
+ 868 00a3 00       		.byte	0x0
+ 869 00a4 00       		.byte	0x0
+ 870 00a5 0C       		.uleb128 0xc
+ 871 00a6 2E       		.uleb128 0x2e
+ 872 00a7 00       		.byte	0x0
+ 873 00a8 3F       		.uleb128 0x3f
+ 874 00a9 0C       		.uleb128 0xc
+ 875 00aa 03       		.uleb128 0x3
+ 876 00ab 0E       		.uleb128 0xe
+ 877 00ac 3A       		.uleb128 0x3a
+ 878 00ad 0B       		.uleb128 0xb
+ 879 00ae 3B       		.uleb128 0x3b
+ 880 00af 0B       		.uleb128 0xb
+ 881 00b0 27       		.uleb128 0x27
+ 882 00b1 0C       		.uleb128 0xc
+ 883 00b2 11       		.uleb128 0x11
+ 884 00b3 01       		.uleb128 0x1
+ 885 00b4 12       		.uleb128 0x12
+ 886 00b5 01       		.uleb128 0x1
+ 887 00b6 40       		.uleb128 0x40
+ 888 00b7 06       		.uleb128 0x6
+ 889 00b8 00       		.byte	0x0
+ 890 00b9 00       		.byte	0x0
+ 891 00ba 0D       		.uleb128 0xd
+ 892 00bb 34       		.uleb128 0x34
+ 893 00bc 00       		.byte	0x0
+ 894 00bd 03       		.uleb128 0x3
+ 895 00be 0E       		.uleb128 0xe
+ 896 00bf 3A       		.uleb128 0x3a
+ 897 00c0 0B       		.uleb128 0xb
+ 898 00c1 3B       		.uleb128 0x3b
+ 899 00c2 05       		.uleb128 0x5
+ 900 00c3 49       		.uleb128 0x49
+ 901 00c4 13       		.uleb128 0x13
+ 902 00c5 3F       		.uleb128 0x3f
+ 903 00c6 0C       		.uleb128 0xc
+ 904 00c7 3C       		.uleb128 0x3c
+ 905 00c8 0C       		.uleb128 0xc
+ 906 00c9 00       		.byte	0x0
+ 907 00ca 00       		.byte	0x0
+ 908 00cb 0E       		.uleb128 0xe
+ 909 00cc 35       		.uleb128 0x35
+ 910 00cd 00       		.byte	0x0
+ 911 00ce 49       		.uleb128 0x49
+ 912 00cf 13       		.uleb128 0x13
+ 913 00d0 00       		.byte	0x0
+ 914 00d1 00       		.byte	0x0
+ 915 00d2 0F       		.uleb128 0xf
+ 916 00d3 34       		.uleb128 0x34
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccQOaEPV.s 			page 19
+
+
+ 917 00d4 00       		.byte	0x0
+ 918 00d5 03       		.uleb128 0x3
+ 919 00d6 0E       		.uleb128 0xe
+ 920 00d7 3A       		.uleb128 0x3a
+ 921 00d8 0B       		.uleb128 0xb
+ 922 00d9 3B       		.uleb128 0x3b
+ 923 00da 0B       		.uleb128 0xb
+ 924 00db 49       		.uleb128 0x49
+ 925 00dc 13       		.uleb128 0x13
+ 926 00dd 3F       		.uleb128 0x3f
+ 927 00de 0C       		.uleb128 0xc
+ 928 00df 02       		.uleb128 0x2
+ 929 00e0 0A       		.uleb128 0xa
+ 930 00e1 00       		.byte	0x0
+ 931 00e2 00       		.byte	0x0
+ 932 00e3 00       		.byte	0x0
+ 933              		.section	.debug_pubnames,"",%progbits
+ 934 0000 D5000000 		.4byte	0xd5
+ 935 0004 0200     		.2byte	0x2
+ 936 0006 00000000 		.4byte	.Ldebug_info0
+ 937 000a B6010000 		.4byte	0x1b6
+ 938 000e 9D000000 		.4byte	0x9d
+ 939 0012 6175746F 		.ascii	"autosampler_start\000"
+ 939      73616D70 
+ 939      6C65725F 
+ 939      73746172 
+ 939      7400
+ 940 0024 B5000000 		.4byte	0xb5
+ 941 0028 6175746F 		.ascii	"autosampler_stop\000"
+ 941      73616D70 
+ 941      6C65725F 
+ 941      73746F70 
+ 941      00
+ 942 0039 CD000000 		.4byte	0xcd
+ 943 003d 6175746F 		.ascii	"autosampler_power_on\000"
+ 943      73616D70 
+ 943      6C65725F 
+ 943      706F7765 
+ 943      725F6F6E 
+ 944 0052 E5000000 		.4byte	0xe5
+ 945 0056 6175746F 		.ascii	"autosampler_power_off\000"
+ 945      73616D70 
+ 945      6C65725F 
+ 945      706F7765 
+ 945      725F6F66 
+ 946 006c FD000000 		.4byte	0xfd
+ 947 0070 6175746F 		.ascii	"autosampler_take_sample\000"
+ 947      73616D70 
+ 947      6C65725F 
+ 947      74616B65 
+ 947      5F73616D 
+ 948 0088 57010000 		.4byte	0x157
+ 949 008c 6973725F 		.ascii	"isr_SampleCounter\000"
+ 949      53616D70 
+ 949      6C65436F 
+ 949      756E7465 
+ 949      7200
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccQOaEPV.s 			page 20
+
+
+ 950 009e 7F010000 		.4byte	0x17f
+ 951 00a2 6175746F 		.ascii	"autosampler_state\000"
+ 951      73616D70 
+ 951      6C65725F 
+ 951      73746174 
+ 951      6500
+ 952 00b4 91010000 		.4byte	0x191
+ 953 00b8 53616D70 		.ascii	"SampleCount\000"
+ 953      6C65436F 
+ 953      756E7400 
+ 954 00c4 A3010000 		.4byte	0x1a3
+ 955 00c8 53616D70 		.ascii	"SampleCount1\000"
+ 955      6C65436F 
+ 955      756E7431 
+ 955      00
+ 956 00d5 00000000 		.4byte	0x0
+ 957              		.section	.debug_aranges,"",%progbits
+ 958 0000 44000000 		.4byte	0x44
+ 959 0004 0200     		.2byte	0x2
+ 960 0006 00000000 		.4byte	.Ldebug_info0
+ 961 000a 04       		.byte	0x4
+ 962 000b 00       		.byte	0x0
+ 963 000c 0000     		.2byte	0x0
+ 964 000e 0000     		.2byte	0x0
+ 965 0010 00000000 		.4byte	.LFB29
+ 966 0014 26000000 		.4byte	.LFE29-.LFB29
+ 967 0018 00000000 		.4byte	.LFB30
+ 968 001c 10000000 		.4byte	.LFE30-.LFB30
+ 969 0020 00000000 		.4byte	.LFB31
+ 970 0024 2A000000 		.4byte	.LFE31-.LFB31
+ 971 0028 00000000 		.4byte	.LFB32
+ 972 002c 22000000 		.4byte	.LFE32-.LFB32
+ 973 0030 00000000 		.4byte	.LFB33
+ 974 0034 16010000 		.4byte	.LFE33-.LFB33
+ 975 0038 00000000 		.4byte	.LFB34
+ 976 003c 24000000 		.4byte	.LFE34-.LFB34
+ 977 0040 00000000 		.4byte	0x0
+ 978 0044 00000000 		.4byte	0x0
+ 979              		.section	.debug_ranges,"",%progbits
+ 980              	.Ldebug_ranges0:
+ 981 0000 00000000 		.4byte	.Ltext0
+ 982 0004 00000000 		.4byte	.Letext0
+ 983 0008 00000000 		.4byte	.LFB29
+ 984 000c 26000000 		.4byte	.LFE29
+ 985 0010 00000000 		.4byte	.LFB30
+ 986 0014 10000000 		.4byte	.LFE30
+ 987 0018 00000000 		.4byte	.LFB31
+ 988 001c 2A000000 		.4byte	.LFE31
+ 989 0020 00000000 		.4byte	.LFB32
+ 990 0024 22000000 		.4byte	.LFE32
+ 991 0028 00000000 		.4byte	.LFB33
+ 992 002c 16010000 		.4byte	.LFE33
+ 993 0030 00000000 		.4byte	.LFB34
+ 994 0034 24000000 		.4byte	.LFE34
+ 995 0038 00000000 		.4byte	0x0
+ 996 003c 00000000 		.4byte	0x0
+ 997              		.section	.debug_str,"MS",%progbits,1
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccQOaEPV.s 			page 21
+
+
+ 998              	.LASF6:
+ 999 0000 6C6F6E67 		.ascii	"long long int\000"
+ 999      206C6F6E 
+ 999      6720696E 
+ 999      7400
+ 1000              	.LASF29:
+ 1001 000e 636F756E 		.ascii	"count\000"
+ 1001      7400
+ 1002              	.LASF23:
+ 1003 0014 53616D70 		.ascii	"SampleCount\000"
+ 1003      6C65436F 
+ 1003      756E7400 
+ 1004              	.LASF12:
+ 1005 0020 646F7562 		.ascii	"double\000"
+ 1005      6C6500
+ 1006              	.LASF20:
+ 1007 0027 6973725F 		.ascii	"isr_SampleCounter\000"
+ 1007      53616D70 
+ 1007      6C65436F 
+ 1007      756E7465 
+ 1007      7200
+ 1008              	.LASF11:
+ 1009 0039 666C6F61 		.ascii	"float\000"
+ 1009      7400
+ 1010              	.LASF9:
+ 1011 003f 75696E74 		.ascii	"uint8\000"
+ 1011      3800
+ 1012              	.LASF18:
+ 1013 0045 64656C61 		.ascii	"delay\000"
+ 1013      7900
+ 1014              	.LASF27:
+ 1015 004b 433A5C55 		.ascii	"C:\\Users\\karunmj\\Documents\\GitHub\\m2m\\hardwar"
+ 1015      73657273 
+ 1015      5C6B6172 
+ 1015      756E6D6A 
+ 1015      5C446F63 
+ 1016 0078 655C7073 		.ascii	"e\\psoc5\\PSoC_Datalogger_SMS.cydsn\000"
+ 1016      6F63355C 
+ 1016      50536F43 
+ 1016      5F446174 
+ 1016      616C6F67 
+ 1017              	.LASF1:
+ 1018 009a 756E7369 		.ascii	"unsigned char\000"
+ 1018      676E6564 
+ 1018      20636861 
+ 1018      7200
+ 1019              	.LASF17:
+ 1020 00a8 6175746F 		.ascii	"autosampler_power_off\000"
+ 1020      73616D70 
+ 1020      6C65725F 
+ 1020      706F7765 
+ 1020      725F6F66 
+ 1021              	.LASF28:
+ 1022 00be 6175746F 		.ascii	"autosampler_take_sample\000"
+ 1022      73616D70 
+ 1022      6C65725F 
+ 1022      74616B65 
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccQOaEPV.s 			page 22
+
+
+ 1022      5F73616D 
+ 1023              	.LASF3:
+ 1024 00d6 73686F72 		.ascii	"short unsigned int\000"
+ 1024      7420756E 
+ 1024      7369676E 
+ 1024      65642069 
+ 1024      6E7400
+ 1025              	.LASF21:
+ 1026 00e9 49544D5F 		.ascii	"ITM_RxBuffer\000"
+ 1026      52784275 
+ 1026      66666572 
+ 1026      00
+ 1027              	.LASF5:
+ 1028 00f6 6C6F6E67 		.ascii	"long unsigned int\000"
+ 1028      20756E73 
+ 1028      69676E65 
+ 1028      6420696E 
+ 1028      7400
+ 1029              	.LASF10:
+ 1030 0108 75696E74 		.ascii	"uint32\000"
+ 1030      333200
+ 1031              	.LASF8:
+ 1032 010f 756E7369 		.ascii	"unsigned int\000"
+ 1032      676E6564 
+ 1032      20696E74 
+ 1032      00
+ 1033              	.LASF7:
+ 1034 011c 6C6F6E67 		.ascii	"long long unsigned int\000"
+ 1034      206C6F6E 
+ 1034      6720756E 
+ 1034      7369676E 
+ 1034      65642069 
+ 1035              	.LASF16:
+ 1036 0133 6175746F 		.ascii	"autosampler_power_on\000"
+ 1036      73616D70 
+ 1036      6C65725F 
+ 1036      706F7765 
+ 1036      725F6F6E 
+ 1037              	.LASF24:
+ 1038 0148 53616D70 		.ascii	"SampleCount1\000"
+ 1038      6C65436F 
+ 1038      756E7431 
+ 1038      00
+ 1039              	.LASF25:
+ 1040 0155 474E5520 		.ascii	"GNU C 4.4.1\000"
+ 1040      4320342E 
+ 1040      342E3100 
+ 1041              	.LASF13:
+ 1042 0161 63686172 		.ascii	"char\000"
+ 1042      00
+ 1043              	.LASF22:
+ 1044 0166 6175746F 		.ascii	"autosampler_state\000"
+ 1044      73616D70 
+ 1044      6C65725F 
+ 1044      73746174 
+ 1044      6500
+ 1045              	.LASF2:
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccQOaEPV.s 			page 23
+
+
+ 1046 0178 73686F72 		.ascii	"short int\000"
+ 1046      7420696E 
+ 1046      7400
+ 1047              	.LASF19:
+ 1048 0182 696E7465 		.ascii	"interval\000"
+ 1048      7276616C 
+ 1048      00
+ 1049              	.LASF15:
+ 1050 018b 6175746F 		.ascii	"autosampler_stop\000"
+ 1050      73616D70 
+ 1050      6C65725F 
+ 1050      73746F70 
+ 1050      00
+ 1051              	.LASF14:
+ 1052 019c 6175746F 		.ascii	"autosampler_start\000"
+ 1052      73616D70 
+ 1052      6C65725F 
+ 1052      73746172 
+ 1052      7400
+ 1053              	.LASF4:
+ 1054 01ae 6C6F6E67 		.ascii	"long int\000"
+ 1054      20696E74 
+ 1054      00
+ 1055              	.LASF26:
+ 1056 01b7 2E2E5C41 		.ascii	"..\\AutoSampler.cydsn\\autosampler.c\000"
+ 1056      75746F53 
+ 1056      616D706C 
+ 1056      65722E63 
+ 1056      7964736E 
+ 1057              	.LASF0:
+ 1058 01da 7369676E 		.ascii	"signed char\000"
+ 1058      65642063 
+ 1058      68617200 
+ 1059              		.ident	"GCC: (Sourcery G++ Lite 2010q1-188) 4.4.1"

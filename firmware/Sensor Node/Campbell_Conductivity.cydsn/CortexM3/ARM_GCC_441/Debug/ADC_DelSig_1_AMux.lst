@@ -1,0 +1,844 @@
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccPuewtW.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 6
+  11              		.eabi_attribute 18, 4
+  12              		.thumb
+  13              		.file	"ADC_DelSig_1_AMux.c"
+  14              		.section	.debug_abbrev,"",%progbits
+  15              	.Ldebug_abbrev0:
+  16              		.section	.debug_info,"",%progbits
+  17              	.Ldebug_info0:
+  18              		.section	.debug_line,"",%progbits
+  19              	.Ldebug_line0:
+  20 0000 AF000000 		.text
+  20      02006A00 
+  20      00000201 
+  20      FB0E0D00 
+  20      01010101 
+  21              	.Ltext0:
+  22              		.cfi_sections	.debug_frame
+  23              		.global	ADC_DelSig_1_AMux_lastChannel
+  24              		.data
+  25              		.type	ADC_DelSig_1_AMux_lastChannel, %object
+  26              		.size	ADC_DelSig_1_AMux_lastChannel, 1
+  27              	ADC_DelSig_1_AMux_lastChannel:
+  28 0000 FF       		.byte	-1
+  29              		.section	.text.ADC_DelSig_1_AMux_Start,"ax",%progbits
+  30              		.align	2
+  31              		.global	ADC_DelSig_1_AMux_Start
+  32              		.thumb
+  33              		.thumb_func
+  34              		.type	ADC_DelSig_1_AMux_Start, %function
+  35              	ADC_DelSig_1_AMux_Start:
+  36              	.LFB0:
+  37              		.file 1 ".\\Generated_Source\\PSoC5\\ADC_DelSig_1_AMux.c"
+   1:.\Generated_Source\PSoC5/ADC_DelSig_1_AMux.c **** /*******************************************************************************
+   2:.\Generated_Source\PSoC5/ADC_DelSig_1_AMux.c **** * File Name: ADC_DelSig_1_AMux.c
+   3:.\Generated_Source\PSoC5/ADC_DelSig_1_AMux.c **** * Version 1.60
+   4:.\Generated_Source\PSoC5/ADC_DelSig_1_AMux.c **** *
+   5:.\Generated_Source\PSoC5/ADC_DelSig_1_AMux.c **** *  Description:
+   6:.\Generated_Source\PSoC5/ADC_DelSig_1_AMux.c **** *    This file contains all functions required for the analog multiplexer
+   7:.\Generated_Source\PSoC5/ADC_DelSig_1_AMux.c **** *    AMux User Module.
+   8:.\Generated_Source\PSoC5/ADC_DelSig_1_AMux.c **** *
+   9:.\Generated_Source\PSoC5/ADC_DelSig_1_AMux.c **** *   Note:
+  10:.\Generated_Source\PSoC5/ADC_DelSig_1_AMux.c **** *
+  11:.\Generated_Source\PSoC5/ADC_DelSig_1_AMux.c **** *******************************************************************************
+  12:.\Generated_Source\PSoC5/ADC_DelSig_1_AMux.c **** * Copyright 2008-2010, Cypress Semiconductor Corporation.  All rights reserved.
+  13:.\Generated_Source\PSoC5/ADC_DelSig_1_AMux.c **** * You may use this file only in accordance with the license, terms, conditions, 
+  14:.\Generated_Source\PSoC5/ADC_DelSig_1_AMux.c **** * disclaimers, and limitations in the end user license agreement accompanying 
+  15:.\Generated_Source\PSoC5/ADC_DelSig_1_AMux.c **** * the software package with which this file was provided.
+  16:.\Generated_Source\PSoC5/ADC_DelSig_1_AMux.c **** ********************************************************************************/
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccPuewtW.s 			page 2
+
+
+  17:.\Generated_Source\PSoC5/ADC_DelSig_1_AMux.c **** 
+  18:.\Generated_Source\PSoC5/ADC_DelSig_1_AMux.c **** #include "ADC_DelSig_1_AMux.h"
+  19:.\Generated_Source\PSoC5/ADC_DelSig_1_AMux.c **** 
+  20:.\Generated_Source\PSoC5/ADC_DelSig_1_AMux.c **** uint8 ADC_DelSig_1_AMux_lastChannel = ADC_DelSig_1_AMux_NULL_CHANNEL;
+  21:.\Generated_Source\PSoC5/ADC_DelSig_1_AMux.c **** 
+  22:.\Generated_Source\PSoC5/ADC_DelSig_1_AMux.c **** 
+  23:.\Generated_Source\PSoC5/ADC_DelSig_1_AMux.c **** /*******************************************************************************
+  24:.\Generated_Source\PSoC5/ADC_DelSig_1_AMux.c **** * Function Name: ADC_DelSig_1_AMux_Start
+  25:.\Generated_Source\PSoC5/ADC_DelSig_1_AMux.c **** ********************************************************************************
+  26:.\Generated_Source\PSoC5/ADC_DelSig_1_AMux.c **** * Summary:
+  27:.\Generated_Source\PSoC5/ADC_DelSig_1_AMux.c **** *  Disconnect all channels.
+  28:.\Generated_Source\PSoC5/ADC_DelSig_1_AMux.c **** *
+  29:.\Generated_Source\PSoC5/ADC_DelSig_1_AMux.c **** * Parameters:
+  30:.\Generated_Source\PSoC5/ADC_DelSig_1_AMux.c **** *  void
+  31:.\Generated_Source\PSoC5/ADC_DelSig_1_AMux.c **** *
+  32:.\Generated_Source\PSoC5/ADC_DelSig_1_AMux.c **** * Return:
+  33:.\Generated_Source\PSoC5/ADC_DelSig_1_AMux.c **** *  void
+  34:.\Generated_Source\PSoC5/ADC_DelSig_1_AMux.c **** *
+  35:.\Generated_Source\PSoC5/ADC_DelSig_1_AMux.c **** *******************************************************************************/
+  36:.\Generated_Source\PSoC5/ADC_DelSig_1_AMux.c **** void ADC_DelSig_1_AMux_Start(void)
+  37:.\Generated_Source\PSoC5/ADC_DelSig_1_AMux.c **** {
+  38              		.loc 1 37 0
+  39              		.cfi_startproc
+  40              		@ args = 0, pretend = 0, frame = 8
+  41              		@ frame_needed = 1, uses_anonymous_args = 0
+  42 0000 80B5     		push	{r7, lr}
+  43              	.LCFI0:
+  44              		.cfi_def_cfa_offset 8
+  45 0002 82B0     		sub	sp, sp, #8
+  46              	.LCFI1:
+  47              		.cfi_def_cfa_offset 16
+  48 0004 00AF     		add	r7, sp, #0
+  49              		.cfi_offset 14, -4
+  50              		.cfi_offset 7, -8
+  51              	.LCFI2:
+  52              		.cfi_def_cfa_register 7
+  38:.\Generated_Source\PSoC5/ADC_DelSig_1_AMux.c ****     uint8 chan;
+  39:.\Generated_Source\PSoC5/ADC_DelSig_1_AMux.c **** 
+  40:.\Generated_Source\PSoC5/ADC_DelSig_1_AMux.c ****     for(chan = 0; chan < ADC_DelSig_1_AMux_CHANNELS ; chan++)
+  53              		.loc 1 40 0
+  54 0006 4FF00003 		mov	r3, #0
+  55 000a FB71     		strb	r3, [r7, #7]
+  56 000c 07E0     		b	.L2
+  57              	.L3:
+  41:.\Generated_Source\PSoC5/ADC_DelSig_1_AMux.c ****     {
+  42:.\Generated_Source\PSoC5/ADC_DelSig_1_AMux.c **** #if(ADC_DelSig_1_AMux_MUXTYPE == ADC_DelSig_1_AMux_MUX_SINGLE)
+  43:.\Generated_Source\PSoC5/ADC_DelSig_1_AMux.c ****         ADC_DelSig_1_AMux_Unset(chan);
+  58              		.loc 1 43 0
+  59 000e FB79     		ldrb	r3, [r7, #7]	@ zero_extendqisi2
+  60 0010 1846     		mov	r0, r3
+  61 0012 FFF7FEFF 		bl	ADC_DelSig_1_AMux_Unset
+  62              		.loc 1 40 0
+  63 0016 FB79     		ldrb	r3, [r7, #7]
+  64 0018 03F10103 		add	r3, r3, #1
+  65 001c FB71     		strb	r3, [r7, #7]
+  66              	.L2:
+  67 001e FB79     		ldrb	r3, [r7, #7]	@ zero_extendqisi2
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccPuewtW.s 			page 3
+
+
+  68 0020 012B     		cmp	r3, #1
+  69 0022 F4D9     		bls	.L3
+  44:.\Generated_Source\PSoC5/ADC_DelSig_1_AMux.c **** #else
+  45:.\Generated_Source\PSoC5/ADC_DelSig_1_AMux.c ****         ADC_DelSig_1_AMux_CYAMUXSIDE_A_Unset(chan);
+  46:.\Generated_Source\PSoC5/ADC_DelSig_1_AMux.c ****         ADC_DelSig_1_AMux_CYAMUXSIDE_B_Unset(chan);
+  47:.\Generated_Source\PSoC5/ADC_DelSig_1_AMux.c **** #endif
+  48:.\Generated_Source\PSoC5/ADC_DelSig_1_AMux.c ****     }
+  49:.\Generated_Source\PSoC5/ADC_DelSig_1_AMux.c **** 
+  50:.\Generated_Source\PSoC5/ADC_DelSig_1_AMux.c **** 	ADC_DelSig_1_AMux_lastChannel = ADC_DelSig_1_AMux_NULL_CHANNEL;
+  70              		.loc 1 50 0
+  71 0024 40F20003 		movw	r3, #:lower16:ADC_DelSig_1_AMux_lastChannel
+  72 0028 C0F20003 		movt	r3, #:upper16:ADC_DelSig_1_AMux_lastChannel
+  73 002c 4FF0FF32 		mov	r2, #-1
+  74 0030 1A70     		strb	r2, [r3, #0]
+  51:.\Generated_Source\PSoC5/ADC_DelSig_1_AMux.c **** }
+  75              		.loc 1 51 0
+  76 0032 07F10807 		add	r7, r7, #8
+  77 0036 BD46     		mov	sp, r7
+  78 0038 80BD     		pop	{r7, pc}
+  79              		.cfi_endproc
+  80              	.LFE0:
+  81              		.size	ADC_DelSig_1_AMux_Start, .-ADC_DelSig_1_AMux_Start
+  82 003a 00BF     		.section	.text.ADC_DelSig_1_AMux_Select,"ax",%progbits
+  83              		.align	2
+  84              		.global	ADC_DelSig_1_AMux_Select
+  85              		.thumb
+  86              		.thumb_func
+  87              		.type	ADC_DelSig_1_AMux_Select, %function
+  88              	ADC_DelSig_1_AMux_Select:
+  89              	.LFB1:
+  52:.\Generated_Source\PSoC5/ADC_DelSig_1_AMux.c **** 
+  53:.\Generated_Source\PSoC5/ADC_DelSig_1_AMux.c **** 
+  54:.\Generated_Source\PSoC5/ADC_DelSig_1_AMux.c **** #if(!ADC_DelSig_1_AMux_ATMOSTONE)
+  55:.\Generated_Source\PSoC5/ADC_DelSig_1_AMux.c **** /*******************************************************************************
+  56:.\Generated_Source\PSoC5/ADC_DelSig_1_AMux.c **** * Function Name: ADC_DelSig_1_AMux_Select
+  57:.\Generated_Source\PSoC5/ADC_DelSig_1_AMux.c **** ********************************************************************************
+  58:.\Generated_Source\PSoC5/ADC_DelSig_1_AMux.c **** * Summary:
+  59:.\Generated_Source\PSoC5/ADC_DelSig_1_AMux.c **** *  This functions first disconnects all channels then connects the given
+  60:.\Generated_Source\PSoC5/ADC_DelSig_1_AMux.c **** *  channel.
+  61:.\Generated_Source\PSoC5/ADC_DelSig_1_AMux.c **** *
+  62:.\Generated_Source\PSoC5/ADC_DelSig_1_AMux.c **** * Parameters:
+  63:.\Generated_Source\PSoC5/ADC_DelSig_1_AMux.c **** *  channel:  The channel to connect to the common terminal.
+  64:.\Generated_Source\PSoC5/ADC_DelSig_1_AMux.c **** *
+  65:.\Generated_Source\PSoC5/ADC_DelSig_1_AMux.c **** * Return:
+  66:.\Generated_Source\PSoC5/ADC_DelSig_1_AMux.c **** *  void
+  67:.\Generated_Source\PSoC5/ADC_DelSig_1_AMux.c **** *
+  68:.\Generated_Source\PSoC5/ADC_DelSig_1_AMux.c **** *******************************************************************************/
+  69:.\Generated_Source\PSoC5/ADC_DelSig_1_AMux.c **** void ADC_DelSig_1_AMux_Select(uint8 channel) 
+  70:.\Generated_Source\PSoC5/ADC_DelSig_1_AMux.c **** {
+  90              		.loc 1 70 0
+  91              		.cfi_startproc
+  92              		@ args = 0, pretend = 0, frame = 8
+  93              		@ frame_needed = 1, uses_anonymous_args = 0
+  94 0000 80B5     		push	{r7, lr}
+  95              	.LCFI3:
+  96              		.cfi_def_cfa_offset 8
+  97 0002 82B0     		sub	sp, sp, #8
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccPuewtW.s 			page 4
+
+
+  98              	.LCFI4:
+  99              		.cfi_def_cfa_offset 16
+ 100 0004 00AF     		add	r7, sp, #0
+ 101              		.cfi_offset 14, -4
+ 102              		.cfi_offset 7, -8
+ 103              	.LCFI5:
+ 104              		.cfi_def_cfa_register 7
+ 105 0006 0346     		mov	r3, r0
+ 106 0008 FB71     		strb	r3, [r7, #7]
+  71:.\Generated_Source\PSoC5/ADC_DelSig_1_AMux.c ****     ADC_DelSig_1_AMux_DisconnectAll();        /* Disconnect all previous connections */
+ 107              		.loc 1 71 0
+ 108 000a FFF7FEFF 		bl	ADC_DelSig_1_AMux_Start
+  72:.\Generated_Source\PSoC5/ADC_DelSig_1_AMux.c ****     ADC_DelSig_1_AMux_Connect(channel);       /* Make the given selection */
+ 109              		.loc 1 72 0
+ 110 000e FB79     		ldrb	r3, [r7, #7]	@ zero_extendqisi2
+ 111 0010 1846     		mov	r0, r3
+ 112 0012 FFF7FEFF 		bl	ADC_DelSig_1_AMux_Set
+  73:.\Generated_Source\PSoC5/ADC_DelSig_1_AMux.c ****     ADC_DelSig_1_AMux_lastChannel = channel;  /* Update last channel */
+ 113              		.loc 1 73 0
+ 114 0016 40F20003 		movw	r3, #:lower16:ADC_DelSig_1_AMux_lastChannel
+ 115 001a C0F20003 		movt	r3, #:upper16:ADC_DelSig_1_AMux_lastChannel
+ 116 001e FA79     		ldrb	r2, [r7, #7]
+ 117 0020 1A70     		strb	r2, [r3, #0]
+  74:.\Generated_Source\PSoC5/ADC_DelSig_1_AMux.c **** }
+ 118              		.loc 1 74 0
+ 119 0022 07F10807 		add	r7, r7, #8
+ 120 0026 BD46     		mov	sp, r7
+ 121 0028 80BD     		pop	{r7, pc}
+ 122              		.cfi_endproc
+ 123              	.LFE1:
+ 124              		.size	ADC_DelSig_1_AMux_Select, .-ADC_DelSig_1_AMux_Select
+ 125 002a 00BF     		.section	.text.ADC_DelSig_1_AMux_FastSelect,"ax",%progbits
+ 126              		.align	2
+ 127              		.global	ADC_DelSig_1_AMux_FastSelect
+ 128              		.thumb
+ 129              		.thumb_func
+ 130              		.type	ADC_DelSig_1_AMux_FastSelect, %function
+ 131              	ADC_DelSig_1_AMux_FastSelect:
+ 132              	.LFB2:
+  75:.\Generated_Source\PSoC5/ADC_DelSig_1_AMux.c **** #endif
+  76:.\Generated_Source\PSoC5/ADC_DelSig_1_AMux.c **** 
+  77:.\Generated_Source\PSoC5/ADC_DelSig_1_AMux.c **** 
+  78:.\Generated_Source\PSoC5/ADC_DelSig_1_AMux.c **** /*******************************************************************************
+  79:.\Generated_Source\PSoC5/ADC_DelSig_1_AMux.c **** * Function Name: ADC_DelSig_1_AMux_FastSelect
+  80:.\Generated_Source\PSoC5/ADC_DelSig_1_AMux.c **** ********************************************************************************
+  81:.\Generated_Source\PSoC5/ADC_DelSig_1_AMux.c **** * Summary:
+  82:.\Generated_Source\PSoC5/ADC_DelSig_1_AMux.c **** *  This function first disconnects the last connection made with FastSelect or
+  83:.\Generated_Source\PSoC5/ADC_DelSig_1_AMux.c **** *  Select, then connects the given channel. The FastSelect function is similar
+  84:.\Generated_Source\PSoC5/ADC_DelSig_1_AMux.c **** *  to the Select function, except it is faster since it only disconnects the
+  85:.\Generated_Source\PSoC5/ADC_DelSig_1_AMux.c **** *  last channel selected rather than all channels.
+  86:.\Generated_Source\PSoC5/ADC_DelSig_1_AMux.c **** *
+  87:.\Generated_Source\PSoC5/ADC_DelSig_1_AMux.c **** * Parameters:
+  88:.\Generated_Source\PSoC5/ADC_DelSig_1_AMux.c **** *  channel:  The channel to connect to the common terminal.
+  89:.\Generated_Source\PSoC5/ADC_DelSig_1_AMux.c **** *
+  90:.\Generated_Source\PSoC5/ADC_DelSig_1_AMux.c **** * Return:
+  91:.\Generated_Source\PSoC5/ADC_DelSig_1_AMux.c **** *  void
+  92:.\Generated_Source\PSoC5/ADC_DelSig_1_AMux.c **** *
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccPuewtW.s 			page 5
+
+
+  93:.\Generated_Source\PSoC5/ADC_DelSig_1_AMux.c **** *******************************************************************************/
+  94:.\Generated_Source\PSoC5/ADC_DelSig_1_AMux.c **** void ADC_DelSig_1_AMux_FastSelect(uint8 channel) 
+  95:.\Generated_Source\PSoC5/ADC_DelSig_1_AMux.c **** {
+ 133              		.loc 1 95 0
+ 134              		.cfi_startproc
+ 135              		@ args = 0, pretend = 0, frame = 8
+ 136              		@ frame_needed = 1, uses_anonymous_args = 0
+ 137 0000 80B5     		push	{r7, lr}
+ 138              	.LCFI6:
+ 139              		.cfi_def_cfa_offset 8
+ 140 0002 82B0     		sub	sp, sp, #8
+ 141              	.LCFI7:
+ 142              		.cfi_def_cfa_offset 16
+ 143 0004 00AF     		add	r7, sp, #0
+ 144              		.cfi_offset 14, -4
+ 145              		.cfi_offset 7, -8
+ 146              	.LCFI8:
+ 147              		.cfi_def_cfa_register 7
+ 148 0006 0346     		mov	r3, r0
+ 149 0008 FB71     		strb	r3, [r7, #7]
+  96:.\Generated_Source\PSoC5/ADC_DelSig_1_AMux.c ****     /* Disconnect the last valid channel */
+  97:.\Generated_Source\PSoC5/ADC_DelSig_1_AMux.c ****     if( ADC_DelSig_1_AMux_lastChannel != ADC_DelSig_1_AMux_NULL_CHANNEL)
+ 150              		.loc 1 97 0
+ 151 000a 40F20003 		movw	r3, #:lower16:ADC_DelSig_1_AMux_lastChannel
+ 152 000e C0F20003 		movt	r3, #:upper16:ADC_DelSig_1_AMux_lastChannel
+ 153 0012 1B78     		ldrb	r3, [r3, #0]	@ zero_extendqisi2
+ 154 0014 FF2B     		cmp	r3, #255
+ 155 0016 07D0     		beq	.L8
+  98:.\Generated_Source\PSoC5/ADC_DelSig_1_AMux.c ****     {
+  99:.\Generated_Source\PSoC5/ADC_DelSig_1_AMux.c ****         ADC_DelSig_1_AMux_Disconnect(ADC_DelSig_1_AMux_lastChannel);
+ 156              		.loc 1 99 0
+ 157 0018 40F20003 		movw	r3, #:lower16:ADC_DelSig_1_AMux_lastChannel
+ 158 001c C0F20003 		movt	r3, #:upper16:ADC_DelSig_1_AMux_lastChannel
+ 159 0020 1B78     		ldrb	r3, [r3, #0]	@ zero_extendqisi2
+ 160 0022 1846     		mov	r0, r3
+ 161 0024 FFF7FEFF 		bl	ADC_DelSig_1_AMux_Unset
+ 162              	.L8:
+ 100:.\Generated_Source\PSoC5/ADC_DelSig_1_AMux.c ****     }
+ 101:.\Generated_Source\PSoC5/ADC_DelSig_1_AMux.c **** 
+ 102:.\Generated_Source\PSoC5/ADC_DelSig_1_AMux.c ****     /* Make the new channel connection */
+ 103:.\Generated_Source\PSoC5/ADC_DelSig_1_AMux.c **** #if(ADC_DelSig_1_AMux_MUXTYPE == ADC_DelSig_1_AMux_MUX_SINGLE)
+ 104:.\Generated_Source\PSoC5/ADC_DelSig_1_AMux.c ****     ADC_DelSig_1_AMux_Set(channel);
+ 163              		.loc 1 104 0
+ 164 0028 FB79     		ldrb	r3, [r7, #7]	@ zero_extendqisi2
+ 165 002a 1846     		mov	r0, r3
+ 166 002c FFF7FEFF 		bl	ADC_DelSig_1_AMux_Set
+ 105:.\Generated_Source\PSoC5/ADC_DelSig_1_AMux.c **** #else
+ 106:.\Generated_Source\PSoC5/ADC_DelSig_1_AMux.c ****     ADC_DelSig_1_AMux_CYAMUXSIDE_A_Set(channel);
+ 107:.\Generated_Source\PSoC5/ADC_DelSig_1_AMux.c ****     ADC_DelSig_1_AMux_CYAMUXSIDE_B_Set(channel);
+ 108:.\Generated_Source\PSoC5/ADC_DelSig_1_AMux.c **** #endif
+ 109:.\Generated_Source\PSoC5/ADC_DelSig_1_AMux.c **** 
+ 110:.\Generated_Source\PSoC5/ADC_DelSig_1_AMux.c **** 
+ 111:.\Generated_Source\PSoC5/ADC_DelSig_1_AMux.c **** 	ADC_DelSig_1_AMux_lastChannel = channel;   /* Update last channel */
+ 167              		.loc 1 111 0
+ 168 0030 40F20003 		movw	r3, #:lower16:ADC_DelSig_1_AMux_lastChannel
+ 169 0034 C0F20003 		movt	r3, #:upper16:ADC_DelSig_1_AMux_lastChannel
+ 170 0038 FA79     		ldrb	r2, [r7, #7]
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccPuewtW.s 			page 6
+
+
+ 171 003a 1A70     		strb	r2, [r3, #0]
+ 112:.\Generated_Source\PSoC5/ADC_DelSig_1_AMux.c **** }
+ 172              		.loc 1 112 0
+ 173 003c 07F10807 		add	r7, r7, #8
+ 174 0040 BD46     		mov	sp, r7
+ 175 0042 80BD     		pop	{r7, pc}
+ 176              		.cfi_endproc
+ 177              	.LFE2:
+ 178              		.size	ADC_DelSig_1_AMux_FastSelect, .-ADC_DelSig_1_AMux_FastSelect
+ 179              		.text
+ 180              	.Letext0:
+ 181              		.section	.debug_loc,"",%progbits
+ 182              	.Ldebug_loc0:
+ 183              	.LLST0:
+ 184 0000 00000000 		.4byte	.LFB0
+ 185 0004 02000000 		.4byte	.LCFI0
+ 186 0008 0100     		.2byte	0x1
+ 187 000a 5D       		.byte	0x5d
+ 188 000b 02000000 		.4byte	.LCFI0
+ 189 000f 04000000 		.4byte	.LCFI1
+ 190 0013 0200     		.2byte	0x2
+ 191 0015 7D       		.byte	0x7d
+ 192 0016 08       		.sleb128 8
+ 193 0017 04000000 		.4byte	.LCFI1
+ 194 001b 06000000 		.4byte	.LCFI2
+ 195 001f 0200     		.2byte	0x2
+ 196 0021 7D       		.byte	0x7d
+ 197 0022 10       		.sleb128 16
+ 198 0023 06000000 		.4byte	.LCFI2
+ 199 0027 3A000000 		.4byte	.LFE0
+ 200 002b 0200     		.2byte	0x2
+ 201 002d 77       		.byte	0x77
+ 202 002e 10       		.sleb128 16
+ 203 002f 00000000 		.4byte	0x0
+ 204 0033 00000000 		.4byte	0x0
+ 205              	.LLST1:
+ 206 0037 00000000 		.4byte	.LFB1
+ 207 003b 02000000 		.4byte	.LCFI3
+ 208 003f 0100     		.2byte	0x1
+ 209 0041 5D       		.byte	0x5d
+ 210 0042 02000000 		.4byte	.LCFI3
+ 211 0046 04000000 		.4byte	.LCFI4
+ 212 004a 0200     		.2byte	0x2
+ 213 004c 7D       		.byte	0x7d
+ 214 004d 08       		.sleb128 8
+ 215 004e 04000000 		.4byte	.LCFI4
+ 216 0052 06000000 		.4byte	.LCFI5
+ 217 0056 0200     		.2byte	0x2
+ 218 0058 7D       		.byte	0x7d
+ 219 0059 10       		.sleb128 16
+ 220 005a 06000000 		.4byte	.LCFI5
+ 221 005e 2A000000 		.4byte	.LFE1
+ 222 0062 0200     		.2byte	0x2
+ 223 0064 77       		.byte	0x77
+ 224 0065 10       		.sleb128 16
+ 225 0066 00000000 		.4byte	0x0
+ 226 006a 00000000 		.4byte	0x0
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccPuewtW.s 			page 7
+
+
+ 227              	.LLST2:
+ 228 006e 00000000 		.4byte	.LFB2
+ 229 0072 02000000 		.4byte	.LCFI6
+ 230 0076 0100     		.2byte	0x1
+ 231 0078 5D       		.byte	0x5d
+ 232 0079 02000000 		.4byte	.LCFI6
+ 233 007d 04000000 		.4byte	.LCFI7
+ 234 0081 0200     		.2byte	0x2
+ 235 0083 7D       		.byte	0x7d
+ 236 0084 08       		.sleb128 8
+ 237 0085 04000000 		.4byte	.LCFI7
+ 238 0089 06000000 		.4byte	.LCFI8
+ 239 008d 0200     		.2byte	0x2
+ 240 008f 7D       		.byte	0x7d
+ 241 0090 10       		.sleb128 16
+ 242 0091 06000000 		.4byte	.LCFI8
+ 243 0095 44000000 		.4byte	.LFE2
+ 244 0099 0200     		.2byte	0x2
+ 245 009b 77       		.byte	0x77
+ 246 009c 10       		.sleb128 16
+ 247 009d 00000000 		.4byte	0x0
+ 248 00a1 00000000 		.4byte	0x0
+ 249              		.file 2 ".\\Generated_Source\\PSoC5\\/cytypes.h"
+ 250              		.section	.debug_info
+ 251 0000 16010000 		.4byte	0x116
+ 252 0004 0200     		.2byte	0x2
+ 253 0006 00000000 		.4byte	.Ldebug_abbrev0
+ 254 000a 04       		.byte	0x4
+ 255 000b 01       		.uleb128 0x1
+ 256 000c 2E010000 		.4byte	.LASF16
+ 257 0010 01       		.byte	0x1
+ 258 0011 AC000000 		.4byte	.LASF17
+ 259 0015 16000000 		.4byte	.LASF18
+ 260 0019 00000000 		.4byte	0x0
+ 261 001d 00000000 		.4byte	0x0
+ 262 0021 00000000 		.4byte	.Ldebug_ranges0+0x0
+ 263 0025 00000000 		.4byte	.Ldebug_line0
+ 264 0029 02       		.uleb128 0x2
+ 265 002a 01       		.byte	0x1
+ 266 002b 06       		.byte	0x6
+ 267 002c 58010000 		.4byte	.LASF0
+ 268 0030 02       		.uleb128 0x2
+ 269 0031 01       		.byte	0x1
+ 270 0032 08       		.byte	0x8
+ 271 0033 85000000 		.4byte	.LASF1
+ 272 0037 02       		.uleb128 0x2
+ 273 0038 02       		.byte	0x2
+ 274 0039 05       		.byte	0x5
+ 275 003a 3F010000 		.4byte	.LASF2
+ 276 003e 02       		.uleb128 0x2
+ 277 003f 02       		.byte	0x2
+ 278 0040 07       		.byte	0x7
+ 279 0041 EB000000 		.4byte	.LASF3
+ 280 0045 02       		.uleb128 0x2
+ 281 0046 04       		.byte	0x4
+ 282 0047 05       		.byte	0x5
+ 283 0048 4F010000 		.4byte	.LASF4
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccPuewtW.s 			page 8
+
+
+ 284 004c 02       		.uleb128 0x2
+ 285 004d 04       		.byte	0x4
+ 286 004e 07       		.byte	0x7
+ 287 004f D9000000 		.4byte	.LASF5
+ 288 0053 02       		.uleb128 0x2
+ 289 0054 08       		.byte	0x8
+ 290 0055 05       		.byte	0x5
+ 291 0056 00000000 		.4byte	.LASF6
+ 292 005a 02       		.uleb128 0x2
+ 293 005b 08       		.byte	0x8
+ 294 005c 07       		.byte	0x7
+ 295 005d 12010000 		.4byte	.LASF7
+ 296 0061 03       		.uleb128 0x3
+ 297 0062 04       		.byte	0x4
+ 298 0063 05       		.byte	0x5
+ 299 0064 696E7400 		.ascii	"int\000"
+ 300 0068 02       		.uleb128 0x2
+ 301 0069 04       		.byte	0x4
+ 302 006a 07       		.byte	0x7
+ 303 006b 05010000 		.4byte	.LASF8
+ 304 006f 04       		.uleb128 0x4
+ 305 0070 49010000 		.4byte	.LASF19
+ 306 0074 02       		.byte	0x2
+ 307 0075 4C       		.byte	0x4c
+ 308 0076 30000000 		.4byte	0x30
+ 309 007a 02       		.uleb128 0x2
+ 310 007b 04       		.byte	0x4
+ 311 007c 04       		.byte	0x4
+ 312 007d 7F000000 		.4byte	.LASF9
+ 313 0081 02       		.uleb128 0x2
+ 314 0082 08       		.byte	0x8
+ 315 0083 04       		.byte	0x4
+ 316 0084 FE000000 		.4byte	.LASF10
+ 317 0088 02       		.uleb128 0x2
+ 318 0089 01       		.byte	0x1
+ 319 008a 08       		.byte	0x8
+ 320 008b 3A010000 		.4byte	.LASF11
+ 321 008f 05       		.uleb128 0x5
+ 322 0090 01       		.byte	0x1
+ 323 0091 67000000 		.4byte	.LASF12
+ 324 0095 01       		.byte	0x1
+ 325 0096 24       		.byte	0x24
+ 326 0097 01       		.byte	0x1
+ 327 0098 00000000 		.4byte	.LFB0
+ 328 009c 3A000000 		.4byte	.LFE0
+ 329 00a0 00000000 		.4byte	.LLST0
+ 330 00a4 B7000000 		.4byte	0xb7
+ 331 00a8 06       		.uleb128 0x6
+ 332 00a9 29010000 		.4byte	.LASF20
+ 333 00ad 01       		.byte	0x1
+ 334 00ae 26       		.byte	0x26
+ 335 00af 6F000000 		.4byte	0x6f
+ 336 00b3 02       		.byte	0x2
+ 337 00b4 91       		.byte	0x91
+ 338 00b5 77       		.sleb128 -9
+ 339 00b6 00       		.byte	0x0
+ 340 00b7 05       		.uleb128 0x5
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccPuewtW.s 			page 9
+
+
+ 341 00b8 01       		.byte	0x1
+ 342 00b9 93000000 		.4byte	.LASF13
+ 343 00bd 01       		.byte	0x1
+ 344 00be 45       		.byte	0x45
+ 345 00bf 01       		.byte	0x1
+ 346 00c0 00000000 		.4byte	.LFB1
+ 347 00c4 2A000000 		.4byte	.LFE1
+ 348 00c8 37000000 		.4byte	.LLST1
+ 349 00cc DF000000 		.4byte	0xdf
+ 350 00d0 07       		.uleb128 0x7
+ 351 00d1 0E000000 		.4byte	.LASF15
+ 352 00d5 01       		.byte	0x1
+ 353 00d6 45       		.byte	0x45
+ 354 00d7 6F000000 		.4byte	0x6f
+ 355 00db 02       		.byte	0x2
+ 356 00dc 91       		.byte	0x91
+ 357 00dd 77       		.sleb128 -9
+ 358 00de 00       		.byte	0x0
+ 359 00df 05       		.uleb128 0x5
+ 360 00e0 01       		.byte	0x1
+ 361 00e1 82010000 		.4byte	.LASF14
+ 362 00e5 01       		.byte	0x1
+ 363 00e6 5E       		.byte	0x5e
+ 364 00e7 01       		.byte	0x1
+ 365 00e8 00000000 		.4byte	.LFB2
+ 366 00ec 44000000 		.4byte	.LFE2
+ 367 00f0 6E000000 		.4byte	.LLST2
+ 368 00f4 07010000 		.4byte	0x107
+ 369 00f8 07       		.uleb128 0x7
+ 370 00f9 0E000000 		.4byte	.LASF15
+ 371 00fd 01       		.byte	0x1
+ 372 00fe 5E       		.byte	0x5e
+ 373 00ff 6F000000 		.4byte	0x6f
+ 374 0103 02       		.byte	0x2
+ 375 0104 91       		.byte	0x91
+ 376 0105 77       		.sleb128 -9
+ 377 0106 00       		.byte	0x0
+ 378 0107 08       		.uleb128 0x8
+ 379 0108 64010000 		.4byte	.LASF21
+ 380 010c 01       		.byte	0x1
+ 381 010d 14       		.byte	0x14
+ 382 010e 6F000000 		.4byte	0x6f
+ 383 0112 01       		.byte	0x1
+ 384 0113 05       		.byte	0x5
+ 385 0114 03       		.byte	0x3
+ 386 0115 00000000 		.4byte	ADC_DelSig_1_AMux_lastChannel
+ 387 0119 00       		.byte	0x0
+ 388              		.section	.debug_abbrev
+ 389 0000 01       		.uleb128 0x1
+ 390 0001 11       		.uleb128 0x11
+ 391 0002 01       		.byte	0x1
+ 392 0003 25       		.uleb128 0x25
+ 393 0004 0E       		.uleb128 0xe
+ 394 0005 13       		.uleb128 0x13
+ 395 0006 0B       		.uleb128 0xb
+ 396 0007 03       		.uleb128 0x3
+ 397 0008 0E       		.uleb128 0xe
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccPuewtW.s 			page 10
+
+
+ 398 0009 1B       		.uleb128 0x1b
+ 399 000a 0E       		.uleb128 0xe
+ 400 000b 11       		.uleb128 0x11
+ 401 000c 01       		.uleb128 0x1
+ 402 000d 52       		.uleb128 0x52
+ 403 000e 01       		.uleb128 0x1
+ 404 000f 55       		.uleb128 0x55
+ 405 0010 06       		.uleb128 0x6
+ 406 0011 10       		.uleb128 0x10
+ 407 0012 06       		.uleb128 0x6
+ 408 0013 00       		.byte	0x0
+ 409 0014 00       		.byte	0x0
+ 410 0015 02       		.uleb128 0x2
+ 411 0016 24       		.uleb128 0x24
+ 412 0017 00       		.byte	0x0
+ 413 0018 0B       		.uleb128 0xb
+ 414 0019 0B       		.uleb128 0xb
+ 415 001a 3E       		.uleb128 0x3e
+ 416 001b 0B       		.uleb128 0xb
+ 417 001c 03       		.uleb128 0x3
+ 418 001d 0E       		.uleb128 0xe
+ 419 001e 00       		.byte	0x0
+ 420 001f 00       		.byte	0x0
+ 421 0020 03       		.uleb128 0x3
+ 422 0021 24       		.uleb128 0x24
+ 423 0022 00       		.byte	0x0
+ 424 0023 0B       		.uleb128 0xb
+ 425 0024 0B       		.uleb128 0xb
+ 426 0025 3E       		.uleb128 0x3e
+ 427 0026 0B       		.uleb128 0xb
+ 428 0027 03       		.uleb128 0x3
+ 429 0028 08       		.uleb128 0x8
+ 430 0029 00       		.byte	0x0
+ 431 002a 00       		.byte	0x0
+ 432 002b 04       		.uleb128 0x4
+ 433 002c 16       		.uleb128 0x16
+ 434 002d 00       		.byte	0x0
+ 435 002e 03       		.uleb128 0x3
+ 436 002f 0E       		.uleb128 0xe
+ 437 0030 3A       		.uleb128 0x3a
+ 438 0031 0B       		.uleb128 0xb
+ 439 0032 3B       		.uleb128 0x3b
+ 440 0033 0B       		.uleb128 0xb
+ 441 0034 49       		.uleb128 0x49
+ 442 0035 13       		.uleb128 0x13
+ 443 0036 00       		.byte	0x0
+ 444 0037 00       		.byte	0x0
+ 445 0038 05       		.uleb128 0x5
+ 446 0039 2E       		.uleb128 0x2e
+ 447 003a 01       		.byte	0x1
+ 448 003b 3F       		.uleb128 0x3f
+ 449 003c 0C       		.uleb128 0xc
+ 450 003d 03       		.uleb128 0x3
+ 451 003e 0E       		.uleb128 0xe
+ 452 003f 3A       		.uleb128 0x3a
+ 453 0040 0B       		.uleb128 0xb
+ 454 0041 3B       		.uleb128 0x3b
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccPuewtW.s 			page 11
+
+
+ 455 0042 0B       		.uleb128 0xb
+ 456 0043 27       		.uleb128 0x27
+ 457 0044 0C       		.uleb128 0xc
+ 458 0045 11       		.uleb128 0x11
+ 459 0046 01       		.uleb128 0x1
+ 460 0047 12       		.uleb128 0x12
+ 461 0048 01       		.uleb128 0x1
+ 462 0049 40       		.uleb128 0x40
+ 463 004a 06       		.uleb128 0x6
+ 464 004b 01       		.uleb128 0x1
+ 465 004c 13       		.uleb128 0x13
+ 466 004d 00       		.byte	0x0
+ 467 004e 00       		.byte	0x0
+ 468 004f 06       		.uleb128 0x6
+ 469 0050 34       		.uleb128 0x34
+ 470 0051 00       		.byte	0x0
+ 471 0052 03       		.uleb128 0x3
+ 472 0053 0E       		.uleb128 0xe
+ 473 0054 3A       		.uleb128 0x3a
+ 474 0055 0B       		.uleb128 0xb
+ 475 0056 3B       		.uleb128 0x3b
+ 476 0057 0B       		.uleb128 0xb
+ 477 0058 49       		.uleb128 0x49
+ 478 0059 13       		.uleb128 0x13
+ 479 005a 02       		.uleb128 0x2
+ 480 005b 0A       		.uleb128 0xa
+ 481 005c 00       		.byte	0x0
+ 482 005d 00       		.byte	0x0
+ 483 005e 07       		.uleb128 0x7
+ 484 005f 05       		.uleb128 0x5
+ 485 0060 00       		.byte	0x0
+ 486 0061 03       		.uleb128 0x3
+ 487 0062 0E       		.uleb128 0xe
+ 488 0063 3A       		.uleb128 0x3a
+ 489 0064 0B       		.uleb128 0xb
+ 490 0065 3B       		.uleb128 0x3b
+ 491 0066 0B       		.uleb128 0xb
+ 492 0067 49       		.uleb128 0x49
+ 493 0068 13       		.uleb128 0x13
+ 494 0069 02       		.uleb128 0x2
+ 495 006a 0A       		.uleb128 0xa
+ 496 006b 00       		.byte	0x0
+ 497 006c 00       		.byte	0x0
+ 498 006d 08       		.uleb128 0x8
+ 499 006e 34       		.uleb128 0x34
+ 500 006f 00       		.byte	0x0
+ 501 0070 03       		.uleb128 0x3
+ 502 0071 0E       		.uleb128 0xe
+ 503 0072 3A       		.uleb128 0x3a
+ 504 0073 0B       		.uleb128 0xb
+ 505 0074 3B       		.uleb128 0x3b
+ 506 0075 0B       		.uleb128 0xb
+ 507 0076 49       		.uleb128 0x49
+ 508 0077 13       		.uleb128 0x13
+ 509 0078 3F       		.uleb128 0x3f
+ 510 0079 0C       		.uleb128 0xc
+ 511 007a 02       		.uleb128 0x2
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccPuewtW.s 			page 12
+
+
+ 512 007b 0A       		.uleb128 0xa
+ 513 007c 00       		.byte	0x0
+ 514 007d 00       		.byte	0x0
+ 515 007e 00       		.byte	0x0
+ 516              		.section	.debug_pubnames,"",%progbits
+ 517 0000 8A000000 		.4byte	0x8a
+ 518 0004 0200     		.2byte	0x2
+ 519 0006 00000000 		.4byte	.Ldebug_info0
+ 520 000a 1A010000 		.4byte	0x11a
+ 521 000e 8F000000 		.4byte	0x8f
+ 522 0012 4144435F 		.ascii	"ADC_DelSig_1_AMux_Start\000"
+ 522      44656C53 
+ 522      69675F31 
+ 522      5F414D75 
+ 522      785F5374 
+ 523 002a B7000000 		.4byte	0xb7
+ 524 002e 4144435F 		.ascii	"ADC_DelSig_1_AMux_Select\000"
+ 524      44656C53 
+ 524      69675F31 
+ 524      5F414D75 
+ 524      785F5365 
+ 525 0047 DF000000 		.4byte	0xdf
+ 526 004b 4144435F 		.ascii	"ADC_DelSig_1_AMux_FastSelect\000"
+ 526      44656C53 
+ 526      69675F31 
+ 526      5F414D75 
+ 526      785F4661 
+ 527 0068 07010000 		.4byte	0x107
+ 528 006c 4144435F 		.ascii	"ADC_DelSig_1_AMux_lastChannel\000"
+ 528      44656C53 
+ 528      69675F31 
+ 528      5F414D75 
+ 528      785F6C61 
+ 529 008a 00000000 		.4byte	0x0
+ 530              		.section	.debug_aranges,"",%progbits
+ 531 0000 2C000000 		.4byte	0x2c
+ 532 0004 0200     		.2byte	0x2
+ 533 0006 00000000 		.4byte	.Ldebug_info0
+ 534 000a 04       		.byte	0x4
+ 535 000b 00       		.byte	0x0
+ 536 000c 0000     		.2byte	0x0
+ 537 000e 0000     		.2byte	0x0
+ 538 0010 00000000 		.4byte	.LFB0
+ 539 0014 3A000000 		.4byte	.LFE0-.LFB0
+ 540 0018 00000000 		.4byte	.LFB1
+ 541 001c 2A000000 		.4byte	.LFE1-.LFB1
+ 542 0020 00000000 		.4byte	.LFB2
+ 543 0024 44000000 		.4byte	.LFE2-.LFB2
+ 544 0028 00000000 		.4byte	0x0
+ 545 002c 00000000 		.4byte	0x0
+ 546              		.section	.debug_ranges,"",%progbits
+ 547              	.Ldebug_ranges0:
+ 548 0000 00000000 		.4byte	.Ltext0
+ 549 0004 00000000 		.4byte	.Letext0
+ 550 0008 00000000 		.4byte	.LFB0
+ 551 000c 3A000000 		.4byte	.LFE0
+ 552 0010 00000000 		.4byte	.LFB1
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccPuewtW.s 			page 13
+
+
+ 553 0014 2A000000 		.4byte	.LFE1
+ 554 0018 00000000 		.4byte	.LFB2
+ 555 001c 44000000 		.4byte	.LFE2
+ 556 0020 00000000 		.4byte	0x0
+ 557 0024 00000000 		.4byte	0x0
+ 558              		.section	.debug_str,"MS",%progbits,1
+ 559              	.LASF6:
+ 560 0000 6C6F6E67 		.ascii	"long long int\000"
+ 560      206C6F6E 
+ 560      6720696E 
+ 560      7400
+ 561              	.LASF15:
+ 562 000e 6368616E 		.ascii	"channel\000"
+ 562      6E656C00 
+ 563              	.LASF18:
+ 564 0016 433A5C55 		.ascii	"C:\\Users\\karunmj\\Documents\\GitHub\\m2m\\hardwar"
+ 564      73657273 
+ 564      5C6B6172 
+ 564      756E6D6A 
+ 564      5C446F63 
+ 565 0043 655C7073 		.ascii	"e\\psoc5\\Campbell_Conductivity.cydsn\000"
+ 565      6F63355C 
+ 565      43616D70 
+ 565      62656C6C 
+ 565      5F436F6E 
+ 566              	.LASF12:
+ 567 0067 4144435F 		.ascii	"ADC_DelSig_1_AMux_Start\000"
+ 567      44656C53 
+ 567      69675F31 
+ 567      5F414D75 
+ 567      785F5374 
+ 568              	.LASF9:
+ 569 007f 666C6F61 		.ascii	"float\000"
+ 569      7400
+ 570              	.LASF1:
+ 571 0085 756E7369 		.ascii	"unsigned char\000"
+ 571      676E6564 
+ 571      20636861 
+ 571      7200
+ 572              	.LASF13:
+ 573 0093 4144435F 		.ascii	"ADC_DelSig_1_AMux_Select\000"
+ 573      44656C53 
+ 573      69675F31 
+ 573      5F414D75 
+ 573      785F5365 
+ 574              	.LASF17:
+ 575 00ac 2E5C4765 		.ascii	".\\Generated_Source\\PSoC5\\ADC_DelSig_1_AMux.c\000"
+ 575      6E657261 
+ 575      7465645F 
+ 575      536F7572 
+ 575      63655C50 
+ 576              	.LASF5:
+ 577 00d9 6C6F6E67 		.ascii	"long unsigned int\000"
+ 577      20756E73 
+ 577      69676E65 
+ 577      6420696E 
+ 577      7400
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccPuewtW.s 			page 14
+
+
+ 578              	.LASF3:
+ 579 00eb 73686F72 		.ascii	"short unsigned int\000"
+ 579      7420756E 
+ 579      7369676E 
+ 579      65642069 
+ 579      6E7400
+ 580              	.LASF10:
+ 581 00fe 646F7562 		.ascii	"double\000"
+ 581      6C6500
+ 582              	.LASF8:
+ 583 0105 756E7369 		.ascii	"unsigned int\000"
+ 583      676E6564 
+ 583      20696E74 
+ 583      00
+ 584              	.LASF7:
+ 585 0112 6C6F6E67 		.ascii	"long long unsigned int\000"
+ 585      206C6F6E 
+ 585      6720756E 
+ 585      7369676E 
+ 585      65642069 
+ 586              	.LASF20:
+ 587 0129 6368616E 		.ascii	"chan\000"
+ 587      00
+ 588              	.LASF16:
+ 589 012e 474E5520 		.ascii	"GNU C 4.4.1\000"
+ 589      4320342E 
+ 589      342E3100 
+ 590              	.LASF11:
+ 591 013a 63686172 		.ascii	"char\000"
+ 591      00
+ 592              	.LASF2:
+ 593 013f 73686F72 		.ascii	"short int\000"
+ 593      7420696E 
+ 593      7400
+ 594              	.LASF19:
+ 595 0149 75696E74 		.ascii	"uint8\000"
+ 595      3800
+ 596              	.LASF4:
+ 597 014f 6C6F6E67 		.ascii	"long int\000"
+ 597      20696E74 
+ 597      00
+ 598              	.LASF0:
+ 599 0158 7369676E 		.ascii	"signed char\000"
+ 599      65642063 
+ 599      68617200 
+ 600              	.LASF21:
+ 601 0164 4144435F 		.ascii	"ADC_DelSig_1_AMux_lastChannel\000"
+ 601      44656C53 
+ 601      69675F31 
+ 601      5F414D75 
+ 601      785F6C61 
+ 602              	.LASF14:
+ 603 0182 4144435F 		.ascii	"ADC_DelSig_1_AMux_FastSelect\000"
+ 603      44656C53 
+ 603      69675F31 
+ 603      5F414D75 
+ 603      785F4661 
+ARM GAS  C:\Users\karunmj\AppData\Local\Temp\ccPuewtW.s 			page 15
+
+
+ 604              		.ident	"GCC: (Sourcery G++ Lite 2010q1-188) 4.4.1"
