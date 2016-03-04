@@ -1,0 +1,1488 @@
+ARM GAS  C:\Users\BRANKO~1\AppData\Local\Temp\ccBIq1gb.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 6
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.file	"SleepTimer.c"
+  15              		.text
+  16              	.Ltext0:
+  17              		.cfi_sections	.debug_frame
+  18              		.global	SleepTimer_initVar
+  19              		.bss
+  20              		.type	SleepTimer_initVar, %object
+  21              		.size	SleepTimer_initVar, 1
+  22              	SleepTimer_initVar:
+  23 0000 00       		.space	1
+  24              		.section	.text.SleepTimer_Start,"ax",%progbits
+  25              		.align	2
+  26              		.global	SleepTimer_Start
+  27              		.thumb
+  28              		.thumb_func
+  29              		.type	SleepTimer_Start, %function
+  30              	SleepTimer_Start:
+  31              	.LFB0:
+  32              		.file 1 ".\\Generated_Source\\PSoC5\\SleepTimer.c"
+   1:.\Generated_Source\PSoC5/SleepTimer.c **** /*******************************************************************************
+   2:.\Generated_Source\PSoC5/SleepTimer.c **** * File Name: SleepTimer.c
+   3:.\Generated_Source\PSoC5/SleepTimer.c **** * Version 3.20
+   4:.\Generated_Source\PSoC5/SleepTimer.c **** *
+   5:.\Generated_Source\PSoC5/SleepTimer.c **** * Description:
+   6:.\Generated_Source\PSoC5/SleepTimer.c **** *  This file provides the source code to API for the Sleep Timer.
+   7:.\Generated_Source\PSoC5/SleepTimer.c **** *
+   8:.\Generated_Source\PSoC5/SleepTimer.c **** ********************************************************************************
+   9:.\Generated_Source\PSoC5/SleepTimer.c **** * Copyright 2008-2012, Cypress Semiconductor Corporation.  All rights reserved.
+  10:.\Generated_Source\PSoC5/SleepTimer.c **** * You may use this file only in accordance with the license, terms, conditions,
+  11:.\Generated_Source\PSoC5/SleepTimer.c **** * disclaimers, and limitations in the end user license agreement accompanying
+  12:.\Generated_Source\PSoC5/SleepTimer.c **** * the software package with which this file was provided.
+  13:.\Generated_Source\PSoC5/SleepTimer.c **** *******************************************************************************/
+  14:.\Generated_Source\PSoC5/SleepTimer.c **** 
+  15:.\Generated_Source\PSoC5/SleepTimer.c **** #include "SleepTimer.h"
+  16:.\Generated_Source\PSoC5/SleepTimer.c **** #include "CyLib.h"
+  17:.\Generated_Source\PSoC5/SleepTimer.c **** 
+  18:.\Generated_Source\PSoC5/SleepTimer.c **** /* Variables were not initialized */
+  19:.\Generated_Source\PSoC5/SleepTimer.c **** uint8 SleepTimer_initVar = 0u;
+  20:.\Generated_Source\PSoC5/SleepTimer.c **** 
+  21:.\Generated_Source\PSoC5/SleepTimer.c **** 
+  22:.\Generated_Source\PSoC5/SleepTimer.c **** /*******************************************************************************
+  23:.\Generated_Source\PSoC5/SleepTimer.c **** * Function Name: SleepTimer_Start
+  24:.\Generated_Source\PSoC5/SleepTimer.c **** ********************************************************************************
+  25:.\Generated_Source\PSoC5/SleepTimer.c **** *
+ARM GAS  C:\Users\BRANKO~1\AppData\Local\Temp\ccBIq1gb.s 			page 2
+
+
+  26:.\Generated_Source\PSoC5/SleepTimer.c **** * Summary:
+  27:.\Generated_Source\PSoC5/SleepTimer.c **** *  This is the preferred method to begin component operation. SleepTimer_Start()
+  28:.\Generated_Source\PSoC5/SleepTimer.c **** *  sets the initVar variable, calls the SleepTimer_Init() function, and then
+  29:.\Generated_Source\PSoC5/SleepTimer.c **** *  calls the SleepTimer_Enable() function. It enables the 1-kHz ILO clock and
+  30:.\Generated_Source\PSoC5/SleepTimer.c **** *  leaves it enabled after the Sleep Timer component is stopped.
+  31:.\Generated_Source\PSoC5/SleepTimer.c **** *
+  32:.\Generated_Source\PSoC5/SleepTimer.c **** * Parameters:
+  33:.\Generated_Source\PSoC5/SleepTimer.c **** *  None
+  34:.\Generated_Source\PSoC5/SleepTimer.c **** *
+  35:.\Generated_Source\PSoC5/SleepTimer.c **** * Return:
+  36:.\Generated_Source\PSoC5/SleepTimer.c **** *  None
+  37:.\Generated_Source\PSoC5/SleepTimer.c **** *
+  38:.\Generated_Source\PSoC5/SleepTimer.c **** * Global variables:
+  39:.\Generated_Source\PSoC5/SleepTimer.c **** *  The SleepTimer_initVar variable is used to indicate initial
+  40:.\Generated_Source\PSoC5/SleepTimer.c **** *  configuration of this component.  The variable is initialized to zero and
+  41:.\Generated_Source\PSoC5/SleepTimer.c **** *  set to 1 the first time SleepTimer_Start() is called. This allows for
+  42:.\Generated_Source\PSoC5/SleepTimer.c **** *  component initialization without re-initialization in all subsequent calls
+  43:.\Generated_Source\PSoC5/SleepTimer.c **** *  to the SleepTimer_Start() routine.
+  44:.\Generated_Source\PSoC5/SleepTimer.c **** *
+  45:.\Generated_Source\PSoC5/SleepTimer.c **** * Reentrant:
+  46:.\Generated_Source\PSoC5/SleepTimer.c **** *  No
+  47:.\Generated_Source\PSoC5/SleepTimer.c **** *
+  48:.\Generated_Source\PSoC5/SleepTimer.c **** * Side Effects:
+  49:.\Generated_Source\PSoC5/SleepTimer.c **** *  If the initVar variable is already set, this function only calls the
+  50:.\Generated_Source\PSoC5/SleepTimer.c **** *  SleepTimer_Enable() function.
+  51:.\Generated_Source\PSoC5/SleepTimer.c **** *
+  52:.\Generated_Source\PSoC5/SleepTimer.c **** *******************************************************************************/
+  53:.\Generated_Source\PSoC5/SleepTimer.c **** void SleepTimer_Start(void) 
+  54:.\Generated_Source\PSoC5/SleepTimer.c **** {
+  33              		.loc 1 54 0
+  34              		.cfi_startproc
+  35              		@ args = 0, pretend = 0, frame = 0
+  36              		@ frame_needed = 1, uses_anonymous_args = 0
+  37 0000 80B5     		push	{r7, lr}
+  38              		.cfi_def_cfa_offset 8
+  39              		.cfi_offset 7, -8
+  40              		.cfi_offset 14, -4
+  41 0002 00AF     		add	r7, sp, #0
+  42              		.cfi_def_cfa_register 7
+  55:.\Generated_Source\PSoC5/SleepTimer.c ****     /* Execute once in normal flow */
+  56:.\Generated_Source\PSoC5/SleepTimer.c ****     if (0u == SleepTimer_initVar)
+  43              		.loc 1 56 0
+  44 0004 054B     		ldr	r3, .L3
+  45 0006 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+  46 0008 002B     		cmp	r3, #0
+  47 000a 04D1     		bne	.L2
+  57:.\Generated_Source\PSoC5/SleepTimer.c ****     {
+  58:.\Generated_Source\PSoC5/SleepTimer.c ****         SleepTimer_Init();
+  48              		.loc 1 58 0
+  49 000c FFF7FEFF 		bl	SleepTimer_Init
+  59:.\Generated_Source\PSoC5/SleepTimer.c ****         SleepTimer_initVar = 1u;
+  50              		.loc 1 59 0
+  51 0010 024B     		ldr	r3, .L3
+  52 0012 0122     		movs	r2, #1
+  53 0014 1A70     		strb	r2, [r3]
+  54              	.L2:
+  60:.\Generated_Source\PSoC5/SleepTimer.c ****     }
+ARM GAS  C:\Users\BRANKO~1\AppData\Local\Temp\ccBIq1gb.s 			page 3
+
+
+  61:.\Generated_Source\PSoC5/SleepTimer.c **** 
+  62:.\Generated_Source\PSoC5/SleepTimer.c ****     /* Enables the component operation */
+  63:.\Generated_Source\PSoC5/SleepTimer.c ****     SleepTimer_Enable();
+  55              		.loc 1 63 0
+  56 0016 FFF7FEFF 		bl	SleepTimer_Enable
+  64:.\Generated_Source\PSoC5/SleepTimer.c **** }
+  57              		.loc 1 64 0
+  58 001a 80BD     		pop	{r7, pc}
+  59              	.L4:
+  60              		.align	2
+  61              	.L3:
+  62 001c 00000000 		.word	SleepTimer_initVar
+  63              		.cfi_endproc
+  64              	.LFE0:
+  65              		.size	SleepTimer_Start, .-SleepTimer_Start
+  66              		.section	.text.SleepTimer_Init,"ax",%progbits
+  67              		.align	2
+  68              		.global	SleepTimer_Init
+  69              		.thumb
+  70              		.thumb_func
+  71              		.type	SleepTimer_Init, %function
+  72              	SleepTimer_Init:
+  73              	.LFB1:
+  65:.\Generated_Source\PSoC5/SleepTimer.c **** 
+  66:.\Generated_Source\PSoC5/SleepTimer.c **** 
+  67:.\Generated_Source\PSoC5/SleepTimer.c **** /*******************************************************************************
+  68:.\Generated_Source\PSoC5/SleepTimer.c **** * Function Name: SleepTimer_Init
+  69:.\Generated_Source\PSoC5/SleepTimer.c **** ********************************************************************************
+  70:.\Generated_Source\PSoC5/SleepTimer.c **** *
+  71:.\Generated_Source\PSoC5/SleepTimer.c **** * Summary:
+  72:.\Generated_Source\PSoC5/SleepTimer.c **** *  This function initializes or restores the component according to the
+  73:.\Generated_Source\PSoC5/SleepTimer.c **** *  customizer Configure dialog settings. It is not necessary to call
+  74:.\Generated_Source\PSoC5/SleepTimer.c **** *  SleepTimer_Init() because the SleepTimer_Start() API calls this function and
+  75:.\Generated_Source\PSoC5/SleepTimer.c **** *  is the preferred method to begin component operation. Sets CTW interval
+  76:.\Generated_Source\PSoC5/SleepTimer.c **** *  period and enables or disables CTW interrupt (according to the customizer's
+  77:.\Generated_Source\PSoC5/SleepTimer.c **** *  settings).
+  78:.\Generated_Source\PSoC5/SleepTimer.c **** *
+  79:.\Generated_Source\PSoC5/SleepTimer.c **** * Parameters:
+  80:.\Generated_Source\PSoC5/SleepTimer.c **** *  None
+  81:.\Generated_Source\PSoC5/SleepTimer.c **** *
+  82:.\Generated_Source\PSoC5/SleepTimer.c **** * Return:
+  83:.\Generated_Source\PSoC5/SleepTimer.c **** *  None
+  84:.\Generated_Source\PSoC5/SleepTimer.c **** *
+  85:.\Generated_Source\PSoC5/SleepTimer.c **** *******************************************************************************/
+  86:.\Generated_Source\PSoC5/SleepTimer.c **** void SleepTimer_Init(void)  
+  87:.\Generated_Source\PSoC5/SleepTimer.c **** {
+  74              		.loc 1 87 0
+  75              		.cfi_startproc
+  76              		@ args = 0, pretend = 0, frame = 0
+  77              		@ frame_needed = 1, uses_anonymous_args = 0
+  78 0000 80B5     		push	{r7, lr}
+  79              		.cfi_def_cfa_offset 8
+  80              		.cfi_offset 7, -8
+  81              		.cfi_offset 14, -4
+  82 0002 00AF     		add	r7, sp, #0
+  83              		.cfi_def_cfa_register 7
+  88:.\Generated_Source\PSoC5/SleepTimer.c ****     /* Sets default (passed from customizer) interval */
+ARM GAS  C:\Users\BRANKO~1\AppData\Local\Temp\ccBIq1gb.s 			page 4
+
+
+  89:.\Generated_Source\PSoC5/SleepTimer.c ****     SleepTimer_SetInterval(SleepTimer_INTERVAL);
+  84              		.loc 1 89 0
+  85 0004 0420     		movs	r0, #4
+  86 0006 FFF7FEFF 		bl	SleepTimer_SetInterval
+  90:.\Generated_Source\PSoC5/SleepTimer.c **** 
+  91:.\Generated_Source\PSoC5/SleepTimer.c ****     /* Check if user sets to issue an interrupt in customizer */
+  92:.\Generated_Source\PSoC5/SleepTimer.c ****     #if (1u == SleepTimer_ENABLE_INTERRUPT)
+  93:.\Generated_Source\PSoC5/SleepTimer.c ****     {
+  94:.\Generated_Source\PSoC5/SleepTimer.c ****         /* Enable interrupt */
+  95:.\Generated_Source\PSoC5/SleepTimer.c ****         SleepTimer_EnableInt();
+  87              		.loc 1 95 0
+  88 000a FFF7FEFF 		bl	SleepTimer_EnableInt
+  96:.\Generated_Source\PSoC5/SleepTimer.c ****     }
+  97:.\Generated_Source\PSoC5/SleepTimer.c ****     #else /* interrupt should be disabled */
+  98:.\Generated_Source\PSoC5/SleepTimer.c ****     {
+  99:.\Generated_Source\PSoC5/SleepTimer.c ****         /* Disable interrupt */
+ 100:.\Generated_Source\PSoC5/SleepTimer.c ****         SleepTimer_DisableInt();
+ 101:.\Generated_Source\PSoC5/SleepTimer.c ****     }   /* Interrupt is disabled  */
+ 102:.\Generated_Source\PSoC5/SleepTimer.c ****     #endif  /* (1u == SleepTimer_ENABLE_INTERRUPT) */
+ 103:.\Generated_Source\PSoC5/SleepTimer.c **** }
+  89              		.loc 1 103 0
+  90 000e 80BD     		pop	{r7, pc}
+  91              		.cfi_endproc
+  92              	.LFE1:
+  93              		.size	SleepTimer_Init, .-SleepTimer_Init
+  94              		.section	.text.SleepTimer_Enable,"ax",%progbits
+  95              		.align	2
+  96              		.global	SleepTimer_Enable
+  97              		.thumb
+  98              		.thumb_func
+  99              		.type	SleepTimer_Enable, %function
+ 100              	SleepTimer_Enable:
+ 101              	.LFB2:
+ 104:.\Generated_Source\PSoC5/SleepTimer.c **** 
+ 105:.\Generated_Source\PSoC5/SleepTimer.c **** 
+ 106:.\Generated_Source\PSoC5/SleepTimer.c **** /*******************************************************************************
+ 107:.\Generated_Source\PSoC5/SleepTimer.c **** * Function Name: SleepTimer_Enable
+ 108:.\Generated_Source\PSoC5/SleepTimer.c **** ********************************************************************************
+ 109:.\Generated_Source\PSoC5/SleepTimer.c **** * Summary:
+ 110:.\Generated_Source\PSoC5/SleepTimer.c **** *  This function activates the 1-kHz ILO and the CTW and begins component
+ 111:.\Generated_Source\PSoC5/SleepTimer.c **** *  operation. It is not necessary to call SleepTimer_Enable() because the
+ 112:.\Generated_Source\PSoC5/SleepTimer.c **** *  SleepTimer_Start() API calls this function, which is the preferred method to
+ 113:.\Generated_Source\PSoC5/SleepTimer.c **** *  begin component operation.
+ 114:.\Generated_Source\PSoC5/SleepTimer.c **** *
+ 115:.\Generated_Source\PSoC5/SleepTimer.c **** * Parameters:
+ 116:.\Generated_Source\PSoC5/SleepTimer.c **** *  None
+ 117:.\Generated_Source\PSoC5/SleepTimer.c **** *
+ 118:.\Generated_Source\PSoC5/SleepTimer.c **** * Return:
+ 119:.\Generated_Source\PSoC5/SleepTimer.c **** *  None
+ 120:.\Generated_Source\PSoC5/SleepTimer.c **** *
+ 121:.\Generated_Source\PSoC5/SleepTimer.c **** * Side Effects:
+ 122:.\Generated_Source\PSoC5/SleepTimer.c **** *  Enables 1 kHz ILO clocks and leaves it enabled after Sleep Time component
+ 123:.\Generated_Source\PSoC5/SleepTimer.c **** *  is stopped.
+ 124:.\Generated_Source\PSoC5/SleepTimer.c **** *
+ 125:.\Generated_Source\PSoC5/SleepTimer.c **** *******************************************************************************/
+ 126:.\Generated_Source\PSoC5/SleepTimer.c **** void SleepTimer_Enable(void) 
+ 127:.\Generated_Source\PSoC5/SleepTimer.c **** {
+ARM GAS  C:\Users\BRANKO~1\AppData\Local\Temp\ccBIq1gb.s 			page 5
+
+
+ 102              		.loc 1 127 0
+ 103              		.cfi_startproc
+ 104              		@ args = 0, pretend = 0, frame = 8
+ 105              		@ frame_needed = 1, uses_anonymous_args = 0
+ 106 0000 80B5     		push	{r7, lr}
+ 107              		.cfi_def_cfa_offset 8
+ 108              		.cfi_offset 7, -8
+ 109              		.cfi_offset 14, -4
+ 110 0002 82B0     		sub	sp, sp, #8
+ 111              		.cfi_def_cfa_offset 16
+ 112 0004 00AF     		add	r7, sp, #0
+ 113              		.cfi_def_cfa_register 7
+ 128:.\Generated_Source\PSoC5/SleepTimer.c ****     uint8 interruptState;
+ 129:.\Generated_Source\PSoC5/SleepTimer.c **** 
+ 130:.\Generated_Source\PSoC5/SleepTimer.c ****     /* If 1kHz ILO is disabled */
+ 131:.\Generated_Source\PSoC5/SleepTimer.c ****     if(0u == (SleepTimer_ILO_CFG_REG & SleepTimer_ILO_1KHZ_EN))
+ 114              		.loc 1 131 0
+ 115 0006 194B     		ldr	r3, .L9
+ 116 0008 1B78     		ldrb	r3, [r3]
+ 117 000a DBB2     		uxtb	r3, r3
+ 118 000c 03F00203 		and	r3, r3, #2
+ 119 0010 002B     		cmp	r3, #0
+ 120 0012 18D1     		bne	.L7
+ 132:.\Generated_Source\PSoC5/SleepTimer.c ****     {
+ 133:.\Generated_Source\PSoC5/SleepTimer.c ****         /* Enter critical section */
+ 134:.\Generated_Source\PSoC5/SleepTimer.c ****         interruptState = CyEnterCriticalSection();
+ 121              		.loc 1 134 0
+ 122 0014 FFF7FEFF 		bl	CyEnterCriticalSection
+ 123 0018 0346     		mov	r3, r0
+ 124 001a FB71     		strb	r3, [r7, #7]
+ 135:.\Generated_Source\PSoC5/SleepTimer.c **** 
+ 136:.\Generated_Source\PSoC5/SleepTimer.c ****         /* Enable 1kHz ILO */
+ 137:.\Generated_Source\PSoC5/SleepTimer.c ****         SleepTimer_ILO_CFG_REG |=SleepTimer_ILO_1KHZ_EN;
+ 125              		.loc 1 137 0
+ 126 001c 134B     		ldr	r3, .L9
+ 127 001e 134A     		ldr	r2, .L9
+ 128 0020 1278     		ldrb	r2, [r2]
+ 129 0022 D2B2     		uxtb	r2, r2
+ 130 0024 42F00202 		orr	r2, r2, #2
+ 131 0028 D2B2     		uxtb	r2, r2
+ 132 002a 1A70     		strb	r2, [r3]
+ 138:.\Generated_Source\PSoC5/SleepTimer.c **** 
+ 139:.\Generated_Source\PSoC5/SleepTimer.c ****         /* Enable the CTW counter */
+ 140:.\Generated_Source\PSoC5/SleepTimer.c ****         SleepTimer_TW_CFG_REG |= SleepTimer_CTW_EN;
+ 133              		.loc 1 140 0
+ 134 002c 104B     		ldr	r3, .L9+4
+ 135 002e 104A     		ldr	r2, .L9+4
+ 136 0030 1278     		ldrb	r2, [r2]
+ 137 0032 D2B2     		uxtb	r2, r2
+ 138 0034 42F00402 		orr	r2, r2, #4
+ 139 0038 D2B2     		uxtb	r2, r2
+ 140 003a 1A70     		strb	r2, [r3]
+ 141:.\Generated_Source\PSoC5/SleepTimer.c **** 
+ 142:.\Generated_Source\PSoC5/SleepTimer.c ****         /* Exit critical section */
+ 143:.\Generated_Source\PSoC5/SleepTimer.c ****         CyExitCriticalSection(interruptState);
+ 141              		.loc 1 143 0
+ 142 003c FB79     		ldrb	r3, [r7, #7]	@ zero_extendqisi2
+ARM GAS  C:\Users\BRANKO~1\AppData\Local\Temp\ccBIq1gb.s 			page 6
+
+
+ 143 003e 1846     		mov	r0, r3
+ 144 0040 FFF7FEFF 		bl	CyExitCriticalSection
+ 145 0044 0FE0     		b	.L6
+ 146              	.L7:
+ 144:.\Generated_Source\PSoC5/SleepTimer.c ****     }
+ 145:.\Generated_Source\PSoC5/SleepTimer.c ****     else /* If 1kHz ILO is enabled - enable CTW counter */
+ 146:.\Generated_Source\PSoC5/SleepTimer.c ****     {
+ 147:.\Generated_Source\PSoC5/SleepTimer.c ****         /* Enter critical section */
+ 148:.\Generated_Source\PSoC5/SleepTimer.c ****         interruptState = CyEnterCriticalSection();
+ 147              		.loc 1 148 0
+ 148 0046 FFF7FEFF 		bl	CyEnterCriticalSection
+ 149 004a 0346     		mov	r3, r0
+ 150 004c FB71     		strb	r3, [r7, #7]
+ 149:.\Generated_Source\PSoC5/SleepTimer.c **** 
+ 150:.\Generated_Source\PSoC5/SleepTimer.c ****         /* Enable the CTW counter */
+ 151:.\Generated_Source\PSoC5/SleepTimer.c ****         SleepTimer_TW_CFG_REG |= SleepTimer_CTW_EN;
+ 151              		.loc 1 151 0
+ 152 004e 084B     		ldr	r3, .L9+4
+ 153 0050 074A     		ldr	r2, .L9+4
+ 154 0052 1278     		ldrb	r2, [r2]
+ 155 0054 D2B2     		uxtb	r2, r2
+ 156 0056 42F00402 		orr	r2, r2, #4
+ 157 005a D2B2     		uxtb	r2, r2
+ 158 005c 1A70     		strb	r2, [r3]
+ 152:.\Generated_Source\PSoC5/SleepTimer.c **** 
+ 153:.\Generated_Source\PSoC5/SleepTimer.c ****         /* Exit critical section */
+ 154:.\Generated_Source\PSoC5/SleepTimer.c ****         CyExitCriticalSection(interruptState);
+ 159              		.loc 1 154 0
+ 160 005e FB79     		ldrb	r3, [r7, #7]	@ zero_extendqisi2
+ 161 0060 1846     		mov	r0, r3
+ 162 0062 FFF7FEFF 		bl	CyExitCriticalSection
+ 163              	.L6:
+ 155:.\Generated_Source\PSoC5/SleepTimer.c ****     }
+ 156:.\Generated_Source\PSoC5/SleepTimer.c **** }
+ 164              		.loc 1 156 0
+ 165 0066 0837     		adds	r7, r7, #8
+ 166 0068 BD46     		mov	sp, r7
+ 167              		@ sp needed
+ 168 006a 80BD     		pop	{r7, pc}
+ 169              	.L10:
+ 170              		.align	2
+ 171              	.L9:
+ 172 006c 00430040 		.word	1073758976
+ 173 0070 82430040 		.word	1073759106
+ 174              		.cfi_endproc
+ 175              	.LFE2:
+ 176              		.size	SleepTimer_Enable, .-SleepTimer_Enable
+ 177              		.section	.text.SleepTimer_Stop,"ax",%progbits
+ 178              		.align	2
+ 179              		.global	SleepTimer_Stop
+ 180              		.thumb
+ 181              		.thumb_func
+ 182              		.type	SleepTimer_Stop, %function
+ 183              	SleepTimer_Stop:
+ 184              	.LFB3:
+ 157:.\Generated_Source\PSoC5/SleepTimer.c **** 
+ 158:.\Generated_Source\PSoC5/SleepTimer.c **** 
+ARM GAS  C:\Users\BRANKO~1\AppData\Local\Temp\ccBIq1gb.s 			page 7
+
+
+ 159:.\Generated_Source\PSoC5/SleepTimer.c **** /*******************************************************************************
+ 160:.\Generated_Source\PSoC5/SleepTimer.c **** * Function Name: SleepTimer_Stop
+ 161:.\Generated_Source\PSoC5/SleepTimer.c **** ********************************************************************************
+ 162:.\Generated_Source\PSoC5/SleepTimer.c **** *
+ 163:.\Generated_Source\PSoC5/SleepTimer.c **** * Summary:
+ 164:.\Generated_Source\PSoC5/SleepTimer.c **** *  This function stops Sleep Timer operation and disables wakeup and interrupt.
+ 165:.\Generated_Source\PSoC5/SleepTimer.c **** *  The device does not wake up when the CTW counter reaches terminal count, and
+ 166:.\Generated_Source\PSoC5/SleepTimer.c **** *  an interrupt is not issued.
+ 167:.\Generated_Source\PSoC5/SleepTimer.c **** *
+ 168:.\Generated_Source\PSoC5/SleepTimer.c **** * Parameters:
+ 169:.\Generated_Source\PSoC5/SleepTimer.c **** *  None
+ 170:.\Generated_Source\PSoC5/SleepTimer.c **** *
+ 171:.\Generated_Source\PSoC5/SleepTimer.c **** * Return:
+ 172:.\Generated_Source\PSoC5/SleepTimer.c **** *  None
+ 173:.\Generated_Source\PSoC5/SleepTimer.c **** *
+ 174:.\Generated_Source\PSoC5/SleepTimer.c **** * Side Effects:
+ 175:.\Generated_Source\PSoC5/SleepTimer.c **** *  Leaves the 1 kHz ILO clock enabled after Sleep Time component is stopped.
+ 176:.\Generated_Source\PSoC5/SleepTimer.c **** *
+ 177:.\Generated_Source\PSoC5/SleepTimer.c **** *******************************************************************************/
+ 178:.\Generated_Source\PSoC5/SleepTimer.c **** void SleepTimer_Stop(void) 
+ 179:.\Generated_Source\PSoC5/SleepTimer.c **** {
+ 185              		.loc 1 179 0
+ 186              		.cfi_startproc
+ 187              		@ args = 0, pretend = 0, frame = 8
+ 188              		@ frame_needed = 1, uses_anonymous_args = 0
+ 189 0000 80B5     		push	{r7, lr}
+ 190              		.cfi_def_cfa_offset 8
+ 191              		.cfi_offset 7, -8
+ 192              		.cfi_offset 14, -4
+ 193 0002 82B0     		sub	sp, sp, #8
+ 194              		.cfi_def_cfa_offset 16
+ 195 0004 00AF     		add	r7, sp, #0
+ 196              		.cfi_def_cfa_register 7
+ 180:.\Generated_Source\PSoC5/SleepTimer.c ****     uint8 interruptState;
+ 181:.\Generated_Source\PSoC5/SleepTimer.c **** 
+ 182:.\Generated_Source\PSoC5/SleepTimer.c ****     /* Enter critical section */
+ 183:.\Generated_Source\PSoC5/SleepTimer.c ****     interruptState = CyEnterCriticalSection();
+ 197              		.loc 1 183 0
+ 198 0006 FFF7FEFF 		bl	CyEnterCriticalSection
+ 199 000a 0346     		mov	r3, r0
+ 200 000c FB71     		strb	r3, [r7, #7]
+ 184:.\Generated_Source\PSoC5/SleepTimer.c **** 
+ 185:.\Generated_Source\PSoC5/SleepTimer.c ****     /* Disable CTW counter */
+ 186:.\Generated_Source\PSoC5/SleepTimer.c ****     SleepTimer_TW_CFG_REG &= (uint8)(~SleepTimer_CTW_EN);
+ 201              		.loc 1 186 0
+ 202 000e 074B     		ldr	r3, .L12
+ 203 0010 064A     		ldr	r2, .L12
+ 204 0012 1278     		ldrb	r2, [r2]
+ 205 0014 D2B2     		uxtb	r2, r2
+ 206 0016 22F00402 		bic	r2, r2, #4
+ 207 001a D2B2     		uxtb	r2, r2
+ 208 001c 1A70     		strb	r2, [r3]
+ 187:.\Generated_Source\PSoC5/SleepTimer.c **** 
+ 188:.\Generated_Source\PSoC5/SleepTimer.c ****     /* Exit critical section */
+ 189:.\Generated_Source\PSoC5/SleepTimer.c ****     CyExitCriticalSection(interruptState);
+ 209              		.loc 1 189 0
+ 210 001e FB79     		ldrb	r3, [r7, #7]	@ zero_extendqisi2
+ARM GAS  C:\Users\BRANKO~1\AppData\Local\Temp\ccBIq1gb.s 			page 8
+
+
+ 211 0020 1846     		mov	r0, r3
+ 212 0022 FFF7FEFF 		bl	CyExitCriticalSection
+ 190:.\Generated_Source\PSoC5/SleepTimer.c **** }
+ 213              		.loc 1 190 0
+ 214 0026 0837     		adds	r7, r7, #8
+ 215 0028 BD46     		mov	sp, r7
+ 216              		@ sp needed
+ 217 002a 80BD     		pop	{r7, pc}
+ 218              	.L13:
+ 219              		.align	2
+ 220              	.L12:
+ 221 002c 82430040 		.word	1073759106
+ 222              		.cfi_endproc
+ 223              	.LFE3:
+ 224              		.size	SleepTimer_Stop, .-SleepTimer_Stop
+ 225              		.section	.text.SleepTimer_EnableInt,"ax",%progbits
+ 226              		.align	2
+ 227              		.global	SleepTimer_EnableInt
+ 228              		.thumb
+ 229              		.thumb_func
+ 230              		.type	SleepTimer_EnableInt, %function
+ 231              	SleepTimer_EnableInt:
+ 232              	.LFB4:
+ 191:.\Generated_Source\PSoC5/SleepTimer.c **** 
+ 192:.\Generated_Source\PSoC5/SleepTimer.c **** 
+ 193:.\Generated_Source\PSoC5/SleepTimer.c **** /*******************************************************************************
+ 194:.\Generated_Source\PSoC5/SleepTimer.c **** * Function Name: SleepTimer_EnableInt
+ 195:.\Generated_Source\PSoC5/SleepTimer.c **** ********************************************************************************
+ 196:.\Generated_Source\PSoC5/SleepTimer.c **** *
+ 197:.\Generated_Source\PSoC5/SleepTimer.c **** * Summary:
+ 198:.\Generated_Source\PSoC5/SleepTimer.c **** *  This function enables the CTW terminal count interrupt.
+ 199:.\Generated_Source\PSoC5/SleepTimer.c **** *
+ 200:.\Generated_Source\PSoC5/SleepTimer.c **** * Parameters:
+ 201:.\Generated_Source\PSoC5/SleepTimer.c **** *  None
+ 202:.\Generated_Source\PSoC5/SleepTimer.c **** *
+ 203:.\Generated_Source\PSoC5/SleepTimer.c **** * Return:
+ 204:.\Generated_Source\PSoC5/SleepTimer.c **** *  None
+ 205:.\Generated_Source\PSoC5/SleepTimer.c **** *
+ 206:.\Generated_Source\PSoC5/SleepTimer.c **** *******************************************************************************/
+ 207:.\Generated_Source\PSoC5/SleepTimer.c **** void SleepTimer_EnableInt(void) 
+ 208:.\Generated_Source\PSoC5/SleepTimer.c **** {
+ 233              		.loc 1 208 0
+ 234              		.cfi_startproc
+ 235              		@ args = 0, pretend = 0, frame = 8
+ 236              		@ frame_needed = 1, uses_anonymous_args = 0
+ 237 0000 80B5     		push	{r7, lr}
+ 238              		.cfi_def_cfa_offset 8
+ 239              		.cfi_offset 7, -8
+ 240              		.cfi_offset 14, -4
+ 241 0002 82B0     		sub	sp, sp, #8
+ 242              		.cfi_def_cfa_offset 16
+ 243 0004 00AF     		add	r7, sp, #0
+ 244              		.cfi_def_cfa_register 7
+ 209:.\Generated_Source\PSoC5/SleepTimer.c ****     uint8 interruptState;
+ 210:.\Generated_Source\PSoC5/SleepTimer.c **** 
+ 211:.\Generated_Source\PSoC5/SleepTimer.c ****     /* Enter critical section */
+ 212:.\Generated_Source\PSoC5/SleepTimer.c ****     interruptState = CyEnterCriticalSection();
+ARM GAS  C:\Users\BRANKO~1\AppData\Local\Temp\ccBIq1gb.s 			page 9
+
+
+ 245              		.loc 1 212 0
+ 246 0006 FFF7FEFF 		bl	CyEnterCriticalSection
+ 247 000a 0346     		mov	r3, r0
+ 248 000c FB71     		strb	r3, [r7, #7]
+ 213:.\Generated_Source\PSoC5/SleepTimer.c **** 
+ 214:.\Generated_Source\PSoC5/SleepTimer.c ****      /* Enable interrupt on wake up */
+ 215:.\Generated_Source\PSoC5/SleepTimer.c ****     SleepTimer_TW_CFG_REG |= SleepTimer_CTW_IE;
+ 249              		.loc 1 215 0
+ 250 000e 074B     		ldr	r3, .L15
+ 251 0010 064A     		ldr	r2, .L15
+ 252 0012 1278     		ldrb	r2, [r2]
+ 253 0014 D2B2     		uxtb	r2, r2
+ 254 0016 42F00802 		orr	r2, r2, #8
+ 255 001a D2B2     		uxtb	r2, r2
+ 256 001c 1A70     		strb	r2, [r3]
+ 216:.\Generated_Source\PSoC5/SleepTimer.c **** 
+ 217:.\Generated_Source\PSoC5/SleepTimer.c ****     /* Exit critical section */
+ 218:.\Generated_Source\PSoC5/SleepTimer.c ****     CyExitCriticalSection(interruptState);
+ 257              		.loc 1 218 0
+ 258 001e FB79     		ldrb	r3, [r7, #7]	@ zero_extendqisi2
+ 259 0020 1846     		mov	r0, r3
+ 260 0022 FFF7FEFF 		bl	CyExitCriticalSection
+ 219:.\Generated_Source\PSoC5/SleepTimer.c **** }
+ 261              		.loc 1 219 0
+ 262 0026 0837     		adds	r7, r7, #8
+ 263 0028 BD46     		mov	sp, r7
+ 264              		@ sp needed
+ 265 002a 80BD     		pop	{r7, pc}
+ 266              	.L16:
+ 267              		.align	2
+ 268              	.L15:
+ 269 002c 82430040 		.word	1073759106
+ 270              		.cfi_endproc
+ 271              	.LFE4:
+ 272              		.size	SleepTimer_EnableInt, .-SleepTimer_EnableInt
+ 273              		.section	.text.SleepTimer_DisableInt,"ax",%progbits
+ 274              		.align	2
+ 275              		.global	SleepTimer_DisableInt
+ 276              		.thumb
+ 277              		.thumb_func
+ 278              		.type	SleepTimer_DisableInt, %function
+ 279              	SleepTimer_DisableInt:
+ 280              	.LFB5:
+ 220:.\Generated_Source\PSoC5/SleepTimer.c **** 
+ 221:.\Generated_Source\PSoC5/SleepTimer.c **** 
+ 222:.\Generated_Source\PSoC5/SleepTimer.c **** /*******************************************************************************
+ 223:.\Generated_Source\PSoC5/SleepTimer.c **** * Function Name: SleepTimer_DisableInt
+ 224:.\Generated_Source\PSoC5/SleepTimer.c **** ********************************************************************************
+ 225:.\Generated_Source\PSoC5/SleepTimer.c **** *
+ 226:.\Generated_Source\PSoC5/SleepTimer.c **** * Summary:
+ 227:.\Generated_Source\PSoC5/SleepTimer.c **** *  This function disables the CTW terminal count interrupt.
+ 228:.\Generated_Source\PSoC5/SleepTimer.c **** *
+ 229:.\Generated_Source\PSoC5/SleepTimer.c **** * Parameters:
+ 230:.\Generated_Source\PSoC5/SleepTimer.c **** *  None
+ 231:.\Generated_Source\PSoC5/SleepTimer.c **** *
+ 232:.\Generated_Source\PSoC5/SleepTimer.c **** * Return:
+ 233:.\Generated_Source\PSoC5/SleepTimer.c **** *  None
+ARM GAS  C:\Users\BRANKO~1\AppData\Local\Temp\ccBIq1gb.s 			page 10
+
+
+ 234:.\Generated_Source\PSoC5/SleepTimer.c **** *
+ 235:.\Generated_Source\PSoC5/SleepTimer.c **** *******************************************************************************/
+ 236:.\Generated_Source\PSoC5/SleepTimer.c **** void SleepTimer_DisableInt(void) 
+ 237:.\Generated_Source\PSoC5/SleepTimer.c **** {
+ 281              		.loc 1 237 0
+ 282              		.cfi_startproc
+ 283              		@ args = 0, pretend = 0, frame = 8
+ 284              		@ frame_needed = 1, uses_anonymous_args = 0
+ 285 0000 80B5     		push	{r7, lr}
+ 286              		.cfi_def_cfa_offset 8
+ 287              		.cfi_offset 7, -8
+ 288              		.cfi_offset 14, -4
+ 289 0002 82B0     		sub	sp, sp, #8
+ 290              		.cfi_def_cfa_offset 16
+ 291 0004 00AF     		add	r7, sp, #0
+ 292              		.cfi_def_cfa_register 7
+ 238:.\Generated_Source\PSoC5/SleepTimer.c ****     uint8 interruptState;
+ 239:.\Generated_Source\PSoC5/SleepTimer.c **** 
+ 240:.\Generated_Source\PSoC5/SleepTimer.c ****     /* Enter critical section */
+ 241:.\Generated_Source\PSoC5/SleepTimer.c ****     interruptState = CyEnterCriticalSection();
+ 293              		.loc 1 241 0
+ 294 0006 FFF7FEFF 		bl	CyEnterCriticalSection
+ 295 000a 0346     		mov	r3, r0
+ 296 000c FB71     		strb	r3, [r7, #7]
+ 242:.\Generated_Source\PSoC5/SleepTimer.c **** 
+ 243:.\Generated_Source\PSoC5/SleepTimer.c ****     /* Disable interrupt on wake up */
+ 244:.\Generated_Source\PSoC5/SleepTimer.c ****     SleepTimer_TW_CFG_REG &= (uint8)(~SleepTimer_CTW_IE);
+ 297              		.loc 1 244 0
+ 298 000e 074B     		ldr	r3, .L18
+ 299 0010 064A     		ldr	r2, .L18
+ 300 0012 1278     		ldrb	r2, [r2]
+ 301 0014 D2B2     		uxtb	r2, r2
+ 302 0016 22F00802 		bic	r2, r2, #8
+ 303 001a D2B2     		uxtb	r2, r2
+ 304 001c 1A70     		strb	r2, [r3]
+ 245:.\Generated_Source\PSoC5/SleepTimer.c **** 
+ 246:.\Generated_Source\PSoC5/SleepTimer.c ****     /* Exit critical section */
+ 247:.\Generated_Source\PSoC5/SleepTimer.c ****     CyExitCriticalSection(interruptState);
+ 305              		.loc 1 247 0
+ 306 001e FB79     		ldrb	r3, [r7, #7]	@ zero_extendqisi2
+ 307 0020 1846     		mov	r0, r3
+ 308 0022 FFF7FEFF 		bl	CyExitCriticalSection
+ 248:.\Generated_Source\PSoC5/SleepTimer.c **** }
+ 309              		.loc 1 248 0
+ 310 0026 0837     		adds	r7, r7, #8
+ 311 0028 BD46     		mov	sp, r7
+ 312              		@ sp needed
+ 313 002a 80BD     		pop	{r7, pc}
+ 314              	.L19:
+ 315              		.align	2
+ 316              	.L18:
+ 317 002c 82430040 		.word	1073759106
+ 318              		.cfi_endproc
+ 319              	.LFE5:
+ 320              		.size	SleepTimer_DisableInt, .-SleepTimer_DisableInt
+ 321              		.section	.text.SleepTimer_SetInterval,"ax",%progbits
+ 322              		.align	2
+ARM GAS  C:\Users\BRANKO~1\AppData\Local\Temp\ccBIq1gb.s 			page 11
+
+
+ 323              		.global	SleepTimer_SetInterval
+ 324              		.thumb
+ 325              		.thumb_func
+ 326              		.type	SleepTimer_SetInterval, %function
+ 327              	SleepTimer_SetInterval:
+ 328              	.LFB6:
+ 249:.\Generated_Source\PSoC5/SleepTimer.c **** 
+ 250:.\Generated_Source\PSoC5/SleepTimer.c **** 
+ 251:.\Generated_Source\PSoC5/SleepTimer.c **** /*******************************************************************************
+ 252:.\Generated_Source\PSoC5/SleepTimer.c **** * Function Name: SleepTimer_SetInterval
+ 253:.\Generated_Source\PSoC5/SleepTimer.c **** ********************************************************************************
+ 254:.\Generated_Source\PSoC5/SleepTimer.c **** *
+ 255:.\Generated_Source\PSoC5/SleepTimer.c **** * Summary:
+ 256:.\Generated_Source\PSoC5/SleepTimer.c **** *  This function sets the CTW interval period. The first interval can range
+ 257:.\Generated_Source\PSoC5/SleepTimer.c **** *  from 1 to (period + 1) milliseconds. Additional intervals occur at the
+ 258:.\Generated_Source\PSoC5/SleepTimer.c **** *  nominal period. You can only change the interval value when CTW is disabled,
+ 259:.\Generated_Source\PSoC5/SleepTimer.c **** *  which you do by stopping the component.
+ 260:.\Generated_Source\PSoC5/SleepTimer.c **** *
+ 261:.\Generated_Source\PSoC5/SleepTimer.c **** * Parameters:
+ 262:.\Generated_Source\PSoC5/SleepTimer.c **** *  uint8 interval: interval?s value for the CTW.
+ 263:.\Generated_Source\PSoC5/SleepTimer.c **** *
+ 264:.\Generated_Source\PSoC5/SleepTimer.c **** *  PSoC 5:
+ 265:.\Generated_Source\PSoC5/SleepTimer.c **** *  Only the 4-, 8-, 16-, 32-, 64-, 128-, and 256-ms selections are supported.
+ 266:.\Generated_Source\PSoC5/SleepTimer.c **** *
+ 267:.\Generated_Source\PSoC5/SleepTimer.c **** *           Name                    Value        Period
+ 268:.\Generated_Source\PSoC5/SleepTimer.c **** *   SleepTimer__CTW_2_MS      4'b0001        2 ms
+ 269:.\Generated_Source\PSoC5/SleepTimer.c **** *   SleepTimer__CTW_4_MS      4'b0010        4 ms
+ 270:.\Generated_Source\PSoC5/SleepTimer.c **** *   SleepTimer__CTW_8_MS      4'b0011        8 ms
+ 271:.\Generated_Source\PSoC5/SleepTimer.c **** *   SleepTimer__CTW_16_MS     4'b0100        16 ms
+ 272:.\Generated_Source\PSoC5/SleepTimer.c **** *   SleepTimer__CTW_32_MS     4'b0101        32 ms
+ 273:.\Generated_Source\PSoC5/SleepTimer.c **** *   SleepTimer__CTW_64_MS     4'b0110        64 ms
+ 274:.\Generated_Source\PSoC5/SleepTimer.c **** *   SleepTimer__CTW_128_MS    4'b0111        128 ms
+ 275:.\Generated_Source\PSoC5/SleepTimer.c **** *   SleepTimer__CTW_256_MS    4'b1000        256 ms
+ 276:.\Generated_Source\PSoC5/SleepTimer.c **** *   SleepTimer__CTW_512_MS    4'b1001        512 ms
+ 277:.\Generated_Source\PSoC5/SleepTimer.c **** *   SleepTimer__CTW_1024_MS   4'b1010        1024 ms
+ 278:.\Generated_Source\PSoC5/SleepTimer.c **** *   SleepTimer__CTW_2048_MS   4'b1011        2048 ms
+ 279:.\Generated_Source\PSoC5/SleepTimer.c **** *   SleepTimer__CTW_4096_MS   4'b1100        4096 ms
+ 280:.\Generated_Source\PSoC5/SleepTimer.c **** *
+ 281:.\Generated_Source\PSoC5/SleepTimer.c **** * Return:
+ 282:.\Generated_Source\PSoC5/SleepTimer.c **** *  None
+ 283:.\Generated_Source\PSoC5/SleepTimer.c **** *
+ 284:.\Generated_Source\PSoC5/SleepTimer.c **** * Side Effects:
+ 285:.\Generated_Source\PSoC5/SleepTimer.c **** *  Interval value can be only changed when component is stopped (CTW is
+ 286:.\Generated_Source\PSoC5/SleepTimer.c **** *  disabled).
+ 287:.\Generated_Source\PSoC5/SleepTimer.c **** *
+ 288:.\Generated_Source\PSoC5/SleepTimer.c **** *******************************************************************************/
+ 289:.\Generated_Source\PSoC5/SleepTimer.c **** void SleepTimer_SetInterval(uint8 interval) 
+ 290:.\Generated_Source\PSoC5/SleepTimer.c **** {
+ 329              		.loc 1 290 0
+ 330              		.cfi_startproc
+ 331              		@ args = 0, pretend = 0, frame = 8
+ 332              		@ frame_needed = 1, uses_anonymous_args = 0
+ 333              		@ link register save eliminated.
+ 334 0000 80B4     		push	{r7}
+ 335              		.cfi_def_cfa_offset 4
+ 336              		.cfi_offset 7, -4
+ 337 0002 83B0     		sub	sp, sp, #12
+ARM GAS  C:\Users\BRANKO~1\AppData\Local\Temp\ccBIq1gb.s 			page 12
+
+
+ 338              		.cfi_def_cfa_offset 16
+ 339 0004 00AF     		add	r7, sp, #0
+ 340              		.cfi_def_cfa_register 7
+ 341 0006 0346     		mov	r3, r0
+ 342 0008 FB71     		strb	r3, [r7, #7]
+ 291:.\Generated_Source\PSoC5/SleepTimer.c ****     /* Check if CTW is disabled */
+ 292:.\Generated_Source\PSoC5/SleepTimer.c ****     if (0u == (SleepTimer_TW_CFG_REG & SleepTimer_CTW_EN))
+ 343              		.loc 1 292 0
+ 344 000a 0D4B     		ldr	r3, .L22
+ 345 000c 1B78     		ldrb	r3, [r3]
+ 346 000e DBB2     		uxtb	r3, r3
+ 347 0010 03F00403 		and	r3, r3, #4
+ 348 0014 002B     		cmp	r3, #0
+ 349 0016 0DD1     		bne	.L20
+ 293:.\Generated_Source\PSoC5/SleepTimer.c ****     {
+ 294:.\Generated_Source\PSoC5/SleepTimer.c ****         #if(CY_PSOC5A)
+ 295:.\Generated_Source\PSoC5/SleepTimer.c **** 
+ 296:.\Generated_Source\PSoC5/SleepTimer.c ****             CYASSERT((SleepTimer__CTW_4_MS   == interval) ||
+ 297:.\Generated_Source\PSoC5/SleepTimer.c ****                      (SleepTimer__CTW_8_MS   == interval) ||
+ 298:.\Generated_Source\PSoC5/SleepTimer.c ****                      (SleepTimer__CTW_16_MS  == interval) ||
+ 299:.\Generated_Source\PSoC5/SleepTimer.c ****                      (SleepTimer__CTW_32_MS  == interval) ||
+ 300:.\Generated_Source\PSoC5/SleepTimer.c ****                      (SleepTimer__CTW_64_MS  == interval) ||
+ 301:.\Generated_Source\PSoC5/SleepTimer.c ****                      (SleepTimer__CTW_128_MS == interval) ||
+ 302:.\Generated_Source\PSoC5/SleepTimer.c ****                      (SleepTimer__CTW_256_MS == interval));
+ 303:.\Generated_Source\PSoC5/SleepTimer.c **** 
+ 304:.\Generated_Source\PSoC5/SleepTimer.c ****         #endif  /* (CY_PSOC5A) */
+ 305:.\Generated_Source\PSoC5/SleepTimer.c **** 
+ 306:.\Generated_Source\PSoC5/SleepTimer.c ****         /* Set CTW interval */
+ 307:.\Generated_Source\PSoC5/SleepTimer.c ****         SleepTimer_CTW_INTERVAL_REG = \
+ 350              		.loc 1 307 0
+ 351 0018 0A4B     		ldr	r3, .L22+4
+ 308:.\Generated_Source\PSoC5/SleepTimer.c ****             (SleepTimer_CTW_INTERVAL_REG & ((uint8)~SleepTimer_INTERVAL_MASK)) | \
+ 352              		.loc 1 308 0
+ 353 001a 0A4A     		ldr	r2, .L22+4
+ 354 001c 1278     		ldrb	r2, [r2]
+ 355 001e D2B2     		uxtb	r2, r2
+ 307:.\Generated_Source\PSoC5/SleepTimer.c ****         SleepTimer_CTW_INTERVAL_REG = \
+ 356              		.loc 1 307 0
+ 357 0020 22F00F02 		bic	r2, r2, #15
+ 358 0024 D1B2     		uxtb	r1, r2
+ 359 0026 FA79     		ldrb	r2, [r7, #7]
+ 360 0028 02F00F02 		and	r2, r2, #15
+ 361 002c D2B2     		uxtb	r2, r2
+ 362 002e 0A43     		orrs	r2, r2, r1
+ 363 0030 D2B2     		uxtb	r2, r2
+ 364 0032 1A70     		strb	r2, [r3]
+ 365              	.L20:
+ 309:.\Generated_Source\PSoC5/SleepTimer.c ****             (interval & SleepTimer_INTERVAL_MASK);
+ 310:.\Generated_Source\PSoC5/SleepTimer.c ****     }
+ 311:.\Generated_Source\PSoC5/SleepTimer.c ****     /* Do nothing if CTW is enabled. */
+ 312:.\Generated_Source\PSoC5/SleepTimer.c **** }
+ 366              		.loc 1 312 0
+ 367 0034 0C37     		adds	r7, r7, #12
+ 368 0036 BD46     		mov	sp, r7
+ 369              		@ sp needed
+ 370 0038 5DF8047B 		ldr	r7, [sp], #4
+ 371 003c 7047     		bx	lr
+ARM GAS  C:\Users\BRANKO~1\AppData\Local\Temp\ccBIq1gb.s 			page 13
+
+
+ 372              	.L23:
+ 373 003e 00BF     		.align	2
+ 374              	.L22:
+ 375 0040 82430040 		.word	1073759106
+ 376 0044 81430040 		.word	1073759105
+ 377              		.cfi_endproc
+ 378              	.LFE6:
+ 379              		.size	SleepTimer_SetInterval, .-SleepTimer_SetInterval
+ 380              		.section	.text.SleepTimer_GetStatus,"ax",%progbits
+ 381              		.align	2
+ 382              		.global	SleepTimer_GetStatus
+ 383              		.thumb
+ 384              		.thumb_func
+ 385              		.type	SleepTimer_GetStatus, %function
+ 386              	SleepTimer_GetStatus:
+ 387              	.LFB7:
+ 313:.\Generated_Source\PSoC5/SleepTimer.c **** 
+ 314:.\Generated_Source\PSoC5/SleepTimer.c **** 
+ 315:.\Generated_Source\PSoC5/SleepTimer.c **** /*******************************************************************************
+ 316:.\Generated_Source\PSoC5/SleepTimer.c **** * Function Name: SleepTimer_GetStatus
+ 317:.\Generated_Source\PSoC5/SleepTimer.c **** ********************************************************************************
+ 318:.\Generated_Source\PSoC5/SleepTimer.c **** *
+ 319:.\Generated_Source\PSoC5/SleepTimer.c **** * Summary:
+ 320:.\Generated_Source\PSoC5/SleepTimer.c **** *  This function returns the state of the Sleep Timer's status register, and
+ 321:.\Generated_Source\PSoC5/SleepTimer.c **** *  clears the pending interrupt status bit. The application code must always
+ 322:.\Generated_Source\PSoC5/SleepTimer.c **** *  call this function after wakeup to clear the ctw_int status bit. The code
+ 323:.\Generated_Source\PSoC5/SleepTimer.c **** *  must call this function whether the Sleep Timer's interrupt is disabled or
+ 324:.\Generated_Source\PSoC5/SleepTimer.c **** *  enabled.
+ 325:.\Generated_Source\PSoC5/SleepTimer.c **** *
+ 326:.\Generated_Source\PSoC5/SleepTimer.c **** * Parameters:
+ 327:.\Generated_Source\PSoC5/SleepTimer.c **** *  None
+ 328:.\Generated_Source\PSoC5/SleepTimer.c **** *
+ 329:.\Generated_Source\PSoC5/SleepTimer.c **** * Return:
+ 330:.\Generated_Source\PSoC5/SleepTimer.c **** *  Returns an 8-bit value (uint8) with bits set if a corresponding event has
+ 331:.\Generated_Source\PSoC5/SleepTimer.c **** *  occurred. The constants shown in the following table describe the two-bit
+ 332:.\Generated_Source\PSoC5/SleepTimer.c **** *  masks for the two events that this return value can contain.
+ 333:.\Generated_Source\PSoC5/SleepTimer.c **** *
+ 334:.\Generated_Source\PSoC5/SleepTimer.c **** *            Name                             Description
+ 335:.\Generated_Source\PSoC5/SleepTimer.c **** *  SleepTimer_PM_INT_SR_ONEPPSP  A onepps event has occured
+ 336:.\Generated_Source\PSoC5/SleepTimer.c **** *  SleepTimer_PM_INT_SR_CTW      A central timewheel event occured
+ 337:.\Generated_Source\PSoC5/SleepTimer.c **** *  SleepTimer_PM_INT_SR_FTW      A fast timewheel event occured
+ 338:.\Generated_Source\PSoC5/SleepTimer.c **** *
+ 339:.\Generated_Source\PSoC5/SleepTimer.c **** * Side Effects:
+ 340:.\Generated_Source\PSoC5/SleepTimer.c **** *  If the SleepTimer_GetStatus() function is not called in an interrupt
+ 341:.\Generated_Source\PSoC5/SleepTimer.c **** *  associated with the SleepTimer, the interrupt is not cleared and as soon as
+ 342:.\Generated_Source\PSoC5/SleepTimer.c **** *  the interrupt is exited it is re-entered.
+ 343:.\Generated_Source\PSoC5/SleepTimer.c **** *
+ 344:.\Generated_Source\PSoC5/SleepTimer.c **** *  After the Sleep Timer has expired, the sleep interval is functionally 0 ms,
+ 345:.\Generated_Source\PSoC5/SleepTimer.c **** *  because the interrupt is called until the ctw_int flag is cleared by the
+ 346:.\Generated_Source\PSoC5/SleepTimer.c **** *  SleepTimer_GetStatus() function.
+ 347:.\Generated_Source\PSoC5/SleepTimer.c **** *
+ 348:.\Generated_Source\PSoC5/SleepTimer.c **** *  If an interrupt is generated at the same time as a register read/clear, the
+ 349:.\Generated_Source\PSoC5/SleepTimer.c **** *  bit remains set (which causes another interrupt).
+ 350:.\Generated_Source\PSoC5/SleepTimer.c **** *
+ 351:.\Generated_Source\PSoC5/SleepTimer.c **** *  Reports and then clears all interrupt status bits in the Power Manager
+ 352:.\Generated_Source\PSoC5/SleepTimer.c **** *  Interrupt Status register. Some of the bits are not relevant to this
+ 353:.\Generated_Source\PSoC5/SleepTimer.c **** *  component's operation.
+ARM GAS  C:\Users\BRANKO~1\AppData\Local\Temp\ccBIq1gb.s 			page 14
+
+
+ 354:.\Generated_Source\PSoC5/SleepTimer.c **** *
+ 355:.\Generated_Source\PSoC5/SleepTimer.c **** *  The application code must always call this function (when the Sleep Timer's
+ 356:.\Generated_Source\PSoC5/SleepTimer.c **** *  interrupt is disabled or enabled) after wakeup to clear the ctw_int status
+ 357:.\Generated_Source\PSoC5/SleepTimer.c **** *  bit. The code must call SleepTimer_GetStatus() within 1 ms (1 clock cycle of
+ 358:.\Generated_Source\PSoC5/SleepTimer.c **** *  the ILO) after the CTW event occurred.
+ 359:.\Generated_Source\PSoC5/SleepTimer.c **** *
+ 360:.\Generated_Source\PSoC5/SleepTimer.c **** *******************************************************************************/
+ 361:.\Generated_Source\PSoC5/SleepTimer.c **** uint8 SleepTimer_GetStatus(void) 
+ 362:.\Generated_Source\PSoC5/SleepTimer.c **** {
+ 388              		.loc 1 362 0
+ 389              		.cfi_startproc
+ 390              		@ args = 0, pretend = 0, frame = 0
+ 391              		@ frame_needed = 1, uses_anonymous_args = 0
+ 392 0000 80B5     		push	{r7, lr}
+ 393              		.cfi_def_cfa_offset 8
+ 394              		.cfi_offset 7, -8
+ 395              		.cfi_offset 14, -4
+ 396 0002 00AF     		add	r7, sp, #0
+ 397              		.cfi_def_cfa_register 7
+ 363:.\Generated_Source\PSoC5/SleepTimer.c ****     /* Read to clear  */
+ 364:.\Generated_Source\PSoC5/SleepTimer.c ****     return CyPmReadStatus(CY_PM_CTW_INT);
+ 398              		.loc 1 364 0
+ 399 0004 0220     		movs	r0, #2
+ 400 0006 FFF7FEFF 		bl	CyPmReadStatus
+ 401 000a 0346     		mov	r3, r0
+ 365:.\Generated_Source\PSoC5/SleepTimer.c **** }
+ 402              		.loc 1 365 0
+ 403 000c 1846     		mov	r0, r3
+ 404 000e 80BD     		pop	{r7, pc}
+ 405              		.cfi_endproc
+ 406              	.LFE7:
+ 407              		.size	SleepTimer_GetStatus, .-SleepTimer_GetStatus
+ 408              		.text
+ 409              	.Letext0:
+ 410              		.file 2 ".\\Generated_Source\\PSoC5\\cytypes.h"
+ 411              		.section	.debug_info,"",%progbits
+ 412              	.Ldebug_info0:
+ 413 0000 9F010000 		.4byte	0x19f
+ 414 0004 0400     		.2byte	0x4
+ 415 0006 00000000 		.4byte	.Ldebug_abbrev0
+ 416 000a 04       		.byte	0x4
+ 417 000b 01       		.uleb128 0x1
+ 418 000c 24010000 		.4byte	.LASF23
+ 419 0010 01       		.byte	0x1
+ 420 0011 0E000000 		.4byte	.LASF24
+ 421 0015 F9010000 		.4byte	.LASF25
+ 422 0019 00000000 		.4byte	.Ldebug_ranges0+0
+ 423 001d 00000000 		.4byte	0
+ 424 0021 00000000 		.4byte	.Ldebug_line0
+ 425 0025 02       		.uleb128 0x2
+ 426 0026 01       		.byte	0x1
+ 427 0027 06       		.byte	0x6
+ 428 0028 18010000 		.4byte	.LASF0
+ 429 002c 02       		.uleb128 0x2
+ 430 002d 01       		.byte	0x1
+ 431 002e 08       		.byte	0x8
+ 432 002f C0000000 		.4byte	.LASF1
+ARM GAS  C:\Users\BRANKO~1\AppData\Local\Temp\ccBIq1gb.s 			page 15
+
+
+ 433 0033 02       		.uleb128 0x2
+ 434 0034 02       		.byte	0x2
+ 435 0035 05       		.byte	0x5
+ 436 0036 C8010000 		.4byte	.LASF2
+ 437 003a 02       		.uleb128 0x2
+ 438 003b 02       		.byte	0x2
+ 439 003c 07       		.byte	0x7
+ 440 003d 05010000 		.4byte	.LASF3
+ 441 0041 02       		.uleb128 0x2
+ 442 0042 04       		.byte	0x4
+ 443 0043 05       		.byte	0x5
+ 444 0044 E5000000 		.4byte	.LASF4
+ 445 0048 02       		.uleb128 0x2
+ 446 0049 04       		.byte	0x4
+ 447 004a 07       		.byte	0x7
+ 448 004b 83000000 		.4byte	.LASF5
+ 449 004f 02       		.uleb128 0x2
+ 450 0050 08       		.byte	0x8
+ 451 0051 05       		.byte	0x5
+ 452 0052 00000000 		.4byte	.LASF6
+ 453 0056 02       		.uleb128 0x2
+ 454 0057 08       		.byte	0x8
+ 455 0058 07       		.byte	0x7
+ 456 0059 95000000 		.4byte	.LASF7
+ 457 005d 03       		.uleb128 0x3
+ 458 005e 04       		.byte	0x4
+ 459 005f 05       		.byte	0x5
+ 460 0060 696E7400 		.ascii	"int\000"
+ 461 0064 02       		.uleb128 0x2
+ 462 0065 04       		.byte	0x4
+ 463 0066 07       		.byte	0x7
+ 464 0067 34000000 		.4byte	.LASF8
+ 465 006b 04       		.uleb128 0x4
+ 466 006c 7D000000 		.4byte	.LASF12
+ 467 0070 02       		.byte	0x2
+ 468 0071 A1       		.byte	0xa1
+ 469 0072 2C000000 		.4byte	0x2c
+ 470 0076 02       		.uleb128 0x2
+ 471 0077 04       		.byte	0x4
+ 472 0078 04       		.byte	0x4
+ 473 0079 AC000000 		.4byte	.LASF9
+ 474 007d 02       		.uleb128 0x2
+ 475 007e 08       		.byte	0x8
+ 476 007f 04       		.byte	0x4
+ 477 0080 EE000000 		.4byte	.LASF10
+ 478 0084 02       		.uleb128 0x2
+ 479 0085 01       		.byte	0x1
+ 480 0086 08       		.byte	0x8
+ 481 0087 B2000000 		.4byte	.LASF11
+ 482 008b 05       		.uleb128 0x5
+ 483 008c 78000000 		.4byte	.LASF13
+ 484 0090 02       		.byte	0x2
+ 485 0091 4B01     		.2byte	0x14b
+ 486 0093 97000000 		.4byte	0x97
+ 487 0097 06       		.uleb128 0x6
+ 488 0098 6B000000 		.4byte	0x6b
+ 489 009c 02       		.uleb128 0x2
+ARM GAS  C:\Users\BRANKO~1\AppData\Local\Temp\ccBIq1gb.s 			page 16
+
+
+ 490 009d 04       		.byte	0x4
+ 491 009e 07       		.byte	0x7
+ 492 009f 2F020000 		.4byte	.LASF14
+ 493 00a3 07       		.uleb128 0x7
+ 494 00a4 D2010000 		.4byte	.LASF15
+ 495 00a8 01       		.byte	0x1
+ 496 00a9 35       		.byte	0x35
+ 497 00aa 00000000 		.4byte	.LFB0
+ 498 00ae 20000000 		.4byte	.LFE0-.LFB0
+ 499 00b2 01       		.uleb128 0x1
+ 500 00b3 9C       		.byte	0x9c
+ 501 00b4 07       		.uleb128 0x7
+ 502 00b5 F5000000 		.4byte	.LASF16
+ 503 00b9 01       		.byte	0x1
+ 504 00ba 56       		.byte	0x56
+ 505 00bb 00000000 		.4byte	.LFB1
+ 506 00bf 10000000 		.4byte	.LFE1-.LFB1
+ 507 00c3 01       		.uleb128 0x1
+ 508 00c4 9C       		.byte	0x9c
+ 509 00c5 08       		.uleb128 0x8
+ 510 00c6 41000000 		.4byte	.LASF17
+ 511 00ca 01       		.byte	0x1
+ 512 00cb 7E       		.byte	0x7e
+ 513 00cc 00000000 		.4byte	.LFB2
+ 514 00d0 74000000 		.4byte	.LFE2-.LFB2
+ 515 00d4 01       		.uleb128 0x1
+ 516 00d5 9C       		.byte	0x9c
+ 517 00d6 E9000000 		.4byte	0xe9
+ 518 00da 09       		.uleb128 0x9
+ 519 00db 38020000 		.4byte	.LASF19
+ 520 00df 01       		.byte	0x1
+ 521 00e0 80       		.byte	0x80
+ 522 00e1 6B000000 		.4byte	0x6b
+ 523 00e5 02       		.uleb128 0x2
+ 524 00e6 91       		.byte	0x91
+ 525 00e7 77       		.sleb128 -9
+ 526 00e8 00       		.byte	0
+ 527 00e9 08       		.uleb128 0x8
+ 528 00ea 68000000 		.4byte	.LASF18
+ 529 00ee 01       		.byte	0x1
+ 530 00ef B2       		.byte	0xb2
+ 531 00f0 00000000 		.4byte	.LFB3
+ 532 00f4 30000000 		.4byte	.LFE3-.LFB3
+ 533 00f8 01       		.uleb128 0x1
+ 534 00f9 9C       		.byte	0x9c
+ 535 00fa 0D010000 		.4byte	0x10d
+ 536 00fe 09       		.uleb128 0x9
+ 537 00ff 38020000 		.4byte	.LASF19
+ 538 0103 01       		.byte	0x1
+ 539 0104 B4       		.byte	0xb4
+ 540 0105 6B000000 		.4byte	0x6b
+ 541 0109 02       		.uleb128 0x2
+ 542 010a 91       		.byte	0x91
+ 543 010b 77       		.sleb128 -9
+ 544 010c 00       		.byte	0
+ 545 010d 08       		.uleb128 0x8
+ 546 010e 53000000 		.4byte	.LASF20
+ARM GAS  C:\Users\BRANKO~1\AppData\Local\Temp\ccBIq1gb.s 			page 17
+
+
+ 547 0112 01       		.byte	0x1
+ 548 0113 CF       		.byte	0xcf
+ 549 0114 00000000 		.4byte	.LFB4
+ 550 0118 30000000 		.4byte	.LFE4-.LFB4
+ 551 011c 01       		.uleb128 0x1
+ 552 011d 9C       		.byte	0x9c
+ 553 011e 31010000 		.4byte	0x131
+ 554 0122 09       		.uleb128 0x9
+ 555 0123 38020000 		.4byte	.LASF19
+ 556 0127 01       		.byte	0x1
+ 557 0128 D1       		.byte	0xd1
+ 558 0129 6B000000 		.4byte	0x6b
+ 559 012d 02       		.uleb128 0x2
+ 560 012e 91       		.byte	0x91
+ 561 012f 77       		.sleb128 -9
+ 562 0130 00       		.byte	0
+ 563 0131 08       		.uleb128 0x8
+ 564 0132 E3010000 		.4byte	.LASF21
+ 565 0136 01       		.byte	0x1
+ 566 0137 EC       		.byte	0xec
+ 567 0138 00000000 		.4byte	.LFB5
+ 568 013c 30000000 		.4byte	.LFE5-.LFB5
+ 569 0140 01       		.uleb128 0x1
+ 570 0141 9C       		.byte	0x9c
+ 571 0142 55010000 		.4byte	0x155
+ 572 0146 09       		.uleb128 0x9
+ 573 0147 38020000 		.4byte	.LASF19
+ 574 014b 01       		.byte	0x1
+ 575 014c EE       		.byte	0xee
+ 576 014d 6B000000 		.4byte	0x6b
+ 577 0151 02       		.uleb128 0x2
+ 578 0152 91       		.byte	0x91
+ 579 0153 77       		.sleb128 -9
+ 580 0154 00       		.byte	0
+ 581 0155 0A       		.uleb128 0xa
+ 582 0156 CE000000 		.4byte	.LASF22
+ 583 015a 01       		.byte	0x1
+ 584 015b 2101     		.2byte	0x121
+ 585 015d 00000000 		.4byte	.LFB6
+ 586 0161 48000000 		.4byte	.LFE6-.LFB6
+ 587 0165 01       		.uleb128 0x1
+ 588 0166 9C       		.byte	0x9c
+ 589 0167 7B010000 		.4byte	0x17b
+ 590 016b 0B       		.uleb128 0xb
+ 591 016c B7000000 		.4byte	.LASF26
+ 592 0170 01       		.byte	0x1
+ 593 0171 2101     		.2byte	0x121
+ 594 0173 6B000000 		.4byte	0x6b
+ 595 0177 02       		.uleb128 0x2
+ 596 0178 91       		.byte	0x91
+ 597 0179 77       		.sleb128 -9
+ 598 017a 00       		.byte	0
+ 599 017b 0C       		.uleb128 0xc
+ 600 017c B3010000 		.4byte	.LASF27
+ 601 0180 01       		.byte	0x1
+ 602 0181 6901     		.2byte	0x169
+ 603 0183 6B000000 		.4byte	0x6b
+ARM GAS  C:\Users\BRANKO~1\AppData\Local\Temp\ccBIq1gb.s 			page 18
+
+
+ 604 0187 00000000 		.4byte	.LFB7
+ 605 018b 10000000 		.4byte	.LFE7-.LFB7
+ 606 018f 01       		.uleb128 0x1
+ 607 0190 9C       		.byte	0x9c
+ 608 0191 0D       		.uleb128 0xd
+ 609 0192 A0010000 		.4byte	.LASF28
+ 610 0196 01       		.byte	0x1
+ 611 0197 13       		.byte	0x13
+ 612 0198 6B000000 		.4byte	0x6b
+ 613 019c 05       		.uleb128 0x5
+ 614 019d 03       		.byte	0x3
+ 615 019e 00000000 		.4byte	SleepTimer_initVar
+ 616 01a2 00       		.byte	0
+ 617              		.section	.debug_abbrev,"",%progbits
+ 618              	.Ldebug_abbrev0:
+ 619 0000 01       		.uleb128 0x1
+ 620 0001 11       		.uleb128 0x11
+ 621 0002 01       		.byte	0x1
+ 622 0003 25       		.uleb128 0x25
+ 623 0004 0E       		.uleb128 0xe
+ 624 0005 13       		.uleb128 0x13
+ 625 0006 0B       		.uleb128 0xb
+ 626 0007 03       		.uleb128 0x3
+ 627 0008 0E       		.uleb128 0xe
+ 628 0009 1B       		.uleb128 0x1b
+ 629 000a 0E       		.uleb128 0xe
+ 630 000b 55       		.uleb128 0x55
+ 631 000c 17       		.uleb128 0x17
+ 632 000d 11       		.uleb128 0x11
+ 633 000e 01       		.uleb128 0x1
+ 634 000f 10       		.uleb128 0x10
+ 635 0010 17       		.uleb128 0x17
+ 636 0011 00       		.byte	0
+ 637 0012 00       		.byte	0
+ 638 0013 02       		.uleb128 0x2
+ 639 0014 24       		.uleb128 0x24
+ 640 0015 00       		.byte	0
+ 641 0016 0B       		.uleb128 0xb
+ 642 0017 0B       		.uleb128 0xb
+ 643 0018 3E       		.uleb128 0x3e
+ 644 0019 0B       		.uleb128 0xb
+ 645 001a 03       		.uleb128 0x3
+ 646 001b 0E       		.uleb128 0xe
+ 647 001c 00       		.byte	0
+ 648 001d 00       		.byte	0
+ 649 001e 03       		.uleb128 0x3
+ 650 001f 24       		.uleb128 0x24
+ 651 0020 00       		.byte	0
+ 652 0021 0B       		.uleb128 0xb
+ 653 0022 0B       		.uleb128 0xb
+ 654 0023 3E       		.uleb128 0x3e
+ 655 0024 0B       		.uleb128 0xb
+ 656 0025 03       		.uleb128 0x3
+ 657 0026 08       		.uleb128 0x8
+ 658 0027 00       		.byte	0
+ 659 0028 00       		.byte	0
+ 660 0029 04       		.uleb128 0x4
+ARM GAS  C:\Users\BRANKO~1\AppData\Local\Temp\ccBIq1gb.s 			page 19
+
+
+ 661 002a 16       		.uleb128 0x16
+ 662 002b 00       		.byte	0
+ 663 002c 03       		.uleb128 0x3
+ 664 002d 0E       		.uleb128 0xe
+ 665 002e 3A       		.uleb128 0x3a
+ 666 002f 0B       		.uleb128 0xb
+ 667 0030 3B       		.uleb128 0x3b
+ 668 0031 0B       		.uleb128 0xb
+ 669 0032 49       		.uleb128 0x49
+ 670 0033 13       		.uleb128 0x13
+ 671 0034 00       		.byte	0
+ 672 0035 00       		.byte	0
+ 673 0036 05       		.uleb128 0x5
+ 674 0037 16       		.uleb128 0x16
+ 675 0038 00       		.byte	0
+ 676 0039 03       		.uleb128 0x3
+ 677 003a 0E       		.uleb128 0xe
+ 678 003b 3A       		.uleb128 0x3a
+ 679 003c 0B       		.uleb128 0xb
+ 680 003d 3B       		.uleb128 0x3b
+ 681 003e 05       		.uleb128 0x5
+ 682 003f 49       		.uleb128 0x49
+ 683 0040 13       		.uleb128 0x13
+ 684 0041 00       		.byte	0
+ 685 0042 00       		.byte	0
+ 686 0043 06       		.uleb128 0x6
+ 687 0044 35       		.uleb128 0x35
+ 688 0045 00       		.byte	0
+ 689 0046 49       		.uleb128 0x49
+ 690 0047 13       		.uleb128 0x13
+ 691 0048 00       		.byte	0
+ 692 0049 00       		.byte	0
+ 693 004a 07       		.uleb128 0x7
+ 694 004b 2E       		.uleb128 0x2e
+ 695 004c 00       		.byte	0
+ 696 004d 3F       		.uleb128 0x3f
+ 697 004e 19       		.uleb128 0x19
+ 698 004f 03       		.uleb128 0x3
+ 699 0050 0E       		.uleb128 0xe
+ 700 0051 3A       		.uleb128 0x3a
+ 701 0052 0B       		.uleb128 0xb
+ 702 0053 3B       		.uleb128 0x3b
+ 703 0054 0B       		.uleb128 0xb
+ 704 0055 27       		.uleb128 0x27
+ 705 0056 19       		.uleb128 0x19
+ 706 0057 11       		.uleb128 0x11
+ 707 0058 01       		.uleb128 0x1
+ 708 0059 12       		.uleb128 0x12
+ 709 005a 06       		.uleb128 0x6
+ 710 005b 40       		.uleb128 0x40
+ 711 005c 18       		.uleb128 0x18
+ 712 005d 9642     		.uleb128 0x2116
+ 713 005f 19       		.uleb128 0x19
+ 714 0060 00       		.byte	0
+ 715 0061 00       		.byte	0
+ 716 0062 08       		.uleb128 0x8
+ 717 0063 2E       		.uleb128 0x2e
+ARM GAS  C:\Users\BRANKO~1\AppData\Local\Temp\ccBIq1gb.s 			page 20
+
+
+ 718 0064 01       		.byte	0x1
+ 719 0065 3F       		.uleb128 0x3f
+ 720 0066 19       		.uleb128 0x19
+ 721 0067 03       		.uleb128 0x3
+ 722 0068 0E       		.uleb128 0xe
+ 723 0069 3A       		.uleb128 0x3a
+ 724 006a 0B       		.uleb128 0xb
+ 725 006b 3B       		.uleb128 0x3b
+ 726 006c 0B       		.uleb128 0xb
+ 727 006d 27       		.uleb128 0x27
+ 728 006e 19       		.uleb128 0x19
+ 729 006f 11       		.uleb128 0x11
+ 730 0070 01       		.uleb128 0x1
+ 731 0071 12       		.uleb128 0x12
+ 732 0072 06       		.uleb128 0x6
+ 733 0073 40       		.uleb128 0x40
+ 734 0074 18       		.uleb128 0x18
+ 735 0075 9642     		.uleb128 0x2116
+ 736 0077 19       		.uleb128 0x19
+ 737 0078 01       		.uleb128 0x1
+ 738 0079 13       		.uleb128 0x13
+ 739 007a 00       		.byte	0
+ 740 007b 00       		.byte	0
+ 741 007c 09       		.uleb128 0x9
+ 742 007d 34       		.uleb128 0x34
+ 743 007e 00       		.byte	0
+ 744 007f 03       		.uleb128 0x3
+ 745 0080 0E       		.uleb128 0xe
+ 746 0081 3A       		.uleb128 0x3a
+ 747 0082 0B       		.uleb128 0xb
+ 748 0083 3B       		.uleb128 0x3b
+ 749 0084 0B       		.uleb128 0xb
+ 750 0085 49       		.uleb128 0x49
+ 751 0086 13       		.uleb128 0x13
+ 752 0087 02       		.uleb128 0x2
+ 753 0088 18       		.uleb128 0x18
+ 754 0089 00       		.byte	0
+ 755 008a 00       		.byte	0
+ 756 008b 0A       		.uleb128 0xa
+ 757 008c 2E       		.uleb128 0x2e
+ 758 008d 01       		.byte	0x1
+ 759 008e 3F       		.uleb128 0x3f
+ 760 008f 19       		.uleb128 0x19
+ 761 0090 03       		.uleb128 0x3
+ 762 0091 0E       		.uleb128 0xe
+ 763 0092 3A       		.uleb128 0x3a
+ 764 0093 0B       		.uleb128 0xb
+ 765 0094 3B       		.uleb128 0x3b
+ 766 0095 05       		.uleb128 0x5
+ 767 0096 27       		.uleb128 0x27
+ 768 0097 19       		.uleb128 0x19
+ 769 0098 11       		.uleb128 0x11
+ 770 0099 01       		.uleb128 0x1
+ 771 009a 12       		.uleb128 0x12
+ 772 009b 06       		.uleb128 0x6
+ 773 009c 40       		.uleb128 0x40
+ 774 009d 18       		.uleb128 0x18
+ARM GAS  C:\Users\BRANKO~1\AppData\Local\Temp\ccBIq1gb.s 			page 21
+
+
+ 775 009e 9742     		.uleb128 0x2117
+ 776 00a0 19       		.uleb128 0x19
+ 777 00a1 01       		.uleb128 0x1
+ 778 00a2 13       		.uleb128 0x13
+ 779 00a3 00       		.byte	0
+ 780 00a4 00       		.byte	0
+ 781 00a5 0B       		.uleb128 0xb
+ 782 00a6 05       		.uleb128 0x5
+ 783 00a7 00       		.byte	0
+ 784 00a8 03       		.uleb128 0x3
+ 785 00a9 0E       		.uleb128 0xe
+ 786 00aa 3A       		.uleb128 0x3a
+ 787 00ab 0B       		.uleb128 0xb
+ 788 00ac 3B       		.uleb128 0x3b
+ 789 00ad 05       		.uleb128 0x5
+ 790 00ae 49       		.uleb128 0x49
+ 791 00af 13       		.uleb128 0x13
+ 792 00b0 02       		.uleb128 0x2
+ 793 00b1 18       		.uleb128 0x18
+ 794 00b2 00       		.byte	0
+ 795 00b3 00       		.byte	0
+ 796 00b4 0C       		.uleb128 0xc
+ 797 00b5 2E       		.uleb128 0x2e
+ 798 00b6 00       		.byte	0
+ 799 00b7 3F       		.uleb128 0x3f
+ 800 00b8 19       		.uleb128 0x19
+ 801 00b9 03       		.uleb128 0x3
+ 802 00ba 0E       		.uleb128 0xe
+ 803 00bb 3A       		.uleb128 0x3a
+ 804 00bc 0B       		.uleb128 0xb
+ 805 00bd 3B       		.uleb128 0x3b
+ 806 00be 05       		.uleb128 0x5
+ 807 00bf 27       		.uleb128 0x27
+ 808 00c0 19       		.uleb128 0x19
+ 809 00c1 49       		.uleb128 0x49
+ 810 00c2 13       		.uleb128 0x13
+ 811 00c3 11       		.uleb128 0x11
+ 812 00c4 01       		.uleb128 0x1
+ 813 00c5 12       		.uleb128 0x12
+ 814 00c6 06       		.uleb128 0x6
+ 815 00c7 40       		.uleb128 0x40
+ 816 00c8 18       		.uleb128 0x18
+ 817 00c9 9642     		.uleb128 0x2116
+ 818 00cb 19       		.uleb128 0x19
+ 819 00cc 00       		.byte	0
+ 820 00cd 00       		.byte	0
+ 821 00ce 0D       		.uleb128 0xd
+ 822 00cf 34       		.uleb128 0x34
+ 823 00d0 00       		.byte	0
+ 824 00d1 03       		.uleb128 0x3
+ 825 00d2 0E       		.uleb128 0xe
+ 826 00d3 3A       		.uleb128 0x3a
+ 827 00d4 0B       		.uleb128 0xb
+ 828 00d5 3B       		.uleb128 0x3b
+ 829 00d6 0B       		.uleb128 0xb
+ 830 00d7 49       		.uleb128 0x49
+ 831 00d8 13       		.uleb128 0x13
+ARM GAS  C:\Users\BRANKO~1\AppData\Local\Temp\ccBIq1gb.s 			page 22
+
+
+ 832 00d9 3F       		.uleb128 0x3f
+ 833 00da 19       		.uleb128 0x19
+ 834 00db 02       		.uleb128 0x2
+ 835 00dc 18       		.uleb128 0x18
+ 836 00dd 00       		.byte	0
+ 837 00de 00       		.byte	0
+ 838 00df 00       		.byte	0
+ 839              		.section	.debug_aranges,"",%progbits
+ 840 0000 54000000 		.4byte	0x54
+ 841 0004 0200     		.2byte	0x2
+ 842 0006 00000000 		.4byte	.Ldebug_info0
+ 843 000a 04       		.byte	0x4
+ 844 000b 00       		.byte	0
+ 845 000c 0000     		.2byte	0
+ 846 000e 0000     		.2byte	0
+ 847 0010 00000000 		.4byte	.LFB0
+ 848 0014 20000000 		.4byte	.LFE0-.LFB0
+ 849 0018 00000000 		.4byte	.LFB1
+ 850 001c 10000000 		.4byte	.LFE1-.LFB1
+ 851 0020 00000000 		.4byte	.LFB2
+ 852 0024 74000000 		.4byte	.LFE2-.LFB2
+ 853 0028 00000000 		.4byte	.LFB3
+ 854 002c 30000000 		.4byte	.LFE3-.LFB3
+ 855 0030 00000000 		.4byte	.LFB4
+ 856 0034 30000000 		.4byte	.LFE4-.LFB4
+ 857 0038 00000000 		.4byte	.LFB5
+ 858 003c 30000000 		.4byte	.LFE5-.LFB5
+ 859 0040 00000000 		.4byte	.LFB6
+ 860 0044 48000000 		.4byte	.LFE6-.LFB6
+ 861 0048 00000000 		.4byte	.LFB7
+ 862 004c 10000000 		.4byte	.LFE7-.LFB7
+ 863 0050 00000000 		.4byte	0
+ 864 0054 00000000 		.4byte	0
+ 865              		.section	.debug_ranges,"",%progbits
+ 866              	.Ldebug_ranges0:
+ 867 0000 00000000 		.4byte	.LFB0
+ 868 0004 20000000 		.4byte	.LFE0
+ 869 0008 00000000 		.4byte	.LFB1
+ 870 000c 10000000 		.4byte	.LFE1
+ 871 0010 00000000 		.4byte	.LFB2
+ 872 0014 74000000 		.4byte	.LFE2
+ 873 0018 00000000 		.4byte	.LFB3
+ 874 001c 30000000 		.4byte	.LFE3
+ 875 0020 00000000 		.4byte	.LFB4
+ 876 0024 30000000 		.4byte	.LFE4
+ 877 0028 00000000 		.4byte	.LFB5
+ 878 002c 30000000 		.4byte	.LFE5
+ 879 0030 00000000 		.4byte	.LFB6
+ 880 0034 48000000 		.4byte	.LFE6
+ 881 0038 00000000 		.4byte	.LFB7
+ 882 003c 10000000 		.4byte	.LFE7
+ 883 0040 00000000 		.4byte	0
+ 884 0044 00000000 		.4byte	0
+ 885              		.section	.debug_line,"",%progbits
+ 886              	.Ldebug_line0:
+ 887 0000 F4000000 		.section	.debug_str,"MS",%progbits,1
+ 887      02004900 
+ARM GAS  C:\Users\BRANKO~1\AppData\Local\Temp\ccBIq1gb.s 			page 23
+
+
+ 887      00000201 
+ 887      FB0E0D00 
+ 887      01010101 
+ 888              	.LASF6:
+ 889 0000 6C6F6E67 		.ascii	"long long int\000"
+ 889      206C6F6E 
+ 889      6720696E 
+ 889      7400
+ 890              	.LASF24:
+ 891 000e 2E5C4765 		.ascii	".\\Generated_Source\\PSoC5\\SleepTimer.c\000"
+ 891      6E657261 
+ 891      7465645F 
+ 891      536F7572 
+ 891      63655C50 
+ 892              	.LASF8:
+ 893 0034 756E7369 		.ascii	"unsigned int\000"
+ 893      676E6564 
+ 893      20696E74 
+ 893      00
+ 894              	.LASF17:
+ 895 0041 536C6565 		.ascii	"SleepTimer_Enable\000"
+ 895      7054696D 
+ 895      65725F45 
+ 895      6E61626C 
+ 895      6500
+ 896              	.LASF20:
+ 897 0053 536C6565 		.ascii	"SleepTimer_EnableInt\000"
+ 897      7054696D 
+ 897      65725F45 
+ 897      6E61626C 
+ 897      65496E74 
+ 898              	.LASF18:
+ 899 0068 536C6565 		.ascii	"SleepTimer_Stop\000"
+ 899      7054696D 
+ 899      65725F53 
+ 899      746F7000 
+ 900              	.LASF13:
+ 901 0078 72656738 		.ascii	"reg8\000"
+ 901      00
+ 902              	.LASF12:
+ 903 007d 75696E74 		.ascii	"uint8\000"
+ 903      3800
+ 904              	.LASF5:
+ 905 0083 6C6F6E67 		.ascii	"long unsigned int\000"
+ 905      20756E73 
+ 905      69676E65 
+ 905      6420696E 
+ 905      7400
+ 906              	.LASF7:
+ 907 0095 6C6F6E67 		.ascii	"long long unsigned int\000"
+ 907      206C6F6E 
+ 907      6720756E 
+ 907      7369676E 
+ 907      65642069 
+ 908              	.LASF9:
+ 909 00ac 666C6F61 		.ascii	"float\000"
+ 909      7400
+ARM GAS  C:\Users\BRANKO~1\AppData\Local\Temp\ccBIq1gb.s 			page 24
+
+
+ 910              	.LASF11:
+ 911 00b2 63686172 		.ascii	"char\000"
+ 911      00
+ 912              	.LASF26:
+ 913 00b7 696E7465 		.ascii	"interval\000"
+ 913      7276616C 
+ 913      00
+ 914              	.LASF1:
+ 915 00c0 756E7369 		.ascii	"unsigned char\000"
+ 915      676E6564 
+ 915      20636861 
+ 915      7200
+ 916              	.LASF22:
+ 917 00ce 536C6565 		.ascii	"SleepTimer_SetInterval\000"
+ 917      7054696D 
+ 917      65725F53 
+ 917      6574496E 
+ 917      74657276 
+ 918              	.LASF4:
+ 919 00e5 6C6F6E67 		.ascii	"long int\000"
+ 919      20696E74 
+ 919      00
+ 920              	.LASF10:
+ 921 00ee 646F7562 		.ascii	"double\000"
+ 921      6C6500
+ 922              	.LASF16:
+ 923 00f5 536C6565 		.ascii	"SleepTimer_Init\000"
+ 923      7054696D 
+ 923      65725F49 
+ 923      6E697400 
+ 924              	.LASF3:
+ 925 0105 73686F72 		.ascii	"short unsigned int\000"
+ 925      7420756E 
+ 925      7369676E 
+ 925      65642069 
+ 925      6E7400
+ 926              	.LASF0:
+ 927 0118 7369676E 		.ascii	"signed char\000"
+ 927      65642063 
+ 927      68617200 
+ 928              	.LASF23:
+ 929 0124 474E5520 		.ascii	"GNU C 4.8.4 20140526 (release) [ARM/embedded-4_8-br"
+ 929      4320342E 
+ 929      382E3420 
+ 929      32303134 
+ 929      30353236 
+ 930 0157 616E6368 		.ascii	"anch revision 211358] -mcpu=cortex-m3 -mthumb -g -O"
+ 930      20726576 
+ 930      6973696F 
+ 930      6E203231 
+ 930      31333538 
+ 931 018a 30202D66 		.ascii	"0 -ffunction-sections\000"
+ 931      66756E63 
+ 931      74696F6E 
+ 931      2D736563 
+ 931      74696F6E 
+ 932              	.LASF28:
+ARM GAS  C:\Users\BRANKO~1\AppData\Local\Temp\ccBIq1gb.s 			page 25
+
+
+ 933 01a0 536C6565 		.ascii	"SleepTimer_initVar\000"
+ 933      7054696D 
+ 933      65725F69 
+ 933      6E697456 
+ 933      617200
+ 934              	.LASF27:
+ 935 01b3 536C6565 		.ascii	"SleepTimer_GetStatus\000"
+ 935      7054696D 
+ 935      65725F47 
+ 935      65745374 
+ 935      61747573 
+ 936              	.LASF2:
+ 937 01c8 73686F72 		.ascii	"short int\000"
+ 937      7420696E 
+ 937      7400
+ 938              	.LASF15:
+ 939 01d2 536C6565 		.ascii	"SleepTimer_Start\000"
+ 939      7054696D 
+ 939      65725F53 
+ 939      74617274 
+ 939      00
+ 940              	.LASF21:
+ 941 01e3 536C6565 		.ascii	"SleepTimer_DisableInt\000"
+ 941      7054696D 
+ 941      65725F44 
+ 941      69736162 
+ 941      6C65496E 
+ 942              	.LASF25:
+ 943 01f9 443A5C70 		.ascii	"D:\\psoc5\\Cell Board\\Cell Board.cydsn\\Sleep Test"
+ 943      736F6335 
+ 943      5C43656C 
+ 943      6C20426F 
+ 943      6172645C 
+ 944 0228 2E637964 		.ascii	".cydsn\000"
+ 944      736E00
+ 945              	.LASF14:
+ 946 022f 73697A65 		.ascii	"sizetype\000"
+ 946      74797065 
+ 946      00
+ 947              	.LASF19:
+ 948 0238 696E7465 		.ascii	"interruptState\000"
+ 948      72727570 
+ 948      74537461 
+ 948      746500
+ 949              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 4.8.4 20140526 (release) [ARM/embedded-4_8-br

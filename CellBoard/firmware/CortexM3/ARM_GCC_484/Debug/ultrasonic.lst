@@ -1,0 +1,1455 @@
+ARM GAS  C:\Users\BRANKO~1\AppData\Local\Temp\cc7i1Lnk.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 6
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.file	"ultrasonic.c"
+  15              		.text
+  16              	.Ltext0:
+  17              		.cfi_sections	.debug_frame
+  18              		.comm	uart_ultrasonic_received_string,128,4
+  19              		.global	uart_ultrasonic_string_index
+  20              		.bss
+  21              		.type	uart_ultrasonic_string_index, %object
+  22              		.size	uart_ultrasonic_string_index, 1
+  23              	uart_ultrasonic_string_index:
+  24 0000 00       		.space	1
+  25              		.section	.text.ultrasonic_start,"ax",%progbits
+  26              		.align	2
+  27              		.global	ultrasonic_start
+  28              		.thumb
+  29              		.thumb_func
+  30              		.type	ultrasonic_start, %function
+  31              	ultrasonic_start:
+  32              	.LFB56:
+  33              		.file 1 ".\\ultrasonic.c"
+   1:.\ultrasonic.c **** /* ========================================
+   2:.\ultrasonic.c ****  *
+   3:.\ultrasonic.c ****  * Copyright YOUR COMPANY, THE YEAR
+   4:.\ultrasonic.c ****  * All Rights Reserved
+   5:.\ultrasonic.c ****  * UNPUBLISHED, LICENSED SOFTWARE.
+   6:.\ultrasonic.c ****  *
+   7:.\ultrasonic.c ****  * CONFIDENTIAL AND PROPRIETARY INFORMATION
+   8:.\ultrasonic.c ****  * WHICH IS THE PROPERTY OF your company.
+   9:.\ultrasonic.c ****  *
+  10:.\ultrasonic.c ****  * ========================================
+  11:.\ultrasonic.c **** */
+  12:.\ultrasonic.c **** #include "ultrasonic.h"
+  13:.\ultrasonic.c **** /* Revise debug.h and implement if an SD Card is installed
+  14:.\ultrasonic.c **** #include "debug.h"
+  15:.\ultrasonic.c **** */
+  16:.\ultrasonic.c **** // prototype modem interrupt
+  17:.\ultrasonic.c **** CY_ISR_PROTO(isr_byte_ultrasonic_rx);
+  18:.\ultrasonic.c **** 
+  19:.\ultrasonic.c **** // Declare variables
+  20:.\ultrasonic.c **** char uart_ultrasonic_received_string[MAX_STRING_LENGTH];
+  21:.\ultrasonic.c **** uint8 uart_ultrasonic_string_index = 0;
+  22:.\ultrasonic.c **** //uint8 rx_char_hold;
+  23:.\ultrasonic.c **** 
+  24:.\ultrasonic.c **** 
+ARM GAS  C:\Users\BRANKO~1\AppData\Local\Temp\cc7i1Lnk.s 			page 2
+
+
+  25:.\ultrasonic.c **** 
+  26:.\ultrasonic.c **** // Start the UART
+  27:.\ultrasonic.c **** void ultrasonic_start(){
+  34              		.loc 1 27 0
+  35              		.cfi_startproc
+  36              		@ args = 0, pretend = 0, frame = 0
+  37              		@ frame_needed = 1, uses_anonymous_args = 0
+  38 0000 80B5     		push	{r7, lr}
+  39              		.cfi_def_cfa_offset 8
+  40              		.cfi_offset 7, -8
+  41              		.cfi_offset 14, -4
+  42 0002 00AF     		add	r7, sp, #0
+  43              		.cfi_def_cfa_register 7
+  28:.\ultrasonic.c ****     uart_ultrasonic_Start();
+  44              		.loc 1 28 0
+  45 0004 FFF7FEFF 		bl	uart_ultrasonic_Start
+  29:.\ultrasonic.c **** }
+  46              		.loc 1 29 0
+  47 0008 80BD     		pop	{r7, pc}
+  48              		.cfi_endproc
+  49              	.LFE56:
+  50              		.size	ultrasonic_start, .-ultrasonic_start
+  51 000a 00BF     		.section	.text.ultrasonic_stop,"ax",%progbits
+  52              		.align	2
+  53              		.global	ultrasonic_stop
+  54              		.thumb
+  55              		.thumb_func
+  56              		.type	ultrasonic_stop, %function
+  57              	ultrasonic_stop:
+  58              	.LFB57:
+  30:.\ultrasonic.c **** // Stop the UART
+  31:.\ultrasonic.c **** void ultrasonic_stop(){
+  59              		.loc 1 31 0
+  60              		.cfi_startproc
+  61              		@ args = 0, pretend = 0, frame = 0
+  62              		@ frame_needed = 1, uses_anonymous_args = 0
+  63 0000 80B5     		push	{r7, lr}
+  64              		.cfi_def_cfa_offset 8
+  65              		.cfi_offset 7, -8
+  66              		.cfi_offset 14, -4
+  67 0002 00AF     		add	r7, sp, #0
+  68              		.cfi_def_cfa_register 7
+  32:.\ultrasonic.c ****     uart_ultrasonic_Stop();
+  69              		.loc 1 32 0
+  70 0004 FFF7FEFF 		bl	uart_ultrasonic_Stop
+  33:.\ultrasonic.c **** }
+  71              		.loc 1 33 0
+  72 0008 80BD     		pop	{r7, pc}
+  73              		.cfi_endproc
+  74              	.LFE57:
+  75              		.size	ultrasonic_stop, .-ultrasonic_stop
+  76 000a 00BF     		.section	.text.ultrasonic_power_on,"ax",%progbits
+  77              		.align	2
+  78              		.global	ultrasonic_power_on
+  79              		.thumb
+  80              		.thumb_func
+  81              		.type	ultrasonic_power_on, %function
+ARM GAS  C:\Users\BRANKO~1\AppData\Local\Temp\cc7i1Lnk.s 			page 3
+
+
+  82              	ultrasonic_power_on:
+  83              	.LFB58:
+  34:.\ultrasonic.c **** 
+  35:.\ultrasonic.c **** // Provide power to the ultrasonic sensor
+  36:.\ultrasonic.c **** uint8 ultrasonic_power_on(){
+  84              		.loc 1 36 0
+  85              		.cfi_startproc
+  86              		@ args = 0, pretend = 0, frame = 0
+  87              		@ frame_needed = 1, uses_anonymous_args = 0
+  88 0000 80B5     		push	{r7, lr}
+  89              		.cfi_def_cfa_offset 8
+  90              		.cfi_offset 7, -8
+  91              		.cfi_offset 14, -4
+  92 0002 00AF     		add	r7, sp, #0
+  93              		.cfi_def_cfa_register 7
+  37:.\ultrasonic.c ****     Ultrasonic_ON_Write(1u);
+  94              		.loc 1 37 0
+  95 0004 0120     		movs	r0, #1
+  96 0006 FFF7FEFF 		bl	Ultrasonic_ON_Write
+  38:.\ultrasonic.c ****     return 1u;
+  97              		.loc 1 38 0
+  98 000a 0123     		movs	r3, #1
+  39:.\ultrasonic.c **** }
+  99              		.loc 1 39 0
+ 100 000c 1846     		mov	r0, r3
+ 101 000e 80BD     		pop	{r7, pc}
+ 102              		.cfi_endproc
+ 103              	.LFE58:
+ 104              		.size	ultrasonic_power_on, .-ultrasonic_power_on
+ 105              		.section	.text.ultrasonic_power_off,"ax",%progbits
+ 106              		.align	2
+ 107              		.global	ultrasonic_power_off
+ 108              		.thumb
+ 109              		.thumb_func
+ 110              		.type	ultrasonic_power_off, %function
+ 111              	ultrasonic_power_off:
+ 112              	.LFB59:
+  40:.\ultrasonic.c **** 
+  41:.\ultrasonic.c **** // Cut power to the ultrasonic sensor
+  42:.\ultrasonic.c **** uint8 ultrasonic_power_off(){
+ 113              		.loc 1 42 0
+ 114              		.cfi_startproc
+ 115              		@ args = 0, pretend = 0, frame = 0
+ 116              		@ frame_needed = 1, uses_anonymous_args = 0
+ 117 0000 80B5     		push	{r7, lr}
+ 118              		.cfi_def_cfa_offset 8
+ 119              		.cfi_offset 7, -8
+ 120              		.cfi_offset 14, -4
+ 121 0002 00AF     		add	r7, sp, #0
+ 122              		.cfi_def_cfa_register 7
+  43:.\ultrasonic.c ****     Ultrasonic_ON_Write(0u);
+ 123              		.loc 1 43 0
+ 124 0004 0020     		movs	r0, #0
+ 125 0006 FFF7FEFF 		bl	Ultrasonic_ON_Write
+  44:.\ultrasonic.c ****     return 0u;
+ 126              		.loc 1 44 0
+ 127 000a 0023     		movs	r3, #0
+ARM GAS  C:\Users\BRANKO~1\AppData\Local\Temp\cc7i1Lnk.s 			page 4
+
+
+  45:.\ultrasonic.c **** }
+ 128              		.loc 1 45 0
+ 129 000c 1846     		mov	r0, r3
+ 130 000e 80BD     		pop	{r7, pc}
+ 131              		.cfi_endproc
+ 132              	.LFE59:
+ 133              		.size	ultrasonic_power_off, .-ultrasonic_power_off
+ 134              		.section	.text.ultrasonic_get_reading,"ax",%progbits
+ 135              		.align	2
+ 136              		.global	ultrasonic_get_reading
+ 137              		.thumb
+ 138              		.thumb_func
+ 139              		.type	ultrasonic_get_reading, %function
+ 140              	ultrasonic_get_reading:
+ 141              	.LFB60:
+  46:.\ultrasonic.c **** 
+  47:.\ultrasonic.c **** // Start ISR, Fill array, Return array, Stop ISR
+  48:.\ultrasonic.c **** uint8 ultrasonic_get_reading(UltrasonicReading *reading) {
+ 142              		.loc 1 48 0
+ 143              		.cfi_startproc
+ 144              		@ args = 0, pretend = 0, frame = 152
+ 145              		@ frame_needed = 1, uses_anonymous_args = 0
+ 146 0000 80B5     		push	{r7, lr}
+ 147              		.cfi_def_cfa_offset 8
+ 148              		.cfi_offset 7, -8
+ 149              		.cfi_offset 14, -4
+ 150 0002 A6B0     		sub	sp, sp, #152
+ 151              		.cfi_def_cfa_offset 160
+ 152 0004 00AF     		add	r7, sp, #0
+ 153              		.cfi_def_cfa_register 7
+ 154 0006 7860     		str	r0, [r7, #4]
+  49:.\ultrasonic.c ****     
+  50:.\ultrasonic.c ****     int i, j;
+  51:.\ultrasonic.c ****     char depth[DEPTH_STRING_LENGTH], s[MAX_STRING_LENGTH];
+  52:.\ultrasonic.c **** 
+  53:.\ultrasonic.c ****     // Reset variables
+  54:.\ultrasonic.c ****     (*reading).valid = 0u;
+ 155              		.loc 1 54 0
+ 156 0008 7B68     		ldr	r3, [r7, #4]
+ 157 000a 0022     		movs	r2, #0
+ 158 000c 1A72     		strb	r2, [r3, #8]
+  55:.\ultrasonic.c ****     (*reading).temp = -9999;    
+ 159              		.loc 1 55 0
+ 160 000e 7B68     		ldr	r3, [r7, #4]
+ 161 0010 384A     		ldr	r2, .L16
+ 162 0012 1A60     		str	r2, [r3]	@ float
+  56:.\ultrasonic.c ****     (*reading).depth = -9999;
+ 163              		.loc 1 56 0
+ 164 0014 7B68     		ldr	r3, [r7, #4]
+ 165 0016 374A     		ldr	r2, .L16
+ 166 0018 5A60     		str	r2, [r3, #4]	@ float
+  57:.\ultrasonic.c **** 	
+  58:.\ultrasonic.c **** 	ultrasonic_start();
+ 167              		.loc 1 58 0
+ 168 001a FFF7FEFF 		bl	ultrasonic_start
+  59:.\ultrasonic.c ****     uart_ultrasonic_string_reset();
+ 169              		.loc 1 59 0
+ARM GAS  C:\Users\BRANKO~1\AppData\Local\Temp\cc7i1Lnk.s 			page 5
+
+
+ 170 001e FFF7FEFF 		bl	uart_ultrasonic_string_reset
+  60:.\ultrasonic.c **** 
+  61:.\ultrasonic.c ****     isr_byte_ultrasonic_rx_StartEx(isr_byte_ultrasonic_rx); // Start the ISR to read the UART
+ 171              		.loc 1 61 0
+ 172 0022 3548     		ldr	r0, .L16+4
+ 173 0024 FFF7FEFF 		bl	isr_byte_ultrasonic_rx_StartEx
+  62:.\ultrasonic.c ****     ultrasonic_power_on();                                  // Power on the sensor
+ 174              		.loc 1 62 0
+ 175 0028 FFF7FEFF 		bl	ultrasonic_power_on
+  63:.\ultrasonic.c ****     CyDelay(1500u);                                         // Wait for UART to get readings from s
+ 176              		.loc 1 63 0
+ 177 002c 40F2DC50 		movw	r0, #1500
+ 178 0030 FFF7FEFF 		bl	CyDelay
+  64:.\ultrasonic.c ****     
+  65:.\ultrasonic.c ****     isr_byte_ultrasonic_rx_Stop();                          // Stop the ISR to read the UART
+ 179              		.loc 1 65 0
+ 180 0034 FFF7FEFF 		bl	isr_byte_ultrasonic_rx_Stop
+  66:.\ultrasonic.c ****     ultrasonic_power_off();                                 // Power off the sensor
+ 181              		.loc 1 66 0
+ 182 0038 FFF7FEFF 		bl	ultrasonic_power_off
+  67:.\ultrasonic.c **** 	ultrasonic_stop();
+ 183              		.loc 1 67 0
+ 184 003c FFF7FEFF 		bl	ultrasonic_stop
+  68:.\ultrasonic.c **** 
+  69:.\ultrasonic.c ****     // store relevant strings to ultrasonic_packet
+  70:.\ultrasonic.c ****     strcpy(s,uart_ultrasonic_received_string);
+ 185              		.loc 1 70 0
+ 186 0040 07F10C03 		add	r3, r7, #12
+ 187 0044 1846     		mov	r0, r3
+ 188 0046 2D49     		ldr	r1, .L16+8
+ 189 0048 FFF7FEFF 		bl	strcpy
+  71:.\ultrasonic.c ****     /*
+  72:.\ultrasonic.c ****     for(i = 0; i < strlen(uart_ultrasonic_received_string); i++){
+  73:.\ultrasonic.c ****         s = uart_ultrasonic_received_string[i];
+  74:.\ultrasonic.c ****         
+  75:.\ultrasonic.c ****         if(R_count > 4 && s == '\r'){
+  76:.\ultrasonic.c ****             (*reading).valid = 1u;
+  77:.\ultrasonic.c ****             break; 
+  78:.\ultrasonic.c ****         }else if(R_count > 4){
+  79:.\ultrasonic.c ****             depth[index] = s;
+  80:.\ultrasonic.c ****             index++;
+  81:.\ultrasonic.c ****         }
+  82:.\ultrasonic.c ****         if(s == 'R'){
+  83:.\ultrasonic.c ****             R_count++;      // increment everytime an "R" ascii character is encountered
+  84:.\ultrasonic.c ****         }
+  85:.\ultrasonic.c ****     }
+  86:.\ultrasonic.c ****     */
+  87:.\ultrasonic.c **** 
+  88:.\ultrasonic.c ****     for(i = 0; i < MAX_STRING_LENGTH-1-DEPTH_STRING_LENGTH; i++){
+ 190              		.loc 1 88 0
+ 191 004c 0023     		movs	r3, #0
+ 192 004e C7F89430 		str	r3, [r7, #148]
+ 193 0052 38E0     		b	.L8
+ 194              	.L13:
+  89:.\ultrasonic.c ****         if( s[i] == 'R' && s[i+1+DEPTH_STRING_LENGTH] == '\r' ) {
+ 195              		.loc 1 89 0
+ 196 0054 07F10C02 		add	r2, r7, #12
+ARM GAS  C:\Users\BRANKO~1\AppData\Local\Temp\cc7i1Lnk.s 			page 6
+
+
+ 197 0058 D7F89430 		ldr	r3, [r7, #148]
+ 198 005c 1344     		add	r3, r3, r2
+ 199 005e 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 200 0060 522B     		cmp	r3, #82
+ 201 0062 2BD1     		bne	.L9
+ 202              		.loc 1 89 0 is_stmt 0 discriminator 1
+ 203 0064 D7F89430 		ldr	r3, [r7, #148]
+ 204 0068 0533     		adds	r3, r3, #5
+ 205 006a 07F19802 		add	r2, r7, #152
+ 206 006e 1344     		add	r3, r3, r2
+ 207 0070 13F88C3C 		ldrb	r3, [r3, #-140]	@ zero_extendqisi2
+ 208 0074 0D2B     		cmp	r3, #13
+ 209 0076 21D1     		bne	.L9
+  90:.\ultrasonic.c ****             for(j = 0; j < DEPTH_STRING_LENGTH; j++) {
+ 210              		.loc 1 90 0 is_stmt 1
+ 211 0078 0023     		movs	r3, #0
+ 212 007a C7F89030 		str	r3, [r7, #144]
+ 213 007e 15E0     		b	.L10
+ 214              	.L11:
+  91:.\ultrasonic.c ****                 depth[j] = s[i+j+1];
+ 215              		.loc 1 91 0 discriminator 2
+ 216 0080 D7F89420 		ldr	r2, [r7, #148]
+ 217 0084 D7F89030 		ldr	r3, [r7, #144]
+ 218 0088 1344     		add	r3, r3, r2
+ 219 008a 0133     		adds	r3, r3, #1
+ 220 008c 07F19802 		add	r2, r7, #152
+ 221 0090 1344     		add	r3, r3, r2
+ 222 0092 13F88C2C 		ldrb	r2, [r3, #-140]	@ zero_extendqisi2
+ 223 0096 07F18C01 		add	r1, r7, #140
+ 224 009a D7F89030 		ldr	r3, [r7, #144]
+ 225 009e 0B44     		add	r3, r3, r1
+ 226 00a0 1A70     		strb	r2, [r3]
+  90:.\ultrasonic.c ****             for(j = 0; j < DEPTH_STRING_LENGTH; j++) {
+ 227              		.loc 1 90 0 discriminator 2
+ 228 00a2 D7F89030 		ldr	r3, [r7, #144]
+ 229 00a6 0133     		adds	r3, r3, #1
+ 230 00a8 C7F89030 		str	r3, [r7, #144]
+ 231              	.L10:
+  90:.\ultrasonic.c ****             for(j = 0; j < DEPTH_STRING_LENGTH; j++) {
+ 232              		.loc 1 90 0 is_stmt 0 discriminator 1
+ 233 00ac D7F89030 		ldr	r3, [r7, #144]
+ 234 00b0 032B     		cmp	r3, #3
+ 235 00b2 E5DD     		ble	.L11
+  92:.\ultrasonic.c ****             }
+  93:.\ultrasonic.c ****             (*reading).valid = 1u;
+ 236              		.loc 1 93 0 is_stmt 1
+ 237 00b4 7B68     		ldr	r3, [r7, #4]
+ 238 00b6 0122     		movs	r2, #1
+ 239 00b8 1A72     		strb	r2, [r3, #8]
+  94:.\ultrasonic.c ****             break;
+ 240              		.loc 1 94 0
+ 241 00ba 08E0     		b	.L12
+ 242              	.L9:
+  88:.\ultrasonic.c ****     for(i = 0; i < MAX_STRING_LENGTH-1-DEPTH_STRING_LENGTH; i++){
+ 243              		.loc 1 88 0
+ 244 00bc D7F89430 		ldr	r3, [r7, #148]
+ 245 00c0 0133     		adds	r3, r3, #1
+ARM GAS  C:\Users\BRANKO~1\AppData\Local\Temp\cc7i1Lnk.s 			page 7
+
+
+ 246 00c2 C7F89430 		str	r3, [r7, #148]
+ 247              	.L8:
+  88:.\ultrasonic.c ****     for(i = 0; i < MAX_STRING_LENGTH-1-DEPTH_STRING_LENGTH; i++){
+ 248              		.loc 1 88 0 is_stmt 0 discriminator 1
+ 249 00c6 D7F89430 		ldr	r3, [r7, #148]
+ 250 00ca 7A2B     		cmp	r3, #122
+ 251 00cc C2DD     		ble	.L13
+ 252              	.L12:
+  95:.\ultrasonic.c ****         }
+  96:.\ultrasonic.c ****     }
+  97:.\ultrasonic.c ****     
+  98:.\ultrasonic.c ****     if ((*reading).valid) {
+ 253              		.loc 1 98 0 is_stmt 1
+ 254 00ce 7B68     		ldr	r3, [r7, #4]
+ 255 00d0 1B7A     		ldrb	r3, [r3, #8]	@ zero_extendqisi2
+ 256 00d2 002B     		cmp	r3, #0
+ 257 00d4 08D0     		beq	.L14
+  99:.\ultrasonic.c ****         (*reading).depth = strtof(depth,(char **) NULL); //(float)atof(depth);
+ 258              		.loc 1 99 0
+ 259 00d6 07F18C03 		add	r3, r7, #140
+ 260 00da 1846     		mov	r0, r3
+ 261 00dc 0021     		movs	r1, #0
+ 262 00de FFF7FEFF 		bl	strtof
+ 263 00e2 0246     		mov	r2, r0
+ 264 00e4 7B68     		ldr	r3, [r7, #4]
+ 265 00e6 5A60     		str	r2, [r3, #4]	@ float
+ 266              	.L14:
+ 100:.\ultrasonic.c **** /*        
+ 101:.\ultrasonic.c ****         //(*reading).depth = (float) ultrasonic_depth;
+ 102:.\ultrasonic.c ****         if ((*reading).depth > 9999) { // Recorded depth greater than 4 digits... (eg 13582 vs 1358
+ 103:.\ultrasonic.c ****             (*reading).depth = (float) (int)( (*reading).depth  / 10) ;
+ 104:.\ultrasonic.c ****             
+ 105:.\ultrasonic.c ****             debug_write("Ultrasonic Warning.  depth > 5 digits.  Truncated depth reported.");
+ 106:.\ultrasonic.c ****             debug_write(uart_ultrasonic_received_string);           
+ 107:.\ultrasonic.c ****         }
+ 108:.\ultrasonic.c ****     }    
+ 109:.\ultrasonic.c ****     else if(R_count <= 4){
+ 110:.\ultrasonic.c ****         debug_write("Ultrasonic No Reading Found.  R_count <= 4.");
+ 111:.\ultrasonic.c ****         debug_write(uart_ultrasonic_received_string);
+ 112:.\ultrasonic.c **** */        
+ 113:.\ultrasonic.c ****     }
+ 114:.\ultrasonic.c **** 	
+ 115:.\ultrasonic.c **** 	/* Revise debug.h and implement if an SD Card is installed
+ 116:.\ultrasonic.c ****     else {
+ 117:.\ultrasonic.c ****         debug_write("Ultrasonic Invalid Reading.");
+ 118:.\ultrasonic.c ****         debug_write(uart_ultrasonic_received_string);
+ 119:.\ultrasonic.c ****     }
+ 120:.\ultrasonic.c ****     */
+ 121:.\ultrasonic.c ****     return (*reading).valid;
+ 267              		.loc 1 121 0
+ 268 00e8 7B68     		ldr	r3, [r7, #4]
+ 269 00ea 1B7A     		ldrb	r3, [r3, #8]	@ zero_extendqisi2
+ 122:.\ultrasonic.c **** }
+ 270              		.loc 1 122 0
+ 271 00ec 1846     		mov	r0, r3
+ 272 00ee 9837     		adds	r7, r7, #152
+ 273 00f0 BD46     		mov	sp, r7
+ARM GAS  C:\Users\BRANKO~1\AppData\Local\Temp\cc7i1Lnk.s 			page 8
+
+
+ 274              		@ sp needed
+ 275 00f2 80BD     		pop	{r7, pc}
+ 276              	.L17:
+ 277              		.align	2
+ 278              	.L16:
+ 279 00f4 003C1CC6 		.word	-971228160
+ 280 00f8 00000000 		.word	isr_byte_ultrasonic_rx
+ 281 00fc 00000000 		.word	uart_ultrasonic_received_string
+ 282              		.cfi_endproc
+ 283              	.LFE60:
+ 284              		.size	ultrasonic_get_reading, .-ultrasonic_get_reading
+ 285              		.section	.text.uart_ultrasonic_string_reset,"ax",%progbits
+ 286              		.align	2
+ 287              		.global	uart_ultrasonic_string_reset
+ 288              		.thumb
+ 289              		.thumb_func
+ 290              		.type	uart_ultrasonic_string_reset, %function
+ 291              	uart_ultrasonic_string_reset:
+ 292              	.LFB61:
+ 123:.\ultrasonic.c **** /*
+ 124:.\ultrasonic.c **** uint8 ultrasonic_read(uint8* ultrasonic_packet, uint8 ultrasonic_packet_size){
+ 125:.\ultrasonic.c ****     uint8 uart_ultrasonic_received_string[ultrasonic_packet_size];
+ 126:.\ultrasonic.c ****     uint8 i, j, r_count, rx_char;
+ 127:.\ultrasonic.c ****     
+ 128:.\ultrasonic.c ****     
+ 129:.\ultrasonic.c ****     isr_byte_ultrasonic_rx_StartEx(isr_byte_ultrasonic_rx); // Start the ISR to read the UART
+ 130:.\ultrasonic.c ****     Ultrasonic_ON_Write(1u);                       // Power on the sensor
+ 131:.\ultrasonic.c ****     CyDelay(1000u);                                         // Wait for readings
+ 132:.\ultrasonic.c ****     
+ 133:.\ultrasonic.c ****     // store stream of characters in uart_ultrasonic_received_string
+ 134:.\ultrasonic.c ****     for(i = 0; i < ultrasonic_packet_size;){    
+ 135:.\ultrasonic.c ****         rx_char = uart_ultrasonic_GetChar();
+ 136:.\ultrasonic.c ****         if(rx_char){
+ 137:.\ultrasonic.c ****             uart_ultrasonic_received_string[i] = rx_char;
+ 138:.\ultrasonic.c ****             i++;
+ 139:.\ultrasonic.c ****         }
+ 140:.\ultrasonic.c ****     }
+ 141:.\ultrasonic.c ****     
+ 142:.\ultrasonic.c ****     // set all elements of ultrasonic_packet to zero
+ 143:.\ultrasonic.c ****     for(i = 0; i < ultrasonic_packet_size; i++){
+ 144:.\ultrasonic.c ****         ultrasonic_packet[i] = 0u;
+ 145:.\ultrasonic.c ****     }
+ 146:.\ultrasonic.c ****     
+ 147:.\ultrasonic.c ****     // store relavent strings to ultrasonic_packet
+ 148:.\ultrasonic.c ****     for(r_count = 0, i = 0, j = 0;r_count < 2;i++){
+ 149:.\ultrasonic.c ****         rx_char = uart_ultrasonic_received_string[i];
+ 150:.\ultrasonic.c ****         if(rx_char == 82u){
+ 151:.\ultrasonic.c ****             r_count++;      // increment everytime an "R" ascii character is encountered
+ 152:.\ultrasonic.c ****         }
+ 153:.\ultrasonic.c ****         if(r_count > 0){
+ 154:.\ultrasonic.c ****             ultrasonic_packet[j] = uart_ultrasonic_received_string[i];
+ 155:.\ultrasonic.c ****             j++;
+ 156:.\ultrasonic.c ****         }
+ 157:.\ultrasonic.c ****         if(i > ultrasonic_packet_size || j > 14){
+ 158:.\ultrasonic.c ****             return 0u; 
+ 159:.\ultrasonic.c ****         }
+ 160:.\ultrasonic.c ****     }
+ARM GAS  C:\Users\BRANKO~1\AppData\Local\Temp\cc7i1Lnk.s 			page 9
+
+
+ 161:.\ultrasonic.c ****     
+ 162:.\ultrasonic.c ****     Ultrasonic_ON_Write(0u); // cut power to stop the sensing
+ 163:.\ultrasonic.c ****     return 1u; 
+ 164:.\ultrasonic.c **** }
+ 165:.\ultrasonic.c **** */
+ 166:.\ultrasonic.c **** void uart_ultrasonic_string_reset(){
+ 293              		.loc 1 166 0
+ 294              		.cfi_startproc
+ 295              		@ args = 0, pretend = 0, frame = 0
+ 296              		@ frame_needed = 1, uses_anonymous_args = 0
+ 297 0000 80B5     		push	{r7, lr}
+ 298              		.cfi_def_cfa_offset 8
+ 299              		.cfi_offset 7, -8
+ 300              		.cfi_offset 14, -4
+ 301 0002 00AF     		add	r7, sp, #0
+ 302              		.cfi_def_cfa_register 7
+ 167:.\ultrasonic.c ****     // reset uart_received_string to zero
+ 168:.\ultrasonic.c ****    
+ 169:.\ultrasonic.c **** /*    uint8 i = 0;
+ 170:.\ultrasonic.c ****     
+ 171:.\ultrasonic.c ****     for(i = 0; i < MAX_STRING_LENGTH; i++){
+ 172:.\ultrasonic.c ****         uart_ultrasonic_received_string[i] = 0;
+ 173:.\ultrasonic.c ****     }
+ 174:.\ultrasonic.c **** */    
+ 175:.\ultrasonic.c ****     memset(&uart_ultrasonic_received_string[0],0,sizeof(uart_ultrasonic_received_string));
+ 303              		.loc 1 175 0
+ 304 0004 0548     		ldr	r0, .L19
+ 305 0006 0021     		movs	r1, #0
+ 306 0008 8022     		movs	r2, #128
+ 307 000a FFF7FEFF 		bl	memset
+ 176:.\ultrasonic.c ****     uart_ultrasonic_string_index = 0;
+ 308              		.loc 1 176 0
+ 309 000e 044B     		ldr	r3, .L19+4
+ 310 0010 0022     		movs	r2, #0
+ 311 0012 1A70     		strb	r2, [r3]
+ 177:.\ultrasonic.c ****     uart_ultrasonic_ClearRxBuffer();
+ 312              		.loc 1 177 0
+ 313 0014 FFF7FEFF 		bl	uart_ultrasonic_ClearRxBuffer
+ 178:.\ultrasonic.c **** }
+ 314              		.loc 1 178 0
+ 315 0018 80BD     		pop	{r7, pc}
+ 316              	.L20:
+ 317 001a 00BF     		.align	2
+ 318              	.L19:
+ 319 001c 00000000 		.word	uart_ultrasonic_received_string
+ 320 0020 00000000 		.word	uart_ultrasonic_string_index
+ 321              		.cfi_endproc
+ 322              	.LFE61:
+ 323              		.size	uart_ultrasonic_string_reset, .-uart_ultrasonic_string_reset
+ 324              		.section	.text.isr_byte_ultrasonic_rx,"ax",%progbits
+ 325              		.align	2
+ 326              		.global	isr_byte_ultrasonic_rx
+ 327              		.thumb
+ 328              		.thumb_func
+ 329              		.type	isr_byte_ultrasonic_rx, %function
+ 330              	isr_byte_ultrasonic_rx:
+ 331              	.LFB62:
+ARM GAS  C:\Users\BRANKO~1\AppData\Local\Temp\cc7i1Lnk.s 			page 10
+
+
+ 179:.\ultrasonic.c **** 
+ 180:.\ultrasonic.c **** 
+ 181:.\ultrasonic.c **** CY_ISR(isr_byte_ultrasonic_rx){
+ 332              		.loc 1 181 0
+ 333              		.cfi_startproc
+ 334              		@ args = 0, pretend = 0, frame = 8
+ 335              		@ frame_needed = 1, uses_anonymous_args = 0
+ 336 0000 80B5     		push	{r7, lr}
+ 337              		.cfi_def_cfa_offset 8
+ 338              		.cfi_offset 7, -8
+ 339              		.cfi_offset 14, -4
+ 340 0002 82B0     		sub	sp, sp, #8
+ 341              		.cfi_def_cfa_offset 16
+ 342 0004 00AF     		add	r7, sp, #0
+ 343              		.cfi_def_cfa_register 7
+ 182:.\ultrasonic.c ****     // hold the next char in the rx register as a temporary variable
+ 183:.\ultrasonic.c ****     uint8 rx_char_hold = uart_ultrasonic_GetChar();
+ 344              		.loc 1 183 0
+ 345 0006 FFF7FEFF 		bl	uart_ultrasonic_GetChar
+ 346 000a 0346     		mov	r3, r0
+ 347 000c FB71     		strb	r3, [r7, #7]
+ 184:.\ultrasonic.c ****     
+ 185:.\ultrasonic.c ****     // store the char in uart_received_string
+ 186:.\ultrasonic.c ****     if(rx_char_hold) {
+ 348              		.loc 1 186 0
+ 349 000e FB79     		ldrb	r3, [r7, #7]	@ zero_extendqisi2
+ 350 0010 002B     		cmp	r3, #0
+ 351 0012 13D0     		beq	.L21
+ 187:.\ultrasonic.c ****         uart_ultrasonic_received_string[uart_ultrasonic_string_index] = rx_char_hold;
+ 352              		.loc 1 187 0
+ 353 0014 0B4B     		ldr	r3, .L23
+ 354 0016 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 355 0018 0B4A     		ldr	r2, .L23+4
+ 356 001a F979     		ldrb	r1, [r7, #7]
+ 357 001c D154     		strb	r1, [r2, r3]
+ 188:.\ultrasonic.c ****         uart_ultrasonic_string_index++;
+ 358              		.loc 1 188 0
+ 359 001e 094B     		ldr	r3, .L23
+ 360 0020 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 361 0022 0133     		adds	r3, r3, #1
+ 362 0024 DAB2     		uxtb	r2, r3
+ 363 0026 074B     		ldr	r3, .L23
+ 364 0028 1A70     		strb	r2, [r3]
+ 189:.\ultrasonic.c ****         
+ 190:.\ultrasonic.c ****         if (uart_ultrasonic_string_index >= MAX_STRING_LENGTH) {
+ 365              		.loc 1 190 0
+ 366 002a 064B     		ldr	r3, .L23
+ 367 002c 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 368 002e DBB2     		uxtb	r3, r3
+ 369 0030 5BB2     		sxtb	r3, r3
+ 370 0032 002B     		cmp	r3, #0
+ 371 0034 02DA     		bge	.L21
+ 191:.\ultrasonic.c ****             uart_ultrasonic_string_index = 0; // reset the index to prevent an overflow
+ 372              		.loc 1 191 0
+ 373 0036 034B     		ldr	r3, .L23
+ 374 0038 0022     		movs	r2, #0
+ 375 003a 1A70     		strb	r2, [r3]
+ARM GAS  C:\Users\BRANKO~1\AppData\Local\Temp\cc7i1Lnk.s 			page 11
+
+
+ 376              	.L21:
+ 192:.\ultrasonic.c ****         }
+ 193:.\ultrasonic.c ****     }   
+ 194:.\ultrasonic.c **** }
+ 377              		.loc 1 194 0
+ 378 003c 0837     		adds	r7, r7, #8
+ 379 003e BD46     		mov	sp, r7
+ 380              		@ sp needed
+ 381 0040 80BD     		pop	{r7, pc}
+ 382              	.L24:
+ 383 0042 00BF     		.align	2
+ 384              	.L23:
+ 385 0044 00000000 		.word	uart_ultrasonic_string_index
+ 386 0048 00000000 		.word	uart_ultrasonic_received_string
+ 387              		.cfi_endproc
+ 388              	.LFE62:
+ 389              		.size	isr_byte_ultrasonic_rx, .-isr_byte_ultrasonic_rx
+ 390              		.text
+ 391              	.Letext0:
+ 392              		.file 2 "c:\\program files (x86)\\cypress\\psoc creator\\3.1\\psoc creator\\import\\gnu_cs\\arm\\4
+ 393              		.file 3 "c:\\program files (x86)\\cypress\\psoc creator\\3.1\\psoc creator\\import\\gnu_cs\\arm\\4
+ 394              		.file 4 ".\\Generated_Source\\PSoC5/cytypes.h"
+ 395              		.file 5 ".\\ultrasonic.h"
+ 396              		.file 6 ".\\Generated_Source\\PSoC5/core_cm3.h"
+ 397              		.section	.debug_info,"",%progbits
+ 398              	.Ldebug_info0:
+ 399 0000 13020000 		.4byte	0x213
+ 400 0004 0400     		.2byte	0x4
+ 401 0006 00000000 		.4byte	.Ldebug_abbrev0
+ 402 000a 04       		.byte	0x4
+ 403 000b 01       		.uleb128 0x1
+ 404 000c 5B010000 		.4byte	.LASF29
+ 405 0010 01       		.byte	0x1
+ 406 0011 22020000 		.4byte	.LASF30
+ 407 0015 00000000 		.4byte	.LASF31
+ 408 0019 00000000 		.4byte	.Ldebug_ranges0+0
+ 409 001d 00000000 		.4byte	0
+ 410 0021 00000000 		.4byte	.Ldebug_line0
+ 411 0025 02       		.uleb128 0x2
+ 412 0026 01       		.byte	0x1
+ 413 0027 06       		.byte	0x6
+ 414 0028 3A020000 		.4byte	.LASF0
+ 415 002c 02       		.uleb128 0x2
+ 416 002d 01       		.byte	0x1
+ 417 002e 08       		.byte	0x8
+ 418 002f 9D000000 		.4byte	.LASF1
+ 419 0033 02       		.uleb128 0x2
+ 420 0034 02       		.byte	0x2
+ 421 0035 05       		.byte	0x5
+ 422 0036 18020000 		.4byte	.LASF2
+ 423 003a 02       		.uleb128 0x2
+ 424 003b 02       		.byte	0x2
+ 425 003c 07       		.byte	0x7
+ 426 003d 46000000 		.4byte	.LASF3
+ 427 0041 03       		.uleb128 0x3
+ 428 0042 25000000 		.4byte	.LASF9
+ 429 0046 02       		.byte	0x2
+ARM GAS  C:\Users\BRANKO~1\AppData\Local\Temp\cc7i1Lnk.s 			page 12
+
+
+ 430 0047 37       		.byte	0x37
+ 431 0048 4C000000 		.4byte	0x4c
+ 432 004c 02       		.uleb128 0x2
+ 433 004d 04       		.byte	0x4
+ 434 004e 05       		.byte	0x5
+ 435 004f 31020000 		.4byte	.LASF4
+ 436 0053 02       		.uleb128 0x2
+ 437 0054 04       		.byte	0x4
+ 438 0055 07       		.byte	0x7
+ 439 0056 AB000000 		.4byte	.LASF5
+ 440 005a 02       		.uleb128 0x2
+ 441 005b 08       		.byte	0x8
+ 442 005c 05       		.byte	0x5
+ 443 005d E8010000 		.4byte	.LASF6
+ 444 0061 02       		.uleb128 0x2
+ 445 0062 08       		.byte	0x8
+ 446 0063 07       		.byte	0x7
+ 447 0064 32010000 		.4byte	.LASF7
+ 448 0068 04       		.uleb128 0x4
+ 449 0069 04       		.byte	0x4
+ 450 006a 05       		.byte	0x5
+ 451 006b 696E7400 		.ascii	"int\000"
+ 452 006f 02       		.uleb128 0x2
+ 453 0070 04       		.byte	0x4
+ 454 0071 07       		.byte	0x7
+ 455 0072 25010000 		.4byte	.LASF8
+ 456 0076 03       		.uleb128 0x3
+ 457 0077 D7010000 		.4byte	.LASF10
+ 458 007b 03       		.byte	0x3
+ 459 007c 41       		.byte	0x41
+ 460 007d 41000000 		.4byte	0x41
+ 461 0081 03       		.uleb128 0x3
+ 462 0082 97000000 		.4byte	.LASF11
+ 463 0086 04       		.byte	0x4
+ 464 0087 A1       		.byte	0xa1
+ 465 0088 2C000000 		.4byte	0x2c
+ 466 008c 02       		.uleb128 0x2
+ 467 008d 04       		.byte	0x4
+ 468 008e 04       		.byte	0x4
+ 469 008f 91000000 		.4byte	.LASF12
+ 470 0093 02       		.uleb128 0x2
+ 471 0094 08       		.byte	0x8
+ 472 0095 04       		.byte	0x4
+ 473 0096 0A010000 		.4byte	.LASF13
+ 474 009a 02       		.uleb128 0x2
+ 475 009b 01       		.byte	0x1
+ 476 009c 08       		.byte	0x8
+ 477 009d FC010000 		.4byte	.LASF14
+ 478 00a1 02       		.uleb128 0x2
+ 479 00a2 04       		.byte	0x4
+ 480 00a3 07       		.byte	0x7
+ 481 00a4 DF010000 		.4byte	.LASF15
+ 482 00a8 05       		.uleb128 0x5
+ 483 00a9 0C       		.byte	0xc
+ 484 00aa 05       		.byte	0x5
+ 485 00ab 15       		.byte	0x15
+ 486 00ac D5000000 		.4byte	0xd5
+ARM GAS  C:\Users\BRANKO~1\AppData\Local\Temp\cc7i1Lnk.s 			page 13
+
+
+ 487 00b0 06       		.uleb128 0x6
+ 488 00b1 BD000000 		.4byte	.LASF16
+ 489 00b5 05       		.byte	0x5
+ 490 00b6 16       		.byte	0x16
+ 491 00b7 8C000000 		.4byte	0x8c
+ 492 00bb 00       		.byte	0
+ 493 00bc 06       		.uleb128 0x6
+ 494 00bd F6010000 		.4byte	.LASF17
+ 495 00c1 05       		.byte	0x5
+ 496 00c2 17       		.byte	0x17
+ 497 00c3 8C000000 		.4byte	0x8c
+ 498 00c7 04       		.byte	0x4
+ 499 00c8 06       		.uleb128 0x6
+ 500 00c9 78020000 		.4byte	.LASF18
+ 501 00cd 05       		.byte	0x5
+ 502 00ce 18       		.byte	0x18
+ 503 00cf 81000000 		.4byte	0x81
+ 504 00d3 08       		.byte	0x8
+ 505 00d4 00       		.byte	0
+ 506 00d5 03       		.uleb128 0x3
+ 507 00d6 49010000 		.4byte	.LASF19
+ 508 00da 05       		.byte	0x5
+ 509 00db 19       		.byte	0x19
+ 510 00dc A8000000 		.4byte	0xa8
+ 511 00e0 07       		.uleb128 0x7
+ 512 00e1 EC000000 		.4byte	.LASF20
+ 513 00e5 01       		.byte	0x1
+ 514 00e6 1B       		.byte	0x1b
+ 515 00e7 00000000 		.4byte	.LFB56
+ 516 00eb 0A000000 		.4byte	.LFE56-.LFB56
+ 517 00ef 01       		.uleb128 0x1
+ 518 00f0 9C       		.byte	0x9c
+ 519 00f1 07       		.uleb128 0x7
+ 520 00f2 59000000 		.4byte	.LASF21
+ 521 00f6 01       		.byte	0x1
+ 522 00f7 1F       		.byte	0x1f
+ 523 00f8 00000000 		.4byte	.LFB57
+ 524 00fc 0A000000 		.4byte	.LFE57-.LFB57
+ 525 0100 01       		.uleb128 0x1
+ 526 0101 9C       		.byte	0x9c
+ 527 0102 08       		.uleb128 0x8
+ 528 0103 11010000 		.4byte	.LASF22
+ 529 0107 01       		.byte	0x1
+ 530 0108 24       		.byte	0x24
+ 531 0109 81000000 		.4byte	0x81
+ 532 010d 00000000 		.4byte	.LFB58
+ 533 0111 10000000 		.4byte	.LFE58-.LFB58
+ 534 0115 01       		.uleb128 0x1
+ 535 0116 9C       		.byte	0x9c
+ 536 0117 08       		.uleb128 0x8
+ 537 0118 63020000 		.4byte	.LASF23
+ 538 011c 01       		.byte	0x1
+ 539 011d 2A       		.byte	0x2a
+ 540 011e 81000000 		.4byte	0x81
+ 541 0122 00000000 		.4byte	.LFB59
+ 542 0126 10000000 		.4byte	.LFE59-.LFB59
+ 543 012a 01       		.uleb128 0x1
+ARM GAS  C:\Users\BRANKO~1\AppData\Local\Temp\cc7i1Lnk.s 			page 14
+
+
+ 544 012b 9C       		.byte	0x9c
+ 545 012c 09       		.uleb128 0x9
+ 546 012d 01020000 		.4byte	.LASF32
+ 547 0131 01       		.byte	0x1
+ 548 0132 30       		.byte	0x30
+ 549 0133 81000000 		.4byte	0x81
+ 550 0137 00000000 		.4byte	.LFB60
+ 551 013b 00010000 		.4byte	.LFE60-.LFB60
+ 552 013f 01       		.uleb128 0x1
+ 553 0140 9C       		.byte	0x9c
+ 554 0141 88010000 		.4byte	0x188
+ 555 0145 0A       		.uleb128 0xa
+ 556 0146 89000000 		.4byte	.LASF33
+ 557 014a 01       		.byte	0x1
+ 558 014b 30       		.byte	0x30
+ 559 014c 88010000 		.4byte	0x188
+ 560 0150 03       		.uleb128 0x3
+ 561 0151 91       		.byte	0x91
+ 562 0152 E47E     		.sleb128 -156
+ 563 0154 0B       		.uleb128 0xb
+ 564 0155 6900     		.ascii	"i\000"
+ 565 0157 01       		.byte	0x1
+ 566 0158 32       		.byte	0x32
+ 567 0159 68000000 		.4byte	0x68
+ 568 015d 02       		.uleb128 0x2
+ 569 015e 91       		.byte	0x91
+ 570 015f 74       		.sleb128 -12
+ 571 0160 0B       		.uleb128 0xb
+ 572 0161 6A00     		.ascii	"j\000"
+ 573 0163 01       		.byte	0x1
+ 574 0164 32       		.byte	0x32
+ 575 0165 68000000 		.4byte	0x68
+ 576 0169 02       		.uleb128 0x2
+ 577 016a 91       		.byte	0x91
+ 578 016b 70       		.sleb128 -16
+ 579 016c 0C       		.uleb128 0xc
+ 580 016d F6010000 		.4byte	.LASF17
+ 581 0171 01       		.byte	0x1
+ 582 0172 33       		.byte	0x33
+ 583 0173 8E010000 		.4byte	0x18e
+ 584 0177 02       		.uleb128 0x2
+ 585 0178 91       		.byte	0x91
+ 586 0179 6C       		.sleb128 -20
+ 587 017a 0B       		.uleb128 0xb
+ 588 017b 7300     		.ascii	"s\000"
+ 589 017d 01       		.byte	0x1
+ 590 017e 33       		.byte	0x33
+ 591 017f 9E010000 		.4byte	0x19e
+ 592 0183 03       		.uleb128 0x3
+ 593 0184 91       		.byte	0x91
+ 594 0185 EC7E     		.sleb128 -148
+ 595 0187 00       		.byte	0
+ 596 0188 0D       		.uleb128 0xd
+ 597 0189 04       		.byte	0x4
+ 598 018a D5000000 		.4byte	0xd5
+ 599 018e 0E       		.uleb128 0xe
+ 600 018f 9A000000 		.4byte	0x9a
+ARM GAS  C:\Users\BRANKO~1\AppData\Local\Temp\cc7i1Lnk.s 			page 15
+
+
+ 601 0193 9E010000 		.4byte	0x19e
+ 602 0197 0F       		.uleb128 0xf
+ 603 0198 A1000000 		.4byte	0xa1
+ 604 019c 03       		.byte	0x3
+ 605 019d 00       		.byte	0
+ 606 019e 0E       		.uleb128 0xe
+ 607 019f 9A000000 		.4byte	0x9a
+ 608 01a3 AE010000 		.4byte	0x1ae
+ 609 01a7 0F       		.uleb128 0xf
+ 610 01a8 A1000000 		.4byte	0xa1
+ 611 01ac 7F       		.byte	0x7f
+ 612 01ad 00       		.byte	0
+ 613 01ae 07       		.uleb128 0x7
+ 614 01af CF000000 		.4byte	.LASF24
+ 615 01b3 01       		.byte	0x1
+ 616 01b4 A6       		.byte	0xa6
+ 617 01b5 00000000 		.4byte	.LFB61
+ 618 01b9 24000000 		.4byte	.LFE61-.LFB61
+ 619 01bd 01       		.uleb128 0x1
+ 620 01be 9C       		.byte	0x9c
+ 621 01bf 10       		.uleb128 0x10
+ 622 01c0 2F000000 		.4byte	.LASF34
+ 623 01c4 01       		.byte	0x1
+ 624 01c5 B5       		.byte	0xb5
+ 625 01c6 00000000 		.4byte	.LFB62
+ 626 01ca 4C000000 		.4byte	.LFE62-.LFB62
+ 627 01ce 01       		.uleb128 0x1
+ 628 01cf 9C       		.byte	0x9c
+ 629 01d0 E3010000 		.4byte	0x1e3
+ 630 01d4 0C       		.uleb128 0xc
+ 631 01d5 C2000000 		.4byte	.LASF25
+ 632 01d9 01       		.byte	0x1
+ 633 01da B7       		.byte	0xb7
+ 634 01db 81000000 		.4byte	0x81
+ 635 01df 02       		.uleb128 0x2
+ 636 01e0 91       		.byte	0x91
+ 637 01e1 77       		.sleb128 -9
+ 638 01e2 00       		.byte	0
+ 639 01e3 11       		.uleb128 0x11
+ 640 01e4 FD000000 		.4byte	.LASF26
+ 641 01e8 06       		.byte	0x6
+ 642 01e9 1606     		.2byte	0x616
+ 643 01eb EF010000 		.4byte	0x1ef
+ 644 01ef 12       		.uleb128 0x12
+ 645 01f0 76000000 		.4byte	0x76
+ 646 01f4 13       		.uleb128 0x13
+ 647 01f5 69000000 		.4byte	.LASF27
+ 648 01f9 01       		.byte	0x1
+ 649 01fa 14       		.byte	0x14
+ 650 01fb 9E010000 		.4byte	0x19e
+ 651 01ff 05       		.uleb128 0x5
+ 652 0200 03       		.byte	0x3
+ 653 0201 00000000 		.4byte	uart_ultrasonic_received_string
+ 654 0205 13       		.uleb128 0x13
+ 655 0206 46020000 		.4byte	.LASF28
+ 656 020a 01       		.byte	0x1
+ 657 020b 15       		.byte	0x15
+ARM GAS  C:\Users\BRANKO~1\AppData\Local\Temp\cc7i1Lnk.s 			page 16
+
+
+ 658 020c 81000000 		.4byte	0x81
+ 659 0210 05       		.uleb128 0x5
+ 660 0211 03       		.byte	0x3
+ 661 0212 00000000 		.4byte	uart_ultrasonic_string_index
+ 662 0216 00       		.byte	0
+ 663              		.section	.debug_abbrev,"",%progbits
+ 664              	.Ldebug_abbrev0:
+ 665 0000 01       		.uleb128 0x1
+ 666 0001 11       		.uleb128 0x11
+ 667 0002 01       		.byte	0x1
+ 668 0003 25       		.uleb128 0x25
+ 669 0004 0E       		.uleb128 0xe
+ 670 0005 13       		.uleb128 0x13
+ 671 0006 0B       		.uleb128 0xb
+ 672 0007 03       		.uleb128 0x3
+ 673 0008 0E       		.uleb128 0xe
+ 674 0009 1B       		.uleb128 0x1b
+ 675 000a 0E       		.uleb128 0xe
+ 676 000b 55       		.uleb128 0x55
+ 677 000c 17       		.uleb128 0x17
+ 678 000d 11       		.uleb128 0x11
+ 679 000e 01       		.uleb128 0x1
+ 680 000f 10       		.uleb128 0x10
+ 681 0010 17       		.uleb128 0x17
+ 682 0011 00       		.byte	0
+ 683 0012 00       		.byte	0
+ 684 0013 02       		.uleb128 0x2
+ 685 0014 24       		.uleb128 0x24
+ 686 0015 00       		.byte	0
+ 687 0016 0B       		.uleb128 0xb
+ 688 0017 0B       		.uleb128 0xb
+ 689 0018 3E       		.uleb128 0x3e
+ 690 0019 0B       		.uleb128 0xb
+ 691 001a 03       		.uleb128 0x3
+ 692 001b 0E       		.uleb128 0xe
+ 693 001c 00       		.byte	0
+ 694 001d 00       		.byte	0
+ 695 001e 03       		.uleb128 0x3
+ 696 001f 16       		.uleb128 0x16
+ 697 0020 00       		.byte	0
+ 698 0021 03       		.uleb128 0x3
+ 699 0022 0E       		.uleb128 0xe
+ 700 0023 3A       		.uleb128 0x3a
+ 701 0024 0B       		.uleb128 0xb
+ 702 0025 3B       		.uleb128 0x3b
+ 703 0026 0B       		.uleb128 0xb
+ 704 0027 49       		.uleb128 0x49
+ 705 0028 13       		.uleb128 0x13
+ 706 0029 00       		.byte	0
+ 707 002a 00       		.byte	0
+ 708 002b 04       		.uleb128 0x4
+ 709 002c 24       		.uleb128 0x24
+ 710 002d 00       		.byte	0
+ 711 002e 0B       		.uleb128 0xb
+ 712 002f 0B       		.uleb128 0xb
+ 713 0030 3E       		.uleb128 0x3e
+ 714 0031 0B       		.uleb128 0xb
+ARM GAS  C:\Users\BRANKO~1\AppData\Local\Temp\cc7i1Lnk.s 			page 17
+
+
+ 715 0032 03       		.uleb128 0x3
+ 716 0033 08       		.uleb128 0x8
+ 717 0034 00       		.byte	0
+ 718 0035 00       		.byte	0
+ 719 0036 05       		.uleb128 0x5
+ 720 0037 13       		.uleb128 0x13
+ 721 0038 01       		.byte	0x1
+ 722 0039 0B       		.uleb128 0xb
+ 723 003a 0B       		.uleb128 0xb
+ 724 003b 3A       		.uleb128 0x3a
+ 725 003c 0B       		.uleb128 0xb
+ 726 003d 3B       		.uleb128 0x3b
+ 727 003e 0B       		.uleb128 0xb
+ 728 003f 01       		.uleb128 0x1
+ 729 0040 13       		.uleb128 0x13
+ 730 0041 00       		.byte	0
+ 731 0042 00       		.byte	0
+ 732 0043 06       		.uleb128 0x6
+ 733 0044 0D       		.uleb128 0xd
+ 734 0045 00       		.byte	0
+ 735 0046 03       		.uleb128 0x3
+ 736 0047 0E       		.uleb128 0xe
+ 737 0048 3A       		.uleb128 0x3a
+ 738 0049 0B       		.uleb128 0xb
+ 739 004a 3B       		.uleb128 0x3b
+ 740 004b 0B       		.uleb128 0xb
+ 741 004c 49       		.uleb128 0x49
+ 742 004d 13       		.uleb128 0x13
+ 743 004e 38       		.uleb128 0x38
+ 744 004f 0B       		.uleb128 0xb
+ 745 0050 00       		.byte	0
+ 746 0051 00       		.byte	0
+ 747 0052 07       		.uleb128 0x7
+ 748 0053 2E       		.uleb128 0x2e
+ 749 0054 00       		.byte	0
+ 750 0055 3F       		.uleb128 0x3f
+ 751 0056 19       		.uleb128 0x19
+ 752 0057 03       		.uleb128 0x3
+ 753 0058 0E       		.uleb128 0xe
+ 754 0059 3A       		.uleb128 0x3a
+ 755 005a 0B       		.uleb128 0xb
+ 756 005b 3B       		.uleb128 0x3b
+ 757 005c 0B       		.uleb128 0xb
+ 758 005d 11       		.uleb128 0x11
+ 759 005e 01       		.uleb128 0x1
+ 760 005f 12       		.uleb128 0x12
+ 761 0060 06       		.uleb128 0x6
+ 762 0061 40       		.uleb128 0x40
+ 763 0062 18       		.uleb128 0x18
+ 764 0063 9642     		.uleb128 0x2116
+ 765 0065 19       		.uleb128 0x19
+ 766 0066 00       		.byte	0
+ 767 0067 00       		.byte	0
+ 768 0068 08       		.uleb128 0x8
+ 769 0069 2E       		.uleb128 0x2e
+ 770 006a 00       		.byte	0
+ 771 006b 3F       		.uleb128 0x3f
+ARM GAS  C:\Users\BRANKO~1\AppData\Local\Temp\cc7i1Lnk.s 			page 18
+
+
+ 772 006c 19       		.uleb128 0x19
+ 773 006d 03       		.uleb128 0x3
+ 774 006e 0E       		.uleb128 0xe
+ 775 006f 3A       		.uleb128 0x3a
+ 776 0070 0B       		.uleb128 0xb
+ 777 0071 3B       		.uleb128 0x3b
+ 778 0072 0B       		.uleb128 0xb
+ 779 0073 49       		.uleb128 0x49
+ 780 0074 13       		.uleb128 0x13
+ 781 0075 11       		.uleb128 0x11
+ 782 0076 01       		.uleb128 0x1
+ 783 0077 12       		.uleb128 0x12
+ 784 0078 06       		.uleb128 0x6
+ 785 0079 40       		.uleb128 0x40
+ 786 007a 18       		.uleb128 0x18
+ 787 007b 9642     		.uleb128 0x2116
+ 788 007d 19       		.uleb128 0x19
+ 789 007e 00       		.byte	0
+ 790 007f 00       		.byte	0
+ 791 0080 09       		.uleb128 0x9
+ 792 0081 2E       		.uleb128 0x2e
+ 793 0082 01       		.byte	0x1
+ 794 0083 3F       		.uleb128 0x3f
+ 795 0084 19       		.uleb128 0x19
+ 796 0085 03       		.uleb128 0x3
+ 797 0086 0E       		.uleb128 0xe
+ 798 0087 3A       		.uleb128 0x3a
+ 799 0088 0B       		.uleb128 0xb
+ 800 0089 3B       		.uleb128 0x3b
+ 801 008a 0B       		.uleb128 0xb
+ 802 008b 27       		.uleb128 0x27
+ 803 008c 19       		.uleb128 0x19
+ 804 008d 49       		.uleb128 0x49
+ 805 008e 13       		.uleb128 0x13
+ 806 008f 11       		.uleb128 0x11
+ 807 0090 01       		.uleb128 0x1
+ 808 0091 12       		.uleb128 0x12
+ 809 0092 06       		.uleb128 0x6
+ 810 0093 40       		.uleb128 0x40
+ 811 0094 18       		.uleb128 0x18
+ 812 0095 9642     		.uleb128 0x2116
+ 813 0097 19       		.uleb128 0x19
+ 814 0098 01       		.uleb128 0x1
+ 815 0099 13       		.uleb128 0x13
+ 816 009a 00       		.byte	0
+ 817 009b 00       		.byte	0
+ 818 009c 0A       		.uleb128 0xa
+ 819 009d 05       		.uleb128 0x5
+ 820 009e 00       		.byte	0
+ 821 009f 03       		.uleb128 0x3
+ 822 00a0 0E       		.uleb128 0xe
+ 823 00a1 3A       		.uleb128 0x3a
+ 824 00a2 0B       		.uleb128 0xb
+ 825 00a3 3B       		.uleb128 0x3b
+ 826 00a4 0B       		.uleb128 0xb
+ 827 00a5 49       		.uleb128 0x49
+ 828 00a6 13       		.uleb128 0x13
+ARM GAS  C:\Users\BRANKO~1\AppData\Local\Temp\cc7i1Lnk.s 			page 19
+
+
+ 829 00a7 02       		.uleb128 0x2
+ 830 00a8 18       		.uleb128 0x18
+ 831 00a9 00       		.byte	0
+ 832 00aa 00       		.byte	0
+ 833 00ab 0B       		.uleb128 0xb
+ 834 00ac 34       		.uleb128 0x34
+ 835 00ad 00       		.byte	0
+ 836 00ae 03       		.uleb128 0x3
+ 837 00af 08       		.uleb128 0x8
+ 838 00b0 3A       		.uleb128 0x3a
+ 839 00b1 0B       		.uleb128 0xb
+ 840 00b2 3B       		.uleb128 0x3b
+ 841 00b3 0B       		.uleb128 0xb
+ 842 00b4 49       		.uleb128 0x49
+ 843 00b5 13       		.uleb128 0x13
+ 844 00b6 02       		.uleb128 0x2
+ 845 00b7 18       		.uleb128 0x18
+ 846 00b8 00       		.byte	0
+ 847 00b9 00       		.byte	0
+ 848 00ba 0C       		.uleb128 0xc
+ 849 00bb 34       		.uleb128 0x34
+ 850 00bc 00       		.byte	0
+ 851 00bd 03       		.uleb128 0x3
+ 852 00be 0E       		.uleb128 0xe
+ 853 00bf 3A       		.uleb128 0x3a
+ 854 00c0 0B       		.uleb128 0xb
+ 855 00c1 3B       		.uleb128 0x3b
+ 856 00c2 0B       		.uleb128 0xb
+ 857 00c3 49       		.uleb128 0x49
+ 858 00c4 13       		.uleb128 0x13
+ 859 00c5 02       		.uleb128 0x2
+ 860 00c6 18       		.uleb128 0x18
+ 861 00c7 00       		.byte	0
+ 862 00c8 00       		.byte	0
+ 863 00c9 0D       		.uleb128 0xd
+ 864 00ca 0F       		.uleb128 0xf
+ 865 00cb 00       		.byte	0
+ 866 00cc 0B       		.uleb128 0xb
+ 867 00cd 0B       		.uleb128 0xb
+ 868 00ce 49       		.uleb128 0x49
+ 869 00cf 13       		.uleb128 0x13
+ 870 00d0 00       		.byte	0
+ 871 00d1 00       		.byte	0
+ 872 00d2 0E       		.uleb128 0xe
+ 873 00d3 01       		.uleb128 0x1
+ 874 00d4 01       		.byte	0x1
+ 875 00d5 49       		.uleb128 0x49
+ 876 00d6 13       		.uleb128 0x13
+ 877 00d7 01       		.uleb128 0x1
+ 878 00d8 13       		.uleb128 0x13
+ 879 00d9 00       		.byte	0
+ 880 00da 00       		.byte	0
+ 881 00db 0F       		.uleb128 0xf
+ 882 00dc 21       		.uleb128 0x21
+ 883 00dd 00       		.byte	0
+ 884 00de 49       		.uleb128 0x49
+ 885 00df 13       		.uleb128 0x13
+ARM GAS  C:\Users\BRANKO~1\AppData\Local\Temp\cc7i1Lnk.s 			page 20
+
+
+ 886 00e0 2F       		.uleb128 0x2f
+ 887 00e1 0B       		.uleb128 0xb
+ 888 00e2 00       		.byte	0
+ 889 00e3 00       		.byte	0
+ 890 00e4 10       		.uleb128 0x10
+ 891 00e5 2E       		.uleb128 0x2e
+ 892 00e6 01       		.byte	0x1
+ 893 00e7 3F       		.uleb128 0x3f
+ 894 00e8 19       		.uleb128 0x19
+ 895 00e9 03       		.uleb128 0x3
+ 896 00ea 0E       		.uleb128 0xe
+ 897 00eb 3A       		.uleb128 0x3a
+ 898 00ec 0B       		.uleb128 0xb
+ 899 00ed 3B       		.uleb128 0x3b
+ 900 00ee 0B       		.uleb128 0xb
+ 901 00ef 27       		.uleb128 0x27
+ 902 00f0 19       		.uleb128 0x19
+ 903 00f1 11       		.uleb128 0x11
+ 904 00f2 01       		.uleb128 0x1
+ 905 00f3 12       		.uleb128 0x12
+ 906 00f4 06       		.uleb128 0x6
+ 907 00f5 40       		.uleb128 0x40
+ 908 00f6 18       		.uleb128 0x18
+ 909 00f7 9642     		.uleb128 0x2116
+ 910 00f9 19       		.uleb128 0x19
+ 911 00fa 01       		.uleb128 0x1
+ 912 00fb 13       		.uleb128 0x13
+ 913 00fc 00       		.byte	0
+ 914 00fd 00       		.byte	0
+ 915 00fe 11       		.uleb128 0x11
+ 916 00ff 34       		.uleb128 0x34
+ 917 0100 00       		.byte	0
+ 918 0101 03       		.uleb128 0x3
+ 919 0102 0E       		.uleb128 0xe
+ 920 0103 3A       		.uleb128 0x3a
+ 921 0104 0B       		.uleb128 0xb
+ 922 0105 3B       		.uleb128 0x3b
+ 923 0106 05       		.uleb128 0x5
+ 924 0107 49       		.uleb128 0x49
+ 925 0108 13       		.uleb128 0x13
+ 926 0109 3F       		.uleb128 0x3f
+ 927 010a 19       		.uleb128 0x19
+ 928 010b 3C       		.uleb128 0x3c
+ 929 010c 19       		.uleb128 0x19
+ 930 010d 00       		.byte	0
+ 931 010e 00       		.byte	0
+ 932 010f 12       		.uleb128 0x12
+ 933 0110 35       		.uleb128 0x35
+ 934 0111 00       		.byte	0
+ 935 0112 49       		.uleb128 0x49
+ 936 0113 13       		.uleb128 0x13
+ 937 0114 00       		.byte	0
+ 938 0115 00       		.byte	0
+ 939 0116 13       		.uleb128 0x13
+ 940 0117 34       		.uleb128 0x34
+ 941 0118 00       		.byte	0
+ 942 0119 03       		.uleb128 0x3
+ARM GAS  C:\Users\BRANKO~1\AppData\Local\Temp\cc7i1Lnk.s 			page 21
+
+
+ 943 011a 0E       		.uleb128 0xe
+ 944 011b 3A       		.uleb128 0x3a
+ 945 011c 0B       		.uleb128 0xb
+ 946 011d 3B       		.uleb128 0x3b
+ 947 011e 0B       		.uleb128 0xb
+ 948 011f 49       		.uleb128 0x49
+ 949 0120 13       		.uleb128 0x13
+ 950 0121 3F       		.uleb128 0x3f
+ 951 0122 19       		.uleb128 0x19
+ 952 0123 02       		.uleb128 0x2
+ 953 0124 18       		.uleb128 0x18
+ 954 0125 00       		.byte	0
+ 955 0126 00       		.byte	0
+ 956 0127 00       		.byte	0
+ 957              		.section	.debug_aranges,"",%progbits
+ 958 0000 4C000000 		.4byte	0x4c
+ 959 0004 0200     		.2byte	0x2
+ 960 0006 00000000 		.4byte	.Ldebug_info0
+ 961 000a 04       		.byte	0x4
+ 962 000b 00       		.byte	0
+ 963 000c 0000     		.2byte	0
+ 964 000e 0000     		.2byte	0
+ 965 0010 00000000 		.4byte	.LFB56
+ 966 0014 0A000000 		.4byte	.LFE56-.LFB56
+ 967 0018 00000000 		.4byte	.LFB57
+ 968 001c 0A000000 		.4byte	.LFE57-.LFB57
+ 969 0020 00000000 		.4byte	.LFB58
+ 970 0024 10000000 		.4byte	.LFE58-.LFB58
+ 971 0028 00000000 		.4byte	.LFB59
+ 972 002c 10000000 		.4byte	.LFE59-.LFB59
+ 973 0030 00000000 		.4byte	.LFB60
+ 974 0034 00010000 		.4byte	.LFE60-.LFB60
+ 975 0038 00000000 		.4byte	.LFB61
+ 976 003c 24000000 		.4byte	.LFE61-.LFB61
+ 977 0040 00000000 		.4byte	.LFB62
+ 978 0044 4C000000 		.4byte	.LFE62-.LFB62
+ 979 0048 00000000 		.4byte	0
+ 980 004c 00000000 		.4byte	0
+ 981              		.section	.debug_ranges,"",%progbits
+ 982              	.Ldebug_ranges0:
+ 983 0000 00000000 		.4byte	.LFB56
+ 984 0004 0A000000 		.4byte	.LFE56
+ 985 0008 00000000 		.4byte	.LFB57
+ 986 000c 0A000000 		.4byte	.LFE57
+ 987 0010 00000000 		.4byte	.LFB58
+ 988 0014 10000000 		.4byte	.LFE58
+ 989 0018 00000000 		.4byte	.LFB59
+ 990 001c 10000000 		.4byte	.LFE59
+ 991 0020 00000000 		.4byte	.LFB60
+ 992 0024 00010000 		.4byte	.LFE60
+ 993 0028 00000000 		.4byte	.LFB61
+ 994 002c 24000000 		.4byte	.LFE61
+ 995 0030 00000000 		.4byte	.LFB62
+ 996 0034 4C000000 		.4byte	.LFE62
+ 997 0038 00000000 		.4byte	0
+ 998 003c 00000000 		.4byte	0
+ 999              		.section	.debug_line,"",%progbits
+ARM GAS  C:\Users\BRANKO~1\AppData\Local\Temp\cc7i1Lnk.s 			page 22
+
+
+ 1000              	.Ldebug_line0:
+ 1001 0000 2E020000 		.section	.debug_str,"MS",%progbits,1
+ 1001      02006901 
+ 1001      00000201 
+ 1001      FB0E0D00 
+ 1001      01010101 
+ 1002              	.LASF31:
+ 1003 0000 443A5C70 		.ascii	"D:\\psoc5\\Cell Board\\Cell Board.cydsn\000"
+ 1003      736F6335 
+ 1003      5C43656C 
+ 1003      6C20426F 
+ 1003      6172645C 
+ 1004              	.LASF9:
+ 1005 0025 5F5F696E 		.ascii	"__int32_t\000"
+ 1005      7433325F 
+ 1005      7400
+ 1006              	.LASF34:
+ 1007 002f 6973725F 		.ascii	"isr_byte_ultrasonic_rx\000"
+ 1007      62797465 
+ 1007      5F756C74 
+ 1007      7261736F 
+ 1007      6E69635F 
+ 1008              	.LASF3:
+ 1009 0046 73686F72 		.ascii	"short unsigned int\000"
+ 1009      7420756E 
+ 1009      7369676E 
+ 1009      65642069 
+ 1009      6E7400
+ 1010              	.LASF21:
+ 1011 0059 756C7472 		.ascii	"ultrasonic_stop\000"
+ 1011      61736F6E 
+ 1011      69635F73 
+ 1011      746F7000 
+ 1012              	.LASF27:
+ 1013 0069 75617274 		.ascii	"uart_ultrasonic_received_string\000"
+ 1013      5F756C74 
+ 1013      7261736F 
+ 1013      6E69635F 
+ 1013      72656365 
+ 1014              	.LASF33:
+ 1015 0089 72656164 		.ascii	"reading\000"
+ 1015      696E6700 
+ 1016              	.LASF12:
+ 1017 0091 666C6F61 		.ascii	"float\000"
+ 1017      7400
+ 1018              	.LASF11:
+ 1019 0097 75696E74 		.ascii	"uint8\000"
+ 1019      3800
+ 1020              	.LASF1:
+ 1021 009d 756E7369 		.ascii	"unsigned char\000"
+ 1021      676E6564 
+ 1021      20636861 
+ 1021      7200
+ 1022              	.LASF5:
+ 1023 00ab 6C6F6E67 		.ascii	"long unsigned int\000"
+ 1023      20756E73 
+ 1023      69676E65 
+ARM GAS  C:\Users\BRANKO~1\AppData\Local\Temp\cc7i1Lnk.s 			page 23
+
+
+ 1023      6420696E 
+ 1023      7400
+ 1024              	.LASF16:
+ 1025 00bd 74656D70 		.ascii	"temp\000"
+ 1025      00
+ 1026              	.LASF25:
+ 1027 00c2 72785F63 		.ascii	"rx_char_hold\000"
+ 1027      6861725F 
+ 1027      686F6C64 
+ 1027      00
+ 1028              	.LASF24:
+ 1029 00cf 75617274 		.ascii	"uart_ultrasonic_string_reset\000"
+ 1029      5F756C74 
+ 1029      7261736F 
+ 1029      6E69635F 
+ 1029      73747269 
+ 1030              	.LASF20:
+ 1031 00ec 756C7472 		.ascii	"ultrasonic_start\000"
+ 1031      61736F6E 
+ 1031      69635F73 
+ 1031      74617274 
+ 1031      00
+ 1032              	.LASF26:
+ 1033 00fd 49544D5F 		.ascii	"ITM_RxBuffer\000"
+ 1033      52784275 
+ 1033      66666572 
+ 1033      00
+ 1034              	.LASF13:
+ 1035 010a 646F7562 		.ascii	"double\000"
+ 1035      6C6500
+ 1036              	.LASF22:
+ 1037 0111 756C7472 		.ascii	"ultrasonic_power_on\000"
+ 1037      61736F6E 
+ 1037      69635F70 
+ 1037      6F776572 
+ 1037      5F6F6E00 
+ 1038              	.LASF8:
+ 1039 0125 756E7369 		.ascii	"unsigned int\000"
+ 1039      676E6564 
+ 1039      20696E74 
+ 1039      00
+ 1040              	.LASF7:
+ 1041 0132 6C6F6E67 		.ascii	"long long unsigned int\000"
+ 1041      206C6F6E 
+ 1041      6720756E 
+ 1041      7369676E 
+ 1041      65642069 
+ 1042              	.LASF19:
+ 1043 0149 556C7472 		.ascii	"UltrasonicReading\000"
+ 1043      61736F6E 
+ 1043      69635265 
+ 1043      6164696E 
+ 1043      6700
+ 1044              	.LASF29:
+ 1045 015b 474E5520 		.ascii	"GNU C 4.8.4 20140526 (release) [ARM/embedded-4_8-br"
+ 1045      4320342E 
+ 1045      382E3420 
+ARM GAS  C:\Users\BRANKO~1\AppData\Local\Temp\cc7i1Lnk.s 			page 24
+
+
+ 1045      32303134 
+ 1045      30353236 
+ 1046 018e 616E6368 		.ascii	"anch revision 211358] -mcpu=cortex-m3 -mthumb -g -O"
+ 1046      20726576 
+ 1046      6973696F 
+ 1046      6E203231 
+ 1046      31333538 
+ 1047 01c1 30202D66 		.ascii	"0 -ffunction-sections\000"
+ 1047      66756E63 
+ 1047      74696F6E 
+ 1047      2D736563 
+ 1047      74696F6E 
+ 1048              	.LASF10:
+ 1049 01d7 696E7433 		.ascii	"int32_t\000"
+ 1049      325F7400 
+ 1050              	.LASF15:
+ 1051 01df 73697A65 		.ascii	"sizetype\000"
+ 1051      74797065 
+ 1051      00
+ 1052              	.LASF6:
+ 1053 01e8 6C6F6E67 		.ascii	"long long int\000"
+ 1053      206C6F6E 
+ 1053      6720696E 
+ 1053      7400
+ 1054              	.LASF17:
+ 1055 01f6 64657074 		.ascii	"depth\000"
+ 1055      6800
+ 1056              	.LASF14:
+ 1057 01fc 63686172 		.ascii	"char\000"
+ 1057      00
+ 1058              	.LASF32:
+ 1059 0201 756C7472 		.ascii	"ultrasonic_get_reading\000"
+ 1059      61736F6E 
+ 1059      69635F67 
+ 1059      65745F72 
+ 1059      65616469 
+ 1060              	.LASF2:
+ 1061 0218 73686F72 		.ascii	"short int\000"
+ 1061      7420696E 
+ 1061      7400
+ 1062              	.LASF30:
+ 1063 0222 2E5C756C 		.ascii	".\\ultrasonic.c\000"
+ 1063      74726173 
+ 1063      6F6E6963 
+ 1063      2E6300
+ 1064              	.LASF4:
+ 1065 0231 6C6F6E67 		.ascii	"long int\000"
+ 1065      20696E74 
+ 1065      00
+ 1066              	.LASF0:
+ 1067 023a 7369676E 		.ascii	"signed char\000"
+ 1067      65642063 
+ 1067      68617200 
+ 1068              	.LASF28:
+ 1069 0246 75617274 		.ascii	"uart_ultrasonic_string_index\000"
+ 1069      5F756C74 
+ 1069      7261736F 
+ARM GAS  C:\Users\BRANKO~1\AppData\Local\Temp\cc7i1Lnk.s 			page 25
+
+
+ 1069      6E69635F 
+ 1069      73747269 
+ 1070              	.LASF23:
+ 1071 0263 756C7472 		.ascii	"ultrasonic_power_off\000"
+ 1071      61736F6E 
+ 1071      69635F70 
+ 1071      6F776572 
+ 1071      5F6F6666 
+ 1072              	.LASF18:
+ 1073 0278 76616C69 		.ascii	"valid\000"
+ 1073      6400
+ 1074              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 4.8.4 20140526 (release) [ARM/embedded-4_8-br

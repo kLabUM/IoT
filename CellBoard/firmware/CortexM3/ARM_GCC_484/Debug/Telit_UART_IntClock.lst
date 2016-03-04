@@ -1,0 +1,2289 @@
+ARM GAS  C:\Users\BRANKO~1\AppData\Local\Temp\cca7ntJa.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 6
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.file	"Telit_UART_IntClock.c"
+  15              		.text
+  16              	.Ltext0:
+  17              		.cfi_sections	.debug_frame
+  18              		.section	.text.Telit_UART_IntClock_Start,"ax",%progbits
+  19              		.align	2
+  20              		.global	Telit_UART_IntClock_Start
+  21              		.thumb
+  22              		.thumb_func
+  23              		.type	Telit_UART_IntClock_Start, %function
+  24              	Telit_UART_IntClock_Start:
+  25              	.LFB0:
+  26              		.file 1 ".\\Generated_Source\\PSoC5\\Telit_UART_IntClock.c"
+   1:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** /*******************************************************************************
+   2:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** * File Name: Telit_UART_IntClock.c
+   3:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** * Version 2.20
+   4:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** *
+   5:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** *  Description:
+   6:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** *   This file provides the source code to the API for the clock component.
+   7:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** *
+   8:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** *  Note:
+   9:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** *
+  10:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** ********************************************************************************
+  11:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** * Copyright 2008-2012, Cypress Semiconductor Corporation.  All rights reserved.
+  12:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** * You may use this file only in accordance with the license, terms, conditions, 
+  13:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** * disclaimers, and limitations in the end user license agreement accompanying 
+  14:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** * the software package with which this file was provided.
+  15:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** *******************************************************************************/
+  16:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** 
+  17:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** #include <cydevice_trm.h>
+  18:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** #include "Telit_UART_IntClock.h"
+  19:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** 
+  20:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** /* Clock Distribution registers. */
+  21:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** #define CLK_DIST_LD              (* (reg8 *) CYREG_CLKDIST_LD)
+  22:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** #define CLK_DIST_BCFG2           (* (reg8 *) CYREG_CLKDIST_BCFG2)
+  23:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** #define BCFG2_MASK               (0x80u)
+  24:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** #define CLK_DIST_DMASK           (* (reg8 *) CYREG_CLKDIST_DMASK)
+  25:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** #define CLK_DIST_AMASK           (* (reg8 *) CYREG_CLKDIST_AMASK)
+  26:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** 
+  27:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** #define HAS_CLKDIST_LD_DISABLE   (CY_PSOC3 || CY_PSOC5LP)
+  28:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** 
+  29:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** 
+  30:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** /*******************************************************************************
+  31:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** * Function Name: Telit_UART_IntClock_Start
+ARM GAS  C:\Users\BRANKO~1\AppData\Local\Temp\cca7ntJa.s 			page 2
+
+
+  32:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** ********************************************************************************
+  33:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** *
+  34:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** * Summary:
+  35:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** *  Starts the clock. Note that on startup, clocks may be already running if the
+  36:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** *  "Start on Reset" option is enabled in the DWR.
+  37:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** *
+  38:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** * Parameters:
+  39:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** *  None
+  40:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** *
+  41:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** * Returns:
+  42:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** *  None
+  43:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** *
+  44:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** *******************************************************************************/
+  45:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** void Telit_UART_IntClock_Start(void) 
+  46:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** {
+  27              		.loc 1 46 0
+  28              		.cfi_startproc
+  29              		@ args = 0, pretend = 0, frame = 0
+  30              		@ frame_needed = 1, uses_anonymous_args = 0
+  31              		@ link register save eliminated.
+  32 0000 80B4     		push	{r7}
+  33              		.cfi_def_cfa_offset 4
+  34              		.cfi_offset 7, -4
+  35 0002 00AF     		add	r7, sp, #0
+  36              		.cfi_def_cfa_register 7
+  47:.\Generated_Source\PSoC5/Telit_UART_IntClock.c ****     /* Set the bit to enable the clock. */
+  48:.\Generated_Source\PSoC5/Telit_UART_IntClock.c ****     Telit_UART_IntClock_CLKEN |= Telit_UART_IntClock_CLKEN_MASK;
+  37              		.loc 1 48 0
+  38 0004 094B     		ldr	r3, .L2
+  39 0006 094A     		ldr	r2, .L2
+  40 0008 1278     		ldrb	r2, [r2]
+  41 000a D2B2     		uxtb	r2, r2
+  42 000c 42F00102 		orr	r2, r2, #1
+  43 0010 D2B2     		uxtb	r2, r2
+  44 0012 1A70     		strb	r2, [r3]
+  49:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** 	Telit_UART_IntClock_CLKSTBY |= Telit_UART_IntClock_CLKSTBY_MASK;
+  45              		.loc 1 49 0
+  46 0014 064B     		ldr	r3, .L2+4
+  47 0016 064A     		ldr	r2, .L2+4
+  48 0018 1278     		ldrb	r2, [r2]
+  49 001a D2B2     		uxtb	r2, r2
+  50 001c 42F00102 		orr	r2, r2, #1
+  51 0020 D2B2     		uxtb	r2, r2
+  52 0022 1A70     		strb	r2, [r3]
+  50:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** }
+  53              		.loc 1 50 0
+  54 0024 BD46     		mov	sp, r7
+  55              		@ sp needed
+  56 0026 5DF8047B 		ldr	r7, [sp], #4
+  57 002a 7047     		bx	lr
+  58              	.L3:
+  59              		.align	2
+  60              	.L2:
+  61 002c A2430040 		.word	1073759138
+  62 0030 B2430040 		.word	1073759154
+  63              		.cfi_endproc
+  64              	.LFE0:
+ARM GAS  C:\Users\BRANKO~1\AppData\Local\Temp\cca7ntJa.s 			page 3
+
+
+  65              		.size	Telit_UART_IntClock_Start, .-Telit_UART_IntClock_Start
+  66              		.section	.text.Telit_UART_IntClock_Stop,"ax",%progbits
+  67              		.align	2
+  68              		.global	Telit_UART_IntClock_Stop
+  69              		.thumb
+  70              		.thumb_func
+  71              		.type	Telit_UART_IntClock_Stop, %function
+  72              	Telit_UART_IntClock_Stop:
+  73              	.LFB1:
+  51:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** 
+  52:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** 
+  53:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** /*******************************************************************************
+  54:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** * Function Name: Telit_UART_IntClock_Stop
+  55:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** ********************************************************************************
+  56:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** *
+  57:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** * Summary:
+  58:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** *  Stops the clock and returns immediately. This API does not require the
+  59:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** *  source clock to be running but may return before the hardware is actually
+  60:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** *  disabled. If the settings of the clock are changed after calling this
+  61:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** *  function, the clock may glitch when it is started. To avoid the clock
+  62:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** *  glitch, use the StopBlock function.
+  63:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** *
+  64:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** * Parameters:
+  65:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** *  None
+  66:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** *
+  67:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** * Returns:
+  68:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** *  None
+  69:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** *
+  70:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** *******************************************************************************/
+  71:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** void Telit_UART_IntClock_Stop(void) 
+  72:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** {
+  74              		.loc 1 72 0
+  75              		.cfi_startproc
+  76              		@ args = 0, pretend = 0, frame = 0
+  77              		@ frame_needed = 1, uses_anonymous_args = 0
+  78              		@ link register save eliminated.
+  79 0000 80B4     		push	{r7}
+  80              		.cfi_def_cfa_offset 4
+  81              		.cfi_offset 7, -4
+  82 0002 00AF     		add	r7, sp, #0
+  83              		.cfi_def_cfa_register 7
+  73:.\Generated_Source\PSoC5/Telit_UART_IntClock.c ****     /* Clear the bit to disable the clock. */
+  74:.\Generated_Source\PSoC5/Telit_UART_IntClock.c ****     Telit_UART_IntClock_CLKEN &= (uint8)(~Telit_UART_IntClock_CLKEN_MASK);
+  84              		.loc 1 74 0
+  85 0004 094B     		ldr	r3, .L5
+  86 0006 094A     		ldr	r2, .L5
+  87 0008 1278     		ldrb	r2, [r2]
+  88 000a D2B2     		uxtb	r2, r2
+  89 000c 22F00102 		bic	r2, r2, #1
+  90 0010 D2B2     		uxtb	r2, r2
+  91 0012 1A70     		strb	r2, [r3]
+  75:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** 	Telit_UART_IntClock_CLKSTBY &= (uint8)(~Telit_UART_IntClock_CLKSTBY_MASK);
+  92              		.loc 1 75 0
+  93 0014 064B     		ldr	r3, .L5+4
+  94 0016 064A     		ldr	r2, .L5+4
+  95 0018 1278     		ldrb	r2, [r2]
+  96 001a D2B2     		uxtb	r2, r2
+ARM GAS  C:\Users\BRANKO~1\AppData\Local\Temp\cca7ntJa.s 			page 4
+
+
+  97 001c 22F00102 		bic	r2, r2, #1
+  98 0020 D2B2     		uxtb	r2, r2
+  99 0022 1A70     		strb	r2, [r3]
+  76:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** }
+ 100              		.loc 1 76 0
+ 101 0024 BD46     		mov	sp, r7
+ 102              		@ sp needed
+ 103 0026 5DF8047B 		ldr	r7, [sp], #4
+ 104 002a 7047     		bx	lr
+ 105              	.L6:
+ 106              		.align	2
+ 107              	.L5:
+ 108 002c A2430040 		.word	1073759138
+ 109 0030 B2430040 		.word	1073759154
+ 110              		.cfi_endproc
+ 111              	.LFE1:
+ 112              		.size	Telit_UART_IntClock_Stop, .-Telit_UART_IntClock_Stop
+ 113              		.section	.text.Telit_UART_IntClock_StopBlock,"ax",%progbits
+ 114              		.align	2
+ 115              		.global	Telit_UART_IntClock_StopBlock
+ 116              		.thumb
+ 117              		.thumb_func
+ 118              		.type	Telit_UART_IntClock_StopBlock, %function
+ 119              	Telit_UART_IntClock_StopBlock:
+ 120              	.LFB2:
+  77:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** 
+  78:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** 
+  79:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** #if(CY_PSOC3 || CY_PSOC5LP)
+  80:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** 
+  81:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** 
+  82:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** /*******************************************************************************
+  83:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** * Function Name: Telit_UART_IntClock_StopBlock
+  84:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** ********************************************************************************
+  85:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** *
+  86:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** * Summary:
+  87:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** *  Stops the clock and waits for the hardware to actually be disabled before
+  88:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** *  returning. This ensures that the clock is never truncated (high part of the
+  89:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** *  cycle will terminate before the clock is disabled and the API returns).
+  90:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** *  Note that the source clock must be running or this API will never return as
+  91:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** *  a stopped clock cannot be disabled.
+  92:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** *
+  93:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** * Parameters:
+  94:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** *  None
+  95:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** *
+  96:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** * Returns:
+  97:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** *  None
+  98:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** *
+  99:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** *******************************************************************************/
+ 100:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** void Telit_UART_IntClock_StopBlock(void) 
+ 101:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** {
+ 121              		.loc 1 101 0
+ 122              		.cfi_startproc
+ 123              		@ args = 0, pretend = 0, frame = 8
+ 124              		@ frame_needed = 1, uses_anonymous_args = 0
+ 125              		@ link register save eliminated.
+ 126 0000 80B4     		push	{r7}
+ 127              		.cfi_def_cfa_offset 4
+ARM GAS  C:\Users\BRANKO~1\AppData\Local\Temp\cca7ntJa.s 			page 5
+
+
+ 128              		.cfi_offset 7, -4
+ 129 0002 83B0     		sub	sp, sp, #12
+ 130              		.cfi_def_cfa_offset 16
+ 131 0004 00AF     		add	r7, sp, #0
+ 132              		.cfi_def_cfa_register 7
+ 102:.\Generated_Source\PSoC5/Telit_UART_IntClock.c ****     if ((Telit_UART_IntClock_CLKEN & Telit_UART_IntClock_CLKEN_MASK) != 0u)
+ 133              		.loc 1 102 0
+ 134 0006 224B     		ldr	r3, .L10
+ 135 0008 1B78     		ldrb	r3, [r3]
+ 136 000a DBB2     		uxtb	r3, r3
+ 137 000c 03F00103 		and	r3, r3, #1
+ 138 0010 002B     		cmp	r3, #0
+ 139 0012 37D0     		beq	.L7
+ 140              	.LBB2:
+ 103:.\Generated_Source\PSoC5/Telit_UART_IntClock.c ****     {
+ 104:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** #if HAS_CLKDIST_LD_DISABLE
+ 105:.\Generated_Source\PSoC5/Telit_UART_IntClock.c ****         uint16 oldDivider;
+ 106:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** 
+ 107:.\Generated_Source\PSoC5/Telit_UART_IntClock.c ****         CLK_DIST_LD = 0u;
+ 141              		.loc 1 107 0
+ 142 0014 1F4B     		ldr	r3, .L10+4
+ 143 0016 0022     		movs	r2, #0
+ 144 0018 1A70     		strb	r2, [r3]
+ 108:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** 
+ 109:.\Generated_Source\PSoC5/Telit_UART_IntClock.c ****         /* Clear all the mask bits except ours. */
+ 110:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** #if defined(Telit_UART_IntClock__CFG3)
+ 111:.\Generated_Source\PSoC5/Telit_UART_IntClock.c ****         CLK_DIST_AMASK = Telit_UART_IntClock_CLKEN_MASK;
+ 112:.\Generated_Source\PSoC5/Telit_UART_IntClock.c ****         CLK_DIST_DMASK = 0x00u;
+ 113:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** #else
+ 114:.\Generated_Source\PSoC5/Telit_UART_IntClock.c ****         CLK_DIST_DMASK = Telit_UART_IntClock_CLKEN_MASK;
+ 145              		.loc 1 114 0
+ 146 001a 1F4B     		ldr	r3, .L10+8
+ 147 001c 0122     		movs	r2, #1
+ 148 001e 1A70     		strb	r2, [r3]
+ 115:.\Generated_Source\PSoC5/Telit_UART_IntClock.c ****         CLK_DIST_AMASK = 0x00u;
+ 149              		.loc 1 115 0
+ 150 0020 1E4B     		ldr	r3, .L10+12
+ 151 0022 0022     		movs	r2, #0
+ 152 0024 1A70     		strb	r2, [r3]
+ 116:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** #endif /* Telit_UART_IntClock__CFG3 */
+ 117:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** 
+ 118:.\Generated_Source\PSoC5/Telit_UART_IntClock.c ****         /* Clear mask of bus clock. */
+ 119:.\Generated_Source\PSoC5/Telit_UART_IntClock.c ****         CLK_DIST_BCFG2 &= (uint8)(~BCFG2_MASK);
+ 153              		.loc 1 119 0
+ 154 0026 1E4B     		ldr	r3, .L10+16
+ 155 0028 1D4A     		ldr	r2, .L10+16
+ 156 002a 1278     		ldrb	r2, [r2]
+ 157 002c D2B2     		uxtb	r2, r2
+ 158 002e 02F07F02 		and	r2, r2, #127
+ 159 0032 D2B2     		uxtb	r2, r2
+ 160 0034 1A70     		strb	r2, [r3]
+ 120:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** 
+ 121:.\Generated_Source\PSoC5/Telit_UART_IntClock.c ****         oldDivider = CY_GET_REG16(Telit_UART_IntClock_DIV_PTR);
+ 161              		.loc 1 121 0
+ 162 0036 1B4B     		ldr	r3, .L10+20
+ 163 0038 1B88     		ldrh	r3, [r3]	@ movhi
+ 164 003a FB80     		strh	r3, [r7, #6]	@ movhi
+ARM GAS  C:\Users\BRANKO~1\AppData\Local\Temp\cca7ntJa.s 			page 6
+
+
+ 122:.\Generated_Source\PSoC5/Telit_UART_IntClock.c ****         CY_SET_REG16(CYREG_CLKDIST_WRK0, oldDivider);
+ 165              		.loc 1 122 0
+ 166 003c 1A4B     		ldr	r3, .L10+24
+ 167 003e FA88     		ldrh	r2, [r7, #6]	@ movhi
+ 168 0040 1A80     		strh	r2, [r3]	@ movhi
+ 123:.\Generated_Source\PSoC5/Telit_UART_IntClock.c ****         CLK_DIST_LD = CYCLK_LD_DISABLE | CYCLK_LD_SYNC_EN | CYCLK_LD_LOAD;
+ 169              		.loc 1 123 0
+ 170 0042 144B     		ldr	r3, .L10+4
+ 171 0044 0722     		movs	r2, #7
+ 172 0046 1A70     		strb	r2, [r3]
+ 124:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** 
+ 125:.\Generated_Source\PSoC5/Telit_UART_IntClock.c ****         /* Wait for clock to be disabled */
+ 126:.\Generated_Source\PSoC5/Telit_UART_IntClock.c ****         while ((CLK_DIST_LD & CYCLK_LD_LOAD) != 0u) { }
+ 173              		.loc 1 126 0
+ 174 0048 00BF     		nop
+ 175              	.L9:
+ 176              		.loc 1 126 0 is_stmt 0 discriminator 1
+ 177 004a 124B     		ldr	r3, .L10+4
+ 178 004c 1B78     		ldrb	r3, [r3]
+ 179 004e DBB2     		uxtb	r3, r3
+ 180 0050 03F00103 		and	r3, r3, #1
+ 181 0054 002B     		cmp	r3, #0
+ 182 0056 F8D1     		bne	.L9
+ 127:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** #endif /* HAS_CLKDIST_LD_DISABLE */
+ 128:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** 
+ 129:.\Generated_Source\PSoC5/Telit_UART_IntClock.c ****         /* Clear the bit to disable the clock. */
+ 130:.\Generated_Source\PSoC5/Telit_UART_IntClock.c ****         Telit_UART_IntClock_CLKEN &= (uint8)(~Telit_UART_IntClock_CLKEN_MASK);
+ 183              		.loc 1 130 0 is_stmt 1
+ 184 0058 0D4B     		ldr	r3, .L10
+ 185 005a 0D4A     		ldr	r2, .L10
+ 186 005c 1278     		ldrb	r2, [r2]
+ 187 005e D2B2     		uxtb	r2, r2
+ 188 0060 22F00102 		bic	r2, r2, #1
+ 189 0064 D2B2     		uxtb	r2, r2
+ 190 0066 1A70     		strb	r2, [r3]
+ 131:.\Generated_Source\PSoC5/Telit_UART_IntClock.c ****         Telit_UART_IntClock_CLKSTBY &= (uint8)(~Telit_UART_IntClock_CLKSTBY_MASK);
+ 191              		.loc 1 131 0
+ 192 0068 104B     		ldr	r3, .L10+28
+ 193 006a 104A     		ldr	r2, .L10+28
+ 194 006c 1278     		ldrb	r2, [r2]
+ 195 006e D2B2     		uxtb	r2, r2
+ 196 0070 22F00102 		bic	r2, r2, #1
+ 197 0074 D2B2     		uxtb	r2, r2
+ 198 0076 1A70     		strb	r2, [r3]
+ 132:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** 
+ 133:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** #if HAS_CLKDIST_LD_DISABLE
+ 134:.\Generated_Source\PSoC5/Telit_UART_IntClock.c ****         /* Clear the disable bit */
+ 135:.\Generated_Source\PSoC5/Telit_UART_IntClock.c ****         CLK_DIST_LD = 0x00u;
+ 199              		.loc 1 135 0
+ 200 0078 064B     		ldr	r3, .L10+4
+ 201 007a 0022     		movs	r2, #0
+ 202 007c 1A70     		strb	r2, [r3]
+ 136:.\Generated_Source\PSoC5/Telit_UART_IntClock.c ****         CY_SET_REG16(Telit_UART_IntClock_DIV_PTR, oldDivider);
+ 203              		.loc 1 136 0
+ 204 007e 094B     		ldr	r3, .L10+20
+ 205 0080 FA88     		ldrh	r2, [r7, #6]	@ movhi
+ 206 0082 1A80     		strh	r2, [r3]	@ movhi
+ARM GAS  C:\Users\BRANKO~1\AppData\Local\Temp\cca7ntJa.s 			page 7
+
+
+ 207              	.L7:
+ 208              	.LBE2:
+ 137:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** #endif /* HAS_CLKDIST_LD_DISABLE */
+ 138:.\Generated_Source\PSoC5/Telit_UART_IntClock.c ****     }
+ 139:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** }
+ 209              		.loc 1 139 0
+ 210 0084 0C37     		adds	r7, r7, #12
+ 211 0086 BD46     		mov	sp, r7
+ 212              		@ sp needed
+ 213 0088 5DF8047B 		ldr	r7, [sp], #4
+ 214 008c 7047     		bx	lr
+ 215              	.L11:
+ 216 008e 00BF     		.align	2
+ 217              	.L10:
+ 218 0090 A2430040 		.word	1073759138
+ 219 0094 01400040 		.word	1073758209
+ 220 0098 10400040 		.word	1073758224
+ 221 009c 14400040 		.word	1073758228
+ 222 00a0 08400040 		.word	1073758216
+ 223 00a4 80400040 		.word	1073758336
+ 224 00a8 02400040 		.word	1073758210
+ 225 00ac B2430040 		.word	1073759154
+ 226              		.cfi_endproc
+ 227              	.LFE2:
+ 228              		.size	Telit_UART_IntClock_StopBlock, .-Telit_UART_IntClock_StopBlock
+ 229              		.section	.text.Telit_UART_IntClock_StandbyPower,"ax",%progbits
+ 230              		.align	2
+ 231              		.global	Telit_UART_IntClock_StandbyPower
+ 232              		.thumb
+ 233              		.thumb_func
+ 234              		.type	Telit_UART_IntClock_StandbyPower, %function
+ 235              	Telit_UART_IntClock_StandbyPower:
+ 236              	.LFB3:
+ 140:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** #endif /* (CY_PSOC3 || CY_PSOC5LP) */
+ 141:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** 
+ 142:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** 
+ 143:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** /*******************************************************************************
+ 144:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** * Function Name: Telit_UART_IntClock_StandbyPower
+ 145:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** ********************************************************************************
+ 146:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** *
+ 147:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** * Summary:
+ 148:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** *  Sets whether the clock is active in standby mode.
+ 149:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** *
+ 150:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** * Parameters:
+ 151:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** *  state:  0 to disable clock during standby, nonzero to enable.
+ 152:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** *
+ 153:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** * Returns:
+ 154:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** *  None
+ 155:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** *
+ 156:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** *******************************************************************************/
+ 157:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** void Telit_UART_IntClock_StandbyPower(uint8 state) 
+ 158:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** {
+ 237              		.loc 1 158 0
+ 238              		.cfi_startproc
+ 239              		@ args = 0, pretend = 0, frame = 8
+ 240              		@ frame_needed = 1, uses_anonymous_args = 0
+ 241              		@ link register save eliminated.
+ARM GAS  C:\Users\BRANKO~1\AppData\Local\Temp\cca7ntJa.s 			page 8
+
+
+ 242 0000 80B4     		push	{r7}
+ 243              		.cfi_def_cfa_offset 4
+ 244              		.cfi_offset 7, -4
+ 245 0002 83B0     		sub	sp, sp, #12
+ 246              		.cfi_def_cfa_offset 16
+ 247 0004 00AF     		add	r7, sp, #0
+ 248              		.cfi_def_cfa_register 7
+ 249 0006 0346     		mov	r3, r0
+ 250 0008 FB71     		strb	r3, [r7, #7]
+ 159:.\Generated_Source\PSoC5/Telit_UART_IntClock.c ****     if(state == 0u)
+ 251              		.loc 1 159 0
+ 252 000a FB79     		ldrb	r3, [r7, #7]	@ zero_extendqisi2
+ 253 000c 002B     		cmp	r3, #0
+ 254 000e 08D1     		bne	.L13
+ 160:.\Generated_Source\PSoC5/Telit_UART_IntClock.c ****     {
+ 161:.\Generated_Source\PSoC5/Telit_UART_IntClock.c ****         Telit_UART_IntClock_CLKSTBY &= (uint8)(~Telit_UART_IntClock_CLKSTBY_MASK);
+ 255              		.loc 1 161 0
+ 256 0010 0A4B     		ldr	r3, .L15
+ 257 0012 0A4A     		ldr	r2, .L15
+ 258 0014 1278     		ldrb	r2, [r2]
+ 259 0016 D2B2     		uxtb	r2, r2
+ 260 0018 22F00102 		bic	r2, r2, #1
+ 261 001c D2B2     		uxtb	r2, r2
+ 262 001e 1A70     		strb	r2, [r3]
+ 263 0020 07E0     		b	.L12
+ 264              	.L13:
+ 162:.\Generated_Source\PSoC5/Telit_UART_IntClock.c ****     }
+ 163:.\Generated_Source\PSoC5/Telit_UART_IntClock.c ****     else
+ 164:.\Generated_Source\PSoC5/Telit_UART_IntClock.c ****     {
+ 165:.\Generated_Source\PSoC5/Telit_UART_IntClock.c ****         Telit_UART_IntClock_CLKSTBY |= Telit_UART_IntClock_CLKSTBY_MASK;
+ 265              		.loc 1 165 0
+ 266 0022 064B     		ldr	r3, .L15
+ 267 0024 054A     		ldr	r2, .L15
+ 268 0026 1278     		ldrb	r2, [r2]
+ 269 0028 D2B2     		uxtb	r2, r2
+ 270 002a 42F00102 		orr	r2, r2, #1
+ 271 002e D2B2     		uxtb	r2, r2
+ 272 0030 1A70     		strb	r2, [r3]
+ 273              	.L12:
+ 166:.\Generated_Source\PSoC5/Telit_UART_IntClock.c ****     }
+ 167:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** }
+ 274              		.loc 1 167 0
+ 275 0032 0C37     		adds	r7, r7, #12
+ 276 0034 BD46     		mov	sp, r7
+ 277              		@ sp needed
+ 278 0036 5DF8047B 		ldr	r7, [sp], #4
+ 279 003a 7047     		bx	lr
+ 280              	.L16:
+ 281              		.align	2
+ 282              	.L15:
+ 283 003c B2430040 		.word	1073759154
+ 284              		.cfi_endproc
+ 285              	.LFE3:
+ 286              		.size	Telit_UART_IntClock_StandbyPower, .-Telit_UART_IntClock_StandbyPower
+ 287              		.section	.text.Telit_UART_IntClock_SetDividerRegister,"ax",%progbits
+ 288              		.align	2
+ 289              		.global	Telit_UART_IntClock_SetDividerRegister
+ARM GAS  C:\Users\BRANKO~1\AppData\Local\Temp\cca7ntJa.s 			page 9
+
+
+ 290              		.thumb
+ 291              		.thumb_func
+ 292              		.type	Telit_UART_IntClock_SetDividerRegister, %function
+ 293              	Telit_UART_IntClock_SetDividerRegister:
+ 294              	.LFB4:
+ 168:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** 
+ 169:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** 
+ 170:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** /*******************************************************************************
+ 171:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** * Function Name: Telit_UART_IntClock_SetDividerRegister
+ 172:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** ********************************************************************************
+ 173:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** *
+ 174:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** * Summary:
+ 175:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** *  Modifies the clock divider and, thus, the frequency. When the clock divider
+ 176:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** *  register is set to zero or changed from zero, the clock will be temporarily
+ 177:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** *  disabled in order to change the SSS mode bit. If the clock is enabled when
+ 178:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** *  SetDividerRegister is called, then the source clock must be running.
+ 179:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** *
+ 180:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** * Parameters:
+ 181:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** *  clkDivider:  Divider register value (0-65,535). This value is NOT the
+ 182:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** *    divider; the clock hardware divides by clkDivider plus one. For example,
+ 183:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** *    to divide the clock by 2, this parameter should be set to 1.
+ 184:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** *  restart:  If nonzero, restarts the clock divider: the current clock cycle
+ 185:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** *   will be truncated and the new divide value will take effect immediately. If
+ 186:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** *   zero, the new divide value will take effect at the end of the current clock
+ 187:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** *   cycle.
+ 188:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** *
+ 189:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** * Returns:
+ 190:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** *  None
+ 191:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** *
+ 192:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** *******************************************************************************/
+ 193:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** void Telit_UART_IntClock_SetDividerRegister(uint16 clkDivider, uint8 restart)
+ 194:.\Generated_Source\PSoC5/Telit_UART_IntClock.c ****                                 
+ 195:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** {
+ 295              		.loc 1 195 0
+ 296              		.cfi_startproc
+ 297              		@ args = 0, pretend = 0, frame = 16
+ 298              		@ frame_needed = 1, uses_anonymous_args = 0
+ 299 0000 80B5     		push	{r7, lr}
+ 300              		.cfi_def_cfa_offset 8
+ 301              		.cfi_offset 7, -8
+ 302              		.cfi_offset 14, -4
+ 303 0002 84B0     		sub	sp, sp, #16
+ 304              		.cfi_def_cfa_offset 24
+ 305 0004 00AF     		add	r7, sp, #0
+ 306              		.cfi_def_cfa_register 7
+ 307 0006 0246     		mov	r2, r0
+ 308 0008 0B46     		mov	r3, r1
+ 309 000a FA80     		strh	r2, [r7, #6]	@ movhi
+ 310 000c 7B71     		strb	r3, [r7, #5]
+ 196:.\Generated_Source\PSoC5/Telit_UART_IntClock.c ****     uint8 enabled;
+ 197:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** 
+ 198:.\Generated_Source\PSoC5/Telit_UART_IntClock.c ****     uint8 currSrc = Telit_UART_IntClock_GetSourceRegister();
+ 311              		.loc 1 198 0
+ 312 000e FFF7FEFF 		bl	Telit_UART_IntClock_GetSourceRegister
+ 313 0012 0346     		mov	r3, r0
+ 314 0014 FB73     		strb	r3, [r7, #15]
+ 199:.\Generated_Source\PSoC5/Telit_UART_IntClock.c ****     uint16 oldDivider = Telit_UART_IntClock_GetDividerRegister();
+ARM GAS  C:\Users\BRANKO~1\AppData\Local\Temp\cca7ntJa.s 			page 10
+
+
+ 315              		.loc 1 199 0
+ 316 0016 FFF7FEFF 		bl	Telit_UART_IntClock_GetDividerRegister
+ 317 001a 0346     		mov	r3, r0
+ 318 001c BB81     		strh	r3, [r7, #12]	@ movhi
+ 200:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** 
+ 201:.\Generated_Source\PSoC5/Telit_UART_IntClock.c ****     if (clkDivider != oldDivider)
+ 319              		.loc 1 201 0
+ 320 001e FA88     		ldrh	r2, [r7, #6]
+ 321 0020 BB89     		ldrh	r3, [r7, #12]
+ 322 0022 9A42     		cmp	r2, r3
+ 323 0024 00F08780 		beq	.L17
+ 202:.\Generated_Source\PSoC5/Telit_UART_IntClock.c ****     {
+ 203:.\Generated_Source\PSoC5/Telit_UART_IntClock.c ****         enabled = Telit_UART_IntClock_CLKEN & Telit_UART_IntClock_CLKEN_MASK;
+ 324              		.loc 1 203 0
+ 325 0028 444B     		ldr	r3, .L30
+ 326 002a 1B78     		ldrb	r3, [r3]
+ 327 002c DBB2     		uxtb	r3, r3
+ 328 002e 03F00103 		and	r3, r3, #1
+ 329 0032 FB72     		strb	r3, [r7, #11]
+ 204:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** 
+ 205:.\Generated_Source\PSoC5/Telit_UART_IntClock.c ****         if ((currSrc == (uint8)CYCLK_SRC_SEL_CLK_SYNC_D) && ((oldDivider == 0u) || (clkDivider == 0
+ 330              		.loc 1 205 0
+ 331 0034 FB7B     		ldrb	r3, [r7, #15]	@ zero_extendqisi2
+ 332 0036 002B     		cmp	r3, #0
+ 333 0038 20D1     		bne	.L19
+ 334              		.loc 1 205 0 is_stmt 0 discriminator 1
+ 335 003a BB89     		ldrh	r3, [r7, #12]
+ 336 003c 002B     		cmp	r3, #0
+ 337 003e 02D0     		beq	.L20
+ 338 0040 FB88     		ldrh	r3, [r7, #6]
+ 339 0042 002B     		cmp	r3, #0
+ 340 0044 1AD1     		bne	.L19
+ 341              	.L20:
+ 206:.\Generated_Source\PSoC5/Telit_UART_IntClock.c ****         {
+ 207:.\Generated_Source\PSoC5/Telit_UART_IntClock.c ****             /* Moving to/from SSS requires correct ordering to prevent halting the clock    */
+ 208:.\Generated_Source\PSoC5/Telit_UART_IntClock.c ****             if (oldDivider == 0u)
+ 342              		.loc 1 208 0 is_stmt 1
+ 343 0046 BB89     		ldrh	r3, [r7, #12]
+ 344 0048 002B     		cmp	r3, #0
+ 345 004a 0BD1     		bne	.L21
+ 209:.\Generated_Source\PSoC5/Telit_UART_IntClock.c ****             {
+ 210:.\Generated_Source\PSoC5/Telit_UART_IntClock.c ****                 /* Moving away from SSS, set the divider first so when SSS is cleared we    */
+ 211:.\Generated_Source\PSoC5/Telit_UART_IntClock.c ****                 /* don't halt the clock.  Using the shadow load isn't required as the       */
+ 212:.\Generated_Source\PSoC5/Telit_UART_IntClock.c ****                 /* divider is ignored while SSS is set.                                     */
+ 213:.\Generated_Source\PSoC5/Telit_UART_IntClock.c ****                 CY_SET_REG16(Telit_UART_IntClock_DIV_PTR, clkDivider);
+ 346              		.loc 1 213 0
+ 347 004c 3C4B     		ldr	r3, .L30+4
+ 348 004e FA88     		ldrh	r2, [r7, #6]	@ movhi
+ 349 0050 1A80     		strh	r2, [r3]	@ movhi
+ 214:.\Generated_Source\PSoC5/Telit_UART_IntClock.c ****                 Telit_UART_IntClock_MOD_SRC &= (uint8)(~CYCLK_SSS);
+ 350              		.loc 1 214 0
+ 351 0052 3C4B     		ldr	r3, .L30+8
+ 352 0054 3B4A     		ldr	r2, .L30+8
+ 353 0056 1278     		ldrb	r2, [r2]
+ 354 0058 D2B2     		uxtb	r2, r2
+ 355 005a 22F04002 		bic	r2, r2, #64
+ 356 005e D2B2     		uxtb	r2, r2
+ARM GAS  C:\Users\BRANKO~1\AppData\Local\Temp\cca7ntJa.s 			page 11
+
+
+ 357 0060 1A70     		strb	r2, [r3]
+ 208:.\Generated_Source\PSoC5/Telit_UART_IntClock.c ****             if (oldDivider == 0u)
+ 358              		.loc 1 208 0
+ 359 0062 68E0     		b	.L17
+ 360              	.L21:
+ 215:.\Generated_Source\PSoC5/Telit_UART_IntClock.c ****             }
+ 216:.\Generated_Source\PSoC5/Telit_UART_IntClock.c ****             else
+ 217:.\Generated_Source\PSoC5/Telit_UART_IntClock.c ****             {
+ 218:.\Generated_Source\PSoC5/Telit_UART_IntClock.c ****                 /* Moving to SSS, set SSS which then ignores the divider and we can set     */
+ 219:.\Generated_Source\PSoC5/Telit_UART_IntClock.c ****                 /* it without bothering with the shadow load.                               */
+ 220:.\Generated_Source\PSoC5/Telit_UART_IntClock.c ****                 Telit_UART_IntClock_MOD_SRC |= CYCLK_SSS;
+ 361              		.loc 1 220 0
+ 362 0064 374B     		ldr	r3, .L30+8
+ 363 0066 374A     		ldr	r2, .L30+8
+ 364 0068 1278     		ldrb	r2, [r2]
+ 365 006a D2B2     		uxtb	r2, r2
+ 366 006c 42F04002 		orr	r2, r2, #64
+ 367 0070 D2B2     		uxtb	r2, r2
+ 368 0072 1A70     		strb	r2, [r3]
+ 221:.\Generated_Source\PSoC5/Telit_UART_IntClock.c ****                 CY_SET_REG16(Telit_UART_IntClock_DIV_PTR, clkDivider);
+ 369              		.loc 1 221 0
+ 370 0074 324B     		ldr	r3, .L30+4
+ 371 0076 FA88     		ldrh	r2, [r7, #6]	@ movhi
+ 372 0078 1A80     		strh	r2, [r3]	@ movhi
+ 208:.\Generated_Source\PSoC5/Telit_UART_IntClock.c ****             if (oldDivider == 0u)
+ 373              		.loc 1 208 0
+ 374 007a 5CE0     		b	.L17
+ 375              	.L19:
+ 222:.\Generated_Source\PSoC5/Telit_UART_IntClock.c ****             }
+ 223:.\Generated_Source\PSoC5/Telit_UART_IntClock.c ****         }
+ 224:.\Generated_Source\PSoC5/Telit_UART_IntClock.c ****         else
+ 225:.\Generated_Source\PSoC5/Telit_UART_IntClock.c ****         {
+ 226:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** 			
+ 227:.\Generated_Source\PSoC5/Telit_UART_IntClock.c ****             if (enabled != 0u)
+ 376              		.loc 1 227 0
+ 377 007c FB7A     		ldrb	r3, [r7, #11]	@ zero_extendqisi2
+ 378 007e 002B     		cmp	r3, #0
+ 379 0080 33D0     		beq	.L23
+ 228:.\Generated_Source\PSoC5/Telit_UART_IntClock.c ****             {
+ 229:.\Generated_Source\PSoC5/Telit_UART_IntClock.c ****                 CLK_DIST_LD = 0x00u;
+ 380              		.loc 1 229 0
+ 381 0082 314B     		ldr	r3, .L30+12
+ 382 0084 0022     		movs	r2, #0
+ 383 0086 1A70     		strb	r2, [r3]
+ 230:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** 
+ 231:.\Generated_Source\PSoC5/Telit_UART_IntClock.c ****                 /* Clear all the mask bits except ours. */
+ 232:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** #if defined(Telit_UART_IntClock__CFG3)
+ 233:.\Generated_Source\PSoC5/Telit_UART_IntClock.c ****                 CLK_DIST_AMASK = Telit_UART_IntClock_CLKEN_MASK;
+ 234:.\Generated_Source\PSoC5/Telit_UART_IntClock.c ****                 CLK_DIST_DMASK = 0x00u;
+ 235:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** #else
+ 236:.\Generated_Source\PSoC5/Telit_UART_IntClock.c ****                 CLK_DIST_DMASK = Telit_UART_IntClock_CLKEN_MASK;
+ 384              		.loc 1 236 0
+ 385 0088 304B     		ldr	r3, .L30+16
+ 386 008a 0122     		movs	r2, #1
+ 387 008c 1A70     		strb	r2, [r3]
+ 237:.\Generated_Source\PSoC5/Telit_UART_IntClock.c ****                 CLK_DIST_AMASK = 0x00u;
+ 388              		.loc 1 237 0
+ARM GAS  C:\Users\BRANKO~1\AppData\Local\Temp\cca7ntJa.s 			page 12
+
+
+ 389 008e 304B     		ldr	r3, .L30+20
+ 390 0090 0022     		movs	r2, #0
+ 391 0092 1A70     		strb	r2, [r3]
+ 238:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** #endif /* Telit_UART_IntClock__CFG3 */
+ 239:.\Generated_Source\PSoC5/Telit_UART_IntClock.c ****                 /* Clear mask of bus clock. */
+ 240:.\Generated_Source\PSoC5/Telit_UART_IntClock.c ****                 CLK_DIST_BCFG2 &= (uint8)(~BCFG2_MASK);
+ 392              		.loc 1 240 0
+ 393 0094 2F4B     		ldr	r3, .L30+24
+ 394 0096 2F4A     		ldr	r2, .L30+24
+ 395 0098 1278     		ldrb	r2, [r2]
+ 396 009a D2B2     		uxtb	r2, r2
+ 397 009c 02F07F02 		and	r2, r2, #127
+ 398 00a0 D2B2     		uxtb	r2, r2
+ 399 00a2 1A70     		strb	r2, [r3]
+ 241:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** 
+ 242:.\Generated_Source\PSoC5/Telit_UART_IntClock.c ****                 /* If clock is currently enabled, disable it if async or going from N-to-1*/
+ 243:.\Generated_Source\PSoC5/Telit_UART_IntClock.c ****                 if (((Telit_UART_IntClock_MOD_SRC & CYCLK_SYNC) == 0u) || (clkDivider == 0u))
+ 400              		.loc 1 243 0
+ 401 00a4 274B     		ldr	r3, .L30+8
+ 402 00a6 1B78     		ldrb	r3, [r3]
+ 403 00a8 DBB2     		uxtb	r3, r3
+ 404 00aa 03F00803 		and	r3, r3, #8
+ 405 00ae 002B     		cmp	r3, #0
+ 406 00b0 02D0     		beq	.L24
+ 407              		.loc 1 243 0 is_stmt 0 discriminator 1
+ 408 00b2 FB88     		ldrh	r3, [r7, #6]
+ 409 00b4 002B     		cmp	r3, #0
+ 410 00b6 18D1     		bne	.L23
+ 411              	.L24:
+ 244:.\Generated_Source\PSoC5/Telit_UART_IntClock.c ****                 {
+ 245:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** #if HAS_CLKDIST_LD_DISABLE
+ 246:.\Generated_Source\PSoC5/Telit_UART_IntClock.c ****                     CY_SET_REG16(CYREG_CLKDIST_WRK0, oldDivider);
+ 412              		.loc 1 246 0 is_stmt 1
+ 413 00b8 274B     		ldr	r3, .L30+28
+ 414 00ba BA89     		ldrh	r2, [r7, #12]	@ movhi
+ 415 00bc 1A80     		strh	r2, [r3]	@ movhi
+ 247:.\Generated_Source\PSoC5/Telit_UART_IntClock.c ****                     CLK_DIST_LD = CYCLK_LD_DISABLE|CYCLK_LD_SYNC_EN|CYCLK_LD_LOAD;
+ 416              		.loc 1 247 0
+ 417 00be 224B     		ldr	r3, .L30+12
+ 418 00c0 0722     		movs	r2, #7
+ 419 00c2 1A70     		strb	r2, [r3]
+ 248:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** 
+ 249:.\Generated_Source\PSoC5/Telit_UART_IntClock.c ****                     /* Wait for clock to be disabled */
+ 250:.\Generated_Source\PSoC5/Telit_UART_IntClock.c ****                     while ((CLK_DIST_LD & CYCLK_LD_LOAD) != 0u) { }
+ 420              		.loc 1 250 0
+ 421 00c4 00BF     		nop
+ 422              	.L25:
+ 423              		.loc 1 250 0 is_stmt 0 discriminator 1
+ 424 00c6 204B     		ldr	r3, .L30+12
+ 425 00c8 1B78     		ldrb	r3, [r3]
+ 426 00ca DBB2     		uxtb	r3, r3
+ 427 00cc 03F00103 		and	r3, r3, #1
+ 428 00d0 002B     		cmp	r3, #0
+ 429 00d2 F8D1     		bne	.L25
+ 251:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** #endif /* HAS_CLKDIST_LD_DISABLE */
+ 252:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** 
+ 253:.\Generated_Source\PSoC5/Telit_UART_IntClock.c ****                     Telit_UART_IntClock_CLKEN &= (uint8)(~Telit_UART_IntClock_CLKEN_MASK);
+ARM GAS  C:\Users\BRANKO~1\AppData\Local\Temp\cca7ntJa.s 			page 13
+
+
+ 430              		.loc 1 253 0 is_stmt 1
+ 431 00d4 194B     		ldr	r3, .L30
+ 432 00d6 194A     		ldr	r2, .L30
+ 433 00d8 1278     		ldrb	r2, [r2]
+ 434 00da D2B2     		uxtb	r2, r2
+ 435 00dc 22F00102 		bic	r2, r2, #1
+ 436 00e0 D2B2     		uxtb	r2, r2
+ 437 00e2 1A70     		strb	r2, [r3]
+ 254:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** 
+ 255:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** #if HAS_CLKDIST_LD_DISABLE
+ 256:.\Generated_Source\PSoC5/Telit_UART_IntClock.c ****                     /* Clear the disable bit */
+ 257:.\Generated_Source\PSoC5/Telit_UART_IntClock.c ****                     CLK_DIST_LD = 0x00u;
+ 438              		.loc 1 257 0
+ 439 00e4 184B     		ldr	r3, .L30+12
+ 440 00e6 0022     		movs	r2, #0
+ 441 00e8 1A70     		strb	r2, [r3]
+ 442              	.L23:
+ 258:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** #endif /* HAS_CLKDIST_LD_DISABLE */
+ 259:.\Generated_Source\PSoC5/Telit_UART_IntClock.c ****                 }
+ 260:.\Generated_Source\PSoC5/Telit_UART_IntClock.c ****             }
+ 261:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** 
+ 262:.\Generated_Source\PSoC5/Telit_UART_IntClock.c ****             /* Load divide value. */
+ 263:.\Generated_Source\PSoC5/Telit_UART_IntClock.c ****             if ((Telit_UART_IntClock_CLKEN & Telit_UART_IntClock_CLKEN_MASK) != 0u)
+ 443              		.loc 1 263 0
+ 444 00ea 144B     		ldr	r3, .L30
+ 445 00ec 1B78     		ldrb	r3, [r3]
+ 446 00ee DBB2     		uxtb	r3, r3
+ 447 00f0 03F00103 		and	r3, r3, #1
+ 448 00f4 002B     		cmp	r3, #0
+ 449 00f6 13D0     		beq	.L26
+ 264:.\Generated_Source\PSoC5/Telit_UART_IntClock.c ****             {
+ 265:.\Generated_Source\PSoC5/Telit_UART_IntClock.c ****                 /* If the clock is still enabled, use the shadow registers */
+ 266:.\Generated_Source\PSoC5/Telit_UART_IntClock.c ****                 CY_SET_REG16(CYREG_CLKDIST_WRK0, clkDivider);
+ 450              		.loc 1 266 0
+ 451 00f8 174B     		ldr	r3, .L30+28
+ 452 00fa FA88     		ldrh	r2, [r7, #6]	@ movhi
+ 453 00fc 1A80     		strh	r2, [r3]	@ movhi
+ 267:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** 
+ 268:.\Generated_Source\PSoC5/Telit_UART_IntClock.c ****                 CLK_DIST_LD = (CYCLK_LD_LOAD | ((restart != 0u) ? CYCLK_LD_SYNC_EN : 0x00u));
+ 454              		.loc 1 268 0
+ 455 00fe 124A     		ldr	r2, .L30+12
+ 456 0100 7B79     		ldrb	r3, [r7, #5]	@ zero_extendqisi2
+ 457 0102 002B     		cmp	r3, #0
+ 458 0104 01D0     		beq	.L27
+ 459              		.loc 1 268 0 is_stmt 0 discriminator 1
+ 460 0106 0323     		movs	r3, #3
+ 461 0108 00E0     		b	.L28
+ 462              	.L27:
+ 463              		.loc 1 268 0 discriminator 2
+ 464 010a 0123     		movs	r3, #1
+ 465              	.L28:
+ 466              		.loc 1 268 0 discriminator 3
+ 467 010c 1370     		strb	r3, [r2]
+ 269:.\Generated_Source\PSoC5/Telit_UART_IntClock.c ****                 while ((CLK_DIST_LD & CYCLK_LD_LOAD) != 0u) { }
+ 468              		.loc 1 269 0 is_stmt 1 discriminator 3
+ 469 010e 00BF     		nop
+ 470              	.L29:
+ARM GAS  C:\Users\BRANKO~1\AppData\Local\Temp\cca7ntJa.s 			page 14
+
+
+ 471              		.loc 1 269 0 is_stmt 0 discriminator 1
+ 472 0110 0D4B     		ldr	r3, .L30+12
+ 473 0112 1B78     		ldrb	r3, [r3]
+ 474 0114 DBB2     		uxtb	r3, r3
+ 475 0116 03F00103 		and	r3, r3, #1
+ 476 011a 002B     		cmp	r3, #0
+ 477 011c F8D1     		bne	.L29
+ 478 011e 0AE0     		b	.L17
+ 479              	.L26:
+ 270:.\Generated_Source\PSoC5/Telit_UART_IntClock.c ****             }
+ 271:.\Generated_Source\PSoC5/Telit_UART_IntClock.c ****             else
+ 272:.\Generated_Source\PSoC5/Telit_UART_IntClock.c ****             {
+ 273:.\Generated_Source\PSoC5/Telit_UART_IntClock.c ****                 /* If the clock is disabled, set the divider directly */
+ 274:.\Generated_Source\PSoC5/Telit_UART_IntClock.c ****                 CY_SET_REG16(Telit_UART_IntClock_DIV_PTR, clkDivider);
+ 480              		.loc 1 274 0 is_stmt 1
+ 481 0120 074B     		ldr	r3, .L30+4
+ 482 0122 FA88     		ldrh	r2, [r7, #6]	@ movhi
+ 483 0124 1A80     		strh	r2, [r3]	@ movhi
+ 275:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** 				Telit_UART_IntClock_CLKEN |= enabled;
+ 484              		.loc 1 275 0
+ 485 0126 054B     		ldr	r3, .L30
+ 486 0128 044A     		ldr	r2, .L30
+ 487 012a 1278     		ldrb	r2, [r2]
+ 488 012c D1B2     		uxtb	r1, r2
+ 489 012e FA7A     		ldrb	r2, [r7, #11]
+ 490 0130 0A43     		orrs	r2, r2, r1
+ 491 0132 D2B2     		uxtb	r2, r2
+ 492 0134 1A70     		strb	r2, [r3]
+ 493              	.L17:
+ 276:.\Generated_Source\PSoC5/Telit_UART_IntClock.c ****             }
+ 277:.\Generated_Source\PSoC5/Telit_UART_IntClock.c ****         }
+ 278:.\Generated_Source\PSoC5/Telit_UART_IntClock.c ****     }
+ 279:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** }
+ 494              		.loc 1 279 0
+ 495 0136 1037     		adds	r7, r7, #16
+ 496 0138 BD46     		mov	sp, r7
+ 497              		@ sp needed
+ 498 013a 80BD     		pop	{r7, pc}
+ 499              	.L31:
+ 500              		.align	2
+ 501              	.L30:
+ 502 013c A2430040 		.word	1073759138
+ 503 0140 80400040 		.word	1073758336
+ 504 0144 82400040 		.word	1073758338
+ 505 0148 01400040 		.word	1073758209
+ 506 014c 10400040 		.word	1073758224
+ 507 0150 14400040 		.word	1073758228
+ 508 0154 08400040 		.word	1073758216
+ 509 0158 02400040 		.word	1073758210
+ 510              		.cfi_endproc
+ 511              	.LFE4:
+ 512              		.size	Telit_UART_IntClock_SetDividerRegister, .-Telit_UART_IntClock_SetDividerRegister
+ 513              		.section	.text.Telit_UART_IntClock_GetDividerRegister,"ax",%progbits
+ 514              		.align	2
+ 515              		.global	Telit_UART_IntClock_GetDividerRegister
+ 516              		.thumb
+ 517              		.thumb_func
+ARM GAS  C:\Users\BRANKO~1\AppData\Local\Temp\cca7ntJa.s 			page 15
+
+
+ 518              		.type	Telit_UART_IntClock_GetDividerRegister, %function
+ 519              	Telit_UART_IntClock_GetDividerRegister:
+ 520              	.LFB5:
+ 280:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** 
+ 281:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** 
+ 282:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** /*******************************************************************************
+ 283:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** * Function Name: Telit_UART_IntClock_GetDividerRegister
+ 284:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** ********************************************************************************
+ 285:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** *
+ 286:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** * Summary:
+ 287:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** *  Gets the clock divider register value.
+ 288:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** *
+ 289:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** * Parameters:
+ 290:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** *  None
+ 291:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** *
+ 292:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** * Returns:
+ 293:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** *  Divide value of the clock minus 1. For example, if the clock is set to
+ 294:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** *  divide by 2, the return value will be 1.
+ 295:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** *
+ 296:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** *******************************************************************************/
+ 297:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** uint16 Telit_UART_IntClock_GetDividerRegister(void) 
+ 298:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** {
+ 521              		.loc 1 298 0
+ 522              		.cfi_startproc
+ 523              		@ args = 0, pretend = 0, frame = 0
+ 524              		@ frame_needed = 1, uses_anonymous_args = 0
+ 525              		@ link register save eliminated.
+ 526 0000 80B4     		push	{r7}
+ 527              		.cfi_def_cfa_offset 4
+ 528              		.cfi_offset 7, -4
+ 529 0002 00AF     		add	r7, sp, #0
+ 530              		.cfi_def_cfa_register 7
+ 299:.\Generated_Source\PSoC5/Telit_UART_IntClock.c ****     return CY_GET_REG16(Telit_UART_IntClock_DIV_PTR);
+ 531              		.loc 1 299 0
+ 532 0004 034B     		ldr	r3, .L34
+ 533 0006 1B88     		ldrh	r3, [r3]	@ movhi
+ 534 0008 9BB2     		uxth	r3, r3
+ 300:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** }
+ 535              		.loc 1 300 0
+ 536 000a 1846     		mov	r0, r3
+ 537 000c BD46     		mov	sp, r7
+ 538              		@ sp needed
+ 539 000e 5DF8047B 		ldr	r7, [sp], #4
+ 540 0012 7047     		bx	lr
+ 541              	.L35:
+ 542              		.align	2
+ 543              	.L34:
+ 544 0014 80400040 		.word	1073758336
+ 545              		.cfi_endproc
+ 546              	.LFE5:
+ 547              		.size	Telit_UART_IntClock_GetDividerRegister, .-Telit_UART_IntClock_GetDividerRegister
+ 548              		.section	.text.Telit_UART_IntClock_SetModeRegister,"ax",%progbits
+ 549              		.align	2
+ 550              		.global	Telit_UART_IntClock_SetModeRegister
+ 551              		.thumb
+ 552              		.thumb_func
+ 553              		.type	Telit_UART_IntClock_SetModeRegister, %function
+ARM GAS  C:\Users\BRANKO~1\AppData\Local\Temp\cca7ntJa.s 			page 16
+
+
+ 554              	Telit_UART_IntClock_SetModeRegister:
+ 555              	.LFB6:
+ 301:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** 
+ 302:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** 
+ 303:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** /*******************************************************************************
+ 304:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** * Function Name: Telit_UART_IntClock_SetModeRegister
+ 305:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** ********************************************************************************
+ 306:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** *
+ 307:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** * Summary:
+ 308:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** *  Sets flags that control the operating mode of the clock. This function only
+ 309:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** *  changes flags from 0 to 1; flags that are already 1 will remain unchanged.
+ 310:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** *  To clear flags, use the ClearModeRegister function. The clock must be
+ 311:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** *  disabled before changing the mode.
+ 312:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** *
+ 313:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** * Parameters:
+ 314:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** *  clkMode: Bit mask containing the bits to set. For PSoC 3 and PSoC 5,
+ 315:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** *   clkMode should be a set of the following optional bits or'ed together.
+ 316:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** *   - CYCLK_EARLY Enable early phase mode. Rising edge of output clock will
+ 317:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** *                 occur when the divider count reaches half of the divide
+ 318:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** *                 value.
+ 319:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** *   - CYCLK_DUTY  Enable 50% duty cycle output. When enabled, the output clock
+ 320:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** *                 is asserted for approximately half of its period. When
+ 321:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** *                 disabled, the output clock is asserted for one period of the
+ 322:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** *                 source clock.
+ 323:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** *   - CYCLK_SYNC  Enable output synchronization to master clock. This should
+ 324:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** *                 be enabled for all synchronous clocks.
+ 325:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** *   See the Technical Reference Manual for details about setting the mode of
+ 326:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** *   the clock. Specifically, see the CLKDIST.DCFG.CFG2 register.
+ 327:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** *
+ 328:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** * Returns:
+ 329:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** *  None
+ 330:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** *
+ 331:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** *******************************************************************************/
+ 332:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** void Telit_UART_IntClock_SetModeRegister(uint8 modeBitMask) 
+ 333:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** {
+ 556              		.loc 1 333 0
+ 557              		.cfi_startproc
+ 558              		@ args = 0, pretend = 0, frame = 8
+ 559              		@ frame_needed = 1, uses_anonymous_args = 0
+ 560              		@ link register save eliminated.
+ 561 0000 80B4     		push	{r7}
+ 562              		.cfi_def_cfa_offset 4
+ 563              		.cfi_offset 7, -4
+ 564 0002 83B0     		sub	sp, sp, #12
+ 565              		.cfi_def_cfa_offset 16
+ 566 0004 00AF     		add	r7, sp, #0
+ 567              		.cfi_def_cfa_register 7
+ 568 0006 0346     		mov	r3, r0
+ 569 0008 FB71     		strb	r3, [r7, #7]
+ 334:.\Generated_Source\PSoC5/Telit_UART_IntClock.c ****     Telit_UART_IntClock_MOD_SRC |= modeBitMask & (uint8)Telit_UART_IntClock_MODE_MASK;
+ 570              		.loc 1 334 0
+ 571 000a 094B     		ldr	r3, .L37
+ 572 000c 084A     		ldr	r2, .L37
+ 573 000e 1278     		ldrb	r2, [r2]
+ 574 0010 D2B2     		uxtb	r2, r2
+ 575 0012 D1B2     		uxtb	r1, r2
+ 576 0014 FA79     		ldrb	r2, [r7, #7]	@ zero_extendqisi2
+ARM GAS  C:\Users\BRANKO~1\AppData\Local\Temp\cca7ntJa.s 			page 17
+
+
+ 577 0016 22F00702 		bic	r2, r2, #7
+ 578 001a D2B2     		uxtb	r2, r2
+ 579 001c 0A43     		orrs	r2, r2, r1
+ 580 001e D2B2     		uxtb	r2, r2
+ 581 0020 D2B2     		uxtb	r2, r2
+ 582 0022 1A70     		strb	r2, [r3]
+ 335:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** }
+ 583              		.loc 1 335 0
+ 584 0024 0C37     		adds	r7, r7, #12
+ 585 0026 BD46     		mov	sp, r7
+ 586              		@ sp needed
+ 587 0028 5DF8047B 		ldr	r7, [sp], #4
+ 588 002c 7047     		bx	lr
+ 589              	.L38:
+ 590 002e 00BF     		.align	2
+ 591              	.L37:
+ 592 0030 82400040 		.word	1073758338
+ 593              		.cfi_endproc
+ 594              	.LFE6:
+ 595              		.size	Telit_UART_IntClock_SetModeRegister, .-Telit_UART_IntClock_SetModeRegister
+ 596              		.section	.text.Telit_UART_IntClock_ClearModeRegister,"ax",%progbits
+ 597              		.align	2
+ 598              		.global	Telit_UART_IntClock_ClearModeRegister
+ 599              		.thumb
+ 600              		.thumb_func
+ 601              		.type	Telit_UART_IntClock_ClearModeRegister, %function
+ 602              	Telit_UART_IntClock_ClearModeRegister:
+ 603              	.LFB7:
+ 336:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** 
+ 337:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** 
+ 338:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** /*******************************************************************************
+ 339:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** * Function Name: Telit_UART_IntClock_ClearModeRegister
+ 340:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** ********************************************************************************
+ 341:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** *
+ 342:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** * Summary:
+ 343:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** *  Clears flags that control the operating mode of the clock. This function
+ 344:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** *  only changes flags from 1 to 0; flags that are already 0 will remain
+ 345:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** *  unchanged. To set flags, use the SetModeRegister function. The clock must be
+ 346:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** *  disabled before changing the mode.
+ 347:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** *
+ 348:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** * Parameters:
+ 349:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** *  clkMode: Bit mask containing the bits to clear. For PSoC 3 and PSoC 5,
+ 350:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** *   clkMode should be a set of the following optional bits or'ed together.
+ 351:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** *   - CYCLK_EARLY Enable early phase mode. Rising edge of output clock will
+ 352:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** *                 occur when the divider count reaches half of the divide
+ 353:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** *                 value.
+ 354:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** *   - CYCLK_DUTY  Enable 50% duty cycle output. When enabled, the output clock
+ 355:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** *                 is asserted for approximately half of its period. When
+ 356:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** *                 disabled, the output clock is asserted for one period of the
+ 357:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** *                 source clock.
+ 358:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** *   - CYCLK_SYNC  Enable output synchronization to master clock. This should
+ 359:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** *                 be enabled for all synchronous clocks.
+ 360:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** *   See the Technical Reference Manual for details about setting the mode of
+ 361:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** *   the clock. Specifically, see the CLKDIST.DCFG.CFG2 register.
+ 362:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** *
+ 363:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** * Returns:
+ 364:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** *  None
+ARM GAS  C:\Users\BRANKO~1\AppData\Local\Temp\cca7ntJa.s 			page 18
+
+
+ 365:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** *
+ 366:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** *******************************************************************************/
+ 367:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** void Telit_UART_IntClock_ClearModeRegister(uint8 modeBitMask) 
+ 368:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** {
+ 604              		.loc 1 368 0
+ 605              		.cfi_startproc
+ 606              		@ args = 0, pretend = 0, frame = 8
+ 607              		@ frame_needed = 1, uses_anonymous_args = 0
+ 608              		@ link register save eliminated.
+ 609 0000 80B4     		push	{r7}
+ 610              		.cfi_def_cfa_offset 4
+ 611              		.cfi_offset 7, -4
+ 612 0002 83B0     		sub	sp, sp, #12
+ 613              		.cfi_def_cfa_offset 16
+ 614 0004 00AF     		add	r7, sp, #0
+ 615              		.cfi_def_cfa_register 7
+ 616 0006 0346     		mov	r3, r0
+ 617 0008 FB71     		strb	r3, [r7, #7]
+ 369:.\Generated_Source\PSoC5/Telit_UART_IntClock.c ****     Telit_UART_IntClock_MOD_SRC &= (uint8)(~modeBitMask) | (uint8)(~(uint8)(Telit_UART_IntClock_MOD
+ 618              		.loc 1 369 0
+ 619 000a 094B     		ldr	r3, .L40
+ 620 000c 084A     		ldr	r2, .L40
+ 621 000e 1278     		ldrb	r2, [r2]
+ 622 0010 D1B2     		uxtb	r1, r2
+ 623 0012 FA79     		ldrb	r2, [r7, #7]
+ 624 0014 D243     		mvns	r2, r2
+ 625 0016 D2B2     		uxtb	r2, r2
+ 626 0018 42F00702 		orr	r2, r2, #7
+ 627 001c D2B2     		uxtb	r2, r2
+ 628 001e 0A40     		ands	r2, r2, r1
+ 629 0020 D2B2     		uxtb	r2, r2
+ 630 0022 1A70     		strb	r2, [r3]
+ 370:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** }
+ 631              		.loc 1 370 0
+ 632 0024 0C37     		adds	r7, r7, #12
+ 633 0026 BD46     		mov	sp, r7
+ 634              		@ sp needed
+ 635 0028 5DF8047B 		ldr	r7, [sp], #4
+ 636 002c 7047     		bx	lr
+ 637              	.L41:
+ 638 002e 00BF     		.align	2
+ 639              	.L40:
+ 640 0030 82400040 		.word	1073758338
+ 641              		.cfi_endproc
+ 642              	.LFE7:
+ 643              		.size	Telit_UART_IntClock_ClearModeRegister, .-Telit_UART_IntClock_ClearModeRegister
+ 644              		.section	.text.Telit_UART_IntClock_GetModeRegister,"ax",%progbits
+ 645              		.align	2
+ 646              		.global	Telit_UART_IntClock_GetModeRegister
+ 647              		.thumb
+ 648              		.thumb_func
+ 649              		.type	Telit_UART_IntClock_GetModeRegister, %function
+ 650              	Telit_UART_IntClock_GetModeRegister:
+ 651              	.LFB8:
+ 371:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** 
+ 372:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** 
+ 373:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** /*******************************************************************************
+ARM GAS  C:\Users\BRANKO~1\AppData\Local\Temp\cca7ntJa.s 			page 19
+
+
+ 374:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** * Function Name: Telit_UART_IntClock_GetModeRegister
+ 375:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** ********************************************************************************
+ 376:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** *
+ 377:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** * Summary:
+ 378:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** *  Gets the clock mode register value.
+ 379:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** *
+ 380:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** * Parameters:
+ 381:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** *  None
+ 382:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** *
+ 383:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** * Returns:
+ 384:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** *  Bit mask representing the enabled mode bits. See the SetModeRegister and
+ 385:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** *  ClearModeRegister descriptions for details about the mode bits.
+ 386:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** *
+ 387:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** *******************************************************************************/
+ 388:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** uint8 Telit_UART_IntClock_GetModeRegister(void) 
+ 389:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** {
+ 652              		.loc 1 389 0
+ 653              		.cfi_startproc
+ 654              		@ args = 0, pretend = 0, frame = 0
+ 655              		@ frame_needed = 1, uses_anonymous_args = 0
+ 656              		@ link register save eliminated.
+ 657 0000 80B4     		push	{r7}
+ 658              		.cfi_def_cfa_offset 4
+ 659              		.cfi_offset 7, -4
+ 660 0002 00AF     		add	r7, sp, #0
+ 661              		.cfi_def_cfa_register 7
+ 390:.\Generated_Source\PSoC5/Telit_UART_IntClock.c ****     return Telit_UART_IntClock_MOD_SRC & (uint8)(Telit_UART_IntClock_MODE_MASK);
+ 662              		.loc 1 390 0
+ 663 0004 054B     		ldr	r3, .L44
+ 664 0006 1B78     		ldrb	r3, [r3]
+ 665 0008 DBB2     		uxtb	r3, r3
+ 666 000a 23F00703 		bic	r3, r3, #7
+ 667 000e DBB2     		uxtb	r3, r3
+ 391:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** }
+ 668              		.loc 1 391 0
+ 669 0010 1846     		mov	r0, r3
+ 670 0012 BD46     		mov	sp, r7
+ 671              		@ sp needed
+ 672 0014 5DF8047B 		ldr	r7, [sp], #4
+ 673 0018 7047     		bx	lr
+ 674              	.L45:
+ 675 001a 00BF     		.align	2
+ 676              	.L44:
+ 677 001c 82400040 		.word	1073758338
+ 678              		.cfi_endproc
+ 679              	.LFE8:
+ 680              		.size	Telit_UART_IntClock_GetModeRegister, .-Telit_UART_IntClock_GetModeRegister
+ 681              		.section	.text.Telit_UART_IntClock_SetSourceRegister,"ax",%progbits
+ 682              		.align	2
+ 683              		.global	Telit_UART_IntClock_SetSourceRegister
+ 684              		.thumb
+ 685              		.thumb_func
+ 686              		.type	Telit_UART_IntClock_SetSourceRegister, %function
+ 687              	Telit_UART_IntClock_SetSourceRegister:
+ 688              	.LFB9:
+ 392:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** 
+ 393:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** 
+ARM GAS  C:\Users\BRANKO~1\AppData\Local\Temp\cca7ntJa.s 			page 20
+
+
+ 394:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** /*******************************************************************************
+ 395:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** * Function Name: Telit_UART_IntClock_SetSourceRegister
+ 396:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** ********************************************************************************
+ 397:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** *
+ 398:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** * Summary:
+ 399:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** *  Sets the input source of the clock. The clock must be disabled before
+ 400:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** *  changing the source. The old and new clock sources must be running.
+ 401:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** *
+ 402:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** * Parameters:
+ 403:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** *  clkSource:  For PSoC 3 and PSoC 5 devices, clkSource should be one of the
+ 404:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** *   following input sources:
+ 405:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** *   - CYCLK_SRC_SEL_SYNC_DIG
+ 406:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** *   - CYCLK_SRC_SEL_IMO
+ 407:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** *   - CYCLK_SRC_SEL_XTALM
+ 408:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** *   - CYCLK_SRC_SEL_ILO
+ 409:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** *   - CYCLK_SRC_SEL_PLL
+ 410:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** *   - CYCLK_SRC_SEL_XTALK
+ 411:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** *   - CYCLK_SRC_SEL_DSI_G
+ 412:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** *   - CYCLK_SRC_SEL_DSI_D/CYCLK_SRC_SEL_DSI_A
+ 413:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** *   See the Technical Reference Manual for details on clock sources.
+ 414:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** *
+ 415:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** * Returns:
+ 416:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** *  None
+ 417:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** *
+ 418:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** *******************************************************************************/
+ 419:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** void Telit_UART_IntClock_SetSourceRegister(uint8 clkSource) 
+ 420:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** {
+ 689              		.loc 1 420 0
+ 690              		.cfi_startproc
+ 691              		@ args = 0, pretend = 0, frame = 16
+ 692              		@ frame_needed = 1, uses_anonymous_args = 0
+ 693 0000 80B5     		push	{r7, lr}
+ 694              		.cfi_def_cfa_offset 8
+ 695              		.cfi_offset 7, -8
+ 696              		.cfi_offset 14, -4
+ 697 0002 84B0     		sub	sp, sp, #16
+ 698              		.cfi_def_cfa_offset 24
+ 699 0004 00AF     		add	r7, sp, #0
+ 700              		.cfi_def_cfa_register 7
+ 701 0006 0346     		mov	r3, r0
+ 702 0008 FB71     		strb	r3, [r7, #7]
+ 421:.\Generated_Source\PSoC5/Telit_UART_IntClock.c ****     uint16 currDiv = Telit_UART_IntClock_GetDividerRegister();
+ 703              		.loc 1 421 0
+ 704 000a FFF7FEFF 		bl	Telit_UART_IntClock_GetDividerRegister
+ 705 000e 0346     		mov	r3, r0
+ 706 0010 FB81     		strh	r3, [r7, #14]	@ movhi
+ 422:.\Generated_Source\PSoC5/Telit_UART_IntClock.c ****     uint8 oldSrc = Telit_UART_IntClock_GetSourceRegister();
+ 707              		.loc 1 422 0
+ 708 0012 FFF7FEFF 		bl	Telit_UART_IntClock_GetSourceRegister
+ 709 0016 0346     		mov	r3, r0
+ 710 0018 7B73     		strb	r3, [r7, #13]
+ 423:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** 
+ 424:.\Generated_Source\PSoC5/Telit_UART_IntClock.c ****     if (((oldSrc != ((uint8)CYCLK_SRC_SEL_CLK_SYNC_D)) && 
+ 711              		.loc 1 424 0
+ 712 001a 7B7B     		ldrb	r3, [r7, #13]	@ zero_extendqisi2
+ 713 001c 002B     		cmp	r3, #0
+ 714 001e 1BD0     		beq	.L47
+ARM GAS  C:\Users\BRANKO~1\AppData\Local\Temp\cca7ntJa.s 			page 21
+
+
+ 715              		.loc 1 424 0 is_stmt 0 discriminator 1
+ 716 0020 FB79     		ldrb	r3, [r7, #7]	@ zero_extendqisi2
+ 717 0022 002B     		cmp	r3, #0
+ 718 0024 18D1     		bne	.L47
+ 425:.\Generated_Source\PSoC5/Telit_UART_IntClock.c ****         (clkSource == ((uint8)CYCLK_SRC_SEL_CLK_SYNC_D))) && (currDiv == 0u))
+ 719              		.loc 1 425 0 is_stmt 1
+ 720 0026 FB89     		ldrh	r3, [r7, #14]
+ 721 0028 002B     		cmp	r3, #0
+ 722 002a 15D1     		bne	.L47
+ 426:.\Generated_Source\PSoC5/Telit_UART_IntClock.c ****     {
+ 427:.\Generated_Source\PSoC5/Telit_UART_IntClock.c ****         /* Switching to Master and divider is 1, set SSS, which will output master, */
+ 428:.\Generated_Source\PSoC5/Telit_UART_IntClock.c ****         /* then set the source so we are consistent.                                */
+ 429:.\Generated_Source\PSoC5/Telit_UART_IntClock.c ****         Telit_UART_IntClock_MOD_SRC |= CYCLK_SSS;
+ 723              		.loc 1 429 0
+ 724 002c 224B     		ldr	r3, .L50
+ 725 002e 224A     		ldr	r2, .L50
+ 726 0030 1278     		ldrb	r2, [r2]
+ 727 0032 D2B2     		uxtb	r2, r2
+ 728 0034 42F04002 		orr	r2, r2, #64
+ 729 0038 D2B2     		uxtb	r2, r2
+ 730 003a 1A70     		strb	r2, [r3]
+ 430:.\Generated_Source\PSoC5/Telit_UART_IntClock.c ****         Telit_UART_IntClock_MOD_SRC =
+ 731              		.loc 1 430 0
+ 732 003c 1E4B     		ldr	r3, .L50
+ 431:.\Generated_Source\PSoC5/Telit_UART_IntClock.c ****             (Telit_UART_IntClock_MOD_SRC & (uint8)(~Telit_UART_IntClock_SRC_SEL_MSK)) | clkSource;
+ 733              		.loc 1 431 0
+ 734 003e 1E4A     		ldr	r2, .L50
+ 735 0040 1278     		ldrb	r2, [r2]
+ 736 0042 D2B2     		uxtb	r2, r2
+ 430:.\Generated_Source\PSoC5/Telit_UART_IntClock.c ****         Telit_UART_IntClock_MOD_SRC =
+ 737              		.loc 1 430 0
+ 738 0044 D2B2     		uxtb	r2, r2
+ 739 0046 22F00702 		bic	r2, r2, #7
+ 740 004a D1B2     		uxtb	r1, r2
+ 741 004c FA79     		ldrb	r2, [r7, #7]	@ zero_extendqisi2
+ 742 004e 0A43     		orrs	r2, r2, r1
+ 743 0050 D2B2     		uxtb	r2, r2
+ 744 0052 D2B2     		uxtb	r2, r2
+ 745 0054 1A70     		strb	r2, [r3]
+ 746 0056 2BE0     		b	.L46
+ 747              	.L47:
+ 432:.\Generated_Source\PSoC5/Telit_UART_IntClock.c ****     }
+ 433:.\Generated_Source\PSoC5/Telit_UART_IntClock.c ****     else if (((oldSrc == ((uint8)CYCLK_SRC_SEL_CLK_SYNC_D)) && 
+ 748              		.loc 1 433 0
+ 749 0058 7B7B     		ldrb	r3, [r7, #13]	@ zero_extendqisi2
+ 750 005a 002B     		cmp	r3, #0
+ 751 005c 1BD1     		bne	.L49
+ 752              		.loc 1 433 0 is_stmt 0 discriminator 1
+ 753 005e FB79     		ldrb	r3, [r7, #7]	@ zero_extendqisi2
+ 754 0060 002B     		cmp	r3, #0
+ 755 0062 18D0     		beq	.L49
+ 434:.\Generated_Source\PSoC5/Telit_UART_IntClock.c ****             (clkSource != ((uint8)CYCLK_SRC_SEL_CLK_SYNC_D))) && (currDiv == 0u))
+ 756              		.loc 1 434 0 is_stmt 1
+ 757 0064 FB89     		ldrh	r3, [r7, #14]
+ 758 0066 002B     		cmp	r3, #0
+ 759 0068 15D1     		bne	.L49
+ 435:.\Generated_Source\PSoC5/Telit_UART_IntClock.c ****     {
+ARM GAS  C:\Users\BRANKO~1\AppData\Local\Temp\cca7ntJa.s 			page 22
+
+
+ 436:.\Generated_Source\PSoC5/Telit_UART_IntClock.c ****         /* Switching from Master to not and divider is 1, set source, so we don't   */
+ 437:.\Generated_Source\PSoC5/Telit_UART_IntClock.c ****         /* lock when we clear SSS.                                                  */
+ 438:.\Generated_Source\PSoC5/Telit_UART_IntClock.c ****         Telit_UART_IntClock_MOD_SRC =
+ 760              		.loc 1 438 0
+ 761 006a 134B     		ldr	r3, .L50
+ 439:.\Generated_Source\PSoC5/Telit_UART_IntClock.c ****             (Telit_UART_IntClock_MOD_SRC & (uint8)(~Telit_UART_IntClock_SRC_SEL_MSK)) | clkSource;
+ 762              		.loc 1 439 0
+ 763 006c 124A     		ldr	r2, .L50
+ 764 006e 1278     		ldrb	r2, [r2]
+ 765 0070 D2B2     		uxtb	r2, r2
+ 438:.\Generated_Source\PSoC5/Telit_UART_IntClock.c ****         Telit_UART_IntClock_MOD_SRC =
+ 766              		.loc 1 438 0
+ 767 0072 D2B2     		uxtb	r2, r2
+ 768 0074 22F00702 		bic	r2, r2, #7
+ 769 0078 D1B2     		uxtb	r1, r2
+ 770 007a FA79     		ldrb	r2, [r7, #7]	@ zero_extendqisi2
+ 771 007c 0A43     		orrs	r2, r2, r1
+ 772 007e D2B2     		uxtb	r2, r2
+ 773 0080 D2B2     		uxtb	r2, r2
+ 774 0082 1A70     		strb	r2, [r3]
+ 440:.\Generated_Source\PSoC5/Telit_UART_IntClock.c ****         Telit_UART_IntClock_MOD_SRC &= (uint8)(~CYCLK_SSS);
+ 775              		.loc 1 440 0
+ 776 0084 0C4B     		ldr	r3, .L50
+ 777 0086 0C4A     		ldr	r2, .L50
+ 778 0088 1278     		ldrb	r2, [r2]
+ 779 008a D2B2     		uxtb	r2, r2
+ 780 008c 22F04002 		bic	r2, r2, #64
+ 781 0090 D2B2     		uxtb	r2, r2
+ 782 0092 1A70     		strb	r2, [r3]
+ 783 0094 0CE0     		b	.L46
+ 784              	.L49:
+ 441:.\Generated_Source\PSoC5/Telit_UART_IntClock.c ****     }
+ 442:.\Generated_Source\PSoC5/Telit_UART_IntClock.c ****     else
+ 443:.\Generated_Source\PSoC5/Telit_UART_IntClock.c ****     {
+ 444:.\Generated_Source\PSoC5/Telit_UART_IntClock.c ****         Telit_UART_IntClock_MOD_SRC =
+ 785              		.loc 1 444 0
+ 786 0096 084B     		ldr	r3, .L50
+ 445:.\Generated_Source\PSoC5/Telit_UART_IntClock.c ****             (Telit_UART_IntClock_MOD_SRC & (uint8)(~Telit_UART_IntClock_SRC_SEL_MSK)) | clkSource;
+ 787              		.loc 1 445 0
+ 788 0098 074A     		ldr	r2, .L50
+ 789 009a 1278     		ldrb	r2, [r2]
+ 790 009c D2B2     		uxtb	r2, r2
+ 444:.\Generated_Source\PSoC5/Telit_UART_IntClock.c ****         Telit_UART_IntClock_MOD_SRC =
+ 791              		.loc 1 444 0
+ 792 009e D2B2     		uxtb	r2, r2
+ 793 00a0 22F00702 		bic	r2, r2, #7
+ 794 00a4 D1B2     		uxtb	r1, r2
+ 795 00a6 FA79     		ldrb	r2, [r7, #7]	@ zero_extendqisi2
+ 796 00a8 0A43     		orrs	r2, r2, r1
+ 797 00aa D2B2     		uxtb	r2, r2
+ 798 00ac D2B2     		uxtb	r2, r2
+ 799 00ae 1A70     		strb	r2, [r3]
+ 800              	.L46:
+ 446:.\Generated_Source\PSoC5/Telit_UART_IntClock.c ****     }
+ 447:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** }
+ 801              		.loc 1 447 0
+ 802 00b0 1037     		adds	r7, r7, #16
+ARM GAS  C:\Users\BRANKO~1\AppData\Local\Temp\cca7ntJa.s 			page 23
+
+
+ 803 00b2 BD46     		mov	sp, r7
+ 804              		@ sp needed
+ 805 00b4 80BD     		pop	{r7, pc}
+ 806              	.L51:
+ 807 00b6 00BF     		.align	2
+ 808              	.L50:
+ 809 00b8 82400040 		.word	1073758338
+ 810              		.cfi_endproc
+ 811              	.LFE9:
+ 812              		.size	Telit_UART_IntClock_SetSourceRegister, .-Telit_UART_IntClock_SetSourceRegister
+ 813              		.section	.text.Telit_UART_IntClock_GetSourceRegister,"ax",%progbits
+ 814              		.align	2
+ 815              		.global	Telit_UART_IntClock_GetSourceRegister
+ 816              		.thumb
+ 817              		.thumb_func
+ 818              		.type	Telit_UART_IntClock_GetSourceRegister, %function
+ 819              	Telit_UART_IntClock_GetSourceRegister:
+ 820              	.LFB10:
+ 448:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** 
+ 449:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** 
+ 450:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** /*******************************************************************************
+ 451:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** * Function Name: Telit_UART_IntClock_GetSourceRegister
+ 452:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** ********************************************************************************
+ 453:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** *
+ 454:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** * Summary:
+ 455:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** *  Gets the input source of the clock.
+ 456:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** *
+ 457:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** * Parameters:
+ 458:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** *  None
+ 459:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** *
+ 460:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** * Returns:
+ 461:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** *  The input source of the clock. See SetSourceRegister for details.
+ 462:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** *
+ 463:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** *******************************************************************************/
+ 464:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** uint8 Telit_UART_IntClock_GetSourceRegister(void) 
+ 465:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** {
+ 821              		.loc 1 465 0
+ 822              		.cfi_startproc
+ 823              		@ args = 0, pretend = 0, frame = 0
+ 824              		@ frame_needed = 1, uses_anonymous_args = 0
+ 825              		@ link register save eliminated.
+ 826 0000 80B4     		push	{r7}
+ 827              		.cfi_def_cfa_offset 4
+ 828              		.cfi_offset 7, -4
+ 829 0002 00AF     		add	r7, sp, #0
+ 830              		.cfi_def_cfa_register 7
+ 466:.\Generated_Source\PSoC5/Telit_UART_IntClock.c ****     return Telit_UART_IntClock_MOD_SRC & Telit_UART_IntClock_SRC_SEL_MSK;
+ 831              		.loc 1 466 0
+ 832 0004 054B     		ldr	r3, .L54
+ 833 0006 1B78     		ldrb	r3, [r3]
+ 834 0008 DBB2     		uxtb	r3, r3
+ 835 000a 03F00703 		and	r3, r3, #7
+ 836 000e DBB2     		uxtb	r3, r3
+ 467:.\Generated_Source\PSoC5/Telit_UART_IntClock.c **** }
+ 837              		.loc 1 467 0
+ 838 0010 1846     		mov	r0, r3
+ 839 0012 BD46     		mov	sp, r7
+ARM GAS  C:\Users\BRANKO~1\AppData\Local\Temp\cca7ntJa.s 			page 24
+
+
+ 840              		@ sp needed
+ 841 0014 5DF8047B 		ldr	r7, [sp], #4
+ 842 0018 7047     		bx	lr
+ 843              	.L55:
+ 844 001a 00BF     		.align	2
+ 845              	.L54:
+ 846 001c 82400040 		.word	1073758338
+ 847              		.cfi_endproc
+ 848              	.LFE10:
+ 849              		.size	Telit_UART_IntClock_GetSourceRegister, .-Telit_UART_IntClock_GetSourceRegister
+ 850              		.text
+ 851              	.Letext0:
+ 852              		.file 2 ".\\Generated_Source\\PSoC5/cytypes.h"
+ 853              		.section	.debug_info,"",%progbits
+ 854              	.Ldebug_info0:
+ 855 0000 57020000 		.4byte	0x257
+ 856 0004 0400     		.2byte	0x4
+ 857 0006 00000000 		.4byte	.Ldebug_abbrev0
+ 858 000a 04       		.byte	0x4
+ 859 000b 01       		.uleb128 0x1
+ 860 000c 7B000000 		.4byte	.LASF37
+ 861 0010 01       		.byte	0x1
+ 862 0011 5F010000 		.4byte	.LASF38
+ 863 0015 72020000 		.4byte	.LASF39
+ 864 0019 00000000 		.4byte	.Ldebug_ranges0+0
+ 865 001d 00000000 		.4byte	0
+ 866 0021 00000000 		.4byte	.Ldebug_line0
+ 867 0025 02       		.uleb128 0x2
+ 868 0026 01       		.byte	0x1
+ 869 0027 06       		.byte	0x6
+ 870 0028 AE010000 		.4byte	.LASF0
+ 871 002c 02       		.uleb128 0x2
+ 872 002d 01       		.byte	0x1
+ 873 002e 08       		.byte	0x8
+ 874 002f 94010000 		.4byte	.LASF1
+ 875 0033 02       		.uleb128 0x2
+ 876 0034 02       		.byte	0x2
+ 877 0035 05       		.byte	0x5
+ 878 0036 0E000000 		.4byte	.LASF2
+ 879 003a 02       		.uleb128 0x2
+ 880 003b 02       		.byte	0x2
+ 881 003c 07       		.byte	0x7
+ 882 003d FC010000 		.4byte	.LASF3
+ 883 0041 02       		.uleb128 0x2
+ 884 0042 04       		.byte	0x4
+ 885 0043 05       		.byte	0x5
+ 886 0044 32010000 		.4byte	.LASF4
+ 887 0048 02       		.uleb128 0x2
+ 888 0049 04       		.byte	0x4
+ 889 004a 07       		.byte	0x7
+ 890 004b 9C020000 		.4byte	.LASF5
+ 891 004f 02       		.uleb128 0x2
+ 892 0050 08       		.byte	0x8
+ 893 0051 05       		.byte	0x5
+ 894 0052 24010000 		.4byte	.LASF6
+ 895 0056 02       		.uleb128 0x2
+ 896 0057 08       		.byte	0x8
+ARM GAS  C:\Users\BRANKO~1\AppData\Local\Temp\cca7ntJa.s 			page 25
+
+
+ 897 0058 07       		.byte	0x7
+ 898 0059 BA010000 		.4byte	.LASF7
+ 899 005d 03       		.uleb128 0x3
+ 900 005e 04       		.byte	0x4
+ 901 005f 05       		.byte	0x5
+ 902 0060 696E7400 		.ascii	"int\000"
+ 903 0064 02       		.uleb128 0x2
+ 904 0065 04       		.byte	0x4
+ 905 0066 07       		.byte	0x7
+ 906 0067 D1010000 		.4byte	.LASF8
+ 907 006b 04       		.uleb128 0x4
+ 908 006c 0D010000 		.4byte	.LASF9
+ 909 0070 02       		.byte	0x2
+ 910 0071 A1       		.byte	0xa1
+ 911 0072 2C000000 		.4byte	0x2c
+ 912 0076 04       		.uleb128 0x4
+ 913 0077 F7000000 		.4byte	.LASF10
+ 914 007b 02       		.byte	0x2
+ 915 007c A2       		.byte	0xa2
+ 916 007d 3A000000 		.4byte	0x3a
+ 917 0081 02       		.uleb128 0x2
+ 918 0082 04       		.byte	0x4
+ 919 0083 04       		.byte	0x4
+ 920 0084 1E010000 		.4byte	.LASF11
+ 921 0088 02       		.uleb128 0x2
+ 922 0089 08       		.byte	0x8
+ 923 008a 04       		.byte	0x4
+ 924 008b AE020000 		.4byte	.LASF12
+ 925 008f 02       		.uleb128 0x2
+ 926 0090 01       		.byte	0x1
+ 927 0091 08       		.byte	0x8
+ 928 0092 50020000 		.4byte	.LASF13
+ 929 0096 05       		.uleb128 0x5
+ 930 0097 97020000 		.4byte	.LASF14
+ 931 009b 02       		.byte	0x2
+ 932 009c 4B01     		.2byte	0x14b
+ 933 009e A2000000 		.4byte	0xa2
+ 934 00a2 06       		.uleb128 0x6
+ 935 00a3 6B000000 		.4byte	0x6b
+ 936 00a7 05       		.uleb128 0x5
+ 937 00a8 08000000 		.4byte	.LASF15
+ 938 00ac 02       		.byte	0x2
+ 939 00ad 4C01     		.2byte	0x14c
+ 940 00af B3000000 		.4byte	0xb3
+ 941 00b3 06       		.uleb128 0x6
+ 942 00b4 76000000 		.4byte	0x76
+ 943 00b8 07       		.uleb128 0x7
+ 944 00b9 36020000 		.4byte	.LASF16
+ 945 00bd 01       		.byte	0x1
+ 946 00be 2D       		.byte	0x2d
+ 947 00bf 00000000 		.4byte	.LFB0
+ 948 00c3 34000000 		.4byte	.LFE0-.LFB0
+ 949 00c7 01       		.uleb128 0x1
+ 950 00c8 9C       		.byte	0x9c
+ 951 00c9 07       		.uleb128 0x7
+ 952 00ca 18000000 		.4byte	.LASF17
+ 953 00ce 01       		.byte	0x1
+ARM GAS  C:\Users\BRANKO~1\AppData\Local\Temp\cca7ntJa.s 			page 26
+
+
+ 954 00cf 47       		.byte	0x47
+ 955 00d0 00000000 		.4byte	.LFB1
+ 956 00d4 34000000 		.4byte	.LFE1-.LFB1
+ 957 00d8 01       		.uleb128 0x1
+ 958 00d9 9C       		.byte	0x9c
+ 959 00da 08       		.uleb128 0x8
+ 960 00db DE010000 		.4byte	.LASF18
+ 961 00df 01       		.byte	0x1
+ 962 00e0 64       		.byte	0x64
+ 963 00e1 00000000 		.4byte	.LFB2
+ 964 00e5 B0000000 		.4byte	.LFE2-.LFB2
+ 965 00e9 01       		.uleb128 0x1
+ 966 00ea 9C       		.byte	0x9c
+ 967 00eb 08010000 		.4byte	0x108
+ 968 00ef 09       		.uleb128 0x9
+ 969 00f0 14000000 		.4byte	.LBB2
+ 970 00f4 70000000 		.4byte	.LBE2-.LBB2
+ 971 00f8 0A       		.uleb128 0xa
+ 972 00f9 67020000 		.4byte	.LASF24
+ 973 00fd 01       		.byte	0x1
+ 974 00fe 69       		.byte	0x69
+ 975 00ff 76000000 		.4byte	0x76
+ 976 0103 02       		.uleb128 0x2
+ 977 0104 91       		.byte	0x91
+ 978 0105 76       		.sleb128 -10
+ 979 0106 00       		.byte	0
+ 980 0107 00       		.byte	0
+ 981 0108 08       		.uleb128 0x8
+ 982 0109 BD020000 		.4byte	.LASF19
+ 983 010d 01       		.byte	0x1
+ 984 010e 9D       		.byte	0x9d
+ 985 010f 00000000 		.4byte	.LFB3
+ 986 0113 40000000 		.4byte	.LFE3-.LFB3
+ 987 0117 01       		.uleb128 0x1
+ 988 0118 9C       		.byte	0x9c
+ 989 0119 2C010000 		.4byte	0x12c
+ 990 011d 0B       		.uleb128 0xb
+ 991 011e 8E010000 		.4byte	.LASF21
+ 992 0122 01       		.byte	0x1
+ 993 0123 9D       		.byte	0x9d
+ 994 0124 6B000000 		.4byte	0x6b
+ 995 0128 02       		.uleb128 0x2
+ 996 0129 91       		.byte	0x91
+ 997 012a 77       		.sleb128 -9
+ 998 012b 00       		.byte	0
+ 999 012c 0C       		.uleb128 0xc
+ 1000 012d 0F020000 		.4byte	.LASF20
+ 1001 0131 01       		.byte	0x1
+ 1002 0132 C1       		.byte	0xc1
+ 1003 0133 00000000 		.4byte	.LFB4
+ 1004 0137 5C010000 		.4byte	.LFE4-.LFB4
+ 1005 013b 01       		.uleb128 0x1
+ 1006 013c 9C       		.byte	0x9c
+ 1007 013d 88010000 		.4byte	0x188
+ 1008 0141 0B       		.uleb128 0xb
+ 1009 0142 13010000 		.4byte	.LASF22
+ 1010 0146 01       		.byte	0x1
+ARM GAS  C:\Users\BRANKO~1\AppData\Local\Temp\cca7ntJa.s 			page 27
+
+
+ 1011 0147 C1       		.byte	0xc1
+ 1012 0148 76000000 		.4byte	0x76
+ 1013 014c 02       		.uleb128 0x2
+ 1014 014d 91       		.byte	0x91
+ 1015 014e 6E       		.sleb128 -18
+ 1016 014f 0B       		.uleb128 0xb
+ 1017 0150 FE000000 		.4byte	.LASF23
+ 1018 0154 01       		.byte	0x1
+ 1019 0155 C1       		.byte	0xc1
+ 1020 0156 6B000000 		.4byte	0x6b
+ 1021 015a 02       		.uleb128 0x2
+ 1022 015b 91       		.byte	0x91
+ 1023 015c 6D       		.sleb128 -19
+ 1024 015d 0A       		.uleb128 0xa
+ 1025 015e B5020000 		.4byte	.LASF25
+ 1026 0162 01       		.byte	0x1
+ 1027 0163 C4       		.byte	0xc4
+ 1028 0164 6B000000 		.4byte	0x6b
+ 1029 0168 02       		.uleb128 0x2
+ 1030 0169 91       		.byte	0x91
+ 1031 016a 73       		.sleb128 -13
+ 1032 016b 0A       		.uleb128 0xa
+ 1033 016c 5F020000 		.4byte	.LASF26
+ 1034 0170 01       		.byte	0x1
+ 1035 0171 C6       		.byte	0xc6
+ 1036 0172 6B000000 		.4byte	0x6b
+ 1037 0176 02       		.uleb128 0x2
+ 1038 0177 91       		.byte	0x91
+ 1039 0178 77       		.sleb128 -9
+ 1040 0179 0A       		.uleb128 0xa
+ 1041 017a 67020000 		.4byte	.LASF24
+ 1042 017e 01       		.byte	0x1
+ 1043 017f C7       		.byte	0xc7
+ 1044 0180 76000000 		.4byte	0x76
+ 1045 0184 02       		.uleb128 0x2
+ 1046 0185 91       		.byte	0x91
+ 1047 0186 74       		.sleb128 -12
+ 1048 0187 00       		.byte	0
+ 1049 0188 0D       		.uleb128 0xd
+ 1050 0189 DE020000 		.4byte	.LASF30
+ 1051 018d 01       		.byte	0x1
+ 1052 018e 2901     		.2byte	0x129
+ 1053 0190 76000000 		.4byte	0x76
+ 1054 0194 00000000 		.4byte	.LFB5
+ 1055 0198 18000000 		.4byte	.LFE5-.LFB5
+ 1056 019c 01       		.uleb128 0x1
+ 1057 019d 9C       		.byte	0x9c
+ 1058 019e 0E       		.uleb128 0xe
+ 1059 019f 3B010000 		.4byte	.LASF27
+ 1060 01a3 01       		.byte	0x1
+ 1061 01a4 4C01     		.2byte	0x14c
+ 1062 01a6 00000000 		.4byte	.LFB6
+ 1063 01aa 34000000 		.4byte	.LFE6-.LFB6
+ 1064 01ae 01       		.uleb128 0x1
+ 1065 01af 9C       		.byte	0x9c
+ 1066 01b0 C4010000 		.4byte	0x1c4
+ 1067 01b4 0F       		.uleb128 0xf
+ARM GAS  C:\Users\BRANKO~1\AppData\Local\Temp\cca7ntJa.s 			page 28
+
+
+ 1068 01b5 A2010000 		.4byte	.LASF28
+ 1069 01b9 01       		.byte	0x1
+ 1070 01ba 4C01     		.2byte	0x14c
+ 1071 01bc 6B000000 		.4byte	0x6b
+ 1072 01c0 02       		.uleb128 0x2
+ 1073 01c1 91       		.byte	0x91
+ 1074 01c2 77       		.sleb128 -9
+ 1075 01c3 00       		.byte	0
+ 1076 01c4 0E       		.uleb128 0xe
+ 1077 01c5 31000000 		.4byte	.LASF29
+ 1078 01c9 01       		.byte	0x1
+ 1079 01ca 6F01     		.2byte	0x16f
+ 1080 01cc 00000000 		.4byte	.LFB7
+ 1081 01d0 34000000 		.4byte	.LFE7-.LFB7
+ 1082 01d4 01       		.uleb128 0x1
+ 1083 01d5 9C       		.byte	0x9c
+ 1084 01d6 EA010000 		.4byte	0x1ea
+ 1085 01da 0F       		.uleb128 0xf
+ 1086 01db A2010000 		.4byte	.LASF28
+ 1087 01df 01       		.byte	0x1
+ 1088 01e0 6F01     		.2byte	0x16f
+ 1089 01e2 6B000000 		.4byte	0x6b
+ 1090 01e6 02       		.uleb128 0x2
+ 1091 01e7 91       		.byte	0x91
+ 1092 01e8 77       		.sleb128 -9
+ 1093 01e9 00       		.byte	0
+ 1094 01ea 0D       		.uleb128 0xd
+ 1095 01eb 57000000 		.4byte	.LASF31
+ 1096 01ef 01       		.byte	0x1
+ 1097 01f0 8401     		.2byte	0x184
+ 1098 01f2 6B000000 		.4byte	0x6b
+ 1099 01f6 00000000 		.4byte	.LFB8
+ 1100 01fa 20000000 		.4byte	.LFE8-.LFB8
+ 1101 01fe 01       		.uleb128 0x1
+ 1102 01ff 9C       		.byte	0x9c
+ 1103 0200 10       		.uleb128 0x10
+ 1104 0201 2B030000 		.4byte	.LASF32
+ 1105 0205 01       		.byte	0x1
+ 1106 0206 A301     		.2byte	0x1a3
+ 1107 0208 00000000 		.4byte	.LFB9
+ 1108 020c BC000000 		.4byte	.LFE9-.LFB9
+ 1109 0210 01       		.uleb128 0x1
+ 1110 0211 9C       		.byte	0x9c
+ 1111 0212 44020000 		.4byte	0x244
+ 1112 0216 0F       		.uleb128 0xf
+ 1113 0217 55020000 		.4byte	.LASF33
+ 1114 021b 01       		.byte	0x1
+ 1115 021c A301     		.2byte	0x1a3
+ 1116 021e 6B000000 		.4byte	0x6b
+ 1117 0222 02       		.uleb128 0x2
+ 1118 0223 91       		.byte	0x91
+ 1119 0224 6F       		.sleb128 -17
+ 1120 0225 11       		.uleb128 0x11
+ 1121 0226 00000000 		.4byte	.LASF34
+ 1122 022a 01       		.byte	0x1
+ 1123 022b A501     		.2byte	0x1a5
+ 1124 022d 76000000 		.4byte	0x76
+ARM GAS  C:\Users\BRANKO~1\AppData\Local\Temp\cca7ntJa.s 			page 29
+
+
+ 1125 0231 02       		.uleb128 0x2
+ 1126 0232 91       		.byte	0x91
+ 1127 0233 76       		.sleb128 -10
+ 1128 0234 11       		.uleb128 0x11
+ 1129 0235 06010000 		.4byte	.LASF35
+ 1130 0239 01       		.byte	0x1
+ 1131 023a A601     		.2byte	0x1a6
+ 1132 023c 6B000000 		.4byte	0x6b
+ 1133 0240 02       		.uleb128 0x2
+ 1134 0241 91       		.byte	0x91
+ 1135 0242 75       		.sleb128 -11
+ 1136 0243 00       		.byte	0
+ 1137 0244 0D       		.uleb128 0xd
+ 1138 0245 05030000 		.4byte	.LASF36
+ 1139 0249 01       		.byte	0x1
+ 1140 024a D001     		.2byte	0x1d0
+ 1141 024c 6B000000 		.4byte	0x6b
+ 1142 0250 00000000 		.4byte	.LFB10
+ 1143 0254 20000000 		.4byte	.LFE10-.LFB10
+ 1144 0258 01       		.uleb128 0x1
+ 1145 0259 9C       		.byte	0x9c
+ 1146 025a 00       		.byte	0
+ 1147              		.section	.debug_abbrev,"",%progbits
+ 1148              	.Ldebug_abbrev0:
+ 1149 0000 01       		.uleb128 0x1
+ 1150 0001 11       		.uleb128 0x11
+ 1151 0002 01       		.byte	0x1
+ 1152 0003 25       		.uleb128 0x25
+ 1153 0004 0E       		.uleb128 0xe
+ 1154 0005 13       		.uleb128 0x13
+ 1155 0006 0B       		.uleb128 0xb
+ 1156 0007 03       		.uleb128 0x3
+ 1157 0008 0E       		.uleb128 0xe
+ 1158 0009 1B       		.uleb128 0x1b
+ 1159 000a 0E       		.uleb128 0xe
+ 1160 000b 55       		.uleb128 0x55
+ 1161 000c 17       		.uleb128 0x17
+ 1162 000d 11       		.uleb128 0x11
+ 1163 000e 01       		.uleb128 0x1
+ 1164 000f 10       		.uleb128 0x10
+ 1165 0010 17       		.uleb128 0x17
+ 1166 0011 00       		.byte	0
+ 1167 0012 00       		.byte	0
+ 1168 0013 02       		.uleb128 0x2
+ 1169 0014 24       		.uleb128 0x24
+ 1170 0015 00       		.byte	0
+ 1171 0016 0B       		.uleb128 0xb
+ 1172 0017 0B       		.uleb128 0xb
+ 1173 0018 3E       		.uleb128 0x3e
+ 1174 0019 0B       		.uleb128 0xb
+ 1175 001a 03       		.uleb128 0x3
+ 1176 001b 0E       		.uleb128 0xe
+ 1177 001c 00       		.byte	0
+ 1178 001d 00       		.byte	0
+ 1179 001e 03       		.uleb128 0x3
+ 1180 001f 24       		.uleb128 0x24
+ 1181 0020 00       		.byte	0
+ARM GAS  C:\Users\BRANKO~1\AppData\Local\Temp\cca7ntJa.s 			page 30
+
+
+ 1182 0021 0B       		.uleb128 0xb
+ 1183 0022 0B       		.uleb128 0xb
+ 1184 0023 3E       		.uleb128 0x3e
+ 1185 0024 0B       		.uleb128 0xb
+ 1186 0025 03       		.uleb128 0x3
+ 1187 0026 08       		.uleb128 0x8
+ 1188 0027 00       		.byte	0
+ 1189 0028 00       		.byte	0
+ 1190 0029 04       		.uleb128 0x4
+ 1191 002a 16       		.uleb128 0x16
+ 1192 002b 00       		.byte	0
+ 1193 002c 03       		.uleb128 0x3
+ 1194 002d 0E       		.uleb128 0xe
+ 1195 002e 3A       		.uleb128 0x3a
+ 1196 002f 0B       		.uleb128 0xb
+ 1197 0030 3B       		.uleb128 0x3b
+ 1198 0031 0B       		.uleb128 0xb
+ 1199 0032 49       		.uleb128 0x49
+ 1200 0033 13       		.uleb128 0x13
+ 1201 0034 00       		.byte	0
+ 1202 0035 00       		.byte	0
+ 1203 0036 05       		.uleb128 0x5
+ 1204 0037 16       		.uleb128 0x16
+ 1205 0038 00       		.byte	0
+ 1206 0039 03       		.uleb128 0x3
+ 1207 003a 0E       		.uleb128 0xe
+ 1208 003b 3A       		.uleb128 0x3a
+ 1209 003c 0B       		.uleb128 0xb
+ 1210 003d 3B       		.uleb128 0x3b
+ 1211 003e 05       		.uleb128 0x5
+ 1212 003f 49       		.uleb128 0x49
+ 1213 0040 13       		.uleb128 0x13
+ 1214 0041 00       		.byte	0
+ 1215 0042 00       		.byte	0
+ 1216 0043 06       		.uleb128 0x6
+ 1217 0044 35       		.uleb128 0x35
+ 1218 0045 00       		.byte	0
+ 1219 0046 49       		.uleb128 0x49
+ 1220 0047 13       		.uleb128 0x13
+ 1221 0048 00       		.byte	0
+ 1222 0049 00       		.byte	0
+ 1223 004a 07       		.uleb128 0x7
+ 1224 004b 2E       		.uleb128 0x2e
+ 1225 004c 00       		.byte	0
+ 1226 004d 3F       		.uleb128 0x3f
+ 1227 004e 19       		.uleb128 0x19
+ 1228 004f 03       		.uleb128 0x3
+ 1229 0050 0E       		.uleb128 0xe
+ 1230 0051 3A       		.uleb128 0x3a
+ 1231 0052 0B       		.uleb128 0xb
+ 1232 0053 3B       		.uleb128 0x3b
+ 1233 0054 0B       		.uleb128 0xb
+ 1234 0055 27       		.uleb128 0x27
+ 1235 0056 19       		.uleb128 0x19
+ 1236 0057 11       		.uleb128 0x11
+ 1237 0058 01       		.uleb128 0x1
+ 1238 0059 12       		.uleb128 0x12
+ARM GAS  C:\Users\BRANKO~1\AppData\Local\Temp\cca7ntJa.s 			page 31
+
+
+ 1239 005a 06       		.uleb128 0x6
+ 1240 005b 40       		.uleb128 0x40
+ 1241 005c 18       		.uleb128 0x18
+ 1242 005d 9742     		.uleb128 0x2117
+ 1243 005f 19       		.uleb128 0x19
+ 1244 0060 00       		.byte	0
+ 1245 0061 00       		.byte	0
+ 1246 0062 08       		.uleb128 0x8
+ 1247 0063 2E       		.uleb128 0x2e
+ 1248 0064 01       		.byte	0x1
+ 1249 0065 3F       		.uleb128 0x3f
+ 1250 0066 19       		.uleb128 0x19
+ 1251 0067 03       		.uleb128 0x3
+ 1252 0068 0E       		.uleb128 0xe
+ 1253 0069 3A       		.uleb128 0x3a
+ 1254 006a 0B       		.uleb128 0xb
+ 1255 006b 3B       		.uleb128 0x3b
+ 1256 006c 0B       		.uleb128 0xb
+ 1257 006d 27       		.uleb128 0x27
+ 1258 006e 19       		.uleb128 0x19
+ 1259 006f 11       		.uleb128 0x11
+ 1260 0070 01       		.uleb128 0x1
+ 1261 0071 12       		.uleb128 0x12
+ 1262 0072 06       		.uleb128 0x6
+ 1263 0073 40       		.uleb128 0x40
+ 1264 0074 18       		.uleb128 0x18
+ 1265 0075 9742     		.uleb128 0x2117
+ 1266 0077 19       		.uleb128 0x19
+ 1267 0078 01       		.uleb128 0x1
+ 1268 0079 13       		.uleb128 0x13
+ 1269 007a 00       		.byte	0
+ 1270 007b 00       		.byte	0
+ 1271 007c 09       		.uleb128 0x9
+ 1272 007d 0B       		.uleb128 0xb
+ 1273 007e 01       		.byte	0x1
+ 1274 007f 11       		.uleb128 0x11
+ 1275 0080 01       		.uleb128 0x1
+ 1276 0081 12       		.uleb128 0x12
+ 1277 0082 06       		.uleb128 0x6
+ 1278 0083 00       		.byte	0
+ 1279 0084 00       		.byte	0
+ 1280 0085 0A       		.uleb128 0xa
+ 1281 0086 34       		.uleb128 0x34
+ 1282 0087 00       		.byte	0
+ 1283 0088 03       		.uleb128 0x3
+ 1284 0089 0E       		.uleb128 0xe
+ 1285 008a 3A       		.uleb128 0x3a
+ 1286 008b 0B       		.uleb128 0xb
+ 1287 008c 3B       		.uleb128 0x3b
+ 1288 008d 0B       		.uleb128 0xb
+ 1289 008e 49       		.uleb128 0x49
+ 1290 008f 13       		.uleb128 0x13
+ 1291 0090 02       		.uleb128 0x2
+ 1292 0091 18       		.uleb128 0x18
+ 1293 0092 00       		.byte	0
+ 1294 0093 00       		.byte	0
+ 1295 0094 0B       		.uleb128 0xb
+ARM GAS  C:\Users\BRANKO~1\AppData\Local\Temp\cca7ntJa.s 			page 32
+
+
+ 1296 0095 05       		.uleb128 0x5
+ 1297 0096 00       		.byte	0
+ 1298 0097 03       		.uleb128 0x3
+ 1299 0098 0E       		.uleb128 0xe
+ 1300 0099 3A       		.uleb128 0x3a
+ 1301 009a 0B       		.uleb128 0xb
+ 1302 009b 3B       		.uleb128 0x3b
+ 1303 009c 0B       		.uleb128 0xb
+ 1304 009d 49       		.uleb128 0x49
+ 1305 009e 13       		.uleb128 0x13
+ 1306 009f 02       		.uleb128 0x2
+ 1307 00a0 18       		.uleb128 0x18
+ 1308 00a1 00       		.byte	0
+ 1309 00a2 00       		.byte	0
+ 1310 00a3 0C       		.uleb128 0xc
+ 1311 00a4 2E       		.uleb128 0x2e
+ 1312 00a5 01       		.byte	0x1
+ 1313 00a6 3F       		.uleb128 0x3f
+ 1314 00a7 19       		.uleb128 0x19
+ 1315 00a8 03       		.uleb128 0x3
+ 1316 00a9 0E       		.uleb128 0xe
+ 1317 00aa 3A       		.uleb128 0x3a
+ 1318 00ab 0B       		.uleb128 0xb
+ 1319 00ac 3B       		.uleb128 0x3b
+ 1320 00ad 0B       		.uleb128 0xb
+ 1321 00ae 27       		.uleb128 0x27
+ 1322 00af 19       		.uleb128 0x19
+ 1323 00b0 11       		.uleb128 0x11
+ 1324 00b1 01       		.uleb128 0x1
+ 1325 00b2 12       		.uleb128 0x12
+ 1326 00b3 06       		.uleb128 0x6
+ 1327 00b4 40       		.uleb128 0x40
+ 1328 00b5 18       		.uleb128 0x18
+ 1329 00b6 9642     		.uleb128 0x2116
+ 1330 00b8 19       		.uleb128 0x19
+ 1331 00b9 01       		.uleb128 0x1
+ 1332 00ba 13       		.uleb128 0x13
+ 1333 00bb 00       		.byte	0
+ 1334 00bc 00       		.byte	0
+ 1335 00bd 0D       		.uleb128 0xd
+ 1336 00be 2E       		.uleb128 0x2e
+ 1337 00bf 00       		.byte	0
+ 1338 00c0 3F       		.uleb128 0x3f
+ 1339 00c1 19       		.uleb128 0x19
+ 1340 00c2 03       		.uleb128 0x3
+ 1341 00c3 0E       		.uleb128 0xe
+ 1342 00c4 3A       		.uleb128 0x3a
+ 1343 00c5 0B       		.uleb128 0xb
+ 1344 00c6 3B       		.uleb128 0x3b
+ 1345 00c7 05       		.uleb128 0x5
+ 1346 00c8 27       		.uleb128 0x27
+ 1347 00c9 19       		.uleb128 0x19
+ 1348 00ca 49       		.uleb128 0x49
+ 1349 00cb 13       		.uleb128 0x13
+ 1350 00cc 11       		.uleb128 0x11
+ 1351 00cd 01       		.uleb128 0x1
+ 1352 00ce 12       		.uleb128 0x12
+ARM GAS  C:\Users\BRANKO~1\AppData\Local\Temp\cca7ntJa.s 			page 33
+
+
+ 1353 00cf 06       		.uleb128 0x6
+ 1354 00d0 40       		.uleb128 0x40
+ 1355 00d1 18       		.uleb128 0x18
+ 1356 00d2 9742     		.uleb128 0x2117
+ 1357 00d4 19       		.uleb128 0x19
+ 1358 00d5 00       		.byte	0
+ 1359 00d6 00       		.byte	0
+ 1360 00d7 0E       		.uleb128 0xe
+ 1361 00d8 2E       		.uleb128 0x2e
+ 1362 00d9 01       		.byte	0x1
+ 1363 00da 3F       		.uleb128 0x3f
+ 1364 00db 19       		.uleb128 0x19
+ 1365 00dc 03       		.uleb128 0x3
+ 1366 00dd 0E       		.uleb128 0xe
+ 1367 00de 3A       		.uleb128 0x3a
+ 1368 00df 0B       		.uleb128 0xb
+ 1369 00e0 3B       		.uleb128 0x3b
+ 1370 00e1 05       		.uleb128 0x5
+ 1371 00e2 27       		.uleb128 0x27
+ 1372 00e3 19       		.uleb128 0x19
+ 1373 00e4 11       		.uleb128 0x11
+ 1374 00e5 01       		.uleb128 0x1
+ 1375 00e6 12       		.uleb128 0x12
+ 1376 00e7 06       		.uleb128 0x6
+ 1377 00e8 40       		.uleb128 0x40
+ 1378 00e9 18       		.uleb128 0x18
+ 1379 00ea 9742     		.uleb128 0x2117
+ 1380 00ec 19       		.uleb128 0x19
+ 1381 00ed 01       		.uleb128 0x1
+ 1382 00ee 13       		.uleb128 0x13
+ 1383 00ef 00       		.byte	0
+ 1384 00f0 00       		.byte	0
+ 1385 00f1 0F       		.uleb128 0xf
+ 1386 00f2 05       		.uleb128 0x5
+ 1387 00f3 00       		.byte	0
+ 1388 00f4 03       		.uleb128 0x3
+ 1389 00f5 0E       		.uleb128 0xe
+ 1390 00f6 3A       		.uleb128 0x3a
+ 1391 00f7 0B       		.uleb128 0xb
+ 1392 00f8 3B       		.uleb128 0x3b
+ 1393 00f9 05       		.uleb128 0x5
+ 1394 00fa 49       		.uleb128 0x49
+ 1395 00fb 13       		.uleb128 0x13
+ 1396 00fc 02       		.uleb128 0x2
+ 1397 00fd 18       		.uleb128 0x18
+ 1398 00fe 00       		.byte	0
+ 1399 00ff 00       		.byte	0
+ 1400 0100 10       		.uleb128 0x10
+ 1401 0101 2E       		.uleb128 0x2e
+ 1402 0102 01       		.byte	0x1
+ 1403 0103 3F       		.uleb128 0x3f
+ 1404 0104 19       		.uleb128 0x19
+ 1405 0105 03       		.uleb128 0x3
+ 1406 0106 0E       		.uleb128 0xe
+ 1407 0107 3A       		.uleb128 0x3a
+ 1408 0108 0B       		.uleb128 0xb
+ 1409 0109 3B       		.uleb128 0x3b
+ARM GAS  C:\Users\BRANKO~1\AppData\Local\Temp\cca7ntJa.s 			page 34
+
+
+ 1410 010a 05       		.uleb128 0x5
+ 1411 010b 27       		.uleb128 0x27
+ 1412 010c 19       		.uleb128 0x19
+ 1413 010d 11       		.uleb128 0x11
+ 1414 010e 01       		.uleb128 0x1
+ 1415 010f 12       		.uleb128 0x12
+ 1416 0110 06       		.uleb128 0x6
+ 1417 0111 40       		.uleb128 0x40
+ 1418 0112 18       		.uleb128 0x18
+ 1419 0113 9642     		.uleb128 0x2116
+ 1420 0115 19       		.uleb128 0x19
+ 1421 0116 01       		.uleb128 0x1
+ 1422 0117 13       		.uleb128 0x13
+ 1423 0118 00       		.byte	0
+ 1424 0119 00       		.byte	0
+ 1425 011a 11       		.uleb128 0x11
+ 1426 011b 34       		.uleb128 0x34
+ 1427 011c 00       		.byte	0
+ 1428 011d 03       		.uleb128 0x3
+ 1429 011e 0E       		.uleb128 0xe
+ 1430 011f 3A       		.uleb128 0x3a
+ 1431 0120 0B       		.uleb128 0xb
+ 1432 0121 3B       		.uleb128 0x3b
+ 1433 0122 05       		.uleb128 0x5
+ 1434 0123 49       		.uleb128 0x49
+ 1435 0124 13       		.uleb128 0x13
+ 1436 0125 02       		.uleb128 0x2
+ 1437 0126 18       		.uleb128 0x18
+ 1438 0127 00       		.byte	0
+ 1439 0128 00       		.byte	0
+ 1440 0129 00       		.byte	0
+ 1441              		.section	.debug_aranges,"",%progbits
+ 1442 0000 6C000000 		.4byte	0x6c
+ 1443 0004 0200     		.2byte	0x2
+ 1444 0006 00000000 		.4byte	.Ldebug_info0
+ 1445 000a 04       		.byte	0x4
+ 1446 000b 00       		.byte	0
+ 1447 000c 0000     		.2byte	0
+ 1448 000e 0000     		.2byte	0
+ 1449 0010 00000000 		.4byte	.LFB0
+ 1450 0014 34000000 		.4byte	.LFE0-.LFB0
+ 1451 0018 00000000 		.4byte	.LFB1
+ 1452 001c 34000000 		.4byte	.LFE1-.LFB1
+ 1453 0020 00000000 		.4byte	.LFB2
+ 1454 0024 B0000000 		.4byte	.LFE2-.LFB2
+ 1455 0028 00000000 		.4byte	.LFB3
+ 1456 002c 40000000 		.4byte	.LFE3-.LFB3
+ 1457 0030 00000000 		.4byte	.LFB4
+ 1458 0034 5C010000 		.4byte	.LFE4-.LFB4
+ 1459 0038 00000000 		.4byte	.LFB5
+ 1460 003c 18000000 		.4byte	.LFE5-.LFB5
+ 1461 0040 00000000 		.4byte	.LFB6
+ 1462 0044 34000000 		.4byte	.LFE6-.LFB6
+ 1463 0048 00000000 		.4byte	.LFB7
+ 1464 004c 34000000 		.4byte	.LFE7-.LFB7
+ 1465 0050 00000000 		.4byte	.LFB8
+ 1466 0054 20000000 		.4byte	.LFE8-.LFB8
+ARM GAS  C:\Users\BRANKO~1\AppData\Local\Temp\cca7ntJa.s 			page 35
+
+
+ 1467 0058 00000000 		.4byte	.LFB9
+ 1468 005c BC000000 		.4byte	.LFE9-.LFB9
+ 1469 0060 00000000 		.4byte	.LFB10
+ 1470 0064 20000000 		.4byte	.LFE10-.LFB10
+ 1471 0068 00000000 		.4byte	0
+ 1472 006c 00000000 		.4byte	0
+ 1473              		.section	.debug_ranges,"",%progbits
+ 1474              	.Ldebug_ranges0:
+ 1475 0000 00000000 		.4byte	.LFB0
+ 1476 0004 34000000 		.4byte	.LFE0
+ 1477 0008 00000000 		.4byte	.LFB1
+ 1478 000c 34000000 		.4byte	.LFE1
+ 1479 0010 00000000 		.4byte	.LFB2
+ 1480 0014 B0000000 		.4byte	.LFE2
+ 1481 0018 00000000 		.4byte	.LFB3
+ 1482 001c 40000000 		.4byte	.LFE3
+ 1483 0020 00000000 		.4byte	.LFB4
+ 1484 0024 5C010000 		.4byte	.LFE4
+ 1485 0028 00000000 		.4byte	.LFB5
+ 1486 002c 18000000 		.4byte	.LFE5
+ 1487 0030 00000000 		.4byte	.LFB6
+ 1488 0034 34000000 		.4byte	.LFE6
+ 1489 0038 00000000 		.4byte	.LFB7
+ 1490 003c 34000000 		.4byte	.LFE7
+ 1491 0040 00000000 		.4byte	.LFB8
+ 1492 0044 20000000 		.4byte	.LFE8
+ 1493 0048 00000000 		.4byte	.LFB9
+ 1494 004c BC000000 		.4byte	.LFE9
+ 1495 0050 00000000 		.4byte	.LFB10
+ 1496 0054 20000000 		.4byte	.LFE10
+ 1497 0058 00000000 		.4byte	0
+ 1498 005c 00000000 		.4byte	0
+ 1499              		.section	.debug_line,"",%progbits
+ 1500              	.Ldebug_line0:
+ 1501 0000 A7010000 		.section	.debug_str,"MS",%progbits,1
+ 1501      02005200 
+ 1501      00000201 
+ 1501      FB0E0D00 
+ 1501      01010101 
+ 1502              	.LASF34:
+ 1503 0000 63757272 		.ascii	"currDiv\000"
+ 1503      44697600 
+ 1504              	.LASF15:
+ 1505 0008 72656731 		.ascii	"reg16\000"
+ 1505      3600
+ 1506              	.LASF2:
+ 1507 000e 73686F72 		.ascii	"short int\000"
+ 1507      7420696E 
+ 1507      7400
+ 1508              	.LASF17:
+ 1509 0018 54656C69 		.ascii	"Telit_UART_IntClock_Stop\000"
+ 1509      745F5541 
+ 1509      52545F49 
+ 1509      6E74436C 
+ 1509      6F636B5F 
+ 1510              	.LASF29:
+ 1511 0031 54656C69 		.ascii	"Telit_UART_IntClock_ClearModeRegister\000"
+ARM GAS  C:\Users\BRANKO~1\AppData\Local\Temp\cca7ntJa.s 			page 36
+
+
+ 1511      745F5541 
+ 1511      52545F49 
+ 1511      6E74436C 
+ 1511      6F636B5F 
+ 1512              	.LASF31:
+ 1513 0057 54656C69 		.ascii	"Telit_UART_IntClock_GetModeRegister\000"
+ 1513      745F5541 
+ 1513      52545F49 
+ 1513      6E74436C 
+ 1513      6F636B5F 
+ 1514              	.LASF37:
+ 1515 007b 474E5520 		.ascii	"GNU C 4.8.4 20140526 (release) [ARM/embedded-4_8-br"
+ 1515      4320342E 
+ 1515      382E3420 
+ 1515      32303134 
+ 1515      30353236 
+ 1516 00ae 616E6368 		.ascii	"anch revision 211358] -mcpu=cortex-m3 -mthumb -g -O"
+ 1516      20726576 
+ 1516      6973696F 
+ 1516      6E203231 
+ 1516      31333538 
+ 1517 00e1 30202D66 		.ascii	"0 -ffunction-sections\000"
+ 1517      66756E63 
+ 1517      74696F6E 
+ 1517      2D736563 
+ 1517      74696F6E 
+ 1518              	.LASF10:
+ 1519 00f7 75696E74 		.ascii	"uint16\000"
+ 1519      313600
+ 1520              	.LASF23:
+ 1521 00fe 72657374 		.ascii	"restart\000"
+ 1521      61727400 
+ 1522              	.LASF35:
+ 1523 0106 6F6C6453 		.ascii	"oldSrc\000"
+ 1523      726300
+ 1524              	.LASF9:
+ 1525 010d 75696E74 		.ascii	"uint8\000"
+ 1525      3800
+ 1526              	.LASF22:
+ 1527 0113 636C6B44 		.ascii	"clkDivider\000"
+ 1527      69766964 
+ 1527      657200
+ 1528              	.LASF11:
+ 1529 011e 666C6F61 		.ascii	"float\000"
+ 1529      7400
+ 1530              	.LASF6:
+ 1531 0124 6C6F6E67 		.ascii	"long long int\000"
+ 1531      206C6F6E 
+ 1531      6720696E 
+ 1531      7400
+ 1532              	.LASF4:
+ 1533 0132 6C6F6E67 		.ascii	"long int\000"
+ 1533      20696E74 
+ 1533      00
+ 1534              	.LASF27:
+ 1535 013b 54656C69 		.ascii	"Telit_UART_IntClock_SetModeRegister\000"
+ 1535      745F5541 
+ARM GAS  C:\Users\BRANKO~1\AppData\Local\Temp\cca7ntJa.s 			page 37
+
+
+ 1535      52545F49 
+ 1535      6E74436C 
+ 1535      6F636B5F 
+ 1536              	.LASF38:
+ 1537 015f 2E5C4765 		.ascii	".\\Generated_Source\\PSoC5\\Telit_UART_IntClock.c\000"
+ 1537      6E657261 
+ 1537      7465645F 
+ 1537      536F7572 
+ 1537      63655C50 
+ 1538              	.LASF21:
+ 1539 018e 73746174 		.ascii	"state\000"
+ 1539      6500
+ 1540              	.LASF1:
+ 1541 0194 756E7369 		.ascii	"unsigned char\000"
+ 1541      676E6564 
+ 1541      20636861 
+ 1541      7200
+ 1542              	.LASF28:
+ 1543 01a2 6D6F6465 		.ascii	"modeBitMask\000"
+ 1543      4269744D 
+ 1543      61736B00 
+ 1544              	.LASF0:
+ 1545 01ae 7369676E 		.ascii	"signed char\000"
+ 1545      65642063 
+ 1545      68617200 
+ 1546              	.LASF7:
+ 1547 01ba 6C6F6E67 		.ascii	"long long unsigned int\000"
+ 1547      206C6F6E 
+ 1547      6720756E 
+ 1547      7369676E 
+ 1547      65642069 
+ 1548              	.LASF8:
+ 1549 01d1 756E7369 		.ascii	"unsigned int\000"
+ 1549      676E6564 
+ 1549      20696E74 
+ 1549      00
+ 1550              	.LASF18:
+ 1551 01de 54656C69 		.ascii	"Telit_UART_IntClock_StopBlock\000"
+ 1551      745F5541 
+ 1551      52545F49 
+ 1551      6E74436C 
+ 1551      6F636B5F 
+ 1552              	.LASF3:
+ 1553 01fc 73686F72 		.ascii	"short unsigned int\000"
+ 1553      7420756E 
+ 1553      7369676E 
+ 1553      65642069 
+ 1553      6E7400
+ 1554              	.LASF20:
+ 1555 020f 54656C69 		.ascii	"Telit_UART_IntClock_SetDividerRegister\000"
+ 1555      745F5541 
+ 1555      52545F49 
+ 1555      6E74436C 
+ 1555      6F636B5F 
+ 1556              	.LASF16:
+ 1557 0236 54656C69 		.ascii	"Telit_UART_IntClock_Start\000"
+ 1557      745F5541 
+ARM GAS  C:\Users\BRANKO~1\AppData\Local\Temp\cca7ntJa.s 			page 38
+
+
+ 1557      52545F49 
+ 1557      6E74436C 
+ 1557      6F636B5F 
+ 1558              	.LASF13:
+ 1559 0250 63686172 		.ascii	"char\000"
+ 1559      00
+ 1560              	.LASF33:
+ 1561 0255 636C6B53 		.ascii	"clkSource\000"
+ 1561      6F757263 
+ 1561      6500
+ 1562              	.LASF26:
+ 1563 025f 63757272 		.ascii	"currSrc\000"
+ 1563      53726300 
+ 1564              	.LASF24:
+ 1565 0267 6F6C6444 		.ascii	"oldDivider\000"
+ 1565      69766964 
+ 1565      657200
+ 1566              	.LASF39:
+ 1567 0272 443A5C70 		.ascii	"D:\\psoc5\\Cell Board\\Cell Board.cydsn\000"
+ 1567      736F6335 
+ 1567      5C43656C 
+ 1567      6C20426F 
+ 1567      6172645C 
+ 1568              	.LASF14:
+ 1569 0297 72656738 		.ascii	"reg8\000"
+ 1569      00
+ 1570              	.LASF5:
+ 1571 029c 6C6F6E67 		.ascii	"long unsigned int\000"
+ 1571      20756E73 
+ 1571      69676E65 
+ 1571      6420696E 
+ 1571      7400
+ 1572              	.LASF12:
+ 1573 02ae 646F7562 		.ascii	"double\000"
+ 1573      6C6500
+ 1574              	.LASF25:
+ 1575 02b5 656E6162 		.ascii	"enabled\000"
+ 1575      6C656400 
+ 1576              	.LASF19:
+ 1577 02bd 54656C69 		.ascii	"Telit_UART_IntClock_StandbyPower\000"
+ 1577      745F5541 
+ 1577      52545F49 
+ 1577      6E74436C 
+ 1577      6F636B5F 
+ 1578              	.LASF30:
+ 1579 02de 54656C69 		.ascii	"Telit_UART_IntClock_GetDividerRegister\000"
+ 1579      745F5541 
+ 1579      52545F49 
+ 1579      6E74436C 
+ 1579      6F636B5F 
+ 1580              	.LASF36:
+ 1581 0305 54656C69 		.ascii	"Telit_UART_IntClock_GetSourceRegister\000"
+ 1581      745F5541 
+ 1581      52545F49 
+ 1581      6E74436C 
+ 1581      6F636B5F 
+ 1582              	.LASF32:
+ARM GAS  C:\Users\BRANKO~1\AppData\Local\Temp\cca7ntJa.s 			page 39
+
+
+ 1583 032b 54656C69 		.ascii	"Telit_UART_IntClock_SetSourceRegister\000"
+ 1583      745F5541 
+ 1583      52545F49 
+ 1583      6E74436C 
+ 1583      6F636B5F 
+ 1584              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 4.8.4 20140526 (release) [ARM/embedded-4_8-br
