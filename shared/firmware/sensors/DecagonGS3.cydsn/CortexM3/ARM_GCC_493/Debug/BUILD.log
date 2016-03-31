@@ -1,0 +1,50 @@
+--------------- Build Started: 02/24/2016 22:59:32 Project: DecagonGS3, Configuration: ARM GCC 4.9-2015-q1-update Debug ---------------
+The code generation step is up to date.
+arm-none-eabi-gcc.exe -mcpu=cortex-m3 -mthumb -Wno-main -I. -IGenerated_Source\PSoC5 -Wa,-alh=.\CortexM3\ARM_GCC_493\Debug/decagon.lst -g -D DEBUG -Wall -ffunction-sections -Og -ffat-lto-objects -c .\decagon.c -o .\CortexM3\ARM_GCC_493\Debug\decagon.o
+.\decagon.c: In function 'IntUartRx_D':
+.\decagon.c:24:4: warning: implicit declaration of function 'UART_Decagon_GetChar' [-Wimplicit-function-declaration]
+    getchar  = UART_Decagon_GetChar();
+    ^
+.\decagon.c: In function 'Decagon_Take_Reading':
+.\decagon.c:36:2: warning: implicit declaration of function 'UART_Decagon_Start' [-Wimplicit-function-declaration]
+  UART_Decagon_Start();
+  ^
+.\decagon.c:39:2: warning: implicit declaration of function 'Decagon_Power_Write' [-Wimplicit-function-declaration]
+  Decagon_Power_Write(0u); 
+  ^
+.\decagon.c:40:5: warning: implicit declaration of function 'isr_Decagon_StartEx' [-Wimplicit-function-declaration]
+     isr_Decagon_StartEx(IntUartRx_D);
+     ^
+.\decagon.c:41:5: warning: implicit declaration of function 'CyDelay' [-Wimplicit-function-declaration]
+     CyDelay(1000u);
+     ^
+.\decagon.c:43:5: warning: implicit declaration of function 'isr_Decagon_Stop' [-Wimplicit-function-declaration]
+     isr_Decagon_Stop();
+     ^
+.\decagon.c:47:2: warning: implicit declaration of function 'UART_Decagon_Stop' [-Wimplicit-function-declaration]
+  UART_Decagon_Stop();
+  ^
+.\decagon.c: In function 'Decagon_Convert_Raw_Reading':
+.\decagon.c:57:5: warning: implicit declaration of function 'sscanf' [-Wimplicit-function-declaration]
+     final_reading.valid  = sscanf(raw_D,"\x09%f %f %d\r%s",&final_reading.dielectric,
+     ^
+.\decagon.c:57:28: warning: incompatible implicit declaration of built-in function 'sscanf'
+     final_reading.valid  = sscanf(raw_D,"\x09%f %f %d\r%s",&final_reading.dielectric,
+                            ^
+.\decagon.c:57:35: warning: pointer targets in passing argument 1 of 'sscanf' differ in signedness [-Wpointer-sign]
+     final_reading.valid  = sscanf(raw_D,"\x09%f %f %d\r%s",&final_reading.dielectric,
+                                   ^
+.\decagon.c:57:35: note: expected 'const char *' but argument is of type 'uint8 *'
+.\decagon.c:58:33: warning: format '%d' expects argument of type 'int *', but argument 5 has type 'uint16 *' [-Wformat=]
+                                 &final_reading.temp,&final_reading.conductivity,NULL);
+                                 ^
+.\decagon.c:58:33: warning: writing through null pointer (argument 6) [-Wformat=]
+.\decagon.c:58:33: warning: format '%s' expects argument of type 'char *', but argument 6 has type 'void *' [-Wformat=]
+arm-none-eabi-ar.exe -rs .\CortexM3\ARM_GCC_493\Debug\DecagonGS3.a .\CortexM3\ARM_GCC_493\Debug\cyfitter_cfg.o .\CortexM3\ARM_GCC_493\Debug\UART_Decagon.o .\CortexM3\ARM_GCC_493\Debug\UART_Decagon_PM.o .\CortexM3\ARM_GCC_493\Debug\UART_Decagon_INT.o .\CortexM3\ARM_GCC_493\Debug\UART_Decagon_BOOT.o .\CortexM3\ARM_GCC_493\Debug\Decagon_Power.o .\CortexM3\ARM_GCC_493\Debug\isr_Decagon.o .\CortexM3\ARM_GCC_493\Debug\UART_Decagon_IntClock.o .\CortexM3\ARM_GCC_493\Debug\CyBootAsmGnu.o .\CortexM3\ARM_GCC_493\Debug\CyDmac.o .\CortexM3\ARM_GCC_493\Debug\CyFlash.o .\CortexM3\ARM_GCC_493\Debug\CyLib.o .\CortexM3\ARM_GCC_493\Debug\cyPm.o .\CortexM3\ARM_GCC_493\Debug\CySpc.o .\CortexM3\ARM_GCC_493\Debug\cyutils.o
+arm-none-eabi-ar.exe: creating .\CortexM3\ARM_GCC_493\Debug\DecagonGS3.a
+arm-none-eabi-gcc.exe -Wl,--start-group -o .\CortexM3\ARM_GCC_493\Debug\DecagonGS3.elf .\CortexM3\ARM_GCC_493\Debug\decagon.o .\CortexM3\ARM_GCC_493\Debug\main.o .\CortexM3\ARM_GCC_493\Debug\cymetadata.o .\CortexM3\ARM_GCC_493\Debug\Cm3Start.o .\CortexM3\ARM_GCC_493\Debug\DecagonGS3.a "C:\Program Files (x86)\Cypress\PSoC Creator\3.3\PSoC Creator\psoc\content\cycomponentlibrary\CyComponentLibrary.cylib\CortexM3\ARM_GCC_493\Debug\CyComponentLibrary.a" -mcpu=cortex-m3 -mthumb -g -ffunction-sections -Og -L Generated_Source\PSoC5 -Wl,-Map,.\CortexM3\ARM_GCC_493\Debug/DecagonGS3.map -T Generated_Source\PSoC5\cm3gcc.ld -Wl,--gc-sections -Wl,--end-group
+cyelftool.exe -C "C:\Users\cps\Documents\neoapi\Project Templates\Sensor Examples\Example Sensors\DecagonGS3.cydsn\CortexM3\ARM_GCC_493\Debug\DecagonGS3.elf" --flash_row_size 256 --flash_size 262144
+cyelftool.exe -S "C:\Users\cps\Documents\neoapi\Project Templates\Sensor Examples\Example Sensors\DecagonGS3.cydsn\CortexM3\ARM_GCC_493\Debug\DecagonGS3.elf"
+Flash used: 37120 of 262144 bytes (14.2 %).
+SRAM used: 4861 of 65536 bytes (7.4 %). Stack: 2048 bytes. Heap: 128 bytes.
+--------------- Build Succeeded: 02/24/2016 22:59:33 ---------------

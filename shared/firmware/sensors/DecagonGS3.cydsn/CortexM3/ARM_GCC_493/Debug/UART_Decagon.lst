@@ -1,0 +1,2735 @@
+ARM GAS  C:\Users\cps\AppData\Local\Temp\ccsRlKN0.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 1
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.file	"UART_Decagon.c"
+  15              		.text
+  16              	.Ltext0:
+  17              		.cfi_sections	.debug_frame
+  18              		.section	.text.UART_Decagon_Init,"ax",%progbits
+  19              		.align	2
+  20              		.global	UART_Decagon_Init
+  21              		.thumb
+  22              		.thumb_func
+  23              		.type	UART_Decagon_Init, %function
+  24              	UART_Decagon_Init:
+  25              	.LFB1:
+  26              		.file 1 ".\\Generated_Source\\PSoC5\\UART_Decagon.c"
+   1:.\Generated_Source\PSoC5/UART_Decagon.c **** /*******************************************************************************
+   2:.\Generated_Source\PSoC5/UART_Decagon.c **** * File Name: UART_Decagon.c
+   3:.\Generated_Source\PSoC5/UART_Decagon.c **** * Version 2.30
+   4:.\Generated_Source\PSoC5/UART_Decagon.c **** *
+   5:.\Generated_Source\PSoC5/UART_Decagon.c **** * Description:
+   6:.\Generated_Source\PSoC5/UART_Decagon.c **** *  This file provides all API functionality of the UART component
+   7:.\Generated_Source\PSoC5/UART_Decagon.c **** *
+   8:.\Generated_Source\PSoC5/UART_Decagon.c **** * Note:
+   9:.\Generated_Source\PSoC5/UART_Decagon.c **** *
+  10:.\Generated_Source\PSoC5/UART_Decagon.c **** ********************************************************************************
+  11:.\Generated_Source\PSoC5/UART_Decagon.c **** * Copyright 2008-2012, Cypress Semiconductor Corporation.  All rights reserved.
+  12:.\Generated_Source\PSoC5/UART_Decagon.c **** * You may use this file only in accordance with the license, terms, conditions,
+  13:.\Generated_Source\PSoC5/UART_Decagon.c **** * disclaimers, and limitations in the end user license agreement accompanying
+  14:.\Generated_Source\PSoC5/UART_Decagon.c **** * the software package with which this file was provided.
+  15:.\Generated_Source\PSoC5/UART_Decagon.c **** *******************************************************************************/
+  16:.\Generated_Source\PSoC5/UART_Decagon.c **** 
+  17:.\Generated_Source\PSoC5/UART_Decagon.c **** #include "UART_Decagon.h"
+  18:.\Generated_Source\PSoC5/UART_Decagon.c **** #include "CyLib.h"
+  19:.\Generated_Source\PSoC5/UART_Decagon.c **** #if(UART_Decagon_INTERNAL_CLOCK_USED)
+  20:.\Generated_Source\PSoC5/UART_Decagon.c ****     #include "UART_Decagon_IntClock.h"
+  21:.\Generated_Source\PSoC5/UART_Decagon.c **** #endif /* End UART_Decagon_INTERNAL_CLOCK_USED */
+  22:.\Generated_Source\PSoC5/UART_Decagon.c **** 
+  23:.\Generated_Source\PSoC5/UART_Decagon.c **** 
+  24:.\Generated_Source\PSoC5/UART_Decagon.c **** /***************************************
+  25:.\Generated_Source\PSoC5/UART_Decagon.c **** * Global data allocation
+  26:.\Generated_Source\PSoC5/UART_Decagon.c **** ***************************************/
+  27:.\Generated_Source\PSoC5/UART_Decagon.c **** 
+  28:.\Generated_Source\PSoC5/UART_Decagon.c **** uint8 UART_Decagon_initVar = 0u;
+  29:.\Generated_Source\PSoC5/UART_Decagon.c **** #if( UART_Decagon_TX_ENABLED && (UART_Decagon_TXBUFFERSIZE > UART_Decagon_FIFO_LENGTH))
+  30:.\Generated_Source\PSoC5/UART_Decagon.c ****     volatile uint8 UART_Decagon_txBuffer[UART_Decagon_TXBUFFERSIZE];
+  31:.\Generated_Source\PSoC5/UART_Decagon.c ****     volatile uint8 UART_Decagon_txBufferRead = 0u;
+ARM GAS  C:\Users\cps\AppData\Local\Temp\ccsRlKN0.s 			page 2
+
+
+  32:.\Generated_Source\PSoC5/UART_Decagon.c ****     uint8 UART_Decagon_txBufferWrite = 0u;
+  33:.\Generated_Source\PSoC5/UART_Decagon.c **** #endif /* End UART_Decagon_TX_ENABLED */
+  34:.\Generated_Source\PSoC5/UART_Decagon.c **** #if( ( UART_Decagon_RX_ENABLED || UART_Decagon_HD_ENABLED ) && \
+  35:.\Generated_Source\PSoC5/UART_Decagon.c ****      (UART_Decagon_RXBUFFERSIZE > UART_Decagon_FIFO_LENGTH) )
+  36:.\Generated_Source\PSoC5/UART_Decagon.c ****     volatile uint8 UART_Decagon_rxBuffer[UART_Decagon_RXBUFFERSIZE];
+  37:.\Generated_Source\PSoC5/UART_Decagon.c ****     volatile uint8 UART_Decagon_rxBufferRead = 0u;
+  38:.\Generated_Source\PSoC5/UART_Decagon.c ****     volatile uint8 UART_Decagon_rxBufferWrite = 0u;
+  39:.\Generated_Source\PSoC5/UART_Decagon.c ****     volatile uint8 UART_Decagon_rxBufferLoopDetect = 0u;
+  40:.\Generated_Source\PSoC5/UART_Decagon.c ****     volatile uint8 UART_Decagon_rxBufferOverflow = 0u;
+  41:.\Generated_Source\PSoC5/UART_Decagon.c ****     #if (UART_Decagon_RXHW_ADDRESS_ENABLED)
+  42:.\Generated_Source\PSoC5/UART_Decagon.c ****         volatile uint8 UART_Decagon_rxAddressMode = UART_Decagon_RXADDRESSMODE;
+  43:.\Generated_Source\PSoC5/UART_Decagon.c ****         volatile uint8 UART_Decagon_rxAddressDetected = 0u;
+  44:.\Generated_Source\PSoC5/UART_Decagon.c ****     #endif /* End EnableHWAddress */
+  45:.\Generated_Source\PSoC5/UART_Decagon.c **** #endif /* End UART_Decagon_RX_ENABLED */
+  46:.\Generated_Source\PSoC5/UART_Decagon.c **** 
+  47:.\Generated_Source\PSoC5/UART_Decagon.c **** 
+  48:.\Generated_Source\PSoC5/UART_Decagon.c **** /*******************************************************************************
+  49:.\Generated_Source\PSoC5/UART_Decagon.c **** * Function Name: UART_Decagon_Start
+  50:.\Generated_Source\PSoC5/UART_Decagon.c **** ********************************************************************************
+  51:.\Generated_Source\PSoC5/UART_Decagon.c **** *
+  52:.\Generated_Source\PSoC5/UART_Decagon.c **** * Summary:
+  53:.\Generated_Source\PSoC5/UART_Decagon.c **** *  Initialize and Enable the UART component.
+  54:.\Generated_Source\PSoC5/UART_Decagon.c **** *  Enable the clock input to enable operation.
+  55:.\Generated_Source\PSoC5/UART_Decagon.c **** *
+  56:.\Generated_Source\PSoC5/UART_Decagon.c **** * Parameters:
+  57:.\Generated_Source\PSoC5/UART_Decagon.c **** *  None.
+  58:.\Generated_Source\PSoC5/UART_Decagon.c **** *
+  59:.\Generated_Source\PSoC5/UART_Decagon.c **** * Return:
+  60:.\Generated_Source\PSoC5/UART_Decagon.c **** *  None.
+  61:.\Generated_Source\PSoC5/UART_Decagon.c **** *
+  62:.\Generated_Source\PSoC5/UART_Decagon.c **** * Global variables:
+  63:.\Generated_Source\PSoC5/UART_Decagon.c **** *  The UART_Decagon_intiVar variable is used to indicate initial
+  64:.\Generated_Source\PSoC5/UART_Decagon.c **** *  configuration of this component. The variable is initialized to zero (0u)
+  65:.\Generated_Source\PSoC5/UART_Decagon.c **** *  and set to one (1u) the first time UART_Start() is called. This allows for
+  66:.\Generated_Source\PSoC5/UART_Decagon.c **** *  component initialization without re-initialization in all subsequent calls
+  67:.\Generated_Source\PSoC5/UART_Decagon.c **** *  to the UART_Decagon_Start() routine.
+  68:.\Generated_Source\PSoC5/UART_Decagon.c **** *
+  69:.\Generated_Source\PSoC5/UART_Decagon.c **** * Reentrant:
+  70:.\Generated_Source\PSoC5/UART_Decagon.c **** *  No.
+  71:.\Generated_Source\PSoC5/UART_Decagon.c **** *
+  72:.\Generated_Source\PSoC5/UART_Decagon.c **** *******************************************************************************/
+  73:.\Generated_Source\PSoC5/UART_Decagon.c **** void UART_Decagon_Start(void) 
+  74:.\Generated_Source\PSoC5/UART_Decagon.c **** {
+  75:.\Generated_Source\PSoC5/UART_Decagon.c ****     /* If not Initialized then initialize all required hardware and software */
+  76:.\Generated_Source\PSoC5/UART_Decagon.c ****     if(UART_Decagon_initVar == 0u)
+  77:.\Generated_Source\PSoC5/UART_Decagon.c ****     {
+  78:.\Generated_Source\PSoC5/UART_Decagon.c ****         UART_Decagon_Init();
+  79:.\Generated_Source\PSoC5/UART_Decagon.c ****         UART_Decagon_initVar = 1u;
+  80:.\Generated_Source\PSoC5/UART_Decagon.c ****     }
+  81:.\Generated_Source\PSoC5/UART_Decagon.c ****     UART_Decagon_Enable();
+  82:.\Generated_Source\PSoC5/UART_Decagon.c **** }
+  83:.\Generated_Source\PSoC5/UART_Decagon.c **** 
+  84:.\Generated_Source\PSoC5/UART_Decagon.c **** 
+  85:.\Generated_Source\PSoC5/UART_Decagon.c **** /*******************************************************************************
+  86:.\Generated_Source\PSoC5/UART_Decagon.c **** * Function Name: UART_Decagon_Init
+  87:.\Generated_Source\PSoC5/UART_Decagon.c **** ********************************************************************************
+  88:.\Generated_Source\PSoC5/UART_Decagon.c **** *
+ARM GAS  C:\Users\cps\AppData\Local\Temp\ccsRlKN0.s 			page 3
+
+
+  89:.\Generated_Source\PSoC5/UART_Decagon.c **** * Summary:
+  90:.\Generated_Source\PSoC5/UART_Decagon.c **** *  Initialize component's parameters to the parameters set by user in the
+  91:.\Generated_Source\PSoC5/UART_Decagon.c **** *  customizer of the component placed onto schematic. Usually called in
+  92:.\Generated_Source\PSoC5/UART_Decagon.c **** *  UART_Decagon_Start().
+  93:.\Generated_Source\PSoC5/UART_Decagon.c **** *
+  94:.\Generated_Source\PSoC5/UART_Decagon.c **** * Parameters:
+  95:.\Generated_Source\PSoC5/UART_Decagon.c **** *  None.
+  96:.\Generated_Source\PSoC5/UART_Decagon.c **** *
+  97:.\Generated_Source\PSoC5/UART_Decagon.c **** * Return:
+  98:.\Generated_Source\PSoC5/UART_Decagon.c **** *  None.
+  99:.\Generated_Source\PSoC5/UART_Decagon.c **** *
+ 100:.\Generated_Source\PSoC5/UART_Decagon.c **** *******************************************************************************/
+ 101:.\Generated_Source\PSoC5/UART_Decagon.c **** void UART_Decagon_Init(void) 
+ 102:.\Generated_Source\PSoC5/UART_Decagon.c **** {
+  27              		.loc 1 102 0
+  28              		.cfi_startproc
+  29              		@ args = 0, pretend = 0, frame = 0
+  30              		@ frame_needed = 0, uses_anonymous_args = 0
+  31              		@ link register save eliminated.
+ 103:.\Generated_Source\PSoC5/UART_Decagon.c ****     #if(UART_Decagon_RX_ENABLED || UART_Decagon_HD_ENABLED)
+ 104:.\Generated_Source\PSoC5/UART_Decagon.c **** 
+ 105:.\Generated_Source\PSoC5/UART_Decagon.c ****         #if(UART_Decagon_RX_INTERRUPT_ENABLED && (UART_Decagon_RXBUFFERSIZE > UART_Decagon_FIFO_LEN
+ 106:.\Generated_Source\PSoC5/UART_Decagon.c ****             /* Set the RX Interrupt. */
+ 107:.\Generated_Source\PSoC5/UART_Decagon.c ****             (void)CyIntSetVector(UART_Decagon_RX_VECT_NUM, &UART_Decagon_RXISR);
+ 108:.\Generated_Source\PSoC5/UART_Decagon.c ****             CyIntSetPriority(UART_Decagon_RX_VECT_NUM, UART_Decagon_RX_PRIOR_NUM);
+ 109:.\Generated_Source\PSoC5/UART_Decagon.c ****         #endif /* End UART_Decagon_RX_INTERRUPT_ENABLED */
+ 110:.\Generated_Source\PSoC5/UART_Decagon.c **** 
+ 111:.\Generated_Source\PSoC5/UART_Decagon.c ****         #if (UART_Decagon_RXHW_ADDRESS_ENABLED)
+ 112:.\Generated_Source\PSoC5/UART_Decagon.c ****             UART_Decagon_SetRxAddressMode(UART_Decagon_RXAddressMode);
+ 113:.\Generated_Source\PSoC5/UART_Decagon.c ****             UART_Decagon_SetRxAddress1(UART_Decagon_RXHWADDRESS1);
+ 114:.\Generated_Source\PSoC5/UART_Decagon.c ****             UART_Decagon_SetRxAddress2(UART_Decagon_RXHWADDRESS2);
+ 115:.\Generated_Source\PSoC5/UART_Decagon.c ****         #endif /* End UART_Decagon_RXHW_ADDRESS_ENABLED */
+ 116:.\Generated_Source\PSoC5/UART_Decagon.c **** 
+ 117:.\Generated_Source\PSoC5/UART_Decagon.c ****         /* Init Count7 period */
+ 118:.\Generated_Source\PSoC5/UART_Decagon.c ****         UART_Decagon_RXBITCTR_PERIOD_REG = UART_Decagon_RXBITCTR_INIT;
+  32              		.loc 1 118 0
+  33 0000 7222     		movs	r2, #114
+  34 0002 034B     		ldr	r3, .L2
+  35 0004 1A70     		strb	r2, [r3]
+ 119:.\Generated_Source\PSoC5/UART_Decagon.c ****         /* Configure the Initial RX interrupt mask */
+ 120:.\Generated_Source\PSoC5/UART_Decagon.c ****         UART_Decagon_RXSTATUS_MASK_REG  = UART_Decagon_INIT_RX_INTERRUPTS_MASK;
+  36              		.loc 1 120 0
+  37 0006 2022     		movs	r2, #32
+  38 0008 0133     		adds	r3, r3, #1
+  39 000a 1A70     		strb	r2, [r3]
+  40 000c 7047     		bx	lr
+  41              	.L3:
+  42 000e 00BF     		.align	2
+  43              	.L2:
+  44 0010 81640040 		.word	1073767553
+  45              		.cfi_endproc
+  46              	.LFE1:
+  47              		.size	UART_Decagon_Init, .-UART_Decagon_Init
+  48              		.section	.text.UART_Decagon_Enable,"ax",%progbits
+  49              		.align	2
+  50              		.global	UART_Decagon_Enable
+  51              		.thumb
+ARM GAS  C:\Users\cps\AppData\Local\Temp\ccsRlKN0.s 			page 4
+
+
+  52              		.thumb_func
+  53              		.type	UART_Decagon_Enable, %function
+  54              	UART_Decagon_Enable:
+  55              	.LFB2:
+ 121:.\Generated_Source\PSoC5/UART_Decagon.c ****     #endif /* End UART_Decagon_RX_ENABLED || UART_Decagon_HD_ENABLED*/
+ 122:.\Generated_Source\PSoC5/UART_Decagon.c **** 
+ 123:.\Generated_Source\PSoC5/UART_Decagon.c ****     #if(UART_Decagon_TX_ENABLED)
+ 124:.\Generated_Source\PSoC5/UART_Decagon.c ****         #if(UART_Decagon_TX_INTERRUPT_ENABLED && (UART_Decagon_TXBUFFERSIZE > UART_Decagon_FIFO_LEN
+ 125:.\Generated_Source\PSoC5/UART_Decagon.c ****             /* Set the TX Interrupt. */
+ 126:.\Generated_Source\PSoC5/UART_Decagon.c ****             (void)CyIntSetVector(UART_Decagon_TX_VECT_NUM, &UART_Decagon_TXISR);
+ 127:.\Generated_Source\PSoC5/UART_Decagon.c ****             CyIntSetPriority(UART_Decagon_TX_VECT_NUM, UART_Decagon_TX_PRIOR_NUM);
+ 128:.\Generated_Source\PSoC5/UART_Decagon.c ****         #endif /* End UART_Decagon_TX_INTERRUPT_ENABLED */
+ 129:.\Generated_Source\PSoC5/UART_Decagon.c **** 
+ 130:.\Generated_Source\PSoC5/UART_Decagon.c ****         /* Write Counter Value for TX Bit Clk Generator*/
+ 131:.\Generated_Source\PSoC5/UART_Decagon.c ****         #if(UART_Decagon_TXCLKGEN_DP)
+ 132:.\Generated_Source\PSoC5/UART_Decagon.c ****             UART_Decagon_TXBITCLKGEN_CTR_REG = UART_Decagon_BIT_CENTER;
+ 133:.\Generated_Source\PSoC5/UART_Decagon.c ****             UART_Decagon_TXBITCLKTX_COMPLETE_REG = (UART_Decagon_NUMBER_OF_DATA_BITS +
+ 134:.\Generated_Source\PSoC5/UART_Decagon.c ****                         UART_Decagon_NUMBER_OF_START_BIT) * UART_Decagon_OVER_SAMPLE_COUNT;
+ 135:.\Generated_Source\PSoC5/UART_Decagon.c ****         #else
+ 136:.\Generated_Source\PSoC5/UART_Decagon.c ****             UART_Decagon_TXBITCTR_PERIOD_REG = ((UART_Decagon_NUMBER_OF_DATA_BITS +
+ 137:.\Generated_Source\PSoC5/UART_Decagon.c ****                         UART_Decagon_NUMBER_OF_START_BIT) * UART_Decagon_OVER_SAMPLE_8) - 1u;
+ 138:.\Generated_Source\PSoC5/UART_Decagon.c ****         #endif /* End UART_Decagon_TXCLKGEN_DP */
+ 139:.\Generated_Source\PSoC5/UART_Decagon.c **** 
+ 140:.\Generated_Source\PSoC5/UART_Decagon.c ****         /* Configure the Initial TX interrupt mask */
+ 141:.\Generated_Source\PSoC5/UART_Decagon.c ****         #if(UART_Decagon_TX_INTERRUPT_ENABLED && (UART_Decagon_TXBUFFERSIZE > UART_Decagon_FIFO_LEN
+ 142:.\Generated_Source\PSoC5/UART_Decagon.c ****             UART_Decagon_TXSTATUS_MASK_REG = UART_Decagon_TX_STS_FIFO_EMPTY;
+ 143:.\Generated_Source\PSoC5/UART_Decagon.c ****         #else
+ 144:.\Generated_Source\PSoC5/UART_Decagon.c ****             UART_Decagon_TXSTATUS_MASK_REG = UART_Decagon_INIT_TX_INTERRUPTS_MASK;
+ 145:.\Generated_Source\PSoC5/UART_Decagon.c ****         #endif /*End UART_Decagon_TX_INTERRUPT_ENABLED*/
+ 146:.\Generated_Source\PSoC5/UART_Decagon.c **** 
+ 147:.\Generated_Source\PSoC5/UART_Decagon.c ****     #endif /* End UART_Decagon_TX_ENABLED */
+ 148:.\Generated_Source\PSoC5/UART_Decagon.c **** 
+ 149:.\Generated_Source\PSoC5/UART_Decagon.c ****     #if(UART_Decagon_PARITY_TYPE_SW)  /* Write Parity to Control Register */
+ 150:.\Generated_Source\PSoC5/UART_Decagon.c ****         UART_Decagon_WriteControlRegister( \
+ 151:.\Generated_Source\PSoC5/UART_Decagon.c ****             (UART_Decagon_ReadControlRegister() & (uint8)~UART_Decagon_CTRL_PARITY_TYPE_MASK) | \
+ 152:.\Generated_Source\PSoC5/UART_Decagon.c ****             (uint8)(UART_Decagon_PARITY_TYPE << UART_Decagon_CTRL_PARITY_TYPE0_SHIFT) );
+ 153:.\Generated_Source\PSoC5/UART_Decagon.c ****     #endif /* End UART_Decagon_PARITY_TYPE_SW */
+ 154:.\Generated_Source\PSoC5/UART_Decagon.c **** }
+ 155:.\Generated_Source\PSoC5/UART_Decagon.c **** 
+ 156:.\Generated_Source\PSoC5/UART_Decagon.c **** 
+ 157:.\Generated_Source\PSoC5/UART_Decagon.c **** /*******************************************************************************
+ 158:.\Generated_Source\PSoC5/UART_Decagon.c **** * Function Name: UART_Decagon_Enable
+ 159:.\Generated_Source\PSoC5/UART_Decagon.c **** ********************************************************************************
+ 160:.\Generated_Source\PSoC5/UART_Decagon.c **** *
+ 161:.\Generated_Source\PSoC5/UART_Decagon.c **** * Summary:
+ 162:.\Generated_Source\PSoC5/UART_Decagon.c **** *  Enables the UART block operation
+ 163:.\Generated_Source\PSoC5/UART_Decagon.c **** *
+ 164:.\Generated_Source\PSoC5/UART_Decagon.c **** * Parameters:
+ 165:.\Generated_Source\PSoC5/UART_Decagon.c **** *  None.
+ 166:.\Generated_Source\PSoC5/UART_Decagon.c **** *
+ 167:.\Generated_Source\PSoC5/UART_Decagon.c **** * Return:
+ 168:.\Generated_Source\PSoC5/UART_Decagon.c **** *  None.
+ 169:.\Generated_Source\PSoC5/UART_Decagon.c **** *
+ 170:.\Generated_Source\PSoC5/UART_Decagon.c **** * Global Variables:
+ 171:.\Generated_Source\PSoC5/UART_Decagon.c **** *  UART_Decagon_rxAddressDetected - set to initial state (0).
+ 172:.\Generated_Source\PSoC5/UART_Decagon.c **** *
+ 173:.\Generated_Source\PSoC5/UART_Decagon.c **** *******************************************************************************/
+ARM GAS  C:\Users\cps\AppData\Local\Temp\ccsRlKN0.s 			page 5
+
+
+ 174:.\Generated_Source\PSoC5/UART_Decagon.c **** void UART_Decagon_Enable(void) 
+ 175:.\Generated_Source\PSoC5/UART_Decagon.c **** {
+  56              		.loc 1 175 0
+  57              		.cfi_startproc
+  58              		@ args = 0, pretend = 0, frame = 0
+  59              		@ frame_needed = 0, uses_anonymous_args = 0
+  60 0000 10B5     		push	{r4, lr}
+  61              		.cfi_def_cfa_offset 8
+  62              		.cfi_offset 4, -8
+  63              		.cfi_offset 14, -4
+ 176:.\Generated_Source\PSoC5/UART_Decagon.c ****     uint8 enableInterrupts;
+ 177:.\Generated_Source\PSoC5/UART_Decagon.c ****     enableInterrupts = CyEnterCriticalSection();
+  64              		.loc 1 177 0
+  65 0002 FFF7FEFF 		bl	CyEnterCriticalSection
+  66              	.LVL0:
+  67 0006 0446     		mov	r4, r0
+  68              	.LVL1:
+ 178:.\Generated_Source\PSoC5/UART_Decagon.c **** 
+ 179:.\Generated_Source\PSoC5/UART_Decagon.c ****     #if(UART_Decagon_RX_ENABLED || UART_Decagon_HD_ENABLED)
+ 180:.\Generated_Source\PSoC5/UART_Decagon.c ****         /*RX Counter (Count7) Enable */
+ 181:.\Generated_Source\PSoC5/UART_Decagon.c ****         UART_Decagon_RXBITCTR_CONTROL_REG |= UART_Decagon_CNTR_ENABLE;
+  69              		.loc 1 181 0
+  70 0008 074A     		ldr	r2, .L6
+  71 000a 1378     		ldrb	r3, [r2]	@ zero_extendqisi2
+  72 000c 43F02003 		orr	r3, r3, #32
+  73 0010 1370     		strb	r3, [r2]
+ 182:.\Generated_Source\PSoC5/UART_Decagon.c ****         /* Enable the RX Interrupt. */
+ 183:.\Generated_Source\PSoC5/UART_Decagon.c ****         UART_Decagon_RXSTATUS_ACTL_REG  |= UART_Decagon_INT_ENABLE;
+  74              		.loc 1 183 0
+  75 0012 0132     		adds	r2, r2, #1
+  76 0014 1378     		ldrb	r3, [r2]	@ zero_extendqisi2
+  77 0016 43F01003 		orr	r3, r3, #16
+  78 001a 1370     		strb	r3, [r2]
+ 184:.\Generated_Source\PSoC5/UART_Decagon.c ****         #if(UART_Decagon_RX_INTERRUPT_ENABLED && (UART_Decagon_RXBUFFERSIZE > UART_Decagon_FIFO_LEN
+ 185:.\Generated_Source\PSoC5/UART_Decagon.c ****             CyIntEnable(UART_Decagon_RX_VECT_NUM);
+ 186:.\Generated_Source\PSoC5/UART_Decagon.c ****             #if (UART_Decagon_RXHW_ADDRESS_ENABLED)
+ 187:.\Generated_Source\PSoC5/UART_Decagon.c ****                 UART_Decagon_rxAddressDetected = 0u;
+ 188:.\Generated_Source\PSoC5/UART_Decagon.c ****             #endif /* End UART_Decagon_RXHW_ADDRESS_ENABLED */
+ 189:.\Generated_Source\PSoC5/UART_Decagon.c ****         #endif /* End UART_Decagon_RX_INTERRUPT_ENABLED */
+ 190:.\Generated_Source\PSoC5/UART_Decagon.c ****     #endif /* End UART_Decagon_RX_ENABLED || UART_Decagon_HD_ENABLED*/
+ 191:.\Generated_Source\PSoC5/UART_Decagon.c **** 
+ 192:.\Generated_Source\PSoC5/UART_Decagon.c ****     #if(UART_Decagon_TX_ENABLED)
+ 193:.\Generated_Source\PSoC5/UART_Decagon.c ****         /*TX Counter (DP/Count7) Enable */
+ 194:.\Generated_Source\PSoC5/UART_Decagon.c ****         #if(!UART_Decagon_TXCLKGEN_DP)
+ 195:.\Generated_Source\PSoC5/UART_Decagon.c ****             UART_Decagon_TXBITCTR_CONTROL_REG |= UART_Decagon_CNTR_ENABLE;
+ 196:.\Generated_Source\PSoC5/UART_Decagon.c ****         #endif /* End UART_Decagon_TXCLKGEN_DP */
+ 197:.\Generated_Source\PSoC5/UART_Decagon.c ****         /* Enable the TX Interrupt. */
+ 198:.\Generated_Source\PSoC5/UART_Decagon.c ****         UART_Decagon_TXSTATUS_ACTL_REG |= UART_Decagon_INT_ENABLE;
+ 199:.\Generated_Source\PSoC5/UART_Decagon.c ****         #if(UART_Decagon_TX_INTERRUPT_ENABLED && (UART_Decagon_TXBUFFERSIZE > UART_Decagon_FIFO_LEN
+ 200:.\Generated_Source\PSoC5/UART_Decagon.c ****             CyIntEnable(UART_Decagon_TX_VECT_NUM);
+ 201:.\Generated_Source\PSoC5/UART_Decagon.c ****         #endif /* End UART_Decagon_TX_INTERRUPT_ENABLED*/
+ 202:.\Generated_Source\PSoC5/UART_Decagon.c ****      #endif /* End UART_Decagon_TX_ENABLED */
+ 203:.\Generated_Source\PSoC5/UART_Decagon.c **** 
+ 204:.\Generated_Source\PSoC5/UART_Decagon.c ****     #if(UART_Decagon_INTERNAL_CLOCK_USED)
+ 205:.\Generated_Source\PSoC5/UART_Decagon.c ****         /* Enable the clock. */
+ 206:.\Generated_Source\PSoC5/UART_Decagon.c ****         UART_Decagon_IntClock_Start();
+  79              		.loc 1 206 0
+ARM GAS  C:\Users\cps\AppData\Local\Temp\ccsRlKN0.s 			page 6
+
+
+  80 001c FFF7FEFF 		bl	UART_Decagon_IntClock_Start
+  81              	.LVL2:
+ 207:.\Generated_Source\PSoC5/UART_Decagon.c ****     #endif /* End UART_Decagon_INTERNAL_CLOCK_USED */
+ 208:.\Generated_Source\PSoC5/UART_Decagon.c **** 
+ 209:.\Generated_Source\PSoC5/UART_Decagon.c ****     CyExitCriticalSection(enableInterrupts);
+  82              		.loc 1 209 0
+  83 0020 2046     		mov	r0, r4
+  84 0022 FFF7FEFF 		bl	CyExitCriticalSection
+  85              	.LVL3:
+  86 0026 10BD     		pop	{r4, pc}
+  87              	.LVL4:
+  88              	.L7:
+  89              		.align	2
+  90              	.L6:
+  91 0028 91640040 		.word	1073767569
+  92              		.cfi_endproc
+  93              	.LFE2:
+  94              		.size	UART_Decagon_Enable, .-UART_Decagon_Enable
+  95              		.section	.text.UART_Decagon_Start,"ax",%progbits
+  96              		.align	2
+  97              		.global	UART_Decagon_Start
+  98              		.thumb
+  99              		.thumb_func
+ 100              		.type	UART_Decagon_Start, %function
+ 101              	UART_Decagon_Start:
+ 102              	.LFB0:
+  74:.\Generated_Source\PSoC5/UART_Decagon.c ****     /* If not Initialized then initialize all required hardware and software */
+ 103              		.loc 1 74 0
+ 104              		.cfi_startproc
+ 105              		@ args = 0, pretend = 0, frame = 0
+ 106              		@ frame_needed = 0, uses_anonymous_args = 0
+ 107 0000 08B5     		push	{r3, lr}
+ 108              		.cfi_def_cfa_offset 8
+ 109              		.cfi_offset 3, -8
+ 110              		.cfi_offset 14, -4
+  76:.\Generated_Source\PSoC5/UART_Decagon.c ****     {
+ 111              		.loc 1 76 0
+ 112 0002 054B     		ldr	r3, .L11
+ 113 0004 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 114 0006 23B9     		cbnz	r3, .L9
+  78:.\Generated_Source\PSoC5/UART_Decagon.c ****         UART_Decagon_initVar = 1u;
+ 115              		.loc 1 78 0
+ 116 0008 FFF7FEFF 		bl	UART_Decagon_Init
+ 117              	.LVL5:
+  79:.\Generated_Source\PSoC5/UART_Decagon.c ****     }
+ 118              		.loc 1 79 0
+ 119 000c 0122     		movs	r2, #1
+ 120 000e 024B     		ldr	r3, .L11
+ 121 0010 1A70     		strb	r2, [r3]
+ 122              	.L9:
+  81:.\Generated_Source\PSoC5/UART_Decagon.c **** }
+ 123              		.loc 1 81 0
+ 124 0012 FFF7FEFF 		bl	UART_Decagon_Enable
+ 125              	.LVL6:
+ 126 0016 08BD     		pop	{r3, pc}
+ 127              	.L12:
+ 128              		.align	2
+ARM GAS  C:\Users\cps\AppData\Local\Temp\ccsRlKN0.s 			page 7
+
+
+ 129              	.L11:
+ 130 0018 00000000 		.word	.LANCHOR0
+ 131              		.cfi_endproc
+ 132              	.LFE0:
+ 133              		.size	UART_Decagon_Start, .-UART_Decagon_Start
+ 134              		.section	.text.UART_Decagon_Stop,"ax",%progbits
+ 135              		.align	2
+ 136              		.global	UART_Decagon_Stop
+ 137              		.thumb
+ 138              		.thumb_func
+ 139              		.type	UART_Decagon_Stop, %function
+ 140              	UART_Decagon_Stop:
+ 141              	.LFB3:
+ 210:.\Generated_Source\PSoC5/UART_Decagon.c **** }
+ 211:.\Generated_Source\PSoC5/UART_Decagon.c **** 
+ 212:.\Generated_Source\PSoC5/UART_Decagon.c **** 
+ 213:.\Generated_Source\PSoC5/UART_Decagon.c **** /*******************************************************************************
+ 214:.\Generated_Source\PSoC5/UART_Decagon.c **** * Function Name: UART_Decagon_Stop
+ 215:.\Generated_Source\PSoC5/UART_Decagon.c **** ********************************************************************************
+ 216:.\Generated_Source\PSoC5/UART_Decagon.c **** *
+ 217:.\Generated_Source\PSoC5/UART_Decagon.c **** * Summary:
+ 218:.\Generated_Source\PSoC5/UART_Decagon.c **** *  Disable the UART component
+ 219:.\Generated_Source\PSoC5/UART_Decagon.c **** *
+ 220:.\Generated_Source\PSoC5/UART_Decagon.c **** * Parameters:
+ 221:.\Generated_Source\PSoC5/UART_Decagon.c **** *  None.
+ 222:.\Generated_Source\PSoC5/UART_Decagon.c **** *
+ 223:.\Generated_Source\PSoC5/UART_Decagon.c **** * Return:
+ 224:.\Generated_Source\PSoC5/UART_Decagon.c **** *  None.
+ 225:.\Generated_Source\PSoC5/UART_Decagon.c **** *
+ 226:.\Generated_Source\PSoC5/UART_Decagon.c **** *******************************************************************************/
+ 227:.\Generated_Source\PSoC5/UART_Decagon.c **** void UART_Decagon_Stop(void) 
+ 228:.\Generated_Source\PSoC5/UART_Decagon.c **** {
+ 142              		.loc 1 228 0
+ 143              		.cfi_startproc
+ 144              		@ args = 0, pretend = 0, frame = 0
+ 145              		@ frame_needed = 0, uses_anonymous_args = 0
+ 146 0000 10B5     		push	{r4, lr}
+ 147              		.cfi_def_cfa_offset 8
+ 148              		.cfi_offset 4, -8
+ 149              		.cfi_offset 14, -4
+ 229:.\Generated_Source\PSoC5/UART_Decagon.c ****     uint8 enableInterrupts;
+ 230:.\Generated_Source\PSoC5/UART_Decagon.c ****     enableInterrupts = CyEnterCriticalSection();
+ 150              		.loc 1 230 0
+ 151 0002 FFF7FEFF 		bl	CyEnterCriticalSection
+ 152              	.LVL7:
+ 153 0006 0446     		mov	r4, r0
+ 154              	.LVL8:
+ 231:.\Generated_Source\PSoC5/UART_Decagon.c **** 
+ 232:.\Generated_Source\PSoC5/UART_Decagon.c ****     /* Write Bit Counter Disable */
+ 233:.\Generated_Source\PSoC5/UART_Decagon.c ****     #if(UART_Decagon_RX_ENABLED || UART_Decagon_HD_ENABLED)
+ 234:.\Generated_Source\PSoC5/UART_Decagon.c ****         UART_Decagon_RXBITCTR_CONTROL_REG &= (uint8)~UART_Decagon_CNTR_ENABLE;
+ 155              		.loc 1 234 0
+ 156 0008 074A     		ldr	r2, .L15
+ 157 000a 1378     		ldrb	r3, [r2]	@ zero_extendqisi2
+ 158 000c 03F0DF03 		and	r3, r3, #223
+ 159 0010 1370     		strb	r3, [r2]
+ 235:.\Generated_Source\PSoC5/UART_Decagon.c ****     #endif /* End UART_Decagon_RX_ENABLED */
+ARM GAS  C:\Users\cps\AppData\Local\Temp\ccsRlKN0.s 			page 8
+
+
+ 236:.\Generated_Source\PSoC5/UART_Decagon.c **** 
+ 237:.\Generated_Source\PSoC5/UART_Decagon.c ****     #if(UART_Decagon_TX_ENABLED)
+ 238:.\Generated_Source\PSoC5/UART_Decagon.c ****         #if(!UART_Decagon_TXCLKGEN_DP)
+ 239:.\Generated_Source\PSoC5/UART_Decagon.c ****             UART_Decagon_TXBITCTR_CONTROL_REG &= (uint8)~UART_Decagon_CNTR_ENABLE;
+ 240:.\Generated_Source\PSoC5/UART_Decagon.c ****         #endif /* End UART_Decagon_TXCLKGEN_DP */
+ 241:.\Generated_Source\PSoC5/UART_Decagon.c ****     #endif /* UART_Decagon_TX_ENABLED */
+ 242:.\Generated_Source\PSoC5/UART_Decagon.c **** 
+ 243:.\Generated_Source\PSoC5/UART_Decagon.c ****     #if(UART_Decagon_INTERNAL_CLOCK_USED)
+ 244:.\Generated_Source\PSoC5/UART_Decagon.c ****         /* Disable the clock. */
+ 245:.\Generated_Source\PSoC5/UART_Decagon.c ****         UART_Decagon_IntClock_Stop();
+ 160              		.loc 1 245 0
+ 161 0012 FFF7FEFF 		bl	UART_Decagon_IntClock_Stop
+ 162              	.LVL9:
+ 246:.\Generated_Source\PSoC5/UART_Decagon.c ****     #endif /* End UART_Decagon_INTERNAL_CLOCK_USED */
+ 247:.\Generated_Source\PSoC5/UART_Decagon.c **** 
+ 248:.\Generated_Source\PSoC5/UART_Decagon.c ****     /* Disable internal interrupt component */
+ 249:.\Generated_Source\PSoC5/UART_Decagon.c ****     #if(UART_Decagon_RX_ENABLED || UART_Decagon_HD_ENABLED)
+ 250:.\Generated_Source\PSoC5/UART_Decagon.c ****         UART_Decagon_RXSTATUS_ACTL_REG  &= (uint8)~UART_Decagon_INT_ENABLE;
+ 163              		.loc 1 250 0
+ 164 0016 054A     		ldr	r2, .L15+4
+ 165 0018 1378     		ldrb	r3, [r2]	@ zero_extendqisi2
+ 166 001a 03F0EF03 		and	r3, r3, #239
+ 167 001e 1370     		strb	r3, [r2]
+ 251:.\Generated_Source\PSoC5/UART_Decagon.c ****         #if(UART_Decagon_RX_INTERRUPT_ENABLED && (UART_Decagon_RXBUFFERSIZE > UART_Decagon_FIFO_LEN
+ 252:.\Generated_Source\PSoC5/UART_Decagon.c ****             UART_Decagon_DisableRxInt();
+ 253:.\Generated_Source\PSoC5/UART_Decagon.c ****         #endif /* End UART_Decagon_RX_INTERRUPT_ENABLED */
+ 254:.\Generated_Source\PSoC5/UART_Decagon.c ****     #endif /* End UART_Decagon_RX_ENABLED */
+ 255:.\Generated_Source\PSoC5/UART_Decagon.c **** 
+ 256:.\Generated_Source\PSoC5/UART_Decagon.c ****     #if(UART_Decagon_TX_ENABLED)
+ 257:.\Generated_Source\PSoC5/UART_Decagon.c ****         UART_Decagon_TXSTATUS_ACTL_REG &= (uint8)~UART_Decagon_INT_ENABLE;
+ 258:.\Generated_Source\PSoC5/UART_Decagon.c ****         #if(UART_Decagon_TX_INTERRUPT_ENABLED && (UART_Decagon_TXBUFFERSIZE > UART_Decagon_FIFO_LEN
+ 259:.\Generated_Source\PSoC5/UART_Decagon.c ****             UART_Decagon_DisableTxInt();
+ 260:.\Generated_Source\PSoC5/UART_Decagon.c ****         #endif /* End UART_Decagon_TX_INTERRUPT_ENABLED */
+ 261:.\Generated_Source\PSoC5/UART_Decagon.c ****     #endif /* End UART_Decagon_TX_ENABLED */
+ 262:.\Generated_Source\PSoC5/UART_Decagon.c **** 
+ 263:.\Generated_Source\PSoC5/UART_Decagon.c ****     CyExitCriticalSection(enableInterrupts);
+ 168              		.loc 1 263 0
+ 169 0020 2046     		mov	r0, r4
+ 170 0022 FFF7FEFF 		bl	CyExitCriticalSection
+ 171              	.LVL10:
+ 172 0026 10BD     		pop	{r4, pc}
+ 173              	.LVL11:
+ 174              	.L16:
+ 175              		.align	2
+ 176              	.L15:
+ 177 0028 91640040 		.word	1073767569
+ 178 002c 92640040 		.word	1073767570
+ 179              		.cfi_endproc
+ 180              	.LFE3:
+ 181              		.size	UART_Decagon_Stop, .-UART_Decagon_Stop
+ 182              		.section	.text.UART_Decagon_ReadControlRegister,"ax",%progbits
+ 183              		.align	2
+ 184              		.global	UART_Decagon_ReadControlRegister
+ 185              		.thumb
+ 186              		.thumb_func
+ 187              		.type	UART_Decagon_ReadControlRegister, %function
+ 188              	UART_Decagon_ReadControlRegister:
+ARM GAS  C:\Users\cps\AppData\Local\Temp\ccsRlKN0.s 			page 9
+
+
+ 189              	.LFB4:
+ 264:.\Generated_Source\PSoC5/UART_Decagon.c **** }
+ 265:.\Generated_Source\PSoC5/UART_Decagon.c **** 
+ 266:.\Generated_Source\PSoC5/UART_Decagon.c **** 
+ 267:.\Generated_Source\PSoC5/UART_Decagon.c **** /*******************************************************************************
+ 268:.\Generated_Source\PSoC5/UART_Decagon.c **** * Function Name: UART_Decagon_ReadControlRegister
+ 269:.\Generated_Source\PSoC5/UART_Decagon.c **** ********************************************************************************
+ 270:.\Generated_Source\PSoC5/UART_Decagon.c **** *
+ 271:.\Generated_Source\PSoC5/UART_Decagon.c **** * Summary:
+ 272:.\Generated_Source\PSoC5/UART_Decagon.c **** *  Read the current state of the control register
+ 273:.\Generated_Source\PSoC5/UART_Decagon.c **** *
+ 274:.\Generated_Source\PSoC5/UART_Decagon.c **** * Parameters:
+ 275:.\Generated_Source\PSoC5/UART_Decagon.c **** *  None.
+ 276:.\Generated_Source\PSoC5/UART_Decagon.c **** *
+ 277:.\Generated_Source\PSoC5/UART_Decagon.c **** * Return:
+ 278:.\Generated_Source\PSoC5/UART_Decagon.c **** *  Current state of the control register.
+ 279:.\Generated_Source\PSoC5/UART_Decagon.c **** *
+ 280:.\Generated_Source\PSoC5/UART_Decagon.c **** *******************************************************************************/
+ 281:.\Generated_Source\PSoC5/UART_Decagon.c **** uint8 UART_Decagon_ReadControlRegister(void) 
+ 282:.\Generated_Source\PSoC5/UART_Decagon.c **** {
+ 190              		.loc 1 282 0
+ 191              		.cfi_startproc
+ 192              		@ args = 0, pretend = 0, frame = 0
+ 193              		@ frame_needed = 0, uses_anonymous_args = 0
+ 194              		@ link register save eliminated.
+ 283:.\Generated_Source\PSoC5/UART_Decagon.c ****     #if( UART_Decagon_CONTROL_REG_REMOVED )
+ 284:.\Generated_Source\PSoC5/UART_Decagon.c ****         return(0u);
+ 285:.\Generated_Source\PSoC5/UART_Decagon.c ****     #else
+ 286:.\Generated_Source\PSoC5/UART_Decagon.c ****         return(UART_Decagon_CONTROL_REG);
+ 287:.\Generated_Source\PSoC5/UART_Decagon.c ****     #endif /* End UART_Decagon_CONTROL_REG_REMOVED */
+ 288:.\Generated_Source\PSoC5/UART_Decagon.c **** }
+ 195              		.loc 1 288 0
+ 196 0000 0020     		movs	r0, #0
+ 197 0002 7047     		bx	lr
+ 198              		.cfi_endproc
+ 199              	.LFE4:
+ 200              		.size	UART_Decagon_ReadControlRegister, .-UART_Decagon_ReadControlRegister
+ 201              		.section	.text.UART_Decagon_WriteControlRegister,"ax",%progbits
+ 202              		.align	2
+ 203              		.global	UART_Decagon_WriteControlRegister
+ 204              		.thumb
+ 205              		.thumb_func
+ 206              		.type	UART_Decagon_WriteControlRegister, %function
+ 207              	UART_Decagon_WriteControlRegister:
+ 208              	.LFB5:
+ 289:.\Generated_Source\PSoC5/UART_Decagon.c **** 
+ 290:.\Generated_Source\PSoC5/UART_Decagon.c **** 
+ 291:.\Generated_Source\PSoC5/UART_Decagon.c **** /*******************************************************************************
+ 292:.\Generated_Source\PSoC5/UART_Decagon.c **** * Function Name: UART_Decagon_WriteControlRegister
+ 293:.\Generated_Source\PSoC5/UART_Decagon.c **** ********************************************************************************
+ 294:.\Generated_Source\PSoC5/UART_Decagon.c **** *
+ 295:.\Generated_Source\PSoC5/UART_Decagon.c **** * Summary:
+ 296:.\Generated_Source\PSoC5/UART_Decagon.c **** *  Writes an 8-bit value into the control register
+ 297:.\Generated_Source\PSoC5/UART_Decagon.c **** *
+ 298:.\Generated_Source\PSoC5/UART_Decagon.c **** * Parameters:
+ 299:.\Generated_Source\PSoC5/UART_Decagon.c **** *  control:  control register value
+ 300:.\Generated_Source\PSoC5/UART_Decagon.c **** *
+ARM GAS  C:\Users\cps\AppData\Local\Temp\ccsRlKN0.s 			page 10
+
+
+ 301:.\Generated_Source\PSoC5/UART_Decagon.c **** * Return:
+ 302:.\Generated_Source\PSoC5/UART_Decagon.c **** *  None.
+ 303:.\Generated_Source\PSoC5/UART_Decagon.c **** *
+ 304:.\Generated_Source\PSoC5/UART_Decagon.c **** *******************************************************************************/
+ 305:.\Generated_Source\PSoC5/UART_Decagon.c **** void  UART_Decagon_WriteControlRegister(uint8 control) 
+ 306:.\Generated_Source\PSoC5/UART_Decagon.c **** {
+ 209              		.loc 1 306 0
+ 210              		.cfi_startproc
+ 211              		@ args = 0, pretend = 0, frame = 0
+ 212              		@ frame_needed = 0, uses_anonymous_args = 0
+ 213              		@ link register save eliminated.
+ 214              	.LVL12:
+ 215 0000 7047     		bx	lr
+ 216              		.cfi_endproc
+ 217              	.LFE5:
+ 218              		.size	UART_Decagon_WriteControlRegister, .-UART_Decagon_WriteControlRegister
+ 219 0002 00BF     		.section	.text.UART_Decagon_SetRxInterruptMode,"ax",%progbits
+ 220              		.align	2
+ 221              		.global	UART_Decagon_SetRxInterruptMode
+ 222              		.thumb
+ 223              		.thumb_func
+ 224              		.type	UART_Decagon_SetRxInterruptMode, %function
+ 225              	UART_Decagon_SetRxInterruptMode:
+ 226              	.LFB6:
+ 307:.\Generated_Source\PSoC5/UART_Decagon.c ****     #if( UART_Decagon_CONTROL_REG_REMOVED )
+ 308:.\Generated_Source\PSoC5/UART_Decagon.c ****         if(control != 0u) { }      /* release compiler warning */
+ 309:.\Generated_Source\PSoC5/UART_Decagon.c ****     #else
+ 310:.\Generated_Source\PSoC5/UART_Decagon.c ****        UART_Decagon_CONTROL_REG = control;
+ 311:.\Generated_Source\PSoC5/UART_Decagon.c ****     #endif /* End UART_Decagon_CONTROL_REG_REMOVED */
+ 312:.\Generated_Source\PSoC5/UART_Decagon.c **** }
+ 313:.\Generated_Source\PSoC5/UART_Decagon.c **** 
+ 314:.\Generated_Source\PSoC5/UART_Decagon.c **** 
+ 315:.\Generated_Source\PSoC5/UART_Decagon.c **** #if(UART_Decagon_RX_ENABLED || UART_Decagon_HD_ENABLED)
+ 316:.\Generated_Source\PSoC5/UART_Decagon.c **** 
+ 317:.\Generated_Source\PSoC5/UART_Decagon.c ****     #if(UART_Decagon_RX_INTERRUPT_ENABLED)
+ 318:.\Generated_Source\PSoC5/UART_Decagon.c **** 
+ 319:.\Generated_Source\PSoC5/UART_Decagon.c ****         /*******************************************************************************
+ 320:.\Generated_Source\PSoC5/UART_Decagon.c ****         * Function Name: UART_Decagon_EnableRxInt
+ 321:.\Generated_Source\PSoC5/UART_Decagon.c ****         ********************************************************************************
+ 322:.\Generated_Source\PSoC5/UART_Decagon.c ****         *
+ 323:.\Generated_Source\PSoC5/UART_Decagon.c ****         * Summary:
+ 324:.\Generated_Source\PSoC5/UART_Decagon.c ****         *  Enable RX interrupt generation
+ 325:.\Generated_Source\PSoC5/UART_Decagon.c ****         *
+ 326:.\Generated_Source\PSoC5/UART_Decagon.c ****         * Parameters:
+ 327:.\Generated_Source\PSoC5/UART_Decagon.c ****         *  None.
+ 328:.\Generated_Source\PSoC5/UART_Decagon.c ****         *
+ 329:.\Generated_Source\PSoC5/UART_Decagon.c ****         * Return:
+ 330:.\Generated_Source\PSoC5/UART_Decagon.c ****         *  None.
+ 331:.\Generated_Source\PSoC5/UART_Decagon.c ****         *
+ 332:.\Generated_Source\PSoC5/UART_Decagon.c ****         * Theory:
+ 333:.\Generated_Source\PSoC5/UART_Decagon.c ****         *  Enable the interrupt output -or- the interrupt component itself
+ 334:.\Generated_Source\PSoC5/UART_Decagon.c ****         *
+ 335:.\Generated_Source\PSoC5/UART_Decagon.c ****         *******************************************************************************/
+ 336:.\Generated_Source\PSoC5/UART_Decagon.c ****         void UART_Decagon_EnableRxInt(void) 
+ 337:.\Generated_Source\PSoC5/UART_Decagon.c ****         {
+ 338:.\Generated_Source\PSoC5/UART_Decagon.c ****             CyIntEnable(UART_Decagon_RX_VECT_NUM);
+ 339:.\Generated_Source\PSoC5/UART_Decagon.c ****         }
+ARM GAS  C:\Users\cps\AppData\Local\Temp\ccsRlKN0.s 			page 11
+
+
+ 340:.\Generated_Source\PSoC5/UART_Decagon.c **** 
+ 341:.\Generated_Source\PSoC5/UART_Decagon.c **** 
+ 342:.\Generated_Source\PSoC5/UART_Decagon.c ****         /*******************************************************************************
+ 343:.\Generated_Source\PSoC5/UART_Decagon.c ****         * Function Name: UART_Decagon_DisableRxInt
+ 344:.\Generated_Source\PSoC5/UART_Decagon.c ****         ********************************************************************************
+ 345:.\Generated_Source\PSoC5/UART_Decagon.c ****         *
+ 346:.\Generated_Source\PSoC5/UART_Decagon.c ****         * Summary:
+ 347:.\Generated_Source\PSoC5/UART_Decagon.c ****         *  Disable RX interrupt generation
+ 348:.\Generated_Source\PSoC5/UART_Decagon.c ****         *
+ 349:.\Generated_Source\PSoC5/UART_Decagon.c ****         * Parameters:
+ 350:.\Generated_Source\PSoC5/UART_Decagon.c ****         *  None.
+ 351:.\Generated_Source\PSoC5/UART_Decagon.c ****         *
+ 352:.\Generated_Source\PSoC5/UART_Decagon.c ****         * Return:
+ 353:.\Generated_Source\PSoC5/UART_Decagon.c ****         *  None.
+ 354:.\Generated_Source\PSoC5/UART_Decagon.c ****         *
+ 355:.\Generated_Source\PSoC5/UART_Decagon.c ****         * Theory:
+ 356:.\Generated_Source\PSoC5/UART_Decagon.c ****         *  Disable the interrupt output -or- the interrupt component itself
+ 357:.\Generated_Source\PSoC5/UART_Decagon.c ****         *
+ 358:.\Generated_Source\PSoC5/UART_Decagon.c ****         *******************************************************************************/
+ 359:.\Generated_Source\PSoC5/UART_Decagon.c ****         void UART_Decagon_DisableRxInt(void) 
+ 360:.\Generated_Source\PSoC5/UART_Decagon.c ****         {
+ 361:.\Generated_Source\PSoC5/UART_Decagon.c ****             CyIntDisable(UART_Decagon_RX_VECT_NUM);
+ 362:.\Generated_Source\PSoC5/UART_Decagon.c ****         }
+ 363:.\Generated_Source\PSoC5/UART_Decagon.c **** 
+ 364:.\Generated_Source\PSoC5/UART_Decagon.c ****     #endif /* UART_Decagon_RX_INTERRUPT_ENABLED */
+ 365:.\Generated_Source\PSoC5/UART_Decagon.c **** 
+ 366:.\Generated_Source\PSoC5/UART_Decagon.c **** 
+ 367:.\Generated_Source\PSoC5/UART_Decagon.c ****     /*******************************************************************************
+ 368:.\Generated_Source\PSoC5/UART_Decagon.c ****     * Function Name: UART_Decagon_SetRxInterruptMode
+ 369:.\Generated_Source\PSoC5/UART_Decagon.c ****     ********************************************************************************
+ 370:.\Generated_Source\PSoC5/UART_Decagon.c ****     *
+ 371:.\Generated_Source\PSoC5/UART_Decagon.c ****     * Summary:
+ 372:.\Generated_Source\PSoC5/UART_Decagon.c ****     *  Configure which status bits trigger an interrupt event
+ 373:.\Generated_Source\PSoC5/UART_Decagon.c ****     *
+ 374:.\Generated_Source\PSoC5/UART_Decagon.c ****     * Parameters:
+ 375:.\Generated_Source\PSoC5/UART_Decagon.c ****     *  IntSrc:  An or'd combination of the desired status bit masks (defined in
+ 376:.\Generated_Source\PSoC5/UART_Decagon.c ****     *           the header file)
+ 377:.\Generated_Source\PSoC5/UART_Decagon.c ****     *
+ 378:.\Generated_Source\PSoC5/UART_Decagon.c ****     * Return:
+ 379:.\Generated_Source\PSoC5/UART_Decagon.c ****     *  None.
+ 380:.\Generated_Source\PSoC5/UART_Decagon.c ****     *
+ 381:.\Generated_Source\PSoC5/UART_Decagon.c ****     * Theory:
+ 382:.\Generated_Source\PSoC5/UART_Decagon.c ****     *  Enables the output of specific status bits to the interrupt controller
+ 383:.\Generated_Source\PSoC5/UART_Decagon.c ****     *
+ 384:.\Generated_Source\PSoC5/UART_Decagon.c ****     *******************************************************************************/
+ 385:.\Generated_Source\PSoC5/UART_Decagon.c ****     void UART_Decagon_SetRxInterruptMode(uint8 intSrc) 
+ 386:.\Generated_Source\PSoC5/UART_Decagon.c ****     {
+ 227              		.loc 1 386 0
+ 228              		.cfi_startproc
+ 229              		@ args = 0, pretend = 0, frame = 0
+ 230              		@ frame_needed = 0, uses_anonymous_args = 0
+ 231              		@ link register save eliminated.
+ 232              	.LVL13:
+ 387:.\Generated_Source\PSoC5/UART_Decagon.c ****         UART_Decagon_RXSTATUS_MASK_REG  = intSrc;
+ 233              		.loc 1 387 0
+ 234 0000 014B     		ldr	r3, .L20
+ 235 0002 1870     		strb	r0, [r3]
+ARM GAS  C:\Users\cps\AppData\Local\Temp\ccsRlKN0.s 			page 12
+
+
+ 236 0004 7047     		bx	lr
+ 237              	.L21:
+ 238 0006 00BF     		.align	2
+ 239              	.L20:
+ 240 0008 82640040 		.word	1073767554
+ 241              		.cfi_endproc
+ 242              	.LFE6:
+ 243              		.size	UART_Decagon_SetRxInterruptMode, .-UART_Decagon_SetRxInterruptMode
+ 244              		.section	.text.UART_Decagon_ReadRxData,"ax",%progbits
+ 245              		.align	2
+ 246              		.global	UART_Decagon_ReadRxData
+ 247              		.thumb
+ 248              		.thumb_func
+ 249              		.type	UART_Decagon_ReadRxData, %function
+ 250              	UART_Decagon_ReadRxData:
+ 251              	.LFB7:
+ 388:.\Generated_Source\PSoC5/UART_Decagon.c ****     }
+ 389:.\Generated_Source\PSoC5/UART_Decagon.c **** 
+ 390:.\Generated_Source\PSoC5/UART_Decagon.c **** 
+ 391:.\Generated_Source\PSoC5/UART_Decagon.c ****     /*******************************************************************************
+ 392:.\Generated_Source\PSoC5/UART_Decagon.c ****     * Function Name: UART_Decagon_ReadRxData
+ 393:.\Generated_Source\PSoC5/UART_Decagon.c ****     ********************************************************************************
+ 394:.\Generated_Source\PSoC5/UART_Decagon.c ****     *
+ 395:.\Generated_Source\PSoC5/UART_Decagon.c ****     * Summary:
+ 396:.\Generated_Source\PSoC5/UART_Decagon.c ****     *  Returns data in RX Data register without checking status register to
+ 397:.\Generated_Source\PSoC5/UART_Decagon.c ****     *  determine if data is valid
+ 398:.\Generated_Source\PSoC5/UART_Decagon.c ****     *
+ 399:.\Generated_Source\PSoC5/UART_Decagon.c ****     * Parameters:
+ 400:.\Generated_Source\PSoC5/UART_Decagon.c ****     *  None.
+ 401:.\Generated_Source\PSoC5/UART_Decagon.c ****     *
+ 402:.\Generated_Source\PSoC5/UART_Decagon.c ****     * Return:
+ 403:.\Generated_Source\PSoC5/UART_Decagon.c ****     *  Received data from RX register
+ 404:.\Generated_Source\PSoC5/UART_Decagon.c ****     *
+ 405:.\Generated_Source\PSoC5/UART_Decagon.c ****     * Global Variables:
+ 406:.\Generated_Source\PSoC5/UART_Decagon.c ****     *  UART_Decagon_rxBuffer - RAM buffer pointer for save received data.
+ 407:.\Generated_Source\PSoC5/UART_Decagon.c ****     *  UART_Decagon_rxBufferWrite - cyclic index for write to rxBuffer,
+ 408:.\Generated_Source\PSoC5/UART_Decagon.c ****     *     checked to identify new data.
+ 409:.\Generated_Source\PSoC5/UART_Decagon.c ****     *  UART_Decagon_rxBufferRead - cyclic index for read from rxBuffer,
+ 410:.\Generated_Source\PSoC5/UART_Decagon.c ****     *     incremented after each byte has been read from buffer.
+ 411:.\Generated_Source\PSoC5/UART_Decagon.c ****     *  UART_Decagon_rxBufferLoopDetect - creared if loop condition was detected
+ 412:.\Generated_Source\PSoC5/UART_Decagon.c ****     *     in RX ISR.
+ 413:.\Generated_Source\PSoC5/UART_Decagon.c ****     *
+ 414:.\Generated_Source\PSoC5/UART_Decagon.c ****     * Reentrant:
+ 415:.\Generated_Source\PSoC5/UART_Decagon.c ****     *  No.
+ 416:.\Generated_Source\PSoC5/UART_Decagon.c ****     *
+ 417:.\Generated_Source\PSoC5/UART_Decagon.c ****     *******************************************************************************/
+ 418:.\Generated_Source\PSoC5/UART_Decagon.c ****     uint8 UART_Decagon_ReadRxData(void) 
+ 419:.\Generated_Source\PSoC5/UART_Decagon.c ****     {
+ 252              		.loc 1 419 0
+ 253              		.cfi_startproc
+ 254              		@ args = 0, pretend = 0, frame = 0
+ 255              		@ frame_needed = 0, uses_anonymous_args = 0
+ 256              		@ link register save eliminated.
+ 420:.\Generated_Source\PSoC5/UART_Decagon.c ****         uint8 rxData;
+ 421:.\Generated_Source\PSoC5/UART_Decagon.c **** 
+ 422:.\Generated_Source\PSoC5/UART_Decagon.c ****         #if(UART_Decagon_RXBUFFERSIZE > UART_Decagon_FIFO_LENGTH)
+ 423:.\Generated_Source\PSoC5/UART_Decagon.c ****             uint8 loc_rxBufferRead;
+ARM GAS  C:\Users\cps\AppData\Local\Temp\ccsRlKN0.s 			page 13
+
+
+ 424:.\Generated_Source\PSoC5/UART_Decagon.c ****             uint8 loc_rxBufferWrite;
+ 425:.\Generated_Source\PSoC5/UART_Decagon.c ****             /* Protect variables that could change on interrupt. */
+ 426:.\Generated_Source\PSoC5/UART_Decagon.c ****             /* Disable Rx interrupt. */
+ 427:.\Generated_Source\PSoC5/UART_Decagon.c ****             #if(UART_Decagon_RX_INTERRUPT_ENABLED)
+ 428:.\Generated_Source\PSoC5/UART_Decagon.c ****                 UART_Decagon_DisableRxInt();
+ 429:.\Generated_Source\PSoC5/UART_Decagon.c ****             #endif /* UART_Decagon_RX_INTERRUPT_ENABLED */
+ 430:.\Generated_Source\PSoC5/UART_Decagon.c ****             loc_rxBufferRead = UART_Decagon_rxBufferRead;
+ 431:.\Generated_Source\PSoC5/UART_Decagon.c ****             loc_rxBufferWrite = UART_Decagon_rxBufferWrite;
+ 432:.\Generated_Source\PSoC5/UART_Decagon.c **** 
+ 433:.\Generated_Source\PSoC5/UART_Decagon.c ****             if( (UART_Decagon_rxBufferLoopDetect != 0u) || (loc_rxBufferRead != loc_rxBufferWrite) 
+ 434:.\Generated_Source\PSoC5/UART_Decagon.c ****             {
+ 435:.\Generated_Source\PSoC5/UART_Decagon.c ****                 rxData = UART_Decagon_rxBuffer[loc_rxBufferRead];
+ 436:.\Generated_Source\PSoC5/UART_Decagon.c ****                 loc_rxBufferRead++;
+ 437:.\Generated_Source\PSoC5/UART_Decagon.c **** 
+ 438:.\Generated_Source\PSoC5/UART_Decagon.c ****                 if(loc_rxBufferRead >= UART_Decagon_RXBUFFERSIZE)
+ 439:.\Generated_Source\PSoC5/UART_Decagon.c ****                 {
+ 440:.\Generated_Source\PSoC5/UART_Decagon.c ****                     loc_rxBufferRead = 0u;
+ 441:.\Generated_Source\PSoC5/UART_Decagon.c ****                 }
+ 442:.\Generated_Source\PSoC5/UART_Decagon.c ****                 /* Update the real pointer */
+ 443:.\Generated_Source\PSoC5/UART_Decagon.c ****                 UART_Decagon_rxBufferRead = loc_rxBufferRead;
+ 444:.\Generated_Source\PSoC5/UART_Decagon.c **** 
+ 445:.\Generated_Source\PSoC5/UART_Decagon.c ****                 if(UART_Decagon_rxBufferLoopDetect != 0u )
+ 446:.\Generated_Source\PSoC5/UART_Decagon.c ****                 {
+ 447:.\Generated_Source\PSoC5/UART_Decagon.c ****                     UART_Decagon_rxBufferLoopDetect = 0u;
+ 448:.\Generated_Source\PSoC5/UART_Decagon.c ****                     #if( (UART_Decagon_RX_INTERRUPT_ENABLED) && (UART_Decagon_FLOW_CONTROL != 0u) &
+ 449:.\Generated_Source\PSoC5/UART_Decagon.c ****                          (UART_Decagon_RXBUFFERSIZE > UART_Decagon_FIFO_LENGTH) )
+ 450:.\Generated_Source\PSoC5/UART_Decagon.c ****                         /* When Hardware Flow Control selected - return RX mask */
+ 451:.\Generated_Source\PSoC5/UART_Decagon.c ****                         #if( UART_Decagon_HD_ENABLED )
+ 452:.\Generated_Source\PSoC5/UART_Decagon.c ****                             if((UART_Decagon_CONTROL_REG & UART_Decagon_CTRL_HD_SEND) == 0u)
+ 453:.\Generated_Source\PSoC5/UART_Decagon.c ****                             {   /* In Half duplex mode return RX mask only in RX
+ 454:.\Generated_Source\PSoC5/UART_Decagon.c ****                                 *  configuration set, otherwise
+ 455:.\Generated_Source\PSoC5/UART_Decagon.c ****                                 *  mask will be returned in LoadRxConfig() API.
+ 456:.\Generated_Source\PSoC5/UART_Decagon.c ****                                 */
+ 457:.\Generated_Source\PSoC5/UART_Decagon.c ****                                 UART_Decagon_RXSTATUS_MASK_REG  |= UART_Decagon_RX_STS_FIFO_NOTEMPT
+ 458:.\Generated_Source\PSoC5/UART_Decagon.c ****                             }
+ 459:.\Generated_Source\PSoC5/UART_Decagon.c ****                         #else
+ 460:.\Generated_Source\PSoC5/UART_Decagon.c ****                             UART_Decagon_RXSTATUS_MASK_REG  |= UART_Decagon_RX_STS_FIFO_NOTEMPTY;
+ 461:.\Generated_Source\PSoC5/UART_Decagon.c ****                         #endif /* end UART_Decagon_HD_ENABLED */
+ 462:.\Generated_Source\PSoC5/UART_Decagon.c ****                     #endif /* UART_Decagon_RX_INTERRUPT_ENABLED and Hardware flow control*/
+ 463:.\Generated_Source\PSoC5/UART_Decagon.c ****                 }
+ 464:.\Generated_Source\PSoC5/UART_Decagon.c ****             }
+ 465:.\Generated_Source\PSoC5/UART_Decagon.c ****             else
+ 466:.\Generated_Source\PSoC5/UART_Decagon.c ****             {   /* Needs to check status for RX_STS_FIFO_NOTEMPTY bit*/
+ 467:.\Generated_Source\PSoC5/UART_Decagon.c ****                 rxData = UART_Decagon_RXDATA_REG;
+ 468:.\Generated_Source\PSoC5/UART_Decagon.c ****             }
+ 469:.\Generated_Source\PSoC5/UART_Decagon.c **** 
+ 470:.\Generated_Source\PSoC5/UART_Decagon.c ****             /* Enable Rx interrupt. */
+ 471:.\Generated_Source\PSoC5/UART_Decagon.c ****             #if(UART_Decagon_RX_INTERRUPT_ENABLED)
+ 472:.\Generated_Source\PSoC5/UART_Decagon.c ****                 UART_Decagon_EnableRxInt();
+ 473:.\Generated_Source\PSoC5/UART_Decagon.c ****             #endif /* End UART_Decagon_RX_INTERRUPT_ENABLED */
+ 474:.\Generated_Source\PSoC5/UART_Decagon.c **** 
+ 475:.\Generated_Source\PSoC5/UART_Decagon.c ****         #else /* UART_Decagon_RXBUFFERSIZE > UART_Decagon_FIFO_LENGTH */
+ 476:.\Generated_Source\PSoC5/UART_Decagon.c **** 
+ 477:.\Generated_Source\PSoC5/UART_Decagon.c ****             /* Needs to check status for RX_STS_FIFO_NOTEMPTY bit*/
+ 478:.\Generated_Source\PSoC5/UART_Decagon.c ****             rxData = UART_Decagon_RXDATA_REG;
+ 257              		.loc 1 478 0
+ 258 0000 014B     		ldr	r3, .L23
+ARM GAS  C:\Users\cps\AppData\Local\Temp\ccsRlKN0.s 			page 14
+
+
+ 259 0002 1878     		ldrb	r0, [r3]	@ zero_extendqisi2
+ 260              	.LVL14:
+ 479:.\Generated_Source\PSoC5/UART_Decagon.c **** 
+ 480:.\Generated_Source\PSoC5/UART_Decagon.c ****         #endif /* UART_Decagon_RXBUFFERSIZE > UART_Decagon_FIFO_LENGTH */
+ 481:.\Generated_Source\PSoC5/UART_Decagon.c **** 
+ 482:.\Generated_Source\PSoC5/UART_Decagon.c ****         return(rxData);
+ 483:.\Generated_Source\PSoC5/UART_Decagon.c ****     }
+ 261              		.loc 1 483 0
+ 262 0004 7047     		bx	lr
+ 263              	.L24:
+ 264 0006 00BF     		.align	2
+ 265              	.L23:
+ 266 0008 42640040 		.word	1073767490
+ 267              		.cfi_endproc
+ 268              	.LFE7:
+ 269              		.size	UART_Decagon_ReadRxData, .-UART_Decagon_ReadRxData
+ 270              		.section	.text.UART_Decagon_ReadRxStatus,"ax",%progbits
+ 271              		.align	2
+ 272              		.global	UART_Decagon_ReadRxStatus
+ 273              		.thumb
+ 274              		.thumb_func
+ 275              		.type	UART_Decagon_ReadRxStatus, %function
+ 276              	UART_Decagon_ReadRxStatus:
+ 277              	.LFB8:
+ 484:.\Generated_Source\PSoC5/UART_Decagon.c **** 
+ 485:.\Generated_Source\PSoC5/UART_Decagon.c **** 
+ 486:.\Generated_Source\PSoC5/UART_Decagon.c ****     /*******************************************************************************
+ 487:.\Generated_Source\PSoC5/UART_Decagon.c ****     * Function Name: UART_Decagon_ReadRxStatus
+ 488:.\Generated_Source\PSoC5/UART_Decagon.c ****     ********************************************************************************
+ 489:.\Generated_Source\PSoC5/UART_Decagon.c ****     *
+ 490:.\Generated_Source\PSoC5/UART_Decagon.c ****     * Summary:
+ 491:.\Generated_Source\PSoC5/UART_Decagon.c ****     *  Read the current state of the status register
+ 492:.\Generated_Source\PSoC5/UART_Decagon.c ****     *  And detect software buffer overflow.
+ 493:.\Generated_Source\PSoC5/UART_Decagon.c ****     *
+ 494:.\Generated_Source\PSoC5/UART_Decagon.c ****     * Parameters:
+ 495:.\Generated_Source\PSoC5/UART_Decagon.c ****     *  None.
+ 496:.\Generated_Source\PSoC5/UART_Decagon.c ****     *
+ 497:.\Generated_Source\PSoC5/UART_Decagon.c ****     * Return:
+ 498:.\Generated_Source\PSoC5/UART_Decagon.c ****     *  Current state of the status register.
+ 499:.\Generated_Source\PSoC5/UART_Decagon.c ****     *
+ 500:.\Generated_Source\PSoC5/UART_Decagon.c ****     * Global Variables:
+ 501:.\Generated_Source\PSoC5/UART_Decagon.c ****     *  UART_Decagon_rxBufferOverflow - used to indicate overload condition.
+ 502:.\Generated_Source\PSoC5/UART_Decagon.c ****     *   It set to one in RX interrupt when there isn?t free space in
+ 503:.\Generated_Source\PSoC5/UART_Decagon.c ****     *   UART_Decagon_rxBufferRead to write new data. This condition returned
+ 504:.\Generated_Source\PSoC5/UART_Decagon.c ****     *   and cleared to zero by this API as an
+ 505:.\Generated_Source\PSoC5/UART_Decagon.c ****     *   UART_Decagon_RX_STS_SOFT_BUFF_OVER bit along with RX Status register
+ 506:.\Generated_Source\PSoC5/UART_Decagon.c ****     *   bits.
+ 507:.\Generated_Source\PSoC5/UART_Decagon.c ****     *
+ 508:.\Generated_Source\PSoC5/UART_Decagon.c ****     *******************************************************************************/
+ 509:.\Generated_Source\PSoC5/UART_Decagon.c ****     uint8 UART_Decagon_ReadRxStatus(void) 
+ 510:.\Generated_Source\PSoC5/UART_Decagon.c ****     {
+ 278              		.loc 1 510 0
+ 279              		.cfi_startproc
+ 280              		@ args = 0, pretend = 0, frame = 0
+ 281              		@ frame_needed = 0, uses_anonymous_args = 0
+ 282              		@ link register save eliminated.
+ 511:.\Generated_Source\PSoC5/UART_Decagon.c ****         uint8 status;
+ARM GAS  C:\Users\cps\AppData\Local\Temp\ccsRlKN0.s 			page 15
+
+
+ 512:.\Generated_Source\PSoC5/UART_Decagon.c **** 
+ 513:.\Generated_Source\PSoC5/UART_Decagon.c ****         status = UART_Decagon_RXSTATUS_REG & UART_Decagon_RX_HW_MASK;
+ 283              		.loc 1 513 0
+ 284 0000 024B     		ldr	r3, .L26
+ 285 0002 1878     		ldrb	r0, [r3]	@ zero_extendqisi2
+ 286              	.LVL15:
+ 514:.\Generated_Source\PSoC5/UART_Decagon.c **** 
+ 515:.\Generated_Source\PSoC5/UART_Decagon.c ****         #if(UART_Decagon_RXBUFFERSIZE > UART_Decagon_FIFO_LENGTH)
+ 516:.\Generated_Source\PSoC5/UART_Decagon.c ****             if( UART_Decagon_rxBufferOverflow != 0u )
+ 517:.\Generated_Source\PSoC5/UART_Decagon.c ****             {
+ 518:.\Generated_Source\PSoC5/UART_Decagon.c ****                 status |= UART_Decagon_RX_STS_SOFT_BUFF_OVER;
+ 519:.\Generated_Source\PSoC5/UART_Decagon.c ****                 UART_Decagon_rxBufferOverflow = 0u;
+ 520:.\Generated_Source\PSoC5/UART_Decagon.c ****             }
+ 521:.\Generated_Source\PSoC5/UART_Decagon.c ****         #endif /* UART_Decagon_RXBUFFERSIZE */
+ 522:.\Generated_Source\PSoC5/UART_Decagon.c **** 
+ 523:.\Generated_Source\PSoC5/UART_Decagon.c ****         return(status);
+ 524:.\Generated_Source\PSoC5/UART_Decagon.c ****     }
+ 287              		.loc 1 524 0
+ 288 0004 00F07F00 		and	r0, r0, #127
+ 289              	.LVL16:
+ 290 0008 7047     		bx	lr
+ 291              	.L27:
+ 292 000a 00BF     		.align	2
+ 293              	.L26:
+ 294 000c 62640040 		.word	1073767522
+ 295              		.cfi_endproc
+ 296              	.LFE8:
+ 297              		.size	UART_Decagon_ReadRxStatus, .-UART_Decagon_ReadRxStatus
+ 298              		.section	.text.UART_Decagon_GetChar,"ax",%progbits
+ 299              		.align	2
+ 300              		.global	UART_Decagon_GetChar
+ 301              		.thumb
+ 302              		.thumb_func
+ 303              		.type	UART_Decagon_GetChar, %function
+ 304              	UART_Decagon_GetChar:
+ 305              	.LFB9:
+ 525:.\Generated_Source\PSoC5/UART_Decagon.c **** 
+ 526:.\Generated_Source\PSoC5/UART_Decagon.c **** 
+ 527:.\Generated_Source\PSoC5/UART_Decagon.c ****     /*******************************************************************************
+ 528:.\Generated_Source\PSoC5/UART_Decagon.c ****     * Function Name: UART_Decagon_GetChar
+ 529:.\Generated_Source\PSoC5/UART_Decagon.c ****     ********************************************************************************
+ 530:.\Generated_Source\PSoC5/UART_Decagon.c ****     *
+ 531:.\Generated_Source\PSoC5/UART_Decagon.c ****     * Summary:
+ 532:.\Generated_Source\PSoC5/UART_Decagon.c ****     *  Reads UART RX buffer immediately, if data is not available or an error
+ 533:.\Generated_Source\PSoC5/UART_Decagon.c ****     *  condition exists, zero is returned; otherwise, character is read and
+ 534:.\Generated_Source\PSoC5/UART_Decagon.c ****     *  returned.
+ 535:.\Generated_Source\PSoC5/UART_Decagon.c ****     *
+ 536:.\Generated_Source\PSoC5/UART_Decagon.c ****     * Parameters:
+ 537:.\Generated_Source\PSoC5/UART_Decagon.c ****     *  None.
+ 538:.\Generated_Source\PSoC5/UART_Decagon.c ****     *
+ 539:.\Generated_Source\PSoC5/UART_Decagon.c ****     * Return:
+ 540:.\Generated_Source\PSoC5/UART_Decagon.c ****     *  Character read from UART RX buffer. ASCII characters from 1 to 255 are valid.
+ 541:.\Generated_Source\PSoC5/UART_Decagon.c ****     *  A returned zero signifies an error condition or no data available.
+ 542:.\Generated_Source\PSoC5/UART_Decagon.c ****     *
+ 543:.\Generated_Source\PSoC5/UART_Decagon.c ****     * Global Variables:
+ 544:.\Generated_Source\PSoC5/UART_Decagon.c ****     *  UART_Decagon_rxBuffer - RAM buffer pointer for save received data.
+ 545:.\Generated_Source\PSoC5/UART_Decagon.c ****     *  UART_Decagon_rxBufferWrite - cyclic index for write to rxBuffer,
+ARM GAS  C:\Users\cps\AppData\Local\Temp\ccsRlKN0.s 			page 16
+
+
+ 546:.\Generated_Source\PSoC5/UART_Decagon.c ****     *     checked to identify new data.
+ 547:.\Generated_Source\PSoC5/UART_Decagon.c ****     *  UART_Decagon_rxBufferRead - cyclic index for read from rxBuffer,
+ 548:.\Generated_Source\PSoC5/UART_Decagon.c ****     *     incremented after each byte has been read from buffer.
+ 549:.\Generated_Source\PSoC5/UART_Decagon.c ****     *  UART_Decagon_rxBufferLoopDetect - creared if loop condition was detected
+ 550:.\Generated_Source\PSoC5/UART_Decagon.c ****     *     in RX ISR.
+ 551:.\Generated_Source\PSoC5/UART_Decagon.c ****     *
+ 552:.\Generated_Source\PSoC5/UART_Decagon.c ****     * Reentrant:
+ 553:.\Generated_Source\PSoC5/UART_Decagon.c ****     *  No.
+ 554:.\Generated_Source\PSoC5/UART_Decagon.c ****     *
+ 555:.\Generated_Source\PSoC5/UART_Decagon.c ****     *******************************************************************************/
+ 556:.\Generated_Source\PSoC5/UART_Decagon.c ****     uint8 UART_Decagon_GetChar(void) 
+ 557:.\Generated_Source\PSoC5/UART_Decagon.c ****     {
+ 306              		.loc 1 557 0
+ 307              		.cfi_startproc
+ 308              		@ args = 0, pretend = 0, frame = 0
+ 309              		@ frame_needed = 0, uses_anonymous_args = 0
+ 310              		@ link register save eliminated.
+ 311              	.LVL17:
+ 558:.\Generated_Source\PSoC5/UART_Decagon.c ****         uint8 rxData = 0u;
+ 559:.\Generated_Source\PSoC5/UART_Decagon.c ****         uint8 rxStatus;
+ 560:.\Generated_Source\PSoC5/UART_Decagon.c **** 
+ 561:.\Generated_Source\PSoC5/UART_Decagon.c ****         #if(UART_Decagon_RXBUFFERSIZE > UART_Decagon_FIFO_LENGTH)
+ 562:.\Generated_Source\PSoC5/UART_Decagon.c ****             uint8 loc_rxBufferRead;
+ 563:.\Generated_Source\PSoC5/UART_Decagon.c ****             uint8 loc_rxBufferWrite;
+ 564:.\Generated_Source\PSoC5/UART_Decagon.c ****             /* Protect variables that could change on interrupt. */
+ 565:.\Generated_Source\PSoC5/UART_Decagon.c ****             /* Disable Rx interrupt. */
+ 566:.\Generated_Source\PSoC5/UART_Decagon.c ****             #if(UART_Decagon_RX_INTERRUPT_ENABLED)
+ 567:.\Generated_Source\PSoC5/UART_Decagon.c ****                 UART_Decagon_DisableRxInt();
+ 568:.\Generated_Source\PSoC5/UART_Decagon.c ****             #endif /* UART_Decagon_RX_INTERRUPT_ENABLED */
+ 569:.\Generated_Source\PSoC5/UART_Decagon.c ****             loc_rxBufferRead = UART_Decagon_rxBufferRead;
+ 570:.\Generated_Source\PSoC5/UART_Decagon.c ****             loc_rxBufferWrite = UART_Decagon_rxBufferWrite;
+ 571:.\Generated_Source\PSoC5/UART_Decagon.c **** 
+ 572:.\Generated_Source\PSoC5/UART_Decagon.c ****             if( (UART_Decagon_rxBufferLoopDetect != 0u) || (loc_rxBufferRead != loc_rxBufferWrite) 
+ 573:.\Generated_Source\PSoC5/UART_Decagon.c ****             {
+ 574:.\Generated_Source\PSoC5/UART_Decagon.c ****                 rxData = UART_Decagon_rxBuffer[loc_rxBufferRead];
+ 575:.\Generated_Source\PSoC5/UART_Decagon.c ****                 loc_rxBufferRead++;
+ 576:.\Generated_Source\PSoC5/UART_Decagon.c ****                 if(loc_rxBufferRead >= UART_Decagon_RXBUFFERSIZE)
+ 577:.\Generated_Source\PSoC5/UART_Decagon.c ****                 {
+ 578:.\Generated_Source\PSoC5/UART_Decagon.c ****                     loc_rxBufferRead = 0u;
+ 579:.\Generated_Source\PSoC5/UART_Decagon.c ****                 }
+ 580:.\Generated_Source\PSoC5/UART_Decagon.c ****                 /* Update the real pointer */
+ 581:.\Generated_Source\PSoC5/UART_Decagon.c ****                 UART_Decagon_rxBufferRead = loc_rxBufferRead;
+ 582:.\Generated_Source\PSoC5/UART_Decagon.c **** 
+ 583:.\Generated_Source\PSoC5/UART_Decagon.c ****                 if(UART_Decagon_rxBufferLoopDetect > 0u )
+ 584:.\Generated_Source\PSoC5/UART_Decagon.c ****                 {
+ 585:.\Generated_Source\PSoC5/UART_Decagon.c ****                     UART_Decagon_rxBufferLoopDetect = 0u;
+ 586:.\Generated_Source\PSoC5/UART_Decagon.c ****                     #if( (UART_Decagon_RX_INTERRUPT_ENABLED) && (UART_Decagon_FLOW_CONTROL != 0u) )
+ 587:.\Generated_Source\PSoC5/UART_Decagon.c ****                         /* When Hardware Flow Control selected - return RX mask */
+ 588:.\Generated_Source\PSoC5/UART_Decagon.c ****                         #if( UART_Decagon_HD_ENABLED )
+ 589:.\Generated_Source\PSoC5/UART_Decagon.c ****                             if((UART_Decagon_CONTROL_REG & UART_Decagon_CTRL_HD_SEND) == 0u)
+ 590:.\Generated_Source\PSoC5/UART_Decagon.c ****                             {   /* In Half duplex mode return RX mask only if
+ 591:.\Generated_Source\PSoC5/UART_Decagon.c ****                                 *  RX configuration set, otherwise
+ 592:.\Generated_Source\PSoC5/UART_Decagon.c ****                                 *  mask will be returned in LoadRxConfig() API.
+ 593:.\Generated_Source\PSoC5/UART_Decagon.c ****                                 */
+ 594:.\Generated_Source\PSoC5/UART_Decagon.c ****                                 UART_Decagon_RXSTATUS_MASK_REG  |= UART_Decagon_RX_STS_FIFO_NOTEMPT
+ 595:.\Generated_Source\PSoC5/UART_Decagon.c ****                             }
+ 596:.\Generated_Source\PSoC5/UART_Decagon.c ****                         #else
+ARM GAS  C:\Users\cps\AppData\Local\Temp\ccsRlKN0.s 			page 17
+
+
+ 597:.\Generated_Source\PSoC5/UART_Decagon.c ****                             UART_Decagon_RXSTATUS_MASK_REG  |= UART_Decagon_RX_STS_FIFO_NOTEMPTY;
+ 598:.\Generated_Source\PSoC5/UART_Decagon.c ****                         #endif /* end UART_Decagon_HD_ENABLED */
+ 599:.\Generated_Source\PSoC5/UART_Decagon.c ****                     #endif /* UART_Decagon_RX_INTERRUPT_ENABLED and Hardware flow control*/
+ 600:.\Generated_Source\PSoC5/UART_Decagon.c ****                 }
+ 601:.\Generated_Source\PSoC5/UART_Decagon.c **** 
+ 602:.\Generated_Source\PSoC5/UART_Decagon.c ****             }
+ 603:.\Generated_Source\PSoC5/UART_Decagon.c ****             else
+ 604:.\Generated_Source\PSoC5/UART_Decagon.c ****             {   rxStatus = UART_Decagon_RXSTATUS_REG;
+ 605:.\Generated_Source\PSoC5/UART_Decagon.c ****                 if((rxStatus & UART_Decagon_RX_STS_FIFO_NOTEMPTY) != 0u)
+ 606:.\Generated_Source\PSoC5/UART_Decagon.c ****                 {   /* Read received data from FIFO*/
+ 607:.\Generated_Source\PSoC5/UART_Decagon.c ****                     rxData = UART_Decagon_RXDATA_REG;
+ 608:.\Generated_Source\PSoC5/UART_Decagon.c ****                     /*Check status on error*/
+ 609:.\Generated_Source\PSoC5/UART_Decagon.c ****                     if((rxStatus & (UART_Decagon_RX_STS_BREAK | UART_Decagon_RX_STS_PAR_ERROR |
+ 610:.\Generated_Source\PSoC5/UART_Decagon.c ****                                    UART_Decagon_RX_STS_STOP_ERROR | UART_Decagon_RX_STS_OVERRUN)) !
+ 611:.\Generated_Source\PSoC5/UART_Decagon.c ****                     {
+ 612:.\Generated_Source\PSoC5/UART_Decagon.c ****                         rxData = 0u;
+ 613:.\Generated_Source\PSoC5/UART_Decagon.c ****                     }
+ 614:.\Generated_Source\PSoC5/UART_Decagon.c ****                 }
+ 615:.\Generated_Source\PSoC5/UART_Decagon.c ****             }
+ 616:.\Generated_Source\PSoC5/UART_Decagon.c **** 
+ 617:.\Generated_Source\PSoC5/UART_Decagon.c ****             /* Enable Rx interrupt. */
+ 618:.\Generated_Source\PSoC5/UART_Decagon.c ****             #if(UART_Decagon_RX_INTERRUPT_ENABLED)
+ 619:.\Generated_Source\PSoC5/UART_Decagon.c ****                 UART_Decagon_EnableRxInt();
+ 620:.\Generated_Source\PSoC5/UART_Decagon.c ****             #endif /* UART_Decagon_RX_INTERRUPT_ENABLED */
+ 621:.\Generated_Source\PSoC5/UART_Decagon.c **** 
+ 622:.\Generated_Source\PSoC5/UART_Decagon.c ****         #else /* UART_Decagon_RXBUFFERSIZE > UART_Decagon_FIFO_LENGTH */
+ 623:.\Generated_Source\PSoC5/UART_Decagon.c **** 
+ 624:.\Generated_Source\PSoC5/UART_Decagon.c ****             rxStatus =UART_Decagon_RXSTATUS_REG;
+ 312              		.loc 1 624 0
+ 313 0000 084B     		ldr	r3, .L32
+ 314 0002 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 315 0004 DBB2     		uxtb	r3, r3
+ 316              	.LVL18:
+ 625:.\Generated_Source\PSoC5/UART_Decagon.c ****             if((rxStatus & UART_Decagon_RX_STS_FIFO_NOTEMPTY) != 0u)
+ 317              		.loc 1 625 0
+ 318 0006 13F0200F 		tst	r3, #32
+ 319 000a 06D0     		beq	.L30
+ 626:.\Generated_Source\PSoC5/UART_Decagon.c ****             {   /* Read received data from FIFO*/
+ 627:.\Generated_Source\PSoC5/UART_Decagon.c ****                 rxData = UART_Decagon_RXDATA_REG;
+ 320              		.loc 1 627 0
+ 321 000c 064A     		ldr	r2, .L32+4
+ 322 000e 1078     		ldrb	r0, [r2]	@ zero_extendqisi2
+ 323 0010 C0B2     		uxtb	r0, r0
+ 324              	.LVL19:
+ 628:.\Generated_Source\PSoC5/UART_Decagon.c ****                 /*Check status on error*/
+ 629:.\Generated_Source\PSoC5/UART_Decagon.c ****                 if((rxStatus & (UART_Decagon_RX_STS_BREAK | UART_Decagon_RX_STS_PAR_ERROR |
+ 325              		.loc 1 629 0
+ 326 0012 13F01E0F 		tst	r3, #30
+ 327 0016 02D1     		bne	.L31
+ 328 0018 7047     		bx	lr
+ 329              	.LVL20:
+ 330              	.L30:
+ 558:.\Generated_Source\PSoC5/UART_Decagon.c ****         uint8 rxStatus;
+ 331              		.loc 1 558 0
+ 332 001a 0020     		movs	r0, #0
+ 333 001c 7047     		bx	lr
+ 334              	.LVL21:
+ARM GAS  C:\Users\cps\AppData\Local\Temp\ccsRlKN0.s 			page 18
+
+
+ 335              	.L31:
+ 630:.\Generated_Source\PSoC5/UART_Decagon.c ****                                UART_Decagon_RX_STS_STOP_ERROR | UART_Decagon_RX_STS_OVERRUN)) != 0u
+ 631:.\Generated_Source\PSoC5/UART_Decagon.c ****                 {
+ 632:.\Generated_Source\PSoC5/UART_Decagon.c ****                     rxData = 0u;
+ 336              		.loc 1 632 0
+ 337 001e 0020     		movs	r0, #0
+ 338              	.LVL22:
+ 633:.\Generated_Source\PSoC5/UART_Decagon.c ****                 }
+ 634:.\Generated_Source\PSoC5/UART_Decagon.c ****             }
+ 635:.\Generated_Source\PSoC5/UART_Decagon.c ****         #endif /* UART_Decagon_RXBUFFERSIZE > UART_Decagon_FIFO_LENGTH */
+ 636:.\Generated_Source\PSoC5/UART_Decagon.c **** 
+ 637:.\Generated_Source\PSoC5/UART_Decagon.c ****         return(rxData);
+ 638:.\Generated_Source\PSoC5/UART_Decagon.c ****     }
+ 339              		.loc 1 638 0
+ 340 0020 7047     		bx	lr
+ 341              	.L33:
+ 342 0022 00BF     		.align	2
+ 343              	.L32:
+ 344 0024 62640040 		.word	1073767522
+ 345 0028 42640040 		.word	1073767490
+ 346              		.cfi_endproc
+ 347              	.LFE9:
+ 348              		.size	UART_Decagon_GetChar, .-UART_Decagon_GetChar
+ 349              		.section	.text.UART_Decagon_GetByte,"ax",%progbits
+ 350              		.align	2
+ 351              		.global	UART_Decagon_GetByte
+ 352              		.thumb
+ 353              		.thumb_func
+ 354              		.type	UART_Decagon_GetByte, %function
+ 355              	UART_Decagon_GetByte:
+ 356              	.LFB10:
+ 639:.\Generated_Source\PSoC5/UART_Decagon.c **** 
+ 640:.\Generated_Source\PSoC5/UART_Decagon.c **** 
+ 641:.\Generated_Source\PSoC5/UART_Decagon.c ****     /*******************************************************************************
+ 642:.\Generated_Source\PSoC5/UART_Decagon.c ****     * Function Name: UART_Decagon_GetByte
+ 643:.\Generated_Source\PSoC5/UART_Decagon.c ****     ********************************************************************************
+ 644:.\Generated_Source\PSoC5/UART_Decagon.c ****     *
+ 645:.\Generated_Source\PSoC5/UART_Decagon.c ****     * Summary:
+ 646:.\Generated_Source\PSoC5/UART_Decagon.c ****     *  Grab the next available byte of data from the recieve FIFO
+ 647:.\Generated_Source\PSoC5/UART_Decagon.c ****     *
+ 648:.\Generated_Source\PSoC5/UART_Decagon.c ****     * Parameters:
+ 649:.\Generated_Source\PSoC5/UART_Decagon.c ****     *  None.
+ 650:.\Generated_Source\PSoC5/UART_Decagon.c ****     *
+ 651:.\Generated_Source\PSoC5/UART_Decagon.c ****     * Return:
+ 652:.\Generated_Source\PSoC5/UART_Decagon.c ****     *  MSB contains Status Register and LSB contains UART RX data
+ 653:.\Generated_Source\PSoC5/UART_Decagon.c ****     *
+ 654:.\Generated_Source\PSoC5/UART_Decagon.c ****     * Reentrant:
+ 655:.\Generated_Source\PSoC5/UART_Decagon.c ****     *  No.
+ 656:.\Generated_Source\PSoC5/UART_Decagon.c ****     *
+ 657:.\Generated_Source\PSoC5/UART_Decagon.c ****     *******************************************************************************/
+ 658:.\Generated_Source\PSoC5/UART_Decagon.c ****     uint16 UART_Decagon_GetByte(void) 
+ 659:.\Generated_Source\PSoC5/UART_Decagon.c ****     {
+ 357              		.loc 1 659 0
+ 358              		.cfi_startproc
+ 359              		@ args = 0, pretend = 0, frame = 0
+ 360              		@ frame_needed = 0, uses_anonymous_args = 0
+ 361 0000 10B5     		push	{r4, lr}
+ARM GAS  C:\Users\cps\AppData\Local\Temp\ccsRlKN0.s 			page 19
+
+
+ 362              		.cfi_def_cfa_offset 8
+ 363              		.cfi_offset 4, -8
+ 364              		.cfi_offset 14, -4
+ 660:.\Generated_Source\PSoC5/UART_Decagon.c ****         return ( ((uint16)UART_Decagon_ReadRxStatus() << 8u) | UART_Decagon_ReadRxData() );
+ 365              		.loc 1 660 0
+ 366 0002 FFF7FEFF 		bl	UART_Decagon_ReadRxStatus
+ 367              	.LVL23:
+ 368 0006 0402     		lsls	r4, r0, #8
+ 369 0008 FFF7FEFF 		bl	UART_Decagon_ReadRxData
+ 370              	.LVL24:
+ 371 000c 2043     		orrs	r0, r0, r4
+ 661:.\Generated_Source\PSoC5/UART_Decagon.c ****     }
+ 372              		.loc 1 661 0
+ 373 000e 80B2     		uxth	r0, r0
+ 374 0010 10BD     		pop	{r4, pc}
+ 375              		.cfi_endproc
+ 376              	.LFE10:
+ 377              		.size	UART_Decagon_GetByte, .-UART_Decagon_GetByte
+ 378 0012 00BF     		.section	.text.UART_Decagon_GetRxBufferSize,"ax",%progbits
+ 379              		.align	2
+ 380              		.global	UART_Decagon_GetRxBufferSize
+ 381              		.thumb
+ 382              		.thumb_func
+ 383              		.type	UART_Decagon_GetRxBufferSize, %function
+ 384              	UART_Decagon_GetRxBufferSize:
+ 385              	.LFB11:
+ 662:.\Generated_Source\PSoC5/UART_Decagon.c **** 
+ 663:.\Generated_Source\PSoC5/UART_Decagon.c **** 
+ 664:.\Generated_Source\PSoC5/UART_Decagon.c ****     /*******************************************************************************
+ 665:.\Generated_Source\PSoC5/UART_Decagon.c ****     * Function Name: UART_Decagon_GetRxBufferSize
+ 666:.\Generated_Source\PSoC5/UART_Decagon.c ****     ********************************************************************************
+ 667:.\Generated_Source\PSoC5/UART_Decagon.c ****     *
+ 668:.\Generated_Source\PSoC5/UART_Decagon.c ****     * Summary:
+ 669:.\Generated_Source\PSoC5/UART_Decagon.c ****     *  Determine the amount of bytes left in the RX buffer and return the count in
+ 670:.\Generated_Source\PSoC5/UART_Decagon.c ****     *  bytes
+ 671:.\Generated_Source\PSoC5/UART_Decagon.c ****     *
+ 672:.\Generated_Source\PSoC5/UART_Decagon.c ****     * Parameters:
+ 673:.\Generated_Source\PSoC5/UART_Decagon.c ****     *  None.
+ 674:.\Generated_Source\PSoC5/UART_Decagon.c ****     *
+ 675:.\Generated_Source\PSoC5/UART_Decagon.c ****     * Return:
+ 676:.\Generated_Source\PSoC5/UART_Decagon.c ****     *  uint8: Integer count of the number of bytes left
+ 677:.\Generated_Source\PSoC5/UART_Decagon.c ****     *  in the RX buffer
+ 678:.\Generated_Source\PSoC5/UART_Decagon.c ****     *
+ 679:.\Generated_Source\PSoC5/UART_Decagon.c ****     * Global Variables:
+ 680:.\Generated_Source\PSoC5/UART_Decagon.c ****     *  UART_Decagon_rxBufferWrite - used to calculate left bytes.
+ 681:.\Generated_Source\PSoC5/UART_Decagon.c ****     *  UART_Decagon_rxBufferRead - used to calculate left bytes.
+ 682:.\Generated_Source\PSoC5/UART_Decagon.c ****     *  UART_Decagon_rxBufferLoopDetect - checked to decide left bytes amount.
+ 683:.\Generated_Source\PSoC5/UART_Decagon.c ****     *
+ 684:.\Generated_Source\PSoC5/UART_Decagon.c ****     * Reentrant:
+ 685:.\Generated_Source\PSoC5/UART_Decagon.c ****     *  No.
+ 686:.\Generated_Source\PSoC5/UART_Decagon.c ****     *
+ 687:.\Generated_Source\PSoC5/UART_Decagon.c ****     * Theory:
+ 688:.\Generated_Source\PSoC5/UART_Decagon.c ****     *  Allows the user to find out how full the RX Buffer is.
+ 689:.\Generated_Source\PSoC5/UART_Decagon.c ****     *
+ 690:.\Generated_Source\PSoC5/UART_Decagon.c ****     *******************************************************************************/
+ 691:.\Generated_Source\PSoC5/UART_Decagon.c ****     uint8 UART_Decagon_GetRxBufferSize(void)
+ 692:.\Generated_Source\PSoC5/UART_Decagon.c ****                                                             
+ARM GAS  C:\Users\cps\AppData\Local\Temp\ccsRlKN0.s 			page 20
+
+
+ 693:.\Generated_Source\PSoC5/UART_Decagon.c ****     {
+ 386              		.loc 1 693 0
+ 387              		.cfi_startproc
+ 388              		@ args = 0, pretend = 0, frame = 0
+ 389              		@ frame_needed = 0, uses_anonymous_args = 0
+ 390              		@ link register save eliminated.
+ 694:.\Generated_Source\PSoC5/UART_Decagon.c ****         uint8 size;
+ 695:.\Generated_Source\PSoC5/UART_Decagon.c **** 
+ 696:.\Generated_Source\PSoC5/UART_Decagon.c ****         #if(UART_Decagon_RXBUFFERSIZE > UART_Decagon_FIFO_LENGTH)
+ 697:.\Generated_Source\PSoC5/UART_Decagon.c **** 
+ 698:.\Generated_Source\PSoC5/UART_Decagon.c ****             /* Disable Rx interrupt. */
+ 699:.\Generated_Source\PSoC5/UART_Decagon.c ****             /* Protect variables that could change on interrupt. */
+ 700:.\Generated_Source\PSoC5/UART_Decagon.c ****             #if(UART_Decagon_RX_INTERRUPT_ENABLED)
+ 701:.\Generated_Source\PSoC5/UART_Decagon.c ****                 UART_Decagon_DisableRxInt();
+ 702:.\Generated_Source\PSoC5/UART_Decagon.c ****             #endif /* UART_Decagon_RX_INTERRUPT_ENABLED */
+ 703:.\Generated_Source\PSoC5/UART_Decagon.c **** 
+ 704:.\Generated_Source\PSoC5/UART_Decagon.c ****             if(UART_Decagon_rxBufferRead == UART_Decagon_rxBufferWrite)
+ 705:.\Generated_Source\PSoC5/UART_Decagon.c ****             {
+ 706:.\Generated_Source\PSoC5/UART_Decagon.c ****                 if(UART_Decagon_rxBufferLoopDetect > 0u)
+ 707:.\Generated_Source\PSoC5/UART_Decagon.c ****                 {
+ 708:.\Generated_Source\PSoC5/UART_Decagon.c ****                     size = UART_Decagon_RXBUFFERSIZE;
+ 709:.\Generated_Source\PSoC5/UART_Decagon.c ****                 }
+ 710:.\Generated_Source\PSoC5/UART_Decagon.c ****                 else
+ 711:.\Generated_Source\PSoC5/UART_Decagon.c ****                 {
+ 712:.\Generated_Source\PSoC5/UART_Decagon.c ****                     size = 0u;
+ 713:.\Generated_Source\PSoC5/UART_Decagon.c ****                 }
+ 714:.\Generated_Source\PSoC5/UART_Decagon.c ****             }
+ 715:.\Generated_Source\PSoC5/UART_Decagon.c ****             else if(UART_Decagon_rxBufferRead < UART_Decagon_rxBufferWrite)
+ 716:.\Generated_Source\PSoC5/UART_Decagon.c ****             {
+ 717:.\Generated_Source\PSoC5/UART_Decagon.c ****                 size = (UART_Decagon_rxBufferWrite - UART_Decagon_rxBufferRead);
+ 718:.\Generated_Source\PSoC5/UART_Decagon.c ****             }
+ 719:.\Generated_Source\PSoC5/UART_Decagon.c ****             else
+ 720:.\Generated_Source\PSoC5/UART_Decagon.c ****             {
+ 721:.\Generated_Source\PSoC5/UART_Decagon.c ****                 size = (UART_Decagon_RXBUFFERSIZE - UART_Decagon_rxBufferRead) + UART_Decagon_rxBuf
+ 722:.\Generated_Source\PSoC5/UART_Decagon.c ****             }
+ 723:.\Generated_Source\PSoC5/UART_Decagon.c **** 
+ 724:.\Generated_Source\PSoC5/UART_Decagon.c ****             /* Enable Rx interrupt. */
+ 725:.\Generated_Source\PSoC5/UART_Decagon.c ****             #if(UART_Decagon_RX_INTERRUPT_ENABLED)
+ 726:.\Generated_Source\PSoC5/UART_Decagon.c ****                 UART_Decagon_EnableRxInt();
+ 727:.\Generated_Source\PSoC5/UART_Decagon.c ****             #endif /* End UART_Decagon_RX_INTERRUPT_ENABLED */
+ 728:.\Generated_Source\PSoC5/UART_Decagon.c **** 
+ 729:.\Generated_Source\PSoC5/UART_Decagon.c ****         #else /* UART_Decagon_RXBUFFERSIZE > UART_Decagon_FIFO_LENGTH */
+ 730:.\Generated_Source\PSoC5/UART_Decagon.c **** 
+ 731:.\Generated_Source\PSoC5/UART_Decagon.c ****             /* We can only know if there is data in the fifo. */
+ 732:.\Generated_Source\PSoC5/UART_Decagon.c ****             size = ((UART_Decagon_RXSTATUS_REG & UART_Decagon_RX_STS_FIFO_NOTEMPTY) != 0u) ? 1u : 0
+ 391              		.loc 1 732 0
+ 392 0000 044B     		ldr	r3, .L39
+ 393 0002 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 394 0004 13F0200F 		tst	r3, #32
+ 395 0008 01D0     		beq	.L38
+ 396 000a 0120     		movs	r0, #1
+ 397 000c 7047     		bx	lr
+ 398              	.L38:
+ 399 000e 0020     		movs	r0, #0
+ 400              	.LVL25:
+ 733:.\Generated_Source\PSoC5/UART_Decagon.c **** 
+ 734:.\Generated_Source\PSoC5/UART_Decagon.c ****         #endif /* End UART_Decagon_RXBUFFERSIZE > UART_Decagon_FIFO_LENGTH */
+ARM GAS  C:\Users\cps\AppData\Local\Temp\ccsRlKN0.s 			page 21
+
+
+ 735:.\Generated_Source\PSoC5/UART_Decagon.c **** 
+ 736:.\Generated_Source\PSoC5/UART_Decagon.c ****         return(size);
+ 737:.\Generated_Source\PSoC5/UART_Decagon.c ****     }
+ 401              		.loc 1 737 0
+ 402 0010 7047     		bx	lr
+ 403              	.L40:
+ 404 0012 00BF     		.align	2
+ 405              	.L39:
+ 406 0014 62640040 		.word	1073767522
+ 407              		.cfi_endproc
+ 408              	.LFE11:
+ 409              		.size	UART_Decagon_GetRxBufferSize, .-UART_Decagon_GetRxBufferSize
+ 410              		.section	.text.UART_Decagon_ClearRxBuffer,"ax",%progbits
+ 411              		.align	2
+ 412              		.global	UART_Decagon_ClearRxBuffer
+ 413              		.thumb
+ 414              		.thumb_func
+ 415              		.type	UART_Decagon_ClearRxBuffer, %function
+ 416              	UART_Decagon_ClearRxBuffer:
+ 417              	.LFB12:
+ 738:.\Generated_Source\PSoC5/UART_Decagon.c **** 
+ 739:.\Generated_Source\PSoC5/UART_Decagon.c **** 
+ 740:.\Generated_Source\PSoC5/UART_Decagon.c ****     /*******************************************************************************
+ 741:.\Generated_Source\PSoC5/UART_Decagon.c ****     * Function Name: UART_Decagon_ClearRxBuffer
+ 742:.\Generated_Source\PSoC5/UART_Decagon.c ****     ********************************************************************************
+ 743:.\Generated_Source\PSoC5/UART_Decagon.c ****     *
+ 744:.\Generated_Source\PSoC5/UART_Decagon.c ****     * Summary:
+ 745:.\Generated_Source\PSoC5/UART_Decagon.c ****     *  Clears the RX RAM buffer by setting the read and write pointers both to zero.
+ 746:.\Generated_Source\PSoC5/UART_Decagon.c ****     *  Clears hardware RX FIFO.
+ 747:.\Generated_Source\PSoC5/UART_Decagon.c ****     *
+ 748:.\Generated_Source\PSoC5/UART_Decagon.c ****     * Parameters:
+ 749:.\Generated_Source\PSoC5/UART_Decagon.c ****     *  None.
+ 750:.\Generated_Source\PSoC5/UART_Decagon.c ****     *
+ 751:.\Generated_Source\PSoC5/UART_Decagon.c ****     * Return:
+ 752:.\Generated_Source\PSoC5/UART_Decagon.c ****     *  None.
+ 753:.\Generated_Source\PSoC5/UART_Decagon.c ****     *
+ 754:.\Generated_Source\PSoC5/UART_Decagon.c ****     * Global Variables:
+ 755:.\Generated_Source\PSoC5/UART_Decagon.c ****     *  UART_Decagon_rxBufferWrite - cleared to zero.
+ 756:.\Generated_Source\PSoC5/UART_Decagon.c ****     *  UART_Decagon_rxBufferRead - cleared to zero.
+ 757:.\Generated_Source\PSoC5/UART_Decagon.c ****     *  UART_Decagon_rxBufferLoopDetect - cleared to zero.
+ 758:.\Generated_Source\PSoC5/UART_Decagon.c ****     *  UART_Decagon_rxBufferOverflow - cleared to zero.
+ 759:.\Generated_Source\PSoC5/UART_Decagon.c ****     *
+ 760:.\Generated_Source\PSoC5/UART_Decagon.c ****     * Reentrant:
+ 761:.\Generated_Source\PSoC5/UART_Decagon.c ****     *  No.
+ 762:.\Generated_Source\PSoC5/UART_Decagon.c ****     *
+ 763:.\Generated_Source\PSoC5/UART_Decagon.c ****     * Theory:
+ 764:.\Generated_Source\PSoC5/UART_Decagon.c ****     *  Setting the pointers to zero makes the system believe there is no data to
+ 765:.\Generated_Source\PSoC5/UART_Decagon.c ****     *  read and writing will resume at address 0 overwriting any data that may
+ 766:.\Generated_Source\PSoC5/UART_Decagon.c ****     *  have remained in the RAM.
+ 767:.\Generated_Source\PSoC5/UART_Decagon.c ****     *
+ 768:.\Generated_Source\PSoC5/UART_Decagon.c ****     * Side Effects:
+ 769:.\Generated_Source\PSoC5/UART_Decagon.c ****     *  Any received data not read from the RAM or FIFO buffer will be lost.
+ 770:.\Generated_Source\PSoC5/UART_Decagon.c ****     *******************************************************************************/
+ 771:.\Generated_Source\PSoC5/UART_Decagon.c ****     void UART_Decagon_ClearRxBuffer(void) 
+ 772:.\Generated_Source\PSoC5/UART_Decagon.c ****     {
+ 418              		.loc 1 772 0
+ 419              		.cfi_startproc
+ARM GAS  C:\Users\cps\AppData\Local\Temp\ccsRlKN0.s 			page 22
+
+
+ 420              		@ args = 0, pretend = 0, frame = 0
+ 421              		@ frame_needed = 0, uses_anonymous_args = 0
+ 422 0000 08B5     		push	{r3, lr}
+ 423              		.cfi_def_cfa_offset 8
+ 424              		.cfi_offset 3, -8
+ 425              		.cfi_offset 14, -4
+ 773:.\Generated_Source\PSoC5/UART_Decagon.c ****         uint8 enableInterrupts;
+ 774:.\Generated_Source\PSoC5/UART_Decagon.c **** 
+ 775:.\Generated_Source\PSoC5/UART_Decagon.c ****         /* clear the HW FIFO */
+ 776:.\Generated_Source\PSoC5/UART_Decagon.c ****         /* Enter critical section */
+ 777:.\Generated_Source\PSoC5/UART_Decagon.c ****         enableInterrupts = CyEnterCriticalSection();
+ 426              		.loc 1 777 0
+ 427 0002 FFF7FEFF 		bl	CyEnterCriticalSection
+ 428              	.LVL26:
+ 778:.\Generated_Source\PSoC5/UART_Decagon.c ****         UART_Decagon_RXDATA_AUX_CTL_REG |=  UART_Decagon_RX_FIFO_CLR;
+ 429              		.loc 1 778 0
+ 430 0006 064B     		ldr	r3, .L43
+ 431 0008 1A78     		ldrb	r2, [r3]	@ zero_extendqisi2
+ 432 000a 42F00102 		orr	r2, r2, #1
+ 433 000e 1A70     		strb	r2, [r3]
+ 779:.\Generated_Source\PSoC5/UART_Decagon.c ****         UART_Decagon_RXDATA_AUX_CTL_REG &= (uint8)~UART_Decagon_RX_FIFO_CLR;
+ 434              		.loc 1 779 0
+ 435 0010 1A78     		ldrb	r2, [r3]	@ zero_extendqisi2
+ 436 0012 02F0FE02 		and	r2, r2, #254
+ 437 0016 1A70     		strb	r2, [r3]
+ 780:.\Generated_Source\PSoC5/UART_Decagon.c ****         /* Exit critical section */
+ 781:.\Generated_Source\PSoC5/UART_Decagon.c ****         CyExitCriticalSection(enableInterrupts);
+ 438              		.loc 1 781 0
+ 439 0018 FFF7FEFF 		bl	CyExitCriticalSection
+ 440              	.LVL27:
+ 441 001c 08BD     		pop	{r3, pc}
+ 442              	.L44:
+ 443 001e 00BF     		.align	2
+ 444              	.L43:
+ 445 0020 92640040 		.word	1073767570
+ 446              		.cfi_endproc
+ 447              	.LFE12:
+ 448              		.size	UART_Decagon_ClearRxBuffer, .-UART_Decagon_ClearRxBuffer
+ 449              		.section	.text.UART_Decagon_SetRxAddressMode,"ax",%progbits
+ 450              		.align	2
+ 451              		.global	UART_Decagon_SetRxAddressMode
+ 452              		.thumb
+ 453              		.thumb_func
+ 454              		.type	UART_Decagon_SetRxAddressMode, %function
+ 455              	UART_Decagon_SetRxAddressMode:
+ 456              	.LFB13:
+ 782:.\Generated_Source\PSoC5/UART_Decagon.c **** 
+ 783:.\Generated_Source\PSoC5/UART_Decagon.c ****         #if(UART_Decagon_RXBUFFERSIZE > UART_Decagon_FIFO_LENGTH)
+ 784:.\Generated_Source\PSoC5/UART_Decagon.c ****             /* Disable Rx interrupt. */
+ 785:.\Generated_Source\PSoC5/UART_Decagon.c ****             /* Protect variables that could change on interrupt. */
+ 786:.\Generated_Source\PSoC5/UART_Decagon.c ****             #if(UART_Decagon_RX_INTERRUPT_ENABLED)
+ 787:.\Generated_Source\PSoC5/UART_Decagon.c ****                 UART_Decagon_DisableRxInt();
+ 788:.\Generated_Source\PSoC5/UART_Decagon.c ****             #endif /* End UART_Decagon_RX_INTERRUPT_ENABLED */
+ 789:.\Generated_Source\PSoC5/UART_Decagon.c **** 
+ 790:.\Generated_Source\PSoC5/UART_Decagon.c ****             UART_Decagon_rxBufferRead = 0u;
+ 791:.\Generated_Source\PSoC5/UART_Decagon.c ****             UART_Decagon_rxBufferWrite = 0u;
+ 792:.\Generated_Source\PSoC5/UART_Decagon.c ****             UART_Decagon_rxBufferLoopDetect = 0u;
+ARM GAS  C:\Users\cps\AppData\Local\Temp\ccsRlKN0.s 			page 23
+
+
+ 793:.\Generated_Source\PSoC5/UART_Decagon.c ****             UART_Decagon_rxBufferOverflow = 0u;
+ 794:.\Generated_Source\PSoC5/UART_Decagon.c **** 
+ 795:.\Generated_Source\PSoC5/UART_Decagon.c ****             /* Enable Rx interrupt. */
+ 796:.\Generated_Source\PSoC5/UART_Decagon.c ****             #if(UART_Decagon_RX_INTERRUPT_ENABLED)
+ 797:.\Generated_Source\PSoC5/UART_Decagon.c ****                 UART_Decagon_EnableRxInt();
+ 798:.\Generated_Source\PSoC5/UART_Decagon.c ****             #endif /* End UART_Decagon_RX_INTERRUPT_ENABLED */
+ 799:.\Generated_Source\PSoC5/UART_Decagon.c ****         #endif /* End UART_Decagon_RXBUFFERSIZE > UART_Decagon_FIFO_LENGTH */
+ 800:.\Generated_Source\PSoC5/UART_Decagon.c **** 
+ 801:.\Generated_Source\PSoC5/UART_Decagon.c ****     }
+ 802:.\Generated_Source\PSoC5/UART_Decagon.c **** 
+ 803:.\Generated_Source\PSoC5/UART_Decagon.c **** 
+ 804:.\Generated_Source\PSoC5/UART_Decagon.c ****     /*******************************************************************************
+ 805:.\Generated_Source\PSoC5/UART_Decagon.c ****     * Function Name: UART_Decagon_SetRxAddressMode
+ 806:.\Generated_Source\PSoC5/UART_Decagon.c ****     ********************************************************************************
+ 807:.\Generated_Source\PSoC5/UART_Decagon.c ****     *
+ 808:.\Generated_Source\PSoC5/UART_Decagon.c ****     * Summary:
+ 809:.\Generated_Source\PSoC5/UART_Decagon.c ****     *  Set the receive addressing mode
+ 810:.\Generated_Source\PSoC5/UART_Decagon.c ****     *
+ 811:.\Generated_Source\PSoC5/UART_Decagon.c ****     * Parameters:
+ 812:.\Generated_Source\PSoC5/UART_Decagon.c ****     *  addressMode: Enumerated value indicating the mode of RX addressing
+ 813:.\Generated_Source\PSoC5/UART_Decagon.c ****     *  UART_Decagon__B_UART__AM_SW_BYTE_BYTE -  Software Byte-by-Byte address
+ 814:.\Generated_Source\PSoC5/UART_Decagon.c ****     *                                               detection
+ 815:.\Generated_Source\PSoC5/UART_Decagon.c ****     *  UART_Decagon__B_UART__AM_SW_DETECT_TO_BUFFER - Software Detect to Buffer
+ 816:.\Generated_Source\PSoC5/UART_Decagon.c ****     *                                               address detection
+ 817:.\Generated_Source\PSoC5/UART_Decagon.c ****     *  UART_Decagon__B_UART__AM_HW_BYTE_BY_BYTE - Hardware Byte-by-Byte address
+ 818:.\Generated_Source\PSoC5/UART_Decagon.c ****     *                                               detection
+ 819:.\Generated_Source\PSoC5/UART_Decagon.c ****     *  UART_Decagon__B_UART__AM_HW_DETECT_TO_BUFFER - Hardware Detect to Buffer
+ 820:.\Generated_Source\PSoC5/UART_Decagon.c ****     *                                               address detection
+ 821:.\Generated_Source\PSoC5/UART_Decagon.c ****     *  UART_Decagon__B_UART__AM_NONE - No address detection
+ 822:.\Generated_Source\PSoC5/UART_Decagon.c ****     *
+ 823:.\Generated_Source\PSoC5/UART_Decagon.c ****     * Return:
+ 824:.\Generated_Source\PSoC5/UART_Decagon.c ****     *  None.
+ 825:.\Generated_Source\PSoC5/UART_Decagon.c ****     *
+ 826:.\Generated_Source\PSoC5/UART_Decagon.c ****     * Global Variables:
+ 827:.\Generated_Source\PSoC5/UART_Decagon.c ****     *  UART_Decagon_rxAddressMode - the parameter stored in this variable for
+ 828:.\Generated_Source\PSoC5/UART_Decagon.c ****     *   the farther usage in RX ISR.
+ 829:.\Generated_Source\PSoC5/UART_Decagon.c ****     *  UART_Decagon_rxAddressDetected - set to initial state (0).
+ 830:.\Generated_Source\PSoC5/UART_Decagon.c ****     *
+ 831:.\Generated_Source\PSoC5/UART_Decagon.c ****     *******************************************************************************/
+ 832:.\Generated_Source\PSoC5/UART_Decagon.c ****     void UART_Decagon_SetRxAddressMode(uint8 addressMode)
+ 833:.\Generated_Source\PSoC5/UART_Decagon.c ****                                                         
+ 834:.\Generated_Source\PSoC5/UART_Decagon.c ****     {
+ 457              		.loc 1 834 0
+ 458              		.cfi_startproc
+ 459              		@ args = 0, pretend = 0, frame = 0
+ 460              		@ frame_needed = 0, uses_anonymous_args = 0
+ 461              		@ link register save eliminated.
+ 462              	.LVL28:
+ 463 0000 7047     		bx	lr
+ 464              		.cfi_endproc
+ 465              	.LFE13:
+ 466              		.size	UART_Decagon_SetRxAddressMode, .-UART_Decagon_SetRxAddressMode
+ 467 0002 00BF     		.section	.text.UART_Decagon_SetRxAddress1,"ax",%progbits
+ 468              		.align	2
+ 469              		.global	UART_Decagon_SetRxAddress1
+ 470              		.thumb
+ 471              		.thumb_func
+ARM GAS  C:\Users\cps\AppData\Local\Temp\ccsRlKN0.s 			page 24
+
+
+ 472              		.type	UART_Decagon_SetRxAddress1, %function
+ 473              	UART_Decagon_SetRxAddress1:
+ 474              	.LFB14:
+ 835:.\Generated_Source\PSoC5/UART_Decagon.c ****         #if(UART_Decagon_RXHW_ADDRESS_ENABLED)
+ 836:.\Generated_Source\PSoC5/UART_Decagon.c ****             #if(UART_Decagon_CONTROL_REG_REMOVED)
+ 837:.\Generated_Source\PSoC5/UART_Decagon.c ****                 if(addressMode != 0u) { }     /* release compiler warning */
+ 838:.\Generated_Source\PSoC5/UART_Decagon.c ****             #else /* UART_Decagon_CONTROL_REG_REMOVED */
+ 839:.\Generated_Source\PSoC5/UART_Decagon.c ****                 uint8 tmpCtrl;
+ 840:.\Generated_Source\PSoC5/UART_Decagon.c ****                 tmpCtrl = UART_Decagon_CONTROL_REG & (uint8)~UART_Decagon_CTRL_RXADDR_MODE_MASK;
+ 841:.\Generated_Source\PSoC5/UART_Decagon.c ****                 tmpCtrl |= (uint8)(addressMode << UART_Decagon_CTRL_RXADDR_MODE0_SHIFT);
+ 842:.\Generated_Source\PSoC5/UART_Decagon.c ****                 UART_Decagon_CONTROL_REG = tmpCtrl;
+ 843:.\Generated_Source\PSoC5/UART_Decagon.c ****                 #if(UART_Decagon_RX_INTERRUPT_ENABLED && \
+ 844:.\Generated_Source\PSoC5/UART_Decagon.c ****                    (UART_Decagon_RXBUFFERSIZE > UART_Decagon_FIFO_LENGTH) )
+ 845:.\Generated_Source\PSoC5/UART_Decagon.c ****                     UART_Decagon_rxAddressMode = addressMode;
+ 846:.\Generated_Source\PSoC5/UART_Decagon.c ****                     UART_Decagon_rxAddressDetected = 0u;
+ 847:.\Generated_Source\PSoC5/UART_Decagon.c ****                 #endif /* End UART_Decagon_RXBUFFERSIZE > UART_Decagon_FIFO_LENGTH*/
+ 848:.\Generated_Source\PSoC5/UART_Decagon.c ****             #endif /* End UART_Decagon_CONTROL_REG_REMOVED */
+ 849:.\Generated_Source\PSoC5/UART_Decagon.c ****         #else /* UART_Decagon_RXHW_ADDRESS_ENABLED */
+ 850:.\Generated_Source\PSoC5/UART_Decagon.c ****             if(addressMode != 0u) { }     /* release compiler warning */
+ 851:.\Generated_Source\PSoC5/UART_Decagon.c ****         #endif /* End UART_Decagon_RXHW_ADDRESS_ENABLED */
+ 852:.\Generated_Source\PSoC5/UART_Decagon.c ****     }
+ 853:.\Generated_Source\PSoC5/UART_Decagon.c **** 
+ 854:.\Generated_Source\PSoC5/UART_Decagon.c **** 
+ 855:.\Generated_Source\PSoC5/UART_Decagon.c ****     /*******************************************************************************
+ 856:.\Generated_Source\PSoC5/UART_Decagon.c ****     * Function Name: UART_Decagon_SetRxAddress1
+ 857:.\Generated_Source\PSoC5/UART_Decagon.c ****     ********************************************************************************
+ 858:.\Generated_Source\PSoC5/UART_Decagon.c ****     *
+ 859:.\Generated_Source\PSoC5/UART_Decagon.c ****     * Summary:
+ 860:.\Generated_Source\PSoC5/UART_Decagon.c ****     *  Set the first hardware address compare value
+ 861:.\Generated_Source\PSoC5/UART_Decagon.c ****     *
+ 862:.\Generated_Source\PSoC5/UART_Decagon.c ****     * Parameters:
+ 863:.\Generated_Source\PSoC5/UART_Decagon.c ****     *  address
+ 864:.\Generated_Source\PSoC5/UART_Decagon.c ****     *
+ 865:.\Generated_Source\PSoC5/UART_Decagon.c ****     * Return:
+ 866:.\Generated_Source\PSoC5/UART_Decagon.c ****     *  None.
+ 867:.\Generated_Source\PSoC5/UART_Decagon.c ****     *
+ 868:.\Generated_Source\PSoC5/UART_Decagon.c ****     *******************************************************************************/
+ 869:.\Generated_Source\PSoC5/UART_Decagon.c ****     void UART_Decagon_SetRxAddress1(uint8 address) 
+ 870:.\Generated_Source\PSoC5/UART_Decagon.c **** 
+ 871:.\Generated_Source\PSoC5/UART_Decagon.c ****     {
+ 475              		.loc 1 871 0
+ 476              		.cfi_startproc
+ 477              		@ args = 0, pretend = 0, frame = 0
+ 478              		@ frame_needed = 0, uses_anonymous_args = 0
+ 479              		@ link register save eliminated.
+ 480              	.LVL29:
+ 872:.\Generated_Source\PSoC5/UART_Decagon.c ****         UART_Decagon_RXADDRESS1_REG = address;
+ 481              		.loc 1 872 0
+ 482 0000 014B     		ldr	r3, .L47
+ 483 0002 1870     		strb	r0, [r3]
+ 484 0004 7047     		bx	lr
+ 485              	.L48:
+ 486 0006 00BF     		.align	2
+ 487              	.L47:
+ 488 0008 22640040 		.word	1073767458
+ 489              		.cfi_endproc
+ 490              	.LFE14:
+ARM GAS  C:\Users\cps\AppData\Local\Temp\ccsRlKN0.s 			page 25
+
+
+ 491              		.size	UART_Decagon_SetRxAddress1, .-UART_Decagon_SetRxAddress1
+ 492              		.section	.text.UART_Decagon_SetRxAddress2,"ax",%progbits
+ 493              		.align	2
+ 494              		.global	UART_Decagon_SetRxAddress2
+ 495              		.thumb
+ 496              		.thumb_func
+ 497              		.type	UART_Decagon_SetRxAddress2, %function
+ 498              	UART_Decagon_SetRxAddress2:
+ 499              	.LFB15:
+ 873:.\Generated_Source\PSoC5/UART_Decagon.c ****     }
+ 874:.\Generated_Source\PSoC5/UART_Decagon.c **** 
+ 875:.\Generated_Source\PSoC5/UART_Decagon.c **** 
+ 876:.\Generated_Source\PSoC5/UART_Decagon.c ****     /*******************************************************************************
+ 877:.\Generated_Source\PSoC5/UART_Decagon.c ****     * Function Name: UART_Decagon_SetRxAddress2
+ 878:.\Generated_Source\PSoC5/UART_Decagon.c ****     ********************************************************************************
+ 879:.\Generated_Source\PSoC5/UART_Decagon.c ****     *
+ 880:.\Generated_Source\PSoC5/UART_Decagon.c ****     * Summary:
+ 881:.\Generated_Source\PSoC5/UART_Decagon.c ****     *  Set the second hardware address compare value
+ 882:.\Generated_Source\PSoC5/UART_Decagon.c ****     *
+ 883:.\Generated_Source\PSoC5/UART_Decagon.c ****     * Parameters:
+ 884:.\Generated_Source\PSoC5/UART_Decagon.c ****     *  address
+ 885:.\Generated_Source\PSoC5/UART_Decagon.c ****     *
+ 886:.\Generated_Source\PSoC5/UART_Decagon.c ****     * Return:
+ 887:.\Generated_Source\PSoC5/UART_Decagon.c ****     *  None.
+ 888:.\Generated_Source\PSoC5/UART_Decagon.c ****     *
+ 889:.\Generated_Source\PSoC5/UART_Decagon.c ****     *******************************************************************************/
+ 890:.\Generated_Source\PSoC5/UART_Decagon.c ****     void UART_Decagon_SetRxAddress2(uint8 address) 
+ 891:.\Generated_Source\PSoC5/UART_Decagon.c ****     {
+ 500              		.loc 1 891 0
+ 501              		.cfi_startproc
+ 502              		@ args = 0, pretend = 0, frame = 0
+ 503              		@ frame_needed = 0, uses_anonymous_args = 0
+ 504              		@ link register save eliminated.
+ 505              	.LVL30:
+ 892:.\Generated_Source\PSoC5/UART_Decagon.c ****         UART_Decagon_RXADDRESS2_REG = address;
+ 506              		.loc 1 892 0
+ 507 0000 014B     		ldr	r3, .L50
+ 508 0002 1870     		strb	r0, [r3]
+ 509 0004 7047     		bx	lr
+ 510              	.L51:
+ 511 0006 00BF     		.align	2
+ 512              	.L50:
+ 513 0008 32640040 		.word	1073767474
+ 514              		.cfi_endproc
+ 515              	.LFE15:
+ 516              		.size	UART_Decagon_SetRxAddress2, .-UART_Decagon_SetRxAddress2
+ 517              		.global	UART_Decagon_initVar
+ 518              		.bss
+ 519              		.set	.LANCHOR0,. + 0
+ 520              		.type	UART_Decagon_initVar, %object
+ 521              		.size	UART_Decagon_initVar, 1
+ 522              	UART_Decagon_initVar:
+ 523 0000 00       		.space	1
+ 524              		.text
+ 525              	.Letext0:
+ 526              		.file 2 ".\\Generated_Source\\PSoC5\\cytypes.h"
+ 527              		.file 3 ".\\Generated_Source\\PSoC5\\UART_Decagon_IntClock.h"
+ARM GAS  C:\Users\cps\AppData\Local\Temp\ccsRlKN0.s 			page 26
+
+
+ 528              		.file 4 ".\\Generated_Source\\PSoC5\\CyLib.h"
+ 529              		.section	.debug_info,"",%progbits
+ 530              	.Ldebug_info0:
+ 531 0000 9A030000 		.4byte	0x39a
+ 532 0004 0400     		.2byte	0x4
+ 533 0006 00000000 		.4byte	.Ldebug_abbrev0
+ 534 000a 04       		.byte	0x4
+ 535 000b 01       		.uleb128 0x1
+ 536 000c 0A020000 		.4byte	.LASF41
+ 537 0010 01       		.byte	0x1
+ 538 0011 EE030000 		.4byte	.LASF42
+ 539 0015 D4000000 		.4byte	.LASF43
+ 540 0019 00000000 		.4byte	.Ldebug_ranges0+0
+ 541 001d 00000000 		.4byte	0
+ 542 0021 00000000 		.4byte	.Ldebug_line0
+ 543 0025 02       		.uleb128 0x2
+ 544 0026 01       		.byte	0x1
+ 545 0027 06       		.byte	0x6
+ 546 0028 16040000 		.4byte	.LASF0
+ 547 002c 02       		.uleb128 0x2
+ 548 002d 01       		.byte	0x1
+ 549 002e 08       		.byte	0x8
+ 550 002f BD010000 		.4byte	.LASF1
+ 551 0033 02       		.uleb128 0x2
+ 552 0034 02       		.byte	0x2
+ 553 0035 05       		.byte	0x5
+ 554 0036 C3000000 		.4byte	.LASF2
+ 555 003a 02       		.uleb128 0x2
+ 556 003b 02       		.byte	0x2
+ 557 003c 07       		.byte	0x7
+ 558 003d B0000000 		.4byte	.LASF3
+ 559 0041 02       		.uleb128 0x2
+ 560 0042 04       		.byte	0x4
+ 561 0043 05       		.byte	0x5
+ 562 0044 95000000 		.4byte	.LASF4
+ 563 0048 02       		.uleb128 0x2
+ 564 0049 04       		.byte	0x4
+ 565 004a 07       		.byte	0x7
+ 566 004b 85010000 		.4byte	.LASF5
+ 567 004f 02       		.uleb128 0x2
+ 568 0050 08       		.byte	0x8
+ 569 0051 05       		.byte	0x5
+ 570 0052 26030000 		.4byte	.LASF6
+ 571 0056 02       		.uleb128 0x2
+ 572 0057 08       		.byte	0x8
+ 573 0058 07       		.byte	0x7
+ 574 0059 3B010000 		.4byte	.LASF7
+ 575 005d 03       		.uleb128 0x3
+ 576 005e 04       		.byte	0x4
+ 577 005f 05       		.byte	0x5
+ 578 0060 696E7400 		.ascii	"int\000"
+ 579 0064 02       		.uleb128 0x2
+ 580 0065 04       		.byte	0x4
+ 581 0066 07       		.byte	0x7
+ 582 0067 AF020000 		.4byte	.LASF8
+ 583 006b 04       		.uleb128 0x4
+ 584 006c 97010000 		.4byte	.LASF9
+ARM GAS  C:\Users\cps\AppData\Local\Temp\ccsRlKN0.s 			page 27
+
+
+ 585 0070 02       		.byte	0x2
+ 586 0071 3801     		.2byte	0x138
+ 587 0073 2C000000 		.4byte	0x2c
+ 588 0077 04       		.uleb128 0x4
+ 589 0078 03020000 		.4byte	.LASF10
+ 590 007c 02       		.byte	0x2
+ 591 007d 3901     		.2byte	0x139
+ 592 007f 3A000000 		.4byte	0x3a
+ 593 0083 02       		.uleb128 0x2
+ 594 0084 04       		.byte	0x4
+ 595 0085 04       		.byte	0x4
+ 596 0086 35010000 		.4byte	.LASF11
+ 597 008a 02       		.uleb128 0x2
+ 598 008b 08       		.byte	0x8
+ 599 008c 04       		.byte	0x4
+ 600 008d CB010000 		.4byte	.LASF12
+ 601 0091 02       		.uleb128 0x2
+ 602 0092 01       		.byte	0x1
+ 603 0093 08       		.byte	0x8
+ 604 0094 E9030000 		.4byte	.LASF13
+ 605 0098 04       		.uleb128 0x4
+ 606 0099 80010000 		.4byte	.LASF14
+ 607 009d 02       		.byte	0x2
+ 608 009e E201     		.2byte	0x1e2
+ 609 00a0 A4000000 		.4byte	0xa4
+ 610 00a4 05       		.uleb128 0x5
+ 611 00a5 6B000000 		.4byte	0x6b
+ 612 00a9 02       		.uleb128 0x2
+ 613 00aa 04       		.byte	0x4
+ 614 00ab 07       		.byte	0x7
+ 615 00ac 1D030000 		.4byte	.LASF15
+ 616 00b0 06       		.uleb128 0x6
+ 617 00b1 BC020000 		.4byte	.LASF44
+ 618 00b5 01       		.byte	0x1
+ 619 00b6 65       		.byte	0x65
+ 620 00b7 00000000 		.4byte	.LFB1
+ 621 00bb 14000000 		.4byte	.LFE1-.LFB1
+ 622 00bf 01       		.uleb128 0x1
+ 623 00c0 9C       		.byte	0x9c
+ 624 00c1 07       		.uleb128 0x7
+ 625 00c2 33000000 		.4byte	.LASF16
+ 626 00c6 01       		.byte	0x1
+ 627 00c7 AE       		.byte	0xae
+ 628 00c8 00000000 		.4byte	.LFB2
+ 629 00cc 2C000000 		.4byte	.LFE2-.LFB2
+ 630 00d0 01       		.uleb128 0x1
+ 631 00d1 9C       		.byte	0x9c
+ 632 00d2 08010000 		.4byte	0x108
+ 633 00d6 08       		.uleb128 0x8
+ 634 00d7 AC010000 		.4byte	.LASF19
+ 635 00db 01       		.byte	0x1
+ 636 00dc B0       		.byte	0xb0
+ 637 00dd 6B000000 		.4byte	0x6b
+ 638 00e1 00000000 		.4byte	.LLST0
+ 639 00e5 09       		.uleb128 0x9
+ 640 00e6 06000000 		.4byte	.LVL0
+ 641 00ea 73030000 		.4byte	0x373
+ARM GAS  C:\Users\cps\AppData\Local\Temp\ccsRlKN0.s 			page 28
+
+
+ 642 00ee 09       		.uleb128 0x9
+ 643 00ef 20000000 		.4byte	.LVL2
+ 644 00f3 7E030000 		.4byte	0x37e
+ 645 00f7 0A       		.uleb128 0xa
+ 646 00f8 26000000 		.4byte	.LVL3
+ 647 00fc 85030000 		.4byte	0x385
+ 648 0100 0B       		.uleb128 0xb
+ 649 0101 01       		.uleb128 0x1
+ 650 0102 50       		.byte	0x50
+ 651 0103 02       		.uleb128 0x2
+ 652 0104 74       		.byte	0x74
+ 653 0105 00       		.sleb128 0
+ 654 0106 00       		.byte	0
+ 655 0107 00       		.byte	0
+ 656 0108 07       		.uleb128 0x7
+ 657 0109 49030000 		.4byte	.LASF17
+ 658 010d 01       		.byte	0x1
+ 659 010e 49       		.byte	0x49
+ 660 010f 00000000 		.4byte	.LFB0
+ 661 0113 1C000000 		.4byte	.LFE0-.LFB0
+ 662 0117 01       		.uleb128 0x1
+ 663 0118 9C       		.byte	0x9c
+ 664 0119 30010000 		.4byte	0x130
+ 665 011d 09       		.uleb128 0x9
+ 666 011e 0C000000 		.4byte	.LVL5
+ 667 0122 B0000000 		.4byte	0xb0
+ 668 0126 09       		.uleb128 0x9
+ 669 0127 16000000 		.4byte	.LVL6
+ 670 012b C1000000 		.4byte	0xc1
+ 671 012f 00       		.byte	0
+ 672 0130 07       		.uleb128 0x7
+ 673 0131 9E000000 		.4byte	.LASF18
+ 674 0135 01       		.byte	0x1
+ 675 0136 E3       		.byte	0xe3
+ 676 0137 00000000 		.4byte	.LFB3
+ 677 013b 30000000 		.4byte	.LFE3-.LFB3
+ 678 013f 01       		.uleb128 0x1
+ 679 0140 9C       		.byte	0x9c
+ 680 0141 77010000 		.4byte	0x177
+ 681 0145 08       		.uleb128 0x8
+ 682 0146 AC010000 		.4byte	.LASF19
+ 683 014a 01       		.byte	0x1
+ 684 014b E5       		.byte	0xe5
+ 685 014c 6B000000 		.4byte	0x6b
+ 686 0150 13000000 		.4byte	.LLST1
+ 687 0154 09       		.uleb128 0x9
+ 688 0155 06000000 		.4byte	.LVL7
+ 689 0159 73030000 		.4byte	0x373
+ 690 015d 09       		.uleb128 0x9
+ 691 015e 16000000 		.4byte	.LVL9
+ 692 0162 96030000 		.4byte	0x396
+ 693 0166 0A       		.uleb128 0xa
+ 694 0167 26000000 		.4byte	.LVL10
+ 695 016b 85030000 		.4byte	0x385
+ 696 016f 0B       		.uleb128 0xb
+ 697 0170 01       		.uleb128 0x1
+ 698 0171 50       		.byte	0x50
+ARM GAS  C:\Users\cps\AppData\Local\Temp\ccsRlKN0.s 			page 29
+
+
+ 699 0172 02       		.uleb128 0x2
+ 700 0173 74       		.byte	0x74
+ 701 0174 00       		.sleb128 0
+ 702 0175 00       		.byte	0
+ 703 0176 00       		.byte	0
+ 704 0177 0C       		.uleb128 0xc
+ 705 0178 E2010000 		.4byte	.LASF45
+ 706 017c 01       		.byte	0x1
+ 707 017d 1901     		.2byte	0x119
+ 708 017f 6B000000 		.4byte	0x6b
+ 709 0183 00000000 		.4byte	.LFB4
+ 710 0187 04000000 		.4byte	.LFE4-.LFB4
+ 711 018b 01       		.uleb128 0x1
+ 712 018c 9C       		.byte	0x9c
+ 713 018d 0D       		.uleb128 0xd
+ 714 018e 5E010000 		.4byte	.LASF20
+ 715 0192 01       		.byte	0x1
+ 716 0193 3101     		.2byte	0x131
+ 717 0195 00000000 		.4byte	.LFB5
+ 718 0199 02000000 		.4byte	.LFE5-.LFB5
+ 719 019d 01       		.uleb128 0x1
+ 720 019e 9C       		.byte	0x9c
+ 721 019f B2010000 		.4byte	0x1b2
+ 722 01a3 0E       		.uleb128 0xe
+ 723 01a4 9D010000 		.4byte	.LASF22
+ 724 01a8 01       		.byte	0x1
+ 725 01a9 3101     		.2byte	0x131
+ 726 01ab 6B000000 		.4byte	0x6b
+ 727 01af 01       		.uleb128 0x1
+ 728 01b0 50       		.byte	0x50
+ 729 01b1 00       		.byte	0
+ 730 01b2 0D       		.uleb128 0xd
+ 731 01b3 AC030000 		.4byte	.LASF21
+ 732 01b7 01       		.byte	0x1
+ 733 01b8 8101     		.2byte	0x181
+ 734 01ba 00000000 		.4byte	.LFB6
+ 735 01be 0C000000 		.4byte	.LFE6-.LFB6
+ 736 01c2 01       		.uleb128 0x1
+ 737 01c3 9C       		.byte	0x9c
+ 738 01c4 D7010000 		.4byte	0x1d7
+ 739 01c8 0E       		.uleb128 0xe
+ 740 01c9 D2010000 		.4byte	.LASF23
+ 741 01cd 01       		.byte	0x1
+ 742 01ce 8101     		.2byte	0x181
+ 743 01d0 6B000000 		.4byte	0x6b
+ 744 01d4 01       		.uleb128 0x1
+ 745 01d5 50       		.byte	0x50
+ 746 01d6 00       		.byte	0
+ 747 01d7 0F       		.uleb128 0xf
+ 748 01d8 00000000 		.4byte	.LASF25
+ 749 01dc 01       		.byte	0x1
+ 750 01dd A201     		.2byte	0x1a2
+ 751 01df 6B000000 		.4byte	0x6b
+ 752 01e3 00000000 		.4byte	.LFB7
+ 753 01e7 0C000000 		.4byte	.LFE7-.LFB7
+ 754 01eb 01       		.uleb128 0x1
+ 755 01ec 9C       		.byte	0x9c
+ARM GAS  C:\Users\cps\AppData\Local\Temp\ccsRlKN0.s 			page 30
+
+
+ 756 01ed 00020000 		.4byte	0x200
+ 757 01f1 10       		.uleb128 0x10
+ 758 01f2 A5010000 		.4byte	.LASF24
+ 759 01f6 01       		.byte	0x1
+ 760 01f7 A401     		.2byte	0x1a4
+ 761 01f9 6B000000 		.4byte	0x6b
+ 762 01fd 01       		.uleb128 0x1
+ 763 01fe 50       		.byte	0x50
+ 764 01ff 00       		.byte	0
+ 765 0200 0F       		.uleb128 0xf
+ 766 0201 92030000 		.4byte	.LASF26
+ 767 0205 01       		.byte	0x1
+ 768 0206 FD01     		.2byte	0x1fd
+ 769 0208 6B000000 		.4byte	0x6b
+ 770 020c 00000000 		.4byte	.LFB8
+ 771 0210 10000000 		.4byte	.LFE8-.LFB8
+ 772 0214 01       		.uleb128 0x1
+ 773 0215 9C       		.byte	0x9c
+ 774 0216 2B020000 		.4byte	0x22b
+ 775 021a 11       		.uleb128 0x11
+ 776 021b CD000000 		.4byte	.LASF27
+ 777 021f 01       		.byte	0x1
+ 778 0220 FF01     		.2byte	0x1ff
+ 779 0222 6B000000 		.4byte	0x6b
+ 780 0226 26000000 		.4byte	.LLST2
+ 781 022a 00       		.byte	0
+ 782 022b 0F       		.uleb128 0xf
+ 783 022c 08030000 		.4byte	.LASF28
+ 784 0230 01       		.byte	0x1
+ 785 0231 2C02     		.2byte	0x22c
+ 786 0233 6B000000 		.4byte	0x6b
+ 787 0237 00000000 		.4byte	.LFB9
+ 788 023b 2C000000 		.4byte	.LFE9-.LFB9
+ 789 023f 01       		.uleb128 0x1
+ 790 0240 9C       		.byte	0x9c
+ 791 0241 64020000 		.4byte	0x264
+ 792 0245 11       		.uleb128 0x11
+ 793 0246 A5010000 		.4byte	.LASF24
+ 794 024a 01       		.byte	0x1
+ 795 024b 2E02     		.2byte	0x22e
+ 796 024d 6B000000 		.4byte	0x6b
+ 797 0251 3E000000 		.4byte	.LLST3
+ 798 0255 10       		.uleb128 0x10
+ 799 0256 D9010000 		.4byte	.LASF29
+ 800 025a 01       		.byte	0x1
+ 801 025b 2F02     		.2byte	0x22f
+ 802 025d 6B000000 		.4byte	0x6b
+ 803 0261 01       		.uleb128 0x1
+ 804 0262 53       		.byte	0x53
+ 805 0263 00       		.byte	0
+ 806 0264 0F       		.uleb128 0xf
+ 807 0265 47000000 		.4byte	.LASF30
+ 808 0269 01       		.byte	0x1
+ 809 026a 9202     		.2byte	0x292
+ 810 026c 77000000 		.4byte	0x77
+ 811 0270 00000000 		.4byte	.LFB10
+ 812 0274 12000000 		.4byte	.LFE10-.LFB10
+ARM GAS  C:\Users\cps\AppData\Local\Temp\ccsRlKN0.s 			page 31
+
+
+ 813 0278 01       		.uleb128 0x1
+ 814 0279 9C       		.byte	0x9c
+ 815 027a 91020000 		.4byte	0x291
+ 816 027e 09       		.uleb128 0x9
+ 817 027f 06000000 		.4byte	.LVL23
+ 818 0283 00020000 		.4byte	0x200
+ 819 0287 09       		.uleb128 0x9
+ 820 0288 0C000000 		.4byte	.LVL24
+ 821 028c D7010000 		.4byte	0x1d7
+ 822 0290 00       		.byte	0
+ 823 0291 0F       		.uleb128 0xf
+ 824 0292 CC030000 		.4byte	.LASF31
+ 825 0296 01       		.byte	0x1
+ 826 0297 B302     		.2byte	0x2b3
+ 827 0299 6B000000 		.4byte	0x6b
+ 828 029d 00000000 		.4byte	.LFB11
+ 829 02a1 18000000 		.4byte	.LFE11-.LFB11
+ 830 02a5 01       		.uleb128 0x1
+ 831 02a6 9C       		.byte	0x9c
+ 832 02a7 BA020000 		.4byte	0x2ba
+ 833 02ab 10       		.uleb128 0x10
+ 834 02ac 22040000 		.4byte	.LASF32
+ 835 02b0 01       		.byte	0x1
+ 836 02b1 B602     		.2byte	0x2b6
+ 837 02b3 6B000000 		.4byte	0x6b
+ 838 02b7 01       		.uleb128 0x1
+ 839 02b8 50       		.byte	0x50
+ 840 02b9 00       		.byte	0
+ 841 02ba 0D       		.uleb128 0xd
+ 842 02bb 18000000 		.4byte	.LASF33
+ 843 02bf 01       		.byte	0x1
+ 844 02c0 0303     		.2byte	0x303
+ 845 02c2 00000000 		.4byte	.LFB12
+ 846 02c6 24000000 		.4byte	.LFE12-.LFB12
+ 847 02ca 01       		.uleb128 0x1
+ 848 02cb 9C       		.byte	0x9c
+ 849 02cc F3020000 		.4byte	0x2f3
+ 850 02d0 11       		.uleb128 0x11
+ 851 02d1 AC010000 		.4byte	.LASF19
+ 852 02d5 01       		.byte	0x1
+ 853 02d6 0503     		.2byte	0x305
+ 854 02d8 6B000000 		.4byte	0x6b
+ 855 02dc 74000000 		.4byte	.LLST4
+ 856 02e0 09       		.uleb128 0x9
+ 857 02e1 06000000 		.4byte	.LVL26
+ 858 02e5 73030000 		.4byte	0x373
+ 859 02e9 09       		.uleb128 0x9
+ 860 02ea 1C000000 		.4byte	.LVL27
+ 861 02ee 85030000 		.4byte	0x385
+ 862 02f2 00       		.byte	0
+ 863 02f3 0D       		.uleb128 0xd
+ 864 02f4 77000000 		.4byte	.LASF34
+ 865 02f8 01       		.byte	0x1
+ 866 02f9 4003     		.2byte	0x340
+ 867 02fb 00000000 		.4byte	.LFB13
+ 868 02ff 02000000 		.4byte	.LFE13-.LFB13
+ 869 0303 01       		.uleb128 0x1
+ARM GAS  C:\Users\cps\AppData\Local\Temp\ccsRlKN0.s 			page 32
+
+
+ 870 0304 9C       		.byte	0x9c
+ 871 0305 18030000 		.4byte	0x318
+ 872 0309 0E       		.uleb128 0xe
+ 873 030a 52010000 		.4byte	.LASF35
+ 874 030e 01       		.byte	0x1
+ 875 030f 4003     		.2byte	0x340
+ 876 0311 6B000000 		.4byte	0x6b
+ 877 0315 01       		.uleb128 0x1
+ 878 0316 50       		.byte	0x50
+ 879 0317 00       		.byte	0
+ 880 0318 0D       		.uleb128 0xd
+ 881 0319 5C030000 		.4byte	.LASF36
+ 882 031d 01       		.byte	0x1
+ 883 031e 6503     		.2byte	0x365
+ 884 0320 00000000 		.4byte	.LFB14
+ 885 0324 0C000000 		.4byte	.LFE14-.LFB14
+ 886 0328 01       		.uleb128 0x1
+ 887 0329 9C       		.byte	0x9c
+ 888 032a 3D030000 		.4byte	0x33d
+ 889 032e 0E       		.uleb128 0xe
+ 890 032f CE020000 		.4byte	.LASF37
+ 891 0333 01       		.byte	0x1
+ 892 0334 6503     		.2byte	0x365
+ 893 0336 6B000000 		.4byte	0x6b
+ 894 033a 01       		.uleb128 0x1
+ 895 033b 50       		.byte	0x50
+ 896 033c 00       		.byte	0
+ 897 033d 0D       		.uleb128 0xd
+ 898 033e 77030000 		.4byte	.LASF38
+ 899 0342 01       		.byte	0x1
+ 900 0343 7A03     		.2byte	0x37a
+ 901 0345 00000000 		.4byte	.LFB15
+ 902 0349 0C000000 		.4byte	.LFE15-.LFB15
+ 903 034d 01       		.uleb128 0x1
+ 904 034e 9C       		.byte	0x9c
+ 905 034f 62030000 		.4byte	0x362
+ 906 0353 0E       		.uleb128 0xe
+ 907 0354 CE020000 		.4byte	.LASF37
+ 908 0358 01       		.byte	0x1
+ 909 0359 7A03     		.2byte	0x37a
+ 910 035b 6B000000 		.4byte	0x6b
+ 911 035f 01       		.uleb128 0x1
+ 912 0360 50       		.byte	0x50
+ 913 0361 00       		.byte	0
+ 914 0362 12       		.uleb128 0x12
+ 915 0363 34030000 		.4byte	.LASF46
+ 916 0367 01       		.byte	0x1
+ 917 0368 1C       		.byte	0x1c
+ 918 0369 6B000000 		.4byte	0x6b
+ 919 036d 05       		.uleb128 0x5
+ 920 036e 03       		.byte	0x3
+ 921 036f 00000000 		.4byte	UART_Decagon_initVar
+ 922 0373 13       		.uleb128 0x13
+ 923 0374 98020000 		.4byte	.LASF47
+ 924 0378 04       		.byte	0x4
+ 925 0379 7E       		.byte	0x7e
+ 926 037a 6B000000 		.4byte	0x6b
+ARM GAS  C:\Users\cps\AppData\Local\Temp\ccsRlKN0.s 			page 33
+
+
+ 927 037e 14       		.uleb128 0x14
+ 928 037f EC020000 		.4byte	.LASF39
+ 929 0383 03       		.byte	0x3
+ 930 0384 27       		.byte	0x27
+ 931 0385 15       		.uleb128 0x15
+ 932 0386 D6020000 		.4byte	.LASF48
+ 933 038a 04       		.byte	0x4
+ 934 038b 7F       		.byte	0x7f
+ 935 038c 96030000 		.4byte	0x396
+ 936 0390 16       		.uleb128 0x16
+ 937 0391 6B000000 		.4byte	0x6b
+ 938 0395 00       		.byte	0
+ 939 0396 14       		.uleb128 0x14
+ 940 0397 5C000000 		.4byte	.LASF40
+ 941 039b 03       		.byte	0x3
+ 942 039c 28       		.byte	0x28
+ 943 039d 00       		.byte	0
+ 944              		.section	.debug_abbrev,"",%progbits
+ 945              	.Ldebug_abbrev0:
+ 946 0000 01       		.uleb128 0x1
+ 947 0001 11       		.uleb128 0x11
+ 948 0002 01       		.byte	0x1
+ 949 0003 25       		.uleb128 0x25
+ 950 0004 0E       		.uleb128 0xe
+ 951 0005 13       		.uleb128 0x13
+ 952 0006 0B       		.uleb128 0xb
+ 953 0007 03       		.uleb128 0x3
+ 954 0008 0E       		.uleb128 0xe
+ 955 0009 1B       		.uleb128 0x1b
+ 956 000a 0E       		.uleb128 0xe
+ 957 000b 55       		.uleb128 0x55
+ 958 000c 17       		.uleb128 0x17
+ 959 000d 11       		.uleb128 0x11
+ 960 000e 01       		.uleb128 0x1
+ 961 000f 10       		.uleb128 0x10
+ 962 0010 17       		.uleb128 0x17
+ 963 0011 00       		.byte	0
+ 964 0012 00       		.byte	0
+ 965 0013 02       		.uleb128 0x2
+ 966 0014 24       		.uleb128 0x24
+ 967 0015 00       		.byte	0
+ 968 0016 0B       		.uleb128 0xb
+ 969 0017 0B       		.uleb128 0xb
+ 970 0018 3E       		.uleb128 0x3e
+ 971 0019 0B       		.uleb128 0xb
+ 972 001a 03       		.uleb128 0x3
+ 973 001b 0E       		.uleb128 0xe
+ 974 001c 00       		.byte	0
+ 975 001d 00       		.byte	0
+ 976 001e 03       		.uleb128 0x3
+ 977 001f 24       		.uleb128 0x24
+ 978 0020 00       		.byte	0
+ 979 0021 0B       		.uleb128 0xb
+ 980 0022 0B       		.uleb128 0xb
+ 981 0023 3E       		.uleb128 0x3e
+ 982 0024 0B       		.uleb128 0xb
+ 983 0025 03       		.uleb128 0x3
+ARM GAS  C:\Users\cps\AppData\Local\Temp\ccsRlKN0.s 			page 34
+
+
+ 984 0026 08       		.uleb128 0x8
+ 985 0027 00       		.byte	0
+ 986 0028 00       		.byte	0
+ 987 0029 04       		.uleb128 0x4
+ 988 002a 16       		.uleb128 0x16
+ 989 002b 00       		.byte	0
+ 990 002c 03       		.uleb128 0x3
+ 991 002d 0E       		.uleb128 0xe
+ 992 002e 3A       		.uleb128 0x3a
+ 993 002f 0B       		.uleb128 0xb
+ 994 0030 3B       		.uleb128 0x3b
+ 995 0031 05       		.uleb128 0x5
+ 996 0032 49       		.uleb128 0x49
+ 997 0033 13       		.uleb128 0x13
+ 998 0034 00       		.byte	0
+ 999 0035 00       		.byte	0
+ 1000 0036 05       		.uleb128 0x5
+ 1001 0037 35       		.uleb128 0x35
+ 1002 0038 00       		.byte	0
+ 1003 0039 49       		.uleb128 0x49
+ 1004 003a 13       		.uleb128 0x13
+ 1005 003b 00       		.byte	0
+ 1006 003c 00       		.byte	0
+ 1007 003d 06       		.uleb128 0x6
+ 1008 003e 2E       		.uleb128 0x2e
+ 1009 003f 00       		.byte	0
+ 1010 0040 3F       		.uleb128 0x3f
+ 1011 0041 19       		.uleb128 0x19
+ 1012 0042 03       		.uleb128 0x3
+ 1013 0043 0E       		.uleb128 0xe
+ 1014 0044 3A       		.uleb128 0x3a
+ 1015 0045 0B       		.uleb128 0xb
+ 1016 0046 3B       		.uleb128 0x3b
+ 1017 0047 0B       		.uleb128 0xb
+ 1018 0048 27       		.uleb128 0x27
+ 1019 0049 19       		.uleb128 0x19
+ 1020 004a 11       		.uleb128 0x11
+ 1021 004b 01       		.uleb128 0x1
+ 1022 004c 12       		.uleb128 0x12
+ 1023 004d 06       		.uleb128 0x6
+ 1024 004e 40       		.uleb128 0x40
+ 1025 004f 18       		.uleb128 0x18
+ 1026 0050 9742     		.uleb128 0x2117
+ 1027 0052 19       		.uleb128 0x19
+ 1028 0053 00       		.byte	0
+ 1029 0054 00       		.byte	0
+ 1030 0055 07       		.uleb128 0x7
+ 1031 0056 2E       		.uleb128 0x2e
+ 1032 0057 01       		.byte	0x1
+ 1033 0058 3F       		.uleb128 0x3f
+ 1034 0059 19       		.uleb128 0x19
+ 1035 005a 03       		.uleb128 0x3
+ 1036 005b 0E       		.uleb128 0xe
+ 1037 005c 3A       		.uleb128 0x3a
+ 1038 005d 0B       		.uleb128 0xb
+ 1039 005e 3B       		.uleb128 0x3b
+ 1040 005f 0B       		.uleb128 0xb
+ARM GAS  C:\Users\cps\AppData\Local\Temp\ccsRlKN0.s 			page 35
+
+
+ 1041 0060 27       		.uleb128 0x27
+ 1042 0061 19       		.uleb128 0x19
+ 1043 0062 11       		.uleb128 0x11
+ 1044 0063 01       		.uleb128 0x1
+ 1045 0064 12       		.uleb128 0x12
+ 1046 0065 06       		.uleb128 0x6
+ 1047 0066 40       		.uleb128 0x40
+ 1048 0067 18       		.uleb128 0x18
+ 1049 0068 9742     		.uleb128 0x2117
+ 1050 006a 19       		.uleb128 0x19
+ 1051 006b 01       		.uleb128 0x1
+ 1052 006c 13       		.uleb128 0x13
+ 1053 006d 00       		.byte	0
+ 1054 006e 00       		.byte	0
+ 1055 006f 08       		.uleb128 0x8
+ 1056 0070 34       		.uleb128 0x34
+ 1057 0071 00       		.byte	0
+ 1058 0072 03       		.uleb128 0x3
+ 1059 0073 0E       		.uleb128 0xe
+ 1060 0074 3A       		.uleb128 0x3a
+ 1061 0075 0B       		.uleb128 0xb
+ 1062 0076 3B       		.uleb128 0x3b
+ 1063 0077 0B       		.uleb128 0xb
+ 1064 0078 49       		.uleb128 0x49
+ 1065 0079 13       		.uleb128 0x13
+ 1066 007a 02       		.uleb128 0x2
+ 1067 007b 17       		.uleb128 0x17
+ 1068 007c 00       		.byte	0
+ 1069 007d 00       		.byte	0
+ 1070 007e 09       		.uleb128 0x9
+ 1071 007f 898201   		.uleb128 0x4109
+ 1072 0082 00       		.byte	0
+ 1073 0083 11       		.uleb128 0x11
+ 1074 0084 01       		.uleb128 0x1
+ 1075 0085 31       		.uleb128 0x31
+ 1076 0086 13       		.uleb128 0x13
+ 1077 0087 00       		.byte	0
+ 1078 0088 00       		.byte	0
+ 1079 0089 0A       		.uleb128 0xa
+ 1080 008a 898201   		.uleb128 0x4109
+ 1081 008d 01       		.byte	0x1
+ 1082 008e 11       		.uleb128 0x11
+ 1083 008f 01       		.uleb128 0x1
+ 1084 0090 31       		.uleb128 0x31
+ 1085 0091 13       		.uleb128 0x13
+ 1086 0092 00       		.byte	0
+ 1087 0093 00       		.byte	0
+ 1088 0094 0B       		.uleb128 0xb
+ 1089 0095 8A8201   		.uleb128 0x410a
+ 1090 0098 00       		.byte	0
+ 1091 0099 02       		.uleb128 0x2
+ 1092 009a 18       		.uleb128 0x18
+ 1093 009b 9142     		.uleb128 0x2111
+ 1094 009d 18       		.uleb128 0x18
+ 1095 009e 00       		.byte	0
+ 1096 009f 00       		.byte	0
+ 1097 00a0 0C       		.uleb128 0xc
+ARM GAS  C:\Users\cps\AppData\Local\Temp\ccsRlKN0.s 			page 36
+
+
+ 1098 00a1 2E       		.uleb128 0x2e
+ 1099 00a2 00       		.byte	0
+ 1100 00a3 3F       		.uleb128 0x3f
+ 1101 00a4 19       		.uleb128 0x19
+ 1102 00a5 03       		.uleb128 0x3
+ 1103 00a6 0E       		.uleb128 0xe
+ 1104 00a7 3A       		.uleb128 0x3a
+ 1105 00a8 0B       		.uleb128 0xb
+ 1106 00a9 3B       		.uleb128 0x3b
+ 1107 00aa 05       		.uleb128 0x5
+ 1108 00ab 27       		.uleb128 0x27
+ 1109 00ac 19       		.uleb128 0x19
+ 1110 00ad 49       		.uleb128 0x49
+ 1111 00ae 13       		.uleb128 0x13
+ 1112 00af 11       		.uleb128 0x11
+ 1113 00b0 01       		.uleb128 0x1
+ 1114 00b1 12       		.uleb128 0x12
+ 1115 00b2 06       		.uleb128 0x6
+ 1116 00b3 40       		.uleb128 0x40
+ 1117 00b4 18       		.uleb128 0x18
+ 1118 00b5 9742     		.uleb128 0x2117
+ 1119 00b7 19       		.uleb128 0x19
+ 1120 00b8 00       		.byte	0
+ 1121 00b9 00       		.byte	0
+ 1122 00ba 0D       		.uleb128 0xd
+ 1123 00bb 2E       		.uleb128 0x2e
+ 1124 00bc 01       		.byte	0x1
+ 1125 00bd 3F       		.uleb128 0x3f
+ 1126 00be 19       		.uleb128 0x19
+ 1127 00bf 03       		.uleb128 0x3
+ 1128 00c0 0E       		.uleb128 0xe
+ 1129 00c1 3A       		.uleb128 0x3a
+ 1130 00c2 0B       		.uleb128 0xb
+ 1131 00c3 3B       		.uleb128 0x3b
+ 1132 00c4 05       		.uleb128 0x5
+ 1133 00c5 27       		.uleb128 0x27
+ 1134 00c6 19       		.uleb128 0x19
+ 1135 00c7 11       		.uleb128 0x11
+ 1136 00c8 01       		.uleb128 0x1
+ 1137 00c9 12       		.uleb128 0x12
+ 1138 00ca 06       		.uleb128 0x6
+ 1139 00cb 40       		.uleb128 0x40
+ 1140 00cc 18       		.uleb128 0x18
+ 1141 00cd 9742     		.uleb128 0x2117
+ 1142 00cf 19       		.uleb128 0x19
+ 1143 00d0 01       		.uleb128 0x1
+ 1144 00d1 13       		.uleb128 0x13
+ 1145 00d2 00       		.byte	0
+ 1146 00d3 00       		.byte	0
+ 1147 00d4 0E       		.uleb128 0xe
+ 1148 00d5 05       		.uleb128 0x5
+ 1149 00d6 00       		.byte	0
+ 1150 00d7 03       		.uleb128 0x3
+ 1151 00d8 0E       		.uleb128 0xe
+ 1152 00d9 3A       		.uleb128 0x3a
+ 1153 00da 0B       		.uleb128 0xb
+ 1154 00db 3B       		.uleb128 0x3b
+ARM GAS  C:\Users\cps\AppData\Local\Temp\ccsRlKN0.s 			page 37
+
+
+ 1155 00dc 05       		.uleb128 0x5
+ 1156 00dd 49       		.uleb128 0x49
+ 1157 00de 13       		.uleb128 0x13
+ 1158 00df 02       		.uleb128 0x2
+ 1159 00e0 18       		.uleb128 0x18
+ 1160 00e1 00       		.byte	0
+ 1161 00e2 00       		.byte	0
+ 1162 00e3 0F       		.uleb128 0xf
+ 1163 00e4 2E       		.uleb128 0x2e
+ 1164 00e5 01       		.byte	0x1
+ 1165 00e6 3F       		.uleb128 0x3f
+ 1166 00e7 19       		.uleb128 0x19
+ 1167 00e8 03       		.uleb128 0x3
+ 1168 00e9 0E       		.uleb128 0xe
+ 1169 00ea 3A       		.uleb128 0x3a
+ 1170 00eb 0B       		.uleb128 0xb
+ 1171 00ec 3B       		.uleb128 0x3b
+ 1172 00ed 05       		.uleb128 0x5
+ 1173 00ee 27       		.uleb128 0x27
+ 1174 00ef 19       		.uleb128 0x19
+ 1175 00f0 49       		.uleb128 0x49
+ 1176 00f1 13       		.uleb128 0x13
+ 1177 00f2 11       		.uleb128 0x11
+ 1178 00f3 01       		.uleb128 0x1
+ 1179 00f4 12       		.uleb128 0x12
+ 1180 00f5 06       		.uleb128 0x6
+ 1181 00f6 40       		.uleb128 0x40
+ 1182 00f7 18       		.uleb128 0x18
+ 1183 00f8 9742     		.uleb128 0x2117
+ 1184 00fa 19       		.uleb128 0x19
+ 1185 00fb 01       		.uleb128 0x1
+ 1186 00fc 13       		.uleb128 0x13
+ 1187 00fd 00       		.byte	0
+ 1188 00fe 00       		.byte	0
+ 1189 00ff 10       		.uleb128 0x10
+ 1190 0100 34       		.uleb128 0x34
+ 1191 0101 00       		.byte	0
+ 1192 0102 03       		.uleb128 0x3
+ 1193 0103 0E       		.uleb128 0xe
+ 1194 0104 3A       		.uleb128 0x3a
+ 1195 0105 0B       		.uleb128 0xb
+ 1196 0106 3B       		.uleb128 0x3b
+ 1197 0107 05       		.uleb128 0x5
+ 1198 0108 49       		.uleb128 0x49
+ 1199 0109 13       		.uleb128 0x13
+ 1200 010a 02       		.uleb128 0x2
+ 1201 010b 18       		.uleb128 0x18
+ 1202 010c 00       		.byte	0
+ 1203 010d 00       		.byte	0
+ 1204 010e 11       		.uleb128 0x11
+ 1205 010f 34       		.uleb128 0x34
+ 1206 0110 00       		.byte	0
+ 1207 0111 03       		.uleb128 0x3
+ 1208 0112 0E       		.uleb128 0xe
+ 1209 0113 3A       		.uleb128 0x3a
+ 1210 0114 0B       		.uleb128 0xb
+ 1211 0115 3B       		.uleb128 0x3b
+ARM GAS  C:\Users\cps\AppData\Local\Temp\ccsRlKN0.s 			page 38
+
+
+ 1212 0116 05       		.uleb128 0x5
+ 1213 0117 49       		.uleb128 0x49
+ 1214 0118 13       		.uleb128 0x13
+ 1215 0119 02       		.uleb128 0x2
+ 1216 011a 17       		.uleb128 0x17
+ 1217 011b 00       		.byte	0
+ 1218 011c 00       		.byte	0
+ 1219 011d 12       		.uleb128 0x12
+ 1220 011e 34       		.uleb128 0x34
+ 1221 011f 00       		.byte	0
+ 1222 0120 03       		.uleb128 0x3
+ 1223 0121 0E       		.uleb128 0xe
+ 1224 0122 3A       		.uleb128 0x3a
+ 1225 0123 0B       		.uleb128 0xb
+ 1226 0124 3B       		.uleb128 0x3b
+ 1227 0125 0B       		.uleb128 0xb
+ 1228 0126 49       		.uleb128 0x49
+ 1229 0127 13       		.uleb128 0x13
+ 1230 0128 3F       		.uleb128 0x3f
+ 1231 0129 19       		.uleb128 0x19
+ 1232 012a 02       		.uleb128 0x2
+ 1233 012b 18       		.uleb128 0x18
+ 1234 012c 00       		.byte	0
+ 1235 012d 00       		.byte	0
+ 1236 012e 13       		.uleb128 0x13
+ 1237 012f 2E       		.uleb128 0x2e
+ 1238 0130 00       		.byte	0
+ 1239 0131 3F       		.uleb128 0x3f
+ 1240 0132 19       		.uleb128 0x19
+ 1241 0133 03       		.uleb128 0x3
+ 1242 0134 0E       		.uleb128 0xe
+ 1243 0135 3A       		.uleb128 0x3a
+ 1244 0136 0B       		.uleb128 0xb
+ 1245 0137 3B       		.uleb128 0x3b
+ 1246 0138 0B       		.uleb128 0xb
+ 1247 0139 27       		.uleb128 0x27
+ 1248 013a 19       		.uleb128 0x19
+ 1249 013b 49       		.uleb128 0x49
+ 1250 013c 13       		.uleb128 0x13
+ 1251 013d 3C       		.uleb128 0x3c
+ 1252 013e 19       		.uleb128 0x19
+ 1253 013f 00       		.byte	0
+ 1254 0140 00       		.byte	0
+ 1255 0141 14       		.uleb128 0x14
+ 1256 0142 2E       		.uleb128 0x2e
+ 1257 0143 00       		.byte	0
+ 1258 0144 3F       		.uleb128 0x3f
+ 1259 0145 19       		.uleb128 0x19
+ 1260 0146 03       		.uleb128 0x3
+ 1261 0147 0E       		.uleb128 0xe
+ 1262 0148 3A       		.uleb128 0x3a
+ 1263 0149 0B       		.uleb128 0xb
+ 1264 014a 3B       		.uleb128 0x3b
+ 1265 014b 0B       		.uleb128 0xb
+ 1266 014c 27       		.uleb128 0x27
+ 1267 014d 19       		.uleb128 0x19
+ 1268 014e 3C       		.uleb128 0x3c
+ARM GAS  C:\Users\cps\AppData\Local\Temp\ccsRlKN0.s 			page 39
+
+
+ 1269 014f 19       		.uleb128 0x19
+ 1270 0150 00       		.byte	0
+ 1271 0151 00       		.byte	0
+ 1272 0152 15       		.uleb128 0x15
+ 1273 0153 2E       		.uleb128 0x2e
+ 1274 0154 01       		.byte	0x1
+ 1275 0155 3F       		.uleb128 0x3f
+ 1276 0156 19       		.uleb128 0x19
+ 1277 0157 03       		.uleb128 0x3
+ 1278 0158 0E       		.uleb128 0xe
+ 1279 0159 3A       		.uleb128 0x3a
+ 1280 015a 0B       		.uleb128 0xb
+ 1281 015b 3B       		.uleb128 0x3b
+ 1282 015c 0B       		.uleb128 0xb
+ 1283 015d 27       		.uleb128 0x27
+ 1284 015e 19       		.uleb128 0x19
+ 1285 015f 3C       		.uleb128 0x3c
+ 1286 0160 19       		.uleb128 0x19
+ 1287 0161 01       		.uleb128 0x1
+ 1288 0162 13       		.uleb128 0x13
+ 1289 0163 00       		.byte	0
+ 1290 0164 00       		.byte	0
+ 1291 0165 16       		.uleb128 0x16
+ 1292 0166 05       		.uleb128 0x5
+ 1293 0167 00       		.byte	0
+ 1294 0168 49       		.uleb128 0x49
+ 1295 0169 13       		.uleb128 0x13
+ 1296 016a 00       		.byte	0
+ 1297 016b 00       		.byte	0
+ 1298 016c 00       		.byte	0
+ 1299              		.section	.debug_loc,"",%progbits
+ 1300              	.Ldebug_loc0:
+ 1301              	.LLST0:
+ 1302 0000 08000000 		.4byte	.LVL1
+ 1303 0004 28000000 		.4byte	.LVL4
+ 1304 0008 0100     		.2byte	0x1
+ 1305 000a 54       		.byte	0x54
+ 1306 000b 00000000 		.4byte	0
+ 1307 000f 00000000 		.4byte	0
+ 1308              	.LLST1:
+ 1309 0013 08000000 		.4byte	.LVL8
+ 1310 0017 28000000 		.4byte	.LVL11
+ 1311 001b 0100     		.2byte	0x1
+ 1312 001d 54       		.byte	0x54
+ 1313 001e 00000000 		.4byte	0
+ 1314 0022 00000000 		.4byte	0
+ 1315              	.LLST2:
+ 1316 0026 04000000 		.4byte	.LVL15
+ 1317 002a 08000000 		.4byte	.LVL16
+ 1318 002e 0600     		.2byte	0x6
+ 1319 0030 70       		.byte	0x70
+ 1320 0031 00       		.sleb128 0
+ 1321 0032 08       		.byte	0x8
+ 1322 0033 7F       		.byte	0x7f
+ 1323 0034 1A       		.byte	0x1a
+ 1324 0035 9F       		.byte	0x9f
+ 1325 0036 00000000 		.4byte	0
+ARM GAS  C:\Users\cps\AppData\Local\Temp\ccsRlKN0.s 			page 40
+
+
+ 1326 003a 00000000 		.4byte	0
+ 1327              	.LLST3:
+ 1328 003e 00000000 		.4byte	.LVL17
+ 1329 0042 12000000 		.4byte	.LVL19
+ 1330 0046 0200     		.2byte	0x2
+ 1331 0048 30       		.byte	0x30
+ 1332 0049 9F       		.byte	0x9f
+ 1333 004a 12000000 		.4byte	.LVL19
+ 1334 004e 1A000000 		.4byte	.LVL20
+ 1335 0052 0100     		.2byte	0x1
+ 1336 0054 50       		.byte	0x50
+ 1337 0055 1A000000 		.4byte	.LVL20
+ 1338 0059 1E000000 		.4byte	.LVL21
+ 1339 005d 0200     		.2byte	0x2
+ 1340 005f 30       		.byte	0x30
+ 1341 0060 9F       		.byte	0x9f
+ 1342 0061 1E000000 		.4byte	.LVL21
+ 1343 0065 2C000000 		.4byte	.LFE9
+ 1344 0069 0100     		.2byte	0x1
+ 1345 006b 50       		.byte	0x50
+ 1346 006c 00000000 		.4byte	0
+ 1347 0070 00000000 		.4byte	0
+ 1348              	.LLST4:
+ 1349 0074 06000000 		.4byte	.LVL26
+ 1350 0078 1B000000 		.4byte	.LVL27-1
+ 1351 007c 0100     		.2byte	0x1
+ 1352 007e 50       		.byte	0x50
+ 1353 007f 00000000 		.4byte	0
+ 1354 0083 00000000 		.4byte	0
+ 1355              		.section	.debug_aranges,"",%progbits
+ 1356 0000 94000000 		.4byte	0x94
+ 1357 0004 0200     		.2byte	0x2
+ 1358 0006 00000000 		.4byte	.Ldebug_info0
+ 1359 000a 04       		.byte	0x4
+ 1360 000b 00       		.byte	0
+ 1361 000c 0000     		.2byte	0
+ 1362 000e 0000     		.2byte	0
+ 1363 0010 00000000 		.4byte	.LFB1
+ 1364 0014 14000000 		.4byte	.LFE1-.LFB1
+ 1365 0018 00000000 		.4byte	.LFB2
+ 1366 001c 2C000000 		.4byte	.LFE2-.LFB2
+ 1367 0020 00000000 		.4byte	.LFB0
+ 1368 0024 1C000000 		.4byte	.LFE0-.LFB0
+ 1369 0028 00000000 		.4byte	.LFB3
+ 1370 002c 30000000 		.4byte	.LFE3-.LFB3
+ 1371 0030 00000000 		.4byte	.LFB4
+ 1372 0034 04000000 		.4byte	.LFE4-.LFB4
+ 1373 0038 00000000 		.4byte	.LFB5
+ 1374 003c 02000000 		.4byte	.LFE5-.LFB5
+ 1375 0040 00000000 		.4byte	.LFB6
+ 1376 0044 0C000000 		.4byte	.LFE6-.LFB6
+ 1377 0048 00000000 		.4byte	.LFB7
+ 1378 004c 0C000000 		.4byte	.LFE7-.LFB7
+ 1379 0050 00000000 		.4byte	.LFB8
+ 1380 0054 10000000 		.4byte	.LFE8-.LFB8
+ 1381 0058 00000000 		.4byte	.LFB9
+ 1382 005c 2C000000 		.4byte	.LFE9-.LFB9
+ARM GAS  C:\Users\cps\AppData\Local\Temp\ccsRlKN0.s 			page 41
+
+
+ 1383 0060 00000000 		.4byte	.LFB10
+ 1384 0064 12000000 		.4byte	.LFE10-.LFB10
+ 1385 0068 00000000 		.4byte	.LFB11
+ 1386 006c 18000000 		.4byte	.LFE11-.LFB11
+ 1387 0070 00000000 		.4byte	.LFB12
+ 1388 0074 24000000 		.4byte	.LFE12-.LFB12
+ 1389 0078 00000000 		.4byte	.LFB13
+ 1390 007c 02000000 		.4byte	.LFE13-.LFB13
+ 1391 0080 00000000 		.4byte	.LFB14
+ 1392 0084 0C000000 		.4byte	.LFE14-.LFB14
+ 1393 0088 00000000 		.4byte	.LFB15
+ 1394 008c 0C000000 		.4byte	.LFE15-.LFB15
+ 1395 0090 00000000 		.4byte	0
+ 1396 0094 00000000 		.4byte	0
+ 1397              		.section	.debug_ranges,"",%progbits
+ 1398              	.Ldebug_ranges0:
+ 1399 0000 00000000 		.4byte	.LFB1
+ 1400 0004 14000000 		.4byte	.LFE1
+ 1401 0008 00000000 		.4byte	.LFB2
+ 1402 000c 2C000000 		.4byte	.LFE2
+ 1403 0010 00000000 		.4byte	.LFB0
+ 1404 0014 1C000000 		.4byte	.LFE0
+ 1405 0018 00000000 		.4byte	.LFB3
+ 1406 001c 30000000 		.4byte	.LFE3
+ 1407 0020 00000000 		.4byte	.LFB4
+ 1408 0024 04000000 		.4byte	.LFE4
+ 1409 0028 00000000 		.4byte	.LFB5
+ 1410 002c 02000000 		.4byte	.LFE5
+ 1411 0030 00000000 		.4byte	.LFB6
+ 1412 0034 0C000000 		.4byte	.LFE6
+ 1413 0038 00000000 		.4byte	.LFB7
+ 1414 003c 0C000000 		.4byte	.LFE7
+ 1415 0040 00000000 		.4byte	.LFB8
+ 1416 0044 10000000 		.4byte	.LFE8
+ 1417 0048 00000000 		.4byte	.LFB9
+ 1418 004c 2C000000 		.4byte	.LFE9
+ 1419 0050 00000000 		.4byte	.LFB10
+ 1420 0054 12000000 		.4byte	.LFE10
+ 1421 0058 00000000 		.4byte	.LFB11
+ 1422 005c 18000000 		.4byte	.LFE11
+ 1423 0060 00000000 		.4byte	.LFB12
+ 1424 0064 24000000 		.4byte	.LFE12
+ 1425 0068 00000000 		.4byte	.LFB13
+ 1426 006c 02000000 		.4byte	.LFE13
+ 1427 0070 00000000 		.4byte	.LFB14
+ 1428 0074 0C000000 		.4byte	.LFE14
+ 1429 0078 00000000 		.4byte	.LFB15
+ 1430 007c 0C000000 		.4byte	.LFE15
+ 1431 0080 00000000 		.4byte	0
+ 1432 0084 00000000 		.4byte	0
+ 1433              		.section	.debug_line,"",%progbits
+ 1434              	.Ldebug_line0:
+ 1435 0000 B5010000 		.section	.debug_str,"MS",%progbits,1
+ 1435      02007100 
+ 1435      00000201 
+ 1435      FB0E0D00 
+ 1435      01010101 
+ARM GAS  C:\Users\cps\AppData\Local\Temp\ccsRlKN0.s 			page 42
+
+
+ 1436              	.LASF25:
+ 1437 0000 55415254 		.ascii	"UART_Decagon_ReadRxData\000"
+ 1437      5F446563 
+ 1437      61676F6E 
+ 1437      5F526561 
+ 1437      64527844 
+ 1438              	.LASF33:
+ 1439 0018 55415254 		.ascii	"UART_Decagon_ClearRxBuffer\000"
+ 1439      5F446563 
+ 1439      61676F6E 
+ 1439      5F436C65 
+ 1439      61725278 
+ 1440              	.LASF16:
+ 1441 0033 55415254 		.ascii	"UART_Decagon_Enable\000"
+ 1441      5F446563 
+ 1441      61676F6E 
+ 1441      5F456E61 
+ 1441      626C6500 
+ 1442              	.LASF30:
+ 1443 0047 55415254 		.ascii	"UART_Decagon_GetByte\000"
+ 1443      5F446563 
+ 1443      61676F6E 
+ 1443      5F476574 
+ 1443      42797465 
+ 1444              	.LASF40:
+ 1445 005c 55415254 		.ascii	"UART_Decagon_IntClock_Stop\000"
+ 1445      5F446563 
+ 1445      61676F6E 
+ 1445      5F496E74 
+ 1445      436C6F63 
+ 1446              	.LASF34:
+ 1447 0077 55415254 		.ascii	"UART_Decagon_SetRxAddressMode\000"
+ 1447      5F446563 
+ 1447      61676F6E 
+ 1447      5F536574 
+ 1447      52784164 
+ 1448              	.LASF4:
+ 1449 0095 6C6F6E67 		.ascii	"long int\000"
+ 1449      20696E74 
+ 1449      00
+ 1450              	.LASF18:
+ 1451 009e 55415254 		.ascii	"UART_Decagon_Stop\000"
+ 1451      5F446563 
+ 1451      61676F6E 
+ 1451      5F53746F 
+ 1451      7000
+ 1452              	.LASF3:
+ 1453 00b0 73686F72 		.ascii	"short unsigned int\000"
+ 1453      7420756E 
+ 1453      7369676E 
+ 1453      65642069 
+ 1453      6E7400
+ 1454              	.LASF2:
+ 1455 00c3 73686F72 		.ascii	"short int\000"
+ 1455      7420696E 
+ 1455      7400
+ 1456              	.LASF27:
+ARM GAS  C:\Users\cps\AppData\Local\Temp\ccsRlKN0.s 			page 43
+
+
+ 1457 00cd 73746174 		.ascii	"status\000"
+ 1457      757300
+ 1458              	.LASF43:
+ 1459 00d4 433A5C55 		.ascii	"C:\\Users\\cps\\Documents\\neoapi\\Project Template"
+ 1459      73657273 
+ 1459      5C637073 
+ 1459      5C446F63 
+ 1459      756D656E 
+ 1460 0102 735C5365 		.ascii	"s\\Sensor Examples\\Example Sensors\\DecagonGS3.cyd"
+ 1460      6E736F72 
+ 1460      20457861 
+ 1460      6D706C65 
+ 1460      735C4578 
+ 1461 0132 736E00   		.ascii	"sn\000"
+ 1462              	.LASF11:
+ 1463 0135 666C6F61 		.ascii	"float\000"
+ 1463      7400
+ 1464              	.LASF7:
+ 1465 013b 6C6F6E67 		.ascii	"long long unsigned int\000"
+ 1465      206C6F6E 
+ 1465      6720756E 
+ 1465      7369676E 
+ 1465      65642069 
+ 1466              	.LASF35:
+ 1467 0152 61646472 		.ascii	"addressMode\000"
+ 1467      6573734D 
+ 1467      6F646500 
+ 1468              	.LASF20:
+ 1469 015e 55415254 		.ascii	"UART_Decagon_WriteControlRegister\000"
+ 1469      5F446563 
+ 1469      61676F6E 
+ 1469      5F577269 
+ 1469      7465436F 
+ 1470              	.LASF14:
+ 1471 0180 72656738 		.ascii	"reg8\000"
+ 1471      00
+ 1472              	.LASF5:
+ 1473 0185 6C6F6E67 		.ascii	"long unsigned int\000"
+ 1473      20756E73 
+ 1473      69676E65 
+ 1473      6420696E 
+ 1473      7400
+ 1474              	.LASF9:
+ 1475 0197 75696E74 		.ascii	"uint8\000"
+ 1475      3800
+ 1476              	.LASF22:
+ 1477 019d 636F6E74 		.ascii	"control\000"
+ 1477      726F6C00 
+ 1478              	.LASF24:
+ 1479 01a5 72784461 		.ascii	"rxData\000"
+ 1479      746100
+ 1480              	.LASF19:
+ 1481 01ac 656E6162 		.ascii	"enableInterrupts\000"
+ 1481      6C65496E 
+ 1481      74657272 
+ 1481      75707473 
+ 1481      00
+ARM GAS  C:\Users\cps\AppData\Local\Temp\ccsRlKN0.s 			page 44
+
+
+ 1482              	.LASF1:
+ 1483 01bd 756E7369 		.ascii	"unsigned char\000"
+ 1483      676E6564 
+ 1483      20636861 
+ 1483      7200
+ 1484              	.LASF12:
+ 1485 01cb 646F7562 		.ascii	"double\000"
+ 1485      6C6500
+ 1486              	.LASF23:
+ 1487 01d2 696E7453 		.ascii	"intSrc\000"
+ 1487      726300
+ 1488              	.LASF29:
+ 1489 01d9 72785374 		.ascii	"rxStatus\000"
+ 1489      61747573 
+ 1489      00
+ 1490              	.LASF45:
+ 1491 01e2 55415254 		.ascii	"UART_Decagon_ReadControlRegister\000"
+ 1491      5F446563 
+ 1491      61676F6E 
+ 1491      5F526561 
+ 1491      64436F6E 
+ 1492              	.LASF10:
+ 1493 0203 75696E74 		.ascii	"uint16\000"
+ 1493      313600
+ 1494              	.LASF41:
+ 1495 020a 474E5520 		.ascii	"GNU C 4.9.3 20150303 (release) [ARM/embedded-4_9-br"
+ 1495      4320342E 
+ 1495      392E3320 
+ 1495      32303135 
+ 1495      30333033 
+ 1496 023d 616E6368 		.ascii	"anch revision 221220] -mcpu=cortex-m3 -mthumb -g -O"
+ 1496      20726576 
+ 1496      6973696F 
+ 1496      6E203232 
+ 1496      31323230 
+ 1497 0270 67202D66 		.ascii	"g -ffunction-sections -ffat-lto-objects\000"
+ 1497      66756E63 
+ 1497      74696F6E 
+ 1497      2D736563 
+ 1497      74696F6E 
+ 1498              	.LASF47:
+ 1499 0298 4379456E 		.ascii	"CyEnterCriticalSection\000"
+ 1499      74657243 
+ 1499      72697469 
+ 1499      63616C53 
+ 1499      65637469 
+ 1500              	.LASF8:
+ 1501 02af 756E7369 		.ascii	"unsigned int\000"
+ 1501      676E6564 
+ 1501      20696E74 
+ 1501      00
+ 1502              	.LASF44:
+ 1503 02bc 55415254 		.ascii	"UART_Decagon_Init\000"
+ 1503      5F446563 
+ 1503      61676F6E 
+ 1503      5F496E69 
+ 1503      7400
+ARM GAS  C:\Users\cps\AppData\Local\Temp\ccsRlKN0.s 			page 45
+
+
+ 1504              	.LASF37:
+ 1505 02ce 61646472 		.ascii	"address\000"
+ 1505      65737300 
+ 1506              	.LASF48:
+ 1507 02d6 43794578 		.ascii	"CyExitCriticalSection\000"
+ 1507      69744372 
+ 1507      69746963 
+ 1507      616C5365 
+ 1507      6374696F 
+ 1508              	.LASF39:
+ 1509 02ec 55415254 		.ascii	"UART_Decagon_IntClock_Start\000"
+ 1509      5F446563 
+ 1509      61676F6E 
+ 1509      5F496E74 
+ 1509      436C6F63 
+ 1510              	.LASF28:
+ 1511 0308 55415254 		.ascii	"UART_Decagon_GetChar\000"
+ 1511      5F446563 
+ 1511      61676F6E 
+ 1511      5F476574 
+ 1511      43686172 
+ 1512              	.LASF15:
+ 1513 031d 73697A65 		.ascii	"sizetype\000"
+ 1513      74797065 
+ 1513      00
+ 1514              	.LASF6:
+ 1515 0326 6C6F6E67 		.ascii	"long long int\000"
+ 1515      206C6F6E 
+ 1515      6720696E 
+ 1515      7400
+ 1516              	.LASF46:
+ 1517 0334 55415254 		.ascii	"UART_Decagon_initVar\000"
+ 1517      5F446563 
+ 1517      61676F6E 
+ 1517      5F696E69 
+ 1517      74566172 
+ 1518              	.LASF17:
+ 1519 0349 55415254 		.ascii	"UART_Decagon_Start\000"
+ 1519      5F446563 
+ 1519      61676F6E 
+ 1519      5F537461 
+ 1519      727400
+ 1520              	.LASF36:
+ 1521 035c 55415254 		.ascii	"UART_Decagon_SetRxAddress1\000"
+ 1521      5F446563 
+ 1521      61676F6E 
+ 1521      5F536574 
+ 1521      52784164 
+ 1522              	.LASF38:
+ 1523 0377 55415254 		.ascii	"UART_Decagon_SetRxAddress2\000"
+ 1523      5F446563 
+ 1523      61676F6E 
+ 1523      5F536574 
+ 1523      52784164 
+ 1524              	.LASF26:
+ 1525 0392 55415254 		.ascii	"UART_Decagon_ReadRxStatus\000"
+ 1525      5F446563 
+ARM GAS  C:\Users\cps\AppData\Local\Temp\ccsRlKN0.s 			page 46
+
+
+ 1525      61676F6E 
+ 1525      5F526561 
+ 1525      64527853 
+ 1526              	.LASF21:
+ 1527 03ac 55415254 		.ascii	"UART_Decagon_SetRxInterruptMode\000"
+ 1527      5F446563 
+ 1527      61676F6E 
+ 1527      5F536574 
+ 1527      5278496E 
+ 1528              	.LASF31:
+ 1529 03cc 55415254 		.ascii	"UART_Decagon_GetRxBufferSize\000"
+ 1529      5F446563 
+ 1529      61676F6E 
+ 1529      5F476574 
+ 1529      52784275 
+ 1530              	.LASF13:
+ 1531 03e9 63686172 		.ascii	"char\000"
+ 1531      00
+ 1532              	.LASF42:
+ 1533 03ee 2E5C4765 		.ascii	".\\Generated_Source\\PSoC5\\UART_Decagon.c\000"
+ 1533      6E657261 
+ 1533      7465645F 
+ 1533      536F7572 
+ 1533      63655C50 
+ 1534              	.LASF0:
+ 1535 0416 7369676E 		.ascii	"signed char\000"
+ 1535      65642063 
+ 1535      68617200 
+ 1536              	.LASF32:
+ 1537 0422 73697A65 		.ascii	"size\000"
+ 1537      00
+ 1538              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 4.9.3 20150303 (release) [ARM/embedded-4_9-br

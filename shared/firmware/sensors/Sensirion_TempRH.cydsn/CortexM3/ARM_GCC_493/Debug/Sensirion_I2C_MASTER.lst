@@ -1,0 +1,3697 @@
+ARM GAS  C:\Users\cps\AppData\Local\Temp\cc9VrCi4.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 1
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.file	"Sensirion_I2C_MASTER.c"
+  15              		.text
+  16              	.Ltext0:
+  17              		.cfi_sections	.debug_frame
+  18              		.section	.text.Sensirion_I2C_MasterWriteBuf,"ax",%progbits
+  19              		.align	2
+  20              		.global	Sensirion_I2C_MasterWriteBuf
+  21              		.thumb
+  22              		.thumb_func
+  23              		.type	Sensirion_I2C_MasterWriteBuf, %function
+  24              	Sensirion_I2C_MasterWriteBuf:
+  25              	.LFB0:
+  26              		.file 1 ".\\Generated_Source\\PSoC5\\Sensirion_I2C_MASTER.c"
+   1:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** /*******************************************************************************
+   2:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** * File Name: Sensirion_I2C_MASTER.c
+   3:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** * Version 3.30
+   4:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** *
+   5:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** * Description:
+   6:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** *  This file provides the source code of APIs for the I2C component Master mode.
+   7:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** *
+   8:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** * Note:
+   9:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** *
+  10:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** *******************************************************************************
+  11:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** * Copyright 2012, Cypress Semiconductor Corporation.  All rights reserved.
+  12:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** * You may use this file only in accordance with the license, terms, conditions,
+  13:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** * disclaimers, and limitations in the end user license agreement accompanying
+  14:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** * the software package with which this file was provided.
+  15:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** *******************************************************************************/
+  16:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** 
+  17:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** #include "Sensirion_I2C_PVT.h"
+  18:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** 
+  19:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** #if(Sensirion_I2C_MODE_MASTER_ENABLED)
+  20:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** 
+  21:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** /**********************************
+  22:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** *      System variables
+  23:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** **********************************/
+  24:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** 
+  25:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** volatile uint8 Sensirion_I2C_mstrStatus;     /* Master Status byte  */
+  26:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** volatile uint8 Sensirion_I2C_mstrControl;    /* Master Control byte */
+  27:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** 
+  28:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** /* Transmit buffer variables */
+  29:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** volatile uint8 * Sensirion_I2C_mstrRdBufPtr;     /* Pointer to Master Read buffer */
+  30:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** volatile uint8   Sensirion_I2C_mstrRdBufSize;    /* Master Read buffer size       */
+  31:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** volatile uint8   Sensirion_I2C_mstrRdBufIndex;   /* Master Read buffer Index      */
+ARM GAS  C:\Users\cps\AppData\Local\Temp\cc9VrCi4.s 			page 2
+
+
+  32:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** 
+  33:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** /* Receive buffer variables */
+  34:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** volatile uint8 * Sensirion_I2C_mstrWrBufPtr;     /* Pointer to Master Write buffer */
+  35:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** volatile uint8   Sensirion_I2C_mstrWrBufSize;    /* Master Write buffer size       */
+  36:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** volatile uint8   Sensirion_I2C_mstrWrBufIndex;   /* Master Write buffer Index      */
+  37:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** 
+  38:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** 
+  39:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** /*******************************************************************************
+  40:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** * Function Name: Sensirion_I2C_MasterWriteBuf
+  41:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** ********************************************************************************
+  42:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** *
+  43:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** * Summary:
+  44:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** *  Automatically writes an entire buffer of data to a slave device. Once the
+  45:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** *  data transfer is initiated by this function, further data transfer is handled
+  46:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** *  by the included ISR in byte by byte mode.
+  47:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** *
+  48:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** * Parameters:
+  49:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** *  slaveAddr: 7-bit slave address.
+  50:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** *  xferData:  Pointer to buffer of data to be sent.
+  51:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** *  cnt:       Size of buffer to send.
+  52:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** *  mode:      Transfer mode defines: start or restart condition generation at
+  53:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** *             begin of the transfer and complete the transfer or halt before
+  54:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** *             generating a stop.
+  55:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** *
+  56:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** * Return:
+  57:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** *  Status error - zero means no errors.
+  58:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** *
+  59:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** * Side Effects:
+  60:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** *  The included ISR will start transfer after start or restart condition will
+  61:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** *  be generated.
+  62:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** *
+  63:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** * Global variables:
+  64:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** *  Sensirion_I2C_mstrStatus  - used to store current status of I2C Master.
+  65:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** *  Sensirion_I2C_state       - used to store current state of software FSM.
+  66:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** *  Sensirion_I2C_mstrControl - used to control master end of transaction with
+  67:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** *  or without the Stop generation.
+  68:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** *  Sensirion_I2C_mstrWrBufPtr - used to store pointer to master write buffer.
+  69:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** *  Sensirion_I2C_mstrWrBufIndex - used to current index within master write
+  70:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** *  buffer.
+  71:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** *  Sensirion_I2C_mstrWrBufSize - used to store master write buffer size.
+  72:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** *
+  73:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** * Reentrant:
+  74:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** *  No
+  75:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** *
+  76:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** *******************************************************************************/
+  77:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** uint8 Sensirion_I2C_MasterWriteBuf(uint8 slaveAddress, uint8 * wrData, uint8 cnt, uint8 mode)
+  78:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****       
+  79:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** {
+  27              		.loc 1 79 0
+  28              		.cfi_startproc
+  29              		@ args = 0, pretend = 0, frame = 0
+  30              		@ frame_needed = 0, uses_anonymous_args = 0
+  31              		@ link register save eliminated.
+  32              	.LVL0:
+  33 0000 70B4     		push	{r4, r5, r6}
+  34              		.cfi_def_cfa_offset 12
+  35              		.cfi_offset 4, -12
+ARM GAS  C:\Users\cps\AppData\Local\Temp\cc9VrCi4.s 			page 3
+
+
+  36              		.cfi_offset 5, -8
+  37              		.cfi_offset 6, -4
+  38              	.LVL1:
+  80:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****     uint8 errStatus;
+  81:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** 
+  82:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****     errStatus = Sensirion_I2C_MSTR_NOT_READY;
+  83:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** 
+  84:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****     if(NULL != wrData)
+  39              		.loc 1 84 0
+  40 0002 0029     		cmp	r1, #0
+  41 0004 47D0     		beq	.L7
+  42 0006 0D46     		mov	r5, r1
+  85:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****     {
+  86:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****         /* Check I2C state before transfer: valid are IDLE or HALT */
+  87:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****         if(Sensirion_I2C_SM_IDLE == Sensirion_I2C_state)
+  43              		.loc 1 87 0
+  44 0008 2549     		ldr	r1, .L11
+  45              	.LVL2:
+  46 000a 0978     		ldrb	r1, [r1]	@ zero_extendqisi2
+  47 000c C9B2     		uxtb	r1, r1
+  48 000e 1029     		cmp	r1, #16
+  49 0010 06D1     		bne	.L3
+  88:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****         {
+  89:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****             /* Check if free: Master is ready to transaction */
+  90:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****             if(Sensirion_I2C_CHECK_BUS_FREE(Sensirion_I2C_MCSR_REG))
+  50              		.loc 1 90 0
+  51 0012 2449     		ldr	r1, .L11+4
+  52 0014 0978     		ldrb	r1, [r1]	@ zero_extendqisi2
+  53 0016 11F0100F 		tst	r1, #16
+  54 001a 10D1     		bne	.L8
+  91:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****             {
+  92:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****                 errStatus = Sensirion_I2C_MSTR_NO_ERROR;
+  55              		.loc 1 92 0
+  56 001c 0024     		movs	r4, #0
+  57 001e 11E0     		b	.L4
+  58              	.L3:
+  93:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****             }
+  94:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****             else
+  95:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****             {
+  96:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****                 errStatus = Sensirion_I2C_MSTR_BUS_BUSY;
+  97:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****             }
+  98:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****         }
+  99:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****         else if(Sensirion_I2C_SM_MSTR_HALT == Sensirion_I2C_state)
+  59              		.loc 1 99 0
+  60 0020 1F49     		ldr	r1, .L11
+  61 0022 0978     		ldrb	r1, [r1]	@ zero_extendqisi2
+  62 0024 C9B2     		uxtb	r1, r1
+  63 0026 6029     		cmp	r1, #96
+  64 0028 0BD1     		bne	.L9
+  65              	.LVL3:
+ 100:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****         {
+ 101:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****             errStatus = Sensirion_I2C_MSTR_NO_ERROR;
+ 102:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** 
+ 103:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****             CyIntClearPending(Sensirion_I2C_ISR_NUMBER);
+  66              		.loc 1 103 0
+  67 002a 0124     		movs	r4, #1
+  68 002c 1E49     		ldr	r1, .L11+8
+ARM GAS  C:\Users\cps\AppData\Local\Temp\cc9VrCi4.s 			page 4
+
+
+  69 002e 0C60     		str	r4, [r1]
+ 104:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****             Sensirion_I2C_mstrStatus &= ((uint8) ~Sensirion_I2C_MSTAT_XFER_HALT);
+  70              		.loc 1 104 0
+  71 0030 1E4C     		ldr	r4, .L11+12
+  72 0032 2178     		ldrb	r1, [r4]	@ zero_extendqisi2
+  73 0034 01F0F701 		and	r1, r1, #247
+  74 0038 2170     		strb	r1, [r4]
+ 101:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** 
+  75              		.loc 1 101 0
+  76 003a 0024     		movs	r4, #0
+  77 003c 02E0     		b	.L4
+  78              	.LVL4:
+  79              	.L8:
+  96:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****             }
+  80              		.loc 1 96 0
+  81 003e 0124     		movs	r4, #1
+  82 0040 00E0     		b	.L4
+  83              	.L9:
+  82:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** 
+  84              		.loc 1 82 0
+  85 0042 0224     		movs	r4, #2
+  86              	.LVL5:
+  87              	.L4:
+ 105:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****         }
+ 106:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****         else
+ 107:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****         {
+ 108:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****             /* errStatus = Sensirion_I2C_MSTR_NOT_READY was send before */
+ 109:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****         }
+ 110:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** 
+ 111:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****         if(Sensirion_I2C_MSTR_NO_ERROR == errStatus)
+  88              		.loc 1 111 0
+  89 0044 44BB     		cbnz	r4, .L2
+ 112:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****         {
+ 113:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****             Sensirion_I2C_state    = Sensirion_I2C_SM_MSTR_WR_ADDR;
+  90              		.loc 1 113 0
+  91 0046 4526     		movs	r6, #69
+  92 0048 1549     		ldr	r1, .L11
+  93 004a 0E70     		strb	r6, [r1]
+ 114:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****             Sensirion_I2C_DATA_REG = ((uint8) (slaveAddress << Sensirion_I2C_SLAVE_ADDR_SHIFT));
+  94              		.loc 1 114 0
+  95 004c 4100     		lsls	r1, r0, #1
+  96 004e C9B2     		uxtb	r1, r1
+  97 0050 1748     		ldr	r0, .L11+16
+  98              	.LVL6:
+  99 0052 0170     		strb	r1, [r0]
+ 115:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** 
+ 116:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****             Sensirion_I2C_mstrWrBufIndex = 0u;
+ 100              		.loc 1 116 0
+ 101 0054 0020     		movs	r0, #0
+ 102 0056 1749     		ldr	r1, .L11+20
+ 103 0058 0870     		strb	r0, [r1]
+ 117:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****             Sensirion_I2C_mstrWrBufSize  = cnt;
+ 104              		.loc 1 117 0
+ 105 005a 1749     		ldr	r1, .L11+24
+ 106 005c 0A70     		strb	r2, [r1]
+ 118:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****             Sensirion_I2C_mstrWrBufPtr   = (volatile uint8 *) wrData;
+ 107              		.loc 1 118 0
+ARM GAS  C:\Users\cps\AppData\Local\Temp\cc9VrCi4.s 			page 5
+
+
+ 108 005e 174A     		ldr	r2, .L11+28
+ 109              	.LVL7:
+ 110 0060 1560     		str	r5, [r2]
+ 119:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** 
+ 120:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****             Sensirion_I2C_mstrControl = mode;    /* Save transaction mode */
+ 111              		.loc 1 120 0
+ 112 0062 174A     		ldr	r2, .L11+32
+ 113 0064 1370     		strb	r3, [r2]
+ 114              	.LVL8:
+ 121:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** 
+ 122:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****             /* Generate a Start or ReStart depends on mode */
+ 123:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****             if(Sensirion_I2C_CHECK_RESTART(mode))
+ 115              		.loc 1 123 0
+ 116 0066 13F0010F 		tst	r3, #1
+ 117 006a 05D0     		beq	.L5
+ 124:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****             {
+ 125:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****                 Sensirion_I2C_GENERATE_RESTART;
+ 118              		.loc 1 125 0
+ 119 006c 3222     		movs	r2, #50
+ 120 006e 154B     		ldr	r3, .L11+36
+ 121              	.LVL9:
+ 122 0070 1A70     		strb	r2, [r3]
+ 123              	.LVL10:
+ 124 0072 203B     		subs	r3, r3, #32
+ 125 0074 1870     		strb	r0, [r3]
+ 126 0076 05E0     		b	.L6
+ 127              	.LVL11:
+ 128              	.L5:
+ 126:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****             }
+ 127:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****             else
+ 128:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****             {
+ 129:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****                 Sensirion_I2C_GENERATE_START;
+ 129              		.loc 1 129 0
+ 130 0078 8222     		movs	r2, #130
+ 131 007a 124B     		ldr	r3, .L11+36
+ 132              	.LVL12:
+ 133 007c 1A70     		strb	r2, [r3]
+ 134              	.LVL13:
+ 135 007e 0022     		movs	r2, #0
+ 136 0080 203B     		subs	r3, r3, #32
+ 137 0082 1A70     		strb	r2, [r3]
+ 138              	.L6:
+ 130:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****             }
+ 131:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** 
+ 132:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****             Sensirion_I2C_mstrStatus &= ((uint8) ~Sensirion_I2C_MSTAT_WR_CMPLT);
+ 139              		.loc 1 132 0
+ 140 0084 094A     		ldr	r2, .L11+12
+ 141 0086 1378     		ldrb	r3, [r2]	@ zero_extendqisi2
+ 142 0088 03F0FD03 		and	r3, r3, #253
+ 143 008c 1370     		strb	r3, [r2]
+ 133:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** 
+ 134:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****             Sensirion_I2C_EnableInt();   /* Enable intr to complete transfer */
+ 144              		.loc 1 134 0
+ 145 008e 0122     		movs	r2, #1
+ 146 0090 0D4B     		ldr	r3, .L11+40
+ 147 0092 1A60     		str	r2, [r3]
+ 148 0094 00E0     		b	.L2
+ARM GAS  C:\Users\cps\AppData\Local\Temp\cc9VrCi4.s 			page 6
+
+
+ 149              	.LVL14:
+ 150              	.L7:
+  82:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** 
+ 151              		.loc 1 82 0
+ 152 0096 0224     		movs	r4, #2
+ 153              	.LVL15:
+ 154              	.L2:
+ 135:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****         }
+ 136:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****     }
+ 137:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** 
+ 138:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****     return(errStatus);
+ 139:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** }
+ 155              		.loc 1 139 0
+ 156 0098 2046     		mov	r0, r4
+ 157 009a 70BC     		pop	{r4, r5, r6}
+ 158              		.cfi_restore 6
+ 159              		.cfi_restore 5
+ 160              		.cfi_restore 4
+ 161              		.cfi_def_cfa_offset 0
+ 162              	.LVL16:
+ 163 009c 7047     		bx	lr
+ 164              	.L12:
+ 165 009e 00BF     		.align	2
+ 166              	.L11:
+ 167 00a0 00000000 		.word	Sensirion_I2C_state
+ 168 00a4 6B640040 		.word	1073767531
+ 169 00a8 80E200E0 		.word	-536812928
+ 170 00ac 00000000 		.word	Sensirion_I2C_mstrStatus
+ 171 00b0 09640040 		.word	1073767433
+ 172 00b4 00000000 		.word	Sensirion_I2C_mstrWrBufIndex
+ 173 00b8 00000000 		.word	Sensirion_I2C_mstrWrBufSize
+ 174 00bc 00000000 		.word	Sensirion_I2C_mstrWrBufPtr
+ 175 00c0 00000000 		.word	Sensirion_I2C_mstrControl
+ 176 00c4 79640040 		.word	1073767545
+ 177 00c8 00E100E0 		.word	-536813312
+ 178              		.cfi_endproc
+ 179              	.LFE0:
+ 180              		.size	Sensirion_I2C_MasterWriteBuf, .-Sensirion_I2C_MasterWriteBuf
+ 181              		.section	.text.Sensirion_I2C_MasterReadBuf,"ax",%progbits
+ 182              		.align	2
+ 183              		.global	Sensirion_I2C_MasterReadBuf
+ 184              		.thumb
+ 185              		.thumb_func
+ 186              		.type	Sensirion_I2C_MasterReadBuf, %function
+ 187              	Sensirion_I2C_MasterReadBuf:
+ 188              	.LFB1:
+ 140:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** 
+ 141:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** 
+ 142:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** /*******************************************************************************
+ 143:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** * Function Name: Sensirion_I2C_MasterReadBuf
+ 144:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** ********************************************************************************
+ 145:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** *
+ 146:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** * Summary:
+ 147:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** *  Automatically writes an entire buffer of data to a slave device. Once the
+ 148:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** *  data transfer is initiated by this function, further data transfer is handled
+ 149:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** *  by the included ISR in byte by byte mode.
+ 150:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** *
+ARM GAS  C:\Users\cps\AppData\Local\Temp\cc9VrCi4.s 			page 7
+
+
+ 151:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** * Parameters:
+ 152:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** *  slaveAddr: 7-bit slave address.
+ 153:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** *  xferData:  Pointer to buffer where to put data from slave.
+ 154:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** *  cnt:       Size of buffer to read.
+ 155:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** *  mode:      Transfer mode defines: start or restart condition generation at
+ 156:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** *             begin of the transfer and complete the transfer or halt before
+ 157:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** *             generating a stop.
+ 158:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** *
+ 159:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** * Return:
+ 160:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** *  Status error - zero means no errors.
+ 161:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** *
+ 162:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** * Side Effects:
+ 163:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** *  The included ISR will start transfer after start or restart condition will
+ 164:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** *  be generated.
+ 165:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** *
+ 166:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** * Global variables:
+ 167:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** *  Sensirion_I2C_mstrStatus  - used to store current status of I2C Master.
+ 168:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** *  Sensirion_I2C_state       - used to store current state of software FSM.
+ 169:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** *  Sensirion_I2C_mstrControl - used to control master end of transaction with
+ 170:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** *  or without the Stop generation.
+ 171:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** *  Sensirion_I2C_mstrRdBufPtr - used to store pointer to master write buffer.
+ 172:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** *  Sensirion_I2C_mstrRdBufIndex - used to current index within master write
+ 173:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** *  buffer.
+ 174:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** *  Sensirion_I2C_mstrRdBufSize - used to store master write buffer size.
+ 175:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** *
+ 176:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** * Reentrant:
+ 177:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** *  No
+ 178:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** *
+ 179:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** *******************************************************************************/
+ 180:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** uint8 Sensirion_I2C_MasterReadBuf(uint8 slaveAddress, uint8 * rdData, uint8 cnt, uint8 mode)
+ 181:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****       
+ 182:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** {
+ 189              		.loc 1 182 0
+ 190              		.cfi_startproc
+ 191              		@ args = 0, pretend = 0, frame = 0
+ 192              		@ frame_needed = 0, uses_anonymous_args = 0
+ 193              		@ link register save eliminated.
+ 194              	.LVL17:
+ 195 0000 70B4     		push	{r4, r5, r6}
+ 196              		.cfi_def_cfa_offset 12
+ 197              		.cfi_offset 4, -12
+ 198              		.cfi_offset 5, -8
+ 199              		.cfi_offset 6, -4
+ 200              	.LVL18:
+ 183:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****     uint8 errStatus;
+ 184:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** 
+ 185:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****     errStatus = Sensirion_I2C_MSTR_NOT_READY;
+ 186:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** 
+ 187:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****     if(NULL != rdData)
+ 201              		.loc 1 187 0
+ 202 0002 0029     		cmp	r1, #0
+ 203 0004 49D0     		beq	.L19
+ 204 0006 0D46     		mov	r5, r1
+ 188:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****     {
+ 189:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****         /* Check I2C state before transfer: valid are IDLE or HALT */
+ 190:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****         if(Sensirion_I2C_SM_IDLE == Sensirion_I2C_state)
+ 205              		.loc 1 190 0
+ARM GAS  C:\Users\cps\AppData\Local\Temp\cc9VrCi4.s 			page 8
+
+
+ 206 0008 2649     		ldr	r1, .L23
+ 207              	.LVL19:
+ 208 000a 0978     		ldrb	r1, [r1]	@ zero_extendqisi2
+ 209 000c C9B2     		uxtb	r1, r1
+ 210 000e 1029     		cmp	r1, #16
+ 211 0010 06D1     		bne	.L15
+ 191:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****         {
+ 192:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****             /* Check if free: Master is ready to transaction */
+ 193:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****             if(Sensirion_I2C_CHECK_BUS_FREE(Sensirion_I2C_MCSR_REG))
+ 212              		.loc 1 193 0
+ 213 0012 2549     		ldr	r1, .L23+4
+ 214 0014 0978     		ldrb	r1, [r1]	@ zero_extendqisi2
+ 215 0016 11F0100F 		tst	r1, #16
+ 216 001a 10D1     		bne	.L20
+ 194:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****             {
+ 195:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****                 errStatus = Sensirion_I2C_MSTR_NO_ERROR;
+ 217              		.loc 1 195 0
+ 218 001c 0024     		movs	r4, #0
+ 219 001e 11E0     		b	.L16
+ 220              	.L15:
+ 196:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****             }
+ 197:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****             else
+ 198:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****             {
+ 199:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****                 errStatus = Sensirion_I2C_MSTR_BUS_BUSY;
+ 200:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****             }
+ 201:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****         }
+ 202:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****         else if(Sensirion_I2C_SM_MSTR_HALT == Sensirion_I2C_state)
+ 221              		.loc 1 202 0
+ 222 0020 2049     		ldr	r1, .L23
+ 223 0022 0978     		ldrb	r1, [r1]	@ zero_extendqisi2
+ 224 0024 C9B2     		uxtb	r1, r1
+ 225 0026 6029     		cmp	r1, #96
+ 226 0028 0BD1     		bne	.L21
+ 227              	.LVL20:
+ 203:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****         {
+ 204:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****             errStatus = Sensirion_I2C_MSTR_NO_ERROR;
+ 205:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** 
+ 206:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****             CyIntClearPending(Sensirion_I2C_ISR_NUMBER);
+ 228              		.loc 1 206 0
+ 229 002a 0124     		movs	r4, #1
+ 230 002c 1F49     		ldr	r1, .L23+8
+ 231 002e 0C60     		str	r4, [r1]
+ 207:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****             Sensirion_I2C_mstrStatus &= ((uint8) ~Sensirion_I2C_MSTAT_XFER_HALT);
+ 232              		.loc 1 207 0
+ 233 0030 1F4C     		ldr	r4, .L23+12
+ 234 0032 2178     		ldrb	r1, [r4]	@ zero_extendqisi2
+ 235 0034 01F0F701 		and	r1, r1, #247
+ 236 0038 2170     		strb	r1, [r4]
+ 204:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** 
+ 237              		.loc 1 204 0
+ 238 003a 0024     		movs	r4, #0
+ 239 003c 02E0     		b	.L16
+ 240              	.LVL21:
+ 241              	.L20:
+ 199:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****             }
+ 242              		.loc 1 199 0
+ 243 003e 0124     		movs	r4, #1
+ARM GAS  C:\Users\cps\AppData\Local\Temp\cc9VrCi4.s 			page 9
+
+
+ 244 0040 00E0     		b	.L16
+ 245              	.L21:
+ 185:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** 
+ 246              		.loc 1 185 0
+ 247 0042 0224     		movs	r4, #2
+ 248              	.LVL22:
+ 249              	.L16:
+ 208:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****         }
+ 209:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****         else
+ 210:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****         {
+ 211:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****             /* errStatus = Sensirion_I2C_MSTR_NOT_READY was send before */
+ 212:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****         }
+ 213:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** 
+ 214:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****         if(Sensirion_I2C_MSTR_NO_ERROR == errStatus)
+ 250              		.loc 1 214 0
+ 251 0044 54BB     		cbnz	r4, .L14
+ 215:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****         {
+ 216:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****             Sensirion_I2C_state    = Sensirion_I2C_SM_MSTR_RD_ADDR;
+ 252              		.loc 1 216 0
+ 253 0046 4926     		movs	r6, #73
+ 254 0048 1649     		ldr	r1, .L23
+ 255 004a 0E70     		strb	r6, [r1]
+ 217:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****             Sensirion_I2C_DATA_REG = (((uint8) (slaveAddress << Sensirion_I2C_SLAVE_ADDR_SHIFT)) |
+ 256              		.loc 1 217 0
+ 257 004c 4100     		lsls	r1, r0, #1
+ 258 004e C9B2     		uxtb	r1, r1
+ 259 0050 41F00101 		orr	r1, r1, #1
+ 260 0054 1748     		ldr	r0, .L23+16
+ 261              	.LVL23:
+ 262 0056 0170     		strb	r1, [r0]
+ 218:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****                                                    Sensirion_I2C_READ_FLAG);
+ 219:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** 
+ 220:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****             Sensirion_I2C_mstrRdBufIndex  = 0u;
+ 263              		.loc 1 220 0
+ 264 0058 0020     		movs	r0, #0
+ 265 005a 1749     		ldr	r1, .L23+20
+ 266 005c 0870     		strb	r0, [r1]
+ 221:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****             Sensirion_I2C_mstrRdBufSize   = cnt;
+ 267              		.loc 1 221 0
+ 268 005e 1749     		ldr	r1, .L23+24
+ 269 0060 0A70     		strb	r2, [r1]
+ 222:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****             Sensirion_I2C_mstrRdBufPtr    = (volatile uint8 *) rdData;
+ 270              		.loc 1 222 0
+ 271 0062 174A     		ldr	r2, .L23+28
+ 272              	.LVL24:
+ 273 0064 1560     		str	r5, [r2]
+ 223:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** 
+ 224:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****             Sensirion_I2C_mstrControl = mode;    /* Save transaction mode */
+ 274              		.loc 1 224 0
+ 275 0066 174A     		ldr	r2, .L23+32
+ 276 0068 1370     		strb	r3, [r2]
+ 277              	.LVL25:
+ 225:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** 
+ 226:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****             /* Generate a Start or ReStart depends on mode */
+ 227:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****             if(Sensirion_I2C_CHECK_RESTART(mode))
+ 278              		.loc 1 227 0
+ 279 006a 13F0010F 		tst	r3, #1
+ARM GAS  C:\Users\cps\AppData\Local\Temp\cc9VrCi4.s 			page 10
+
+
+ 280 006e 05D0     		beq	.L17
+ 228:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****             {
+ 229:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****                 Sensirion_I2C_GENERATE_RESTART;
+ 281              		.loc 1 229 0
+ 282 0070 3222     		movs	r2, #50
+ 283 0072 154B     		ldr	r3, .L23+36
+ 284              	.LVL26:
+ 285 0074 1A70     		strb	r2, [r3]
+ 286              	.LVL27:
+ 287 0076 203B     		subs	r3, r3, #32
+ 288 0078 1870     		strb	r0, [r3]
+ 289 007a 05E0     		b	.L18
+ 290              	.LVL28:
+ 291              	.L17:
+ 230:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****             }
+ 231:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****             else
+ 232:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****             {
+ 233:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****                 Sensirion_I2C_GENERATE_START;
+ 292              		.loc 1 233 0
+ 293 007c 8222     		movs	r2, #130
+ 294 007e 124B     		ldr	r3, .L23+36
+ 295              	.LVL29:
+ 296 0080 1A70     		strb	r2, [r3]
+ 297              	.LVL30:
+ 298 0082 0022     		movs	r2, #0
+ 299 0084 203B     		subs	r3, r3, #32
+ 300 0086 1A70     		strb	r2, [r3]
+ 301              	.L18:
+ 234:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****             }
+ 235:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** 
+ 236:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****             Sensirion_I2C_mstrStatus &= ((uint8) ~Sensirion_I2C_MSTAT_RD_CMPLT);
+ 302              		.loc 1 236 0
+ 303 0088 094A     		ldr	r2, .L23+12
+ 304 008a 1378     		ldrb	r3, [r2]	@ zero_extendqisi2
+ 305 008c 03F0FE03 		and	r3, r3, #254
+ 306 0090 1370     		strb	r3, [r2]
+ 237:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** 
+ 238:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****             Sensirion_I2C_EnableInt();   /* Enable intr to complete transfer */
+ 307              		.loc 1 238 0
+ 308 0092 0122     		movs	r2, #1
+ 309 0094 0D4B     		ldr	r3, .L23+40
+ 310 0096 1A60     		str	r2, [r3]
+ 311 0098 00E0     		b	.L14
+ 312              	.LVL31:
+ 313              	.L19:
+ 185:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** 
+ 314              		.loc 1 185 0
+ 315 009a 0224     		movs	r4, #2
+ 316              	.LVL32:
+ 317              	.L14:
+ 239:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****         }
+ 240:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****     }
+ 241:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** 
+ 242:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****     return(errStatus);
+ 243:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** }
+ 318              		.loc 1 243 0
+ 319 009c 2046     		mov	r0, r4
+ARM GAS  C:\Users\cps\AppData\Local\Temp\cc9VrCi4.s 			page 11
+
+
+ 320 009e 70BC     		pop	{r4, r5, r6}
+ 321              		.cfi_restore 6
+ 322              		.cfi_restore 5
+ 323              		.cfi_restore 4
+ 324              		.cfi_def_cfa_offset 0
+ 325              	.LVL33:
+ 326 00a0 7047     		bx	lr
+ 327              	.L24:
+ 328 00a2 00BF     		.align	2
+ 329              	.L23:
+ 330 00a4 00000000 		.word	Sensirion_I2C_state
+ 331 00a8 6B640040 		.word	1073767531
+ 332 00ac 80E200E0 		.word	-536812928
+ 333 00b0 00000000 		.word	Sensirion_I2C_mstrStatus
+ 334 00b4 09640040 		.word	1073767433
+ 335 00b8 00000000 		.word	Sensirion_I2C_mstrRdBufIndex
+ 336 00bc 00000000 		.word	Sensirion_I2C_mstrRdBufSize
+ 337 00c0 00000000 		.word	Sensirion_I2C_mstrRdBufPtr
+ 338 00c4 00000000 		.word	Sensirion_I2C_mstrControl
+ 339 00c8 79640040 		.word	1073767545
+ 340 00cc 00E100E0 		.word	-536813312
+ 341              		.cfi_endproc
+ 342              	.LFE1:
+ 343              		.size	Sensirion_I2C_MasterReadBuf, .-Sensirion_I2C_MasterReadBuf
+ 344              		.section	.text.Sensirion_I2C_MasterSendStart,"ax",%progbits
+ 345              		.align	2
+ 346              		.global	Sensirion_I2C_MasterSendStart
+ 347              		.thumb
+ 348              		.thumb_func
+ 349              		.type	Sensirion_I2C_MasterSendStart, %function
+ 350              	Sensirion_I2C_MasterSendStart:
+ 351              	.LFB2:
+ 244:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** 
+ 245:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** 
+ 246:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** /*******************************************************************************
+ 247:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** * Function Name: Sensirion_I2C_MasterSendStart
+ 248:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** ********************************************************************************
+ 249:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** *
+ 250:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** * Summary:
+ 251:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** *  Generates Start condition and sends slave address with read/write bit.
+ 252:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** *
+ 253:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** * Parameters:
+ 254:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** *  slaveAddress:  7-bit slave address.
+ 255:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** *  R_nW:          Zero, send write command, non-zero send read command.
+ 256:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** *
+ 257:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** * Return:
+ 258:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** *  Status error - zero means no errors.
+ 259:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** *
+ 260:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** * Side Effects:
+ 261:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** *  This function is entered without a 'byte complete' bit set in the I2C_CSR
+ 262:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** *  register. It does not exit until it will be set.
+ 263:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** *
+ 264:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** * Global variables:
+ 265:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** *  Sensirion_I2C_state - used to store current state of software FSM.
+ 266:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** *
+ 267:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** * Reentrant:
+ 268:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** *  No
+ARM GAS  C:\Users\cps\AppData\Local\Temp\cc9VrCi4.s 			page 12
+
+
+ 269:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** *
+ 270:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** *******************************************************************************/
+ 271:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** uint8 Sensirion_I2C_MasterSendStart(uint8 slaveAddress, uint8 R_nW)
+ 272:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****       
+ 273:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** {
+ 352              		.loc 1 273 0
+ 353              		.cfi_startproc
+ 354              		@ args = 0, pretend = 0, frame = 0
+ 355              		@ frame_needed = 0, uses_anonymous_args = 0
+ 356              		@ link register save eliminated.
+ 357              	.LVL34:
+ 274:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****     uint8 errStatus;
+ 275:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** 
+ 276:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****     errStatus = Sensirion_I2C_MSTR_NOT_READY;
+ 277:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** 
+ 278:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****     /* If IDLE, check if bus is free */
+ 279:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****     if(Sensirion_I2C_SM_IDLE == Sensirion_I2C_state)
+ 358              		.loc 1 279 0
+ 359 0000 1A4B     		ldr	r3, .L33
+ 360 0002 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 361 0004 DBB2     		uxtb	r3, r3
+ 362 0006 102B     		cmp	r3, #16
+ 363 0008 2AD1     		bne	.L30
+ 280:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****     {
+ 281:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****         /* If bus is free, generate Start condition */
+ 282:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****         if(Sensirion_I2C_CHECK_BUS_FREE(Sensirion_I2C_MCSR_REG))
+ 364              		.loc 1 282 0
+ 365 000a 194B     		ldr	r3, .L33+4
+ 366 000c 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 367 000e 13F0100F 		tst	r3, #16
+ 368 0012 27D1     		bne	.L31
+ 283:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****         {
+ 284:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****             Sensirion_I2C_DisableInt();  /* Disable ISR for Manual functions */
+ 369              		.loc 1 284 0
+ 370 0014 0122     		movs	r2, #1
+ 371 0016 174B     		ldr	r3, .L33+8
+ 372 0018 1A60     		str	r2, [r3]
+ 285:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** 
+ 286:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****             slaveAddress = ((uint8) (slaveAddress << Sensirion_I2C_SLAVE_ADDR_SHIFT)); /* Set Addre
+ 373              		.loc 1 286 0
+ 374 001a 9040     		lsls	r0, r0, r2
+ 375              	.LVL35:
+ 376 001c C0B2     		uxtb	r0, r0
+ 377              	.LVL36:
+ 287:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****             if(0u != R_nW)                                      /* Set the Read/Write flag */
+ 378              		.loc 1 287 0
+ 379 001e 21B1     		cbz	r1, .L27
+ 288:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****             {
+ 289:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****                 slaveAddress |= Sensirion_I2C_READ_FLAG;
+ 380              		.loc 1 289 0
+ 381 0020 1043     		orrs	r0, r0, r2
+ 382              	.LVL37:
+ 290:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****                 Sensirion_I2C_state = Sensirion_I2C_SM_MSTR_RD_ADDR;
+ 383              		.loc 1 290 0
+ 384 0022 4922     		movs	r2, #73
+ 385 0024 114B     		ldr	r3, .L33
+ 386 0026 1A70     		strb	r2, [r3]
+ARM GAS  C:\Users\cps\AppData\Local\Temp\cc9VrCi4.s 			page 13
+
+
+ 387 0028 02E0     		b	.L28
+ 388              	.L27:
+ 291:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****             }
+ 292:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****             else
+ 293:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****             {
+ 294:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****                 Sensirion_I2C_state = Sensirion_I2C_SM_MSTR_WR_ADDR;
+ 389              		.loc 1 294 0
+ 390 002a 4522     		movs	r2, #69
+ 391 002c 0F4B     		ldr	r3, .L33
+ 392 002e 1A70     		strb	r2, [r3]
+ 393              	.L28:
+ 295:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****             }
+ 296:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****             Sensirion_I2C_DATA_REG = slaveAddress;   /* Write address to data reg */
+ 394              		.loc 1 296 0
+ 395 0030 114B     		ldr	r3, .L33+12
+ 396 0032 1870     		strb	r0, [r3]
+ 297:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** 
+ 298:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** 
+ 299:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****             Sensirion_I2C_GENERATE_START;
+ 397              		.loc 1 299 0
+ 398 0034 8222     		movs	r2, #130
+ 399 0036 7033     		adds	r3, r3, #112
+ 400 0038 1A70     		strb	r2, [r3]
+ 401 003a 0022     		movs	r2, #0
+ 402 003c 203B     		subs	r3, r3, #32
+ 403 003e 1A70     		strb	r2, [r3]
+ 404              	.L29:
+ 300:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****             while(Sensirion_I2C_WAIT_BYTE_COMPLETE(Sensirion_I2C_CSR_REG))
+ 405              		.loc 1 300 0 discriminator 1
+ 406 0040 0B4B     		ldr	r3, .L33+4
+ 407 0042 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 408 0044 13F0010F 		tst	r3, #1
+ 409 0048 FAD0     		beq	.L29
+ 301:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****             {
+ 302:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****                 ; /* Wait for the address to be transfered */
+ 303:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****             }
+ 304:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** 
+ 305:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****             #if(Sensirion_I2C_MODE_MULTI_MASTER_SLAVE_ENABLED)
+ 306:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****                 if(Sensirion_I2C_CHECK_START_GEN(Sensirion_I2C_MCSR_REG))
+ 307:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****                 {
+ 308:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****                     Sensirion_I2C_CLEAR_START_GEN;
+ 309:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** 
+ 310:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****                     /* Start condition was not generated: reset FSM to IDLE */
+ 311:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****                     Sensirion_I2C_state = Sensirion_I2C_SM_IDLE;
+ 312:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****                     errStatus = Sensirion_I2C_MSTR_ERR_ABORT_START_GEN;
+ 313:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****                 }
+ 314:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****                 else
+ 315:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****             #endif /* (Sensirion_I2C_MODE_MULTI_MASTER_SLAVE_ENABLED) */
+ 316:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** 
+ 317:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****             #if(Sensirion_I2C_MODE_MULTI_MASTER_ENABLED)
+ 318:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** 
+ 319:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****                 if(Sensirion_I2C_CHECK_LOST_ARB(Sensirion_I2C_CSR_REG))
+ 320:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****                 {
+ 321:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****                     Sensirion_I2C_BUS_RELEASE;
+ 322:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** 
+ 323:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****                     /* Master lost arbitrage: reset FSM to IDLE */
+ 324:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****                     Sensirion_I2C_state = Sensirion_I2C_SM_IDLE;
+ARM GAS  C:\Users\cps\AppData\Local\Temp\cc9VrCi4.s 			page 14
+
+
+ 325:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****                     errStatus = Sensirion_I2C_MSTR_ERR_ARB_LOST;
+ 326:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****                 }
+ 327:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****                 else
+ 328:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****             #endif /* (Sensirion_I2C_MODE_MULTI_MASTER_ENABLED) */
+ 329:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** 
+ 330:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****                 if(Sensirion_I2C_CHECK_ADDR_NAK(Sensirion_I2C_CSR_REG))
+ 410              		.loc 1 330 0
+ 411 004a 094B     		ldr	r3, .L33+4
+ 412 004c 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 413 004e 03F00A03 		and	r3, r3, #10
+ 414 0052 0A2B     		cmp	r3, #10
+ 415 0054 08D1     		bne	.L32
+ 331:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****                 {
+ 332:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****                     /* Address has been NACKed: reset FSM to IDLE */
+ 333:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****                     Sensirion_I2C_state = Sensirion_I2C_SM_IDLE;
+ 416              		.loc 1 333 0
+ 417 0056 1022     		movs	r2, #16
+ 418 0058 044B     		ldr	r3, .L33
+ 419 005a 1A70     		strb	r2, [r3]
+ 420              	.LVL38:
+ 334:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****                     errStatus = Sensirion_I2C_MSTR_ERR_LB_NAK;
+ 421              		.loc 1 334 0
+ 422 005c 0320     		movs	r0, #3
+ 423              	.LVL39:
+ 424 005e 7047     		bx	lr
+ 425              	.LVL40:
+ 426              	.L30:
+ 276:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** 
+ 427              		.loc 1 276 0
+ 428 0060 0220     		movs	r0, #2
+ 429              	.LVL41:
+ 430 0062 7047     		bx	lr
+ 431              	.LVL42:
+ 432              	.L31:
+ 335:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****                 }
+ 336:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****                 else
+ 337:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****                 {
+ 338:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****                     /* Start was sent witout errors */
+ 339:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****                     errStatus = Sensirion_I2C_MSTR_NO_ERROR;
+ 340:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****                 }
+ 341:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****         }
+ 342:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****         else
+ 343:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****         {
+ 344:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****             errStatus = Sensirion_I2C_MSTR_BUS_BUSY; /* Bus is busy */
+ 433              		.loc 1 344 0
+ 434 0064 0120     		movs	r0, #1
+ 435              	.LVL43:
+ 436 0066 7047     		bx	lr
+ 437              	.LVL44:
+ 438              	.L32:
+ 339:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****                 }
+ 439              		.loc 1 339 0
+ 440 0068 0020     		movs	r0, #0
+ 441              	.LVL45:
+ 345:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****         }
+ 346:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****     }
+ 347:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** 
+ARM GAS  C:\Users\cps\AppData\Local\Temp\cc9VrCi4.s 			page 15
+
+
+ 348:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****     return(errStatus);
+ 349:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** }
+ 442              		.loc 1 349 0
+ 443 006a 7047     		bx	lr
+ 444              	.L34:
+ 445              		.align	2
+ 446              	.L33:
+ 447 006c 00000000 		.word	Sensirion_I2C_state
+ 448 0070 6B640040 		.word	1073767531
+ 449 0074 80E100E0 		.word	-536813184
+ 450 0078 09640040 		.word	1073767433
+ 451              		.cfi_endproc
+ 452              	.LFE2:
+ 453              		.size	Sensirion_I2C_MasterSendStart, .-Sensirion_I2C_MasterSendStart
+ 454              		.section	.text.Sensirion_I2C_MasterSendRestart,"ax",%progbits
+ 455              		.align	2
+ 456              		.global	Sensirion_I2C_MasterSendRestart
+ 457              		.thumb
+ 458              		.thumb_func
+ 459              		.type	Sensirion_I2C_MasterSendRestart, %function
+ 460              	Sensirion_I2C_MasterSendRestart:
+ 461              	.LFB3:
+ 350:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** 
+ 351:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** 
+ 352:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** /*******************************************************************************
+ 353:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** * Function Name: Sensirion_I2C_MasterSendRestart
+ 354:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** ********************************************************************************
+ 355:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** *
+ 356:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** * Summary:
+ 357:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** *  Generates ReStart condition and sends slave address with read/write bit.
+ 358:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** *
+ 359:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** * Parameters:
+ 360:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** *  slaveAddress:  7-bit slave address.
+ 361:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** *  R_nW:          Zero, send write command, non-zero send read command.
+ 362:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** *
+ 363:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** * Return:
+ 364:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** *  Status error - zero means no errors.
+ 365:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** *
+ 366:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** * Side Effects:
+ 367:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** *  This function is entered without a 'byte complete' bit set in the I2C_CSR
+ 368:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** *  register. It does not exit until it will be set.
+ 369:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** *
+ 370:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** * Global variables:
+ 371:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** *  Sensirion_I2C_state - used to store current state of software FSM.
+ 372:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** *
+ 373:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** * Reentrant:
+ 374:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** *  No
+ 375:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** *
+ 376:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** *******************************************************************************/
+ 377:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** uint8 Sensirion_I2C_MasterSendRestart(uint8 slaveAddress, uint8 R_nW)
+ 378:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****       
+ 379:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** {
+ 462              		.loc 1 379 0
+ 463              		.cfi_startproc
+ 464              		@ args = 0, pretend = 0, frame = 0
+ 465              		@ frame_needed = 0, uses_anonymous_args = 0
+ 466              		@ link register save eliminated.
+ARM GAS  C:\Users\cps\AppData\Local\Temp\cc9VrCi4.s 			page 16
+
+
+ 467              	.LVL46:
+ 380:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****     uint8 errStatus;
+ 381:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** 
+ 382:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****     errStatus = Sensirion_I2C_MSTR_NOT_READY;
+ 383:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** 
+ 384:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****     /* Check if START condition was generated */
+ 385:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****     if(Sensirion_I2C_CHECK_MASTER_MODE(Sensirion_I2C_MCSR_REG))
+ 468              		.loc 1 385 0
+ 469 0000 184B     		ldr	r3, .L43
+ 470 0002 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 471 0004 13F0040F 		tst	r3, #4
+ 472 0008 28D0     		beq	.L41
+ 386:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****     {
+ 387:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****         slaveAddress = ((uint8) (slaveAddress << Sensirion_I2C_SLAVE_ADDR_SHIFT)); /* Set Address *
+ 473              		.loc 1 387 0
+ 474 000a 4000     		lsls	r0, r0, #1
+ 475              	.LVL47:
+ 476 000c C0B2     		uxtb	r0, r0
+ 477              	.LVL48:
+ 388:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****         if(0u != R_nW)  /* Set the Read/Write flag */
+ 478              		.loc 1 388 0
+ 479 000e 29B1     		cbz	r1, .L37
+ 389:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****         {
+ 390:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****             slaveAddress |= Sensirion_I2C_READ_FLAG;
+ 480              		.loc 1 390 0
+ 481 0010 40F00100 		orr	r0, r0, #1
+ 482              	.LVL49:
+ 391:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****             Sensirion_I2C_state = Sensirion_I2C_SM_MSTR_RD_ADDR;
+ 483              		.loc 1 391 0
+ 484 0014 4922     		movs	r2, #73
+ 485 0016 144B     		ldr	r3, .L43+4
+ 486 0018 1A70     		strb	r2, [r3]
+ 487 001a 02E0     		b	.L38
+ 488              	.L37:
+ 392:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****         }
+ 393:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****         else
+ 394:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****         {
+ 395:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****             Sensirion_I2C_state = Sensirion_I2C_SM_MSTR_WR_ADDR;
+ 489              		.loc 1 395 0
+ 490 001c 4522     		movs	r2, #69
+ 491 001e 124B     		ldr	r3, .L43+4
+ 492 0020 1A70     		strb	r2, [r3]
+ 493              	.L38:
+ 396:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****         }
+ 397:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****         Sensirion_I2C_DATA_REG = slaveAddress;    /* Write address to data reg */
+ 494              		.loc 1 397 0
+ 495 0022 124B     		ldr	r3, .L43+8
+ 496 0024 1870     		strb	r0, [r3]
+ 398:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** 
+ 399:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** 
+ 400:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****         Sensirion_I2C_GENERATE_RESTART_MANUAL;
+ 497              		.loc 1 400 0
+ 498 0026 3222     		movs	r2, #50
+ 499 0028 7033     		adds	r3, r3, #112
+ 500 002a 1A70     		strb	r2, [r3]
+ 501 002c 0022     		movs	r2, #0
+ 502 002e 203B     		subs	r3, r3, #32
+ARM GAS  C:\Users\cps\AppData\Local\Temp\cc9VrCi4.s 			page 17
+
+
+ 503 0030 1A70     		strb	r2, [r3]
+ 504              	.L39:
+ 505              		.loc 1 400 0 is_stmt 0 discriminator 2
+ 506 0032 0C4B     		ldr	r3, .L43
+ 507 0034 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 508 0036 13F0010F 		tst	r3, #1
+ 509 003a FAD1     		bne	.L39
+ 510              	.L40:
+ 401:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****         while(Sensirion_I2C_WAIT_BYTE_COMPLETE(Sensirion_I2C_CSR_REG))
+ 511              		.loc 1 401 0 is_stmt 1 discriminator 1
+ 512 003c 094B     		ldr	r3, .L43
+ 513 003e 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 514 0040 13F0010F 		tst	r3, #1
+ 515 0044 FAD0     		beq	.L40
+ 402:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****         {
+ 403:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****             ; /* Wait for the address to be transfered */
+ 404:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****         }
+ 405:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** 
+ 406:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****         #if(Sensirion_I2C_MODE_MULTI_MASTER_ENABLED)
+ 407:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****             if(Sensirion_I2C_CHECK_LOST_ARB(Sensirion_I2C_CSR_REG))
+ 408:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****             {
+ 409:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****                 Sensirion_I2C_BUS_RELEASE;
+ 410:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** 
+ 411:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****                 /* Master lost arbitrage: reset FSM to IDLE */
+ 412:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****                 Sensirion_I2C_state = Sensirion_I2C_SM_IDLE;
+ 413:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****                 errStatus = Sensirion_I2C_MSTR_ERR_ARB_LOST;
+ 414:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****             }
+ 415:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****             else
+ 416:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****         #endif /* (Sensirion_I2C_MODE_MULTI_MASTER_ENABLED) */
+ 417:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** 
+ 418:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****             if(Sensirion_I2C_CHECK_ADDR_NAK(Sensirion_I2C_CSR_REG))
+ 516              		.loc 1 418 0
+ 517 0046 074B     		ldr	r3, .L43
+ 518 0048 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 519 004a 03F00A03 		and	r3, r3, #10
+ 520 004e 0A2B     		cmp	r3, #10
+ 521 0050 06D1     		bne	.L42
+ 419:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****             {
+ 420:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****                 /* Address has been NACKed: reset FSM to IDLE */
+ 421:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****                 Sensirion_I2C_state = Sensirion_I2C_SM_IDLE;
+ 522              		.loc 1 421 0
+ 523 0052 1022     		movs	r2, #16
+ 524 0054 044B     		ldr	r3, .L43+4
+ 525 0056 1A70     		strb	r2, [r3]
+ 526              	.LVL50:
+ 422:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****                 errStatus = Sensirion_I2C_MSTR_ERR_LB_NAK;
+ 527              		.loc 1 422 0
+ 528 0058 0320     		movs	r0, #3
+ 529              	.LVL51:
+ 530 005a 7047     		bx	lr
+ 531              	.LVL52:
+ 532              	.L41:
+ 382:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** 
+ 533              		.loc 1 382 0
+ 534 005c 0220     		movs	r0, #2
+ 535              	.LVL53:
+ 536 005e 7047     		bx	lr
+ARM GAS  C:\Users\cps\AppData\Local\Temp\cc9VrCi4.s 			page 18
+
+
+ 537              	.LVL54:
+ 538              	.L42:
+ 423:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****             }
+ 424:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****             else
+ 425:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****             {
+ 426:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****                 /* ReStart was sent witout errors */
+ 427:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****                 errStatus = Sensirion_I2C_MSTR_NO_ERROR;
+ 539              		.loc 1 427 0
+ 540 0060 0020     		movs	r0, #0
+ 541              	.LVL55:
+ 428:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****             }
+ 429:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****     }
+ 430:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** 
+ 431:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****     return(errStatus);
+ 432:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** }
+ 542              		.loc 1 432 0
+ 543 0062 7047     		bx	lr
+ 544              	.L44:
+ 545              		.align	2
+ 546              	.L43:
+ 547 0064 6B640040 		.word	1073767531
+ 548 0068 00000000 		.word	Sensirion_I2C_state
+ 549 006c 09640040 		.word	1073767433
+ 550              		.cfi_endproc
+ 551              	.LFE3:
+ 552              		.size	Sensirion_I2C_MasterSendRestart, .-Sensirion_I2C_MasterSendRestart
+ 553              		.section	.text.Sensirion_I2C_MasterSendStop,"ax",%progbits
+ 554              		.align	2
+ 555              		.global	Sensirion_I2C_MasterSendStop
+ 556              		.thumb
+ 557              		.thumb_func
+ 558              		.type	Sensirion_I2C_MasterSendStop, %function
+ 559              	Sensirion_I2C_MasterSendStop:
+ 560              	.LFB4:
+ 433:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** 
+ 434:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** 
+ 435:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** /*******************************************************************************
+ 436:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** * Function Name: Sensirion_I2C_MasterSendStop
+ 437:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** ********************************************************************************
+ 438:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** *
+ 439:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** * Summary:
+ 440:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** *  Generates I2C Stop condition on bus. Function do nothing if Start or Restart
+ 441:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** *  condition was failed before call this function.
+ 442:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** *
+ 443:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** * Parameters:
+ 444:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** *  None
+ 445:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** *
+ 446:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** * Return:
+ 447:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** *  Status error - zero means no errors.
+ 448:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** *
+ 449:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** * Side Effects:
+ 450:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** *  The Stop generation is required to complete transaction.
+ 451:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** *  This function does not wait whileStop condition will be generated.
+ 452:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** *
+ 453:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** * Global variables:
+ 454:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** *  Sensirion_I2C_state - used to store current state of software FSM.
+ 455:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** *
+ARM GAS  C:\Users\cps\AppData\Local\Temp\cc9VrCi4.s 			page 19
+
+
+ 456:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** * Reentrant:
+ 457:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** *  No
+ 458:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** *
+ 459:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** *******************************************************************************/
+ 460:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** uint8 Sensirion_I2C_MasterSendStop(void) 
+ 461:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** {
+ 561              		.loc 1 461 0
+ 562              		.cfi_startproc
+ 563              		@ args = 0, pretend = 0, frame = 0
+ 564              		@ frame_needed = 0, uses_anonymous_args = 0
+ 565              		@ link register save eliminated.
+ 566              	.LVL56:
+ 462:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****     uint8 errStatus;
+ 463:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** 
+ 464:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****     errStatus = Sensirion_I2C_MSTR_NOT_READY;
+ 465:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** 
+ 466:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****     /* Check if START condition was generated */
+ 467:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****     if(Sensirion_I2C_CHECK_MASTER_MODE(Sensirion_I2C_MCSR_REG))
+ 567              		.loc 1 467 0
+ 568 0000 0D4B     		ldr	r3, .L50
+ 569 0002 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 570 0004 13F0040F 		tst	r3, #4
+ 571 0008 14D0     		beq	.L49
+ 468:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****     {
+ 469:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****         Sensirion_I2C_GENERATE_STOP_MANUAL;              /* Generate STOP */
+ 572              		.loc 1 469 0
+ 573 000a 5222     		movs	r2, #82
+ 574 000c 0B4B     		ldr	r3, .L50+4
+ 575 000e 1A70     		strb	r2, [r3]
+ 576 0010 0022     		movs	r2, #0
+ 577 0012 203B     		subs	r3, r3, #32
+ 578 0014 1A70     		strb	r2, [r3]
+ 579              	.L47:
+ 580              		.loc 1 469 0 is_stmt 0 discriminator 2
+ 581 0016 084B     		ldr	r3, .L50
+ 582 0018 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 583 001a 13F0010F 		tst	r3, #1
+ 584 001e FAD1     		bne	.L47
+ 470:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****         Sensirion_I2C_state = Sensirion_I2C_SM_IDLE;  /* Reset state to IDLE */
+ 585              		.loc 1 470 0 is_stmt 1
+ 586 0020 1022     		movs	r2, #16
+ 587 0022 074B     		ldr	r3, .L50+8
+ 588 0024 1A70     		strb	r2, [r3]
+ 589              	.L48:
+ 471:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** 
+ 472:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****         while(Sensirion_I2C_WAIT_STOP_COMPLETE(Sensirion_I2C_CSR_REG))
+ 590              		.loc 1 472 0 discriminator 1
+ 591 0026 044B     		ldr	r3, .L50
+ 592 0028 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 593 002a 13F0210F 		tst	r3, #33
+ 594 002e FAD0     		beq	.L48
+ 473:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****         {
+ 474:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****             ; /* Wait for Stop to be generated */
+ 475:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****         }
+ 476:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** 
+ 477:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****         errStatus = Sensirion_I2C_MSTR_NO_ERROR;
+ 595              		.loc 1 477 0
+ARM GAS  C:\Users\cps\AppData\Local\Temp\cc9VrCi4.s 			page 20
+
+
+ 596 0030 0020     		movs	r0, #0
+ 597 0032 7047     		bx	lr
+ 598              	.L49:
+ 464:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** 
+ 599              		.loc 1 464 0
+ 600 0034 0220     		movs	r0, #2
+ 601              	.LVL57:
+ 478:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****         #if(Sensirion_I2C_MODE_MULTI_MASTER_ENABLED)
+ 479:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****             if(Sensirion_I2C_CHECK_LOST_ARB(Sensirion_I2C_CSR_REG))
+ 480:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****             {
+ 481:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****                 Sensirion_I2C_BUS_RELEASE;
+ 482:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** 
+ 483:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****                 /* NACK was generated by enother instead Stop */
+ 484:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****                 errStatus = Sensirion_I2C_MSTR_ERR_ARB_LOST;
+ 485:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****             }
+ 486:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****         #endif /* (Sensirion_I2C_MODE_MULTI_MASTER_ENABLED) */
+ 487:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****     }
+ 488:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** 
+ 489:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****     return(errStatus);
+ 490:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** }
+ 602              		.loc 1 490 0
+ 603 0036 7047     		bx	lr
+ 604              	.L51:
+ 605              		.align	2
+ 606              	.L50:
+ 607 0038 6B640040 		.word	1073767531
+ 608 003c 79640040 		.word	1073767545
+ 609 0040 00000000 		.word	Sensirion_I2C_state
+ 610              		.cfi_endproc
+ 611              	.LFE4:
+ 612              		.size	Sensirion_I2C_MasterSendStop, .-Sensirion_I2C_MasterSendStop
+ 613              		.section	.text.Sensirion_I2C_MasterWriteByte,"ax",%progbits
+ 614              		.align	2
+ 615              		.global	Sensirion_I2C_MasterWriteByte
+ 616              		.thumb
+ 617              		.thumb_func
+ 618              		.type	Sensirion_I2C_MasterWriteByte, %function
+ 619              	Sensirion_I2C_MasterWriteByte:
+ 620              	.LFB5:
+ 491:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** 
+ 492:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** 
+ 493:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** /*******************************************************************************
+ 494:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** * Function Name: Sensirion_I2C_MasterWriteByte
+ 495:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** ********************************************************************************
+ 496:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** *
+ 497:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** * Summary:
+ 498:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** *  Sends one byte to a slave. A valid Start or ReStart condition must be
+ 499:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** *  generated before this call this function. Function do nothing if Start or
+ 500:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** *  Restart condition was failed before call this function.
+ 501:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** *
+ 502:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** * Parameters:
+ 503:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** *  data:  The data byte to send to the slave.
+ 504:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** *
+ 505:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** * Return:
+ 506:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** *  Status error - zero means no errors.
+ 507:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** *
+ 508:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** * Side Effects:
+ARM GAS  C:\Users\cps\AppData\Local\Temp\cc9VrCi4.s 			page 21
+
+
+ 509:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** *  This function is entered without a 'byte complete' bit set in the I2C_CSR
+ 510:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** *  register. It does not exit until it will be set.
+ 511:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** *
+ 512:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** * Global variables:
+ 513:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** *  Sensirion_I2C_state - used to store current state of software FSM.
+ 514:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** *
+ 515:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** *******************************************************************************/
+ 516:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** uint8 Sensirion_I2C_MasterWriteByte(uint8 theByte) 
+ 517:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** {
+ 621              		.loc 1 517 0
+ 622              		.cfi_startproc
+ 623              		@ args = 0, pretend = 0, frame = 0
+ 624              		@ frame_needed = 0, uses_anonymous_args = 0
+ 625              		@ link register save eliminated.
+ 626              	.LVL58:
+ 518:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****     uint8 errStatus;
+ 519:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** 
+ 520:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****     errStatus = Sensirion_I2C_MSTR_NOT_READY;
+ 521:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** 
+ 522:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****     /* Check if START condition was generated */
+ 523:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****     if(Sensirion_I2C_CHECK_MASTER_MODE(Sensirion_I2C_MCSR_REG))
+ 627              		.loc 1 523 0
+ 628 0000 154B     		ldr	r3, .L58
+ 629 0002 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 630 0004 13F0040F 		tst	r3, #4
+ 631 0008 23D0     		beq	.L57
+ 524:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****     {
+ 525:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****         Sensirion_I2C_DATA_REG = theByte;                        /* Write DATA register */
+ 632              		.loc 1 525 0
+ 633 000a 144B     		ldr	r3, .L58+4
+ 634 000c 1870     		strb	r0, [r3]
+ 526:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****         Sensirion_I2C_TRANSMIT_DATA_MANUAL;                      /* Set transmit mode */
+ 635              		.loc 1 526 0
+ 636 000e 0622     		movs	r2, #6
+ 637 0010 7033     		adds	r3, r3, #112
+ 638 0012 1A70     		strb	r2, [r3]
+ 639 0014 0022     		movs	r2, #0
+ 640 0016 203B     		subs	r3, r3, #32
+ 641 0018 1A70     		strb	r2, [r3]
+ 642              	.L54:
+ 643              		.loc 1 526 0 is_stmt 0 discriminator 2
+ 644 001a 0F4B     		ldr	r3, .L58
+ 645 001c 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 646 001e 13F0010F 		tst	r3, #1
+ 647 0022 FAD1     		bne	.L54
+ 527:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****         Sensirion_I2C_state = Sensirion_I2C_SM_MSTR_WR_DATA;  /* Set state WR_DATA */
+ 648              		.loc 1 527 0 is_stmt 1
+ 649 0024 4622     		movs	r2, #70
+ 650 0026 0E4B     		ldr	r3, .L58+8
+ 651 0028 1A70     		strb	r2, [r3]
+ 652              	.L55:
+ 528:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** 
+ 529:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****         /* Make sure the last byte has been transfered first */
+ 530:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****         while(Sensirion_I2C_WAIT_BYTE_COMPLETE(Sensirion_I2C_CSR_REG))
+ 653              		.loc 1 530 0 discriminator 1
+ 654 002a 0B4B     		ldr	r3, .L58
+ 655 002c 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ARM GAS  C:\Users\cps\AppData\Local\Temp\cc9VrCi4.s 			page 22
+
+
+ 656 002e 13F0010F 		tst	r3, #1
+ 657 0032 FAD0     		beq	.L55
+ 531:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****         {
+ 532:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****             ; /* Wait for byte to be written */
+ 533:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****         }
+ 534:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** 
+ 535:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****         #if(Sensirion_I2C_MODE_MULTI_MASTER_ENABLED)
+ 536:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****             if(Sensirion_I2C_CHECK_LOST_ARB(Sensirion_I2C_CSR_REG))
+ 537:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****             {
+ 538:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****                 Sensirion_I2C_BUS_RELEASE;
+ 539:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** 
+ 540:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****                 /* Master lost arbitrage: reset FSM to IDLE */
+ 541:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****                 Sensirion_I2C_state = Sensirion_I2C_SM_IDLE;
+ 542:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****                 errStatus = Sensirion_I2C_MSTR_ERR_ARB_LOST;
+ 543:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****             }
+ 544:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****             /* Check LRB bit */
+ 545:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****             else
+ 546:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****         #endif /* (Sensirion_I2C_MODE_MULTI_MASTER_ENABLED) */
+ 547:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** 
+ 548:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****             if(Sensirion_I2C_CHECK_DATA_ACK(Sensirion_I2C_CSR_REG))
+ 658              		.loc 1 548 0
+ 659 0034 084B     		ldr	r3, .L58
+ 660 0036 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 661 0038 13F0020F 		tst	r3, #2
+ 662 003c 04D1     		bne	.L56
+ 549:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****             {
+ 550:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****                 Sensirion_I2C_state = Sensirion_I2C_SM_MSTR_HALT;     /* Set state to HALT */
+ 663              		.loc 1 550 0
+ 664 003e 6022     		movs	r2, #96
+ 665 0040 074B     		ldr	r3, .L58+8
+ 666 0042 1A70     		strb	r2, [r3]
+ 667              	.LVL59:
+ 551:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****                 errStatus = Sensirion_I2C_MSTR_NO_ERROR;                 /* The LRB was ACKed */
+ 668              		.loc 1 551 0
+ 669 0044 0020     		movs	r0, #0
+ 670              	.LVL60:
+ 671 0046 7047     		bx	lr
+ 672              	.LVL61:
+ 673              	.L56:
+ 552:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****             }
+ 553:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****             else
+ 554:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****             {
+ 555:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****                 Sensirion_I2C_state = Sensirion_I2C_SM_MSTR_HALT;     /* Set state to HALT */
+ 674              		.loc 1 555 0
+ 675 0048 6022     		movs	r2, #96
+ 676 004a 054B     		ldr	r3, .L58+8
+ 677 004c 1A70     		strb	r2, [r3]
+ 678              	.LVL62:
+ 556:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****                 errStatus = Sensirion_I2C_MSTR_ERR_LB_NAK;               /* The LRB was NACKed */
+ 679              		.loc 1 556 0
+ 680 004e 0320     		movs	r0, #3
+ 681              	.LVL63:
+ 682 0050 7047     		bx	lr
+ 683              	.LVL64:
+ 684              	.L57:
+ 520:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** 
+ 685              		.loc 1 520 0
+ARM GAS  C:\Users\cps\AppData\Local\Temp\cc9VrCi4.s 			page 23
+
+
+ 686 0052 0220     		movs	r0, #2
+ 687              	.LVL65:
+ 557:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****             }
+ 558:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****     }
+ 559:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** 
+ 560:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****     return(errStatus);
+ 561:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** }
+ 688              		.loc 1 561 0
+ 689 0054 7047     		bx	lr
+ 690              	.L59:
+ 691 0056 00BF     		.align	2
+ 692              	.L58:
+ 693 0058 6B640040 		.word	1073767531
+ 694 005c 09640040 		.word	1073767433
+ 695 0060 00000000 		.word	Sensirion_I2C_state
+ 696              		.cfi_endproc
+ 697              	.LFE5:
+ 698              		.size	Sensirion_I2C_MasterWriteByte, .-Sensirion_I2C_MasterWriteByte
+ 699              		.section	.text.Sensirion_I2C_MasterReadByte,"ax",%progbits
+ 700              		.align	2
+ 701              		.global	Sensirion_I2C_MasterReadByte
+ 702              		.thumb
+ 703              		.thumb_func
+ 704              		.type	Sensirion_I2C_MasterReadByte, %function
+ 705              	Sensirion_I2C_MasterReadByte:
+ 706              	.LFB6:
+ 562:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** 
+ 563:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** 
+ 564:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** /*******************************************************************************
+ 565:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** * Function Name: Sensirion_I2C_MasterReadByte
+ 566:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** ********************************************************************************
+ 567:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** *
+ 568:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** * Summary:
+ 569:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** *  Reads one byte from a slave and ACK or NACK the transfer. A valid Start or
+ 570:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** *  ReStart condition must be generated before this call this function. Function
+ 571:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** *  do nothing if Start or Restart condition was failed before call this
+ 572:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** *  function.
+ 573:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** *
+ 574:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** * Parameters:
+ 575:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** *  acknNack:  Zero, response with NACK, if non-zero response with ACK.
+ 576:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** *
+ 577:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** * Return:
+ 578:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** *  Byte read from slave.
+ 579:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** *
+ 580:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** * Side Effects:
+ 581:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** *  This function is entered without a 'byte complete' bit set in the I2C_CSR
+ 582:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** *  register. It does not exit until it will be set.
+ 583:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** *
+ 584:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** * Global variables:
+ 585:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** *  Sensirion_I2C_state - used to store current state of software FSM.
+ 586:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** *
+ 587:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** * Reentrant:
+ 588:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** *  No
+ 589:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** *
+ 590:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** *******************************************************************************/
+ 591:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** uint8 Sensirion_I2C_MasterReadByte(uint8 acknNak) 
+ 592:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** {
+ARM GAS  C:\Users\cps\AppData\Local\Temp\cc9VrCi4.s 			page 24
+
+
+ 707              		.loc 1 592 0
+ 708              		.cfi_startproc
+ 709              		@ args = 0, pretend = 0, frame = 0
+ 710              		@ frame_needed = 0, uses_anonymous_args = 0
+ 711              		@ link register save eliminated.
+ 712              	.LVL66:
+ 593:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****     uint8 theByte;
+ 594:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** 
+ 595:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****     theByte = 0u;
+ 596:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** 
+ 597:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****     /* Check if START condition was generated */
+ 598:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****     if(Sensirion_I2C_CHECK_MASTER_MODE(Sensirion_I2C_MCSR_REG))
+ 713              		.loc 1 598 0
+ 714 0000 194B     		ldr	r3, .L68
+ 715 0002 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 716 0004 13F0040F 		tst	r3, #4
+ 717 0008 2BD0     		beq	.L67
+ 599:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****     {
+ 600:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****         /* When address phase need release the bus and receive the byte, then decide ACK or NACK */
+ 601:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****         if(Sensirion_I2C_SM_MSTR_RD_ADDR == Sensirion_I2C_state)
+ 718              		.loc 1 601 0
+ 719 000a 184B     		ldr	r3, .L68+4
+ 720 000c 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 721 000e DBB2     		uxtb	r3, r3
+ 722 0010 492B     		cmp	r3, #73
+ 723 0012 0DD1     		bne	.L64
+ 602:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****         {
+ 603:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****             Sensirion_I2C_state = Sensirion_I2C_SM_MSTR_RD_DATA;
+ 724              		.loc 1 603 0
+ 725 0014 4A22     		movs	r2, #74
+ 726 0016 154B     		ldr	r3, .L68+4
+ 727 0018 1A70     		strb	r2, [r3]
+ 604:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****             Sensirion_I2C_READY_TO_READ_MANUAL;
+ 728              		.loc 1 604 0
+ 729 001a 0222     		movs	r2, #2
+ 730 001c 144B     		ldr	r3, .L68+8
+ 731 001e 1A70     		strb	r2, [r3]
+ 732 0020 0022     		movs	r2, #0
+ 733 0022 203B     		subs	r3, r3, #32
+ 734 0024 1A70     		strb	r2, [r3]
+ 735              	.L63:
+ 736              		.loc 1 604 0 is_stmt 0 discriminator 2
+ 737 0026 104B     		ldr	r3, .L68
+ 738 0028 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 739 002a 13F0010F 		tst	r3, #1
+ 740 002e FAD1     		bne	.L63
+ 741              	.L64:
+ 605:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****         }
+ 606:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** 
+ 607:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****         while(Sensirion_I2C_WAIT_BYTE_COMPLETE(Sensirion_I2C_CSR_REG))
+ 742              		.loc 1 607 0 is_stmt 1 discriminator 1
+ 743 0030 0D4B     		ldr	r3, .L68
+ 744 0032 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 745 0034 13F0010F 		tst	r3, #1
+ 746 0038 FAD0     		beq	.L64
+ 608:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****         {
+ 609:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****             ; /* Wait for byte to be read */
+ARM GAS  C:\Users\cps\AppData\Local\Temp\cc9VrCi4.s 			page 25
+
+
+ 610:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****         }
+ 611:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** 
+ 612:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****         theByte = Sensirion_I2C_DATA_REG;
+ 747              		.loc 1 612 0
+ 748 003a 0E4B     		ldr	r3, .L68+12
+ 749 003c 1A78     		ldrb	r2, [r3]	@ zero_extendqisi2
+ 750 003e D2B2     		uxtb	r2, r2
+ 751              	.LVL67:
+ 613:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** 
+ 614:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****         /* Now if the ACK flag was set, ACK the data which will release the bus and
+ 615:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****            start the next byte in otherwise do NOTHING to the CSR reg.
+ 616:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****            This will allow the calling routine to generate a repeat start or
+ 617:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****            stop depending on it's preference. */
+ 618:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****         if(acknNak != 0u)   /* Do ACK */
+ 752              		.loc 1 618 0
+ 753 0040 58B1     		cbz	r0, .L65
+ 619:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****         {
+ 620:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****             Sensirion_I2C_ACK_AND_RECEIVE_MANUAL;
+ 754              		.loc 1 620 0
+ 755 0042 0221     		movs	r1, #2
+ 756 0044 7033     		adds	r3, r3, #112
+ 757 0046 1970     		strb	r1, [r3]
+ 758 0048 0021     		movs	r1, #0
+ 759 004a 203B     		subs	r3, r3, #32
+ 760 004c 1970     		strb	r1, [r3]
+ 761              	.L66:
+ 762              		.loc 1 620 0 is_stmt 0 discriminator 2
+ 763 004e 064B     		ldr	r3, .L68
+ 764 0050 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 765 0052 13F0010F 		tst	r3, #1
+ 766 0056 FAD1     		bne	.L66
+ 767 0058 04E0     		b	.L61
+ 768              	.L65:
+ 621:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****         }
+ 622:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****         else                /* Do NACK */
+ 623:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****         {
+ 624:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****             /* Do nothing to be able work with ReStart */
+ 625:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****             Sensirion_I2C_state = Sensirion_I2C_SM_MSTR_HALT;
+ 769              		.loc 1 625 0 is_stmt 1
+ 770 005a 6021     		movs	r1, #96
+ 771 005c 034B     		ldr	r3, .L68+4
+ 772 005e 1970     		strb	r1, [r3]
+ 773 0060 00E0     		b	.L61
+ 774              	.LVL68:
+ 775              	.L67:
+ 595:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** 
+ 776              		.loc 1 595 0
+ 777 0062 0022     		movs	r2, #0
+ 778              	.LVL69:
+ 779              	.L61:
+ 626:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****         }
+ 627:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****     }
+ 628:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** 
+ 629:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****     return(theByte);
+ 630:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** }
+ 780              		.loc 1 630 0
+ 781 0064 1046     		mov	r0, r2
+ARM GAS  C:\Users\cps\AppData\Local\Temp\cc9VrCi4.s 			page 26
+
+
+ 782              	.LVL70:
+ 783 0066 7047     		bx	lr
+ 784              	.L69:
+ 785              		.align	2
+ 786              	.L68:
+ 787 0068 6B640040 		.word	1073767531
+ 788 006c 00000000 		.word	Sensirion_I2C_state
+ 789 0070 79640040 		.word	1073767545
+ 790 0074 09640040 		.word	1073767433
+ 791              		.cfi_endproc
+ 792              	.LFE6:
+ 793              		.size	Sensirion_I2C_MasterReadByte, .-Sensirion_I2C_MasterReadByte
+ 794              		.section	.text.Sensirion_I2C_MasterStatus,"ax",%progbits
+ 795              		.align	2
+ 796              		.global	Sensirion_I2C_MasterStatus
+ 797              		.thumb
+ 798              		.thumb_func
+ 799              		.type	Sensirion_I2C_MasterStatus, %function
+ 800              	Sensirion_I2C_MasterStatus:
+ 801              	.LFB7:
+ 631:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** 
+ 632:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** 
+ 633:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** /*******************************************************************************
+ 634:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** * Function Name: Sensirion_I2C_MasterStatus
+ 635:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** ********************************************************************************
+ 636:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** *
+ 637:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** * Summary:
+ 638:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** *  Returns the master's communication status.
+ 639:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** *
+ 640:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** * Parameters:
+ 641:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** *  None
+ 642:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** *
+ 643:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** * Return:
+ 644:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** *  Current status of I2C master.
+ 645:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** *
+ 646:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** * Global variables:
+ 647:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** *  Sensirion_I2C_mstrStatus - used to store current status of I2C Master.
+ 648:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** *
+ 649:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** *******************************************************************************/
+ 650:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** uint8 Sensirion_I2C_MasterStatus(void) 
+ 651:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** {
+ 802              		.loc 1 651 0
+ 803              		.cfi_startproc
+ 804              		@ args = 0, pretend = 0, frame = 0
+ 805              		@ frame_needed = 0, uses_anonymous_args = 0
+ 806              		@ link register save eliminated.
+ 652:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****     uint8 status;
+ 653:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** 
+ 654:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****     status = Sensirion_I2C_mstrStatus;
+ 807              		.loc 1 654 0
+ 808 0000 054B     		ldr	r3, .L72
+ 809 0002 1878     		ldrb	r0, [r3]	@ zero_extendqisi2
+ 810 0004 C0B2     		uxtb	r0, r0
+ 811              	.LVL71:
+ 655:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** 
+ 656:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****     /* When in Master state only transaction is in progress */
+ 657:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****     if(Sensirion_I2C_CHECK_SM_MASTER)
+ARM GAS  C:\Users\cps\AppData\Local\Temp\cc9VrCi4.s 			page 27
+
+
+ 812              		.loc 1 657 0
+ 813 0006 054B     		ldr	r3, .L72+4
+ 814 0008 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 815 000a 13F0400F 		tst	r3, #64
+ 816 000e 01D0     		beq	.L71
+ 658:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****     {
+ 659:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****         /* Add transaction in progress activity to master status */
+ 660:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****         status |= Sensirion_I2C_MSTAT_XFER_INP;
+ 817              		.loc 1 660 0
+ 818 0010 40F00400 		orr	r0, r0, #4
+ 819              	.LVL72:
+ 820              	.L71:
+ 661:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****     }
+ 662:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****     else
+ 663:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****     {
+ 664:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****         /* Current master status is valid */
+ 665:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****     }
+ 666:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** 
+ 667:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****     return(status);
+ 668:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** }
+ 821              		.loc 1 668 0
+ 822 0014 7047     		bx	lr
+ 823              	.L73:
+ 824 0016 00BF     		.align	2
+ 825              	.L72:
+ 826 0018 00000000 		.word	Sensirion_I2C_mstrStatus
+ 827 001c 00000000 		.word	Sensirion_I2C_state
+ 828              		.cfi_endproc
+ 829              	.LFE7:
+ 830              		.size	Sensirion_I2C_MasterStatus, .-Sensirion_I2C_MasterStatus
+ 831              		.section	.text.Sensirion_I2C_MasterClearStatus,"ax",%progbits
+ 832              		.align	2
+ 833              		.global	Sensirion_I2C_MasterClearStatus
+ 834              		.thumb
+ 835              		.thumb_func
+ 836              		.type	Sensirion_I2C_MasterClearStatus, %function
+ 837              	Sensirion_I2C_MasterClearStatus:
+ 838              	.LFB8:
+ 669:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** 
+ 670:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** 
+ 671:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** /*******************************************************************************
+ 672:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** * Function Name: Sensirion_I2C_MasterClearStatus
+ 673:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** ********************************************************************************
+ 674:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** *
+ 675:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** * Summary:
+ 676:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** *  Clears all status flags and returns the master status.
+ 677:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** *
+ 678:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** * Parameters:
+ 679:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** *  None
+ 680:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** *
+ 681:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** * Return:
+ 682:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** *  Current status of I2C master.
+ 683:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** *
+ 684:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** * Global variables:
+ 685:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** *  Sensirion_I2C_mstrStatus - used to store current status of I2C Master.
+ 686:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** *
+ 687:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** * Reentrant:
+ARM GAS  C:\Users\cps\AppData\Local\Temp\cc9VrCi4.s 			page 28
+
+
+ 688:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** *  No
+ 689:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** *
+ 690:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** *******************************************************************************/
+ 691:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** uint8 Sensirion_I2C_MasterClearStatus(void) 
+ 692:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** {
+ 839              		.loc 1 692 0
+ 840              		.cfi_startproc
+ 841              		@ args = 0, pretend = 0, frame = 0
+ 842              		@ frame_needed = 0, uses_anonymous_args = 0
+ 843              		@ link register save eliminated.
+ 693:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****     /* Current master status */
+ 694:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****     uint8 status;
+ 695:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** 
+ 696:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****     /* Read and clear master status */
+ 697:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****     status = Sensirion_I2C_mstrStatus;
+ 844              		.loc 1 697 0
+ 845 0000 024B     		ldr	r3, .L75
+ 846 0002 1878     		ldrb	r0, [r3]	@ zero_extendqisi2
+ 847              	.LVL73:
+ 698:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****     Sensirion_I2C_mstrStatus = Sensirion_I2C_MSTAT_CLEAR;
+ 848              		.loc 1 698 0
+ 849 0004 0022     		movs	r2, #0
+ 850 0006 1A70     		strb	r2, [r3]
+ 699:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** 
+ 700:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****     return(status);
+ 701:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** }
+ 851              		.loc 1 701 0
+ 852 0008 7047     		bx	lr
+ 853              	.L76:
+ 854 000a 00BF     		.align	2
+ 855              	.L75:
+ 856 000c 00000000 		.word	Sensirion_I2C_mstrStatus
+ 857              		.cfi_endproc
+ 858              	.LFE8:
+ 859              		.size	Sensirion_I2C_MasterClearStatus, .-Sensirion_I2C_MasterClearStatus
+ 860              		.section	.text.Sensirion_I2C_MasterGetReadBufSize,"ax",%progbits
+ 861              		.align	2
+ 862              		.global	Sensirion_I2C_MasterGetReadBufSize
+ 863              		.thumb
+ 864              		.thumb_func
+ 865              		.type	Sensirion_I2C_MasterGetReadBufSize, %function
+ 866              	Sensirion_I2C_MasterGetReadBufSize:
+ 867              	.LFB9:
+ 702:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** 
+ 703:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** 
+ 704:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** /*******************************************************************************
+ 705:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** * Function Name: Sensirion_I2C_MasterGetReadBufSize
+ 706:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** ********************************************************************************
+ 707:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** *
+ 708:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** * Summary:
+ 709:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** *  Returns the amount of bytes that has been transferred with an
+ 710:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** *  I2C_MasterReadBuf command.
+ 711:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** *
+ 712:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** * Parameters:
+ 713:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** *  None
+ 714:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** *
+ 715:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** * Return:
+ARM GAS  C:\Users\cps\AppData\Local\Temp\cc9VrCi4.s 			page 29
+
+
+ 716:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** *  Byte count of transfer. If the transfer is not yet complete, it will return
+ 717:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** *  the byte count transferred so far.
+ 718:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** *
+ 719:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** * Global variables:
+ 720:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** *  Sensirion_I2C_mstrRdBufIndex - used to current index within master read
+ 721:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** *  buffer.
+ 722:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** *
+ 723:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** *******************************************************************************/
+ 724:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** uint8 Sensirion_I2C_MasterGetReadBufSize(void) 
+ 725:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** {
+ 868              		.loc 1 725 0
+ 869              		.cfi_startproc
+ 870              		@ args = 0, pretend = 0, frame = 0
+ 871              		@ frame_needed = 0, uses_anonymous_args = 0
+ 872              		@ link register save eliminated.
+ 726:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****     return(Sensirion_I2C_mstrRdBufIndex);
+ 873              		.loc 1 726 0
+ 874 0000 014B     		ldr	r3, .L78
+ 875 0002 1878     		ldrb	r0, [r3]	@ zero_extendqisi2
+ 727:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** }
+ 876              		.loc 1 727 0
+ 877 0004 7047     		bx	lr
+ 878              	.L79:
+ 879 0006 00BF     		.align	2
+ 880              	.L78:
+ 881 0008 00000000 		.word	Sensirion_I2C_mstrRdBufIndex
+ 882              		.cfi_endproc
+ 883              	.LFE9:
+ 884              		.size	Sensirion_I2C_MasterGetReadBufSize, .-Sensirion_I2C_MasterGetReadBufSize
+ 885              		.section	.text.Sensirion_I2C_MasterGetWriteBufSize,"ax",%progbits
+ 886              		.align	2
+ 887              		.global	Sensirion_I2C_MasterGetWriteBufSize
+ 888              		.thumb
+ 889              		.thumb_func
+ 890              		.type	Sensirion_I2C_MasterGetWriteBufSize, %function
+ 891              	Sensirion_I2C_MasterGetWriteBufSize:
+ 892              	.LFB10:
+ 728:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** 
+ 729:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** 
+ 730:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** /*******************************************************************************
+ 731:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** * Function Name: Sensirion_I2C_MasterGetWriteBufSize
+ 732:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** ********************************************************************************
+ 733:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** *
+ 734:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** * Summary:
+ 735:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** *  Returns the amount of bytes that has been transferred with an
+ 736:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** *  I2C_MasterWriteBuf command.
+ 737:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** *
+ 738:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** * Parameters:
+ 739:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** *  None
+ 740:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** *
+ 741:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** * Return:
+ 742:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** *  Byte count of transfer. If the transfer is not yet complete, it will return
+ 743:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** *  the byte count transferred so far.
+ 744:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** *
+ 745:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** * Global variables:
+ 746:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** *  Sensirion_I2C_mstrWrBufIndex - used to current index within master write
+ 747:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** *  buffer.
+ARM GAS  C:\Users\cps\AppData\Local\Temp\cc9VrCi4.s 			page 30
+
+
+ 748:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** *
+ 749:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** *******************************************************************************/
+ 750:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** uint8 Sensirion_I2C_MasterGetWriteBufSize(void) 
+ 751:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** {
+ 893              		.loc 1 751 0
+ 894              		.cfi_startproc
+ 895              		@ args = 0, pretend = 0, frame = 0
+ 896              		@ frame_needed = 0, uses_anonymous_args = 0
+ 897              		@ link register save eliminated.
+ 752:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****     return(Sensirion_I2C_mstrWrBufIndex);
+ 898              		.loc 1 752 0
+ 899 0000 014B     		ldr	r3, .L81
+ 900 0002 1878     		ldrb	r0, [r3]	@ zero_extendqisi2
+ 753:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** }
+ 901              		.loc 1 753 0
+ 902 0004 7047     		bx	lr
+ 903              	.L82:
+ 904 0006 00BF     		.align	2
+ 905              	.L81:
+ 906 0008 00000000 		.word	Sensirion_I2C_mstrWrBufIndex
+ 907              		.cfi_endproc
+ 908              	.LFE10:
+ 909              		.size	Sensirion_I2C_MasterGetWriteBufSize, .-Sensirion_I2C_MasterGetWriteBufSize
+ 910              		.section	.text.Sensirion_I2C_MasterClearReadBuf,"ax",%progbits
+ 911              		.align	2
+ 912              		.global	Sensirion_I2C_MasterClearReadBuf
+ 913              		.thumb
+ 914              		.thumb_func
+ 915              		.type	Sensirion_I2C_MasterClearReadBuf, %function
+ 916              	Sensirion_I2C_MasterClearReadBuf:
+ 917              	.LFB11:
+ 754:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** 
+ 755:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** 
+ 756:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** /*******************************************************************************
+ 757:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** * Function Name: Sensirion_I2C_MasterClearReadBuf
+ 758:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** ********************************************************************************
+ 759:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** *
+ 760:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** * Summary:
+ 761:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** *  Resets the read buffer pointer back to the first byte in the buffer.
+ 762:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** *
+ 763:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** * Parameters:
+ 764:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** *  None
+ 765:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** *
+ 766:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** * Return:
+ 767:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** *  None
+ 768:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** *
+ 769:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** * Global variables:
+ 770:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** *  Sensirion_I2C_mstrRdBufIndex - used to current index within master read
+ 771:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** *   buffer.
+ 772:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** *  Sensirion_I2C_mstrStatus - used to store current status of I2C Master.
+ 773:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** *
+ 774:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** * Reentrant:
+ 775:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** *  No
+ 776:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** *
+ 777:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** *******************************************************************************/
+ 778:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** void Sensirion_I2C_MasterClearReadBuf(void) 
+ 779:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** {
+ARM GAS  C:\Users\cps\AppData\Local\Temp\cc9VrCi4.s 			page 31
+
+
+ 918              		.loc 1 779 0
+ 919              		.cfi_startproc
+ 920              		@ args = 0, pretend = 0, frame = 0
+ 921              		@ frame_needed = 0, uses_anonymous_args = 0
+ 922              		@ link register save eliminated.
+ 780:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****     Sensirion_I2C_mstrRdBufIndex = 0u;
+ 923              		.loc 1 780 0
+ 924 0000 0022     		movs	r2, #0
+ 925 0002 044B     		ldr	r3, .L84
+ 926 0004 1A70     		strb	r2, [r3]
+ 781:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****     Sensirion_I2C_mstrStatus    &= ((uint8) ~Sensirion_I2C_MSTAT_RD_CMPLT);
+ 927              		.loc 1 781 0
+ 928 0006 044A     		ldr	r2, .L84+4
+ 929 0008 1378     		ldrb	r3, [r2]	@ zero_extendqisi2
+ 930 000a 03F0FE03 		and	r3, r3, #254
+ 931 000e 1370     		strb	r3, [r2]
+ 932 0010 7047     		bx	lr
+ 933              	.L85:
+ 934 0012 00BF     		.align	2
+ 935              	.L84:
+ 936 0014 00000000 		.word	Sensirion_I2C_mstrRdBufIndex
+ 937 0018 00000000 		.word	Sensirion_I2C_mstrStatus
+ 938              		.cfi_endproc
+ 939              	.LFE11:
+ 940              		.size	Sensirion_I2C_MasterClearReadBuf, .-Sensirion_I2C_MasterClearReadBuf
+ 941              		.section	.text.Sensirion_I2C_MasterClearWriteBuf,"ax",%progbits
+ 942              		.align	2
+ 943              		.global	Sensirion_I2C_MasterClearWriteBuf
+ 944              		.thumb
+ 945              		.thumb_func
+ 946              		.type	Sensirion_I2C_MasterClearWriteBuf, %function
+ 947              	Sensirion_I2C_MasterClearWriteBuf:
+ 948              	.LFB12:
+ 782:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** }
+ 783:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** 
+ 784:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** 
+ 785:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** /*******************************************************************************
+ 786:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** * Function Name: Sensirion_I2C_MasterClearWriteBuf
+ 787:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** ********************************************************************************
+ 788:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** *
+ 789:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** * Summary:
+ 790:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** *  Resets the write buffer pointer back to the first byte in the buffer.
+ 791:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** *
+ 792:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** * Parameters:
+ 793:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** *  None
+ 794:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** *
+ 795:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** * Return:
+ 796:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** *  None
+ 797:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** *
+ 798:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** * Global variables:
+ 799:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** *  Sensirion_I2C_mstrRdBufIndex - used to current index within master read
+ 800:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** *   buffer.
+ 801:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** *  Sensirion_I2C_mstrStatus - used to store current status of I2C Master.
+ 802:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** *
+ 803:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** * Reentrant:
+ 804:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** *  No
+ 805:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** *
+ARM GAS  C:\Users\cps\AppData\Local\Temp\cc9VrCi4.s 			page 32
+
+
+ 806:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** *******************************************************************************/
+ 807:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** void Sensirion_I2C_MasterClearWriteBuf(void) 
+ 808:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** {
+ 949              		.loc 1 808 0
+ 950              		.cfi_startproc
+ 951              		@ args = 0, pretend = 0, frame = 0
+ 952              		@ frame_needed = 0, uses_anonymous_args = 0
+ 953              		@ link register save eliminated.
+ 809:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****     Sensirion_I2C_mstrWrBufIndex = 0u;
+ 954              		.loc 1 809 0
+ 955 0000 0022     		movs	r2, #0
+ 956 0002 044B     		ldr	r3, .L87
+ 957 0004 1A70     		strb	r2, [r3]
+ 810:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c ****     Sensirion_I2C_mstrStatus    &= ((uint8) ~Sensirion_I2C_MSTAT_WR_CMPLT);
+ 958              		.loc 1 810 0
+ 959 0006 044A     		ldr	r2, .L87+4
+ 960 0008 1378     		ldrb	r3, [r2]	@ zero_extendqisi2
+ 961 000a 03F0FD03 		and	r3, r3, #253
+ 962 000e 1370     		strb	r3, [r2]
+ 963 0010 7047     		bx	lr
+ 964              	.L88:
+ 965 0012 00BF     		.align	2
+ 966              	.L87:
+ 967 0014 00000000 		.word	Sensirion_I2C_mstrWrBufIndex
+ 968 0018 00000000 		.word	Sensirion_I2C_mstrStatus
+ 969              		.cfi_endproc
+ 970              	.LFE12:
+ 971              		.size	Sensirion_I2C_MasterClearWriteBuf, .-Sensirion_I2C_MasterClearWriteBuf
+ 972              		.section	.text.Sensirion_I2C_Workaround,"ax",%progbits
+ 973              		.align	2
+ 974              		.global	Sensirion_I2C_Workaround
+ 975              		.thumb
+ 976              		.thumb_func
+ 977              		.type	Sensirion_I2C_Workaround, %function
+ 978              	Sensirion_I2C_Workaround:
+ 979              	.LFB13:
+ 811:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** }
+ 812:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** 
+ 813:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** 
+ 814:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** /*******************************************************************************
+ 815:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** * Function Name: Sensirion_I2C_Workaround
+ 816:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** ********************************************************************************
+ 817:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** *
+ 818:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** * Summary:
+ 819:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** *  Do nothing. This fake fuction use as workaround for CDT 78083.
+ 820:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** *
+ 821:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** * Parameters:
+ 822:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** *  None
+ 823:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** *
+ 824:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** * Return:
+ 825:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** *  None
+ 826:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** *
+ 827:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** * Reentrant:
+ 828:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** *  No
+ 829:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** *
+ 830:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** *******************************************************************************/
+ 831:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** void Sensirion_I2C_Workaround(void) 
+ARM GAS  C:\Users\cps\AppData\Local\Temp\cc9VrCi4.s 			page 33
+
+
+ 832:.\Generated_Source\PSoC5/Sensirion_I2C_MASTER.c **** {
+ 980              		.loc 1 832 0
+ 981              		.cfi_startproc
+ 982              		@ args = 0, pretend = 0, frame = 0
+ 983              		@ frame_needed = 0, uses_anonymous_args = 0
+ 984              		@ link register save eliminated.
+ 985 0000 7047     		bx	lr
+ 986              		.cfi_endproc
+ 987              	.LFE13:
+ 988              		.size	Sensirion_I2C_Workaround, .-Sensirion_I2C_Workaround
+ 989              		.comm	Sensirion_I2C_mstrWrBufIndex,1,1
+ 990              		.comm	Sensirion_I2C_mstrWrBufSize,1,1
+ 991              		.comm	Sensirion_I2C_mstrWrBufPtr,4,4
+ 992              		.comm	Sensirion_I2C_mstrRdBufIndex,1,1
+ 993              		.comm	Sensirion_I2C_mstrRdBufSize,1,1
+ 994              		.comm	Sensirion_I2C_mstrRdBufPtr,4,4
+ 995              		.comm	Sensirion_I2C_mstrControl,1,1
+ 996              		.comm	Sensirion_I2C_mstrStatus,1,1
+ 997 0002 00BF     		.text
+ 998              	.Letext0:
+ 999              		.file 2 ".\\Generated_Source\\PSoC5\\cytypes.h"
+ 1000              		.file 3 ".\\Generated_Source\\PSoC5\\Sensirion_I2C_PVT.h"
+ 1001              		.section	.debug_info,"",%progbits
+ 1002              	.Ldebug_info0:
+ 1003 0000 0E040000 		.4byte	0x40e
+ 1004 0004 0400     		.2byte	0x4
+ 1005 0006 00000000 		.4byte	.Ldebug_abbrev0
+ 1006 000a 04       		.byte	0x4
+ 1007 000b 01       		.uleb128 0x1
+ 1008 000c 3D030000 		.4byte	.LASF49
+ 1009 0010 01       		.byte	0x1
+ 1010 0011 F6000000 		.4byte	.LASF50
+ 1011 0015 7B000000 		.4byte	.LASF51
+ 1012 0019 00000000 		.4byte	.Ldebug_ranges0+0
+ 1013 001d 00000000 		.4byte	0
+ 1014 0021 00000000 		.4byte	.Ldebug_line0
+ 1015 0025 02       		.uleb128 0x2
+ 1016 0026 01       		.byte	0x1
+ 1017 0027 06       		.byte	0x6
+ 1018 0028 94040000 		.4byte	.LASF0
+ 1019 002c 02       		.uleb128 0x2
+ 1020 002d 01       		.byte	0x1
+ 1021 002e 08       		.byte	0x8
+ 1022 002f 97010000 		.4byte	.LASF1
+ 1023 0033 02       		.uleb128 0x2
+ 1024 0034 02       		.byte	0x2
+ 1025 0035 05       		.byte	0x5
+ 1026 0036 63020000 		.4byte	.LASF2
+ 1027 003a 02       		.uleb128 0x2
+ 1028 003b 02       		.byte	0x2
+ 1029 003c 07       		.byte	0x7
+ 1030 003d 46010000 		.4byte	.LASF3
+ 1031 0041 02       		.uleb128 0x2
+ 1032 0042 04       		.byte	0x4
+ 1033 0043 05       		.byte	0x5
+ 1034 0044 8B040000 		.4byte	.LASF4
+ 1035 0048 02       		.uleb128 0x2
+ARM GAS  C:\Users\cps\AppData\Local\Temp\cc9VrCi4.s 			page 34
+
+
+ 1036 0049 04       		.byte	0x4
+ 1037 004a 07       		.byte	0x7
+ 1038 004b E3010000 		.4byte	.LASF5
+ 1039 004f 02       		.uleb128 0x2
+ 1040 0050 08       		.byte	0x8
+ 1041 0051 05       		.byte	0x5
+ 1042 0052 1E040000 		.4byte	.LASF6
+ 1043 0056 02       		.uleb128 0x2
+ 1044 0057 08       		.byte	0x8
+ 1045 0058 07       		.byte	0x7
+ 1046 0059 26030000 		.4byte	.LASF7
+ 1047 005d 03       		.uleb128 0x3
+ 1048 005e 04       		.byte	0x4
+ 1049 005f 05       		.byte	0x5
+ 1050 0060 696E7400 		.ascii	"int\000"
+ 1051 0064 02       		.uleb128 0x2
+ 1052 0065 04       		.byte	0x4
+ 1053 0066 07       		.byte	0x7
+ 1054 0067 59010000 		.4byte	.LASF8
+ 1055 006b 04       		.uleb128 0x4
+ 1056 006c 0F020000 		.4byte	.LASF9
+ 1057 0070 02       		.byte	0x2
+ 1058 0071 3801     		.2byte	0x138
+ 1059 0073 2C000000 		.4byte	0x2c
+ 1060 0077 04       		.uleb128 0x4
+ 1061 0078 B7020000 		.4byte	.LASF10
+ 1062 007c 02       		.byte	0x2
+ 1063 007d 3A01     		.2byte	0x13a
+ 1064 007f 48000000 		.4byte	0x48
+ 1065 0083 02       		.uleb128 0x2
+ 1066 0084 04       		.byte	0x4
+ 1067 0085 04       		.byte	0x4
+ 1068 0086 91010000 		.4byte	.LASF11
+ 1069 008a 02       		.uleb128 0x2
+ 1070 008b 08       		.byte	0x8
+ 1071 008c 04       		.byte	0x4
+ 1072 008d 3F020000 		.4byte	.LASF12
+ 1073 0091 02       		.uleb128 0x2
+ 1074 0092 01       		.byte	0x1
+ 1075 0093 08       		.byte	0x8
+ 1076 0094 45040000 		.4byte	.LASF13
+ 1077 0098 04       		.uleb128 0x4
+ 1078 0099 C0010000 		.4byte	.LASF14
+ 1079 009d 02       		.byte	0x2
+ 1080 009e E201     		.2byte	0x1e2
+ 1081 00a0 A4000000 		.4byte	0xa4
+ 1082 00a4 05       		.uleb128 0x5
+ 1083 00a5 6B000000 		.4byte	0x6b
+ 1084 00a9 04       		.uleb128 0x4
+ 1085 00aa 38000000 		.4byte	.LASF15
+ 1086 00ae 02       		.byte	0x2
+ 1087 00af E401     		.2byte	0x1e4
+ 1088 00b1 B5000000 		.4byte	0xb5
+ 1089 00b5 05       		.uleb128 0x5
+ 1090 00b6 77000000 		.4byte	0x77
+ 1091 00ba 02       		.uleb128 0x2
+ 1092 00bb 04       		.byte	0x4
+ARM GAS  C:\Users\cps\AppData\Local\Temp\cc9VrCi4.s 			page 35
+
+
+ 1093 00bc 07       		.byte	0x7
+ 1094 00bd 15040000 		.4byte	.LASF16
+ 1095 00c1 06       		.uleb128 0x6
+ 1096 00c2 46020000 		.4byte	.LASF20
+ 1097 00c6 01       		.byte	0x1
+ 1098 00c7 4D       		.byte	0x4d
+ 1099 00c8 6B000000 		.4byte	0x6b
+ 1100 00cc 00000000 		.4byte	.LFB0
+ 1101 00d0 CC000000 		.4byte	.LFE0-.LFB0
+ 1102 00d4 01       		.uleb128 0x1
+ 1103 00d5 9C       		.byte	0x9c
+ 1104 00d6 26010000 		.4byte	0x126
+ 1105 00da 07       		.uleb128 0x7
+ 1106 00db D0030000 		.4byte	.LASF17
+ 1107 00df 01       		.byte	0x1
+ 1108 00e0 4D       		.byte	0x4d
+ 1109 00e1 6B000000 		.4byte	0x6b
+ 1110 00e5 00000000 		.4byte	.LLST0
+ 1111 00e9 07       		.uleb128 0x7
+ 1112 00ea 2E020000 		.4byte	.LASF18
+ 1113 00ee 01       		.byte	0x1
+ 1114 00ef 4D       		.byte	0x4d
+ 1115 00f0 26010000 		.4byte	0x126
+ 1116 00f4 3A000000 		.4byte	.LLST1
+ 1117 00f8 08       		.uleb128 0x8
+ 1118 00f9 636E7400 		.ascii	"cnt\000"
+ 1119 00fd 01       		.byte	0x1
+ 1120 00fe 4D       		.byte	0x4d
+ 1121 00ff 6B000000 		.4byte	0x6b
+ 1122 0103 71000000 		.4byte	.LLST2
+ 1123 0107 07       		.uleb128 0x7
+ 1124 0108 CB030000 		.4byte	.LASF19
+ 1125 010c 01       		.byte	0x1
+ 1126 010d 4D       		.byte	0x4d
+ 1127 010e 6B000000 		.4byte	0x6b
+ 1128 0112 BA000000 		.4byte	.LLST3
+ 1129 0116 09       		.uleb128 0x9
+ 1130 0117 35020000 		.4byte	.LASF23
+ 1131 011b 01       		.byte	0x1
+ 1132 011c 50       		.byte	0x50
+ 1133 011d 6B000000 		.4byte	0x6b
+ 1134 0121 2B010000 		.4byte	.LLST4
+ 1135 0125 00       		.byte	0
+ 1136 0126 0A       		.uleb128 0xa
+ 1137 0127 04       		.byte	0x4
+ 1138 0128 6B000000 		.4byte	0x6b
+ 1139 012c 06       		.uleb128 0x6
+ 1140 012d 5F000000 		.4byte	.LASF21
+ 1141 0131 01       		.byte	0x1
+ 1142 0132 B4       		.byte	0xb4
+ 1143 0133 6B000000 		.4byte	0x6b
+ 1144 0137 00000000 		.4byte	.LFB1
+ 1145 013b D0000000 		.4byte	.LFE1-.LFB1
+ 1146 013f 01       		.uleb128 0x1
+ 1147 0140 9C       		.byte	0x9c
+ 1148 0141 91010000 		.4byte	0x191
+ 1149 0145 07       		.uleb128 0x7
+ARM GAS  C:\Users\cps\AppData\Local\Temp\cc9VrCi4.s 			page 36
+
+
+ 1150 0146 D0030000 		.4byte	.LASF17
+ 1151 014a 01       		.byte	0x1
+ 1152 014b B4       		.byte	0xb4
+ 1153 014c 6B000000 		.4byte	0x6b
+ 1154 0150 79010000 		.4byte	.LLST5
+ 1155 0154 07       		.uleb128 0x7
+ 1156 0155 B0020000 		.4byte	.LASF22
+ 1157 0159 01       		.byte	0x1
+ 1158 015a B4       		.byte	0xb4
+ 1159 015b 26010000 		.4byte	0x126
+ 1160 015f B3010000 		.4byte	.LLST6
+ 1161 0163 08       		.uleb128 0x8
+ 1162 0164 636E7400 		.ascii	"cnt\000"
+ 1163 0168 01       		.byte	0x1
+ 1164 0169 B4       		.byte	0xb4
+ 1165 016a 6B000000 		.4byte	0x6b
+ 1166 016e EA010000 		.4byte	.LLST7
+ 1167 0172 07       		.uleb128 0x7
+ 1168 0173 CB030000 		.4byte	.LASF19
+ 1169 0177 01       		.byte	0x1
+ 1170 0178 B4       		.byte	0xb4
+ 1171 0179 6B000000 		.4byte	0x6b
+ 1172 017d 33020000 		.4byte	.LLST8
+ 1173 0181 09       		.uleb128 0x9
+ 1174 0182 35020000 		.4byte	.LASF23
+ 1175 0186 01       		.byte	0x1
+ 1176 0187 B7       		.byte	0xb7
+ 1177 0188 6B000000 		.4byte	0x6b
+ 1178 018c A4020000 		.4byte	.LLST9
+ 1179 0190 00       		.byte	0
+ 1180 0191 0B       		.uleb128 0xb
+ 1181 0192 A0040000 		.4byte	.LASF24
+ 1182 0196 01       		.byte	0x1
+ 1183 0197 0F01     		.2byte	0x10f
+ 1184 0199 6B000000 		.4byte	0x6b
+ 1185 019d 00000000 		.4byte	.LFB2
+ 1186 01a1 7C000000 		.4byte	.LFE2-.LFB2
+ 1187 01a5 01       		.uleb128 0x1
+ 1188 01a6 9C       		.byte	0x9c
+ 1189 01a7 DA010000 		.4byte	0x1da
+ 1190 01ab 0C       		.uleb128 0xc
+ 1191 01ac D0030000 		.4byte	.LASF17
+ 1192 01b0 01       		.byte	0x1
+ 1193 01b1 0F01     		.2byte	0x10f
+ 1194 01b3 6B000000 		.4byte	0x6b
+ 1195 01b7 F2020000 		.4byte	.LLST10
+ 1196 01bb 0D       		.uleb128 0xd
+ 1197 01bc AB020000 		.4byte	.LASF25
+ 1198 01c0 01       		.byte	0x1
+ 1199 01c1 0F01     		.2byte	0x10f
+ 1200 01c3 6B000000 		.4byte	0x6b
+ 1201 01c7 01       		.uleb128 0x1
+ 1202 01c8 51       		.byte	0x51
+ 1203 01c9 0E       		.uleb128 0xe
+ 1204 01ca 35020000 		.4byte	.LASF23
+ 1205 01ce 01       		.byte	0x1
+ 1206 01cf 1201     		.2byte	0x112
+ARM GAS  C:\Users\cps\AppData\Local\Temp\cc9VrCi4.s 			page 37
+
+
+ 1207 01d1 6B000000 		.4byte	0x6b
+ 1208 01d5 5B030000 		.4byte	.LLST11
+ 1209 01d9 00       		.byte	0
+ 1210 01da 0B       		.uleb128 0xb
+ 1211 01db E3020000 		.4byte	.LASF26
+ 1212 01df 01       		.byte	0x1
+ 1213 01e0 7901     		.2byte	0x179
+ 1214 01e2 6B000000 		.4byte	0x6b
+ 1215 01e6 00000000 		.4byte	.LFB3
+ 1216 01ea 70000000 		.4byte	.LFE3-.LFB3
+ 1217 01ee 01       		.uleb128 0x1
+ 1218 01ef 9C       		.byte	0x9c
+ 1219 01f0 23020000 		.4byte	0x223
+ 1220 01f4 0C       		.uleb128 0xc
+ 1221 01f5 D0030000 		.4byte	.LASF17
+ 1222 01f9 01       		.byte	0x1
+ 1223 01fa 7901     		.2byte	0x179
+ 1224 01fc 6B000000 		.4byte	0x6b
+ 1225 0200 92030000 		.4byte	.LLST12
+ 1226 0204 0D       		.uleb128 0xd
+ 1227 0205 AB020000 		.4byte	.LASF25
+ 1228 0209 01       		.byte	0x1
+ 1229 020a 7901     		.2byte	0x179
+ 1230 020c 6B000000 		.4byte	0x6b
+ 1231 0210 01       		.uleb128 0x1
+ 1232 0211 51       		.byte	0x51
+ 1233 0212 0E       		.uleb128 0xe
+ 1234 0213 35020000 		.4byte	.LASF23
+ 1235 0217 01       		.byte	0x1
+ 1236 0218 7C01     		.2byte	0x17c
+ 1237 021a 6B000000 		.4byte	0x6b
+ 1238 021e E2030000 		.4byte	.LLST13
+ 1239 0222 00       		.byte	0
+ 1240 0223 0B       		.uleb128 0xb
+ 1241 0224 66040000 		.4byte	.LASF27
+ 1242 0228 01       		.byte	0x1
+ 1243 0229 CC01     		.2byte	0x1cc
+ 1244 022b 6B000000 		.4byte	0x6b
+ 1245 022f 00000000 		.4byte	.LFB4
+ 1246 0233 44000000 		.4byte	.LFE4-.LFB4
+ 1247 0237 01       		.uleb128 0x1
+ 1248 0238 9C       		.byte	0x9c
+ 1249 0239 4E020000 		.4byte	0x24e
+ 1250 023d 0E       		.uleb128 0xe
+ 1251 023e 35020000 		.4byte	.LASF23
+ 1252 0242 01       		.byte	0x1
+ 1253 0243 CE01     		.2byte	0x1ce
+ 1254 0245 6B000000 		.4byte	0x6b
+ 1255 0249 19040000 		.4byte	.LLST14
+ 1256 024d 00       		.byte	0
+ 1257 024e 0B       		.uleb128 0xb
+ 1258 024f C5010000 		.4byte	.LASF28
+ 1259 0253 01       		.byte	0x1
+ 1260 0254 0402     		.2byte	0x204
+ 1261 0256 6B000000 		.4byte	0x6b
+ 1262 025a 00000000 		.4byte	.LFB5
+ 1263 025e 64000000 		.4byte	.LFE5-.LFB5
+ARM GAS  C:\Users\cps\AppData\Local\Temp\cc9VrCi4.s 			page 38
+
+
+ 1264 0262 01       		.uleb128 0x1
+ 1265 0263 9C       		.byte	0x9c
+ 1266 0264 89020000 		.4byte	0x289
+ 1267 0268 0C       		.uleb128 0xc
+ 1268 0269 83040000 		.4byte	.LASF29
+ 1269 026d 01       		.byte	0x1
+ 1270 026e 0402     		.2byte	0x204
+ 1271 0270 6B000000 		.4byte	0x6b
+ 1272 0274 38040000 		.4byte	.LLST15
+ 1273 0278 0E       		.uleb128 0xe
+ 1274 0279 35020000 		.4byte	.LASF23
+ 1275 027d 01       		.byte	0x1
+ 1276 027e 0602     		.2byte	0x206
+ 1277 0280 6B000000 		.4byte	0x6b
+ 1278 0284 8B040000 		.4byte	.LLST16
+ 1279 0288 00       		.byte	0
+ 1280 0289 0B       		.uleb128 0xb
+ 1281 028a BE020000 		.4byte	.LASF30
+ 1282 028e 01       		.byte	0x1
+ 1283 028f 4F02     		.2byte	0x24f
+ 1284 0291 6B000000 		.4byte	0x6b
+ 1285 0295 00000000 		.4byte	.LFB6
+ 1286 0299 78000000 		.4byte	.LFE6-.LFB6
+ 1287 029d 01       		.uleb128 0x1
+ 1288 029e 9C       		.byte	0x9c
+ 1289 029f C4020000 		.4byte	0x2c4
+ 1290 02a3 0C       		.uleb128 0xc
+ 1291 02a4 DB020000 		.4byte	.LASF31
+ 1292 02a8 01       		.byte	0x1
+ 1293 02a9 4F02     		.2byte	0x24f
+ 1294 02ab 6B000000 		.4byte	0x6b
+ 1295 02af DA040000 		.4byte	.LLST17
+ 1296 02b3 0E       		.uleb128 0xe
+ 1297 02b4 83040000 		.4byte	.LASF29
+ 1298 02b8 01       		.byte	0x1
+ 1299 02b9 5102     		.2byte	0x251
+ 1300 02bb 6B000000 		.4byte	0x6b
+ 1301 02bf FB040000 		.4byte	.LLST18
+ 1302 02c3 00       		.byte	0
+ 1303 02c4 0B       		.uleb128 0xb
+ 1304 02c5 FA030000 		.4byte	.LASF32
+ 1305 02c9 01       		.byte	0x1
+ 1306 02ca 8A02     		.2byte	0x28a
+ 1307 02cc 6B000000 		.4byte	0x6b
+ 1308 02d0 00000000 		.4byte	.LFB7
+ 1309 02d4 20000000 		.4byte	.LFE7-.LFB7
+ 1310 02d8 01       		.uleb128 0x1
+ 1311 02d9 9C       		.byte	0x9c
+ 1312 02da ED020000 		.4byte	0x2ed
+ 1313 02de 0F       		.uleb128 0xf
+ 1314 02df 66010000 		.4byte	.LASF33
+ 1315 02e3 01       		.byte	0x1
+ 1316 02e4 8C02     		.2byte	0x28c
+ 1317 02e6 6B000000 		.4byte	0x6b
+ 1318 02ea 01       		.uleb128 0x1
+ 1319 02eb 50       		.byte	0x50
+ 1320 02ec 00       		.byte	0
+ARM GAS  C:\Users\cps\AppData\Local\Temp\cc9VrCi4.s 			page 39
+
+
+ 1321 02ed 0B       		.uleb128 0xb
+ 1322 02ee 26010000 		.4byte	.LASF34
+ 1323 02f2 01       		.byte	0x1
+ 1324 02f3 B302     		.2byte	0x2b3
+ 1325 02f5 6B000000 		.4byte	0x6b
+ 1326 02f9 00000000 		.4byte	.LFB8
+ 1327 02fd 10000000 		.4byte	.LFE8-.LFB8
+ 1328 0301 01       		.uleb128 0x1
+ 1329 0302 9C       		.byte	0x9c
+ 1330 0303 16030000 		.4byte	0x316
+ 1331 0307 0F       		.uleb128 0xf
+ 1332 0308 66010000 		.4byte	.LASF33
+ 1333 030c 01       		.byte	0x1
+ 1334 030d B602     		.2byte	0x2b6
+ 1335 030f 6B000000 		.4byte	0x6b
+ 1336 0313 01       		.uleb128 0x1
+ 1337 0314 50       		.byte	0x50
+ 1338 0315 00       		.byte	0
+ 1339 0316 10       		.uleb128 0x10
+ 1340 0317 03030000 		.4byte	.LASF35
+ 1341 031b 01       		.byte	0x1
+ 1342 031c D402     		.2byte	0x2d4
+ 1343 031e 6B000000 		.4byte	0x6b
+ 1344 0322 00000000 		.4byte	.LFB9
+ 1345 0326 0C000000 		.4byte	.LFE9-.LFB9
+ 1346 032a 01       		.uleb128 0x1
+ 1347 032b 9C       		.byte	0x9c
+ 1348 032c 10       		.uleb128 0x10
+ 1349 032d 6D010000 		.4byte	.LASF36
+ 1350 0331 01       		.byte	0x1
+ 1351 0332 EE02     		.2byte	0x2ee
+ 1352 0334 6B000000 		.4byte	0x6b
+ 1353 0338 00000000 		.4byte	.LFB10
+ 1354 033c 0C000000 		.4byte	.LFE10-.LFB10
+ 1355 0340 01       		.uleb128 0x1
+ 1356 0341 9C       		.byte	0x9c
+ 1357 0342 11       		.uleb128 0x11
+ 1358 0343 3E000000 		.4byte	.LASF37
+ 1359 0347 01       		.byte	0x1
+ 1360 0348 0A03     		.2byte	0x30a
+ 1361 034a 00000000 		.4byte	.LFB11
+ 1362 034e 1C000000 		.4byte	.LFE11-.LFB11
+ 1363 0352 01       		.uleb128 0x1
+ 1364 0353 9C       		.byte	0x9c
+ 1365 0354 11       		.uleb128 0x11
+ 1366 0355 6D020000 		.4byte	.LASF38
+ 1367 0359 01       		.byte	0x1
+ 1368 035a 2703     		.2byte	0x327
+ 1369 035c 00000000 		.4byte	.LFB12
+ 1370 0360 1C000000 		.4byte	.LFE12-.LFB12
+ 1371 0364 01       		.uleb128 0x1
+ 1372 0365 9C       		.byte	0x9c
+ 1373 0366 11       		.uleb128 0x11
+ 1374 0367 15020000 		.4byte	.LASF39
+ 1375 036b 01       		.byte	0x1
+ 1376 036c 3F03     		.2byte	0x33f
+ 1377 036e 00000000 		.4byte	.LFB13
+ARM GAS  C:\Users\cps\AppData\Local\Temp\cc9VrCi4.s 			page 40
+
+
+ 1378 0372 02000000 		.4byte	.LFE13-.LFB13
+ 1379 0376 01       		.uleb128 0x1
+ 1380 0377 9C       		.byte	0x9c
+ 1381 0378 12       		.uleb128 0x12
+ 1382 0379 E2000000 		.4byte	.LASF40
+ 1383 037d 03       		.byte	0x3
+ 1384 037e 23       		.byte	0x23
+ 1385 037f A4000000 		.4byte	0xa4
+ 1386 0383 13       		.uleb128 0x13
+ 1387 0384 2C040000 		.4byte	.LASF41
+ 1388 0388 01       		.byte	0x1
+ 1389 0389 19       		.byte	0x19
+ 1390 038a A4000000 		.4byte	0xa4
+ 1391 038e 05       		.uleb128 0x5
+ 1392 038f 03       		.byte	0x3
+ 1393 0390 00000000 		.4byte	Sensirion_I2C_mstrStatus
+ 1394 0394 13       		.uleb128 0x13
+ 1395 0395 F5010000 		.4byte	.LASF42
+ 1396 0399 01       		.byte	0x1
+ 1397 039a 1A       		.byte	0x1a
+ 1398 039b A4000000 		.4byte	0xa4
+ 1399 039f 05       		.uleb128 0x5
+ 1400 03a0 03       		.byte	0x3
+ 1401 03a1 00000000 		.4byte	Sensirion_I2C_mstrControl
+ 1402 03a5 13       		.uleb128 0x13
+ 1403 03a6 A5010000 		.4byte	.LASF43
+ 1404 03aa 01       		.byte	0x1
+ 1405 03ab 1D       		.byte	0x1d
+ 1406 03ac B6030000 		.4byte	0x3b6
+ 1407 03b0 05       		.uleb128 0x5
+ 1408 03b1 03       		.byte	0x3
+ 1409 03b2 00000000 		.4byte	Sensirion_I2C_mstrRdBufPtr
+ 1410 03b6 0A       		.uleb128 0xa
+ 1411 03b7 04       		.byte	0x4
+ 1412 03b8 A4000000 		.4byte	0xa4
+ 1413 03bc 13       		.uleb128 0x13
+ 1414 03bd 8F020000 		.4byte	.LASF44
+ 1415 03c1 01       		.byte	0x1
+ 1416 03c2 1E       		.byte	0x1e
+ 1417 03c3 A4000000 		.4byte	0xa4
+ 1418 03c7 05       		.uleb128 0x5
+ 1419 03c8 03       		.byte	0x3
+ 1420 03c9 00000000 		.4byte	Sensirion_I2C_mstrRdBufSize
+ 1421 03cd 13       		.uleb128 0x13
+ 1422 03ce 00000000 		.4byte	.LASF45
+ 1423 03d2 01       		.byte	0x1
+ 1424 03d3 1F       		.byte	0x1f
+ 1425 03d4 A4000000 		.4byte	0xa4
+ 1426 03d8 05       		.uleb128 0x5
+ 1427 03d9 03       		.byte	0x3
+ 1428 03da 00000000 		.4byte	Sensirion_I2C_mstrRdBufIndex
+ 1429 03de 13       		.uleb128 0x13
+ 1430 03df 1D000000 		.4byte	.LASF46
+ 1431 03e3 01       		.byte	0x1
+ 1432 03e4 22       		.byte	0x22
+ 1433 03e5 B6030000 		.4byte	0x3b6
+ 1434 03e9 05       		.uleb128 0x5
+ARM GAS  C:\Users\cps\AppData\Local\Temp\cc9VrCi4.s 			page 41
+
+
+ 1435 03ea 03       		.byte	0x3
+ 1436 03eb 00000000 		.4byte	Sensirion_I2C_mstrWrBufPtr
+ 1437 03ef 13       		.uleb128 0x13
+ 1438 03f0 4A040000 		.4byte	.LASF47
+ 1439 03f4 01       		.byte	0x1
+ 1440 03f5 23       		.byte	0x23
+ 1441 03f6 A4000000 		.4byte	0xa4
+ 1442 03fa 05       		.uleb128 0x5
+ 1443 03fb 03       		.byte	0x3
+ 1444 03fc 00000000 		.4byte	Sensirion_I2C_mstrWrBufSize
+ 1445 0400 13       		.uleb128 0x13
+ 1446 0401 DD030000 		.4byte	.LASF48
+ 1447 0405 01       		.byte	0x1
+ 1448 0406 24       		.byte	0x24
+ 1449 0407 A4000000 		.4byte	0xa4
+ 1450 040b 05       		.uleb128 0x5
+ 1451 040c 03       		.byte	0x3
+ 1452 040d 00000000 		.4byte	Sensirion_I2C_mstrWrBufIndex
+ 1453 0411 00       		.byte	0
+ 1454              		.section	.debug_abbrev,"",%progbits
+ 1455              	.Ldebug_abbrev0:
+ 1456 0000 01       		.uleb128 0x1
+ 1457 0001 11       		.uleb128 0x11
+ 1458 0002 01       		.byte	0x1
+ 1459 0003 25       		.uleb128 0x25
+ 1460 0004 0E       		.uleb128 0xe
+ 1461 0005 13       		.uleb128 0x13
+ 1462 0006 0B       		.uleb128 0xb
+ 1463 0007 03       		.uleb128 0x3
+ 1464 0008 0E       		.uleb128 0xe
+ 1465 0009 1B       		.uleb128 0x1b
+ 1466 000a 0E       		.uleb128 0xe
+ 1467 000b 55       		.uleb128 0x55
+ 1468 000c 17       		.uleb128 0x17
+ 1469 000d 11       		.uleb128 0x11
+ 1470 000e 01       		.uleb128 0x1
+ 1471 000f 10       		.uleb128 0x10
+ 1472 0010 17       		.uleb128 0x17
+ 1473 0011 00       		.byte	0
+ 1474 0012 00       		.byte	0
+ 1475 0013 02       		.uleb128 0x2
+ 1476 0014 24       		.uleb128 0x24
+ 1477 0015 00       		.byte	0
+ 1478 0016 0B       		.uleb128 0xb
+ 1479 0017 0B       		.uleb128 0xb
+ 1480 0018 3E       		.uleb128 0x3e
+ 1481 0019 0B       		.uleb128 0xb
+ 1482 001a 03       		.uleb128 0x3
+ 1483 001b 0E       		.uleb128 0xe
+ 1484 001c 00       		.byte	0
+ 1485 001d 00       		.byte	0
+ 1486 001e 03       		.uleb128 0x3
+ 1487 001f 24       		.uleb128 0x24
+ 1488 0020 00       		.byte	0
+ 1489 0021 0B       		.uleb128 0xb
+ 1490 0022 0B       		.uleb128 0xb
+ 1491 0023 3E       		.uleb128 0x3e
+ARM GAS  C:\Users\cps\AppData\Local\Temp\cc9VrCi4.s 			page 42
+
+
+ 1492 0024 0B       		.uleb128 0xb
+ 1493 0025 03       		.uleb128 0x3
+ 1494 0026 08       		.uleb128 0x8
+ 1495 0027 00       		.byte	0
+ 1496 0028 00       		.byte	0
+ 1497 0029 04       		.uleb128 0x4
+ 1498 002a 16       		.uleb128 0x16
+ 1499 002b 00       		.byte	0
+ 1500 002c 03       		.uleb128 0x3
+ 1501 002d 0E       		.uleb128 0xe
+ 1502 002e 3A       		.uleb128 0x3a
+ 1503 002f 0B       		.uleb128 0xb
+ 1504 0030 3B       		.uleb128 0x3b
+ 1505 0031 05       		.uleb128 0x5
+ 1506 0032 49       		.uleb128 0x49
+ 1507 0033 13       		.uleb128 0x13
+ 1508 0034 00       		.byte	0
+ 1509 0035 00       		.byte	0
+ 1510 0036 05       		.uleb128 0x5
+ 1511 0037 35       		.uleb128 0x35
+ 1512 0038 00       		.byte	0
+ 1513 0039 49       		.uleb128 0x49
+ 1514 003a 13       		.uleb128 0x13
+ 1515 003b 00       		.byte	0
+ 1516 003c 00       		.byte	0
+ 1517 003d 06       		.uleb128 0x6
+ 1518 003e 2E       		.uleb128 0x2e
+ 1519 003f 01       		.byte	0x1
+ 1520 0040 3F       		.uleb128 0x3f
+ 1521 0041 19       		.uleb128 0x19
+ 1522 0042 03       		.uleb128 0x3
+ 1523 0043 0E       		.uleb128 0xe
+ 1524 0044 3A       		.uleb128 0x3a
+ 1525 0045 0B       		.uleb128 0xb
+ 1526 0046 3B       		.uleb128 0x3b
+ 1527 0047 0B       		.uleb128 0xb
+ 1528 0048 27       		.uleb128 0x27
+ 1529 0049 19       		.uleb128 0x19
+ 1530 004a 49       		.uleb128 0x49
+ 1531 004b 13       		.uleb128 0x13
+ 1532 004c 11       		.uleb128 0x11
+ 1533 004d 01       		.uleb128 0x1
+ 1534 004e 12       		.uleb128 0x12
+ 1535 004f 06       		.uleb128 0x6
+ 1536 0050 40       		.uleb128 0x40
+ 1537 0051 18       		.uleb128 0x18
+ 1538 0052 9742     		.uleb128 0x2117
+ 1539 0054 19       		.uleb128 0x19
+ 1540 0055 01       		.uleb128 0x1
+ 1541 0056 13       		.uleb128 0x13
+ 1542 0057 00       		.byte	0
+ 1543 0058 00       		.byte	0
+ 1544 0059 07       		.uleb128 0x7
+ 1545 005a 05       		.uleb128 0x5
+ 1546 005b 00       		.byte	0
+ 1547 005c 03       		.uleb128 0x3
+ 1548 005d 0E       		.uleb128 0xe
+ARM GAS  C:\Users\cps\AppData\Local\Temp\cc9VrCi4.s 			page 43
+
+
+ 1549 005e 3A       		.uleb128 0x3a
+ 1550 005f 0B       		.uleb128 0xb
+ 1551 0060 3B       		.uleb128 0x3b
+ 1552 0061 0B       		.uleb128 0xb
+ 1553 0062 49       		.uleb128 0x49
+ 1554 0063 13       		.uleb128 0x13
+ 1555 0064 02       		.uleb128 0x2
+ 1556 0065 17       		.uleb128 0x17
+ 1557 0066 00       		.byte	0
+ 1558 0067 00       		.byte	0
+ 1559 0068 08       		.uleb128 0x8
+ 1560 0069 05       		.uleb128 0x5
+ 1561 006a 00       		.byte	0
+ 1562 006b 03       		.uleb128 0x3
+ 1563 006c 08       		.uleb128 0x8
+ 1564 006d 3A       		.uleb128 0x3a
+ 1565 006e 0B       		.uleb128 0xb
+ 1566 006f 3B       		.uleb128 0x3b
+ 1567 0070 0B       		.uleb128 0xb
+ 1568 0071 49       		.uleb128 0x49
+ 1569 0072 13       		.uleb128 0x13
+ 1570 0073 02       		.uleb128 0x2
+ 1571 0074 17       		.uleb128 0x17
+ 1572 0075 00       		.byte	0
+ 1573 0076 00       		.byte	0
+ 1574 0077 09       		.uleb128 0x9
+ 1575 0078 34       		.uleb128 0x34
+ 1576 0079 00       		.byte	0
+ 1577 007a 03       		.uleb128 0x3
+ 1578 007b 0E       		.uleb128 0xe
+ 1579 007c 3A       		.uleb128 0x3a
+ 1580 007d 0B       		.uleb128 0xb
+ 1581 007e 3B       		.uleb128 0x3b
+ 1582 007f 0B       		.uleb128 0xb
+ 1583 0080 49       		.uleb128 0x49
+ 1584 0081 13       		.uleb128 0x13
+ 1585 0082 02       		.uleb128 0x2
+ 1586 0083 17       		.uleb128 0x17
+ 1587 0084 00       		.byte	0
+ 1588 0085 00       		.byte	0
+ 1589 0086 0A       		.uleb128 0xa
+ 1590 0087 0F       		.uleb128 0xf
+ 1591 0088 00       		.byte	0
+ 1592 0089 0B       		.uleb128 0xb
+ 1593 008a 0B       		.uleb128 0xb
+ 1594 008b 49       		.uleb128 0x49
+ 1595 008c 13       		.uleb128 0x13
+ 1596 008d 00       		.byte	0
+ 1597 008e 00       		.byte	0
+ 1598 008f 0B       		.uleb128 0xb
+ 1599 0090 2E       		.uleb128 0x2e
+ 1600 0091 01       		.byte	0x1
+ 1601 0092 3F       		.uleb128 0x3f
+ 1602 0093 19       		.uleb128 0x19
+ 1603 0094 03       		.uleb128 0x3
+ 1604 0095 0E       		.uleb128 0xe
+ 1605 0096 3A       		.uleb128 0x3a
+ARM GAS  C:\Users\cps\AppData\Local\Temp\cc9VrCi4.s 			page 44
+
+
+ 1606 0097 0B       		.uleb128 0xb
+ 1607 0098 3B       		.uleb128 0x3b
+ 1608 0099 05       		.uleb128 0x5
+ 1609 009a 27       		.uleb128 0x27
+ 1610 009b 19       		.uleb128 0x19
+ 1611 009c 49       		.uleb128 0x49
+ 1612 009d 13       		.uleb128 0x13
+ 1613 009e 11       		.uleb128 0x11
+ 1614 009f 01       		.uleb128 0x1
+ 1615 00a0 12       		.uleb128 0x12
+ 1616 00a1 06       		.uleb128 0x6
+ 1617 00a2 40       		.uleb128 0x40
+ 1618 00a3 18       		.uleb128 0x18
+ 1619 00a4 9742     		.uleb128 0x2117
+ 1620 00a6 19       		.uleb128 0x19
+ 1621 00a7 01       		.uleb128 0x1
+ 1622 00a8 13       		.uleb128 0x13
+ 1623 00a9 00       		.byte	0
+ 1624 00aa 00       		.byte	0
+ 1625 00ab 0C       		.uleb128 0xc
+ 1626 00ac 05       		.uleb128 0x5
+ 1627 00ad 00       		.byte	0
+ 1628 00ae 03       		.uleb128 0x3
+ 1629 00af 0E       		.uleb128 0xe
+ 1630 00b0 3A       		.uleb128 0x3a
+ 1631 00b1 0B       		.uleb128 0xb
+ 1632 00b2 3B       		.uleb128 0x3b
+ 1633 00b3 05       		.uleb128 0x5
+ 1634 00b4 49       		.uleb128 0x49
+ 1635 00b5 13       		.uleb128 0x13
+ 1636 00b6 02       		.uleb128 0x2
+ 1637 00b7 17       		.uleb128 0x17
+ 1638 00b8 00       		.byte	0
+ 1639 00b9 00       		.byte	0
+ 1640 00ba 0D       		.uleb128 0xd
+ 1641 00bb 05       		.uleb128 0x5
+ 1642 00bc 00       		.byte	0
+ 1643 00bd 03       		.uleb128 0x3
+ 1644 00be 0E       		.uleb128 0xe
+ 1645 00bf 3A       		.uleb128 0x3a
+ 1646 00c0 0B       		.uleb128 0xb
+ 1647 00c1 3B       		.uleb128 0x3b
+ 1648 00c2 05       		.uleb128 0x5
+ 1649 00c3 49       		.uleb128 0x49
+ 1650 00c4 13       		.uleb128 0x13
+ 1651 00c5 02       		.uleb128 0x2
+ 1652 00c6 18       		.uleb128 0x18
+ 1653 00c7 00       		.byte	0
+ 1654 00c8 00       		.byte	0
+ 1655 00c9 0E       		.uleb128 0xe
+ 1656 00ca 34       		.uleb128 0x34
+ 1657 00cb 00       		.byte	0
+ 1658 00cc 03       		.uleb128 0x3
+ 1659 00cd 0E       		.uleb128 0xe
+ 1660 00ce 3A       		.uleb128 0x3a
+ 1661 00cf 0B       		.uleb128 0xb
+ 1662 00d0 3B       		.uleb128 0x3b
+ARM GAS  C:\Users\cps\AppData\Local\Temp\cc9VrCi4.s 			page 45
+
+
+ 1663 00d1 05       		.uleb128 0x5
+ 1664 00d2 49       		.uleb128 0x49
+ 1665 00d3 13       		.uleb128 0x13
+ 1666 00d4 02       		.uleb128 0x2
+ 1667 00d5 17       		.uleb128 0x17
+ 1668 00d6 00       		.byte	0
+ 1669 00d7 00       		.byte	0
+ 1670 00d8 0F       		.uleb128 0xf
+ 1671 00d9 34       		.uleb128 0x34
+ 1672 00da 00       		.byte	0
+ 1673 00db 03       		.uleb128 0x3
+ 1674 00dc 0E       		.uleb128 0xe
+ 1675 00dd 3A       		.uleb128 0x3a
+ 1676 00de 0B       		.uleb128 0xb
+ 1677 00df 3B       		.uleb128 0x3b
+ 1678 00e0 05       		.uleb128 0x5
+ 1679 00e1 49       		.uleb128 0x49
+ 1680 00e2 13       		.uleb128 0x13
+ 1681 00e3 02       		.uleb128 0x2
+ 1682 00e4 18       		.uleb128 0x18
+ 1683 00e5 00       		.byte	0
+ 1684 00e6 00       		.byte	0
+ 1685 00e7 10       		.uleb128 0x10
+ 1686 00e8 2E       		.uleb128 0x2e
+ 1687 00e9 00       		.byte	0
+ 1688 00ea 3F       		.uleb128 0x3f
+ 1689 00eb 19       		.uleb128 0x19
+ 1690 00ec 03       		.uleb128 0x3
+ 1691 00ed 0E       		.uleb128 0xe
+ 1692 00ee 3A       		.uleb128 0x3a
+ 1693 00ef 0B       		.uleb128 0xb
+ 1694 00f0 3B       		.uleb128 0x3b
+ 1695 00f1 05       		.uleb128 0x5
+ 1696 00f2 27       		.uleb128 0x27
+ 1697 00f3 19       		.uleb128 0x19
+ 1698 00f4 49       		.uleb128 0x49
+ 1699 00f5 13       		.uleb128 0x13
+ 1700 00f6 11       		.uleb128 0x11
+ 1701 00f7 01       		.uleb128 0x1
+ 1702 00f8 12       		.uleb128 0x12
+ 1703 00f9 06       		.uleb128 0x6
+ 1704 00fa 40       		.uleb128 0x40
+ 1705 00fb 18       		.uleb128 0x18
+ 1706 00fc 9742     		.uleb128 0x2117
+ 1707 00fe 19       		.uleb128 0x19
+ 1708 00ff 00       		.byte	0
+ 1709 0100 00       		.byte	0
+ 1710 0101 11       		.uleb128 0x11
+ 1711 0102 2E       		.uleb128 0x2e
+ 1712 0103 00       		.byte	0
+ 1713 0104 3F       		.uleb128 0x3f
+ 1714 0105 19       		.uleb128 0x19
+ 1715 0106 03       		.uleb128 0x3
+ 1716 0107 0E       		.uleb128 0xe
+ 1717 0108 3A       		.uleb128 0x3a
+ 1718 0109 0B       		.uleb128 0xb
+ 1719 010a 3B       		.uleb128 0x3b
+ARM GAS  C:\Users\cps\AppData\Local\Temp\cc9VrCi4.s 			page 46
+
+
+ 1720 010b 05       		.uleb128 0x5
+ 1721 010c 27       		.uleb128 0x27
+ 1722 010d 19       		.uleb128 0x19
+ 1723 010e 11       		.uleb128 0x11
+ 1724 010f 01       		.uleb128 0x1
+ 1725 0110 12       		.uleb128 0x12
+ 1726 0111 06       		.uleb128 0x6
+ 1727 0112 40       		.uleb128 0x40
+ 1728 0113 18       		.uleb128 0x18
+ 1729 0114 9742     		.uleb128 0x2117
+ 1730 0116 19       		.uleb128 0x19
+ 1731 0117 00       		.byte	0
+ 1732 0118 00       		.byte	0
+ 1733 0119 12       		.uleb128 0x12
+ 1734 011a 34       		.uleb128 0x34
+ 1735 011b 00       		.byte	0
+ 1736 011c 03       		.uleb128 0x3
+ 1737 011d 0E       		.uleb128 0xe
+ 1738 011e 3A       		.uleb128 0x3a
+ 1739 011f 0B       		.uleb128 0xb
+ 1740 0120 3B       		.uleb128 0x3b
+ 1741 0121 0B       		.uleb128 0xb
+ 1742 0122 49       		.uleb128 0x49
+ 1743 0123 13       		.uleb128 0x13
+ 1744 0124 3F       		.uleb128 0x3f
+ 1745 0125 19       		.uleb128 0x19
+ 1746 0126 3C       		.uleb128 0x3c
+ 1747 0127 19       		.uleb128 0x19
+ 1748 0128 00       		.byte	0
+ 1749 0129 00       		.byte	0
+ 1750 012a 13       		.uleb128 0x13
+ 1751 012b 34       		.uleb128 0x34
+ 1752 012c 00       		.byte	0
+ 1753 012d 03       		.uleb128 0x3
+ 1754 012e 0E       		.uleb128 0xe
+ 1755 012f 3A       		.uleb128 0x3a
+ 1756 0130 0B       		.uleb128 0xb
+ 1757 0131 3B       		.uleb128 0x3b
+ 1758 0132 0B       		.uleb128 0xb
+ 1759 0133 49       		.uleb128 0x49
+ 1760 0134 13       		.uleb128 0x13
+ 1761 0135 3F       		.uleb128 0x3f
+ 1762 0136 19       		.uleb128 0x19
+ 1763 0137 02       		.uleb128 0x2
+ 1764 0138 18       		.uleb128 0x18
+ 1765 0139 00       		.byte	0
+ 1766 013a 00       		.byte	0
+ 1767 013b 00       		.byte	0
+ 1768              		.section	.debug_loc,"",%progbits
+ 1769              	.Ldebug_loc0:
+ 1770              	.LLST0:
+ 1771 0000 00000000 		.4byte	.LVL0
+ 1772 0004 52000000 		.4byte	.LVL6
+ 1773 0008 0100     		.2byte	0x1
+ 1774 000a 50       		.byte	0x50
+ 1775 000b 52000000 		.4byte	.LVL6
+ 1776 000f 96000000 		.4byte	.LVL14
+ARM GAS  C:\Users\cps\AppData\Local\Temp\cc9VrCi4.s 			page 47
+
+
+ 1777 0013 0400     		.2byte	0x4
+ 1778 0015 F3       		.byte	0xf3
+ 1779 0016 01       		.uleb128 0x1
+ 1780 0017 50       		.byte	0x50
+ 1781 0018 9F       		.byte	0x9f
+ 1782 0019 96000000 		.4byte	.LVL14
+ 1783 001d 98000000 		.4byte	.LVL15
+ 1784 0021 0100     		.2byte	0x1
+ 1785 0023 50       		.byte	0x50
+ 1786 0024 98000000 		.4byte	.LVL15
+ 1787 0028 CC000000 		.4byte	.LFE0
+ 1788 002c 0400     		.2byte	0x4
+ 1789 002e F3       		.byte	0xf3
+ 1790 002f 01       		.uleb128 0x1
+ 1791 0030 50       		.byte	0x50
+ 1792 0031 9F       		.byte	0x9f
+ 1793 0032 00000000 		.4byte	0
+ 1794 0036 00000000 		.4byte	0
+ 1795              	.LLST1:
+ 1796 003a 00000000 		.4byte	.LVL0
+ 1797 003e 0A000000 		.4byte	.LVL2
+ 1798 0042 0100     		.2byte	0x1
+ 1799 0044 51       		.byte	0x51
+ 1800 0045 0A000000 		.4byte	.LVL2
+ 1801 0049 96000000 		.4byte	.LVL14
+ 1802 004d 0100     		.2byte	0x1
+ 1803 004f 55       		.byte	0x55
+ 1804 0050 96000000 		.4byte	.LVL14
+ 1805 0054 98000000 		.4byte	.LVL15
+ 1806 0058 0100     		.2byte	0x1
+ 1807 005a 51       		.byte	0x51
+ 1808 005b 98000000 		.4byte	.LVL15
+ 1809 005f CC000000 		.4byte	.LFE0
+ 1810 0063 0400     		.2byte	0x4
+ 1811 0065 F3       		.byte	0xf3
+ 1812 0066 01       		.uleb128 0x1
+ 1813 0067 51       		.byte	0x51
+ 1814 0068 9F       		.byte	0x9f
+ 1815 0069 00000000 		.4byte	0
+ 1816 006d 00000000 		.4byte	0
+ 1817              	.LLST2:
+ 1818 0071 00000000 		.4byte	.LVL0
+ 1819 0075 60000000 		.4byte	.LVL7
+ 1820 0079 0100     		.2byte	0x1
+ 1821 007b 52       		.byte	0x52
+ 1822 007c 60000000 		.4byte	.LVL7
+ 1823 0080 66000000 		.4byte	.LVL8
+ 1824 0084 0500     		.2byte	0x5
+ 1825 0086 03       		.byte	0x3
+ 1826 0087 00000000 		.4byte	Sensirion_I2C_mstrWrBufSize
+ 1827 008b 66000000 		.4byte	.LVL8
+ 1828 008f 96000000 		.4byte	.LVL14
+ 1829 0093 0400     		.2byte	0x4
+ 1830 0095 F3       		.byte	0xf3
+ 1831 0096 01       		.uleb128 0x1
+ 1832 0097 52       		.byte	0x52
+ 1833 0098 9F       		.byte	0x9f
+ARM GAS  C:\Users\cps\AppData\Local\Temp\cc9VrCi4.s 			page 48
+
+
+ 1834 0099 96000000 		.4byte	.LVL14
+ 1835 009d 98000000 		.4byte	.LVL15
+ 1836 00a1 0100     		.2byte	0x1
+ 1837 00a3 52       		.byte	0x52
+ 1838 00a4 98000000 		.4byte	.LVL15
+ 1839 00a8 CC000000 		.4byte	.LFE0
+ 1840 00ac 0400     		.2byte	0x4
+ 1841 00ae F3       		.byte	0xf3
+ 1842 00af 01       		.uleb128 0x1
+ 1843 00b0 52       		.byte	0x52
+ 1844 00b1 9F       		.byte	0x9f
+ 1845 00b2 00000000 		.4byte	0
+ 1846 00b6 00000000 		.4byte	0
+ 1847              	.LLST3:
+ 1848 00ba 00000000 		.4byte	.LVL0
+ 1849 00be 70000000 		.4byte	.LVL9
+ 1850 00c2 0100     		.2byte	0x1
+ 1851 00c4 53       		.byte	0x53
+ 1852 00c5 70000000 		.4byte	.LVL9
+ 1853 00c9 72000000 		.4byte	.LVL10
+ 1854 00cd 0500     		.2byte	0x5
+ 1855 00cf 03       		.byte	0x3
+ 1856 00d0 00000000 		.4byte	Sensirion_I2C_mstrControl
+ 1857 00d4 72000000 		.4byte	.LVL10
+ 1858 00d8 78000000 		.4byte	.LVL11
+ 1859 00dc 0400     		.2byte	0x4
+ 1860 00de F3       		.byte	0xf3
+ 1861 00df 01       		.uleb128 0x1
+ 1862 00e0 53       		.byte	0x53
+ 1863 00e1 9F       		.byte	0x9f
+ 1864 00e2 78000000 		.4byte	.LVL11
+ 1865 00e6 7C000000 		.4byte	.LVL12
+ 1866 00ea 0100     		.2byte	0x1
+ 1867 00ec 53       		.byte	0x53
+ 1868 00ed 7C000000 		.4byte	.LVL12
+ 1869 00f1 7E000000 		.4byte	.LVL13
+ 1870 00f5 0500     		.2byte	0x5
+ 1871 00f7 03       		.byte	0x3
+ 1872 00f8 00000000 		.4byte	Sensirion_I2C_mstrControl
+ 1873 00fc 7E000000 		.4byte	.LVL13
+ 1874 0100 96000000 		.4byte	.LVL14
+ 1875 0104 0400     		.2byte	0x4
+ 1876 0106 F3       		.byte	0xf3
+ 1877 0107 01       		.uleb128 0x1
+ 1878 0108 53       		.byte	0x53
+ 1879 0109 9F       		.byte	0x9f
+ 1880 010a 96000000 		.4byte	.LVL14
+ 1881 010e 98000000 		.4byte	.LVL15
+ 1882 0112 0100     		.2byte	0x1
+ 1883 0114 53       		.byte	0x53
+ 1884 0115 98000000 		.4byte	.LVL15
+ 1885 0119 CC000000 		.4byte	.LFE0
+ 1886 011d 0400     		.2byte	0x4
+ 1887 011f F3       		.byte	0xf3
+ 1888 0120 01       		.uleb128 0x1
+ 1889 0121 53       		.byte	0x53
+ 1890 0122 9F       		.byte	0x9f
+ARM GAS  C:\Users\cps\AppData\Local\Temp\cc9VrCi4.s 			page 49
+
+
+ 1891 0123 00000000 		.4byte	0
+ 1892 0127 00000000 		.4byte	0
+ 1893              	.LLST4:
+ 1894 012b 02000000 		.4byte	.LVL1
+ 1895 012f 2A000000 		.4byte	.LVL3
+ 1896 0133 0200     		.2byte	0x2
+ 1897 0135 32       		.byte	0x32
+ 1898 0136 9F       		.byte	0x9f
+ 1899 0137 2A000000 		.4byte	.LVL3
+ 1900 013b 3E000000 		.4byte	.LVL4
+ 1901 013f 0200     		.2byte	0x2
+ 1902 0141 30       		.byte	0x30
+ 1903 0142 9F       		.byte	0x9f
+ 1904 0143 3E000000 		.4byte	.LVL4
+ 1905 0147 44000000 		.4byte	.LVL5
+ 1906 014b 0200     		.2byte	0x2
+ 1907 014d 32       		.byte	0x32
+ 1908 014e 9F       		.byte	0x9f
+ 1909 014f 44000000 		.4byte	.LVL5
+ 1910 0153 96000000 		.4byte	.LVL14
+ 1911 0157 0100     		.2byte	0x1
+ 1912 0159 54       		.byte	0x54
+ 1913 015a 96000000 		.4byte	.LVL14
+ 1914 015e 98000000 		.4byte	.LVL15
+ 1915 0162 0200     		.2byte	0x2
+ 1916 0164 32       		.byte	0x32
+ 1917 0165 9F       		.byte	0x9f
+ 1918 0166 98000000 		.4byte	.LVL15
+ 1919 016a 9C000000 		.4byte	.LVL16
+ 1920 016e 0100     		.2byte	0x1
+ 1921 0170 54       		.byte	0x54
+ 1922 0171 00000000 		.4byte	0
+ 1923 0175 00000000 		.4byte	0
+ 1924              	.LLST5:
+ 1925 0179 00000000 		.4byte	.LVL17
+ 1926 017d 56000000 		.4byte	.LVL23
+ 1927 0181 0100     		.2byte	0x1
+ 1928 0183 50       		.byte	0x50
+ 1929 0184 56000000 		.4byte	.LVL23
+ 1930 0188 9A000000 		.4byte	.LVL31
+ 1931 018c 0400     		.2byte	0x4
+ 1932 018e F3       		.byte	0xf3
+ 1933 018f 01       		.uleb128 0x1
+ 1934 0190 50       		.byte	0x50
+ 1935 0191 9F       		.byte	0x9f
+ 1936 0192 9A000000 		.4byte	.LVL31
+ 1937 0196 9C000000 		.4byte	.LVL32
+ 1938 019a 0100     		.2byte	0x1
+ 1939 019c 50       		.byte	0x50
+ 1940 019d 9C000000 		.4byte	.LVL32
+ 1941 01a1 D0000000 		.4byte	.LFE1
+ 1942 01a5 0400     		.2byte	0x4
+ 1943 01a7 F3       		.byte	0xf3
+ 1944 01a8 01       		.uleb128 0x1
+ 1945 01a9 50       		.byte	0x50
+ 1946 01aa 9F       		.byte	0x9f
+ 1947 01ab 00000000 		.4byte	0
+ARM GAS  C:\Users\cps\AppData\Local\Temp\cc9VrCi4.s 			page 50
+
+
+ 1948 01af 00000000 		.4byte	0
+ 1949              	.LLST6:
+ 1950 01b3 00000000 		.4byte	.LVL17
+ 1951 01b7 0A000000 		.4byte	.LVL19
+ 1952 01bb 0100     		.2byte	0x1
+ 1953 01bd 51       		.byte	0x51
+ 1954 01be 0A000000 		.4byte	.LVL19
+ 1955 01c2 9A000000 		.4byte	.LVL31
+ 1956 01c6 0100     		.2byte	0x1
+ 1957 01c8 55       		.byte	0x55
+ 1958 01c9 9A000000 		.4byte	.LVL31
+ 1959 01cd 9C000000 		.4byte	.LVL32
+ 1960 01d1 0100     		.2byte	0x1
+ 1961 01d3 51       		.byte	0x51
+ 1962 01d4 9C000000 		.4byte	.LVL32
+ 1963 01d8 D0000000 		.4byte	.LFE1
+ 1964 01dc 0400     		.2byte	0x4
+ 1965 01de F3       		.byte	0xf3
+ 1966 01df 01       		.uleb128 0x1
+ 1967 01e0 51       		.byte	0x51
+ 1968 01e1 9F       		.byte	0x9f
+ 1969 01e2 00000000 		.4byte	0
+ 1970 01e6 00000000 		.4byte	0
+ 1971              	.LLST7:
+ 1972 01ea 00000000 		.4byte	.LVL17
+ 1973 01ee 64000000 		.4byte	.LVL24
+ 1974 01f2 0100     		.2byte	0x1
+ 1975 01f4 52       		.byte	0x52
+ 1976 01f5 64000000 		.4byte	.LVL24
+ 1977 01f9 6A000000 		.4byte	.LVL25
+ 1978 01fd 0500     		.2byte	0x5
+ 1979 01ff 03       		.byte	0x3
+ 1980 0200 00000000 		.4byte	Sensirion_I2C_mstrRdBufSize
+ 1981 0204 6A000000 		.4byte	.LVL25
+ 1982 0208 9A000000 		.4byte	.LVL31
+ 1983 020c 0400     		.2byte	0x4
+ 1984 020e F3       		.byte	0xf3
+ 1985 020f 01       		.uleb128 0x1
+ 1986 0210 52       		.byte	0x52
+ 1987 0211 9F       		.byte	0x9f
+ 1988 0212 9A000000 		.4byte	.LVL31
+ 1989 0216 9C000000 		.4byte	.LVL32
+ 1990 021a 0100     		.2byte	0x1
+ 1991 021c 52       		.byte	0x52
+ 1992 021d 9C000000 		.4byte	.LVL32
+ 1993 0221 D0000000 		.4byte	.LFE1
+ 1994 0225 0400     		.2byte	0x4
+ 1995 0227 F3       		.byte	0xf3
+ 1996 0228 01       		.uleb128 0x1
+ 1997 0229 52       		.byte	0x52
+ 1998 022a 9F       		.byte	0x9f
+ 1999 022b 00000000 		.4byte	0
+ 2000 022f 00000000 		.4byte	0
+ 2001              	.LLST8:
+ 2002 0233 00000000 		.4byte	.LVL17
+ 2003 0237 74000000 		.4byte	.LVL26
+ 2004 023b 0100     		.2byte	0x1
+ARM GAS  C:\Users\cps\AppData\Local\Temp\cc9VrCi4.s 			page 51
+
+
+ 2005 023d 53       		.byte	0x53
+ 2006 023e 74000000 		.4byte	.LVL26
+ 2007 0242 76000000 		.4byte	.LVL27
+ 2008 0246 0500     		.2byte	0x5
+ 2009 0248 03       		.byte	0x3
+ 2010 0249 00000000 		.4byte	Sensirion_I2C_mstrControl
+ 2011 024d 76000000 		.4byte	.LVL27
+ 2012 0251 7C000000 		.4byte	.LVL28
+ 2013 0255 0400     		.2byte	0x4
+ 2014 0257 F3       		.byte	0xf3
+ 2015 0258 01       		.uleb128 0x1
+ 2016 0259 53       		.byte	0x53
+ 2017 025a 9F       		.byte	0x9f
+ 2018 025b 7C000000 		.4byte	.LVL28
+ 2019 025f 80000000 		.4byte	.LVL29
+ 2020 0263 0100     		.2byte	0x1
+ 2021 0265 53       		.byte	0x53
+ 2022 0266 80000000 		.4byte	.LVL29
+ 2023 026a 82000000 		.4byte	.LVL30
+ 2024 026e 0500     		.2byte	0x5
+ 2025 0270 03       		.byte	0x3
+ 2026 0271 00000000 		.4byte	Sensirion_I2C_mstrControl
+ 2027 0275 82000000 		.4byte	.LVL30
+ 2028 0279 9A000000 		.4byte	.LVL31
+ 2029 027d 0400     		.2byte	0x4
+ 2030 027f F3       		.byte	0xf3
+ 2031 0280 01       		.uleb128 0x1
+ 2032 0281 53       		.byte	0x53
+ 2033 0282 9F       		.byte	0x9f
+ 2034 0283 9A000000 		.4byte	.LVL31
+ 2035 0287 9C000000 		.4byte	.LVL32
+ 2036 028b 0100     		.2byte	0x1
+ 2037 028d 53       		.byte	0x53
+ 2038 028e 9C000000 		.4byte	.LVL32
+ 2039 0292 D0000000 		.4byte	.LFE1
+ 2040 0296 0400     		.2byte	0x4
+ 2041 0298 F3       		.byte	0xf3
+ 2042 0299 01       		.uleb128 0x1
+ 2043 029a 53       		.byte	0x53
+ 2044 029b 9F       		.byte	0x9f
+ 2045 029c 00000000 		.4byte	0
+ 2046 02a0 00000000 		.4byte	0
+ 2047              	.LLST9:
+ 2048 02a4 02000000 		.4byte	.LVL18
+ 2049 02a8 2A000000 		.4byte	.LVL20
+ 2050 02ac 0200     		.2byte	0x2
+ 2051 02ae 32       		.byte	0x32
+ 2052 02af 9F       		.byte	0x9f
+ 2053 02b0 2A000000 		.4byte	.LVL20
+ 2054 02b4 3E000000 		.4byte	.LVL21
+ 2055 02b8 0200     		.2byte	0x2
+ 2056 02ba 30       		.byte	0x30
+ 2057 02bb 9F       		.byte	0x9f
+ 2058 02bc 3E000000 		.4byte	.LVL21
+ 2059 02c0 44000000 		.4byte	.LVL22
+ 2060 02c4 0200     		.2byte	0x2
+ 2061 02c6 32       		.byte	0x32
+ARM GAS  C:\Users\cps\AppData\Local\Temp\cc9VrCi4.s 			page 52
+
+
+ 2062 02c7 9F       		.byte	0x9f
+ 2063 02c8 44000000 		.4byte	.LVL22
+ 2064 02cc 9A000000 		.4byte	.LVL31
+ 2065 02d0 0100     		.2byte	0x1
+ 2066 02d2 54       		.byte	0x54
+ 2067 02d3 9A000000 		.4byte	.LVL31
+ 2068 02d7 9C000000 		.4byte	.LVL32
+ 2069 02db 0200     		.2byte	0x2
+ 2070 02dd 32       		.byte	0x32
+ 2071 02de 9F       		.byte	0x9f
+ 2072 02df 9C000000 		.4byte	.LVL32
+ 2073 02e3 A0000000 		.4byte	.LVL33
+ 2074 02e7 0100     		.2byte	0x1
+ 2075 02e9 54       		.byte	0x54
+ 2076 02ea 00000000 		.4byte	0
+ 2077 02ee 00000000 		.4byte	0
+ 2078              	.LLST10:
+ 2079 02f2 00000000 		.4byte	.LVL34
+ 2080 02f6 1C000000 		.4byte	.LVL35
+ 2081 02fa 0100     		.2byte	0x1
+ 2082 02fc 50       		.byte	0x50
+ 2083 02fd 1C000000 		.4byte	.LVL35
+ 2084 0301 1E000000 		.4byte	.LVL36
+ 2085 0305 0400     		.2byte	0x4
+ 2086 0307 F3       		.byte	0xf3
+ 2087 0308 01       		.uleb128 0x1
+ 2088 0309 50       		.byte	0x50
+ 2089 030a 9F       		.byte	0x9f
+ 2090 030b 1E000000 		.4byte	.LVL36
+ 2091 030f 5E000000 		.4byte	.LVL39
+ 2092 0313 0100     		.2byte	0x1
+ 2093 0315 50       		.byte	0x50
+ 2094 0316 60000000 		.4byte	.LVL40
+ 2095 031a 62000000 		.4byte	.LVL41
+ 2096 031e 0100     		.2byte	0x1
+ 2097 0320 50       		.byte	0x50
+ 2098 0321 62000000 		.4byte	.LVL41
+ 2099 0325 64000000 		.4byte	.LVL42
+ 2100 0329 0400     		.2byte	0x4
+ 2101 032b F3       		.byte	0xf3
+ 2102 032c 01       		.uleb128 0x1
+ 2103 032d 50       		.byte	0x50
+ 2104 032e 9F       		.byte	0x9f
+ 2105 032f 64000000 		.4byte	.LVL42
+ 2106 0333 66000000 		.4byte	.LVL43
+ 2107 0337 0100     		.2byte	0x1
+ 2108 0339 50       		.byte	0x50
+ 2109 033a 66000000 		.4byte	.LVL43
+ 2110 033e 68000000 		.4byte	.LVL44
+ 2111 0342 0400     		.2byte	0x4
+ 2112 0344 F3       		.byte	0xf3
+ 2113 0345 01       		.uleb128 0x1
+ 2114 0346 50       		.byte	0x50
+ 2115 0347 9F       		.byte	0x9f
+ 2116 0348 68000000 		.4byte	.LVL44
+ 2117 034c 6A000000 		.4byte	.LVL45
+ 2118 0350 0100     		.2byte	0x1
+ARM GAS  C:\Users\cps\AppData\Local\Temp\cc9VrCi4.s 			page 53
+
+
+ 2119 0352 50       		.byte	0x50
+ 2120 0353 00000000 		.4byte	0
+ 2121 0357 00000000 		.4byte	0
+ 2122              	.LLST11:
+ 2123 035b 00000000 		.4byte	.LVL34
+ 2124 035f 5C000000 		.4byte	.LVL38
+ 2125 0363 0200     		.2byte	0x2
+ 2126 0365 32       		.byte	0x32
+ 2127 0366 9F       		.byte	0x9f
+ 2128 0367 5C000000 		.4byte	.LVL38
+ 2129 036b 60000000 		.4byte	.LVL40
+ 2130 036f 0200     		.2byte	0x2
+ 2131 0371 33       		.byte	0x33
+ 2132 0372 9F       		.byte	0x9f
+ 2133 0373 60000000 		.4byte	.LVL40
+ 2134 0377 6A000000 		.4byte	.LVL45
+ 2135 037b 0200     		.2byte	0x2
+ 2136 037d 32       		.byte	0x32
+ 2137 037e 9F       		.byte	0x9f
+ 2138 037f 6A000000 		.4byte	.LVL45
+ 2139 0383 7C000000 		.4byte	.LFE2
+ 2140 0387 0100     		.2byte	0x1
+ 2141 0389 50       		.byte	0x50
+ 2142 038a 00000000 		.4byte	0
+ 2143 038e 00000000 		.4byte	0
+ 2144              	.LLST12:
+ 2145 0392 00000000 		.4byte	.LVL46
+ 2146 0396 0C000000 		.4byte	.LVL47
+ 2147 039a 0100     		.2byte	0x1
+ 2148 039c 50       		.byte	0x50
+ 2149 039d 0C000000 		.4byte	.LVL47
+ 2150 03a1 0E000000 		.4byte	.LVL48
+ 2151 03a5 0400     		.2byte	0x4
+ 2152 03a7 F3       		.byte	0xf3
+ 2153 03a8 01       		.uleb128 0x1
+ 2154 03a9 50       		.byte	0x50
+ 2155 03aa 9F       		.byte	0x9f
+ 2156 03ab 0E000000 		.4byte	.LVL48
+ 2157 03af 5A000000 		.4byte	.LVL51
+ 2158 03b3 0100     		.2byte	0x1
+ 2159 03b5 50       		.byte	0x50
+ 2160 03b6 5C000000 		.4byte	.LVL52
+ 2161 03ba 5E000000 		.4byte	.LVL53
+ 2162 03be 0100     		.2byte	0x1
+ 2163 03c0 50       		.byte	0x50
+ 2164 03c1 5E000000 		.4byte	.LVL53
+ 2165 03c5 60000000 		.4byte	.LVL54
+ 2166 03c9 0400     		.2byte	0x4
+ 2167 03cb F3       		.byte	0xf3
+ 2168 03cc 01       		.uleb128 0x1
+ 2169 03cd 50       		.byte	0x50
+ 2170 03ce 9F       		.byte	0x9f
+ 2171 03cf 60000000 		.4byte	.LVL54
+ 2172 03d3 62000000 		.4byte	.LVL55
+ 2173 03d7 0100     		.2byte	0x1
+ 2174 03d9 50       		.byte	0x50
+ 2175 03da 00000000 		.4byte	0
+ARM GAS  C:\Users\cps\AppData\Local\Temp\cc9VrCi4.s 			page 54
+
+
+ 2176 03de 00000000 		.4byte	0
+ 2177              	.LLST13:
+ 2178 03e2 00000000 		.4byte	.LVL46
+ 2179 03e6 58000000 		.4byte	.LVL50
+ 2180 03ea 0200     		.2byte	0x2
+ 2181 03ec 32       		.byte	0x32
+ 2182 03ed 9F       		.byte	0x9f
+ 2183 03ee 58000000 		.4byte	.LVL50
+ 2184 03f2 5C000000 		.4byte	.LVL52
+ 2185 03f6 0200     		.2byte	0x2
+ 2186 03f8 33       		.byte	0x33
+ 2187 03f9 9F       		.byte	0x9f
+ 2188 03fa 5C000000 		.4byte	.LVL52
+ 2189 03fe 62000000 		.4byte	.LVL55
+ 2190 0402 0200     		.2byte	0x2
+ 2191 0404 32       		.byte	0x32
+ 2192 0405 9F       		.byte	0x9f
+ 2193 0406 62000000 		.4byte	.LVL55
+ 2194 040a 70000000 		.4byte	.LFE3
+ 2195 040e 0100     		.2byte	0x1
+ 2196 0410 50       		.byte	0x50
+ 2197 0411 00000000 		.4byte	0
+ 2198 0415 00000000 		.4byte	0
+ 2199              	.LLST14:
+ 2200 0419 00000000 		.4byte	.LVL56
+ 2201 041d 36000000 		.4byte	.LVL57
+ 2202 0421 0200     		.2byte	0x2
+ 2203 0423 32       		.byte	0x32
+ 2204 0424 9F       		.byte	0x9f
+ 2205 0425 36000000 		.4byte	.LVL57
+ 2206 0429 44000000 		.4byte	.LFE4
+ 2207 042d 0100     		.2byte	0x1
+ 2208 042f 50       		.byte	0x50
+ 2209 0430 00000000 		.4byte	0
+ 2210 0434 00000000 		.4byte	0
+ 2211              	.LLST15:
+ 2212 0438 00000000 		.4byte	.LVL58
+ 2213 043c 46000000 		.4byte	.LVL60
+ 2214 0440 0100     		.2byte	0x1
+ 2215 0442 50       		.byte	0x50
+ 2216 0443 46000000 		.4byte	.LVL60
+ 2217 0447 48000000 		.4byte	.LVL61
+ 2218 044b 0400     		.2byte	0x4
+ 2219 044d F3       		.byte	0xf3
+ 2220 044e 01       		.uleb128 0x1
+ 2221 044f 50       		.byte	0x50
+ 2222 0450 9F       		.byte	0x9f
+ 2223 0451 48000000 		.4byte	.LVL61
+ 2224 0455 50000000 		.4byte	.LVL63
+ 2225 0459 0100     		.2byte	0x1
+ 2226 045b 50       		.byte	0x50
+ 2227 045c 50000000 		.4byte	.LVL63
+ 2228 0460 52000000 		.4byte	.LVL64
+ 2229 0464 0400     		.2byte	0x4
+ 2230 0466 F3       		.byte	0xf3
+ 2231 0467 01       		.uleb128 0x1
+ 2232 0468 50       		.byte	0x50
+ARM GAS  C:\Users\cps\AppData\Local\Temp\cc9VrCi4.s 			page 55
+
+
+ 2233 0469 9F       		.byte	0x9f
+ 2234 046a 52000000 		.4byte	.LVL64
+ 2235 046e 54000000 		.4byte	.LVL65
+ 2236 0472 0100     		.2byte	0x1
+ 2237 0474 50       		.byte	0x50
+ 2238 0475 54000000 		.4byte	.LVL65
+ 2239 0479 64000000 		.4byte	.LFE5
+ 2240 047d 0400     		.2byte	0x4
+ 2241 047f F3       		.byte	0xf3
+ 2242 0480 01       		.uleb128 0x1
+ 2243 0481 50       		.byte	0x50
+ 2244 0482 9F       		.byte	0x9f
+ 2245 0483 00000000 		.4byte	0
+ 2246 0487 00000000 		.4byte	0
+ 2247              	.LLST16:
+ 2248 048b 00000000 		.4byte	.LVL58
+ 2249 048f 44000000 		.4byte	.LVL59
+ 2250 0493 0200     		.2byte	0x2
+ 2251 0495 32       		.byte	0x32
+ 2252 0496 9F       		.byte	0x9f
+ 2253 0497 44000000 		.4byte	.LVL59
+ 2254 049b 48000000 		.4byte	.LVL61
+ 2255 049f 0200     		.2byte	0x2
+ 2256 04a1 30       		.byte	0x30
+ 2257 04a2 9F       		.byte	0x9f
+ 2258 04a3 48000000 		.4byte	.LVL61
+ 2259 04a7 4E000000 		.4byte	.LVL62
+ 2260 04ab 0200     		.2byte	0x2
+ 2261 04ad 32       		.byte	0x32
+ 2262 04ae 9F       		.byte	0x9f
+ 2263 04af 4E000000 		.4byte	.LVL62
+ 2264 04b3 52000000 		.4byte	.LVL64
+ 2265 04b7 0200     		.2byte	0x2
+ 2266 04b9 33       		.byte	0x33
+ 2267 04ba 9F       		.byte	0x9f
+ 2268 04bb 52000000 		.4byte	.LVL64
+ 2269 04bf 54000000 		.4byte	.LVL65
+ 2270 04c3 0200     		.2byte	0x2
+ 2271 04c5 32       		.byte	0x32
+ 2272 04c6 9F       		.byte	0x9f
+ 2273 04c7 54000000 		.4byte	.LVL65
+ 2274 04cb 64000000 		.4byte	.LFE5
+ 2275 04cf 0100     		.2byte	0x1
+ 2276 04d1 50       		.byte	0x50
+ 2277 04d2 00000000 		.4byte	0
+ 2278 04d6 00000000 		.4byte	0
+ 2279              	.LLST17:
+ 2280 04da 00000000 		.4byte	.LVL66
+ 2281 04de 66000000 		.4byte	.LVL70
+ 2282 04e2 0100     		.2byte	0x1
+ 2283 04e4 50       		.byte	0x50
+ 2284 04e5 66000000 		.4byte	.LVL70
+ 2285 04e9 78000000 		.4byte	.LFE6
+ 2286 04ed 0400     		.2byte	0x4
+ 2287 04ef F3       		.byte	0xf3
+ 2288 04f0 01       		.uleb128 0x1
+ 2289 04f1 50       		.byte	0x50
+ARM GAS  C:\Users\cps\AppData\Local\Temp\cc9VrCi4.s 			page 56
+
+
+ 2290 04f2 9F       		.byte	0x9f
+ 2291 04f3 00000000 		.4byte	0
+ 2292 04f7 00000000 		.4byte	0
+ 2293              	.LLST18:
+ 2294 04fb 00000000 		.4byte	.LVL66
+ 2295 04ff 40000000 		.4byte	.LVL67
+ 2296 0503 0200     		.2byte	0x2
+ 2297 0505 30       		.byte	0x30
+ 2298 0506 9F       		.byte	0x9f
+ 2299 0507 40000000 		.4byte	.LVL67
+ 2300 050b 62000000 		.4byte	.LVL68
+ 2301 050f 0100     		.2byte	0x1
+ 2302 0511 52       		.byte	0x52
+ 2303 0512 62000000 		.4byte	.LVL68
+ 2304 0516 64000000 		.4byte	.LVL69
+ 2305 051a 0200     		.2byte	0x2
+ 2306 051c 30       		.byte	0x30
+ 2307 051d 9F       		.byte	0x9f
+ 2308 051e 64000000 		.4byte	.LVL69
+ 2309 0522 78000000 		.4byte	.LFE6
+ 2310 0526 0100     		.2byte	0x1
+ 2311 0528 52       		.byte	0x52
+ 2312 0529 00000000 		.4byte	0
+ 2313 052d 00000000 		.4byte	0
+ 2314              		.section	.debug_aranges,"",%progbits
+ 2315 0000 84000000 		.4byte	0x84
+ 2316 0004 0200     		.2byte	0x2
+ 2317 0006 00000000 		.4byte	.Ldebug_info0
+ 2318 000a 04       		.byte	0x4
+ 2319 000b 00       		.byte	0
+ 2320 000c 0000     		.2byte	0
+ 2321 000e 0000     		.2byte	0
+ 2322 0010 00000000 		.4byte	.LFB0
+ 2323 0014 CC000000 		.4byte	.LFE0-.LFB0
+ 2324 0018 00000000 		.4byte	.LFB1
+ 2325 001c D0000000 		.4byte	.LFE1-.LFB1
+ 2326 0020 00000000 		.4byte	.LFB2
+ 2327 0024 7C000000 		.4byte	.LFE2-.LFB2
+ 2328 0028 00000000 		.4byte	.LFB3
+ 2329 002c 70000000 		.4byte	.LFE3-.LFB3
+ 2330 0030 00000000 		.4byte	.LFB4
+ 2331 0034 44000000 		.4byte	.LFE4-.LFB4
+ 2332 0038 00000000 		.4byte	.LFB5
+ 2333 003c 64000000 		.4byte	.LFE5-.LFB5
+ 2334 0040 00000000 		.4byte	.LFB6
+ 2335 0044 78000000 		.4byte	.LFE6-.LFB6
+ 2336 0048 00000000 		.4byte	.LFB7
+ 2337 004c 20000000 		.4byte	.LFE7-.LFB7
+ 2338 0050 00000000 		.4byte	.LFB8
+ 2339 0054 10000000 		.4byte	.LFE8-.LFB8
+ 2340 0058 00000000 		.4byte	.LFB9
+ 2341 005c 0C000000 		.4byte	.LFE9-.LFB9
+ 2342 0060 00000000 		.4byte	.LFB10
+ 2343 0064 0C000000 		.4byte	.LFE10-.LFB10
+ 2344 0068 00000000 		.4byte	.LFB11
+ 2345 006c 1C000000 		.4byte	.LFE11-.LFB11
+ 2346 0070 00000000 		.4byte	.LFB12
+ARM GAS  C:\Users\cps\AppData\Local\Temp\cc9VrCi4.s 			page 57
+
+
+ 2347 0074 1C000000 		.4byte	.LFE12-.LFB12
+ 2348 0078 00000000 		.4byte	.LFB13
+ 2349 007c 02000000 		.4byte	.LFE13-.LFB13
+ 2350 0080 00000000 		.4byte	0
+ 2351 0084 00000000 		.4byte	0
+ 2352              		.section	.debug_ranges,"",%progbits
+ 2353              	.Ldebug_ranges0:
+ 2354 0000 00000000 		.4byte	.LFB0
+ 2355 0004 CC000000 		.4byte	.LFE0
+ 2356 0008 00000000 		.4byte	.LFB1
+ 2357 000c D0000000 		.4byte	.LFE1
+ 2358 0010 00000000 		.4byte	.LFB2
+ 2359 0014 7C000000 		.4byte	.LFE2
+ 2360 0018 00000000 		.4byte	.LFB3
+ 2361 001c 70000000 		.4byte	.LFE3
+ 2362 0020 00000000 		.4byte	.LFB4
+ 2363 0024 44000000 		.4byte	.LFE4
+ 2364 0028 00000000 		.4byte	.LFB5
+ 2365 002c 64000000 		.4byte	.LFE5
+ 2366 0030 00000000 		.4byte	.LFB6
+ 2367 0034 78000000 		.4byte	.LFE6
+ 2368 0038 00000000 		.4byte	.LFB7
+ 2369 003c 20000000 		.4byte	.LFE7
+ 2370 0040 00000000 		.4byte	.LFB8
+ 2371 0044 10000000 		.4byte	.LFE8
+ 2372 0048 00000000 		.4byte	.LFB9
+ 2373 004c 0C000000 		.4byte	.LFE9
+ 2374 0050 00000000 		.4byte	.LFB10
+ 2375 0054 0C000000 		.4byte	.LFE10
+ 2376 0058 00000000 		.4byte	.LFB11
+ 2377 005c 1C000000 		.4byte	.LFE11
+ 2378 0060 00000000 		.4byte	.LFB12
+ 2379 0064 1C000000 		.4byte	.LFE12
+ 2380 0068 00000000 		.4byte	.LFB13
+ 2381 006c 02000000 		.4byte	.LFE13
+ 2382 0070 00000000 		.4byte	0
+ 2383 0074 00000000 		.4byte	0
+ 2384              		.section	.debug_line,"",%progbits
+ 2385              	.Ldebug_line0:
+ 2386 0000 32020000 		.section	.debug_str,"MS",%progbits,1
+ 2386      02006A00 
+ 2386      00000201 
+ 2386      FB0E0D00 
+ 2386      01010101 
+ 2387              	.LASF45:
+ 2388 0000 53656E73 		.ascii	"Sensirion_I2C_mstrRdBufIndex\000"
+ 2388      6972696F 
+ 2388      6E5F4932 
+ 2388      435F6D73 
+ 2388      74725264 
+ 2389              	.LASF46:
+ 2390 001d 53656E73 		.ascii	"Sensirion_I2C_mstrWrBufPtr\000"
+ 2390      6972696F 
+ 2390      6E5F4932 
+ 2390      435F6D73 
+ 2390      74725772 
+ 2391              	.LASF15:
+ARM GAS  C:\Users\cps\AppData\Local\Temp\cc9VrCi4.s 			page 58
+
+
+ 2392 0038 72656733 		.ascii	"reg32\000"
+ 2392      3200
+ 2393              	.LASF37:
+ 2394 003e 53656E73 		.ascii	"Sensirion_I2C_MasterClearReadBuf\000"
+ 2394      6972696F 
+ 2394      6E5F4932 
+ 2394      435F4D61 
+ 2394      73746572 
+ 2395              	.LASF21:
+ 2396 005f 53656E73 		.ascii	"Sensirion_I2C_MasterReadBuf\000"
+ 2396      6972696F 
+ 2396      6E5F4932 
+ 2396      435F4D61 
+ 2396      73746572 
+ 2397              	.LASF51:
+ 2398 007b 433A5C55 		.ascii	"C:\\Users\\cps\\Documents\\neoapi\\Project Template"
+ 2398      73657273 
+ 2398      5C637073 
+ 2398      5C446F63 
+ 2398      756D656E 
+ 2399 00a9 735C5365 		.ascii	"s\\Sensor Examples\\Example Sensors\\Sensirion_Temp"
+ 2399      6E736F72 
+ 2399      20457861 
+ 2399      6D706C65 
+ 2399      735C4578 
+ 2400 00d9 52482E63 		.ascii	"RH.cydsn\000"
+ 2400      7964736E 
+ 2400      00
+ 2401              	.LASF40:
+ 2402 00e2 53656E73 		.ascii	"Sensirion_I2C_state\000"
+ 2402      6972696F 
+ 2402      6E5F4932 
+ 2402      435F7374 
+ 2402      61746500 
+ 2403              	.LASF50:
+ 2404 00f6 2E5C4765 		.ascii	".\\Generated_Source\\PSoC5\\Sensirion_I2C_MASTER.c\000"
+ 2404      6E657261 
+ 2404      7465645F 
+ 2404      536F7572 
+ 2404      63655C50 
+ 2405              	.LASF34:
+ 2406 0126 53656E73 		.ascii	"Sensirion_I2C_MasterClearStatus\000"
+ 2406      6972696F 
+ 2406      6E5F4932 
+ 2406      435F4D61 
+ 2406      73746572 
+ 2407              	.LASF3:
+ 2408 0146 73686F72 		.ascii	"short unsigned int\000"
+ 2408      7420756E 
+ 2408      7369676E 
+ 2408      65642069 
+ 2408      6E7400
+ 2409              	.LASF8:
+ 2410 0159 756E7369 		.ascii	"unsigned int\000"
+ 2410      676E6564 
+ 2410      20696E74 
+ 2410      00
+ARM GAS  C:\Users\cps\AppData\Local\Temp\cc9VrCi4.s 			page 59
+
+
+ 2411              	.LASF33:
+ 2412 0166 73746174 		.ascii	"status\000"
+ 2412      757300
+ 2413              	.LASF36:
+ 2414 016d 53656E73 		.ascii	"Sensirion_I2C_MasterGetWriteBufSize\000"
+ 2414      6972696F 
+ 2414      6E5F4932 
+ 2414      435F4D61 
+ 2414      73746572 
+ 2415              	.LASF11:
+ 2416 0191 666C6F61 		.ascii	"float\000"
+ 2416      7400
+ 2417              	.LASF1:
+ 2418 0197 756E7369 		.ascii	"unsigned char\000"
+ 2418      676E6564 
+ 2418      20636861 
+ 2418      7200
+ 2419              	.LASF43:
+ 2420 01a5 53656E73 		.ascii	"Sensirion_I2C_mstrRdBufPtr\000"
+ 2420      6972696F 
+ 2420      6E5F4932 
+ 2420      435F6D73 
+ 2420      74725264 
+ 2421              	.LASF14:
+ 2422 01c0 72656738 		.ascii	"reg8\000"
+ 2422      00
+ 2423              	.LASF28:
+ 2424 01c5 53656E73 		.ascii	"Sensirion_I2C_MasterWriteByte\000"
+ 2424      6972696F 
+ 2424      6E5F4932 
+ 2424      435F4D61 
+ 2424      73746572 
+ 2425              	.LASF5:
+ 2426 01e3 6C6F6E67 		.ascii	"long unsigned int\000"
+ 2426      20756E73 
+ 2426      69676E65 
+ 2426      6420696E 
+ 2426      7400
+ 2427              	.LASF42:
+ 2428 01f5 53656E73 		.ascii	"Sensirion_I2C_mstrControl\000"
+ 2428      6972696F 
+ 2428      6E5F4932 
+ 2428      435F6D73 
+ 2428      7472436F 
+ 2429              	.LASF9:
+ 2430 020f 75696E74 		.ascii	"uint8\000"
+ 2430      3800
+ 2431              	.LASF39:
+ 2432 0215 53656E73 		.ascii	"Sensirion_I2C_Workaround\000"
+ 2432      6972696F 
+ 2432      6E5F4932 
+ 2432      435F576F 
+ 2432      726B6172 
+ 2433              	.LASF18:
+ 2434 022e 77724461 		.ascii	"wrData\000"
+ 2434      746100
+ 2435              	.LASF23:
+ARM GAS  C:\Users\cps\AppData\Local\Temp\cc9VrCi4.s 			page 60
+
+
+ 2436 0235 65727253 		.ascii	"errStatus\000"
+ 2436      74617475 
+ 2436      7300
+ 2437              	.LASF12:
+ 2438 023f 646F7562 		.ascii	"double\000"
+ 2438      6C6500
+ 2439              	.LASF20:
+ 2440 0246 53656E73 		.ascii	"Sensirion_I2C_MasterWriteBuf\000"
+ 2440      6972696F 
+ 2440      6E5F4932 
+ 2440      435F4D61 
+ 2440      73746572 
+ 2441              	.LASF2:
+ 2442 0263 73686F72 		.ascii	"short int\000"
+ 2442      7420696E 
+ 2442      7400
+ 2443              	.LASF38:
+ 2444 026d 53656E73 		.ascii	"Sensirion_I2C_MasterClearWriteBuf\000"
+ 2444      6972696F 
+ 2444      6E5F4932 
+ 2444      435F4D61 
+ 2444      73746572 
+ 2445              	.LASF44:
+ 2446 028f 53656E73 		.ascii	"Sensirion_I2C_mstrRdBufSize\000"
+ 2446      6972696F 
+ 2446      6E5F4932 
+ 2446      435F6D73 
+ 2446      74725264 
+ 2447              	.LASF25:
+ 2448 02ab 525F6E57 		.ascii	"R_nW\000"
+ 2448      00
+ 2449              	.LASF22:
+ 2450 02b0 72644461 		.ascii	"rdData\000"
+ 2450      746100
+ 2451              	.LASF10:
+ 2452 02b7 75696E74 		.ascii	"uint32\000"
+ 2452      333200
+ 2453              	.LASF30:
+ 2454 02be 53656E73 		.ascii	"Sensirion_I2C_MasterReadByte\000"
+ 2454      6972696F 
+ 2454      6E5F4932 
+ 2454      435F4D61 
+ 2454      73746572 
+ 2455              	.LASF31:
+ 2456 02db 61636B6E 		.ascii	"acknNak\000"
+ 2456      4E616B00 
+ 2457              	.LASF26:
+ 2458 02e3 53656E73 		.ascii	"Sensirion_I2C_MasterSendRestart\000"
+ 2458      6972696F 
+ 2458      6E5F4932 
+ 2458      435F4D61 
+ 2458      73746572 
+ 2459              	.LASF35:
+ 2460 0303 53656E73 		.ascii	"Sensirion_I2C_MasterGetReadBufSize\000"
+ 2460      6972696F 
+ 2460      6E5F4932 
+ 2460      435F4D61 
+ARM GAS  C:\Users\cps\AppData\Local\Temp\cc9VrCi4.s 			page 61
+
+
+ 2460      73746572 
+ 2461              	.LASF7:
+ 2462 0326 6C6F6E67 		.ascii	"long long unsigned int\000"
+ 2462      206C6F6E 
+ 2462      6720756E 
+ 2462      7369676E 
+ 2462      65642069 
+ 2463              	.LASF49:
+ 2464 033d 474E5520 		.ascii	"GNU C 4.9.3 20150303 (release) [ARM/embedded-4_9-br"
+ 2464      4320342E 
+ 2464      392E3320 
+ 2464      32303135 
+ 2464      30333033 
+ 2465 0370 616E6368 		.ascii	"anch revision 221220] -mcpu=cortex-m3 -mthumb -g -O"
+ 2465      20726576 
+ 2465      6973696F 
+ 2465      6E203232 
+ 2465      31323230 
+ 2466 03a3 67202D66 		.ascii	"g -ffunction-sections -ffat-lto-objects\000"
+ 2466      66756E63 
+ 2466      74696F6E 
+ 2466      2D736563 
+ 2466      74696F6E 
+ 2467              	.LASF19:
+ 2468 03cb 6D6F6465 		.ascii	"mode\000"
+ 2468      00
+ 2469              	.LASF17:
+ 2470 03d0 736C6176 		.ascii	"slaveAddress\000"
+ 2470      65416464 
+ 2470      72657373 
+ 2470      00
+ 2471              	.LASF48:
+ 2472 03dd 53656E73 		.ascii	"Sensirion_I2C_mstrWrBufIndex\000"
+ 2472      6972696F 
+ 2472      6E5F4932 
+ 2472      435F6D73 
+ 2472      74725772 
+ 2473              	.LASF32:
+ 2474 03fa 53656E73 		.ascii	"Sensirion_I2C_MasterStatus\000"
+ 2474      6972696F 
+ 2474      6E5F4932 
+ 2474      435F4D61 
+ 2474      73746572 
+ 2475              	.LASF16:
+ 2476 0415 73697A65 		.ascii	"sizetype\000"
+ 2476      74797065 
+ 2476      00
+ 2477              	.LASF6:
+ 2478 041e 6C6F6E67 		.ascii	"long long int\000"
+ 2478      206C6F6E 
+ 2478      6720696E 
+ 2478      7400
+ 2479              	.LASF41:
+ 2480 042c 53656E73 		.ascii	"Sensirion_I2C_mstrStatus\000"
+ 2480      6972696F 
+ 2480      6E5F4932 
+ 2480      435F6D73 
+ARM GAS  C:\Users\cps\AppData\Local\Temp\cc9VrCi4.s 			page 62
+
+
+ 2480      74725374 
+ 2481              	.LASF13:
+ 2482 0445 63686172 		.ascii	"char\000"
+ 2482      00
+ 2483              	.LASF47:
+ 2484 044a 53656E73 		.ascii	"Sensirion_I2C_mstrWrBufSize\000"
+ 2484      6972696F 
+ 2484      6E5F4932 
+ 2484      435F6D73 
+ 2484      74725772 
+ 2485              	.LASF27:
+ 2486 0466 53656E73 		.ascii	"Sensirion_I2C_MasterSendStop\000"
+ 2486      6972696F 
+ 2486      6E5F4932 
+ 2486      435F4D61 
+ 2486      73746572 
+ 2487              	.LASF29:
+ 2488 0483 74686542 		.ascii	"theByte\000"
+ 2488      79746500 
+ 2489              	.LASF4:
+ 2490 048b 6C6F6E67 		.ascii	"long int\000"
+ 2490      20696E74 
+ 2490      00
+ 2491              	.LASF0:
+ 2492 0494 7369676E 		.ascii	"signed char\000"
+ 2492      65642063 
+ 2492      68617200 
+ 2493              	.LASF24:
+ 2494 04a0 53656E73 		.ascii	"Sensirion_I2C_MasterSendStart\000"
+ 2494      6972696F 
+ 2494      6E5F4932 
+ 2494      435F4D61 
+ 2494      73746572 
+ 2495              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 4.9.3 20150303 (release) [ARM/embedded-4_9-br

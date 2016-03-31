@@ -1,0 +1,1577 @@
+ARM GAS  C:\Users\cps\AppData\Local\Temp\ccA0aEMk.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 1
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.file	"sensirion_temprh.c"
+  15              		.text
+  16              	.Ltext0:
+  17              		.cfi_sections	.debug_frame
+  18              		.section	.text.Get_SensironValue,"ax",%progbits
+  19              		.align	2
+  20              		.global	Get_SensironValue
+  21              		.thumb
+  22              		.thumb_func
+  23              		.type	Get_SensironValue, %function
+  24              	Get_SensironValue:
+  25              	.LFB63:
+  26              		.file 1 ".\\sensirion_temprh.c"
+   1:.\sensirion_temprh.c **** 
+   2:.\sensirion_temprh.c **** #include "sensirion_temprh.h"
+   3:.\sensirion_temprh.c **** 
+   4:.\sensirion_temprh.c **** #define SENSIRION_ADDR 0b1000000
+   5:.\sensirion_temprh.c **** #define SENSIRION_RH_COMMAND 0b11100101
+   6:.\sensirion_temprh.c **** #define SENSIRION_TEMP_COMMAND 0b11100011
+   7:.\sensirion_temprh.c **** 
+   8:.\sensirion_temprh.c **** 
+   9:.\sensirion_temprh.c **** uint16 Get_SensironValue(uint8 sensorCommand){
+  27              		.loc 1 9 0
+  28              		.cfi_startproc
+  29              		@ args = 0, pretend = 0, frame = 16
+  30              		@ frame_needed = 0, uses_anonymous_args = 0
+  31              	.LVL0:
+  32 0000 10B5     		push	{r4, lr}
+  33              		.cfi_def_cfa_offset 8
+  34              		.cfi_offset 4, -8
+  35              		.cfi_offset 14, -4
+  36 0002 84B0     		sub	sp, sp, #16
+  37              		.cfi_def_cfa_offset 24
+  38 0004 04AC     		add	r4, sp, #16
+  39 0006 04F8090D 		strb	r0, [r4, #-9]!
+  10:.\sensirion_temprh.c **** 
+  11:.\sensirion_temprh.c ****     //send command to sensor to take reading
+  12:.\sensirion_temprh.c ****     Sensirion_I2C_MasterClearStatus();
+  40              		.loc 1 12 0
+  41 000a FFF7FEFF 		bl	Sensirion_I2C_MasterClearStatus
+  42              	.LVL1:
+  13:.\sensirion_temprh.c ****     Sensirion_I2C_MasterWriteBuf(SENSIRION_ADDR, &sensorCommand,1,
+  43              		.loc 1 13 0
+  44 000e 4020     		movs	r0, #64
+ARM GAS  C:\Users\cps\AppData\Local\Temp\ccA0aEMk.s 			page 2
+
+
+  45 0010 2146     		mov	r1, r4
+  46 0012 0122     		movs	r2, #1
+  47 0014 0023     		movs	r3, #0
+  48 0016 FFF7FEFF 		bl	Sensirion_I2C_MasterWriteBuf
+  49              	.LVL2:
+  14:.\sensirion_temprh.c ****     Sensirion_I2C_MODE_COMPLETE_XFER);
+  15:.\sensirion_temprh.c ****     
+  16:.\sensirion_temprh.c ****     //wait until sensor responds
+  17:.\sensirion_temprh.c **** 	//while(0u == (Sensirion_I2C_MasterStatus() &  Sensirion_I2C_MSTAT_WR_CMPLT));
+  18:.\sensirion_temprh.c **** 	uint8 i;
+  19:.\sensirion_temprh.c **** 	for(i=0;i<10;i++){
+  50              		.loc 1 19 0
+  51 001a 0024     		movs	r4, #0
+  52              	.LVL3:
+  53 001c 09E0     		b	.L2
+  54              	.LVL4:
+  55              	.L4:
+  20:.\sensirion_temprh.c **** 		if(Sensirion_I2C_MasterStatus() &  Sensirion_I2C_MSTAT_WR_CMPLT)
+  56              		.loc 1 20 0
+  57 001e FFF7FEFF 		bl	Sensirion_I2C_MasterStatus
+  58              	.LVL5:
+  59 0022 10F0020F 		tst	r0, #2
+  60 0026 06D1     		bne	.L3
+  21:.\sensirion_temprh.c **** 			break;
+  22:.\sensirion_temprh.c **** 		else
+  23:.\sensirion_temprh.c **** 			CyDelay(10u);
+  61              		.loc 1 23 0 discriminator 2
+  62 0028 0A20     		movs	r0, #10
+  63 002a FFF7FEFF 		bl	CyDelay
+  64              	.LVL6:
+  19:.\sensirion_temprh.c **** 		if(Sensirion_I2C_MasterStatus() &  Sensirion_I2C_MSTAT_WR_CMPLT)
+  65              		.loc 1 19 0 discriminator 2
+  66 002e 0134     		adds	r4, r4, #1
+  67              	.LVL7:
+  68 0030 E4B2     		uxtb	r4, r4
+  69              	.LVL8:
+  70              	.L2:
+  19:.\sensirion_temprh.c **** 		if(Sensirion_I2C_MasterStatus() &  Sensirion_I2C_MSTAT_WR_CMPLT)
+  71              		.loc 1 19 0 is_stmt 0 discriminator 1
+  72 0032 092C     		cmp	r4, #9
+  73 0034 F3D9     		bls	.L4
+  74              	.L3:
+  24:.\sensirion_temprh.c **** 	}
+  25:.\sensirion_temprh.c ****     
+  26:.\sensirion_temprh.c ****     
+  27:.\sensirion_temprh.c ****     //read value from sensor
+  28:.\sensirion_temprh.c ****     uint8 i2cBufferRead[2];
+  29:.\sensirion_temprh.c ****     Sensirion_I2C_MasterClearStatus();
+  75              		.loc 1 29 0 is_stmt 1
+  76 0036 FFF7FEFF 		bl	Sensirion_I2C_MasterClearStatus
+  77              	.LVL9:
+  30:.\sensirion_temprh.c ****     Sensirion_I2C_MasterReadBuf(SENSIRION_ADDR, i2cBufferRead, 2,
+  78              		.loc 1 30 0
+  79 003a 4020     		movs	r0, #64
+  80 003c 03A9     		add	r1, sp, #12
+  81 003e 0222     		movs	r2, #2
+  82 0040 0023     		movs	r3, #0
+ARM GAS  C:\Users\cps\AppData\Local\Temp\ccA0aEMk.s 			page 3
+
+
+  83 0042 FFF7FEFF 		bl	Sensirion_I2C_MasterReadBuf
+  84              	.LVL10:
+  31:.\sensirion_temprh.c ****     Sensirion_I2C_MODE_COMPLETE_XFER);
+  32:.\sensirion_temprh.c ****     
+  33:.\sensirion_temprh.c ****     //wait until sensor responds
+  34:.\sensirion_temprh.c **** 	//while(0u == (Sensirion_I2C_MasterStatus() &  Sensirion_I2C_MSTAT_RD_CMPLT));
+  35:.\sensirion_temprh.c **** 	for(i=0;i<10;i++){
+  85              		.loc 1 35 0
+  86 0046 0024     		movs	r4, #0
+  87 0048 11E0     		b	.L5
+  88              	.LVL11:
+  89              	.L8:
+  36:.\sensirion_temprh.c **** 		if(Sensirion_I2C_MasterStatus() &  Sensirion_I2C_MSTAT_RD_CMPLT){
+  90              		.loc 1 36 0
+  91 004a FFF7FEFF 		bl	Sensirion_I2C_MasterStatus
+  92              	.LVL12:
+  93 004e 10F0010F 		tst	r0, #1
+  94 0052 07D0     		beq	.L6
+  95              	.LBB2:
+  37:.\sensirion_temprh.c **** 			uint16 returnValue = (i2cBufferRead[0] <<8) + i2cBufferRead[1];
+  96              		.loc 1 37 0
+  97 0054 9DF80C00 		ldrb	r0, [sp, #12]	@ zero_extendqisi2
+  98 0058 9DF80D30 		ldrb	r3, [sp, #13]	@ zero_extendqisi2
+  99 005c 03EB0020 		add	r0, r3, r0, lsl #8
+ 100 0060 80B2     		uxth	r0, r0
+  38:.\sensirion_temprh.c **** 			return returnValue;
+ 101              		.loc 1 38 0
+ 102 0062 08E0     		b	.L7
+ 103              	.L6:
+ 104              	.LBE2:
+  39:.\sensirion_temprh.c **** 		}
+  40:.\sensirion_temprh.c **** 		else
+  41:.\sensirion_temprh.c **** 			CyDelay(10u);
+ 105              		.loc 1 41 0 discriminator 2
+ 106 0064 0A20     		movs	r0, #10
+ 107 0066 FFF7FEFF 		bl	CyDelay
+ 108              	.LVL13:
+  35:.\sensirion_temprh.c **** 		if(Sensirion_I2C_MasterStatus() &  Sensirion_I2C_MSTAT_RD_CMPLT){
+ 109              		.loc 1 35 0 discriminator 2
+ 110 006a 0134     		adds	r4, r4, #1
+ 111              	.LVL14:
+ 112 006c E4B2     		uxtb	r4, r4
+ 113              	.LVL15:
+ 114              	.L5:
+  35:.\sensirion_temprh.c **** 		if(Sensirion_I2C_MasterStatus() &  Sensirion_I2C_MSTAT_RD_CMPLT){
+ 115              		.loc 1 35 0 is_stmt 0 discriminator 1
+ 116 006e 092C     		cmp	r4, #9
+ 117 0070 EBD9     		bls	.L8
+  42:.\sensirion_temprh.c **** 	}
+  43:.\sensirion_temprh.c ****     //convert two bytes into 16-bit integer
+  44:.\sensirion_temprh.c ****     return 999;//non valid value if sensor does not respond (above)
+ 118              		.loc 1 44 0 is_stmt 1
+ 119 0072 40F2E730 		movw	r0, #999
+ 120              	.L7:
+  45:.\sensirion_temprh.c **** }
+ 121              		.loc 1 45 0
+ 122 0076 04B0     		add	sp, sp, #16
+ARM GAS  C:\Users\cps\AppData\Local\Temp\ccA0aEMk.s 			page 4
+
+
+ 123              		.cfi_def_cfa_offset 8
+ 124              	.LVL16:
+ 125              		@ sp needed
+ 126 0078 10BD     		pop	{r4, pc}
+ 127              		.cfi_endproc
+ 128              	.LFE63:
+ 129              		.size	Get_SensironValue, .-Get_SensironValue
+ 130              		.global	__aeabi_ui2f
+ 131              		.global	__aeabi_fdiv
+ 132              		.global	__aeabi_fmul
+ 133              		.global	__aeabi_fsub
+ 134              		.global	__aeabi_fcmpeq
+ 135              		.global	__aeabi_f2d
+ 136              		.global	__aeabi_dmul
+ 137              		.global	__aeabi_dsub
+ 138              		.global	__aeabi_d2f
+ 139 007a 00BF     		.section	.text.Take_TempRH_Reading,"ax",%progbits
+ 140              		.align	2
+ 141              		.global	Take_TempRH_Reading
+ 142              		.thumb
+ 143              		.thumb_func
+ 144              		.type	Take_TempRH_Reading, %function
+ 145              	Take_TempRH_Reading:
+ 146              	.LFB64:
+  46:.\sensirion_temprh.c **** Sensirion Take_TempRH_Reading(){
+ 147              		.loc 1 46 0
+ 148              		.cfi_startproc
+ 149              		@ args = 0, pretend = 0, frame = 0
+ 150              		@ frame_needed = 0, uses_anonymous_args = 0
+ 151              	.LVL17:
+ 152 0000 38B5     		push	{r3, r4, r5, lr}
+ 153              		.cfi_def_cfa_offset 16
+ 154              		.cfi_offset 3, -16
+ 155              		.cfi_offset 4, -12
+ 156              		.cfi_offset 5, -8
+ 157              		.cfi_offset 14, -4
+ 158 0002 0446     		mov	r4, r0
+  47:.\sensirion_temprh.c ****     
+  48:.\sensirion_temprh.c **** 	//turn power on to sensor
+  49:.\sensirion_temprh.c **** 	Sensirion_I2C_Start();
+ 159              		.loc 1 49 0
+ 160 0004 FFF7FEFF 		bl	Sensirion_I2C_Start
+ 161              	.LVL18:
+  50:.\sensirion_temprh.c ****     Sensirion_Power_Write(1u);
+ 162              		.loc 1 50 0
+ 163 0008 0120     		movs	r0, #1
+ 164 000a FFF7FEFF 		bl	Sensirion_Power_Write
+ 165              	.LVL19:
+  51:.\sensirion_temprh.c **** 	
+  52:.\sensirion_temprh.c ****     //delay 15ms based on data sheet
+  53:.\sensirion_temprh.c ****     CyDelay(200u);
+ 166              		.loc 1 53 0
+ 167 000e C820     		movs	r0, #200
+ 168 0010 FFF7FEFF 		bl	CyDelay
+ 169              	.LVL20:
+  54:.\sensirion_temprh.c ****     
+  55:.\sensirion_temprh.c ****     Sensirion returnValue;
+ARM GAS  C:\Users\cps\AppData\Local\Temp\ccA0aEMk.s 			page 5
+
+
+  56:.\sensirion_temprh.c **** 	returnValue.valid = 1;
+ 170              		.loc 1 56 0
+ 171 0014 0123     		movs	r3, #1
+ 172 0016 2372     		strb	r3, [r4, #8]
+  57:.\sensirion_temprh.c ****     
+  58:.\sensirion_temprh.c ****     float RH = (float) Get_SensironValue(SENSIRION_RH_COMMAND);
+ 173              		.loc 1 58 0
+ 174 0018 E520     		movs	r0, #229
+ 175 001a FFF7FEFF 		bl	Get_SensironValue
+ 176              	.LVL21:
+ 177 001e FFF7FEFF 		bl	__aeabi_ui2f
+ 178              	.LVL22:
+  59:.\sensirion_temprh.c **** 	if(RH == 999)
+  60:.\sensirion_temprh.c **** 		returnValue.valid = 1;
+  61:.\sensirion_temprh.c ****     returnValue.rh = -6 + 125*(RH/65532);
+ 179              		.loc 1 61 0
+ 180 0022 1D49     		ldr	r1, .L15+16
+ 181 0024 FFF7FEFF 		bl	__aeabi_fdiv
+ 182              	.LVL23:
+ 183 0028 1C49     		ldr	r1, .L15+20
+ 184 002a FFF7FEFF 		bl	__aeabi_fmul
+ 185              	.LVL24:
+ 186 002e 1C49     		ldr	r1, .L15+24
+ 187 0030 FFF7FEFF 		bl	__aeabi_fsub
+ 188              	.LVL25:
+ 189 0034 2060     		str	r0, [r4]	@ float
+  62:.\sensirion_temprh.c ****     
+  63:.\sensirion_temprh.c ****     float TEMP = (float) Get_SensironValue(SENSIRION_TEMP_COMMAND);
+ 190              		.loc 1 63 0
+ 191 0036 E320     		movs	r0, #227
+ 192 0038 FFF7FEFF 		bl	Get_SensironValue
+ 193              	.LVL26:
+ 194 003c FFF7FEFF 		bl	__aeabi_ui2f
+ 195              	.LVL27:
+ 196 0040 0546     		mov	r5, r0
+ 197              	.LVL28:
+  64:.\sensirion_temprh.c **** 	if(TEMP == 999)
+ 198              		.loc 1 64 0
+ 199 0042 1849     		ldr	r1, .L15+28
+ 200 0044 FFF7FEFF 		bl	__aeabi_fcmpeq
+ 201              	.LVL29:
+ 202 0048 08B1     		cbz	r0, .L11
+  65:.\sensirion_temprh.c **** 		returnValue.valid = 1;
+ 203              		.loc 1 65 0
+ 204 004a 0123     		movs	r3, #1
+ 205 004c 2372     		strb	r3, [r4, #8]
+ 206              	.L11:
+  66:.\sensirion_temprh.c ****     returnValue.temp = -46.85 + 175.72*(TEMP/65532);
+ 207              		.loc 1 66 0
+ 208 004e 2846     		mov	r0, r5
+ 209 0050 1149     		ldr	r1, .L15+16
+ 210 0052 FFF7FEFF 		bl	__aeabi_fdiv
+ 211              	.LVL30:
+ 212 0056 FFF7FEFF 		bl	__aeabi_f2d
+ 213              	.LVL31:
+ 214 005a 0BA3     		adr	r3, .L15
+ 215 005c D3E90023 		ldrd	r2, [r3]
+ARM GAS  C:\Users\cps\AppData\Local\Temp\ccA0aEMk.s 			page 6
+
+
+ 216 0060 FFF7FEFF 		bl	__aeabi_dmul
+ 217              	.LVL32:
+ 218 0064 0AA3     		adr	r3, .L15+8
+ 219 0066 D3E90023 		ldrd	r2, [r3]
+ 220 006a FFF7FEFF 		bl	__aeabi_dsub
+ 221              	.LVL33:
+ 222 006e FFF7FEFF 		bl	__aeabi_d2f
+ 223              	.LVL34:
+ 224 0072 6060     		str	r0, [r4, #4]	@ float
+  67:.\sensirion_temprh.c ****     
+  68:.\sensirion_temprh.c ****     //turn sensor off
+  69:.\sensirion_temprh.c **** 	Sensirion_I2C_Stop();
+ 225              		.loc 1 69 0
+ 226 0074 FFF7FEFF 		bl	Sensirion_I2C_Stop
+ 227              	.LVL35:
+  70:.\sensirion_temprh.c ****     Sensirion_Power_Write(0u);
+ 228              		.loc 1 70 0
+ 229 0078 0020     		movs	r0, #0
+ 230 007a FFF7FEFF 		bl	Sensirion_Power_Write
+ 231              	.LVL36:
+  71:.\sensirion_temprh.c ****     return returnValue;
+  72:.\sensirion_temprh.c **** 
+  73:.\sensirion_temprh.c **** 
+  74:.\sensirion_temprh.c **** }
+ 232              		.loc 1 74 0
+ 233 007e 2046     		mov	r0, r4
+ 234 0080 38BD     		pop	{r3, r4, r5, pc}
+ 235              	.LVL37:
+ 236              	.L16:
+ 237 0082 00BFAFF3 		.align	3
+ 237      0080
+ 238              	.L15:
+ 239 0088 D7A3703D 		.word	1030792151
+ 240 008c 0AF76540 		.word	1080424202
+ 241 0090 CDCCCCCC 		.word	-858993459
+ 242 0094 CC6C4740 		.word	1078422732
+ 243 0098 00FC7F47 		.word	1199569920
+ 244 009c 0000FA42 		.word	1123680256
+ 245 00a0 0000C040 		.word	1086324736
+ 246 00a4 00C07944 		.word	1148829696
+ 247              		.cfi_endproc
+ 248              	.LFE64:
+ 249              		.size	Take_TempRH_Reading, .-Take_TempRH_Reading
+ 250              		.text
+ 251              	.Letext0:
+ 252              		.file 2 "c:\\program files (x86)\\cypress\\psoc creator\\3.3\\psoc creator\\import\\gnu\\arm\\4.9.
+ 253              		.file 3 "c:\\program files (x86)\\cypress\\psoc creator\\3.3\\psoc creator\\import\\gnu\\arm\\4.9.
+ 254              		.file 4 "Generated_Source\\PSoC5/cytypes.h"
+ 255              		.file 5 ".\\sensirion_temprh.h"
+ 256              		.file 6 "Generated_Source\\PSoC5/Sensirion_I2C.h"
+ 257              		.file 7 "Generated_Source\\PSoC5/CyLib.h"
+ 258              		.file 8 "Generated_Source\\PSoC5/Sensirion_Power.h"
+ 259              		.file 9 "Generated_Source\\PSoC5/core_cm3.h"
+ 260              		.section	.debug_info,"",%progbits
+ 261              	.Ldebug_info0:
+ 262 0000 4B030000 		.4byte	0x34b
+ 263 0004 0400     		.2byte	0x4
+ARM GAS  C:\Users\cps\AppData\Local\Temp\ccA0aEMk.s 			page 7
+
+
+ 264 0006 00000000 		.4byte	.Ldebug_abbrev0
+ 265 000a 04       		.byte	0x4
+ 266 000b 01       		.uleb128 0x1
+ 267 000c 2F010000 		.4byte	.LASF32
+ 268 0010 01       		.byte	0x1
+ 269 0011 F9000000 		.4byte	.LASF33
+ 270 0015 3C020000 		.4byte	.LASF34
+ 271 0019 00000000 		.4byte	.Ldebug_ranges0+0
+ 272 001d 00000000 		.4byte	0
+ 273 0021 00000000 		.4byte	.Ldebug_line0
+ 274 0025 02       		.uleb128 0x2
+ 275 0026 01       		.byte	0x1
+ 276 0027 06       		.byte	0x6
+ 277 0028 C2020000 		.4byte	.LASF0
+ 278 002c 02       		.uleb128 0x2
+ 279 002d 01       		.byte	0x1
+ 280 002e 08       		.byte	0x8
+ 281 002f 7E000000 		.4byte	.LASF1
+ 282 0033 02       		.uleb128 0x2
+ 283 0034 02       		.byte	0x2
+ 284 0035 05       		.byte	0x5
+ 285 0036 A9020000 		.4byte	.LASF2
+ 286 003a 02       		.uleb128 0x2
+ 287 003b 02       		.byte	0x2
+ 288 003c 07       		.byte	0x7
+ 289 003d CD000000 		.4byte	.LASF3
+ 290 0041 03       		.uleb128 0x3
+ 291 0042 1C000000 		.4byte	.LASF9
+ 292 0046 02       		.byte	0x2
+ 293 0047 3F       		.byte	0x3f
+ 294 0048 4C000000 		.4byte	0x4c
+ 295 004c 02       		.uleb128 0x2
+ 296 004d 04       		.byte	0x4
+ 297 004e 05       		.byte	0x5
+ 298 004f B9020000 		.4byte	.LASF4
+ 299 0053 02       		.uleb128 0x2
+ 300 0054 04       		.byte	0x4
+ 301 0055 07       		.byte	0x7
+ 302 0056 B6000000 		.4byte	.LASF5
+ 303 005a 02       		.uleb128 0x2
+ 304 005b 08       		.byte	0x8
+ 305 005c 05       		.byte	0x5
+ 306 005d 29020000 		.4byte	.LASF6
+ 307 0061 02       		.uleb128 0x2
+ 308 0062 08       		.byte	0x8
+ 309 0063 07       		.byte	0x7
+ 310 0064 D4010000 		.4byte	.LASF7
+ 311 0068 04       		.uleb128 0x4
+ 312 0069 04       		.byte	0x4
+ 313 006a 05       		.byte	0x5
+ 314 006b 696E7400 		.ascii	"int\000"
+ 315 006f 02       		.uleb128 0x2
+ 316 0070 04       		.byte	0x4
+ 317 0071 07       		.byte	0x7
+ 318 0072 BD010000 		.4byte	.LASF8
+ 319 0076 03       		.uleb128 0x3
+ 320 0077 EB010000 		.4byte	.LASF10
+ARM GAS  C:\Users\cps\AppData\Local\Temp\ccA0aEMk.s 			page 8
+
+
+ 321 007b 03       		.byte	0x3
+ 322 007c 2C       		.byte	0x2c
+ 323 007d 41000000 		.4byte	0x41
+ 324 0081 05       		.uleb128 0x5
+ 325 0082 B3020000 		.4byte	.LASF11
+ 326 0086 04       		.byte	0x4
+ 327 0087 3801     		.2byte	0x138
+ 328 0089 2C000000 		.4byte	0x2c
+ 329 008d 05       		.uleb128 0x5
+ 330 008e 21010000 		.4byte	.LASF12
+ 331 0092 04       		.byte	0x4
+ 332 0093 3901     		.2byte	0x139
+ 333 0095 3A000000 		.4byte	0x3a
+ 334 0099 05       		.uleb128 0x5
+ 335 009a 28010000 		.4byte	.LASF13
+ 336 009e 04       		.byte	0x4
+ 337 009f 3A01     		.2byte	0x13a
+ 338 00a1 53000000 		.4byte	0x53
+ 339 00a5 02       		.uleb128 0x2
+ 340 00a6 04       		.byte	0x4
+ 341 00a7 04       		.byte	0x4
+ 342 00a8 78000000 		.4byte	.LASF14
+ 343 00ac 02       		.uleb128 0x2
+ 344 00ad 08       		.byte	0x8
+ 345 00ae 04       		.byte	0x4
+ 346 00af 71000000 		.4byte	.LASF15
+ 347 00b3 02       		.uleb128 0x2
+ 348 00b4 01       		.byte	0x1
+ 349 00b5 08       		.byte	0x8
+ 350 00b6 37020000 		.4byte	.LASF16
+ 351 00ba 02       		.uleb128 0x2
+ 352 00bb 04       		.byte	0x4
+ 353 00bc 07       		.byte	0x7
+ 354 00bd 20020000 		.4byte	.LASF17
+ 355 00c1 06       		.uleb128 0x6
+ 356 00c2 0C       		.byte	0xc
+ 357 00c3 05       		.byte	0x5
+ 358 00c4 06       		.byte	0x6
+ 359 00c5 ED000000 		.4byte	0xed
+ 360 00c9 07       		.uleb128 0x7
+ 361 00ca 726800   		.ascii	"rh\000"
+ 362 00cd 05       		.byte	0x5
+ 363 00ce 07       		.byte	0x7
+ 364 00cf A5000000 		.4byte	0xa5
+ 365 00d3 00       		.byte	0
+ 366 00d4 08       		.uleb128 0x8
+ 367 00d5 C8000000 		.4byte	.LASF18
+ 368 00d9 05       		.byte	0x5
+ 369 00da 08       		.byte	0x8
+ 370 00db A5000000 		.4byte	0xa5
+ 371 00df 04       		.byte	0x4
+ 372 00e0 08       		.uleb128 0x8
+ 373 00e1 A3020000 		.4byte	.LASF19
+ 374 00e5 05       		.byte	0x5
+ 375 00e6 09       		.byte	0x9
+ 376 00e7 81000000 		.4byte	0x81
+ 377 00eb 08       		.byte	0x8
+ARM GAS  C:\Users\cps\AppData\Local\Temp\ccA0aEMk.s 			page 9
+
+
+ 378 00ec 00       		.byte	0
+ 379 00ed 03       		.uleb128 0x3
+ 380 00ee CA010000 		.4byte	.LASF20
+ 381 00f2 05       		.byte	0x5
+ 382 00f3 0A       		.byte	0xa
+ 383 00f4 C1000000 		.4byte	0xc1
+ 384 00f8 09       		.uleb128 0x9
+ 385 00f9 0E020000 		.4byte	.LASF35
+ 386 00fd 01       		.byte	0x1
+ 387 00fe 09       		.byte	0x9
+ 388 00ff 8D000000 		.4byte	0x8d
+ 389 0103 00000000 		.4byte	.LFB63
+ 390 0107 7A000000 		.4byte	.LFE63-.LFB63
+ 391 010b 01       		.uleb128 0x1
+ 392 010c 9C       		.byte	0x9c
+ 393 010d E3010000 		.4byte	0x1e3
+ 394 0111 0A       		.uleb128 0xa
+ 395 0112 46000000 		.4byte	.LASF36
+ 396 0116 01       		.byte	0x1
+ 397 0117 09       		.byte	0x9
+ 398 0118 81000000 		.4byte	0x81
+ 399 011c 00000000 		.4byte	.LLST0
+ 400 0120 0B       		.uleb128 0xb
+ 401 0121 6900     		.ascii	"i\000"
+ 402 0123 01       		.byte	0x1
+ 403 0124 12       		.byte	0x12
+ 404 0125 81000000 		.4byte	0x81
+ 405 0129 37000000 		.4byte	.LLST1
+ 406 012d 0C       		.uleb128 0xc
+ 407 012e 0E010000 		.4byte	.LASF21
+ 408 0132 01       		.byte	0x1
+ 409 0133 1C       		.byte	0x1c
+ 410 0134 E3010000 		.4byte	0x1e3
+ 411 0138 02       		.uleb128 0x2
+ 412 0139 91       		.byte	0x91
+ 413 013a 74       		.sleb128 -12
+ 414 013b 0D       		.uleb128 0xd
+ 415 013c 54000000 		.4byte	.LBB2
+ 416 0140 10000000 		.4byte	.LBE2-.LBB2
+ 417 0144 54010000 		.4byte	0x154
+ 418 0148 0E       		.uleb128 0xe
+ 419 0149 E0000000 		.4byte	.LASF22
+ 420 014d 01       		.byte	0x1
+ 421 014e 25       		.byte	0x25
+ 422 014f 8D000000 		.4byte	0x8d
+ 423 0153 00       		.byte	0
+ 424 0154 0F       		.uleb128 0xf
+ 425 0155 0E000000 		.4byte	.LVL1
+ 426 0159 BA020000 		.4byte	0x2ba
+ 427 015d 10       		.uleb128 0x10
+ 428 015e 1A000000 		.4byte	.LVL2
+ 429 0162 C5020000 		.4byte	0x2c5
+ 430 0166 81010000 		.4byte	0x181
+ 431 016a 11       		.uleb128 0x11
+ 432 016b 01       		.uleb128 0x1
+ 433 016c 53       		.byte	0x53
+ 434 016d 01       		.uleb128 0x1
+ARM GAS  C:\Users\cps\AppData\Local\Temp\ccA0aEMk.s 			page 10
+
+
+ 435 016e 30       		.byte	0x30
+ 436 016f 11       		.uleb128 0x11
+ 437 0170 01       		.uleb128 0x1
+ 438 0171 52       		.byte	0x52
+ 439 0172 01       		.uleb128 0x1
+ 440 0173 31       		.byte	0x31
+ 441 0174 11       		.uleb128 0x11
+ 442 0175 01       		.uleb128 0x1
+ 443 0176 51       		.byte	0x51
+ 444 0177 02       		.uleb128 0x2
+ 445 0178 74       		.byte	0x74
+ 446 0179 00       		.sleb128 0
+ 447 017a 11       		.uleb128 0x11
+ 448 017b 01       		.uleb128 0x1
+ 449 017c 50       		.byte	0x50
+ 450 017d 02       		.uleb128 0x2
+ 451 017e 08       		.byte	0x8
+ 452 017f 40       		.byte	0x40
+ 453 0180 00       		.byte	0
+ 454 0181 0F       		.uleb128 0xf
+ 455 0182 22000000 		.4byte	.LVL5
+ 456 0186 EF020000 		.4byte	0x2ef
+ 457 018a 10       		.uleb128 0x10
+ 458 018b 2E000000 		.4byte	.LVL6
+ 459 018f FA020000 		.4byte	0x2fa
+ 460 0193 9D010000 		.4byte	0x19d
+ 461 0197 11       		.uleb128 0x11
+ 462 0198 01       		.uleb128 0x1
+ 463 0199 50       		.byte	0x50
+ 464 019a 01       		.uleb128 0x1
+ 465 019b 3A       		.byte	0x3a
+ 466 019c 00       		.byte	0
+ 467 019d 0F       		.uleb128 0xf
+ 468 019e 3A000000 		.4byte	.LVL9
+ 469 01a2 BA020000 		.4byte	0x2ba
+ 470 01a6 10       		.uleb128 0x10
+ 471 01a7 46000000 		.4byte	.LVL10
+ 472 01ab 0B030000 		.4byte	0x30b
+ 473 01af CA010000 		.4byte	0x1ca
+ 474 01b3 11       		.uleb128 0x11
+ 475 01b4 01       		.uleb128 0x1
+ 476 01b5 53       		.byte	0x53
+ 477 01b6 01       		.uleb128 0x1
+ 478 01b7 30       		.byte	0x30
+ 479 01b8 11       		.uleb128 0x11
+ 480 01b9 01       		.uleb128 0x1
+ 481 01ba 52       		.byte	0x52
+ 482 01bb 01       		.uleb128 0x1
+ 483 01bc 32       		.byte	0x32
+ 484 01bd 11       		.uleb128 0x11
+ 485 01be 01       		.uleb128 0x1
+ 486 01bf 51       		.byte	0x51
+ 487 01c0 02       		.uleb128 0x2
+ 488 01c1 91       		.byte	0x91
+ 489 01c2 74       		.sleb128 -12
+ 490 01c3 11       		.uleb128 0x11
+ 491 01c4 01       		.uleb128 0x1
+ARM GAS  C:\Users\cps\AppData\Local\Temp\ccA0aEMk.s 			page 11
+
+
+ 492 01c5 50       		.byte	0x50
+ 493 01c6 02       		.uleb128 0x2
+ 494 01c7 08       		.byte	0x8
+ 495 01c8 40       		.byte	0x40
+ 496 01c9 00       		.byte	0
+ 497 01ca 0F       		.uleb128 0xf
+ 498 01cb 4E000000 		.4byte	.LVL12
+ 499 01cf EF020000 		.4byte	0x2ef
+ 500 01d3 12       		.uleb128 0x12
+ 501 01d4 6A000000 		.4byte	.LVL13
+ 502 01d8 FA020000 		.4byte	0x2fa
+ 503 01dc 11       		.uleb128 0x11
+ 504 01dd 01       		.uleb128 0x1
+ 505 01de 50       		.byte	0x50
+ 506 01df 01       		.uleb128 0x1
+ 507 01e0 3A       		.byte	0x3a
+ 508 01e1 00       		.byte	0
+ 509 01e2 00       		.byte	0
+ 510 01e3 13       		.uleb128 0x13
+ 511 01e4 81000000 		.4byte	0x81
+ 512 01e8 F3010000 		.4byte	0x1f3
+ 513 01ec 14       		.uleb128 0x14
+ 514 01ed BA000000 		.4byte	0xba
+ 515 01f1 01       		.byte	0x1
+ 516 01f2 00       		.byte	0
+ 517 01f3 15       		.uleb128 0x15
+ 518 01f4 E9020000 		.4byte	.LASF37
+ 519 01f8 01       		.byte	0x1
+ 520 01f9 2E       		.byte	0x2e
+ 521 01fa ED000000 		.4byte	0xed
+ 522 01fe 00000000 		.4byte	.LFB64
+ 523 0202 A8000000 		.4byte	.LFE64-.LFB64
+ 524 0206 01       		.uleb128 0x1
+ 525 0207 9C       		.byte	0x9c
+ 526 0208 A9020000 		.4byte	0x2a9
+ 527 020c 16       		.uleb128 0x16
+ 528 020d E0000000 		.4byte	.LASF22
+ 529 0211 01       		.byte	0x1
+ 530 0212 37       		.byte	0x37
+ 531 0213 ED000000 		.4byte	0xed
+ 532 0217 83000000 		.4byte	.LLST2
+ 533 021b 0B       		.uleb128 0xb
+ 534 021c 524800   		.ascii	"RH\000"
+ 535 021f 01       		.byte	0x1
+ 536 0220 3A       		.byte	0x3a
+ 537 0221 A5000000 		.4byte	0xa5
+ 538 0225 AF000000 		.4byte	.LLST3
+ 539 0229 16       		.uleb128 0x16
+ 540 022a 1C010000 		.4byte	.LASF23
+ 541 022e 01       		.byte	0x1
+ 542 022f 3F       		.byte	0x3f
+ 543 0230 A5000000 		.4byte	0xa5
+ 544 0234 C2000000 		.4byte	.LLST4
+ 545 0238 0F       		.uleb128 0xf
+ 546 0239 08000000 		.4byte	.LVL18
+ 547 023d 2F030000 		.4byte	0x32f
+ 548 0241 10       		.uleb128 0x10
+ARM GAS  C:\Users\cps\AppData\Local\Temp\ccA0aEMk.s 			page 12
+
+
+ 549 0242 0E000000 		.4byte	.LVL19
+ 550 0246 36030000 		.4byte	0x336
+ 551 024a 54020000 		.4byte	0x254
+ 552 024e 11       		.uleb128 0x11
+ 553 024f 01       		.uleb128 0x1
+ 554 0250 50       		.byte	0x50
+ 555 0251 01       		.uleb128 0x1
+ 556 0252 31       		.byte	0x31
+ 557 0253 00       		.byte	0
+ 558 0254 10       		.uleb128 0x10
+ 559 0255 14000000 		.4byte	.LVL20
+ 560 0259 FA020000 		.4byte	0x2fa
+ 561 025d 68020000 		.4byte	0x268
+ 562 0261 11       		.uleb128 0x11
+ 563 0262 01       		.uleb128 0x1
+ 564 0263 50       		.byte	0x50
+ 565 0264 02       		.uleb128 0x2
+ 566 0265 08       		.byte	0x8
+ 567 0266 C8       		.byte	0xc8
+ 568 0267 00       		.byte	0
+ 569 0268 10       		.uleb128 0x10
+ 570 0269 1E000000 		.4byte	.LVL21
+ 571 026d F8000000 		.4byte	0xf8
+ 572 0271 7C020000 		.4byte	0x27c
+ 573 0275 11       		.uleb128 0x11
+ 574 0276 01       		.uleb128 0x1
+ 575 0277 50       		.byte	0x50
+ 576 0278 02       		.uleb128 0x2
+ 577 0279 09       		.byte	0x9
+ 578 027a E5       		.byte	0xe5
+ 579 027b 00       		.byte	0
+ 580 027c 10       		.uleb128 0x10
+ 581 027d 3C000000 		.4byte	.LVL26
+ 582 0281 F8000000 		.4byte	0xf8
+ 583 0285 90020000 		.4byte	0x290
+ 584 0289 11       		.uleb128 0x11
+ 585 028a 01       		.uleb128 0x1
+ 586 028b 50       		.byte	0x50
+ 587 028c 02       		.uleb128 0x2
+ 588 028d 09       		.byte	0x9
+ 589 028e E3       		.byte	0xe3
+ 590 028f 00       		.byte	0
+ 591 0290 0F       		.uleb128 0xf
+ 592 0291 78000000 		.4byte	.LVL35
+ 593 0295 47030000 		.4byte	0x347
+ 594 0299 12       		.uleb128 0x12
+ 595 029a 7E000000 		.4byte	.LVL36
+ 596 029e 36030000 		.4byte	0x336
+ 597 02a2 11       		.uleb128 0x11
+ 598 02a3 01       		.uleb128 0x1
+ 599 02a4 50       		.byte	0x50
+ 600 02a5 01       		.uleb128 0x1
+ 601 02a6 30       		.byte	0x30
+ 602 02a7 00       		.byte	0
+ 603 02a8 00       		.byte	0
+ 604 02a9 17       		.uleb128 0x17
+ 605 02aa EC000000 		.4byte	.LASF38
+ARM GAS  C:\Users\cps\AppData\Local\Temp\ccA0aEMk.s 			page 13
+
+
+ 606 02ae 09       		.byte	0x9
+ 607 02af 5506     		.2byte	0x655
+ 608 02b1 B5020000 		.4byte	0x2b5
+ 609 02b5 18       		.uleb128 0x18
+ 610 02b6 76000000 		.4byte	0x76
+ 611 02ba 19       		.uleb128 0x19
+ 612 02bb 26000000 		.4byte	.LASF24
+ 613 02bf 06       		.byte	0x6
+ 614 02c0 BD       		.byte	0xbd
+ 615 02c1 81000000 		.4byte	0x81
+ 616 02c5 1A       		.uleb128 0x1a
+ 617 02c6 54000000 		.4byte	.LASF26
+ 618 02ca 06       		.byte	0x6
+ 619 02cb C0       		.byte	0xc0
+ 620 02cc 81000000 		.4byte	0x81
+ 621 02d0 E9020000 		.4byte	0x2e9
+ 622 02d4 1B       		.uleb128 0x1b
+ 623 02d5 81000000 		.4byte	0x81
+ 624 02d9 1B       		.uleb128 0x1b
+ 625 02da E9020000 		.4byte	0x2e9
+ 626 02de 1B       		.uleb128 0x1b
+ 627 02df 81000000 		.4byte	0x81
+ 628 02e3 1B       		.uleb128 0x1b
+ 629 02e4 81000000 		.4byte	0x81
+ 630 02e8 00       		.byte	0
+ 631 02e9 1C       		.uleb128 0x1c
+ 632 02ea 04       		.byte	0x4
+ 633 02eb 81000000 		.4byte	0x81
+ 634 02ef 19       		.uleb128 0x19
+ 635 02f0 F3010000 		.4byte	.LASF25
+ 636 02f4 06       		.byte	0x6
+ 637 02f5 BC       		.byte	0xbc
+ 638 02f6 81000000 		.4byte	0x81
+ 639 02fa 1D       		.uleb128 0x1d
+ 640 02fb E1020000 		.4byte	.LASF28
+ 641 02ff 07       		.byte	0x7
+ 642 0300 77       		.byte	0x77
+ 643 0301 0B030000 		.4byte	0x30b
+ 644 0305 1B       		.uleb128 0x1b
+ 645 0306 99000000 		.4byte	0x99
+ 646 030a 00       		.byte	0
+ 647 030b 1A       		.uleb128 0x1a
+ 648 030c 00000000 		.4byte	.LASF27
+ 649 0310 06       		.byte	0x6
+ 650 0311 C2       		.byte	0xc2
+ 651 0312 81000000 		.4byte	0x81
+ 652 0316 2F030000 		.4byte	0x32f
+ 653 031a 1B       		.uleb128 0x1b
+ 654 031b 81000000 		.4byte	0x81
+ 655 031f 1B       		.uleb128 0x1b
+ 656 0320 E9020000 		.4byte	0x2e9
+ 657 0324 1B       		.uleb128 0x1b
+ 658 0325 81000000 		.4byte	0x81
+ 659 0329 1B       		.uleb128 0x1b
+ 660 032a 81000000 		.4byte	0x81
+ 661 032e 00       		.byte	0
+ 662 032f 1E       		.uleb128 0x1e
+ARM GAS  C:\Users\cps\AppData\Local\Temp\ccA0aEMk.s 			page 14
+
+
+ 663 0330 8C000000 		.4byte	.LASF30
+ 664 0334 06       		.byte	0x6
+ 665 0335 AC       		.byte	0xac
+ 666 0336 1D       		.uleb128 0x1d
+ 667 0337 A0000000 		.4byte	.LASF29
+ 668 033b 08       		.byte	0x8
+ 669 033c 28       		.byte	0x28
+ 670 033d 47030000 		.4byte	0x347
+ 671 0341 1B       		.uleb128 0x1b
+ 672 0342 81000000 		.4byte	0x81
+ 673 0346 00       		.byte	0
+ 674 0347 1E       		.uleb128 0x1e
+ 675 0348 CE020000 		.4byte	.LASF31
+ 676 034c 06       		.byte	0x6
+ 677 034d AD       		.byte	0xad
+ 678 034e 00       		.byte	0
+ 679              		.section	.debug_abbrev,"",%progbits
+ 680              	.Ldebug_abbrev0:
+ 681 0000 01       		.uleb128 0x1
+ 682 0001 11       		.uleb128 0x11
+ 683 0002 01       		.byte	0x1
+ 684 0003 25       		.uleb128 0x25
+ 685 0004 0E       		.uleb128 0xe
+ 686 0005 13       		.uleb128 0x13
+ 687 0006 0B       		.uleb128 0xb
+ 688 0007 03       		.uleb128 0x3
+ 689 0008 0E       		.uleb128 0xe
+ 690 0009 1B       		.uleb128 0x1b
+ 691 000a 0E       		.uleb128 0xe
+ 692 000b 55       		.uleb128 0x55
+ 693 000c 17       		.uleb128 0x17
+ 694 000d 11       		.uleb128 0x11
+ 695 000e 01       		.uleb128 0x1
+ 696 000f 10       		.uleb128 0x10
+ 697 0010 17       		.uleb128 0x17
+ 698 0011 00       		.byte	0
+ 699 0012 00       		.byte	0
+ 700 0013 02       		.uleb128 0x2
+ 701 0014 24       		.uleb128 0x24
+ 702 0015 00       		.byte	0
+ 703 0016 0B       		.uleb128 0xb
+ 704 0017 0B       		.uleb128 0xb
+ 705 0018 3E       		.uleb128 0x3e
+ 706 0019 0B       		.uleb128 0xb
+ 707 001a 03       		.uleb128 0x3
+ 708 001b 0E       		.uleb128 0xe
+ 709 001c 00       		.byte	0
+ 710 001d 00       		.byte	0
+ 711 001e 03       		.uleb128 0x3
+ 712 001f 16       		.uleb128 0x16
+ 713 0020 00       		.byte	0
+ 714 0021 03       		.uleb128 0x3
+ 715 0022 0E       		.uleb128 0xe
+ 716 0023 3A       		.uleb128 0x3a
+ 717 0024 0B       		.uleb128 0xb
+ 718 0025 3B       		.uleb128 0x3b
+ 719 0026 0B       		.uleb128 0xb
+ARM GAS  C:\Users\cps\AppData\Local\Temp\ccA0aEMk.s 			page 15
+
+
+ 720 0027 49       		.uleb128 0x49
+ 721 0028 13       		.uleb128 0x13
+ 722 0029 00       		.byte	0
+ 723 002a 00       		.byte	0
+ 724 002b 04       		.uleb128 0x4
+ 725 002c 24       		.uleb128 0x24
+ 726 002d 00       		.byte	0
+ 727 002e 0B       		.uleb128 0xb
+ 728 002f 0B       		.uleb128 0xb
+ 729 0030 3E       		.uleb128 0x3e
+ 730 0031 0B       		.uleb128 0xb
+ 731 0032 03       		.uleb128 0x3
+ 732 0033 08       		.uleb128 0x8
+ 733 0034 00       		.byte	0
+ 734 0035 00       		.byte	0
+ 735 0036 05       		.uleb128 0x5
+ 736 0037 16       		.uleb128 0x16
+ 737 0038 00       		.byte	0
+ 738 0039 03       		.uleb128 0x3
+ 739 003a 0E       		.uleb128 0xe
+ 740 003b 3A       		.uleb128 0x3a
+ 741 003c 0B       		.uleb128 0xb
+ 742 003d 3B       		.uleb128 0x3b
+ 743 003e 05       		.uleb128 0x5
+ 744 003f 49       		.uleb128 0x49
+ 745 0040 13       		.uleb128 0x13
+ 746 0041 00       		.byte	0
+ 747 0042 00       		.byte	0
+ 748 0043 06       		.uleb128 0x6
+ 749 0044 13       		.uleb128 0x13
+ 750 0045 01       		.byte	0x1
+ 751 0046 0B       		.uleb128 0xb
+ 752 0047 0B       		.uleb128 0xb
+ 753 0048 3A       		.uleb128 0x3a
+ 754 0049 0B       		.uleb128 0xb
+ 755 004a 3B       		.uleb128 0x3b
+ 756 004b 0B       		.uleb128 0xb
+ 757 004c 01       		.uleb128 0x1
+ 758 004d 13       		.uleb128 0x13
+ 759 004e 00       		.byte	0
+ 760 004f 00       		.byte	0
+ 761 0050 07       		.uleb128 0x7
+ 762 0051 0D       		.uleb128 0xd
+ 763 0052 00       		.byte	0
+ 764 0053 03       		.uleb128 0x3
+ 765 0054 08       		.uleb128 0x8
+ 766 0055 3A       		.uleb128 0x3a
+ 767 0056 0B       		.uleb128 0xb
+ 768 0057 3B       		.uleb128 0x3b
+ 769 0058 0B       		.uleb128 0xb
+ 770 0059 49       		.uleb128 0x49
+ 771 005a 13       		.uleb128 0x13
+ 772 005b 38       		.uleb128 0x38
+ 773 005c 0B       		.uleb128 0xb
+ 774 005d 00       		.byte	0
+ 775 005e 00       		.byte	0
+ 776 005f 08       		.uleb128 0x8
+ARM GAS  C:\Users\cps\AppData\Local\Temp\ccA0aEMk.s 			page 16
+
+
+ 777 0060 0D       		.uleb128 0xd
+ 778 0061 00       		.byte	0
+ 779 0062 03       		.uleb128 0x3
+ 780 0063 0E       		.uleb128 0xe
+ 781 0064 3A       		.uleb128 0x3a
+ 782 0065 0B       		.uleb128 0xb
+ 783 0066 3B       		.uleb128 0x3b
+ 784 0067 0B       		.uleb128 0xb
+ 785 0068 49       		.uleb128 0x49
+ 786 0069 13       		.uleb128 0x13
+ 787 006a 38       		.uleb128 0x38
+ 788 006b 0B       		.uleb128 0xb
+ 789 006c 00       		.byte	0
+ 790 006d 00       		.byte	0
+ 791 006e 09       		.uleb128 0x9
+ 792 006f 2E       		.uleb128 0x2e
+ 793 0070 01       		.byte	0x1
+ 794 0071 3F       		.uleb128 0x3f
+ 795 0072 19       		.uleb128 0x19
+ 796 0073 03       		.uleb128 0x3
+ 797 0074 0E       		.uleb128 0xe
+ 798 0075 3A       		.uleb128 0x3a
+ 799 0076 0B       		.uleb128 0xb
+ 800 0077 3B       		.uleb128 0x3b
+ 801 0078 0B       		.uleb128 0xb
+ 802 0079 27       		.uleb128 0x27
+ 803 007a 19       		.uleb128 0x19
+ 804 007b 49       		.uleb128 0x49
+ 805 007c 13       		.uleb128 0x13
+ 806 007d 11       		.uleb128 0x11
+ 807 007e 01       		.uleb128 0x1
+ 808 007f 12       		.uleb128 0x12
+ 809 0080 06       		.uleb128 0x6
+ 810 0081 40       		.uleb128 0x40
+ 811 0082 18       		.uleb128 0x18
+ 812 0083 9742     		.uleb128 0x2117
+ 813 0085 19       		.uleb128 0x19
+ 814 0086 01       		.uleb128 0x1
+ 815 0087 13       		.uleb128 0x13
+ 816 0088 00       		.byte	0
+ 817 0089 00       		.byte	0
+ 818 008a 0A       		.uleb128 0xa
+ 819 008b 05       		.uleb128 0x5
+ 820 008c 00       		.byte	0
+ 821 008d 03       		.uleb128 0x3
+ 822 008e 0E       		.uleb128 0xe
+ 823 008f 3A       		.uleb128 0x3a
+ 824 0090 0B       		.uleb128 0xb
+ 825 0091 3B       		.uleb128 0x3b
+ 826 0092 0B       		.uleb128 0xb
+ 827 0093 49       		.uleb128 0x49
+ 828 0094 13       		.uleb128 0x13
+ 829 0095 02       		.uleb128 0x2
+ 830 0096 17       		.uleb128 0x17
+ 831 0097 00       		.byte	0
+ 832 0098 00       		.byte	0
+ 833 0099 0B       		.uleb128 0xb
+ARM GAS  C:\Users\cps\AppData\Local\Temp\ccA0aEMk.s 			page 17
+
+
+ 834 009a 34       		.uleb128 0x34
+ 835 009b 00       		.byte	0
+ 836 009c 03       		.uleb128 0x3
+ 837 009d 08       		.uleb128 0x8
+ 838 009e 3A       		.uleb128 0x3a
+ 839 009f 0B       		.uleb128 0xb
+ 840 00a0 3B       		.uleb128 0x3b
+ 841 00a1 0B       		.uleb128 0xb
+ 842 00a2 49       		.uleb128 0x49
+ 843 00a3 13       		.uleb128 0x13
+ 844 00a4 02       		.uleb128 0x2
+ 845 00a5 17       		.uleb128 0x17
+ 846 00a6 00       		.byte	0
+ 847 00a7 00       		.byte	0
+ 848 00a8 0C       		.uleb128 0xc
+ 849 00a9 34       		.uleb128 0x34
+ 850 00aa 00       		.byte	0
+ 851 00ab 03       		.uleb128 0x3
+ 852 00ac 0E       		.uleb128 0xe
+ 853 00ad 3A       		.uleb128 0x3a
+ 854 00ae 0B       		.uleb128 0xb
+ 855 00af 3B       		.uleb128 0x3b
+ 856 00b0 0B       		.uleb128 0xb
+ 857 00b1 49       		.uleb128 0x49
+ 858 00b2 13       		.uleb128 0x13
+ 859 00b3 02       		.uleb128 0x2
+ 860 00b4 18       		.uleb128 0x18
+ 861 00b5 00       		.byte	0
+ 862 00b6 00       		.byte	0
+ 863 00b7 0D       		.uleb128 0xd
+ 864 00b8 0B       		.uleb128 0xb
+ 865 00b9 01       		.byte	0x1
+ 866 00ba 11       		.uleb128 0x11
+ 867 00bb 01       		.uleb128 0x1
+ 868 00bc 12       		.uleb128 0x12
+ 869 00bd 06       		.uleb128 0x6
+ 870 00be 01       		.uleb128 0x1
+ 871 00bf 13       		.uleb128 0x13
+ 872 00c0 00       		.byte	0
+ 873 00c1 00       		.byte	0
+ 874 00c2 0E       		.uleb128 0xe
+ 875 00c3 34       		.uleb128 0x34
+ 876 00c4 00       		.byte	0
+ 877 00c5 03       		.uleb128 0x3
+ 878 00c6 0E       		.uleb128 0xe
+ 879 00c7 3A       		.uleb128 0x3a
+ 880 00c8 0B       		.uleb128 0xb
+ 881 00c9 3B       		.uleb128 0x3b
+ 882 00ca 0B       		.uleb128 0xb
+ 883 00cb 49       		.uleb128 0x49
+ 884 00cc 13       		.uleb128 0x13
+ 885 00cd 00       		.byte	0
+ 886 00ce 00       		.byte	0
+ 887 00cf 0F       		.uleb128 0xf
+ 888 00d0 898201   		.uleb128 0x4109
+ 889 00d3 00       		.byte	0
+ 890 00d4 11       		.uleb128 0x11
+ARM GAS  C:\Users\cps\AppData\Local\Temp\ccA0aEMk.s 			page 18
+
+
+ 891 00d5 01       		.uleb128 0x1
+ 892 00d6 31       		.uleb128 0x31
+ 893 00d7 13       		.uleb128 0x13
+ 894 00d8 00       		.byte	0
+ 895 00d9 00       		.byte	0
+ 896 00da 10       		.uleb128 0x10
+ 897 00db 898201   		.uleb128 0x4109
+ 898 00de 01       		.byte	0x1
+ 899 00df 11       		.uleb128 0x11
+ 900 00e0 01       		.uleb128 0x1
+ 901 00e1 31       		.uleb128 0x31
+ 902 00e2 13       		.uleb128 0x13
+ 903 00e3 01       		.uleb128 0x1
+ 904 00e4 13       		.uleb128 0x13
+ 905 00e5 00       		.byte	0
+ 906 00e6 00       		.byte	0
+ 907 00e7 11       		.uleb128 0x11
+ 908 00e8 8A8201   		.uleb128 0x410a
+ 909 00eb 00       		.byte	0
+ 910 00ec 02       		.uleb128 0x2
+ 911 00ed 18       		.uleb128 0x18
+ 912 00ee 9142     		.uleb128 0x2111
+ 913 00f0 18       		.uleb128 0x18
+ 914 00f1 00       		.byte	0
+ 915 00f2 00       		.byte	0
+ 916 00f3 12       		.uleb128 0x12
+ 917 00f4 898201   		.uleb128 0x4109
+ 918 00f7 01       		.byte	0x1
+ 919 00f8 11       		.uleb128 0x11
+ 920 00f9 01       		.uleb128 0x1
+ 921 00fa 31       		.uleb128 0x31
+ 922 00fb 13       		.uleb128 0x13
+ 923 00fc 00       		.byte	0
+ 924 00fd 00       		.byte	0
+ 925 00fe 13       		.uleb128 0x13
+ 926 00ff 01       		.uleb128 0x1
+ 927 0100 01       		.byte	0x1
+ 928 0101 49       		.uleb128 0x49
+ 929 0102 13       		.uleb128 0x13
+ 930 0103 01       		.uleb128 0x1
+ 931 0104 13       		.uleb128 0x13
+ 932 0105 00       		.byte	0
+ 933 0106 00       		.byte	0
+ 934 0107 14       		.uleb128 0x14
+ 935 0108 21       		.uleb128 0x21
+ 936 0109 00       		.byte	0
+ 937 010a 49       		.uleb128 0x49
+ 938 010b 13       		.uleb128 0x13
+ 939 010c 2F       		.uleb128 0x2f
+ 940 010d 0B       		.uleb128 0xb
+ 941 010e 00       		.byte	0
+ 942 010f 00       		.byte	0
+ 943 0110 15       		.uleb128 0x15
+ 944 0111 2E       		.uleb128 0x2e
+ 945 0112 01       		.byte	0x1
+ 946 0113 3F       		.uleb128 0x3f
+ 947 0114 19       		.uleb128 0x19
+ARM GAS  C:\Users\cps\AppData\Local\Temp\ccA0aEMk.s 			page 19
+
+
+ 948 0115 03       		.uleb128 0x3
+ 949 0116 0E       		.uleb128 0xe
+ 950 0117 3A       		.uleb128 0x3a
+ 951 0118 0B       		.uleb128 0xb
+ 952 0119 3B       		.uleb128 0x3b
+ 953 011a 0B       		.uleb128 0xb
+ 954 011b 49       		.uleb128 0x49
+ 955 011c 13       		.uleb128 0x13
+ 956 011d 11       		.uleb128 0x11
+ 957 011e 01       		.uleb128 0x1
+ 958 011f 12       		.uleb128 0x12
+ 959 0120 06       		.uleb128 0x6
+ 960 0121 40       		.uleb128 0x40
+ 961 0122 18       		.uleb128 0x18
+ 962 0123 9642     		.uleb128 0x2116
+ 963 0125 19       		.uleb128 0x19
+ 964 0126 01       		.uleb128 0x1
+ 965 0127 13       		.uleb128 0x13
+ 966 0128 00       		.byte	0
+ 967 0129 00       		.byte	0
+ 968 012a 16       		.uleb128 0x16
+ 969 012b 34       		.uleb128 0x34
+ 970 012c 00       		.byte	0
+ 971 012d 03       		.uleb128 0x3
+ 972 012e 0E       		.uleb128 0xe
+ 973 012f 3A       		.uleb128 0x3a
+ 974 0130 0B       		.uleb128 0xb
+ 975 0131 3B       		.uleb128 0x3b
+ 976 0132 0B       		.uleb128 0xb
+ 977 0133 49       		.uleb128 0x49
+ 978 0134 13       		.uleb128 0x13
+ 979 0135 02       		.uleb128 0x2
+ 980 0136 17       		.uleb128 0x17
+ 981 0137 00       		.byte	0
+ 982 0138 00       		.byte	0
+ 983 0139 17       		.uleb128 0x17
+ 984 013a 34       		.uleb128 0x34
+ 985 013b 00       		.byte	0
+ 986 013c 03       		.uleb128 0x3
+ 987 013d 0E       		.uleb128 0xe
+ 988 013e 3A       		.uleb128 0x3a
+ 989 013f 0B       		.uleb128 0xb
+ 990 0140 3B       		.uleb128 0x3b
+ 991 0141 05       		.uleb128 0x5
+ 992 0142 49       		.uleb128 0x49
+ 993 0143 13       		.uleb128 0x13
+ 994 0144 3F       		.uleb128 0x3f
+ 995 0145 19       		.uleb128 0x19
+ 996 0146 3C       		.uleb128 0x3c
+ 997 0147 19       		.uleb128 0x19
+ 998 0148 00       		.byte	0
+ 999 0149 00       		.byte	0
+ 1000 014a 18       		.uleb128 0x18
+ 1001 014b 35       		.uleb128 0x35
+ 1002 014c 00       		.byte	0
+ 1003 014d 49       		.uleb128 0x49
+ 1004 014e 13       		.uleb128 0x13
+ARM GAS  C:\Users\cps\AppData\Local\Temp\ccA0aEMk.s 			page 20
+
+
+ 1005 014f 00       		.byte	0
+ 1006 0150 00       		.byte	0
+ 1007 0151 19       		.uleb128 0x19
+ 1008 0152 2E       		.uleb128 0x2e
+ 1009 0153 00       		.byte	0
+ 1010 0154 3F       		.uleb128 0x3f
+ 1011 0155 19       		.uleb128 0x19
+ 1012 0156 03       		.uleb128 0x3
+ 1013 0157 0E       		.uleb128 0xe
+ 1014 0158 3A       		.uleb128 0x3a
+ 1015 0159 0B       		.uleb128 0xb
+ 1016 015a 3B       		.uleb128 0x3b
+ 1017 015b 0B       		.uleb128 0xb
+ 1018 015c 27       		.uleb128 0x27
+ 1019 015d 19       		.uleb128 0x19
+ 1020 015e 49       		.uleb128 0x49
+ 1021 015f 13       		.uleb128 0x13
+ 1022 0160 3C       		.uleb128 0x3c
+ 1023 0161 19       		.uleb128 0x19
+ 1024 0162 00       		.byte	0
+ 1025 0163 00       		.byte	0
+ 1026 0164 1A       		.uleb128 0x1a
+ 1027 0165 2E       		.uleb128 0x2e
+ 1028 0166 01       		.byte	0x1
+ 1029 0167 3F       		.uleb128 0x3f
+ 1030 0168 19       		.uleb128 0x19
+ 1031 0169 03       		.uleb128 0x3
+ 1032 016a 0E       		.uleb128 0xe
+ 1033 016b 3A       		.uleb128 0x3a
+ 1034 016c 0B       		.uleb128 0xb
+ 1035 016d 3B       		.uleb128 0x3b
+ 1036 016e 0B       		.uleb128 0xb
+ 1037 016f 27       		.uleb128 0x27
+ 1038 0170 19       		.uleb128 0x19
+ 1039 0171 49       		.uleb128 0x49
+ 1040 0172 13       		.uleb128 0x13
+ 1041 0173 3C       		.uleb128 0x3c
+ 1042 0174 19       		.uleb128 0x19
+ 1043 0175 01       		.uleb128 0x1
+ 1044 0176 13       		.uleb128 0x13
+ 1045 0177 00       		.byte	0
+ 1046 0178 00       		.byte	0
+ 1047 0179 1B       		.uleb128 0x1b
+ 1048 017a 05       		.uleb128 0x5
+ 1049 017b 00       		.byte	0
+ 1050 017c 49       		.uleb128 0x49
+ 1051 017d 13       		.uleb128 0x13
+ 1052 017e 00       		.byte	0
+ 1053 017f 00       		.byte	0
+ 1054 0180 1C       		.uleb128 0x1c
+ 1055 0181 0F       		.uleb128 0xf
+ 1056 0182 00       		.byte	0
+ 1057 0183 0B       		.uleb128 0xb
+ 1058 0184 0B       		.uleb128 0xb
+ 1059 0185 49       		.uleb128 0x49
+ 1060 0186 13       		.uleb128 0x13
+ 1061 0187 00       		.byte	0
+ARM GAS  C:\Users\cps\AppData\Local\Temp\ccA0aEMk.s 			page 21
+
+
+ 1062 0188 00       		.byte	0
+ 1063 0189 1D       		.uleb128 0x1d
+ 1064 018a 2E       		.uleb128 0x2e
+ 1065 018b 01       		.byte	0x1
+ 1066 018c 3F       		.uleb128 0x3f
+ 1067 018d 19       		.uleb128 0x19
+ 1068 018e 03       		.uleb128 0x3
+ 1069 018f 0E       		.uleb128 0xe
+ 1070 0190 3A       		.uleb128 0x3a
+ 1071 0191 0B       		.uleb128 0xb
+ 1072 0192 3B       		.uleb128 0x3b
+ 1073 0193 0B       		.uleb128 0xb
+ 1074 0194 27       		.uleb128 0x27
+ 1075 0195 19       		.uleb128 0x19
+ 1076 0196 3C       		.uleb128 0x3c
+ 1077 0197 19       		.uleb128 0x19
+ 1078 0198 01       		.uleb128 0x1
+ 1079 0199 13       		.uleb128 0x13
+ 1080 019a 00       		.byte	0
+ 1081 019b 00       		.byte	0
+ 1082 019c 1E       		.uleb128 0x1e
+ 1083 019d 2E       		.uleb128 0x2e
+ 1084 019e 00       		.byte	0
+ 1085 019f 3F       		.uleb128 0x3f
+ 1086 01a0 19       		.uleb128 0x19
+ 1087 01a1 03       		.uleb128 0x3
+ 1088 01a2 0E       		.uleb128 0xe
+ 1089 01a3 3A       		.uleb128 0x3a
+ 1090 01a4 0B       		.uleb128 0xb
+ 1091 01a5 3B       		.uleb128 0x3b
+ 1092 01a6 0B       		.uleb128 0xb
+ 1093 01a7 27       		.uleb128 0x27
+ 1094 01a8 19       		.uleb128 0x19
+ 1095 01a9 3C       		.uleb128 0x3c
+ 1096 01aa 19       		.uleb128 0x19
+ 1097 01ab 00       		.byte	0
+ 1098 01ac 00       		.byte	0
+ 1099 01ad 00       		.byte	0
+ 1100              		.section	.debug_loc,"",%progbits
+ 1101              	.Ldebug_loc0:
+ 1102              	.LLST0:
+ 1103 0000 00000000 		.4byte	.LVL0
+ 1104 0004 0D000000 		.4byte	.LVL1-1
+ 1105 0008 0100     		.2byte	0x1
+ 1106 000a 50       		.byte	0x50
+ 1107 000b 0D000000 		.4byte	.LVL1-1
+ 1108 000f 1C000000 		.4byte	.LVL3
+ 1109 0013 0200     		.2byte	0x2
+ 1110 0015 74       		.byte	0x74
+ 1111 0016 00       		.sleb128 0
+ 1112 0017 1C000000 		.4byte	.LVL3
+ 1113 001b 78000000 		.4byte	.LVL16
+ 1114 001f 0200     		.2byte	0x2
+ 1115 0021 91       		.byte	0x91
+ 1116 0022 6F       		.sleb128 -17
+ 1117 0023 78000000 		.4byte	.LVL16
+ 1118 0027 7A000000 		.4byte	.LFE63
+ARM GAS  C:\Users\cps\AppData\Local\Temp\ccA0aEMk.s 			page 22
+
+
+ 1119 002b 0200     		.2byte	0x2
+ 1120 002d 7D       		.byte	0x7d
+ 1121 002e 77       		.sleb128 -9
+ 1122 002f 00000000 		.4byte	0
+ 1123 0033 00000000 		.4byte	0
+ 1124              	.LLST1:
+ 1125 0037 1A000000 		.4byte	.LVL2
+ 1126 003b 1E000000 		.4byte	.LVL4
+ 1127 003f 0200     		.2byte	0x2
+ 1128 0041 30       		.byte	0x30
+ 1129 0042 9F       		.byte	0x9f
+ 1130 0043 1E000000 		.4byte	.LVL4
+ 1131 0047 30000000 		.4byte	.LVL7
+ 1132 004b 0100     		.2byte	0x1
+ 1133 004d 54       		.byte	0x54
+ 1134 004e 32000000 		.4byte	.LVL8
+ 1135 0052 46000000 		.4byte	.LVL10
+ 1136 0056 0100     		.2byte	0x1
+ 1137 0058 54       		.byte	0x54
+ 1138 0059 46000000 		.4byte	.LVL10
+ 1139 005d 4A000000 		.4byte	.LVL11
+ 1140 0061 0200     		.2byte	0x2
+ 1141 0063 30       		.byte	0x30
+ 1142 0064 9F       		.byte	0x9f
+ 1143 0065 4A000000 		.4byte	.LVL11
+ 1144 0069 6C000000 		.4byte	.LVL14
+ 1145 006d 0100     		.2byte	0x1
+ 1146 006f 54       		.byte	0x54
+ 1147 0070 6E000000 		.4byte	.LVL15
+ 1148 0074 7A000000 		.4byte	.LFE63
+ 1149 0078 0100     		.2byte	0x1
+ 1150 007a 54       		.byte	0x54
+ 1151 007b 00000000 		.4byte	0
+ 1152 007f 00000000 		.4byte	0
+ 1153              	.LLST2:
+ 1154 0083 00000000 		.4byte	.LVL17
+ 1155 0087 07000000 		.4byte	.LVL18-1
+ 1156 008b 0200     		.2byte	0x2
+ 1157 008d 70       		.byte	0x70
+ 1158 008e 00       		.sleb128 0
+ 1159 008f 07000000 		.4byte	.LVL18-1
+ 1160 0093 82000000 		.4byte	.LVL37
+ 1161 0097 0200     		.2byte	0x2
+ 1162 0099 74       		.byte	0x74
+ 1163 009a 00       		.sleb128 0
+ 1164 009b 82000000 		.4byte	.LVL37
+ 1165 009f A8000000 		.4byte	.LFE64
+ 1166 00a3 0200     		.2byte	0x2
+ 1167 00a5 70       		.byte	0x70
+ 1168 00a6 00       		.sleb128 0
+ 1169 00a7 00000000 		.4byte	0
+ 1170 00ab 00000000 		.4byte	0
+ 1171              	.LLST3:
+ 1172 00af 22000000 		.4byte	.LVL22
+ 1173 00b3 27000000 		.4byte	.LVL23-1
+ 1174 00b7 0100     		.2byte	0x1
+ 1175 00b9 50       		.byte	0x50
+ARM GAS  C:\Users\cps\AppData\Local\Temp\ccA0aEMk.s 			page 23
+
+
+ 1176 00ba 00000000 		.4byte	0
+ 1177 00be 00000000 		.4byte	0
+ 1178              	.LLST4:
+ 1179 00c2 42000000 		.4byte	.LVL28
+ 1180 00c6 47000000 		.4byte	.LVL29-1
+ 1181 00ca 0100     		.2byte	0x1
+ 1182 00cc 50       		.byte	0x50
+ 1183 00cd 47000000 		.4byte	.LVL29-1
+ 1184 00d1 82000000 		.4byte	.LVL37
+ 1185 00d5 0100     		.2byte	0x1
+ 1186 00d7 55       		.byte	0x55
+ 1187 00d8 00000000 		.4byte	0
+ 1188 00dc 00000000 		.4byte	0
+ 1189              		.section	.debug_aranges,"",%progbits
+ 1190 0000 24000000 		.4byte	0x24
+ 1191 0004 0200     		.2byte	0x2
+ 1192 0006 00000000 		.4byte	.Ldebug_info0
+ 1193 000a 04       		.byte	0x4
+ 1194 000b 00       		.byte	0
+ 1195 000c 0000     		.2byte	0
+ 1196 000e 0000     		.2byte	0
+ 1197 0010 00000000 		.4byte	.LFB63
+ 1198 0014 7A000000 		.4byte	.LFE63-.LFB63
+ 1199 0018 00000000 		.4byte	.LFB64
+ 1200 001c A8000000 		.4byte	.LFE64-.LFB64
+ 1201 0020 00000000 		.4byte	0
+ 1202 0024 00000000 		.4byte	0
+ 1203              		.section	.debug_ranges,"",%progbits
+ 1204              	.Ldebug_ranges0:
+ 1205 0000 00000000 		.4byte	.LFB63
+ 1206 0004 7A000000 		.4byte	.LFE63
+ 1207 0008 00000000 		.4byte	.LFB64
+ 1208 000c A8000000 		.4byte	.LFE64
+ 1209 0010 00000000 		.4byte	0
+ 1210 0014 00000000 		.4byte	0
+ 1211              		.section	.debug_line,"",%progbits
+ 1212              	.Ldebug_line0:
+ 1213 0000 04020000 		.section	.debug_str,"MS",%progbits,1
+ 1213      0200A001 
+ 1213      00000201 
+ 1213      FB0E0D00 
+ 1213      01010101 
+ 1214              	.LASF27:
+ 1215 0000 53656E73 		.ascii	"Sensirion_I2C_MasterReadBuf\000"
+ 1215      6972696F 
+ 1215      6E5F4932 
+ 1215      435F4D61 
+ 1215      73746572 
+ 1216              	.LASF9:
+ 1217 001c 5F5F696E 		.ascii	"__int32_t\000"
+ 1217      7433325F 
+ 1217      7400
+ 1218              	.LASF24:
+ 1219 0026 53656E73 		.ascii	"Sensirion_I2C_MasterClearStatus\000"
+ 1219      6972696F 
+ 1219      6E5F4932 
+ 1219      435F4D61 
+ARM GAS  C:\Users\cps\AppData\Local\Temp\ccA0aEMk.s 			page 24
+
+
+ 1219      73746572 
+ 1220              	.LASF36:
+ 1221 0046 73656E73 		.ascii	"sensorCommand\000"
+ 1221      6F72436F 
+ 1221      6D6D616E 
+ 1221      6400
+ 1222              	.LASF26:
+ 1223 0054 53656E73 		.ascii	"Sensirion_I2C_MasterWriteBuf\000"
+ 1223      6972696F 
+ 1223      6E5F4932 
+ 1223      435F4D61 
+ 1223      73746572 
+ 1224              	.LASF15:
+ 1225 0071 646F7562 		.ascii	"double\000"
+ 1225      6C6500
+ 1226              	.LASF14:
+ 1227 0078 666C6F61 		.ascii	"float\000"
+ 1227      7400
+ 1228              	.LASF1:
+ 1229 007e 756E7369 		.ascii	"unsigned char\000"
+ 1229      676E6564 
+ 1229      20636861 
+ 1229      7200
+ 1230              	.LASF30:
+ 1231 008c 53656E73 		.ascii	"Sensirion_I2C_Start\000"
+ 1231      6972696F 
+ 1231      6E5F4932 
+ 1231      435F5374 
+ 1231      61727400 
+ 1232              	.LASF29:
+ 1233 00a0 53656E73 		.ascii	"Sensirion_Power_Write\000"
+ 1233      6972696F 
+ 1233      6E5F506F 
+ 1233      7765725F 
+ 1233      57726974 
+ 1234              	.LASF5:
+ 1235 00b6 6C6F6E67 		.ascii	"long unsigned int\000"
+ 1235      20756E73 
+ 1235      69676E65 
+ 1235      6420696E 
+ 1235      7400
+ 1236              	.LASF18:
+ 1237 00c8 74656D70 		.ascii	"temp\000"
+ 1237      00
+ 1238              	.LASF3:
+ 1239 00cd 73686F72 		.ascii	"short unsigned int\000"
+ 1239      7420756E 
+ 1239      7369676E 
+ 1239      65642069 
+ 1239      6E7400
+ 1240              	.LASF22:
+ 1241 00e0 72657475 		.ascii	"returnValue\000"
+ 1241      726E5661 
+ 1241      6C756500 
+ 1242              	.LASF38:
+ 1243 00ec 49544D5F 		.ascii	"ITM_RxBuffer\000"
+ 1243      52784275 
+ARM GAS  C:\Users\cps\AppData\Local\Temp\ccA0aEMk.s 			page 25
+
+
+ 1243      66666572 
+ 1243      00
+ 1244              	.LASF33:
+ 1245 00f9 2E5C7365 		.ascii	".\\sensirion_temprh.c\000"
+ 1245      6E736972 
+ 1245      696F6E5F 
+ 1245      74656D70 
+ 1245      72682E63 
+ 1246              	.LASF21:
+ 1247 010e 69326342 		.ascii	"i2cBufferRead\000"
+ 1247      75666665 
+ 1247      72526561 
+ 1247      6400
+ 1248              	.LASF23:
+ 1249 011c 54454D50 		.ascii	"TEMP\000"
+ 1249      00
+ 1250              	.LASF12:
+ 1251 0121 75696E74 		.ascii	"uint16\000"
+ 1251      313600
+ 1252              	.LASF13:
+ 1253 0128 75696E74 		.ascii	"uint32\000"
+ 1253      333200
+ 1254              	.LASF32:
+ 1255 012f 474E5520 		.ascii	"GNU C 4.9.3 20150303 (release) [ARM/embedded-4_9-br"
+ 1255      4320342E 
+ 1255      392E3320 
+ 1255      32303135 
+ 1255      30333033 
+ 1256 0162 616E6368 		.ascii	"anch revision 221220] -mcpu=cortex-m3 -mthumb -g -O"
+ 1256      20726576 
+ 1256      6973696F 
+ 1256      6E203232 
+ 1256      31323230 
+ 1257 0195 67202D66 		.ascii	"g -ffunction-sections -ffat-lto-objects\000"
+ 1257      66756E63 
+ 1257      74696F6E 
+ 1257      2D736563 
+ 1257      74696F6E 
+ 1258              	.LASF8:
+ 1259 01bd 756E7369 		.ascii	"unsigned int\000"
+ 1259      676E6564 
+ 1259      20696E74 
+ 1259      00
+ 1260              	.LASF20:
+ 1261 01ca 53656E73 		.ascii	"Sensirion\000"
+ 1261      6972696F 
+ 1261      6E00
+ 1262              	.LASF7:
+ 1263 01d4 6C6F6E67 		.ascii	"long long unsigned int\000"
+ 1263      206C6F6E 
+ 1263      6720756E 
+ 1263      7369676E 
+ 1263      65642069 
+ 1264              	.LASF10:
+ 1265 01eb 696E7433 		.ascii	"int32_t\000"
+ 1265      325F7400 
+ 1266              	.LASF25:
+ARM GAS  C:\Users\cps\AppData\Local\Temp\ccA0aEMk.s 			page 26
+
+
+ 1267 01f3 53656E73 		.ascii	"Sensirion_I2C_MasterStatus\000"
+ 1267      6972696F 
+ 1267      6E5F4932 
+ 1267      435F4D61 
+ 1267      73746572 
+ 1268              	.LASF35:
+ 1269 020e 4765745F 		.ascii	"Get_SensironValue\000"
+ 1269      53656E73 
+ 1269      69726F6E 
+ 1269      56616C75 
+ 1269      6500
+ 1270              	.LASF17:
+ 1271 0220 73697A65 		.ascii	"sizetype\000"
+ 1271      74797065 
+ 1271      00
+ 1272              	.LASF6:
+ 1273 0229 6C6F6E67 		.ascii	"long long int\000"
+ 1273      206C6F6E 
+ 1273      6720696E 
+ 1273      7400
+ 1274              	.LASF16:
+ 1275 0237 63686172 		.ascii	"char\000"
+ 1275      00
+ 1276              	.LASF34:
+ 1277 023c 433A5C55 		.ascii	"C:\\Users\\cps\\Documents\\neoapi\\Project Template"
+ 1277      73657273 
+ 1277      5C637073 
+ 1277      5C446F63 
+ 1277      756D656E 
+ 1278 026a 735C5365 		.ascii	"s\\Sensor Examples\\Example Sensors\\Sensirion_Temp"
+ 1278      6E736F72 
+ 1278      20457861 
+ 1278      6D706C65 
+ 1278      735C4578 
+ 1279 029a 52482E63 		.ascii	"RH.cydsn\000"
+ 1279      7964736E 
+ 1279      00
+ 1280              	.LASF19:
+ 1281 02a3 76616C69 		.ascii	"valid\000"
+ 1281      6400
+ 1282              	.LASF2:
+ 1283 02a9 73686F72 		.ascii	"short int\000"
+ 1283      7420696E 
+ 1283      7400
+ 1284              	.LASF11:
+ 1285 02b3 75696E74 		.ascii	"uint8\000"
+ 1285      3800
+ 1286              	.LASF4:
+ 1287 02b9 6C6F6E67 		.ascii	"long int\000"
+ 1287      20696E74 
+ 1287      00
+ 1288              	.LASF0:
+ 1289 02c2 7369676E 		.ascii	"signed char\000"
+ 1289      65642063 
+ 1289      68617200 
+ 1290              	.LASF31:
+ 1291 02ce 53656E73 		.ascii	"Sensirion_I2C_Stop\000"
+ARM GAS  C:\Users\cps\AppData\Local\Temp\ccA0aEMk.s 			page 27
+
+
+ 1291      6972696F 
+ 1291      6E5F4932 
+ 1291      435F5374 
+ 1291      6F7000
+ 1292              	.LASF28:
+ 1293 02e1 43794465 		.ascii	"CyDelay\000"
+ 1293      6C617900 
+ 1294              	.LASF37:
+ 1295 02e9 54616B65 		.ascii	"Take_TempRH_Reading\000"
+ 1295      5F54656D 
+ 1295      7052485F 
+ 1295      52656164 
+ 1295      696E6700 
+ 1296              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 4.9.3 20150303 (release) [ARM/embedded-4_9-br

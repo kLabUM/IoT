@@ -1,0 +1,997 @@
+ARM GAS  C:\Users\cps\AppData\Local\Temp\cc6yktWh.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 1
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.file	"UART_Maxbotix_PM.c"
+  15              		.text
+  16              	.Ltext0:
+  17              		.cfi_sections	.debug_frame
+  18              		.section	.text.UART_Maxbotix_SaveConfig,"ax",%progbits
+  19              		.align	2
+  20              		.global	UART_Maxbotix_SaveConfig
+  21              		.thumb
+  22              		.thumb_func
+  23              		.type	UART_Maxbotix_SaveConfig, %function
+  24              	UART_Maxbotix_SaveConfig:
+  25              	.LFB0:
+  26              		.file 1 ".\\Generated_Source\\PSoC5\\UART_Maxbotix_PM.c"
+   1:.\Generated_Source\PSoC5/UART_Maxbotix_PM.c **** /*******************************************************************************
+   2:.\Generated_Source\PSoC5/UART_Maxbotix_PM.c **** * File Name: UART_Maxbotix_PM.c
+   3:.\Generated_Source\PSoC5/UART_Maxbotix_PM.c **** * Version 2.30
+   4:.\Generated_Source\PSoC5/UART_Maxbotix_PM.c **** *
+   5:.\Generated_Source\PSoC5/UART_Maxbotix_PM.c **** * Description:
+   6:.\Generated_Source\PSoC5/UART_Maxbotix_PM.c **** *  This file provides Sleep/WakeUp APIs functionality.
+   7:.\Generated_Source\PSoC5/UART_Maxbotix_PM.c **** *
+   8:.\Generated_Source\PSoC5/UART_Maxbotix_PM.c **** * Note:
+   9:.\Generated_Source\PSoC5/UART_Maxbotix_PM.c **** *
+  10:.\Generated_Source\PSoC5/UART_Maxbotix_PM.c **** ********************************************************************************
+  11:.\Generated_Source\PSoC5/UART_Maxbotix_PM.c **** * Copyright 2008-2012, Cypress Semiconductor Corporation.  All rights reserved.
+  12:.\Generated_Source\PSoC5/UART_Maxbotix_PM.c **** * You may use this file only in accordance with the license, terms, conditions,
+  13:.\Generated_Source\PSoC5/UART_Maxbotix_PM.c **** * disclaimers, and limitations in the end user license agreement accompanying
+  14:.\Generated_Source\PSoC5/UART_Maxbotix_PM.c **** * the software package with which this file was provided.
+  15:.\Generated_Source\PSoC5/UART_Maxbotix_PM.c **** *******************************************************************************/
+  16:.\Generated_Source\PSoC5/UART_Maxbotix_PM.c **** 
+  17:.\Generated_Source\PSoC5/UART_Maxbotix_PM.c **** #include "UART_Maxbotix.h"
+  18:.\Generated_Source\PSoC5/UART_Maxbotix_PM.c **** 
+  19:.\Generated_Source\PSoC5/UART_Maxbotix_PM.c **** 
+  20:.\Generated_Source\PSoC5/UART_Maxbotix_PM.c **** /***************************************
+  21:.\Generated_Source\PSoC5/UART_Maxbotix_PM.c **** * Local data allocation
+  22:.\Generated_Source\PSoC5/UART_Maxbotix_PM.c **** ***************************************/
+  23:.\Generated_Source\PSoC5/UART_Maxbotix_PM.c **** 
+  24:.\Generated_Source\PSoC5/UART_Maxbotix_PM.c **** static UART_Maxbotix_BACKUP_STRUCT  UART_Maxbotix_backup =
+  25:.\Generated_Source\PSoC5/UART_Maxbotix_PM.c **** {
+  26:.\Generated_Source\PSoC5/UART_Maxbotix_PM.c ****     /* enableState - disabled */
+  27:.\Generated_Source\PSoC5/UART_Maxbotix_PM.c ****     0u,
+  28:.\Generated_Source\PSoC5/UART_Maxbotix_PM.c **** };
+  29:.\Generated_Source\PSoC5/UART_Maxbotix_PM.c **** 
+  30:.\Generated_Source\PSoC5/UART_Maxbotix_PM.c **** 
+  31:.\Generated_Source\PSoC5/UART_Maxbotix_PM.c **** 
+ARM GAS  C:\Users\cps\AppData\Local\Temp\cc6yktWh.s 			page 2
+
+
+  32:.\Generated_Source\PSoC5/UART_Maxbotix_PM.c **** /*******************************************************************************
+  33:.\Generated_Source\PSoC5/UART_Maxbotix_PM.c **** * Function Name: UART_Maxbotix_SaveConfig
+  34:.\Generated_Source\PSoC5/UART_Maxbotix_PM.c **** ********************************************************************************
+  35:.\Generated_Source\PSoC5/UART_Maxbotix_PM.c **** *
+  36:.\Generated_Source\PSoC5/UART_Maxbotix_PM.c **** * Summary:
+  37:.\Generated_Source\PSoC5/UART_Maxbotix_PM.c **** *  Saves the current user configuration.
+  38:.\Generated_Source\PSoC5/UART_Maxbotix_PM.c **** *
+  39:.\Generated_Source\PSoC5/UART_Maxbotix_PM.c **** * Parameters:
+  40:.\Generated_Source\PSoC5/UART_Maxbotix_PM.c **** *  None.
+  41:.\Generated_Source\PSoC5/UART_Maxbotix_PM.c **** *
+  42:.\Generated_Source\PSoC5/UART_Maxbotix_PM.c **** * Return:
+  43:.\Generated_Source\PSoC5/UART_Maxbotix_PM.c **** *  None.
+  44:.\Generated_Source\PSoC5/UART_Maxbotix_PM.c **** *
+  45:.\Generated_Source\PSoC5/UART_Maxbotix_PM.c **** * Global Variables:
+  46:.\Generated_Source\PSoC5/UART_Maxbotix_PM.c **** *  UART_Maxbotix_backup - modified when non-retention registers are saved.
+  47:.\Generated_Source\PSoC5/UART_Maxbotix_PM.c **** *
+  48:.\Generated_Source\PSoC5/UART_Maxbotix_PM.c **** * Reentrant:
+  49:.\Generated_Source\PSoC5/UART_Maxbotix_PM.c **** *  No.
+  50:.\Generated_Source\PSoC5/UART_Maxbotix_PM.c **** *
+  51:.\Generated_Source\PSoC5/UART_Maxbotix_PM.c **** *******************************************************************************/
+  52:.\Generated_Source\PSoC5/UART_Maxbotix_PM.c **** void UART_Maxbotix_SaveConfig(void)
+  53:.\Generated_Source\PSoC5/UART_Maxbotix_PM.c **** {
+  27              		.loc 1 53 0
+  28              		.cfi_startproc
+  29              		@ args = 0, pretend = 0, frame = 0
+  30              		@ frame_needed = 0, uses_anonymous_args = 0
+  31              		@ link register save eliminated.
+  32 0000 7047     		bx	lr
+  33              		.cfi_endproc
+  34              	.LFE0:
+  35              		.size	UART_Maxbotix_SaveConfig, .-UART_Maxbotix_SaveConfig
+  36 0002 00BF     		.section	.text.UART_Maxbotix_RestoreConfig,"ax",%progbits
+  37              		.align	2
+  38              		.global	UART_Maxbotix_RestoreConfig
+  39              		.thumb
+  40              		.thumb_func
+  41              		.type	UART_Maxbotix_RestoreConfig, %function
+  42              	UART_Maxbotix_RestoreConfig:
+  43              	.LFB1:
+  54:.\Generated_Source\PSoC5/UART_Maxbotix_PM.c ****     #if (CY_UDB_V0)
+  55:.\Generated_Source\PSoC5/UART_Maxbotix_PM.c **** 
+  56:.\Generated_Source\PSoC5/UART_Maxbotix_PM.c ****         #if(UART_Maxbotix_CONTROL_REG_REMOVED == 0u)
+  57:.\Generated_Source\PSoC5/UART_Maxbotix_PM.c ****             UART_Maxbotix_backup.cr = UART_Maxbotix_CONTROL_REG;
+  58:.\Generated_Source\PSoC5/UART_Maxbotix_PM.c ****         #endif /* End UART_Maxbotix_CONTROL_REG_REMOVED */
+  59:.\Generated_Source\PSoC5/UART_Maxbotix_PM.c **** 
+  60:.\Generated_Source\PSoC5/UART_Maxbotix_PM.c ****         #if( (UART_Maxbotix_RX_ENABLED) || (UART_Maxbotix_HD_ENABLED) )
+  61:.\Generated_Source\PSoC5/UART_Maxbotix_PM.c ****             UART_Maxbotix_backup.rx_period = UART_Maxbotix_RXBITCTR_PERIOD_REG;
+  62:.\Generated_Source\PSoC5/UART_Maxbotix_PM.c ****             UART_Maxbotix_backup.rx_mask = UART_Maxbotix_RXSTATUS_MASK_REG;
+  63:.\Generated_Source\PSoC5/UART_Maxbotix_PM.c ****             #if (UART_Maxbotix_RXHW_ADDRESS_ENABLED)
+  64:.\Generated_Source\PSoC5/UART_Maxbotix_PM.c ****                 UART_Maxbotix_backup.rx_addr1 = UART_Maxbotix_RXADDRESS1_REG;
+  65:.\Generated_Source\PSoC5/UART_Maxbotix_PM.c ****                 UART_Maxbotix_backup.rx_addr2 = UART_Maxbotix_RXADDRESS2_REG;
+  66:.\Generated_Source\PSoC5/UART_Maxbotix_PM.c ****             #endif /* End UART_Maxbotix_RXHW_ADDRESS_ENABLED */
+  67:.\Generated_Source\PSoC5/UART_Maxbotix_PM.c ****         #endif /* End UART_Maxbotix_RX_ENABLED | UART_Maxbotix_HD_ENABLED*/
+  68:.\Generated_Source\PSoC5/UART_Maxbotix_PM.c **** 
+  69:.\Generated_Source\PSoC5/UART_Maxbotix_PM.c ****         #if(UART_Maxbotix_TX_ENABLED)
+  70:.\Generated_Source\PSoC5/UART_Maxbotix_PM.c ****             #if(UART_Maxbotix_TXCLKGEN_DP)
+  71:.\Generated_Source\PSoC5/UART_Maxbotix_PM.c ****                 UART_Maxbotix_backup.tx_clk_ctr = UART_Maxbotix_TXBITCLKGEN_CTR_REG;
+ARM GAS  C:\Users\cps\AppData\Local\Temp\cc6yktWh.s 			page 3
+
+
+  72:.\Generated_Source\PSoC5/UART_Maxbotix_PM.c ****                 UART_Maxbotix_backup.tx_clk_compl = UART_Maxbotix_TXBITCLKTX_COMPLETE_REG;
+  73:.\Generated_Source\PSoC5/UART_Maxbotix_PM.c ****             #else
+  74:.\Generated_Source\PSoC5/UART_Maxbotix_PM.c ****                 UART_Maxbotix_backup.tx_period = UART_Maxbotix_TXBITCTR_PERIOD_REG;
+  75:.\Generated_Source\PSoC5/UART_Maxbotix_PM.c ****             #endif /*End UART_Maxbotix_TXCLKGEN_DP */
+  76:.\Generated_Source\PSoC5/UART_Maxbotix_PM.c ****             UART_Maxbotix_backup.tx_mask = UART_Maxbotix_TXSTATUS_MASK_REG;
+  77:.\Generated_Source\PSoC5/UART_Maxbotix_PM.c ****         #endif /*End UART_Maxbotix_TX_ENABLED */
+  78:.\Generated_Source\PSoC5/UART_Maxbotix_PM.c **** 
+  79:.\Generated_Source\PSoC5/UART_Maxbotix_PM.c **** 
+  80:.\Generated_Source\PSoC5/UART_Maxbotix_PM.c ****     #else /* CY_UDB_V1 */
+  81:.\Generated_Source\PSoC5/UART_Maxbotix_PM.c **** 
+  82:.\Generated_Source\PSoC5/UART_Maxbotix_PM.c ****         #if(UART_Maxbotix_CONTROL_REG_REMOVED == 0u)
+  83:.\Generated_Source\PSoC5/UART_Maxbotix_PM.c ****             UART_Maxbotix_backup.cr = UART_Maxbotix_CONTROL_REG;
+  84:.\Generated_Source\PSoC5/UART_Maxbotix_PM.c ****         #endif /* End UART_Maxbotix_CONTROL_REG_REMOVED */
+  85:.\Generated_Source\PSoC5/UART_Maxbotix_PM.c **** 
+  86:.\Generated_Source\PSoC5/UART_Maxbotix_PM.c ****     #endif  /* End CY_UDB_V0 */
+  87:.\Generated_Source\PSoC5/UART_Maxbotix_PM.c **** }
+  88:.\Generated_Source\PSoC5/UART_Maxbotix_PM.c **** 
+  89:.\Generated_Source\PSoC5/UART_Maxbotix_PM.c **** 
+  90:.\Generated_Source\PSoC5/UART_Maxbotix_PM.c **** /*******************************************************************************
+  91:.\Generated_Source\PSoC5/UART_Maxbotix_PM.c **** * Function Name: UART_Maxbotix_RestoreConfig
+  92:.\Generated_Source\PSoC5/UART_Maxbotix_PM.c **** ********************************************************************************
+  93:.\Generated_Source\PSoC5/UART_Maxbotix_PM.c **** *
+  94:.\Generated_Source\PSoC5/UART_Maxbotix_PM.c **** * Summary:
+  95:.\Generated_Source\PSoC5/UART_Maxbotix_PM.c **** *  Restores the current user configuration.
+  96:.\Generated_Source\PSoC5/UART_Maxbotix_PM.c **** *
+  97:.\Generated_Source\PSoC5/UART_Maxbotix_PM.c **** * Parameters:
+  98:.\Generated_Source\PSoC5/UART_Maxbotix_PM.c **** *  None.
+  99:.\Generated_Source\PSoC5/UART_Maxbotix_PM.c **** *
+ 100:.\Generated_Source\PSoC5/UART_Maxbotix_PM.c **** * Return:
+ 101:.\Generated_Source\PSoC5/UART_Maxbotix_PM.c **** *  None.
+ 102:.\Generated_Source\PSoC5/UART_Maxbotix_PM.c **** *
+ 103:.\Generated_Source\PSoC5/UART_Maxbotix_PM.c **** * Global Variables:
+ 104:.\Generated_Source\PSoC5/UART_Maxbotix_PM.c **** *  UART_Maxbotix_backup - used when non-retention registers are restored.
+ 105:.\Generated_Source\PSoC5/UART_Maxbotix_PM.c **** *
+ 106:.\Generated_Source\PSoC5/UART_Maxbotix_PM.c **** * Reentrant:
+ 107:.\Generated_Source\PSoC5/UART_Maxbotix_PM.c **** *  No.
+ 108:.\Generated_Source\PSoC5/UART_Maxbotix_PM.c **** *
+ 109:.\Generated_Source\PSoC5/UART_Maxbotix_PM.c **** *******************************************************************************/
+ 110:.\Generated_Source\PSoC5/UART_Maxbotix_PM.c **** void UART_Maxbotix_RestoreConfig(void)
+ 111:.\Generated_Source\PSoC5/UART_Maxbotix_PM.c **** {
+  44              		.loc 1 111 0
+  45              		.cfi_startproc
+  46              		@ args = 0, pretend = 0, frame = 0
+  47              		@ frame_needed = 0, uses_anonymous_args = 0
+  48              		@ link register save eliminated.
+  49 0000 7047     		bx	lr
+  50              		.cfi_endproc
+  51              	.LFE1:
+  52              		.size	UART_Maxbotix_RestoreConfig, .-UART_Maxbotix_RestoreConfig
+  53 0002 00BF     		.section	.text.UART_Maxbotix_Sleep,"ax",%progbits
+  54              		.align	2
+  55              		.global	UART_Maxbotix_Sleep
+  56              		.thumb
+  57              		.thumb_func
+  58              		.type	UART_Maxbotix_Sleep, %function
+  59              	UART_Maxbotix_Sleep:
+  60              	.LFB2:
+ARM GAS  C:\Users\cps\AppData\Local\Temp\cc6yktWh.s 			page 4
+
+
+ 112:.\Generated_Source\PSoC5/UART_Maxbotix_PM.c **** 
+ 113:.\Generated_Source\PSoC5/UART_Maxbotix_PM.c ****     #if (CY_UDB_V0)
+ 114:.\Generated_Source\PSoC5/UART_Maxbotix_PM.c **** 
+ 115:.\Generated_Source\PSoC5/UART_Maxbotix_PM.c ****         #if(UART_Maxbotix_CONTROL_REG_REMOVED == 0u)
+ 116:.\Generated_Source\PSoC5/UART_Maxbotix_PM.c ****             UART_Maxbotix_CONTROL_REG = UART_Maxbotix_backup.cr;
+ 117:.\Generated_Source\PSoC5/UART_Maxbotix_PM.c ****         #endif /* End UART_Maxbotix_CONTROL_REG_REMOVED */
+ 118:.\Generated_Source\PSoC5/UART_Maxbotix_PM.c **** 
+ 119:.\Generated_Source\PSoC5/UART_Maxbotix_PM.c ****         #if( (UART_Maxbotix_RX_ENABLED) || (UART_Maxbotix_HD_ENABLED) )
+ 120:.\Generated_Source\PSoC5/UART_Maxbotix_PM.c ****             UART_Maxbotix_RXBITCTR_PERIOD_REG = UART_Maxbotix_backup.rx_period;
+ 121:.\Generated_Source\PSoC5/UART_Maxbotix_PM.c ****             UART_Maxbotix_RXSTATUS_MASK_REG = UART_Maxbotix_backup.rx_mask;
+ 122:.\Generated_Source\PSoC5/UART_Maxbotix_PM.c ****             #if (UART_Maxbotix_RXHW_ADDRESS_ENABLED)
+ 123:.\Generated_Source\PSoC5/UART_Maxbotix_PM.c ****                 UART_Maxbotix_RXADDRESS1_REG = UART_Maxbotix_backup.rx_addr1;
+ 124:.\Generated_Source\PSoC5/UART_Maxbotix_PM.c ****                 UART_Maxbotix_RXADDRESS2_REG = UART_Maxbotix_backup.rx_addr2;
+ 125:.\Generated_Source\PSoC5/UART_Maxbotix_PM.c ****             #endif /* End UART_Maxbotix_RXHW_ADDRESS_ENABLED */
+ 126:.\Generated_Source\PSoC5/UART_Maxbotix_PM.c ****         #endif  /* End (UART_Maxbotix_RX_ENABLED) || (UART_Maxbotix_HD_ENABLED) */
+ 127:.\Generated_Source\PSoC5/UART_Maxbotix_PM.c **** 
+ 128:.\Generated_Source\PSoC5/UART_Maxbotix_PM.c ****         #if(UART_Maxbotix_TX_ENABLED)
+ 129:.\Generated_Source\PSoC5/UART_Maxbotix_PM.c ****             #if(UART_Maxbotix_TXCLKGEN_DP)
+ 130:.\Generated_Source\PSoC5/UART_Maxbotix_PM.c ****                 UART_Maxbotix_TXBITCLKGEN_CTR_REG = UART_Maxbotix_backup.tx_clk_ctr;
+ 131:.\Generated_Source\PSoC5/UART_Maxbotix_PM.c ****                 UART_Maxbotix_TXBITCLKTX_COMPLETE_REG = UART_Maxbotix_backup.tx_clk_compl;
+ 132:.\Generated_Source\PSoC5/UART_Maxbotix_PM.c ****             #else
+ 133:.\Generated_Source\PSoC5/UART_Maxbotix_PM.c ****                 UART_Maxbotix_TXBITCTR_PERIOD_REG = UART_Maxbotix_backup.tx_period;
+ 134:.\Generated_Source\PSoC5/UART_Maxbotix_PM.c ****             #endif /*End UART_Maxbotix_TXCLKGEN_DP */
+ 135:.\Generated_Source\PSoC5/UART_Maxbotix_PM.c ****             UART_Maxbotix_TXSTATUS_MASK_REG = UART_Maxbotix_backup.tx_mask;
+ 136:.\Generated_Source\PSoC5/UART_Maxbotix_PM.c ****         #endif /*End UART_Maxbotix_TX_ENABLED */
+ 137:.\Generated_Source\PSoC5/UART_Maxbotix_PM.c **** 
+ 138:.\Generated_Source\PSoC5/UART_Maxbotix_PM.c ****     #else /* CY_UDB_V1 */
+ 139:.\Generated_Source\PSoC5/UART_Maxbotix_PM.c **** 
+ 140:.\Generated_Source\PSoC5/UART_Maxbotix_PM.c ****         #if(UART_Maxbotix_CONTROL_REG_REMOVED == 0u)
+ 141:.\Generated_Source\PSoC5/UART_Maxbotix_PM.c ****             UART_Maxbotix_CONTROL_REG = UART_Maxbotix_backup.cr;
+ 142:.\Generated_Source\PSoC5/UART_Maxbotix_PM.c ****         #endif /* End UART_Maxbotix_CONTROL_REG_REMOVED */
+ 143:.\Generated_Source\PSoC5/UART_Maxbotix_PM.c **** 
+ 144:.\Generated_Source\PSoC5/UART_Maxbotix_PM.c ****     #endif  /* End CY_UDB_V0 */
+ 145:.\Generated_Source\PSoC5/UART_Maxbotix_PM.c **** }
+ 146:.\Generated_Source\PSoC5/UART_Maxbotix_PM.c **** 
+ 147:.\Generated_Source\PSoC5/UART_Maxbotix_PM.c **** 
+ 148:.\Generated_Source\PSoC5/UART_Maxbotix_PM.c **** /*******************************************************************************
+ 149:.\Generated_Source\PSoC5/UART_Maxbotix_PM.c **** * Function Name: UART_Maxbotix_Sleep
+ 150:.\Generated_Source\PSoC5/UART_Maxbotix_PM.c **** ********************************************************************************
+ 151:.\Generated_Source\PSoC5/UART_Maxbotix_PM.c **** *
+ 152:.\Generated_Source\PSoC5/UART_Maxbotix_PM.c **** * Summary:
+ 153:.\Generated_Source\PSoC5/UART_Maxbotix_PM.c **** *  Stops and saves the user configuration. Should be called
+ 154:.\Generated_Source\PSoC5/UART_Maxbotix_PM.c **** *  just prior to entering sleep.
+ 155:.\Generated_Source\PSoC5/UART_Maxbotix_PM.c **** *
+ 156:.\Generated_Source\PSoC5/UART_Maxbotix_PM.c **** *
+ 157:.\Generated_Source\PSoC5/UART_Maxbotix_PM.c **** * Parameters:
+ 158:.\Generated_Source\PSoC5/UART_Maxbotix_PM.c **** *  None.
+ 159:.\Generated_Source\PSoC5/UART_Maxbotix_PM.c **** *
+ 160:.\Generated_Source\PSoC5/UART_Maxbotix_PM.c **** * Return:
+ 161:.\Generated_Source\PSoC5/UART_Maxbotix_PM.c **** *  None.
+ 162:.\Generated_Source\PSoC5/UART_Maxbotix_PM.c **** *
+ 163:.\Generated_Source\PSoC5/UART_Maxbotix_PM.c **** * Global Variables:
+ 164:.\Generated_Source\PSoC5/UART_Maxbotix_PM.c **** *  UART_Maxbotix_backup - modified when non-retention registers are saved.
+ 165:.\Generated_Source\PSoC5/UART_Maxbotix_PM.c **** *
+ 166:.\Generated_Source\PSoC5/UART_Maxbotix_PM.c **** * Reentrant:
+ 167:.\Generated_Source\PSoC5/UART_Maxbotix_PM.c **** *  No.
+ 168:.\Generated_Source\PSoC5/UART_Maxbotix_PM.c **** *
+ARM GAS  C:\Users\cps\AppData\Local\Temp\cc6yktWh.s 			page 5
+
+
+ 169:.\Generated_Source\PSoC5/UART_Maxbotix_PM.c **** *******************************************************************************/
+ 170:.\Generated_Source\PSoC5/UART_Maxbotix_PM.c **** void UART_Maxbotix_Sleep(void)
+ 171:.\Generated_Source\PSoC5/UART_Maxbotix_PM.c **** {
+  61              		.loc 1 171 0
+  62              		.cfi_startproc
+  63              		@ args = 0, pretend = 0, frame = 0
+  64              		@ frame_needed = 0, uses_anonymous_args = 0
+  65              		.loc 1 171 0
+  66 0000 08B5     		push	{r3, lr}
+  67              		.cfi_def_cfa_offset 8
+  68              		.cfi_offset 3, -8
+  69              		.cfi_offset 14, -4
+ 172:.\Generated_Source\PSoC5/UART_Maxbotix_PM.c **** 
+ 173:.\Generated_Source\PSoC5/UART_Maxbotix_PM.c ****     #if(UART_Maxbotix_RX_ENABLED || UART_Maxbotix_HD_ENABLED)
+ 174:.\Generated_Source\PSoC5/UART_Maxbotix_PM.c ****         if((UART_Maxbotix_RXSTATUS_ACTL_REG  & UART_Maxbotix_INT_ENABLE) != 0u)
+  70              		.loc 1 174 0
+  71 0002 074B     		ldr	r3, .L7
+  72 0004 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+  73 0006 13F0100F 		tst	r3, #16
+  74 000a 03D0     		beq	.L4
+ 175:.\Generated_Source\PSoC5/UART_Maxbotix_PM.c ****         {
+ 176:.\Generated_Source\PSoC5/UART_Maxbotix_PM.c ****             UART_Maxbotix_backup.enableState = 1u;
+  75              		.loc 1 176 0
+  76 000c 0122     		movs	r2, #1
+  77 000e 054B     		ldr	r3, .L7+4
+  78 0010 1A70     		strb	r2, [r3]
+  79 0012 02E0     		b	.L5
+  80              	.L4:
+ 177:.\Generated_Source\PSoC5/UART_Maxbotix_PM.c ****         }
+ 178:.\Generated_Source\PSoC5/UART_Maxbotix_PM.c ****         else
+ 179:.\Generated_Source\PSoC5/UART_Maxbotix_PM.c ****         {
+ 180:.\Generated_Source\PSoC5/UART_Maxbotix_PM.c ****             UART_Maxbotix_backup.enableState = 0u;
+  81              		.loc 1 180 0
+  82 0014 0022     		movs	r2, #0
+  83 0016 034B     		ldr	r3, .L7+4
+  84 0018 1A70     		strb	r2, [r3]
+  85              	.L5:
+ 181:.\Generated_Source\PSoC5/UART_Maxbotix_PM.c ****         }
+ 182:.\Generated_Source\PSoC5/UART_Maxbotix_PM.c ****     #else
+ 183:.\Generated_Source\PSoC5/UART_Maxbotix_PM.c ****         if((UART_Maxbotix_TXSTATUS_ACTL_REG  & UART_Maxbotix_INT_ENABLE) !=0u)
+ 184:.\Generated_Source\PSoC5/UART_Maxbotix_PM.c ****         {
+ 185:.\Generated_Source\PSoC5/UART_Maxbotix_PM.c ****             UART_Maxbotix_backup.enableState = 1u;
+ 186:.\Generated_Source\PSoC5/UART_Maxbotix_PM.c ****         }
+ 187:.\Generated_Source\PSoC5/UART_Maxbotix_PM.c ****         else
+ 188:.\Generated_Source\PSoC5/UART_Maxbotix_PM.c ****         {
+ 189:.\Generated_Source\PSoC5/UART_Maxbotix_PM.c ****             UART_Maxbotix_backup.enableState = 0u;
+ 190:.\Generated_Source\PSoC5/UART_Maxbotix_PM.c ****         }
+ 191:.\Generated_Source\PSoC5/UART_Maxbotix_PM.c ****     #endif /* End UART_Maxbotix_RX_ENABLED || UART_Maxbotix_HD_ENABLED*/
+ 192:.\Generated_Source\PSoC5/UART_Maxbotix_PM.c **** 
+ 193:.\Generated_Source\PSoC5/UART_Maxbotix_PM.c ****     UART_Maxbotix_Stop();
+  86              		.loc 1 193 0
+  87 001a FFF7FEFF 		bl	UART_Maxbotix_Stop
+  88              	.LVL0:
+  89 001e 08BD     		pop	{r3, pc}
+  90              	.L8:
+  91              		.align	2
+  92              	.L7:
+ARM GAS  C:\Users\cps\AppData\Local\Temp\cc6yktWh.s 			page 6
+
+
+  93 0020 92640040 		.word	1073767570
+  94 0024 00000000 		.word	.LANCHOR0
+  95              		.cfi_endproc
+  96              	.LFE2:
+  97              		.size	UART_Maxbotix_Sleep, .-UART_Maxbotix_Sleep
+  98              		.section	.text.UART_Maxbotix_Wakeup,"ax",%progbits
+  99              		.align	2
+ 100              		.global	UART_Maxbotix_Wakeup
+ 101              		.thumb
+ 102              		.thumb_func
+ 103              		.type	UART_Maxbotix_Wakeup, %function
+ 104              	UART_Maxbotix_Wakeup:
+ 105              	.LFB3:
+ 194:.\Generated_Source\PSoC5/UART_Maxbotix_PM.c ****     UART_Maxbotix_SaveConfig();
+ 195:.\Generated_Source\PSoC5/UART_Maxbotix_PM.c **** }
+ 196:.\Generated_Source\PSoC5/UART_Maxbotix_PM.c **** 
+ 197:.\Generated_Source\PSoC5/UART_Maxbotix_PM.c **** 
+ 198:.\Generated_Source\PSoC5/UART_Maxbotix_PM.c **** /*******************************************************************************
+ 199:.\Generated_Source\PSoC5/UART_Maxbotix_PM.c **** * Function Name: UART_Maxbotix_Wakeup
+ 200:.\Generated_Source\PSoC5/UART_Maxbotix_PM.c **** ********************************************************************************
+ 201:.\Generated_Source\PSoC5/UART_Maxbotix_PM.c **** *
+ 202:.\Generated_Source\PSoC5/UART_Maxbotix_PM.c **** * Summary:
+ 203:.\Generated_Source\PSoC5/UART_Maxbotix_PM.c **** *  Restores and enables the user configuration. Should be called
+ 204:.\Generated_Source\PSoC5/UART_Maxbotix_PM.c **** *  just after awaking from sleep.
+ 205:.\Generated_Source\PSoC5/UART_Maxbotix_PM.c **** *
+ 206:.\Generated_Source\PSoC5/UART_Maxbotix_PM.c **** * Parameters:
+ 207:.\Generated_Source\PSoC5/UART_Maxbotix_PM.c **** *  None.
+ 208:.\Generated_Source\PSoC5/UART_Maxbotix_PM.c **** *
+ 209:.\Generated_Source\PSoC5/UART_Maxbotix_PM.c **** * Return:
+ 210:.\Generated_Source\PSoC5/UART_Maxbotix_PM.c **** *  None.
+ 211:.\Generated_Source\PSoC5/UART_Maxbotix_PM.c **** *
+ 212:.\Generated_Source\PSoC5/UART_Maxbotix_PM.c **** * Global Variables:
+ 213:.\Generated_Source\PSoC5/UART_Maxbotix_PM.c **** *  UART_Maxbotix_backup - used when non-retention registers are restored.
+ 214:.\Generated_Source\PSoC5/UART_Maxbotix_PM.c **** *
+ 215:.\Generated_Source\PSoC5/UART_Maxbotix_PM.c **** * Reentrant:
+ 216:.\Generated_Source\PSoC5/UART_Maxbotix_PM.c **** *  No.
+ 217:.\Generated_Source\PSoC5/UART_Maxbotix_PM.c **** *
+ 218:.\Generated_Source\PSoC5/UART_Maxbotix_PM.c **** *******************************************************************************/
+ 219:.\Generated_Source\PSoC5/UART_Maxbotix_PM.c **** void UART_Maxbotix_Wakeup(void)
+ 220:.\Generated_Source\PSoC5/UART_Maxbotix_PM.c **** {
+ 106              		.loc 1 220 0
+ 107              		.cfi_startproc
+ 108              		@ args = 0, pretend = 0, frame = 0
+ 109              		@ frame_needed = 0, uses_anonymous_args = 0
+ 110 0000 08B5     		push	{r3, lr}
+ 111              		.cfi_def_cfa_offset 8
+ 112              		.cfi_offset 3, -8
+ 113              		.cfi_offset 14, -4
+ 221:.\Generated_Source\PSoC5/UART_Maxbotix_PM.c ****     UART_Maxbotix_RestoreConfig();
+ 222:.\Generated_Source\PSoC5/UART_Maxbotix_PM.c ****     #if( (UART_Maxbotix_RX_ENABLED) || (UART_Maxbotix_HD_ENABLED) )
+ 223:.\Generated_Source\PSoC5/UART_Maxbotix_PM.c ****         UART_Maxbotix_ClearRxBuffer();
+ 114              		.loc 1 223 0
+ 115 0002 FFF7FEFF 		bl	UART_Maxbotix_ClearRxBuffer
+ 116              	.LVL1:
+ 224:.\Generated_Source\PSoC5/UART_Maxbotix_PM.c ****     #endif /* End (UART_Maxbotix_RX_ENABLED) || (UART_Maxbotix_HD_ENABLED) */
+ 225:.\Generated_Source\PSoC5/UART_Maxbotix_PM.c ****     #if(UART_Maxbotix_TX_ENABLED || UART_Maxbotix_HD_ENABLED)
+ 226:.\Generated_Source\PSoC5/UART_Maxbotix_PM.c ****         UART_Maxbotix_ClearTxBuffer();
+ARM GAS  C:\Users\cps\AppData\Local\Temp\cc6yktWh.s 			page 7
+
+
+ 227:.\Generated_Source\PSoC5/UART_Maxbotix_PM.c ****     #endif /* End UART_Maxbotix_TX_ENABLED || UART_Maxbotix_HD_ENABLED */
+ 228:.\Generated_Source\PSoC5/UART_Maxbotix_PM.c **** 
+ 229:.\Generated_Source\PSoC5/UART_Maxbotix_PM.c ****     if(UART_Maxbotix_backup.enableState != 0u)
+ 117              		.loc 1 229 0
+ 118 0006 034B     		ldr	r3, .L12
+ 119 0008 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 120 000a 0BB1     		cbz	r3, .L9
+ 230:.\Generated_Source\PSoC5/UART_Maxbotix_PM.c ****     {
+ 231:.\Generated_Source\PSoC5/UART_Maxbotix_PM.c ****         UART_Maxbotix_Enable();
+ 121              		.loc 1 231 0
+ 122 000c FFF7FEFF 		bl	UART_Maxbotix_Enable
+ 123              	.LVL2:
+ 124              	.L9:
+ 125 0010 08BD     		pop	{r3, pc}
+ 126              	.L13:
+ 127 0012 00BF     		.align	2
+ 128              	.L12:
+ 129 0014 00000000 		.word	.LANCHOR0
+ 130              		.cfi_endproc
+ 131              	.LFE3:
+ 132              		.size	UART_Maxbotix_Wakeup, .-UART_Maxbotix_Wakeup
+ 133              		.bss
+ 134              		.align	2
+ 135              		.set	.LANCHOR0,. + 0
+ 136              		.type	UART_Maxbotix_backup, %object
+ 137              		.size	UART_Maxbotix_backup, 2
+ 138              	UART_Maxbotix_backup:
+ 139 0000 0000     		.space	2
+ 140 0002 0000     		.text
+ 141              	.Letext0:
+ 142              		.file 2 ".\\Generated_Source\\PSoC5\\cytypes.h"
+ 143              		.file 3 ".\\Generated_Source\\PSoC5\\UART_Maxbotix.h"
+ 144              		.section	.debug_info,"",%progbits
+ 145              	.Ldebug_info0:
+ 146 0000 60010000 		.4byte	0x160
+ 147 0004 0400     		.2byte	0x4
+ 148 0006 00000000 		.4byte	.Ldebug_abbrev0
+ 149 000a 04       		.byte	0x4
+ 150 000b 01       		.uleb128 0x1
+ 151 000c ED000000 		.4byte	.LASF25
+ 152 0010 01       		.byte	0x1
+ 153 0011 98000000 		.4byte	.LASF26
+ 154 0015 E9010000 		.4byte	.LASF27
+ 155 0019 00000000 		.4byte	.Ldebug_ranges0+0
+ 156 001d 00000000 		.4byte	0
+ 157 0021 00000000 		.4byte	.Ldebug_line0
+ 158 0025 02       		.uleb128 0x2
+ 159 0026 01       		.byte	0x1
+ 160 0027 06       		.byte	0x6
+ 161 0028 8D020000 		.4byte	.LASF0
+ 162 002c 02       		.uleb128 0x2
+ 163 002d 01       		.byte	0x1
+ 164 002e 08       		.byte	0x8
+ 165 002f C4000000 		.4byte	.LASF1
+ 166 0033 02       		.uleb128 0x2
+ 167 0034 02       		.byte	0x2
+ 168 0035 05       		.byte	0x5
+ARM GAS  C:\Users\cps\AppData\Local\Temp\cc6yktWh.s 			page 8
+
+
+ 169 0036 48020000 		.4byte	.LASF2
+ 170 003a 02       		.uleb128 0x2
+ 171 003b 02       		.byte	0x2
+ 172 003c 07       		.byte	0x7
+ 173 003d 31000000 		.4byte	.LASF3
+ 174 0041 02       		.uleb128 0x2
+ 175 0042 04       		.byte	0x4
+ 176 0043 05       		.byte	0x5
+ 177 0044 5C020000 		.4byte	.LASF4
+ 178 0048 02       		.uleb128 0x2
+ 179 0049 04       		.byte	0x4
+ 180 004a 07       		.byte	0x7
+ 181 004b 80000000 		.4byte	.LASF5
+ 182 004f 02       		.uleb128 0x2
+ 183 0050 08       		.byte	0x8
+ 184 0051 05       		.byte	0x5
+ 185 0052 A8010000 		.4byte	.LASF6
+ 186 0056 02       		.uleb128 0x2
+ 187 0057 08       		.byte	0x8
+ 188 0058 07       		.byte	0x7
+ 189 0059 88010000 		.4byte	.LASF7
+ 190 005d 03       		.uleb128 0x3
+ 191 005e 04       		.byte	0x4
+ 192 005f 05       		.byte	0x5
+ 193 0060 696E7400 		.ascii	"int\000"
+ 194 0064 02       		.uleb128 0x2
+ 195 0065 04       		.byte	0x4
+ 196 0066 07       		.byte	0x7
+ 197 0067 7B010000 		.4byte	.LASF8
+ 198 006b 04       		.uleb128 0x4
+ 199 006c 92000000 		.4byte	.LASF12
+ 200 0070 02       		.byte	0x2
+ 201 0071 3801     		.2byte	0x138
+ 202 0073 2C000000 		.4byte	0x2c
+ 203 0077 02       		.uleb128 0x2
+ 204 0078 04       		.byte	0x4
+ 205 0079 04       		.byte	0x4
+ 206 007a 44000000 		.4byte	.LASF9
+ 207 007e 02       		.uleb128 0x2
+ 208 007f 08       		.byte	0x8
+ 209 0080 04       		.byte	0x4
+ 210 0081 D2000000 		.4byte	.LASF10
+ 211 0085 02       		.uleb128 0x2
+ 212 0086 01       		.byte	0x1
+ 213 0087 08       		.byte	0x8
+ 214 0088 CB010000 		.4byte	.LASF11
+ 215 008c 04       		.uleb128 0x4
+ 216 008d 7B000000 		.4byte	.LASF13
+ 217 0091 02       		.byte	0x2
+ 218 0092 E201     		.2byte	0x1e2
+ 219 0094 98000000 		.4byte	0x98
+ 220 0098 05       		.uleb128 0x5
+ 221 0099 6B000000 		.4byte	0x6b
+ 222 009d 02       		.uleb128 0x2
+ 223 009e 04       		.byte	0x4
+ 224 009f 07       		.byte	0x7
+ 225 00a0 9F010000 		.4byte	.LASF14
+ARM GAS  C:\Users\cps\AppData\Local\Temp\cc6yktWh.s 			page 9
+
+
+ 226 00a4 06       		.uleb128 0x6
+ 227 00a5 71020000 		.4byte	.LASF28
+ 228 00a9 02       		.byte	0x2
+ 229 00aa 03       		.byte	0x3
+ 230 00ab 45       		.byte	0x45
+ 231 00ac C9000000 		.4byte	0xc9
+ 232 00b0 07       		.uleb128 0x7
+ 233 00b1 65020000 		.4byte	.LASF15
+ 234 00b5 03       		.byte	0x3
+ 235 00b6 47       		.byte	0x47
+ 236 00b7 6B000000 		.4byte	0x6b
+ 237 00bb 00       		.byte	0
+ 238 00bc 07       		.uleb128 0x7
+ 239 00bd 52020000 		.4byte	.LASF16
+ 240 00c1 03       		.byte	0x3
+ 241 00c2 4D       		.byte	0x4d
+ 242 00c3 6B000000 		.4byte	0x6b
+ 243 00c7 01       		.byte	0x1
+ 244 00c8 00       		.byte	0
+ 245 00c9 08       		.uleb128 0x8
+ 246 00ca AC020000 		.4byte	.LASF17
+ 247 00ce 03       		.byte	0x3
+ 248 00cf 64       		.byte	0x64
+ 249 00d0 A4000000 		.4byte	0xa4
+ 250 00d4 09       		.uleb128 0x9
+ 251 00d5 D0010000 		.4byte	.LASF18
+ 252 00d9 01       		.byte	0x1
+ 253 00da 34       		.byte	0x34
+ 254 00db 00000000 		.4byte	.LFB0
+ 255 00df 02000000 		.4byte	.LFE0-.LFB0
+ 256 00e3 01       		.uleb128 0x1
+ 257 00e4 9C       		.byte	0x9c
+ 258 00e5 09       		.uleb128 0x9
+ 259 00e6 15000000 		.4byte	.LASF19
+ 260 00ea 01       		.byte	0x1
+ 261 00eb 6E       		.byte	0x6e
+ 262 00ec 00000000 		.4byte	.LFB1
+ 263 00f0 02000000 		.4byte	.LFE1-.LFB1
+ 264 00f4 01       		.uleb128 0x1
+ 265 00f5 9C       		.byte	0x9c
+ 266 00f6 0A       		.uleb128 0xa
+ 267 00f7 D9000000 		.4byte	.LASF20
+ 268 00fb 01       		.byte	0x1
+ 269 00fc AA       		.byte	0xaa
+ 270 00fd 00000000 		.4byte	.LFB2
+ 271 0101 28000000 		.4byte	.LFE2-.LFB2
+ 272 0105 01       		.uleb128 0x1
+ 273 0106 9C       		.byte	0x9c
+ 274 0107 15010000 		.4byte	0x115
+ 275 010b 0B       		.uleb128 0xb
+ 276 010c 1E000000 		.4byte	.LVL0
+ 277 0110 4E010000 		.4byte	0x14e
+ 278 0114 00       		.byte	0
+ 279 0115 0A       		.uleb128 0xa
+ 280 0116 66000000 		.4byte	.LASF21
+ 281 011a 01       		.byte	0x1
+ 282 011b DB       		.byte	0xdb
+ARM GAS  C:\Users\cps\AppData\Local\Temp\cc6yktWh.s 			page 10
+
+
+ 283 011c 00000000 		.4byte	.LFB3
+ 284 0120 18000000 		.4byte	.LFE3-.LFB3
+ 285 0124 01       		.uleb128 0x1
+ 286 0125 9C       		.byte	0x9c
+ 287 0126 3D010000 		.4byte	0x13d
+ 288 012a 0B       		.uleb128 0xb
+ 289 012b 06000000 		.4byte	.LVL1
+ 290 012f 55010000 		.4byte	0x155
+ 291 0133 0B       		.uleb128 0xb
+ 292 0134 10000000 		.4byte	.LVL2
+ 293 0138 5C010000 		.4byte	0x15c
+ 294 013c 00       		.byte	0
+ 295 013d 0C       		.uleb128 0xc
+ 296 013e 00000000 		.4byte	.LASF29
+ 297 0142 01       		.byte	0x1
+ 298 0143 18       		.byte	0x18
+ 299 0144 C9000000 		.4byte	0xc9
+ 300 0148 05       		.uleb128 0x5
+ 301 0149 03       		.byte	0x3
+ 302 014a 00000000 		.4byte	UART_Maxbotix_backup
+ 303 014e 0D       		.uleb128 0xd
+ 304 014f 99020000 		.4byte	.LASF22
+ 305 0153 03       		.byte	0x3
+ 306 0154 6C       		.byte	0x6c
+ 307 0155 0D       		.uleb128 0xd
+ 308 0156 4A000000 		.4byte	.LASF23
+ 309 015a 03       		.byte	0x3
+ 310 015b 8C       		.byte	0x8c
+ 311 015c 0D       		.uleb128 0xd
+ 312 015d B6010000 		.4byte	.LASF24
+ 313 0161 03       		.byte	0x3
+ 314 0162 71       		.byte	0x71
+ 315 0163 00       		.byte	0
+ 316              		.section	.debug_abbrev,"",%progbits
+ 317              	.Ldebug_abbrev0:
+ 318 0000 01       		.uleb128 0x1
+ 319 0001 11       		.uleb128 0x11
+ 320 0002 01       		.byte	0x1
+ 321 0003 25       		.uleb128 0x25
+ 322 0004 0E       		.uleb128 0xe
+ 323 0005 13       		.uleb128 0x13
+ 324 0006 0B       		.uleb128 0xb
+ 325 0007 03       		.uleb128 0x3
+ 326 0008 0E       		.uleb128 0xe
+ 327 0009 1B       		.uleb128 0x1b
+ 328 000a 0E       		.uleb128 0xe
+ 329 000b 55       		.uleb128 0x55
+ 330 000c 17       		.uleb128 0x17
+ 331 000d 11       		.uleb128 0x11
+ 332 000e 01       		.uleb128 0x1
+ 333 000f 10       		.uleb128 0x10
+ 334 0010 17       		.uleb128 0x17
+ 335 0011 00       		.byte	0
+ 336 0012 00       		.byte	0
+ 337 0013 02       		.uleb128 0x2
+ 338 0014 24       		.uleb128 0x24
+ 339 0015 00       		.byte	0
+ARM GAS  C:\Users\cps\AppData\Local\Temp\cc6yktWh.s 			page 11
+
+
+ 340 0016 0B       		.uleb128 0xb
+ 341 0017 0B       		.uleb128 0xb
+ 342 0018 3E       		.uleb128 0x3e
+ 343 0019 0B       		.uleb128 0xb
+ 344 001a 03       		.uleb128 0x3
+ 345 001b 0E       		.uleb128 0xe
+ 346 001c 00       		.byte	0
+ 347 001d 00       		.byte	0
+ 348 001e 03       		.uleb128 0x3
+ 349 001f 24       		.uleb128 0x24
+ 350 0020 00       		.byte	0
+ 351 0021 0B       		.uleb128 0xb
+ 352 0022 0B       		.uleb128 0xb
+ 353 0023 3E       		.uleb128 0x3e
+ 354 0024 0B       		.uleb128 0xb
+ 355 0025 03       		.uleb128 0x3
+ 356 0026 08       		.uleb128 0x8
+ 357 0027 00       		.byte	0
+ 358 0028 00       		.byte	0
+ 359 0029 04       		.uleb128 0x4
+ 360 002a 16       		.uleb128 0x16
+ 361 002b 00       		.byte	0
+ 362 002c 03       		.uleb128 0x3
+ 363 002d 0E       		.uleb128 0xe
+ 364 002e 3A       		.uleb128 0x3a
+ 365 002f 0B       		.uleb128 0xb
+ 366 0030 3B       		.uleb128 0x3b
+ 367 0031 05       		.uleb128 0x5
+ 368 0032 49       		.uleb128 0x49
+ 369 0033 13       		.uleb128 0x13
+ 370 0034 00       		.byte	0
+ 371 0035 00       		.byte	0
+ 372 0036 05       		.uleb128 0x5
+ 373 0037 35       		.uleb128 0x35
+ 374 0038 00       		.byte	0
+ 375 0039 49       		.uleb128 0x49
+ 376 003a 13       		.uleb128 0x13
+ 377 003b 00       		.byte	0
+ 378 003c 00       		.byte	0
+ 379 003d 06       		.uleb128 0x6
+ 380 003e 13       		.uleb128 0x13
+ 381 003f 01       		.byte	0x1
+ 382 0040 03       		.uleb128 0x3
+ 383 0041 0E       		.uleb128 0xe
+ 384 0042 0B       		.uleb128 0xb
+ 385 0043 0B       		.uleb128 0xb
+ 386 0044 3A       		.uleb128 0x3a
+ 387 0045 0B       		.uleb128 0xb
+ 388 0046 3B       		.uleb128 0x3b
+ 389 0047 0B       		.uleb128 0xb
+ 390 0048 01       		.uleb128 0x1
+ 391 0049 13       		.uleb128 0x13
+ 392 004a 00       		.byte	0
+ 393 004b 00       		.byte	0
+ 394 004c 07       		.uleb128 0x7
+ 395 004d 0D       		.uleb128 0xd
+ 396 004e 00       		.byte	0
+ARM GAS  C:\Users\cps\AppData\Local\Temp\cc6yktWh.s 			page 12
+
+
+ 397 004f 03       		.uleb128 0x3
+ 398 0050 0E       		.uleb128 0xe
+ 399 0051 3A       		.uleb128 0x3a
+ 400 0052 0B       		.uleb128 0xb
+ 401 0053 3B       		.uleb128 0x3b
+ 402 0054 0B       		.uleb128 0xb
+ 403 0055 49       		.uleb128 0x49
+ 404 0056 13       		.uleb128 0x13
+ 405 0057 38       		.uleb128 0x38
+ 406 0058 0B       		.uleb128 0xb
+ 407 0059 00       		.byte	0
+ 408 005a 00       		.byte	0
+ 409 005b 08       		.uleb128 0x8
+ 410 005c 16       		.uleb128 0x16
+ 411 005d 00       		.byte	0
+ 412 005e 03       		.uleb128 0x3
+ 413 005f 0E       		.uleb128 0xe
+ 414 0060 3A       		.uleb128 0x3a
+ 415 0061 0B       		.uleb128 0xb
+ 416 0062 3B       		.uleb128 0x3b
+ 417 0063 0B       		.uleb128 0xb
+ 418 0064 49       		.uleb128 0x49
+ 419 0065 13       		.uleb128 0x13
+ 420 0066 00       		.byte	0
+ 421 0067 00       		.byte	0
+ 422 0068 09       		.uleb128 0x9
+ 423 0069 2E       		.uleb128 0x2e
+ 424 006a 00       		.byte	0
+ 425 006b 3F       		.uleb128 0x3f
+ 426 006c 19       		.uleb128 0x19
+ 427 006d 03       		.uleb128 0x3
+ 428 006e 0E       		.uleb128 0xe
+ 429 006f 3A       		.uleb128 0x3a
+ 430 0070 0B       		.uleb128 0xb
+ 431 0071 3B       		.uleb128 0x3b
+ 432 0072 0B       		.uleb128 0xb
+ 433 0073 27       		.uleb128 0x27
+ 434 0074 19       		.uleb128 0x19
+ 435 0075 11       		.uleb128 0x11
+ 436 0076 01       		.uleb128 0x1
+ 437 0077 12       		.uleb128 0x12
+ 438 0078 06       		.uleb128 0x6
+ 439 0079 40       		.uleb128 0x40
+ 440 007a 18       		.uleb128 0x18
+ 441 007b 9742     		.uleb128 0x2117
+ 442 007d 19       		.uleb128 0x19
+ 443 007e 00       		.byte	0
+ 444 007f 00       		.byte	0
+ 445 0080 0A       		.uleb128 0xa
+ 446 0081 2E       		.uleb128 0x2e
+ 447 0082 01       		.byte	0x1
+ 448 0083 3F       		.uleb128 0x3f
+ 449 0084 19       		.uleb128 0x19
+ 450 0085 03       		.uleb128 0x3
+ 451 0086 0E       		.uleb128 0xe
+ 452 0087 3A       		.uleb128 0x3a
+ 453 0088 0B       		.uleb128 0xb
+ARM GAS  C:\Users\cps\AppData\Local\Temp\cc6yktWh.s 			page 13
+
+
+ 454 0089 3B       		.uleb128 0x3b
+ 455 008a 0B       		.uleb128 0xb
+ 456 008b 27       		.uleb128 0x27
+ 457 008c 19       		.uleb128 0x19
+ 458 008d 11       		.uleb128 0x11
+ 459 008e 01       		.uleb128 0x1
+ 460 008f 12       		.uleb128 0x12
+ 461 0090 06       		.uleb128 0x6
+ 462 0091 40       		.uleb128 0x40
+ 463 0092 18       		.uleb128 0x18
+ 464 0093 9742     		.uleb128 0x2117
+ 465 0095 19       		.uleb128 0x19
+ 466 0096 01       		.uleb128 0x1
+ 467 0097 13       		.uleb128 0x13
+ 468 0098 00       		.byte	0
+ 469 0099 00       		.byte	0
+ 470 009a 0B       		.uleb128 0xb
+ 471 009b 898201   		.uleb128 0x4109
+ 472 009e 00       		.byte	0
+ 473 009f 11       		.uleb128 0x11
+ 474 00a0 01       		.uleb128 0x1
+ 475 00a1 31       		.uleb128 0x31
+ 476 00a2 13       		.uleb128 0x13
+ 477 00a3 00       		.byte	0
+ 478 00a4 00       		.byte	0
+ 479 00a5 0C       		.uleb128 0xc
+ 480 00a6 34       		.uleb128 0x34
+ 481 00a7 00       		.byte	0
+ 482 00a8 03       		.uleb128 0x3
+ 483 00a9 0E       		.uleb128 0xe
+ 484 00aa 3A       		.uleb128 0x3a
+ 485 00ab 0B       		.uleb128 0xb
+ 486 00ac 3B       		.uleb128 0x3b
+ 487 00ad 0B       		.uleb128 0xb
+ 488 00ae 49       		.uleb128 0x49
+ 489 00af 13       		.uleb128 0x13
+ 490 00b0 02       		.uleb128 0x2
+ 491 00b1 18       		.uleb128 0x18
+ 492 00b2 00       		.byte	0
+ 493 00b3 00       		.byte	0
+ 494 00b4 0D       		.uleb128 0xd
+ 495 00b5 2E       		.uleb128 0x2e
+ 496 00b6 00       		.byte	0
+ 497 00b7 3F       		.uleb128 0x3f
+ 498 00b8 19       		.uleb128 0x19
+ 499 00b9 03       		.uleb128 0x3
+ 500 00ba 0E       		.uleb128 0xe
+ 501 00bb 3A       		.uleb128 0x3a
+ 502 00bc 0B       		.uleb128 0xb
+ 503 00bd 3B       		.uleb128 0x3b
+ 504 00be 0B       		.uleb128 0xb
+ 505 00bf 27       		.uleb128 0x27
+ 506 00c0 19       		.uleb128 0x19
+ 507 00c1 3C       		.uleb128 0x3c
+ 508 00c2 19       		.uleb128 0x19
+ 509 00c3 00       		.byte	0
+ 510 00c4 00       		.byte	0
+ARM GAS  C:\Users\cps\AppData\Local\Temp\cc6yktWh.s 			page 14
+
+
+ 511 00c5 00       		.byte	0
+ 512              		.section	.debug_aranges,"",%progbits
+ 513 0000 34000000 		.4byte	0x34
+ 514 0004 0200     		.2byte	0x2
+ 515 0006 00000000 		.4byte	.Ldebug_info0
+ 516 000a 04       		.byte	0x4
+ 517 000b 00       		.byte	0
+ 518 000c 0000     		.2byte	0
+ 519 000e 0000     		.2byte	0
+ 520 0010 00000000 		.4byte	.LFB0
+ 521 0014 02000000 		.4byte	.LFE0-.LFB0
+ 522 0018 00000000 		.4byte	.LFB1
+ 523 001c 02000000 		.4byte	.LFE1-.LFB1
+ 524 0020 00000000 		.4byte	.LFB2
+ 525 0024 28000000 		.4byte	.LFE2-.LFB2
+ 526 0028 00000000 		.4byte	.LFB3
+ 527 002c 18000000 		.4byte	.LFE3-.LFB3
+ 528 0030 00000000 		.4byte	0
+ 529 0034 00000000 		.4byte	0
+ 530              		.section	.debug_ranges,"",%progbits
+ 531              	.Ldebug_ranges0:
+ 532 0000 00000000 		.4byte	.LFB0
+ 533 0004 02000000 		.4byte	.LFE0
+ 534 0008 00000000 		.4byte	.LFB1
+ 535 000c 02000000 		.4byte	.LFE1
+ 536 0010 00000000 		.4byte	.LFB2
+ 537 0014 28000000 		.4byte	.LFE2
+ 538 0018 00000000 		.4byte	.LFB3
+ 539 001c 18000000 		.4byte	.LFE3
+ 540 0020 00000000 		.4byte	0
+ 541 0024 00000000 		.4byte	0
+ 542              		.section	.debug_line,"",%progbits
+ 543              	.Ldebug_line0:
+ 544 0000 B1000000 		.section	.debug_str,"MS",%progbits,1
+ 544      02006200 
+ 544      00000201 
+ 544      FB0E0D00 
+ 544      01010101 
+ 545              	.LASF29:
+ 546 0000 55415254 		.ascii	"UART_Maxbotix_backup\000"
+ 546      5F4D6178 
+ 546      626F7469 
+ 546      785F6261 
+ 546      636B7570 
+ 547              	.LASF19:
+ 548 0015 55415254 		.ascii	"UART_Maxbotix_RestoreConfig\000"
+ 548      5F4D6178 
+ 548      626F7469 
+ 548      785F5265 
+ 548      73746F72 
+ 549              	.LASF3:
+ 550 0031 73686F72 		.ascii	"short unsigned int\000"
+ 550      7420756E 
+ 550      7369676E 
+ 550      65642069 
+ 550      6E7400
+ 551              	.LASF9:
+ARM GAS  C:\Users\cps\AppData\Local\Temp\cc6yktWh.s 			page 15
+
+
+ 552 0044 666C6F61 		.ascii	"float\000"
+ 552      7400
+ 553              	.LASF23:
+ 554 004a 55415254 		.ascii	"UART_Maxbotix_ClearRxBuffer\000"
+ 554      5F4D6178 
+ 554      626F7469 
+ 554      785F436C 
+ 554      65617252 
+ 555              	.LASF21:
+ 556 0066 55415254 		.ascii	"UART_Maxbotix_Wakeup\000"
+ 556      5F4D6178 
+ 556      626F7469 
+ 556      785F5761 
+ 556      6B657570 
+ 557              	.LASF13:
+ 558 007b 72656738 		.ascii	"reg8\000"
+ 558      00
+ 559              	.LASF5:
+ 560 0080 6C6F6E67 		.ascii	"long unsigned int\000"
+ 560      20756E73 
+ 560      69676E65 
+ 560      6420696E 
+ 560      7400
+ 561              	.LASF12:
+ 562 0092 75696E74 		.ascii	"uint8\000"
+ 562      3800
+ 563              	.LASF26:
+ 564 0098 2E5C4765 		.ascii	".\\Generated_Source\\PSoC5\\UART_Maxbotix_PM.c\000"
+ 564      6E657261 
+ 564      7465645F 
+ 564      536F7572 
+ 564      63655C50 
+ 565              	.LASF1:
+ 566 00c4 756E7369 		.ascii	"unsigned char\000"
+ 566      676E6564 
+ 566      20636861 
+ 566      7200
+ 567              	.LASF10:
+ 568 00d2 646F7562 		.ascii	"double\000"
+ 568      6C6500
+ 569              	.LASF20:
+ 570 00d9 55415254 		.ascii	"UART_Maxbotix_Sleep\000"
+ 570      5F4D6178 
+ 570      626F7469 
+ 570      785F536C 
+ 570      65657000 
+ 571              	.LASF25:
+ 572 00ed 474E5520 		.ascii	"GNU C 4.9.3 20150303 (release) [ARM/embedded-4_9-br"
+ 572      4320342E 
+ 572      392E3320 
+ 572      32303135 
+ 572      30333033 
+ 573 0120 616E6368 		.ascii	"anch revision 221220] -mcpu=cortex-m3 -mthumb -g -O"
+ 573      20726576 
+ 573      6973696F 
+ 573      6E203232 
+ 573      31323230 
+ARM GAS  C:\Users\cps\AppData\Local\Temp\cc6yktWh.s 			page 16
+
+
+ 574 0153 67202D66 		.ascii	"g -ffunction-sections -ffat-lto-objects\000"
+ 574      66756E63 
+ 574      74696F6E 
+ 574      2D736563 
+ 574      74696F6E 
+ 575              	.LASF8:
+ 576 017b 756E7369 		.ascii	"unsigned int\000"
+ 576      676E6564 
+ 576      20696E74 
+ 576      00
+ 577              	.LASF7:
+ 578 0188 6C6F6E67 		.ascii	"long long unsigned int\000"
+ 578      206C6F6E 
+ 578      6720756E 
+ 578      7369676E 
+ 578      65642069 
+ 579              	.LASF14:
+ 580 019f 73697A65 		.ascii	"sizetype\000"
+ 580      74797065 
+ 580      00
+ 581              	.LASF6:
+ 582 01a8 6C6F6E67 		.ascii	"long long int\000"
+ 582      206C6F6E 
+ 582      6720696E 
+ 582      7400
+ 583              	.LASF24:
+ 584 01b6 55415254 		.ascii	"UART_Maxbotix_Enable\000"
+ 584      5F4D6178 
+ 584      626F7469 
+ 584      785F456E 
+ 584      61626C65 
+ 585              	.LASF11:
+ 586 01cb 63686172 		.ascii	"char\000"
+ 586      00
+ 587              	.LASF18:
+ 588 01d0 55415254 		.ascii	"UART_Maxbotix_SaveConfig\000"
+ 588      5F4D6178 
+ 588      626F7469 
+ 588      785F5361 
+ 588      7665436F 
+ 589              	.LASF27:
+ 590 01e9 433A5C55 		.ascii	"C:\\Users\\cps\\Documents\\neoapi\\Project Template"
+ 590      73657273 
+ 590      5C637073 
+ 590      5C446F63 
+ 590      756D656E 
+ 591 0217 735C5365 		.ascii	"s\\Sensor Examples\\Example Sensors\\Maxbotix.cydsn"
+ 591      6E736F72 
+ 591      20457861 
+ 591      6D706C65 
+ 591      735C4578 
+ 592 0247 00       		.ascii	"\000"
+ 593              	.LASF2:
+ 594 0248 73686F72 		.ascii	"short int\000"
+ 594      7420696E 
+ 594      7400
+ 595              	.LASF16:
+ARM GAS  C:\Users\cps\AppData\Local\Temp\cc6yktWh.s 			page 17
+
+
+ 596 0252 72785F70 		.ascii	"rx_period\000"
+ 596      6572696F 
+ 596      6400
+ 597              	.LASF4:
+ 598 025c 6C6F6E67 		.ascii	"long int\000"
+ 598      20696E74 
+ 598      00
+ 599              	.LASF15:
+ 600 0265 656E6162 		.ascii	"enableState\000"
+ 600      6C655374 
+ 600      61746500 
+ 601              	.LASF28:
+ 602 0271 55415254 		.ascii	"UART_Maxbotix_backupStruct_\000"
+ 602      5F4D6178 
+ 602      626F7469 
+ 602      785F6261 
+ 602      636B7570 
+ 603              	.LASF0:
+ 604 028d 7369676E 		.ascii	"signed char\000"
+ 604      65642063 
+ 604      68617200 
+ 605              	.LASF22:
+ 606 0299 55415254 		.ascii	"UART_Maxbotix_Stop\000"
+ 606      5F4D6178 
+ 606      626F7469 
+ 606      785F5374 
+ 606      6F7000
+ 607              	.LASF17:
+ 608 02ac 55415254 		.ascii	"UART_Maxbotix_BACKUP_STRUCT\000"
+ 608      5F4D6178 
+ 608      626F7469 
+ 608      785F4241 
+ 608      434B5550 
+ 609              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 4.9.3 20150303 (release) [ARM/embedded-4_9-br
