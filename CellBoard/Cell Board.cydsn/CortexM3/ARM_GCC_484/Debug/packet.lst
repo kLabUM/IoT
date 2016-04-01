@@ -1,0 +1,1199 @@
+ARM GAS  C:\Users\BRANKO~1\AppData\Local\Temp\cckwerrh.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 6
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.file	"packet.c"
+  15              		.text
+  16              	.Ltext0:
+  17              		.cfi_sections	.debug_frame
+  18              		.comm	error_str,4,4
+  19              		.section	.rodata
+  20              		.align	2
+  21              	.LC0:
+  22 0000 2573206E 		.ascii	"%s not found in packet: \012%s\000"
+  22      6F742066 
+  22      6F756E64 
+  22      20696E20 
+  22      7061636B 
+  23              		.align	2
+  24              	.LC1:
+  25 001c 5A2C00   		.ascii	"Z,\000"
+  26 001f 00       		.align	2
+  27              	.LC2:
+  28 0020 275A2C27 		.ascii	"'Z,' not found in packet: \012%s\000"
+  28      206E6F74 
+  28      20666F75 
+  28      6E642069 
+  28      6E207061 
+  29 003e 0000     		.align	2
+  30              	.LC3:
+  31 0040 270D2720 		.ascii	"'\015' not found in packet: \012%s\000"
+  31      6E6F7420 
+  31      666F756E 
+  31      6420696E 
+  31      20706163 
+  32 005d 000000   		.section	.text.packet_get_value,"ax",%progbits
+  33              		.align	2
+  34              		.global	packet_get_value
+  35              		.thumb
+  36              		.thumb_func
+  37              		.type	packet_get_value, %function
+  38              	packet_get_value:
+  39              	.LFB56:
+  40              		.file 1 ".\\packet.c"
+   1:.\packet.c    **** /* ========================================
+   2:.\packet.c    ****  *
+   3:.\packet.c    ****  * Copyright YOUR COMPANY, THE YEAR
+   4:.\packet.c    ****  * All Rights Reserved
+   5:.\packet.c    ****  * UNPUBLISHED, LICENSED SOFTWARE.
+ARM GAS  C:\Users\BRANKO~1\AppData\Local\Temp\cckwerrh.s 			page 2
+
+
+   6:.\packet.c    ****  *
+   7:.\packet.c    ****  * CONFIDENTIAL AND PROPRIETARY INFORMATION
+   8:.\packet.c    ****  * WHICH IS THE PROPERTY OF your company.
+   9:.\packet.c    ****  *
+  10:.\packet.c    ****  * ========================================
+  11:.\packet.c    **** */
+  12:.\packet.c    **** #include "packet.h"
+  13:.\packet.c    **** //#include "debug.h" TODO: ACCOUNT FOR THIS
+  14:.\packet.c    **** 
+  15:.\packet.c    **** char* error_str;
+  16:.\packet.c    **** 
+  17:.\packet.c    **** /*
+  18:.\packet.c    **** Searches Xively packet for name and returns the associated value
+  19:.\packet.c    **** as a char array.
+  20:.\packet.c    **** Returns 1 if successful, and 0 if there was an error.
+  21:.\packet.c    **** */
+  22:.\packet.c    **** uint8 packet_get_value(char* packet, char* name, char* value) {
+  41              		.loc 1 22 0
+  42              		.cfi_startproc
+  43              		@ args = 0, pretend = 0, frame = 24
+  44              		@ frame_needed = 1, uses_anonymous_args = 0
+  45 0000 80B5     		push	{r7, lr}
+  46              		.cfi_def_cfa_offset 8
+  47              		.cfi_offset 7, -8
+  48              		.cfi_offset 14, -4
+  49 0002 86B0     		sub	sp, sp, #24
+  50              		.cfi_def_cfa_offset 32
+  51 0004 00AF     		add	r7, sp, #0
+  52              		.cfi_def_cfa_register 7
+  53 0006 F860     		str	r0, [r7, #12]
+  54 0008 B960     		str	r1, [r7, #8]
+  55 000a 7A60     		str	r2, [r7, #4]
+  23:.\packet.c    ****     char *a, *b;
+  24:.\packet.c    ****     
+  25:.\packet.c    ****     // Find the first occurence of "name" in "packet"
+  26:.\packet.c    ****     a = strstr(packet,name);
+  56              		.loc 1 26 0
+  57 000c F868     		ldr	r0, [r7, #12]
+  58 000e B968     		ldr	r1, [r7, #8]
+  59 0010 FFF7FEFF 		bl	strstr
+  60 0014 7861     		str	r0, [r7, #20]
+  27:.\packet.c    ****     if (a == NULL) {
+  61              		.loc 1 27 0
+  62 0016 7B69     		ldr	r3, [r7, #20]
+  63 0018 002B     		cmp	r3, #0
+  64 001a 09D1     		bne	.L2
+  28:.\packet.c    ****         sprintf(error_str, "%s not found in packet: \n%s", name, packet);
+  65              		.loc 1 28 0
+  66 001c 1D4B     		ldr	r3, .L6
+  67 001e 1B68     		ldr	r3, [r3]
+  68 0020 1846     		mov	r0, r3
+  69 0022 1D49     		ldr	r1, .L6+4
+  70 0024 BA68     		ldr	r2, [r7, #8]
+  71 0026 FB68     		ldr	r3, [r7, #12]
+  72 0028 FFF7FEFF 		bl	sprintf
+  29:.\packet.c    ****         /* Write to SD Card debugger
+  30:.\packet.c    ****         debug_write( error_str );
+ARM GAS  C:\Users\BRANKO~1\AppData\Local\Temp\cckwerrh.s 			page 3
+
+
+  31:.\packet.c    ****         */
+  32:.\packet.c    ****         return 0u;
+  73              		.loc 1 32 0
+  74 002c 0023     		movs	r3, #0
+  75 002e 2CE0     		b	.L3
+  76              	.L2:
+  33:.\packet.c    ****     }
+  34:.\packet.c    ****     
+  35:.\packet.c    ****     // Move the pointer to the timestamp after the first occurence of "name"
+  36:.\packet.c    ****     // This marks where the value is
+  37:.\packet.c    ****     a = strstr(a,"Z,")+strlen("Z,");
+  77              		.loc 1 37 0
+  78 0030 7869     		ldr	r0, [r7, #20]
+  79 0032 1A49     		ldr	r1, .L6+8
+  80 0034 FFF7FEFF 		bl	strstr
+  81 0038 0346     		mov	r3, r0
+  82 003a 0233     		adds	r3, r3, #2
+  83 003c 7B61     		str	r3, [r7, #20]
+  38:.\packet.c    ****     if (a == NULL) {
+  84              		.loc 1 38 0
+  85 003e 7B69     		ldr	r3, [r7, #20]
+  86 0040 002B     		cmp	r3, #0
+  87 0042 08D1     		bne	.L4
+  39:.\packet.c    ****         sprintf(error_str, "'Z,' not found in packet: \n%s", packet);
+  88              		.loc 1 39 0
+  89 0044 134B     		ldr	r3, .L6
+  90 0046 1B68     		ldr	r3, [r3]
+  91 0048 1846     		mov	r0, r3
+  92 004a 1549     		ldr	r1, .L6+12
+  93 004c FA68     		ldr	r2, [r7, #12]
+  94 004e FFF7FEFF 		bl	sprintf
+  40:.\packet.c    ****         /* Write to SD Card debugger
+  41:.\packet.c    ****         debug_write( error_str );
+  42:.\packet.c    ****         */
+  43:.\packet.c    ****         return 0u;
+  95              		.loc 1 43 0
+  96 0052 0023     		movs	r3, #0
+  97 0054 19E0     		b	.L3
+  98              	.L4:
+  44:.\packet.c    ****     }
+  45:.\packet.c    ****     
+  46:.\packet.c    ****     // Find the carriage return, marking the end of the value
+  47:.\packet.c    ****     b = strstr(a,"\n");
+  99              		.loc 1 47 0
+ 100 0056 7869     		ldr	r0, [r7, #20]
+ 101 0058 0A21     		movs	r1, #10
+ 102 005a FFF7FEFF 		bl	strchr
+ 103 005e 3861     		str	r0, [r7, #16]
+  48:.\packet.c    ****     if (b == NULL) {
+ 104              		.loc 1 48 0
+ 105 0060 3B69     		ldr	r3, [r7, #16]
+ 106 0062 002B     		cmp	r3, #0
+ 107 0064 08D1     		bne	.L5
+  49:.\packet.c    ****         sprintf(error_str, "'\r' not found in packet: \n%s", packet);
+ 108              		.loc 1 49 0
+ 109 0066 0B4B     		ldr	r3, .L6
+ 110 0068 1B68     		ldr	r3, [r3]
+ARM GAS  C:\Users\BRANKO~1\AppData\Local\Temp\cckwerrh.s 			page 4
+
+
+ 111 006a 1846     		mov	r0, r3
+ 112 006c 0D49     		ldr	r1, .L6+16
+ 113 006e FA68     		ldr	r2, [r7, #12]
+ 114 0070 FFF7FEFF 		bl	sprintf
+  50:.\packet.c    ****         /* Write to SD Card debugger
+  51:.\packet.c    ****         debug_write( error_str );
+  52:.\packet.c    ****         */
+  53:.\packet.c    ****         return 0u;
+ 115              		.loc 1 53 0
+ 116 0074 0023     		movs	r3, #0
+ 117 0076 08E0     		b	.L3
+ 118              	.L5:
+  54:.\packet.c    ****     }
+  55:.\packet.c    ****     
+  56:.\packet.c    ****     strncpy(value,a,b-a);   
+ 119              		.loc 1 56 0
+ 120 0078 3A69     		ldr	r2, [r7, #16]
+ 121 007a 7B69     		ldr	r3, [r7, #20]
+ 122 007c D31A     		subs	r3, r2, r3
+ 123 007e 7868     		ldr	r0, [r7, #4]
+ 124 0080 7969     		ldr	r1, [r7, #20]
+ 125 0082 1A46     		mov	r2, r3
+ 126 0084 FFF7FEFF 		bl	strncpy
+  57:.\packet.c    ****     return 1u;
+ 127              		.loc 1 57 0
+ 128 0088 0123     		movs	r3, #1
+ 129              	.L3:
+  58:.\packet.c    **** }
+ 130              		.loc 1 58 0
+ 131 008a 1846     		mov	r0, r3
+ 132 008c 1837     		adds	r7, r7, #24
+ 133 008e BD46     		mov	sp, r7
+ 134              		@ sp needed
+ 135 0090 80BD     		pop	{r7, pc}
+ 136              	.L7:
+ 137 0092 00BF     		.align	2
+ 138              	.L6:
+ 139 0094 00000000 		.word	error_str
+ 140 0098 00000000 		.word	.LC0
+ 141 009c 1C000000 		.word	.LC1
+ 142 00a0 20000000 		.word	.LC2
+ 143 00a4 40000000 		.word	.LC3
+ 144              		.cfi_endproc
+ 145              	.LFE56:
+ 146              		.size	packet_get_value, .-packet_get_value
+ 147              		.section	.text.packet_get_uint8,"ax",%progbits
+ 148              		.align	2
+ 149              		.global	packet_get_uint8
+ 150              		.thumb
+ 151              		.thumb_func
+ 152              		.type	packet_get_uint8, %function
+ 153              	packet_get_uint8:
+ 154              	.LFB57:
+  59:.\packet.c    **** 
+  60:.\packet.c    **** /*
+  61:.\packet.c    **** Searches Xively packet for name and returns the associated value
+  62:.\packet.c    **** as uint32.
+ARM GAS  C:\Users\BRANKO~1\AppData\Local\Temp\cckwerrh.s 			page 5
+
+
+  63:.\packet.c    **** Returns 1 if successful, and 0 if there was an error.
+  64:.\packet.c    **** */
+  65:.\packet.c    **** uint8 packet_get_uint8(char* packet, char* name, uint8* value) {
+ 155              		.loc 1 65 0
+ 156              		.cfi_startproc
+ 157              		@ args = 0, pretend = 0, frame = 40
+ 158              		@ frame_needed = 1, uses_anonymous_args = 0
+ 159 0000 80B5     		push	{r7, lr}
+ 160              		.cfi_def_cfa_offset 8
+ 161              		.cfi_offset 7, -8
+ 162              		.cfi_offset 14, -4
+ 163 0002 8AB0     		sub	sp, sp, #40
+ 164              		.cfi_def_cfa_offset 48
+ 165 0004 00AF     		add	r7, sp, #0
+ 166              		.cfi_def_cfa_register 7
+ 167 0006 F860     		str	r0, [r7, #12]
+ 168 0008 B960     		str	r1, [r7, #8]
+ 169 000a 7A60     		str	r2, [r7, #4]
+  66:.\packet.c    ****     char value_str[20] = {0}; // uint8 is at most 3 digits long
+ 170              		.loc 1 66 0
+ 171 000c 07F11403 		add	r3, r7, #20
+ 172 0010 0022     		movs	r2, #0
+ 173 0012 1A60     		str	r2, [r3]
+ 174 0014 0433     		adds	r3, r3, #4
+ 175 0016 0022     		movs	r2, #0
+ 176 0018 1A60     		str	r2, [r3]
+ 177 001a 0433     		adds	r3, r3, #4
+ 178 001c 0022     		movs	r2, #0
+ 179 001e 1A60     		str	r2, [r3]
+ 180 0020 0433     		adds	r3, r3, #4
+ 181 0022 0022     		movs	r2, #0
+ 182 0024 1A60     		str	r2, [r3]
+ 183 0026 0433     		adds	r3, r3, #4
+ 184 0028 0022     		movs	r2, #0
+ 185 002a 1A60     		str	r2, [r3]
+ 186 002c 0433     		adds	r3, r3, #4
+  67:.\packet.c    ****     
+  68:.\packet.c    ****     if( packet_get_value(packet, name, value_str) ){
+ 187              		.loc 1 68 0
+ 188 002e 07F11403 		add	r3, r7, #20
+ 189 0032 F868     		ldr	r0, [r7, #12]
+ 190 0034 B968     		ldr	r1, [r7, #8]
+ 191 0036 1A46     		mov	r2, r3
+ 192 0038 FFF7FEFF 		bl	packet_get_value
+ 193 003c 0346     		mov	r3, r0
+ 194 003e 002B     		cmp	r3, #0
+ 195 0040 0CD0     		beq	.L9
+  69:.\packet.c    ****         *value = (uint8) strtol(value_str,(char **) NULL, 10); // Base 10
+ 196              		.loc 1 69 0
+ 197 0042 07F11403 		add	r3, r7, #20
+ 198 0046 1846     		mov	r0, r3
+ 199 0048 0021     		movs	r1, #0
+ 200 004a 0A22     		movs	r2, #10
+ 201 004c FFF7FEFF 		bl	strtol
+ 202 0050 0346     		mov	r3, r0
+ 203 0052 DAB2     		uxtb	r2, r3
+ 204 0054 7B68     		ldr	r3, [r7, #4]
+ARM GAS  C:\Users\BRANKO~1\AppData\Local\Temp\cckwerrh.s 			page 6
+
+
+ 205 0056 1A70     		strb	r2, [r3]
+  70:.\packet.c    ****         // http://www.cplusplus.com/reference/cstdlib/strtol/
+  71:.\packet.c    ****         return 1u;
+ 206              		.loc 1 71 0
+ 207 0058 0123     		movs	r3, #1
+ 208 005a 08E0     		b	.L11
+ 209              	.L9:
+  72:.\packet.c    ****     }
+  73:.\packet.c    ****         
+  74:.\packet.c    ****     sprintf(error_str, "%s not found in packet: \n%s", name, packet);
+ 210              		.loc 1 74 0
+ 211 005c 064B     		ldr	r3, .L12
+ 212 005e 1B68     		ldr	r3, [r3]
+ 213 0060 1846     		mov	r0, r3
+ 214 0062 0649     		ldr	r1, .L12+4
+ 215 0064 BA68     		ldr	r2, [r7, #8]
+ 216 0066 FB68     		ldr	r3, [r7, #12]
+ 217 0068 FFF7FEFF 		bl	sprintf
+  75:.\packet.c    ****     /* Write to SD Card debugger
+  76:.\packet.c    ****     debug_write( error_str );
+  77:.\packet.c    ****     */
+  78:.\packet.c    ****     return 0u;
+ 218              		.loc 1 78 0
+ 219 006c 0023     		movs	r3, #0
+ 220              	.L11:
+  79:.\packet.c    **** }
+ 221              		.loc 1 79 0
+ 222 006e 1846     		mov	r0, r3
+ 223 0070 2837     		adds	r7, r7, #40
+ 224 0072 BD46     		mov	sp, r7
+ 225              		@ sp needed
+ 226 0074 80BD     		pop	{r7, pc}
+ 227              	.L13:
+ 228 0076 00BF     		.align	2
+ 229              	.L12:
+ 230 0078 00000000 		.word	error_str
+ 231 007c 00000000 		.word	.LC0
+ 232              		.cfi_endproc
+ 233              	.LFE57:
+ 234              		.size	packet_get_uint8, .-packet_get_uint8
+ 235              		.section	.text.packet_get_uint32,"ax",%progbits
+ 236              		.align	2
+ 237              		.global	packet_get_uint32
+ 238              		.thumb
+ 239              		.thumb_func
+ 240              		.type	packet_get_uint32, %function
+ 241              	packet_get_uint32:
+ 242              	.LFB58:
+  80:.\packet.c    **** 
+  81:.\packet.c    **** /*
+  82:.\packet.c    **** Searches Xively packet for name and returns the associated value
+  83:.\packet.c    **** as uint32.
+  84:.\packet.c    **** Returns 1 if successful, and 0 if there was an error.
+  85:.\packet.c    **** */
+  86:.\packet.c    **** uint8 packet_get_uint32(char* packet, char* name, uint32* value) {
+ 243              		.loc 1 86 0
+ 244              		.cfi_startproc
+ARM GAS  C:\Users\BRANKO~1\AppData\Local\Temp\cckwerrh.s 			page 7
+
+
+ 245              		@ args = 0, pretend = 0, frame = 40
+ 246              		@ frame_needed = 1, uses_anonymous_args = 0
+ 247 0000 80B5     		push	{r7, lr}
+ 248              		.cfi_def_cfa_offset 8
+ 249              		.cfi_offset 7, -8
+ 250              		.cfi_offset 14, -4
+ 251 0002 8AB0     		sub	sp, sp, #40
+ 252              		.cfi_def_cfa_offset 48
+ 253 0004 00AF     		add	r7, sp, #0
+ 254              		.cfi_def_cfa_register 7
+ 255 0006 F860     		str	r0, [r7, #12]
+ 256 0008 B960     		str	r1, [r7, #8]
+ 257 000a 7A60     		str	r2, [r7, #4]
+  87:.\packet.c    ****     char value_str[20] = {0}; // uint32 is at most 10 digits long
+ 258              		.loc 1 87 0
+ 259 000c 07F11403 		add	r3, r7, #20
+ 260 0010 0022     		movs	r2, #0
+ 261 0012 1A60     		str	r2, [r3]
+ 262 0014 0433     		adds	r3, r3, #4
+ 263 0016 0022     		movs	r2, #0
+ 264 0018 1A60     		str	r2, [r3]
+ 265 001a 0433     		adds	r3, r3, #4
+ 266 001c 0022     		movs	r2, #0
+ 267 001e 1A60     		str	r2, [r3]
+ 268 0020 0433     		adds	r3, r3, #4
+ 269 0022 0022     		movs	r2, #0
+ 270 0024 1A60     		str	r2, [r3]
+ 271 0026 0433     		adds	r3, r3, #4
+ 272 0028 0022     		movs	r2, #0
+ 273 002a 1A60     		str	r2, [r3]
+ 274 002c 0433     		adds	r3, r3, #4
+  88:.\packet.c    ****     
+  89:.\packet.c    ****     if( packet_get_value(packet, name, value_str) ){
+ 275              		.loc 1 89 0
+ 276 002e 07F11403 		add	r3, r7, #20
+ 277 0032 F868     		ldr	r0, [r7, #12]
+ 278 0034 B968     		ldr	r1, [r7, #8]
+ 279 0036 1A46     		mov	r2, r3
+ 280 0038 FFF7FEFF 		bl	packet_get_value
+ 281 003c 0346     		mov	r3, r0
+ 282 003e 002B     		cmp	r3, #0
+ 283 0040 0CD0     		beq	.L15
+  90:.\packet.c    ****         *value = (uint32) strtol(value_str,(char **) NULL, 10); // Base 10
+ 284              		.loc 1 90 0
+ 285 0042 07F11403 		add	r3, r7, #20
+ 286 0046 1846     		mov	r0, r3
+ 287 0048 0021     		movs	r1, #0
+ 288 004a 0A22     		movs	r2, #10
+ 289 004c FFF7FEFF 		bl	strtol
+ 290 0050 0346     		mov	r3, r0
+ 291 0052 1A46     		mov	r2, r3
+ 292 0054 7B68     		ldr	r3, [r7, #4]
+ 293 0056 1A60     		str	r2, [r3]
+  91:.\packet.c    ****         // http://www.cplusplus.com/reference/cstdlib/strtol/
+  92:.\packet.c    ****         return 1u;
+ 294              		.loc 1 92 0
+ 295 0058 0123     		movs	r3, #1
+ARM GAS  C:\Users\BRANKO~1\AppData\Local\Temp\cckwerrh.s 			page 8
+
+
+ 296 005a 08E0     		b	.L17
+ 297              	.L15:
+  93:.\packet.c    ****     }
+  94:.\packet.c    ****         
+  95:.\packet.c    ****     sprintf(error_str, "%s not found in packet: \n%s", name, packet);
+ 298              		.loc 1 95 0
+ 299 005c 064B     		ldr	r3, .L18
+ 300 005e 1B68     		ldr	r3, [r3]
+ 301 0060 1846     		mov	r0, r3
+ 302 0062 0649     		ldr	r1, .L18+4
+ 303 0064 BA68     		ldr	r2, [r7, #8]
+ 304 0066 FB68     		ldr	r3, [r7, #12]
+ 305 0068 FFF7FEFF 		bl	sprintf
+  96:.\packet.c    ****     /* Write to SD Card debugger
+  97:.\packet.c    ****     debug_write( error_str );
+  98:.\packet.c    ****     */
+  99:.\packet.c    ****     return 0u;
+ 306              		.loc 1 99 0
+ 307 006c 0023     		movs	r3, #0
+ 308              	.L17:
+ 100:.\packet.c    **** }
+ 309              		.loc 1 100 0
+ 310 006e 1846     		mov	r0, r3
+ 311 0070 2837     		adds	r7, r7, #40
+ 312 0072 BD46     		mov	sp, r7
+ 313              		@ sp needed
+ 314 0074 80BD     		pop	{r7, pc}
+ 315              	.L19:
+ 316 0076 00BF     		.align	2
+ 317              	.L18:
+ 318 0078 00000000 		.word	error_str
+ 319 007c 00000000 		.word	.LC0
+ 320              		.cfi_endproc
+ 321              	.LFE58:
+ 322              		.size	packet_get_uint32, .-packet_get_uint32
+ 323              		.section	.text.clear_packet,"ax",%progbits
+ 324              		.align	2
+ 325              		.global	clear_packet
+ 326              		.thumb
+ 327              		.thumb_func
+ 328              		.type	clear_packet, %function
+ 329              	clear_packet:
+ 330              	.LFB59:
+ 101:.\packet.c    **** 
+ 102:.\packet.c    **** 
+ 103:.\packet.c    **** uint8 clear_packet(char* packet){
+ 331              		.loc 1 103 0
+ 332              		.cfi_startproc
+ 333              		@ args = 0, pretend = 0, frame = 8
+ 334              		@ frame_needed = 1, uses_anonymous_args = 0
+ 335 0000 80B5     		push	{r7, lr}
+ 336              		.cfi_def_cfa_offset 8
+ 337              		.cfi_offset 7, -8
+ 338              		.cfi_offset 14, -4
+ 339 0002 82B0     		sub	sp, sp, #8
+ 340              		.cfi_def_cfa_offset 16
+ 341 0004 00AF     		add	r7, sp, #0
+ARM GAS  C:\Users\BRANKO~1\AppData\Local\Temp\cckwerrh.s 			page 9
+
+
+ 342              		.cfi_def_cfa_register 7
+ 343 0006 7860     		str	r0, [r7, #4]
+ 104:.\packet.c    **** 
+ 105:.\packet.c    ****     memset(packet,0,sizeof(packet));
+ 344              		.loc 1 105 0
+ 345 0008 7868     		ldr	r0, [r7, #4]
+ 346 000a 0021     		movs	r1, #0
+ 347 000c 0422     		movs	r2, #4
+ 348 000e FFF7FEFF 		bl	memset
+ 106:.\packet.c    ****     return 1u;
+ 349              		.loc 1 106 0
+ 350 0012 0123     		movs	r3, #1
+ 107:.\packet.c    **** }
+ 351              		.loc 1 107 0
+ 352 0014 1846     		mov	r0, r3
+ 353 0016 0837     		adds	r7, r7, #8
+ 354 0018 BD46     		mov	sp, r7
+ 355              		@ sp needed
+ 356 001a 80BD     		pop	{r7, pc}
+ 357              		.cfi_endproc
+ 358              	.LFE59:
+ 359              		.size	clear_packet, .-clear_packet
+ 360              		.text
+ 361              	.Letext0:
+ 362              		.file 2 "c:\\program files (x86)\\cypress\\psoc creator\\3.1\\psoc creator\\import\\gnu_cs\\arm\\4
+ 363              		.file 3 "c:\\program files (x86)\\cypress\\psoc creator\\3.1\\psoc creator\\import\\gnu_cs\\arm\\4
+ 364              		.file 4 ".\\Generated_Source\\PSoC5/cytypes.h"
+ 365              		.file 5 ".\\Generated_Source\\PSoC5/core_cm3.h"
+ 366              		.section	.debug_info,"",%progbits
+ 367              	.Ldebug_info0:
+ 368 0000 1C020000 		.4byte	0x21c
+ 369 0004 0400     		.2byte	0x4
+ 370 0006 00000000 		.4byte	.Ldebug_abbrev0
+ 371 000a 04       		.byte	0x4
+ 372 000b 01       		.uleb128 0x1
+ 373 000c D7000000 		.4byte	.LASF27
+ 374 0010 01       		.byte	0x1
+ 375 0011 10000000 		.4byte	.LASF28
+ 376 0015 84010000 		.4byte	.LASF29
+ 377 0019 00000000 		.4byte	.Ldebug_ranges0+0
+ 378 001d 00000000 		.4byte	0
+ 379 0021 00000000 		.4byte	.Ldebug_line0
+ 380 0025 02       		.uleb128 0x2
+ 381 0026 01       		.byte	0x1
+ 382 0027 06       		.byte	0x6
+ 383 0028 CD010000 		.4byte	.LASF0
+ 384 002c 02       		.uleb128 0x2
+ 385 002d 01       		.byte	0x1
+ 386 002e 08       		.byte	0x8
+ 387 002f 39000000 		.4byte	.LASF1
+ 388 0033 02       		.uleb128 0x2
+ 389 0034 02       		.byte	0x2
+ 390 0035 05       		.byte	0x5
+ 391 0036 A9010000 		.4byte	.LASF2
+ 392 003a 02       		.uleb128 0x2
+ 393 003b 02       		.byte	0x2
+ 394 003c 07       		.byte	0x7
+ARM GAS  C:\Users\BRANKO~1\AppData\Local\Temp\cckwerrh.s 			page 10
+
+
+ 395 003d 59000000 		.4byte	.LASF3
+ 396 0041 03       		.uleb128 0x3
+ 397 0042 06000000 		.4byte	.LASF9
+ 398 0046 02       		.byte	0x2
+ 399 0047 37       		.byte	0x37
+ 400 0048 4C000000 		.4byte	0x4c
+ 401 004c 02       		.uleb128 0x2
+ 402 004d 04       		.byte	0x4
+ 403 004e 05       		.byte	0x5
+ 404 004f C4010000 		.4byte	.LASF4
+ 405 0053 02       		.uleb128 0x2
+ 406 0054 04       		.byte	0x4
+ 407 0055 07       		.byte	0x7
+ 408 0056 47000000 		.4byte	.LASF5
+ 409 005a 02       		.uleb128 0x2
+ 410 005b 08       		.byte	0x8
+ 411 005c 05       		.byte	0x5
+ 412 005d 71010000 		.4byte	.LASF6
+ 413 0061 02       		.uleb128 0x2
+ 414 0062 08       		.byte	0x8
+ 415 0063 07       		.byte	0x7
+ 416 0064 B3000000 		.4byte	.LASF7
+ 417 0068 04       		.uleb128 0x4
+ 418 0069 04       		.byte	0x4
+ 419 006a 05       		.byte	0x5
+ 420 006b 696E7400 		.ascii	"int\000"
+ 421 006f 02       		.uleb128 0x2
+ 422 0070 04       		.byte	0x4
+ 423 0071 07       		.byte	0x7
+ 424 0072 A6000000 		.4byte	.LASF8
+ 425 0076 03       		.uleb128 0x3
+ 426 0077 60010000 		.4byte	.LASF10
+ 427 007b 03       		.byte	0x3
+ 428 007c 41       		.byte	0x41
+ 429 007d 41000000 		.4byte	0x41
+ 430 0081 03       		.uleb128 0x3
+ 431 0082 33000000 		.4byte	.LASF11
+ 432 0086 04       		.byte	0x4
+ 433 0087 A1       		.byte	0xa1
+ 434 0088 2C000000 		.4byte	0x2c
+ 435 008c 03       		.uleb128 0x3
+ 436 008d 8E000000 		.4byte	.LASF12
+ 437 0091 04       		.byte	0x4
+ 438 0092 A3       		.byte	0xa3
+ 439 0093 53000000 		.4byte	0x53
+ 440 0097 02       		.uleb128 0x2
+ 441 0098 04       		.byte	0x4
+ 442 0099 04       		.byte	0x4
+ 443 009a 2D000000 		.4byte	.LASF13
+ 444 009e 02       		.uleb128 0x2
+ 445 009f 08       		.byte	0x8
+ 446 00a0 04       		.byte	0x4
+ 447 00a1 80000000 		.4byte	.LASF14
+ 448 00a5 02       		.uleb128 0x2
+ 449 00a6 01       		.byte	0x1
+ 450 00a7 08       		.byte	0x8
+ 451 00a8 7F010000 		.4byte	.LASF15
+ARM GAS  C:\Users\BRANKO~1\AppData\Local\Temp\cckwerrh.s 			page 11
+
+
+ 452 00ac 02       		.uleb128 0x2
+ 453 00ad 04       		.byte	0x4
+ 454 00ae 07       		.byte	0x7
+ 455 00af 68010000 		.4byte	.LASF16
+ 456 00b3 05       		.uleb128 0x5
+ 457 00b4 04       		.byte	0x4
+ 458 00b5 A5000000 		.4byte	0xa5
+ 459 00b9 06       		.uleb128 0x6
+ 460 00ba 95000000 		.4byte	.LASF20
+ 461 00be 01       		.byte	0x1
+ 462 00bf 16       		.byte	0x16
+ 463 00c0 81000000 		.4byte	0x81
+ 464 00c4 00000000 		.4byte	.LFB56
+ 465 00c8 A8000000 		.4byte	.LFE56-.LFB56
+ 466 00cc 01       		.uleb128 0x1
+ 467 00cd 9C       		.byte	0x9c
+ 468 00ce 15010000 		.4byte	0x115
+ 469 00d2 07       		.uleb128 0x7
+ 470 00d3 87000000 		.4byte	.LASF17
+ 471 00d7 01       		.byte	0x1
+ 472 00d8 16       		.byte	0x16
+ 473 00d9 B3000000 		.4byte	0xb3
+ 474 00dd 02       		.uleb128 0x2
+ 475 00de 91       		.byte	0x91
+ 476 00df 6C       		.sleb128 -20
+ 477 00e0 07       		.uleb128 0x7
+ 478 00e1 D9010000 		.4byte	.LASF18
+ 479 00e5 01       		.byte	0x1
+ 480 00e6 16       		.byte	0x16
+ 481 00e7 B3000000 		.4byte	0xb3
+ 482 00eb 02       		.uleb128 0x2
+ 483 00ec 91       		.byte	0x91
+ 484 00ed 68       		.sleb128 -24
+ 485 00ee 07       		.uleb128 0x7
+ 486 00ef 00000000 		.4byte	.LASF19
+ 487 00f3 01       		.byte	0x1
+ 488 00f4 16       		.byte	0x16
+ 489 00f5 B3000000 		.4byte	0xb3
+ 490 00f9 02       		.uleb128 0x2
+ 491 00fa 91       		.byte	0x91
+ 492 00fb 64       		.sleb128 -28
+ 493 00fc 08       		.uleb128 0x8
+ 494 00fd 6100     		.ascii	"a\000"
+ 495 00ff 01       		.byte	0x1
+ 496 0100 17       		.byte	0x17
+ 497 0101 B3000000 		.4byte	0xb3
+ 498 0105 02       		.uleb128 0x2
+ 499 0106 91       		.byte	0x91
+ 500 0107 74       		.sleb128 -12
+ 501 0108 08       		.uleb128 0x8
+ 502 0109 6200     		.ascii	"b\000"
+ 503 010b 01       		.byte	0x1
+ 504 010c 17       		.byte	0x17
+ 505 010d B3000000 		.4byte	0xb3
+ 506 0111 02       		.uleb128 0x2
+ 507 0112 91       		.byte	0x91
+ 508 0113 70       		.sleb128 -16
+ARM GAS  C:\Users\BRANKO~1\AppData\Local\Temp\cckwerrh.s 			page 12
+
+
+ 509 0114 00       		.byte	0
+ 510 0115 06       		.uleb128 0x6
+ 511 0116 B3010000 		.4byte	.LASF21
+ 512 011a 01       		.byte	0x1
+ 513 011b 41       		.byte	0x41
+ 514 011c 81000000 		.4byte	0x81
+ 515 0120 00000000 		.4byte	.LFB57
+ 516 0124 80000000 		.4byte	.LFE57-.LFB57
+ 517 0128 01       		.uleb128 0x1
+ 518 0129 9C       		.byte	0x9c
+ 519 012a 67010000 		.4byte	0x167
+ 520 012e 07       		.uleb128 0x7
+ 521 012f 87000000 		.4byte	.LASF17
+ 522 0133 01       		.byte	0x1
+ 523 0134 41       		.byte	0x41
+ 524 0135 B3000000 		.4byte	0xb3
+ 525 0139 02       		.uleb128 0x2
+ 526 013a 91       		.byte	0x91
+ 527 013b 5C       		.sleb128 -36
+ 528 013c 07       		.uleb128 0x7
+ 529 013d D9010000 		.4byte	.LASF18
+ 530 0141 01       		.byte	0x1
+ 531 0142 41       		.byte	0x41
+ 532 0143 B3000000 		.4byte	0xb3
+ 533 0147 02       		.uleb128 0x2
+ 534 0148 91       		.byte	0x91
+ 535 0149 58       		.sleb128 -40
+ 536 014a 07       		.uleb128 0x7
+ 537 014b 00000000 		.4byte	.LASF19
+ 538 014f 01       		.byte	0x1
+ 539 0150 41       		.byte	0x41
+ 540 0151 67010000 		.4byte	0x167
+ 541 0155 02       		.uleb128 0x2
+ 542 0156 91       		.byte	0x91
+ 543 0157 54       		.sleb128 -44
+ 544 0158 09       		.uleb128 0x9
+ 545 0159 76000000 		.4byte	.LASF22
+ 546 015d 01       		.byte	0x1
+ 547 015e 42       		.byte	0x42
+ 548 015f 6D010000 		.4byte	0x16d
+ 549 0163 02       		.uleb128 0x2
+ 550 0164 91       		.byte	0x91
+ 551 0165 64       		.sleb128 -28
+ 552 0166 00       		.byte	0
+ 553 0167 05       		.uleb128 0x5
+ 554 0168 04       		.byte	0x4
+ 555 0169 81000000 		.4byte	0x81
+ 556 016d 0A       		.uleb128 0xa
+ 557 016e A5000000 		.4byte	0xa5
+ 558 0172 7D010000 		.4byte	0x17d
+ 559 0176 0B       		.uleb128 0xb
+ 560 0177 AC000000 		.4byte	0xac
+ 561 017b 13       		.byte	0x13
+ 562 017c 00       		.byte	0
+ 563 017d 06       		.uleb128 0x6
+ 564 017e 1B000000 		.4byte	.LASF23
+ 565 0182 01       		.byte	0x1
+ARM GAS  C:\Users\BRANKO~1\AppData\Local\Temp\cckwerrh.s 			page 13
+
+
+ 566 0183 56       		.byte	0x56
+ 567 0184 81000000 		.4byte	0x81
+ 568 0188 00000000 		.4byte	.LFB58
+ 569 018c 80000000 		.4byte	.LFE58-.LFB58
+ 570 0190 01       		.uleb128 0x1
+ 571 0191 9C       		.byte	0x9c
+ 572 0192 CF010000 		.4byte	0x1cf
+ 573 0196 07       		.uleb128 0x7
+ 574 0197 87000000 		.4byte	.LASF17
+ 575 019b 01       		.byte	0x1
+ 576 019c 56       		.byte	0x56
+ 577 019d B3000000 		.4byte	0xb3
+ 578 01a1 02       		.uleb128 0x2
+ 579 01a2 91       		.byte	0x91
+ 580 01a3 5C       		.sleb128 -36
+ 581 01a4 07       		.uleb128 0x7
+ 582 01a5 D9010000 		.4byte	.LASF18
+ 583 01a9 01       		.byte	0x1
+ 584 01aa 56       		.byte	0x56
+ 585 01ab B3000000 		.4byte	0xb3
+ 586 01af 02       		.uleb128 0x2
+ 587 01b0 91       		.byte	0x91
+ 588 01b1 58       		.sleb128 -40
+ 589 01b2 07       		.uleb128 0x7
+ 590 01b3 00000000 		.4byte	.LASF19
+ 591 01b7 01       		.byte	0x1
+ 592 01b8 56       		.byte	0x56
+ 593 01b9 CF010000 		.4byte	0x1cf
+ 594 01bd 02       		.uleb128 0x2
+ 595 01be 91       		.byte	0x91
+ 596 01bf 54       		.sleb128 -44
+ 597 01c0 09       		.uleb128 0x9
+ 598 01c1 76000000 		.4byte	.LASF22
+ 599 01c5 01       		.byte	0x1
+ 600 01c6 57       		.byte	0x57
+ 601 01c7 6D010000 		.4byte	0x16d
+ 602 01cb 02       		.uleb128 0x2
+ 603 01cc 91       		.byte	0x91
+ 604 01cd 64       		.sleb128 -28
+ 605 01ce 00       		.byte	0
+ 606 01cf 05       		.uleb128 0x5
+ 607 01d0 04       		.byte	0x4
+ 608 01d1 8C000000 		.4byte	0x8c
+ 609 01d5 06       		.uleb128 0x6
+ 610 01d6 CA000000 		.4byte	.LASF24
+ 611 01da 01       		.byte	0x1
+ 612 01db 67       		.byte	0x67
+ 613 01dc 81000000 		.4byte	0x81
+ 614 01e0 00000000 		.4byte	.LFB59
+ 615 01e4 1C000000 		.4byte	.LFE59-.LFB59
+ 616 01e8 01       		.uleb128 0x1
+ 617 01e9 9C       		.byte	0x9c
+ 618 01ea FD010000 		.4byte	0x1fd
+ 619 01ee 07       		.uleb128 0x7
+ 620 01ef 87000000 		.4byte	.LASF17
+ 621 01f3 01       		.byte	0x1
+ 622 01f4 67       		.byte	0x67
+ARM GAS  C:\Users\BRANKO~1\AppData\Local\Temp\cckwerrh.s 			page 14
+
+
+ 623 01f5 B3000000 		.4byte	0xb3
+ 624 01f9 02       		.uleb128 0x2
+ 625 01fa 91       		.byte	0x91
+ 626 01fb 74       		.sleb128 -12
+ 627 01fc 00       		.byte	0
+ 628 01fd 0C       		.uleb128 0xc
+ 629 01fe 53010000 		.4byte	.LASF25
+ 630 0202 05       		.byte	0x5
+ 631 0203 1606     		.2byte	0x616
+ 632 0205 09020000 		.4byte	0x209
+ 633 0209 0D       		.uleb128 0xd
+ 634 020a 76000000 		.4byte	0x76
+ 635 020e 0E       		.uleb128 0xe
+ 636 020f 6C000000 		.4byte	.LASF26
+ 637 0213 01       		.byte	0x1
+ 638 0214 0F       		.byte	0xf
+ 639 0215 B3000000 		.4byte	0xb3
+ 640 0219 05       		.uleb128 0x5
+ 641 021a 03       		.byte	0x3
+ 642 021b 00000000 		.4byte	error_str
+ 643 021f 00       		.byte	0
+ 644              		.section	.debug_abbrev,"",%progbits
+ 645              	.Ldebug_abbrev0:
+ 646 0000 01       		.uleb128 0x1
+ 647 0001 11       		.uleb128 0x11
+ 648 0002 01       		.byte	0x1
+ 649 0003 25       		.uleb128 0x25
+ 650 0004 0E       		.uleb128 0xe
+ 651 0005 13       		.uleb128 0x13
+ 652 0006 0B       		.uleb128 0xb
+ 653 0007 03       		.uleb128 0x3
+ 654 0008 0E       		.uleb128 0xe
+ 655 0009 1B       		.uleb128 0x1b
+ 656 000a 0E       		.uleb128 0xe
+ 657 000b 55       		.uleb128 0x55
+ 658 000c 17       		.uleb128 0x17
+ 659 000d 11       		.uleb128 0x11
+ 660 000e 01       		.uleb128 0x1
+ 661 000f 10       		.uleb128 0x10
+ 662 0010 17       		.uleb128 0x17
+ 663 0011 00       		.byte	0
+ 664 0012 00       		.byte	0
+ 665 0013 02       		.uleb128 0x2
+ 666 0014 24       		.uleb128 0x24
+ 667 0015 00       		.byte	0
+ 668 0016 0B       		.uleb128 0xb
+ 669 0017 0B       		.uleb128 0xb
+ 670 0018 3E       		.uleb128 0x3e
+ 671 0019 0B       		.uleb128 0xb
+ 672 001a 03       		.uleb128 0x3
+ 673 001b 0E       		.uleb128 0xe
+ 674 001c 00       		.byte	0
+ 675 001d 00       		.byte	0
+ 676 001e 03       		.uleb128 0x3
+ 677 001f 16       		.uleb128 0x16
+ 678 0020 00       		.byte	0
+ 679 0021 03       		.uleb128 0x3
+ARM GAS  C:\Users\BRANKO~1\AppData\Local\Temp\cckwerrh.s 			page 15
+
+
+ 680 0022 0E       		.uleb128 0xe
+ 681 0023 3A       		.uleb128 0x3a
+ 682 0024 0B       		.uleb128 0xb
+ 683 0025 3B       		.uleb128 0x3b
+ 684 0026 0B       		.uleb128 0xb
+ 685 0027 49       		.uleb128 0x49
+ 686 0028 13       		.uleb128 0x13
+ 687 0029 00       		.byte	0
+ 688 002a 00       		.byte	0
+ 689 002b 04       		.uleb128 0x4
+ 690 002c 24       		.uleb128 0x24
+ 691 002d 00       		.byte	0
+ 692 002e 0B       		.uleb128 0xb
+ 693 002f 0B       		.uleb128 0xb
+ 694 0030 3E       		.uleb128 0x3e
+ 695 0031 0B       		.uleb128 0xb
+ 696 0032 03       		.uleb128 0x3
+ 697 0033 08       		.uleb128 0x8
+ 698 0034 00       		.byte	0
+ 699 0035 00       		.byte	0
+ 700 0036 05       		.uleb128 0x5
+ 701 0037 0F       		.uleb128 0xf
+ 702 0038 00       		.byte	0
+ 703 0039 0B       		.uleb128 0xb
+ 704 003a 0B       		.uleb128 0xb
+ 705 003b 49       		.uleb128 0x49
+ 706 003c 13       		.uleb128 0x13
+ 707 003d 00       		.byte	0
+ 708 003e 00       		.byte	0
+ 709 003f 06       		.uleb128 0x6
+ 710 0040 2E       		.uleb128 0x2e
+ 711 0041 01       		.byte	0x1
+ 712 0042 3F       		.uleb128 0x3f
+ 713 0043 19       		.uleb128 0x19
+ 714 0044 03       		.uleb128 0x3
+ 715 0045 0E       		.uleb128 0xe
+ 716 0046 3A       		.uleb128 0x3a
+ 717 0047 0B       		.uleb128 0xb
+ 718 0048 3B       		.uleb128 0x3b
+ 719 0049 0B       		.uleb128 0xb
+ 720 004a 27       		.uleb128 0x27
+ 721 004b 19       		.uleb128 0x19
+ 722 004c 49       		.uleb128 0x49
+ 723 004d 13       		.uleb128 0x13
+ 724 004e 11       		.uleb128 0x11
+ 725 004f 01       		.uleb128 0x1
+ 726 0050 12       		.uleb128 0x12
+ 727 0051 06       		.uleb128 0x6
+ 728 0052 40       		.uleb128 0x40
+ 729 0053 18       		.uleb128 0x18
+ 730 0054 9642     		.uleb128 0x2116
+ 731 0056 19       		.uleb128 0x19
+ 732 0057 01       		.uleb128 0x1
+ 733 0058 13       		.uleb128 0x13
+ 734 0059 00       		.byte	0
+ 735 005a 00       		.byte	0
+ 736 005b 07       		.uleb128 0x7
+ARM GAS  C:\Users\BRANKO~1\AppData\Local\Temp\cckwerrh.s 			page 16
+
+
+ 737 005c 05       		.uleb128 0x5
+ 738 005d 00       		.byte	0
+ 739 005e 03       		.uleb128 0x3
+ 740 005f 0E       		.uleb128 0xe
+ 741 0060 3A       		.uleb128 0x3a
+ 742 0061 0B       		.uleb128 0xb
+ 743 0062 3B       		.uleb128 0x3b
+ 744 0063 0B       		.uleb128 0xb
+ 745 0064 49       		.uleb128 0x49
+ 746 0065 13       		.uleb128 0x13
+ 747 0066 02       		.uleb128 0x2
+ 748 0067 18       		.uleb128 0x18
+ 749 0068 00       		.byte	0
+ 750 0069 00       		.byte	0
+ 751 006a 08       		.uleb128 0x8
+ 752 006b 34       		.uleb128 0x34
+ 753 006c 00       		.byte	0
+ 754 006d 03       		.uleb128 0x3
+ 755 006e 08       		.uleb128 0x8
+ 756 006f 3A       		.uleb128 0x3a
+ 757 0070 0B       		.uleb128 0xb
+ 758 0071 3B       		.uleb128 0x3b
+ 759 0072 0B       		.uleb128 0xb
+ 760 0073 49       		.uleb128 0x49
+ 761 0074 13       		.uleb128 0x13
+ 762 0075 02       		.uleb128 0x2
+ 763 0076 18       		.uleb128 0x18
+ 764 0077 00       		.byte	0
+ 765 0078 00       		.byte	0
+ 766 0079 09       		.uleb128 0x9
+ 767 007a 34       		.uleb128 0x34
+ 768 007b 00       		.byte	0
+ 769 007c 03       		.uleb128 0x3
+ 770 007d 0E       		.uleb128 0xe
+ 771 007e 3A       		.uleb128 0x3a
+ 772 007f 0B       		.uleb128 0xb
+ 773 0080 3B       		.uleb128 0x3b
+ 774 0081 0B       		.uleb128 0xb
+ 775 0082 49       		.uleb128 0x49
+ 776 0083 13       		.uleb128 0x13
+ 777 0084 02       		.uleb128 0x2
+ 778 0085 18       		.uleb128 0x18
+ 779 0086 00       		.byte	0
+ 780 0087 00       		.byte	0
+ 781 0088 0A       		.uleb128 0xa
+ 782 0089 01       		.uleb128 0x1
+ 783 008a 01       		.byte	0x1
+ 784 008b 49       		.uleb128 0x49
+ 785 008c 13       		.uleb128 0x13
+ 786 008d 01       		.uleb128 0x1
+ 787 008e 13       		.uleb128 0x13
+ 788 008f 00       		.byte	0
+ 789 0090 00       		.byte	0
+ 790 0091 0B       		.uleb128 0xb
+ 791 0092 21       		.uleb128 0x21
+ 792 0093 00       		.byte	0
+ 793 0094 49       		.uleb128 0x49
+ARM GAS  C:\Users\BRANKO~1\AppData\Local\Temp\cckwerrh.s 			page 17
+
+
+ 794 0095 13       		.uleb128 0x13
+ 795 0096 2F       		.uleb128 0x2f
+ 796 0097 0B       		.uleb128 0xb
+ 797 0098 00       		.byte	0
+ 798 0099 00       		.byte	0
+ 799 009a 0C       		.uleb128 0xc
+ 800 009b 34       		.uleb128 0x34
+ 801 009c 00       		.byte	0
+ 802 009d 03       		.uleb128 0x3
+ 803 009e 0E       		.uleb128 0xe
+ 804 009f 3A       		.uleb128 0x3a
+ 805 00a0 0B       		.uleb128 0xb
+ 806 00a1 3B       		.uleb128 0x3b
+ 807 00a2 05       		.uleb128 0x5
+ 808 00a3 49       		.uleb128 0x49
+ 809 00a4 13       		.uleb128 0x13
+ 810 00a5 3F       		.uleb128 0x3f
+ 811 00a6 19       		.uleb128 0x19
+ 812 00a7 3C       		.uleb128 0x3c
+ 813 00a8 19       		.uleb128 0x19
+ 814 00a9 00       		.byte	0
+ 815 00aa 00       		.byte	0
+ 816 00ab 0D       		.uleb128 0xd
+ 817 00ac 35       		.uleb128 0x35
+ 818 00ad 00       		.byte	0
+ 819 00ae 49       		.uleb128 0x49
+ 820 00af 13       		.uleb128 0x13
+ 821 00b0 00       		.byte	0
+ 822 00b1 00       		.byte	0
+ 823 00b2 0E       		.uleb128 0xe
+ 824 00b3 34       		.uleb128 0x34
+ 825 00b4 00       		.byte	0
+ 826 00b5 03       		.uleb128 0x3
+ 827 00b6 0E       		.uleb128 0xe
+ 828 00b7 3A       		.uleb128 0x3a
+ 829 00b8 0B       		.uleb128 0xb
+ 830 00b9 3B       		.uleb128 0x3b
+ 831 00ba 0B       		.uleb128 0xb
+ 832 00bb 49       		.uleb128 0x49
+ 833 00bc 13       		.uleb128 0x13
+ 834 00bd 3F       		.uleb128 0x3f
+ 835 00be 19       		.uleb128 0x19
+ 836 00bf 02       		.uleb128 0x2
+ 837 00c0 18       		.uleb128 0x18
+ 838 00c1 00       		.byte	0
+ 839 00c2 00       		.byte	0
+ 840 00c3 00       		.byte	0
+ 841              		.section	.debug_aranges,"",%progbits
+ 842 0000 34000000 		.4byte	0x34
+ 843 0004 0200     		.2byte	0x2
+ 844 0006 00000000 		.4byte	.Ldebug_info0
+ 845 000a 04       		.byte	0x4
+ 846 000b 00       		.byte	0
+ 847 000c 0000     		.2byte	0
+ 848 000e 0000     		.2byte	0
+ 849 0010 00000000 		.4byte	.LFB56
+ 850 0014 A8000000 		.4byte	.LFE56-.LFB56
+ARM GAS  C:\Users\BRANKO~1\AppData\Local\Temp\cckwerrh.s 			page 18
+
+
+ 851 0018 00000000 		.4byte	.LFB57
+ 852 001c 80000000 		.4byte	.LFE57-.LFB57
+ 853 0020 00000000 		.4byte	.LFB58
+ 854 0024 80000000 		.4byte	.LFE58-.LFB58
+ 855 0028 00000000 		.4byte	.LFB59
+ 856 002c 1C000000 		.4byte	.LFE59-.LFB59
+ 857 0030 00000000 		.4byte	0
+ 858 0034 00000000 		.4byte	0
+ 859              		.section	.debug_ranges,"",%progbits
+ 860              	.Ldebug_ranges0:
+ 861 0000 00000000 		.4byte	.LFB56
+ 862 0004 A8000000 		.4byte	.LFE56
+ 863 0008 00000000 		.4byte	.LFB57
+ 864 000c 80000000 		.4byte	.LFE57
+ 865 0010 00000000 		.4byte	.LFB58
+ 866 0014 80000000 		.4byte	.LFE58
+ 867 0018 00000000 		.4byte	.LFB59
+ 868 001c 1C000000 		.4byte	.LFE59
+ 869 0020 00000000 		.4byte	0
+ 870 0024 00000000 		.4byte	0
+ 871              		.section	.debug_line,"",%progbits
+ 872              	.Ldebug_line0:
+ 873 0000 BA010000 		.section	.debug_str,"MS",%progbits,1
+ 873      02005301 
+ 873      00000201 
+ 873      FB0E0D00 
+ 873      01010101 
+ 874              	.LASF19:
+ 875 0000 76616C75 		.ascii	"value\000"
+ 875      6500
+ 876              	.LASF9:
+ 877 0006 5F5F696E 		.ascii	"__int32_t\000"
+ 877      7433325F 
+ 877      7400
+ 878              	.LASF28:
+ 879 0010 2E5C7061 		.ascii	".\\packet.c\000"
+ 879      636B6574 
+ 879      2E6300
+ 880              	.LASF23:
+ 881 001b 7061636B 		.ascii	"packet_get_uint32\000"
+ 881      65745F67 
+ 881      65745F75 
+ 881      696E7433 
+ 881      3200
+ 882              	.LASF13:
+ 883 002d 666C6F61 		.ascii	"float\000"
+ 883      7400
+ 884              	.LASF11:
+ 885 0033 75696E74 		.ascii	"uint8\000"
+ 885      3800
+ 886              	.LASF1:
+ 887 0039 756E7369 		.ascii	"unsigned char\000"
+ 887      676E6564 
+ 887      20636861 
+ 887      7200
+ 888              	.LASF5:
+ 889 0047 6C6F6E67 		.ascii	"long unsigned int\000"
+ARM GAS  C:\Users\BRANKO~1\AppData\Local\Temp\cckwerrh.s 			page 19
+
+
+ 889      20756E73 
+ 889      69676E65 
+ 889      6420696E 
+ 889      7400
+ 890              	.LASF3:
+ 891 0059 73686F72 		.ascii	"short unsigned int\000"
+ 891      7420756E 
+ 891      7369676E 
+ 891      65642069 
+ 891      6E7400
+ 892              	.LASF26:
+ 893 006c 6572726F 		.ascii	"error_str\000"
+ 893      725F7374 
+ 893      7200
+ 894              	.LASF22:
+ 895 0076 76616C75 		.ascii	"value_str\000"
+ 895      655F7374 
+ 895      7200
+ 896              	.LASF14:
+ 897 0080 646F7562 		.ascii	"double\000"
+ 897      6C6500
+ 898              	.LASF17:
+ 899 0087 7061636B 		.ascii	"packet\000"
+ 899      657400
+ 900              	.LASF12:
+ 901 008e 75696E74 		.ascii	"uint32\000"
+ 901      333200
+ 902              	.LASF20:
+ 903 0095 7061636B 		.ascii	"packet_get_value\000"
+ 903      65745F67 
+ 903      65745F76 
+ 903      616C7565 
+ 903      00
+ 904              	.LASF8:
+ 905 00a6 756E7369 		.ascii	"unsigned int\000"
+ 905      676E6564 
+ 905      20696E74 
+ 905      00
+ 906              	.LASF7:
+ 907 00b3 6C6F6E67 		.ascii	"long long unsigned int\000"
+ 907      206C6F6E 
+ 907      6720756E 
+ 907      7369676E 
+ 907      65642069 
+ 908              	.LASF24:
+ 909 00ca 636C6561 		.ascii	"clear_packet\000"
+ 909      725F7061 
+ 909      636B6574 
+ 909      00
+ 910              	.LASF27:
+ 911 00d7 474E5520 		.ascii	"GNU C 4.8.4 20140526 (release) [ARM/embedded-4_8-br"
+ 911      4320342E 
+ 911      382E3420 
+ 911      32303134 
+ 911      30353236 
+ 912 010a 616E6368 		.ascii	"anch revision 211358] -mcpu=cortex-m3 -mthumb -g -O"
+ 912      20726576 
+ARM GAS  C:\Users\BRANKO~1\AppData\Local\Temp\cckwerrh.s 			page 20
+
+
+ 912      6973696F 
+ 912      6E203231 
+ 912      31333538 
+ 913 013d 30202D66 		.ascii	"0 -ffunction-sections\000"
+ 913      66756E63 
+ 913      74696F6E 
+ 913      2D736563 
+ 913      74696F6E 
+ 914              	.LASF25:
+ 915 0153 49544D5F 		.ascii	"ITM_RxBuffer\000"
+ 915      52784275 
+ 915      66666572 
+ 915      00
+ 916              	.LASF10:
+ 917 0160 696E7433 		.ascii	"int32_t\000"
+ 917      325F7400 
+ 918              	.LASF16:
+ 919 0168 73697A65 		.ascii	"sizetype\000"
+ 919      74797065 
+ 919      00
+ 920              	.LASF6:
+ 921 0171 6C6F6E67 		.ascii	"long long int\000"
+ 921      206C6F6E 
+ 921      6720696E 
+ 921      7400
+ 922              	.LASF15:
+ 923 017f 63686172 		.ascii	"char\000"
+ 923      00
+ 924              	.LASF29:
+ 925 0184 443A5C70 		.ascii	"D:\\psoc5\\Cell Board\\Cell Board.cydsn\000"
+ 925      736F6335 
+ 925      5C43656C 
+ 925      6C20426F 
+ 925      6172645C 
+ 926              	.LASF2:
+ 927 01a9 73686F72 		.ascii	"short int\000"
+ 927      7420696E 
+ 927      7400
+ 928              	.LASF21:
+ 929 01b3 7061636B 		.ascii	"packet_get_uint8\000"
+ 929      65745F67 
+ 929      65745F75 
+ 929      696E7438 
+ 929      00
+ 930              	.LASF4:
+ 931 01c4 6C6F6E67 		.ascii	"long int\000"
+ 931      20696E74 
+ 931      00
+ 932              	.LASF0:
+ 933 01cd 7369676E 		.ascii	"signed char\000"
+ 933      65642063 
+ 933      68617200 
+ 934              	.LASF18:
+ 935 01d9 6E616D65 		.ascii	"name\000"
+ 935      00
+ 936              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 4.8.4 20140526 (release) [ARM/embedded-4_8-br

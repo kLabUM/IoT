@@ -1,0 +1,3275 @@
+ARM GAS  C:\Users\BRANKO~1\AppData\Local\Temp\cc4panOR.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 6
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.file	"CySpc.c"
+  15              		.text
+  16              	.Ltext0:
+  17              		.cfi_sections	.debug_frame
+  18              		.global	SpcLockState
+  19              		.bss
+  20              		.type	SpcLockState, %object
+  21              		.size	SpcLockState, 1
+  22              	SpcLockState:
+  23 0000 00       		.space	1
+  24 0001 000000   		.align	2
+  25              	spcWaitPipeBypass:
+  26 0004 00000000 		.space	4
+  27              		.section	.text.CySpcStart,"ax",%progbits
+  28              		.align	2
+  29              		.global	CySpcStart
+  30              		.thumb
+  31              		.thumb_func
+  32              		.type	CySpcStart, %function
+  33              	CySpcStart:
+  34              	.LFB0:
+  35              		.file 1 ".\\Generated_Source\\PSoC5\\CySpc.c"
+   1:.\Generated_Source\PSoC5/CySpc.c **** /*******************************************************************************
+   2:.\Generated_Source\PSoC5/CySpc.c **** * File Name: CySpc.c
+   3:.\Generated_Source\PSoC5/CySpc.c **** * Version 4.20
+   4:.\Generated_Source\PSoC5/CySpc.c **** *
+   5:.\Generated_Source\PSoC5/CySpc.c **** *  Description:
+   6:.\Generated_Source\PSoC5/CySpc.c **** *   Provides an API for the System Performance Component.
+   7:.\Generated_Source\PSoC5/CySpc.c **** *   The SPC functions are not meant to be called directly by the user
+   8:.\Generated_Source\PSoC5/CySpc.c **** *   application.
+   9:.\Generated_Source\PSoC5/CySpc.c **** *
+  10:.\Generated_Source\PSoC5/CySpc.c **** ********************************************************************************
+  11:.\Generated_Source\PSoC5/CySpc.c **** * Copyright 2008-2014, Cypress Semiconductor Corporation.  All rights reserved.
+  12:.\Generated_Source\PSoC5/CySpc.c **** * You may use this file only in accordance with the license, terms, conditions,
+  13:.\Generated_Source\PSoC5/CySpc.c **** * disclaimers, and limitations in the end user license agreement accompanying
+  14:.\Generated_Source\PSoC5/CySpc.c **** * the software package with which this file was provided.
+  15:.\Generated_Source\PSoC5/CySpc.c **** *******************************************************************************/
+  16:.\Generated_Source\PSoC5/CySpc.c **** 
+  17:.\Generated_Source\PSoC5/CySpc.c **** #include "CySpc.h"
+  18:.\Generated_Source\PSoC5/CySpc.c **** 
+  19:.\Generated_Source\PSoC5/CySpc.c **** #define CY_SPC_KEY_ONE                      (0xB6u)
+  20:.\Generated_Source\PSoC5/CySpc.c **** #define CY_SPC_KEY_TWO(x)                   ((uint8) (((uint16) 0xD3u) + ((uint16) (x))))
+  21:.\Generated_Source\PSoC5/CySpc.c **** 
+  22:.\Generated_Source\PSoC5/CySpc.c **** /* Command Codes */
+ARM GAS  C:\Users\BRANKO~1\AppData\Local\Temp\cc4panOR.s 			page 2
+
+
+  23:.\Generated_Source\PSoC5/CySpc.c **** #define CY_SPC_CMD_LD_BYTE                  (0x00u)
+  24:.\Generated_Source\PSoC5/CySpc.c **** #define CY_SPC_CMD_LD_MULTI_BYTE            (0x01u)
+  25:.\Generated_Source\PSoC5/CySpc.c **** #define CY_SPC_CMD_LD_ROW                   (0x02u)
+  26:.\Generated_Source\PSoC5/CySpc.c **** #define CY_SPC_CMD_RD_BYTE                  (0x03u)
+  27:.\Generated_Source\PSoC5/CySpc.c **** #define CY_SPC_CMD_RD_MULTI_BYTE            (0x04u)
+  28:.\Generated_Source\PSoC5/CySpc.c **** #define CY_SPC_CMD_WR_ROW                   (0x05u)
+  29:.\Generated_Source\PSoC5/CySpc.c **** #define CY_SPC_CMD_WR_USER_NVL              (0x06u)
+  30:.\Generated_Source\PSoC5/CySpc.c **** #define CY_SPC_CMD_PRG_ROW                  (0x07u)
+  31:.\Generated_Source\PSoC5/CySpc.c **** #define CY_SPC_CMD_ER_SECTOR                (0x08u)
+  32:.\Generated_Source\PSoC5/CySpc.c **** #define CY_SPC_CMD_ER_ALL                   (0x09u)
+  33:.\Generated_Source\PSoC5/CySpc.c **** #define CY_SPC_CMD_RD_HIDDEN                (0x0Au)
+  34:.\Generated_Source\PSoC5/CySpc.c **** #define CY_SPC_CMD_PRG_PROTECT              (0x0Bu)
+  35:.\Generated_Source\PSoC5/CySpc.c **** #define CY_SPC_CMD_CHECKSUM                 (0x0Cu)
+  36:.\Generated_Source\PSoC5/CySpc.c **** #define CY_SPC_CMD_DWNLD_ALGORITHM          (0x0Du)
+  37:.\Generated_Source\PSoC5/CySpc.c **** #define CY_SPC_CMD_GET_TEMP                 (0x0Eu)
+  38:.\Generated_Source\PSoC5/CySpc.c **** #define CY_SPC_CMD_GET_ADC                  (0x0Fu)
+  39:.\Generated_Source\PSoC5/CySpc.c **** #define CY_SPC_CMD_RD_NVL_VOLATILE          (0x10u)
+  40:.\Generated_Source\PSoC5/CySpc.c **** #define CY_SPC_CMD_SETUP_TS                 (0x11u)
+  41:.\Generated_Source\PSoC5/CySpc.c **** #define CY_SPC_CMD_DISABLE_TS               (0x12u)
+  42:.\Generated_Source\PSoC5/CySpc.c **** #define CY_SPC_CMD_ER_ROW                   (0x13u)
+  43:.\Generated_Source\PSoC5/CySpc.c **** 
+  44:.\Generated_Source\PSoC5/CySpc.c **** /* Enable bit in Active and Alternate Active mode templates */
+  45:.\Generated_Source\PSoC5/CySpc.c **** #define PM_SPC_PM_EN                        (0x08u)
+  46:.\Generated_Source\PSoC5/CySpc.c **** 
+  47:.\Generated_Source\PSoC5/CySpc.c **** /* Gate calls to the SPC. */
+  48:.\Generated_Source\PSoC5/CySpc.c **** uint8 SpcLockState = CY_SPC_UNLOCKED;
+  49:.\Generated_Source\PSoC5/CySpc.c **** 
+  50:.\Generated_Source\PSoC5/CySpc.c **** 
+  51:.\Generated_Source\PSoC5/CySpc.c **** #if(CY_PSOC5)
+  52:.\Generated_Source\PSoC5/CySpc.c **** 
+  53:.\Generated_Source\PSoC5/CySpc.c ****     /***************************************************************************
+  54:.\Generated_Source\PSoC5/CySpc.c ****     * The wait-state pipeline must be enabled prior to accessing the SPC
+  55:.\Generated_Source\PSoC5/CySpc.c ****     * register interface regardless of CPU frequency. The CySpcLock() saves
+  56:.\Generated_Source\PSoC5/CySpc.c ****     * current wait-state pipeline state and enables it. The CySpcUnlock()
+  57:.\Generated_Source\PSoC5/CySpc.c ****     * function, which must be called after SPC transaction, restores original
+  58:.\Generated_Source\PSoC5/CySpc.c ****     * state.
+  59:.\Generated_Source\PSoC5/CySpc.c ****     ***************************************************************************/
+  60:.\Generated_Source\PSoC5/CySpc.c ****     static uint32 spcWaitPipeBypass = 0u;
+  61:.\Generated_Source\PSoC5/CySpc.c **** 
+  62:.\Generated_Source\PSoC5/CySpc.c **** #endif  /* (CY_PSOC5) */
+  63:.\Generated_Source\PSoC5/CySpc.c **** 
+  64:.\Generated_Source\PSoC5/CySpc.c **** 
+  65:.\Generated_Source\PSoC5/CySpc.c **** /*******************************************************************************
+  66:.\Generated_Source\PSoC5/CySpc.c **** * Function Name: CySpcStart
+  67:.\Generated_Source\PSoC5/CySpc.c **** ********************************************************************************
+  68:.\Generated_Source\PSoC5/CySpc.c **** * Summary:
+  69:.\Generated_Source\PSoC5/CySpc.c **** *  Starts the SPC.
+  70:.\Generated_Source\PSoC5/CySpc.c **** *
+  71:.\Generated_Source\PSoC5/CySpc.c **** * Parameters:
+  72:.\Generated_Source\PSoC5/CySpc.c **** *  None
+  73:.\Generated_Source\PSoC5/CySpc.c **** *
+  74:.\Generated_Source\PSoC5/CySpc.c **** * Return:
+  75:.\Generated_Source\PSoC5/CySpc.c **** *  None
+  76:.\Generated_Source\PSoC5/CySpc.c **** *
+  77:.\Generated_Source\PSoC5/CySpc.c **** *******************************************************************************/
+  78:.\Generated_Source\PSoC5/CySpc.c **** void CySpcStart(void) 
+  79:.\Generated_Source\PSoC5/CySpc.c **** {
+ARM GAS  C:\Users\BRANKO~1\AppData\Local\Temp\cc4panOR.s 			page 3
+
+
+  36              		.loc 1 79 0
+  37              		.cfi_startproc
+  38              		@ args = 0, pretend = 0, frame = 8
+  39              		@ frame_needed = 1, uses_anonymous_args = 0
+  40 0000 80B5     		push	{r7, lr}
+  41              		.cfi_def_cfa_offset 8
+  42              		.cfi_offset 7, -8
+  43              		.cfi_offset 14, -4
+  44 0002 82B0     		sub	sp, sp, #8
+  45              		.cfi_def_cfa_offset 16
+  46 0004 00AF     		add	r7, sp, #0
+  47              		.cfi_def_cfa_register 7
+  80:.\Generated_Source\PSoC5/CySpc.c ****     /* Save current global interrupt enable and disable it */
+  81:.\Generated_Source\PSoC5/CySpc.c ****     uint8 interruptState = CyEnterCriticalSection();
+  48              		.loc 1 81 0
+  49 0006 FFF7FEFF 		bl	CyEnterCriticalSection
+  50 000a 0346     		mov	r3, r0
+  51 000c FB71     		strb	r3, [r7, #7]
+  82:.\Generated_Source\PSoC5/CySpc.c **** 
+  83:.\Generated_Source\PSoC5/CySpc.c ****     CY_SPC_PM_ACT_REG  |= PM_SPC_PM_EN;
+  52              		.loc 1 83 0
+  53 000e 0B4B     		ldr	r3, .L2
+  54 0010 0A4A     		ldr	r2, .L2
+  55 0012 1278     		ldrb	r2, [r2]
+  56 0014 D2B2     		uxtb	r2, r2
+  57 0016 42F00802 		orr	r2, r2, #8
+  58 001a D2B2     		uxtb	r2, r2
+  59 001c 1A70     		strb	r2, [r3]
+  84:.\Generated_Source\PSoC5/CySpc.c ****     CY_SPC_PM_STBY_REG |= PM_SPC_PM_EN;
+  60              		.loc 1 84 0
+  61 001e 084B     		ldr	r3, .L2+4
+  62 0020 074A     		ldr	r2, .L2+4
+  63 0022 1278     		ldrb	r2, [r2]
+  64 0024 D2B2     		uxtb	r2, r2
+  65 0026 42F00802 		orr	r2, r2, #8
+  66 002a D2B2     		uxtb	r2, r2
+  67 002c 1A70     		strb	r2, [r3]
+  85:.\Generated_Source\PSoC5/CySpc.c **** 
+  86:.\Generated_Source\PSoC5/CySpc.c ****     /* Restore global interrupt enable state */
+  87:.\Generated_Source\PSoC5/CySpc.c ****     CyExitCriticalSection(interruptState);
+  68              		.loc 1 87 0
+  69 002e FB79     		ldrb	r3, [r7, #7]	@ zero_extendqisi2
+  70 0030 1846     		mov	r0, r3
+  71 0032 FFF7FEFF 		bl	CyExitCriticalSection
+  88:.\Generated_Source\PSoC5/CySpc.c **** }
+  72              		.loc 1 88 0
+  73 0036 0837     		adds	r7, r7, #8
+  74 0038 BD46     		mov	sp, r7
+  75              		@ sp needed
+  76 003a 80BD     		pop	{r7, pc}
+  77              	.L3:
+  78              		.align	2
+  79              	.L2:
+  80 003c A0430040 		.word	1073759136
+  81 0040 B0430040 		.word	1073759152
+  82              		.cfi_endproc
+  83              	.LFE0:
+ARM GAS  C:\Users\BRANKO~1\AppData\Local\Temp\cc4panOR.s 			page 4
+
+
+  84              		.size	CySpcStart, .-CySpcStart
+  85              		.section	.text.CySpcStop,"ax",%progbits
+  86              		.align	2
+  87              		.global	CySpcStop
+  88              		.thumb
+  89              		.thumb_func
+  90              		.type	CySpcStop, %function
+  91              	CySpcStop:
+  92              	.LFB1:
+  89:.\Generated_Source\PSoC5/CySpc.c **** 
+  90:.\Generated_Source\PSoC5/CySpc.c **** 
+  91:.\Generated_Source\PSoC5/CySpc.c **** /*******************************************************************************
+  92:.\Generated_Source\PSoC5/CySpc.c **** * Function Name: CySpcStop
+  93:.\Generated_Source\PSoC5/CySpc.c **** ********************************************************************************
+  94:.\Generated_Source\PSoC5/CySpc.c **** * Summary:
+  95:.\Generated_Source\PSoC5/CySpc.c **** *  Stops the SPC.
+  96:.\Generated_Source\PSoC5/CySpc.c **** *
+  97:.\Generated_Source\PSoC5/CySpc.c **** * Parameters:
+  98:.\Generated_Source\PSoC5/CySpc.c **** *  None
+  99:.\Generated_Source\PSoC5/CySpc.c **** *
+ 100:.\Generated_Source\PSoC5/CySpc.c **** * Return:
+ 101:.\Generated_Source\PSoC5/CySpc.c **** *  None
+ 102:.\Generated_Source\PSoC5/CySpc.c **** *
+ 103:.\Generated_Source\PSoC5/CySpc.c **** *******************************************************************************/
+ 104:.\Generated_Source\PSoC5/CySpc.c **** void CySpcStop(void) 
+ 105:.\Generated_Source\PSoC5/CySpc.c **** {
+  93              		.loc 1 105 0
+  94              		.cfi_startproc
+  95              		@ args = 0, pretend = 0, frame = 8
+  96              		@ frame_needed = 1, uses_anonymous_args = 0
+  97 0000 80B5     		push	{r7, lr}
+  98              		.cfi_def_cfa_offset 8
+  99              		.cfi_offset 7, -8
+ 100              		.cfi_offset 14, -4
+ 101 0002 82B0     		sub	sp, sp, #8
+ 102              		.cfi_def_cfa_offset 16
+ 103 0004 00AF     		add	r7, sp, #0
+ 104              		.cfi_def_cfa_register 7
+ 106:.\Generated_Source\PSoC5/CySpc.c ****     /* Save current global interrupt enable and disable it */
+ 107:.\Generated_Source\PSoC5/CySpc.c ****     uint8 interruptState = CyEnterCriticalSection();
+ 105              		.loc 1 107 0
+ 106 0006 FFF7FEFF 		bl	CyEnterCriticalSection
+ 107 000a 0346     		mov	r3, r0
+ 108 000c FB71     		strb	r3, [r7, #7]
+ 108:.\Generated_Source\PSoC5/CySpc.c **** 
+ 109:.\Generated_Source\PSoC5/CySpc.c ****     CY_SPC_PM_ACT_REG  &= ((uint8)(~PM_SPC_PM_EN));
+ 109              		.loc 1 109 0
+ 110 000e 0B4B     		ldr	r3, .L5
+ 111 0010 0A4A     		ldr	r2, .L5
+ 112 0012 1278     		ldrb	r2, [r2]
+ 113 0014 D2B2     		uxtb	r2, r2
+ 114 0016 22F00802 		bic	r2, r2, #8
+ 115 001a D2B2     		uxtb	r2, r2
+ 116 001c 1A70     		strb	r2, [r3]
+ 110:.\Generated_Source\PSoC5/CySpc.c ****     CY_SPC_PM_STBY_REG &= ((uint8)(~PM_SPC_PM_EN));
+ 117              		.loc 1 110 0
+ 118 001e 084B     		ldr	r3, .L5+4
+ARM GAS  C:\Users\BRANKO~1\AppData\Local\Temp\cc4panOR.s 			page 5
+
+
+ 119 0020 074A     		ldr	r2, .L5+4
+ 120 0022 1278     		ldrb	r2, [r2]
+ 121 0024 D2B2     		uxtb	r2, r2
+ 122 0026 22F00802 		bic	r2, r2, #8
+ 123 002a D2B2     		uxtb	r2, r2
+ 124 002c 1A70     		strb	r2, [r3]
+ 111:.\Generated_Source\PSoC5/CySpc.c **** 
+ 112:.\Generated_Source\PSoC5/CySpc.c ****     /* Restore global interrupt enable state */
+ 113:.\Generated_Source\PSoC5/CySpc.c ****     CyExitCriticalSection(interruptState);
+ 125              		.loc 1 113 0
+ 126 002e FB79     		ldrb	r3, [r7, #7]	@ zero_extendqisi2
+ 127 0030 1846     		mov	r0, r3
+ 128 0032 FFF7FEFF 		bl	CyExitCriticalSection
+ 114:.\Generated_Source\PSoC5/CySpc.c **** }
+ 129              		.loc 1 114 0
+ 130 0036 0837     		adds	r7, r7, #8
+ 131 0038 BD46     		mov	sp, r7
+ 132              		@ sp needed
+ 133 003a 80BD     		pop	{r7, pc}
+ 134              	.L6:
+ 135              		.align	2
+ 136              	.L5:
+ 137 003c A0430040 		.word	1073759136
+ 138 0040 B0430040 		.word	1073759152
+ 139              		.cfi_endproc
+ 140              	.LFE1:
+ 141              		.size	CySpcStop, .-CySpcStop
+ 142              		.section	.text.CySpcReadData,"ax",%progbits
+ 143              		.align	2
+ 144              		.global	CySpcReadData
+ 145              		.thumb
+ 146              		.thumb_func
+ 147              		.type	CySpcReadData, %function
+ 148              	CySpcReadData:
+ 149              	.LFB2:
+ 115:.\Generated_Source\PSoC5/CySpc.c **** 
+ 116:.\Generated_Source\PSoC5/CySpc.c **** 
+ 117:.\Generated_Source\PSoC5/CySpc.c **** /*******************************************************************************
+ 118:.\Generated_Source\PSoC5/CySpc.c **** * Function Name: CySpcReadData
+ 119:.\Generated_Source\PSoC5/CySpc.c **** ********************************************************************************
+ 120:.\Generated_Source\PSoC5/CySpc.c **** * Summary:
+ 121:.\Generated_Source\PSoC5/CySpc.c **** *  Reads data from the SPC.
+ 122:.\Generated_Source\PSoC5/CySpc.c **** *
+ 123:.\Generated_Source\PSoC5/CySpc.c **** * Parameters:
+ 124:.\Generated_Source\PSoC5/CySpc.c **** *  uint8 buffer:
+ 125:.\Generated_Source\PSoC5/CySpc.c **** *   Address to store data read.
+ 126:.\Generated_Source\PSoC5/CySpc.c **** *
+ 127:.\Generated_Source\PSoC5/CySpc.c **** *  uint8 size:
+ 128:.\Generated_Source\PSoC5/CySpc.c **** *   Number of bytes to read from the SPC.
+ 129:.\Generated_Source\PSoC5/CySpc.c **** *
+ 130:.\Generated_Source\PSoC5/CySpc.c **** * Return:
+ 131:.\Generated_Source\PSoC5/CySpc.c **** *  uint8:
+ 132:.\Generated_Source\PSoC5/CySpc.c **** *   The number of bytes read from the SPC.
+ 133:.\Generated_Source\PSoC5/CySpc.c **** *
+ 134:.\Generated_Source\PSoC5/CySpc.c **** *******************************************************************************/
+ 135:.\Generated_Source\PSoC5/CySpc.c **** uint8 CySpcReadData(uint8 buffer[], uint8 size) 
+ 136:.\Generated_Source\PSoC5/CySpc.c **** {
+ARM GAS  C:\Users\BRANKO~1\AppData\Local\Temp\cc4panOR.s 			page 6
+
+
+ 150              		.loc 1 136 0
+ 151              		.cfi_startproc
+ 152              		@ args = 0, pretend = 0, frame = 16
+ 153              		@ frame_needed = 1, uses_anonymous_args = 0
+ 154 0000 80B5     		push	{r7, lr}
+ 155              		.cfi_def_cfa_offset 8
+ 156              		.cfi_offset 7, -8
+ 157              		.cfi_offset 14, -4
+ 158 0002 84B0     		sub	sp, sp, #16
+ 159              		.cfi_def_cfa_offset 24
+ 160 0004 00AF     		add	r7, sp, #0
+ 161              		.cfi_def_cfa_register 7
+ 162 0006 7860     		str	r0, [r7, #4]
+ 163 0008 0B46     		mov	r3, r1
+ 164 000a FB70     		strb	r3, [r7, #3]
+ 137:.\Generated_Source\PSoC5/CySpc.c ****     uint8 i;
+ 138:.\Generated_Source\PSoC5/CySpc.c **** 
+ 139:.\Generated_Source\PSoC5/CySpc.c ****     for(i = 0u; i < size; i++)
+ 165              		.loc 1 139 0
+ 166 000c 0023     		movs	r3, #0
+ 167 000e FB73     		strb	r3, [r7, #15]
+ 168 0010 14E0     		b	.L8
+ 169              	.L11:
+ 140:.\Generated_Source\PSoC5/CySpc.c ****     {
+ 141:.\Generated_Source\PSoC5/CySpc.c ****         while(!CY_SPC_DATA_READY)
+ 170              		.loc 1 141 0
+ 171 0012 02E0     		b	.L9
+ 172              	.L10:
+ 142:.\Generated_Source\PSoC5/CySpc.c ****         {
+ 143:.\Generated_Source\PSoC5/CySpc.c ****             CyDelayUs(1u);
+ 173              		.loc 1 143 0
+ 174 0014 0120     		movs	r0, #1
+ 175 0016 FFF7FEFF 		bl	CyDelayUs
+ 176              	.L9:
+ 141:.\Generated_Source\PSoC5/CySpc.c ****         while(!CY_SPC_DATA_READY)
+ 177              		.loc 1 141 0 discriminator 1
+ 178 001a 0D4B     		ldr	r3, .L13
+ 179 001c 1B78     		ldrb	r3, [r3]
+ 180 001e DBB2     		uxtb	r3, r3
+ 181 0020 03F00103 		and	r3, r3, #1
+ 182 0024 002B     		cmp	r3, #0
+ 183 0026 F5D0     		beq	.L10
+ 144:.\Generated_Source\PSoC5/CySpc.c ****         }
+ 145:.\Generated_Source\PSoC5/CySpc.c ****         buffer[i] = CY_SPC_CPU_DATA_REG;
+ 184              		.loc 1 145 0
+ 185 0028 FB7B     		ldrb	r3, [r7, #15]	@ zero_extendqisi2
+ 186 002a 7A68     		ldr	r2, [r7, #4]
+ 187 002c 1344     		add	r3, r3, r2
+ 188 002e 094A     		ldr	r2, .L13+4
+ 189 0030 1278     		ldrb	r2, [r2]
+ 190 0032 D2B2     		uxtb	r2, r2
+ 191 0034 1A70     		strb	r2, [r3]
+ 139:.\Generated_Source\PSoC5/CySpc.c ****     for(i = 0u; i < size; i++)
+ 192              		.loc 1 139 0
+ 193 0036 FB7B     		ldrb	r3, [r7, #15]	@ zero_extendqisi2
+ 194 0038 0133     		adds	r3, r3, #1
+ 195 003a FB73     		strb	r3, [r7, #15]
+ARM GAS  C:\Users\BRANKO~1\AppData\Local\Temp\cc4panOR.s 			page 7
+
+
+ 196              	.L8:
+ 139:.\Generated_Source\PSoC5/CySpc.c ****     for(i = 0u; i < size; i++)
+ 197              		.loc 1 139 0 is_stmt 0 discriminator 1
+ 198 003c FA7B     		ldrb	r2, [r7, #15]	@ zero_extendqisi2
+ 199 003e FB78     		ldrb	r3, [r7, #3]	@ zero_extendqisi2
+ 200 0040 9A42     		cmp	r2, r3
+ 201 0042 E6D3     		bcc	.L11
+ 146:.\Generated_Source\PSoC5/CySpc.c ****     }
+ 147:.\Generated_Source\PSoC5/CySpc.c **** 
+ 148:.\Generated_Source\PSoC5/CySpc.c ****     return(i);
+ 202              		.loc 1 148 0 is_stmt 1
+ 203 0044 FB7B     		ldrb	r3, [r7, #15]	@ zero_extendqisi2
+ 149:.\Generated_Source\PSoC5/CySpc.c **** }
+ 204              		.loc 1 149 0
+ 205 0046 1846     		mov	r0, r3
+ 206 0048 1037     		adds	r7, r7, #16
+ 207 004a BD46     		mov	sp, r7
+ 208              		@ sp needed
+ 209 004c 80BD     		pop	{r7, pc}
+ 210              	.L14:
+ 211 004e 00BF     		.align	2
+ 212              	.L13:
+ 213 0050 22470040 		.word	1073760034
+ 214 0054 20470040 		.word	1073760032
+ 215              		.cfi_endproc
+ 216              	.LFE2:
+ 217              		.size	CySpcReadData, .-CySpcReadData
+ 218              		.section	.text.CySpcLoadMultiByte,"ax",%progbits
+ 219              		.align	2
+ 220              		.global	CySpcLoadMultiByte
+ 221              		.thumb
+ 222              		.thumb_func
+ 223              		.type	CySpcLoadMultiByte, %function
+ 224              	CySpcLoadMultiByte:
+ 225              	.LFB3:
+ 150:.\Generated_Source\PSoC5/CySpc.c **** 
+ 151:.\Generated_Source\PSoC5/CySpc.c **** 
+ 152:.\Generated_Source\PSoC5/CySpc.c **** /*******************************************************************************
+ 153:.\Generated_Source\PSoC5/CySpc.c **** * Function Name: CySpcLoadMultiByte
+ 154:.\Generated_Source\PSoC5/CySpc.c **** ********************************************************************************
+ 155:.\Generated_Source\PSoC5/CySpc.c **** * Summary:
+ 156:.\Generated_Source\PSoC5/CySpc.c **** *  Loads 1 to 32 bytes of data into the row latch of a Flash/EEPROM array.
+ 157:.\Generated_Source\PSoC5/CySpc.c **** *
+ 158:.\Generated_Source\PSoC5/CySpc.c **** * Parameters:
+ 159:.\Generated_Source\PSoC5/CySpc.c **** *  uint8 array:
+ 160:.\Generated_Source\PSoC5/CySpc.c **** *   Id of the array.
+ 161:.\Generated_Source\PSoC5/CySpc.c **** *
+ 162:.\Generated_Source\PSoC5/CySpc.c **** *  uint16 address:
+ 163:.\Generated_Source\PSoC5/CySpc.c **** *   Flash/eeprom addrress
+ 164:.\Generated_Source\PSoC5/CySpc.c **** *
+ 165:.\Generated_Source\PSoC5/CySpc.c **** *  uint8* buffer:
+ 166:.\Generated_Source\PSoC5/CySpc.c **** *   Data to load to the row latch
+ 167:.\Generated_Source\PSoC5/CySpc.c **** *
+ 168:.\Generated_Source\PSoC5/CySpc.c **** *  uint16 number:
+ 169:.\Generated_Source\PSoC5/CySpc.c **** *   Number bytes to load.
+ 170:.\Generated_Source\PSoC5/CySpc.c **** *
+ 171:.\Generated_Source\PSoC5/CySpc.c **** * Return:
+ARM GAS  C:\Users\BRANKO~1\AppData\Local\Temp\cc4panOR.s 			page 8
+
+
+ 172:.\Generated_Source\PSoC5/CySpc.c **** *  CYRET_STARTED
+ 173:.\Generated_Source\PSoC5/CySpc.c **** *  CYRET_CANCELED
+ 174:.\Generated_Source\PSoC5/CySpc.c **** *  CYRET_LOCKED
+ 175:.\Generated_Source\PSoC5/CySpc.c **** *  CYRET_BAD_PARAM
+ 176:.\Generated_Source\PSoC5/CySpc.c **** *
+ 177:.\Generated_Source\PSoC5/CySpc.c **** *******************************************************************************/
+ 178:.\Generated_Source\PSoC5/CySpc.c **** cystatus CySpcLoadMultiByte(uint8 array, uint16 address, const uint8 buffer[], uint8 size)\
+ 179:.\Generated_Source\PSoC5/CySpc.c **** 
+ 180:.\Generated_Source\PSoC5/CySpc.c **** {
+ 226              		.loc 1 180 0
+ 227              		.cfi_startproc
+ 228              		@ args = 0, pretend = 0, frame = 16
+ 229              		@ frame_needed = 1, uses_anonymous_args = 0
+ 230              		@ link register save eliminated.
+ 231 0000 80B4     		push	{r7}
+ 232              		.cfi_def_cfa_offset 4
+ 233              		.cfi_offset 7, -4
+ 234 0002 85B0     		sub	sp, sp, #20
+ 235              		.cfi_def_cfa_offset 24
+ 236 0004 00AF     		add	r7, sp, #0
+ 237              		.cfi_def_cfa_register 7
+ 238 0006 3A60     		str	r2, [r7]
+ 239 0008 0246     		mov	r2, r0
+ 240 000a FA71     		strb	r2, [r7, #7]
+ 241 000c 0A46     		mov	r2, r1	@ movhi
+ 242 000e BA80     		strh	r2, [r7, #4]	@ movhi
+ 243 0010 BB71     		strb	r3, [r7, #6]
+ 181:.\Generated_Source\PSoC5/CySpc.c ****     cystatus status = CYRET_STARTED;
+ 244              		.loc 1 181 0
+ 245 0012 0723     		movs	r3, #7
+ 246 0014 FB60     		str	r3, [r7, #12]
+ 182:.\Generated_Source\PSoC5/CySpc.c ****     uint8 i;
+ 183:.\Generated_Source\PSoC5/CySpc.c **** 
+ 184:.\Generated_Source\PSoC5/CySpc.c ****     /***************************************************************************
+ 185:.\Generated_Source\PSoC5/CySpc.c ****     * Check if number is correct for array. Number must be less than
+ 186:.\Generated_Source\PSoC5/CySpc.c ****     * 32 for Flash or less than 16 for EEPROM.
+ 187:.\Generated_Source\PSoC5/CySpc.c ****     ***************************************************************************/
+ 188:.\Generated_Source\PSoC5/CySpc.c ****     if(((array < CY_SPC_LAST_FLASH_ARRAYID) && (size < 32u)) ||
+ 247              		.loc 1 188 0
+ 248 0016 FB79     		ldrb	r3, [r7, #7]	@ zero_extendqisi2
+ 249 0018 3E2B     		cmp	r3, #62
+ 250 001a 02D8     		bhi	.L16
+ 251              		.loc 1 188 0 is_stmt 0 discriminator 1
+ 252 001c BB79     		ldrb	r3, [r7, #6]	@ zero_extendqisi2
+ 253 001e 1F2B     		cmp	r3, #31
+ 254 0020 05D9     		bls	.L17
+ 255              	.L16:
+ 256              		.loc 1 188 0 discriminator 2
+ 257 0022 FB79     		ldrb	r3, [r7, #7]	@ zero_extendqisi2
+ 258 0024 3F2B     		cmp	r3, #63
+ 259 0026 46D9     		bls	.L18
+ 189:.\Generated_Source\PSoC5/CySpc.c ****        ((array > CY_SPC_LAST_FLASH_ARRAYID) && (size < 16u)))
+ 260              		.loc 1 189 0 is_stmt 1
+ 261 0028 BB79     		ldrb	r3, [r7, #6]	@ zero_extendqisi2
+ 262 002a 0F2B     		cmp	r3, #15
+ 263 002c 43D8     		bhi	.L18
+ 264              	.L17:
+ARM GAS  C:\Users\BRANKO~1\AppData\Local\Temp\cc4panOR.s 			page 9
+
+
+ 190:.\Generated_Source\PSoC5/CySpc.c ****     {
+ 191:.\Generated_Source\PSoC5/CySpc.c ****         if(CY_SPC_IDLE)
+ 265              		.loc 1 191 0
+ 266 002e 264B     		ldr	r3, .L28
+ 267 0030 1B78     		ldrb	r3, [r3]
+ 268 0032 DBB2     		uxtb	r3, r3
+ 269 0034 03F00203 		and	r3, r3, #2
+ 270 0038 002B     		cmp	r3, #0
+ 271 003a 38D0     		beq	.L19
+ 192:.\Generated_Source\PSoC5/CySpc.c ****         {
+ 193:.\Generated_Source\PSoC5/CySpc.c ****             CY_SPC_CPU_DATA_REG = CY_SPC_KEY_ONE;
+ 272              		.loc 1 193 0
+ 273 003c 234B     		ldr	r3, .L28+4
+ 274 003e B622     		movs	r2, #182
+ 275 0040 1A70     		strb	r2, [r3]
+ 194:.\Generated_Source\PSoC5/CySpc.c ****             CY_SPC_CPU_DATA_REG = CY_SPC_KEY_TWO(CY_SPC_CMD_LD_MULTI_BYTE);
+ 276              		.loc 1 194 0
+ 277 0042 224B     		ldr	r3, .L28+4
+ 278 0044 D422     		movs	r2, #212
+ 279 0046 1A70     		strb	r2, [r3]
+ 195:.\Generated_Source\PSoC5/CySpc.c ****             CY_SPC_CPU_DATA_REG = CY_SPC_CMD_LD_MULTI_BYTE;
+ 280              		.loc 1 195 0
+ 281 0048 204B     		ldr	r3, .L28+4
+ 282 004a 0122     		movs	r2, #1
+ 283 004c 1A70     		strb	r2, [r3]
+ 196:.\Generated_Source\PSoC5/CySpc.c **** 
+ 197:.\Generated_Source\PSoC5/CySpc.c ****             if(CY_SPC_BUSY)
+ 284              		.loc 1 197 0
+ 285 004e 1E4B     		ldr	r3, .L28
+ 286 0050 1B78     		ldrb	r3, [r3]
+ 287 0052 DBB2     		uxtb	r3, r3
+ 288 0054 03F00203 		and	r3, r3, #2
+ 289 0058 002B     		cmp	r3, #0
+ 290 005a 25D1     		bne	.L20
+ 198:.\Generated_Source\PSoC5/CySpc.c ****             {
+ 199:.\Generated_Source\PSoC5/CySpc.c ****                 CY_SPC_CPU_DATA_REG = array;
+ 291              		.loc 1 199 0
+ 292 005c 1B4B     		ldr	r3, .L28+4
+ 293 005e FA79     		ldrb	r2, [r7, #7]
+ 294 0060 1A70     		strb	r2, [r3]
+ 200:.\Generated_Source\PSoC5/CySpc.c ****                 CY_SPC_CPU_DATA_REG = 1u & HI8(address);
+ 295              		.loc 1 200 0
+ 296 0062 1A4B     		ldr	r3, .L28+4
+ 297 0064 BA88     		ldrh	r2, [r7, #4]
+ 298 0066 120A     		lsrs	r2, r2, #8
+ 299 0068 92B2     		uxth	r2, r2
+ 300 006a D2B2     		uxtb	r2, r2
+ 301 006c 02F00102 		and	r2, r2, #1
+ 302 0070 D2B2     		uxtb	r2, r2
+ 303 0072 1A70     		strb	r2, [r3]
+ 201:.\Generated_Source\PSoC5/CySpc.c ****                 CY_SPC_CPU_DATA_REG = LO8(address);
+ 304              		.loc 1 201 0
+ 305 0074 154B     		ldr	r3, .L28+4
+ 306 0076 BA88     		ldrh	r2, [r7, #4]	@ movhi
+ 307 0078 D2B2     		uxtb	r2, r2
+ 308 007a 1A70     		strb	r2, [r3]
+ 202:.\Generated_Source\PSoC5/CySpc.c ****                 CY_SPC_CPU_DATA_REG = ((uint8)(size - 1u));
+ARM GAS  C:\Users\BRANKO~1\AppData\Local\Temp\cc4panOR.s 			page 10
+
+
+ 309              		.loc 1 202 0
+ 310 007c 134B     		ldr	r3, .L28+4
+ 311 007e BA79     		ldrb	r2, [r7, #6]
+ 312 0080 013A     		subs	r2, r2, #1
+ 313 0082 D2B2     		uxtb	r2, r2
+ 314 0084 1A70     		strb	r2, [r3]
+ 203:.\Generated_Source\PSoC5/CySpc.c **** 
+ 204:.\Generated_Source\PSoC5/CySpc.c ****                 for(i = 0u; i < size; i++)
+ 315              		.loc 1 204 0
+ 316 0086 0023     		movs	r3, #0
+ 317 0088 FB72     		strb	r3, [r7, #11]
+ 318 008a 08E0     		b	.L21
+ 319              	.L22:
+ 205:.\Generated_Source\PSoC5/CySpc.c ****                 {
+ 206:.\Generated_Source\PSoC5/CySpc.c ****                     CY_SPC_CPU_DATA_REG = buffer[i];
+ 320              		.loc 1 206 0 discriminator 2
+ 321 008c 0F4B     		ldr	r3, .L28+4
+ 322 008e FA7A     		ldrb	r2, [r7, #11]	@ zero_extendqisi2
+ 323 0090 3968     		ldr	r1, [r7]
+ 324 0092 0A44     		add	r2, r2, r1
+ 325 0094 1278     		ldrb	r2, [r2]	@ zero_extendqisi2
+ 326 0096 1A70     		strb	r2, [r3]
+ 204:.\Generated_Source\PSoC5/CySpc.c ****                 for(i = 0u; i < size; i++)
+ 327              		.loc 1 204 0 discriminator 2
+ 328 0098 FB7A     		ldrb	r3, [r7, #11]	@ zero_extendqisi2
+ 329 009a 0133     		adds	r3, r3, #1
+ 330 009c FB72     		strb	r3, [r7, #11]
+ 331              	.L21:
+ 204:.\Generated_Source\PSoC5/CySpc.c ****                 for(i = 0u; i < size; i++)
+ 332              		.loc 1 204 0 is_stmt 0 discriminator 1
+ 333 009e FA7A     		ldrb	r2, [r7, #11]	@ zero_extendqisi2
+ 334 00a0 BB79     		ldrb	r3, [r7, #6]	@ zero_extendqisi2
+ 335 00a2 9A42     		cmp	r2, r3
+ 336 00a4 F2D3     		bcc	.L22
+ 337 00a6 05E0     		b	.L27
+ 338              	.L20:
+ 207:.\Generated_Source\PSoC5/CySpc.c ****                 }
+ 208:.\Generated_Source\PSoC5/CySpc.c ****             }
+ 209:.\Generated_Source\PSoC5/CySpc.c ****             else
+ 210:.\Generated_Source\PSoC5/CySpc.c ****             {
+ 211:.\Generated_Source\PSoC5/CySpc.c ****                 status = CYRET_CANCELED;
+ 339              		.loc 1 211 0 is_stmt 1
+ 340 00a8 0923     		movs	r3, #9
+ 341 00aa FB60     		str	r3, [r7, #12]
+ 191:.\Generated_Source\PSoC5/CySpc.c ****         if(CY_SPC_IDLE)
+ 342              		.loc 1 191 0
+ 343 00ac 05E0     		b	.L25
+ 344              	.L19:
+ 212:.\Generated_Source\PSoC5/CySpc.c ****             }
+ 213:.\Generated_Source\PSoC5/CySpc.c ****         }
+ 214:.\Generated_Source\PSoC5/CySpc.c ****         else
+ 215:.\Generated_Source\PSoC5/CySpc.c ****         {
+ 216:.\Generated_Source\PSoC5/CySpc.c ****             status = CYRET_LOCKED;
+ 345              		.loc 1 216 0
+ 346 00ae 0423     		movs	r3, #4
+ 347 00b0 FB60     		str	r3, [r7, #12]
+ 191:.\Generated_Source\PSoC5/CySpc.c ****         if(CY_SPC_IDLE)
+ARM GAS  C:\Users\BRANKO~1\AppData\Local\Temp\cc4panOR.s 			page 11
+
+
+ 348              		.loc 1 191 0
+ 349 00b2 02E0     		b	.L25
+ 350              	.L27:
+ 351 00b4 01E0     		b	.L25
+ 352              	.L18:
+ 217:.\Generated_Source\PSoC5/CySpc.c ****         }
+ 218:.\Generated_Source\PSoC5/CySpc.c ****     }
+ 219:.\Generated_Source\PSoC5/CySpc.c ****     else
+ 220:.\Generated_Source\PSoC5/CySpc.c ****     {
+ 221:.\Generated_Source\PSoC5/CySpc.c ****         status = CYRET_BAD_PARAM;
+ 353              		.loc 1 221 0
+ 354 00b6 0123     		movs	r3, #1
+ 355 00b8 FB60     		str	r3, [r7, #12]
+ 356              	.L25:
+ 222:.\Generated_Source\PSoC5/CySpc.c ****     }
+ 223:.\Generated_Source\PSoC5/CySpc.c **** 
+ 224:.\Generated_Source\PSoC5/CySpc.c ****     return(status);
+ 357              		.loc 1 224 0
+ 358 00ba FB68     		ldr	r3, [r7, #12]
+ 225:.\Generated_Source\PSoC5/CySpc.c **** }
+ 359              		.loc 1 225 0
+ 360 00bc 1846     		mov	r0, r3
+ 361 00be 1437     		adds	r7, r7, #20
+ 362 00c0 BD46     		mov	sp, r7
+ 363              		@ sp needed
+ 364 00c2 5DF8047B 		ldr	r7, [sp], #4
+ 365 00c6 7047     		bx	lr
+ 366              	.L29:
+ 367              		.align	2
+ 368              	.L28:
+ 369 00c8 22470040 		.word	1073760034
+ 370 00cc 20470040 		.word	1073760032
+ 371              		.cfi_endproc
+ 372              	.LFE3:
+ 373              		.size	CySpcLoadMultiByte, .-CySpcLoadMultiByte
+ 374              		.section	.text.CySpcLoadRow,"ax",%progbits
+ 375              		.align	2
+ 376              		.global	CySpcLoadRow
+ 377              		.thumb
+ 378              		.thumb_func
+ 379              		.type	CySpcLoadRow, %function
+ 380              	CySpcLoadRow:
+ 381              	.LFB4:
+ 226:.\Generated_Source\PSoC5/CySpc.c **** 
+ 227:.\Generated_Source\PSoC5/CySpc.c **** 
+ 228:.\Generated_Source\PSoC5/CySpc.c **** /*******************************************************************************
+ 229:.\Generated_Source\PSoC5/CySpc.c **** * Function Name: CySpcLoadRow
+ 230:.\Generated_Source\PSoC5/CySpc.c **** ********************************************************************************
+ 231:.\Generated_Source\PSoC5/CySpc.c **** * Summary:
+ 232:.\Generated_Source\PSoC5/CySpc.c **** *  Loads a row of data into the row latch of a Flash/EEPROM array.
+ 233:.\Generated_Source\PSoC5/CySpc.c **** *
+ 234:.\Generated_Source\PSoC5/CySpc.c **** *  The buffer pointer should point to the data that should be written to the
+ 235:.\Generated_Source\PSoC5/CySpc.c **** *  flash row directly (no data in ECC/flash will be preserved). It is Flash API
+ 236:.\Generated_Source\PSoC5/CySpc.c **** *  responsibility to prepare data: the preserved data are copied from flash into
+ 237:.\Generated_Source\PSoC5/CySpc.c **** *  array with the modified data.
+ 238:.\Generated_Source\PSoC5/CySpc.c **** *
+ 239:.\Generated_Source\PSoC5/CySpc.c **** * Parameters:
+ARM GAS  C:\Users\BRANKO~1\AppData\Local\Temp\cc4panOR.s 			page 12
+
+
+ 240:.\Generated_Source\PSoC5/CySpc.c **** *  uint8 array:
+ 241:.\Generated_Source\PSoC5/CySpc.c **** *   Id of the array.
+ 242:.\Generated_Source\PSoC5/CySpc.c **** *
+ 243:.\Generated_Source\PSoC5/CySpc.c **** *  uint8* buffer:
+ 244:.\Generated_Source\PSoC5/CySpc.c **** *   Data to be loaded to the row latch
+ 245:.\Generated_Source\PSoC5/CySpc.c **** *
+ 246:.\Generated_Source\PSoC5/CySpc.c **** *  uint8 size:
+ 247:.\Generated_Source\PSoC5/CySpc.c **** *   The number of data bytes that the SPC expects to be written. Depends on the
+ 248:.\Generated_Source\PSoC5/CySpc.c **** *   type of the array and, if the array is Flash, whether ECC is being enabled
+ 249:.\Generated_Source\PSoC5/CySpc.c **** *   or not. There are following values: flash row latch size with ECC enabled,
+ 250:.\Generated_Source\PSoC5/CySpc.c **** *   flash row latch size with ECC disabled and EEPROM row latch size.
+ 251:.\Generated_Source\PSoC5/CySpc.c **** *
+ 252:.\Generated_Source\PSoC5/CySpc.c **** * Return:
+ 253:.\Generated_Source\PSoC5/CySpc.c **** *  CYRET_STARTED
+ 254:.\Generated_Source\PSoC5/CySpc.c **** *  CYRET_CANCELED
+ 255:.\Generated_Source\PSoC5/CySpc.c **** *  CYRET_LOCKED
+ 256:.\Generated_Source\PSoC5/CySpc.c **** *
+ 257:.\Generated_Source\PSoC5/CySpc.c **** *******************************************************************************/
+ 258:.\Generated_Source\PSoC5/CySpc.c **** cystatus CySpcLoadRow(uint8 array, const uint8 buffer[], uint16 size)
+ 259:.\Generated_Source\PSoC5/CySpc.c **** {
+ 382              		.loc 1 259 0
+ 383              		.cfi_startproc
+ 384              		@ args = 0, pretend = 0, frame = 16
+ 385              		@ frame_needed = 1, uses_anonymous_args = 0
+ 386              		@ link register save eliminated.
+ 387 0000 80B4     		push	{r7}
+ 388              		.cfi_def_cfa_offset 4
+ 389              		.cfi_offset 7, -4
+ 390 0002 85B0     		sub	sp, sp, #20
+ 391              		.cfi_def_cfa_offset 24
+ 392 0004 00AF     		add	r7, sp, #0
+ 393              		.cfi_def_cfa_register 7
+ 394 0006 3960     		str	r1, [r7]
+ 395 0008 1346     		mov	r3, r2
+ 396 000a 0246     		mov	r2, r0
+ 397 000c FA71     		strb	r2, [r7, #7]
+ 398 000e BB80     		strh	r3, [r7, #4]	@ movhi
+ 260:.\Generated_Source\PSoC5/CySpc.c ****     cystatus status = CYRET_STARTED;
+ 399              		.loc 1 260 0
+ 400 0010 0723     		movs	r3, #7
+ 401 0012 FB60     		str	r3, [r7, #12]
+ 261:.\Generated_Source\PSoC5/CySpc.c ****     uint16 i;
+ 262:.\Generated_Source\PSoC5/CySpc.c **** 
+ 263:.\Generated_Source\PSoC5/CySpc.c ****     /* Make sure the SPC is ready to accept command */
+ 264:.\Generated_Source\PSoC5/CySpc.c ****     if(CY_SPC_IDLE)
+ 402              		.loc 1 264 0
+ 403 0014 1B4B     		ldr	r3, .L38
+ 404 0016 1B78     		ldrb	r3, [r3]
+ 405 0018 DBB2     		uxtb	r3, r3
+ 406 001a 03F00203 		and	r3, r3, #2
+ 407 001e 002B     		cmp	r3, #0
+ 408 0020 26D0     		beq	.L31
+ 265:.\Generated_Source\PSoC5/CySpc.c ****     {
+ 266:.\Generated_Source\PSoC5/CySpc.c ****         CY_SPC_CPU_DATA_REG = CY_SPC_KEY_ONE;
+ 409              		.loc 1 266 0
+ 410 0022 194B     		ldr	r3, .L38+4
+ 411 0024 B622     		movs	r2, #182
+ARM GAS  C:\Users\BRANKO~1\AppData\Local\Temp\cc4panOR.s 			page 13
+
+
+ 412 0026 1A70     		strb	r2, [r3]
+ 267:.\Generated_Source\PSoC5/CySpc.c ****         CY_SPC_CPU_DATA_REG = CY_SPC_KEY_TWO(CY_SPC_CMD_LD_ROW);
+ 413              		.loc 1 267 0
+ 414 0028 174B     		ldr	r3, .L38+4
+ 415 002a D522     		movs	r2, #213
+ 416 002c 1A70     		strb	r2, [r3]
+ 268:.\Generated_Source\PSoC5/CySpc.c ****         CY_SPC_CPU_DATA_REG = CY_SPC_CMD_LD_ROW;
+ 417              		.loc 1 268 0
+ 418 002e 164B     		ldr	r3, .L38+4
+ 419 0030 0222     		movs	r2, #2
+ 420 0032 1A70     		strb	r2, [r3]
+ 269:.\Generated_Source\PSoC5/CySpc.c **** 
+ 270:.\Generated_Source\PSoC5/CySpc.c ****         /* Make sure the command was accepted */
+ 271:.\Generated_Source\PSoC5/CySpc.c ****         if(CY_SPC_BUSY)
+ 421              		.loc 1 271 0
+ 422 0034 134B     		ldr	r3, .L38
+ 423 0036 1B78     		ldrb	r3, [r3]
+ 424 0038 DBB2     		uxtb	r3, r3
+ 425 003a 03F00203 		and	r3, r3, #2
+ 426 003e 002B     		cmp	r3, #0
+ 427 0040 13D1     		bne	.L32
+ 272:.\Generated_Source\PSoC5/CySpc.c ****         {
+ 273:.\Generated_Source\PSoC5/CySpc.c ****             CY_SPC_CPU_DATA_REG = array;
+ 428              		.loc 1 273 0
+ 429 0042 114B     		ldr	r3, .L38+4
+ 430 0044 FA79     		ldrb	r2, [r7, #7]
+ 431 0046 1A70     		strb	r2, [r3]
+ 274:.\Generated_Source\PSoC5/CySpc.c **** 
+ 275:.\Generated_Source\PSoC5/CySpc.c ****             for(i = 0u; i < size; i++)
+ 432              		.loc 1 275 0
+ 433 0048 0023     		movs	r3, #0
+ 434 004a 7B81     		strh	r3, [r7, #10]	@ movhi
+ 435 004c 08E0     		b	.L33
+ 436              	.L34:
+ 276:.\Generated_Source\PSoC5/CySpc.c ****             {
+ 277:.\Generated_Source\PSoC5/CySpc.c ****                 CY_SPC_CPU_DATA_REG = buffer[i];
+ 437              		.loc 1 277 0 discriminator 2
+ 438 004e 0E4B     		ldr	r3, .L38+4
+ 439 0050 7A89     		ldrh	r2, [r7, #10]
+ 440 0052 3968     		ldr	r1, [r7]
+ 441 0054 0A44     		add	r2, r2, r1
+ 442 0056 1278     		ldrb	r2, [r2]	@ zero_extendqisi2
+ 443 0058 1A70     		strb	r2, [r3]
+ 275:.\Generated_Source\PSoC5/CySpc.c ****             for(i = 0u; i < size; i++)
+ 444              		.loc 1 275 0 discriminator 2
+ 445 005a 7B89     		ldrh	r3, [r7, #10]
+ 446 005c 0133     		adds	r3, r3, #1
+ 447 005e 7B81     		strh	r3, [r7, #10]	@ movhi
+ 448              	.L33:
+ 275:.\Generated_Source\PSoC5/CySpc.c ****             for(i = 0u; i < size; i++)
+ 449              		.loc 1 275 0 is_stmt 0 discriminator 1
+ 450 0060 7A89     		ldrh	r2, [r7, #10]
+ 451 0062 BB88     		ldrh	r3, [r7, #4]
+ 452 0064 9A42     		cmp	r2, r3
+ 453 0066 F2D3     		bcc	.L34
+ 454 0068 04E0     		b	.L36
+ 455              	.L32:
+ARM GAS  C:\Users\BRANKO~1\AppData\Local\Temp\cc4panOR.s 			page 14
+
+
+ 278:.\Generated_Source\PSoC5/CySpc.c ****             }
+ 279:.\Generated_Source\PSoC5/CySpc.c ****         }
+ 280:.\Generated_Source\PSoC5/CySpc.c ****         else
+ 281:.\Generated_Source\PSoC5/CySpc.c ****         {
+ 282:.\Generated_Source\PSoC5/CySpc.c ****             status = CYRET_CANCELED;
+ 456              		.loc 1 282 0 is_stmt 1
+ 457 006a 0923     		movs	r3, #9
+ 458 006c FB60     		str	r3, [r7, #12]
+ 459 006e 01E0     		b	.L36
+ 460              	.L31:
+ 283:.\Generated_Source\PSoC5/CySpc.c ****         }
+ 284:.\Generated_Source\PSoC5/CySpc.c ****     }
+ 285:.\Generated_Source\PSoC5/CySpc.c ****     else
+ 286:.\Generated_Source\PSoC5/CySpc.c ****     {
+ 287:.\Generated_Source\PSoC5/CySpc.c ****         status = CYRET_LOCKED;
+ 461              		.loc 1 287 0
+ 462 0070 0423     		movs	r3, #4
+ 463 0072 FB60     		str	r3, [r7, #12]
+ 464              	.L36:
+ 288:.\Generated_Source\PSoC5/CySpc.c ****     }
+ 289:.\Generated_Source\PSoC5/CySpc.c **** 
+ 290:.\Generated_Source\PSoC5/CySpc.c ****     return(status);
+ 465              		.loc 1 290 0
+ 466 0074 FB68     		ldr	r3, [r7, #12]
+ 291:.\Generated_Source\PSoC5/CySpc.c **** }
+ 467              		.loc 1 291 0
+ 468 0076 1846     		mov	r0, r3
+ 469 0078 1437     		adds	r7, r7, #20
+ 470 007a BD46     		mov	sp, r7
+ 471              		@ sp needed
+ 472 007c 5DF8047B 		ldr	r7, [sp], #4
+ 473 0080 7047     		bx	lr
+ 474              	.L39:
+ 475 0082 00BF     		.align	2
+ 476              	.L38:
+ 477 0084 22470040 		.word	1073760034
+ 478 0088 20470040 		.word	1073760032
+ 479              		.cfi_endproc
+ 480              	.LFE4:
+ 481              		.size	CySpcLoadRow, .-CySpcLoadRow
+ 482              		.section	.text.CySpcLoadRowFull,"ax",%progbits
+ 483              		.align	2
+ 484              		.global	CySpcLoadRowFull
+ 485              		.thumb
+ 486              		.thumb_func
+ 487              		.type	CySpcLoadRowFull, %function
+ 488              	CySpcLoadRowFull:
+ 489              	.LFB5:
+ 292:.\Generated_Source\PSoC5/CySpc.c **** 
+ 293:.\Generated_Source\PSoC5/CySpc.c **** 
+ 294:.\Generated_Source\PSoC5/CySpc.c **** /*******************************************************************************
+ 295:.\Generated_Source\PSoC5/CySpc.c **** * Function Name: CySpcLoadRowFull
+ 296:.\Generated_Source\PSoC5/CySpc.c **** ********************************************************************************
+ 297:.\Generated_Source\PSoC5/CySpc.c **** * Summary:
+ 298:.\Generated_Source\PSoC5/CySpc.c **** *  Loads a row of data into the row latch of a Flash/EEPROM array.
+ 299:.\Generated_Source\PSoC5/CySpc.c **** *
+ 300:.\Generated_Source\PSoC5/CySpc.c **** *  The only data that are going to be changed should be passed. The function
+ARM GAS  C:\Users\BRANKO~1\AppData\Local\Temp\cc4panOR.s 			page 15
+
+
+ 301:.\Generated_Source\PSoC5/CySpc.c **** *  will handle unmodified data preservation based on DWR settings and input
+ 302:.\Generated_Source\PSoC5/CySpc.c **** *  parameters.
+ 303:.\Generated_Source\PSoC5/CySpc.c **** *
+ 304:.\Generated_Source\PSoC5/CySpc.c **** * Parameters:
+ 305:.\Generated_Source\PSoC5/CySpc.c **** *  uint8 array:
+ 306:.\Generated_Source\PSoC5/CySpc.c **** *   Id of the array.
+ 307:.\Generated_Source\PSoC5/CySpc.c **** *
+ 308:.\Generated_Source\PSoC5/CySpc.c **** *  uint16 row:
+ 309:.\Generated_Source\PSoC5/CySpc.c **** *   Flash row number to be loaded.
+ 310:.\Generated_Source\PSoC5/CySpc.c **** *
+ 311:.\Generated_Source\PSoC5/CySpc.c **** *  uint8* buffer:
+ 312:.\Generated_Source\PSoC5/CySpc.c **** *   Data to be loaded to the row latch
+ 313:.\Generated_Source\PSoC5/CySpc.c **** *
+ 314:.\Generated_Source\PSoC5/CySpc.c **** *  uint8 size:
+ 315:.\Generated_Source\PSoC5/CySpc.c **** *   The number of data bytes that the SPC expects to be written. Depends on the
+ 316:.\Generated_Source\PSoC5/CySpc.c **** *   type of the array and, if the array is Flash, whether ECC is being enabled
+ 317:.\Generated_Source\PSoC5/CySpc.c **** *   or not. There are following values: flash row latch size with ECC enabled,
+ 318:.\Generated_Source\PSoC5/CySpc.c **** *   flash row latch size with ECC disabled and EEPROM row latch size.
+ 319:.\Generated_Source\PSoC5/CySpc.c **** *
+ 320:.\Generated_Source\PSoC5/CySpc.c **** * Return:
+ 321:.\Generated_Source\PSoC5/CySpc.c **** *  CYRET_STARTED
+ 322:.\Generated_Source\PSoC5/CySpc.c **** *  CYRET_CANCELED
+ 323:.\Generated_Source\PSoC5/CySpc.c **** *  CYRET_LOCKED
+ 324:.\Generated_Source\PSoC5/CySpc.c **** *
+ 325:.\Generated_Source\PSoC5/CySpc.c **** *******************************************************************************/
+ 326:.\Generated_Source\PSoC5/CySpc.c **** cystatus CySpcLoadRowFull(uint8 array, uint16 row, const uint8 buffer[], uint16 size)\
+ 327:.\Generated_Source\PSoC5/CySpc.c **** 
+ 328:.\Generated_Source\PSoC5/CySpc.c **** {
+ 490              		.loc 1 328 0
+ 491              		.cfi_startproc
+ 492              		@ args = 0, pretend = 0, frame = 32
+ 493              		@ frame_needed = 1, uses_anonymous_args = 0
+ 494              		@ link register save eliminated.
+ 495 0000 80B4     		push	{r7}
+ 496              		.cfi_def_cfa_offset 4
+ 497              		.cfi_offset 7, -4
+ 498 0002 89B0     		sub	sp, sp, #36
+ 499              		.cfi_def_cfa_offset 40
+ 500 0004 00AF     		add	r7, sp, #0
+ 501              		.cfi_def_cfa_register 7
+ 502 0006 BA60     		str	r2, [r7, #8]
+ 503 0008 0246     		mov	r2, r0
+ 504 000a FA73     		strb	r2, [r7, #15]
+ 505 000c 0A46     		mov	r2, r1	@ movhi
+ 506 000e BA81     		strh	r2, [r7, #12]	@ movhi
+ 507 0010 FB80     		strh	r3, [r7, #6]	@ movhi
+ 329:.\Generated_Source\PSoC5/CySpc.c ****     cystatus status = CYRET_STARTED;
+ 508              		.loc 1 329 0
+ 509 0012 0723     		movs	r3, #7
+ 510 0014 FB61     		str	r3, [r7, #28]
+ 330:.\Generated_Source\PSoC5/CySpc.c ****     uint16 i;
+ 331:.\Generated_Source\PSoC5/CySpc.c **** 
+ 332:.\Generated_Source\PSoC5/CySpc.c ****     #if (CYDEV_ECC_ENABLE == 0)
+ 333:.\Generated_Source\PSoC5/CySpc.c ****         uint32 offset;
+ 334:.\Generated_Source\PSoC5/CySpc.c ****     #endif /* (CYDEV_ECC_ENABLE == 0) */
+ 335:.\Generated_Source\PSoC5/CySpc.c **** 
+ 336:.\Generated_Source\PSoC5/CySpc.c ****     /* Make sure the SPC is ready to accept command */
+ARM GAS  C:\Users\BRANKO~1\AppData\Local\Temp\cc4panOR.s 			page 16
+
+
+ 337:.\Generated_Source\PSoC5/CySpc.c ****     if(CY_SPC_IDLE)
+ 511              		.loc 1 337 0
+ 512 0016 2B4B     		ldr	r3, .L50
+ 513 0018 1B78     		ldrb	r3, [r3]
+ 514 001a DBB2     		uxtb	r3, r3
+ 515 001c 03F00203 		and	r3, r3, #2
+ 516 0020 002B     		cmp	r3, #0
+ 517 0022 45D0     		beq	.L41
+ 338:.\Generated_Source\PSoC5/CySpc.c ****     {
+ 339:.\Generated_Source\PSoC5/CySpc.c ****         CY_SPC_CPU_DATA_REG = CY_SPC_KEY_ONE;
+ 518              		.loc 1 339 0
+ 519 0024 284B     		ldr	r3, .L50+4
+ 520 0026 B622     		movs	r2, #182
+ 521 0028 1A70     		strb	r2, [r3]
+ 340:.\Generated_Source\PSoC5/CySpc.c ****         CY_SPC_CPU_DATA_REG = CY_SPC_KEY_TWO(CY_SPC_CMD_LD_ROW);
+ 522              		.loc 1 340 0
+ 523 002a 274B     		ldr	r3, .L50+4
+ 524 002c D522     		movs	r2, #213
+ 525 002e 1A70     		strb	r2, [r3]
+ 341:.\Generated_Source\PSoC5/CySpc.c ****         CY_SPC_CPU_DATA_REG = CY_SPC_CMD_LD_ROW;
+ 526              		.loc 1 341 0
+ 527 0030 254B     		ldr	r3, .L50+4
+ 528 0032 0222     		movs	r2, #2
+ 529 0034 1A70     		strb	r2, [r3]
+ 342:.\Generated_Source\PSoC5/CySpc.c **** 
+ 343:.\Generated_Source\PSoC5/CySpc.c ****         /* Make sure the command was accepted */
+ 344:.\Generated_Source\PSoC5/CySpc.c ****         if(CY_SPC_BUSY)
+ 530              		.loc 1 344 0
+ 531 0036 234B     		ldr	r3, .L50
+ 532 0038 1B78     		ldrb	r3, [r3]
+ 533 003a DBB2     		uxtb	r3, r3
+ 534 003c 03F00203 		and	r3, r3, #2
+ 535 0040 002B     		cmp	r3, #0
+ 536 0042 32D1     		bne	.L42
+ 345:.\Generated_Source\PSoC5/CySpc.c ****         {
+ 346:.\Generated_Source\PSoC5/CySpc.c ****             CY_SPC_CPU_DATA_REG = array;
+ 537              		.loc 1 346 0
+ 538 0044 204B     		ldr	r3, .L50+4
+ 539 0046 FA7B     		ldrb	r2, [r7, #15]
+ 540 0048 1A70     		strb	r2, [r3]
+ 347:.\Generated_Source\PSoC5/CySpc.c **** 
+ 348:.\Generated_Source\PSoC5/CySpc.c ****             /*******************************************************************
+ 349:.\Generated_Source\PSoC5/CySpc.c ****             * If "Enable Error Correcting Code (ECC)" and "Store Configuration
+ 350:.\Generated_Source\PSoC5/CySpc.c ****             * Data in ECC" DWR options are disabled, ECC section is available
+ 351:.\Generated_Source\PSoC5/CySpc.c ****             * for user data.
+ 352:.\Generated_Source\PSoC5/CySpc.c ****             *******************************************************************/
+ 353:.\Generated_Source\PSoC5/CySpc.c ****             #if ((CYDEV_ECC_ENABLE == 0u) && (CYDEV_CONFIGURATION_ECC == 0u))
+ 354:.\Generated_Source\PSoC5/CySpc.c **** 
+ 355:.\Generated_Source\PSoC5/CySpc.c ****                 /*******************************************************************
+ 356:.\Generated_Source\PSoC5/CySpc.c ****                 * If size parameter equals size of the ECC row and selected array
+ 357:.\Generated_Source\PSoC5/CySpc.c ****                 * identification corresponds to the flash array (but not to EEPROM
+ 358:.\Generated_Source\PSoC5/CySpc.c ****                 * array) then data are going to be written to the ECC section.
+ 359:.\Generated_Source\PSoC5/CySpc.c ****                 * In this case flash data must be preserved. The flash data copied
+ 360:.\Generated_Source\PSoC5/CySpc.c ****                 * from flash data section to the SPC data register.
+ 361:.\Generated_Source\PSoC5/CySpc.c ****                 *******************************************************************/
+ 362:.\Generated_Source\PSoC5/CySpc.c ****                 if ((size == CYDEV_ECC_ROW_SIZE) && (array <= CY_SPC_LAST_FLASH_ARRAYID))
+ 363:.\Generated_Source\PSoC5/CySpc.c ****                 {
+ARM GAS  C:\Users\BRANKO~1\AppData\Local\Temp\cc4panOR.s 			page 17
+
+
+ 364:.\Generated_Source\PSoC5/CySpc.c ****                     offset = CYDEV_FLS_BASE +
+ 365:.\Generated_Source\PSoC5/CySpc.c ****                              ((uint32) array * CYDEV_FLS_SECTOR_SIZE) +
+ 366:.\Generated_Source\PSoC5/CySpc.c ****                              ((uint32)   row * CYDEV_FLS_ROW_SIZE   );
+ 367:.\Generated_Source\PSoC5/CySpc.c **** 
+ 368:.\Generated_Source\PSoC5/CySpc.c ****                     for (i = 0u; i < CYDEV_FLS_ROW_SIZE; i++)
+ 369:.\Generated_Source\PSoC5/CySpc.c ****                     {
+ 370:.\Generated_Source\PSoC5/CySpc.c ****                         CY_SPC_CPU_DATA_REG = CY_GET_XTND_REG8((void CYFAR *)(offset + i));
+ 371:.\Generated_Source\PSoC5/CySpc.c ****                     }
+ 372:.\Generated_Source\PSoC5/CySpc.c ****                 }
+ 373:.\Generated_Source\PSoC5/CySpc.c **** 
+ 374:.\Generated_Source\PSoC5/CySpc.c ****             #endif /* ((CYDEV_ECC_ENABLE == 0u) && (CYDEV_CONFIGURATION_ECC == 0u)) */
+ 375:.\Generated_Source\PSoC5/CySpc.c **** 
+ 376:.\Generated_Source\PSoC5/CySpc.c **** 
+ 377:.\Generated_Source\PSoC5/CySpc.c ****             for(i = 0u; i < size; i++)
+ 541              		.loc 1 377 0
+ 542 004a 0023     		movs	r3, #0
+ 543 004c 7B83     		strh	r3, [r7, #26]	@ movhi
+ 544 004e 08E0     		b	.L43
+ 545              	.L44:
+ 378:.\Generated_Source\PSoC5/CySpc.c ****             {
+ 379:.\Generated_Source\PSoC5/CySpc.c ****                 CY_SPC_CPU_DATA_REG = buffer[i];
+ 546              		.loc 1 379 0 discriminator 2
+ 547 0050 1D4B     		ldr	r3, .L50+4
+ 548 0052 7A8B     		ldrh	r2, [r7, #26]
+ 549 0054 B968     		ldr	r1, [r7, #8]
+ 550 0056 0A44     		add	r2, r2, r1
+ 551 0058 1278     		ldrb	r2, [r2]	@ zero_extendqisi2
+ 552 005a 1A70     		strb	r2, [r3]
+ 377:.\Generated_Source\PSoC5/CySpc.c ****             for(i = 0u; i < size; i++)
+ 553              		.loc 1 377 0 discriminator 2
+ 554 005c 7B8B     		ldrh	r3, [r7, #26]
+ 555 005e 0133     		adds	r3, r3, #1
+ 556 0060 7B83     		strh	r3, [r7, #26]	@ movhi
+ 557              	.L43:
+ 377:.\Generated_Source\PSoC5/CySpc.c ****             for(i = 0u; i < size; i++)
+ 558              		.loc 1 377 0 is_stmt 0 discriminator 1
+ 559 0062 7A8B     		ldrh	r2, [r7, #26]
+ 560 0064 FB88     		ldrh	r3, [r7, #6]
+ 561 0066 9A42     		cmp	r2, r3
+ 562 0068 F2D3     		bcc	.L44
+ 380:.\Generated_Source\PSoC5/CySpc.c ****             }
+ 381:.\Generated_Source\PSoC5/CySpc.c **** 
+ 382:.\Generated_Source\PSoC5/CySpc.c **** 
+ 383:.\Generated_Source\PSoC5/CySpc.c ****             /*******************************************************************
+ 384:.\Generated_Source\PSoC5/CySpc.c ****             * If "Enable Error Correcting Code (ECC)" DWR option is disabled,
+ 385:.\Generated_Source\PSoC5/CySpc.c ****             * ECC section can be used for storing device configuration data
+ 386:.\Generated_Source\PSoC5/CySpc.c ****             * ("Store Configuration Data in ECC" DWR option is enabled) or for
+ 387:.\Generated_Source\PSoC5/CySpc.c ****             * storing user data in the ECC section ("Store Configuration Data in
+ 388:.\Generated_Source\PSoC5/CySpc.c ****             * ECC" DWR option is enabled). In both cases, the data in the ECC
+ 389:.\Generated_Source\PSoC5/CySpc.c ****             * section must be preserved if flash data is written.
+ 390:.\Generated_Source\PSoC5/CySpc.c ****             *******************************************************************/
+ 391:.\Generated_Source\PSoC5/CySpc.c ****             #if (CYDEV_ECC_ENABLE == 0)
+ 392:.\Generated_Source\PSoC5/CySpc.c **** 
+ 393:.\Generated_Source\PSoC5/CySpc.c **** 
+ 394:.\Generated_Source\PSoC5/CySpc.c ****                 /*******************************************************************
+ 395:.\Generated_Source\PSoC5/CySpc.c ****                 * If size parameter equals size of the flash row and selected array
+ 396:.\Generated_Source\PSoC5/CySpc.c ****                 * identification corresponds to the flash array (but not to EEPROM
+ARM GAS  C:\Users\BRANKO~1\AppData\Local\Temp\cc4panOR.s 			page 18
+
+
+ 397:.\Generated_Source\PSoC5/CySpc.c ****                 * array) then data are going to be written to the flash data
+ 398:.\Generated_Source\PSoC5/CySpc.c ****                 * section. In this case, ECC section data must be preserved.
+ 399:.\Generated_Source\PSoC5/CySpc.c ****                 * The ECC section data copied from ECC section to the SPC data
+ 400:.\Generated_Source\PSoC5/CySpc.c ****                 * register.
+ 401:.\Generated_Source\PSoC5/CySpc.c ****                 *******************************************************************/
+ 402:.\Generated_Source\PSoC5/CySpc.c ****                 if ((size == CYDEV_FLS_ROW_SIZE) && (array <= CY_SPC_LAST_FLASH_ARRAYID))
+ 563              		.loc 1 402 0 is_stmt 1
+ 564 006a FB88     		ldrh	r3, [r7, #6]
+ 565 006c B3F5807F 		cmp	r3, #256
+ 566 0070 20D1     		bne	.L48
+ 567              		.loc 1 402 0 is_stmt 0 discriminator 1
+ 568 0072 FB7B     		ldrb	r3, [r7, #15]	@ zero_extendqisi2
+ 569 0074 3F2B     		cmp	r3, #63
+ 570 0076 1DD8     		bhi	.L48
+ 403:.\Generated_Source\PSoC5/CySpc.c ****                 {
+ 404:.\Generated_Source\PSoC5/CySpc.c ****                     offset = CYDEV_ECC_BASE +
+ 405:.\Generated_Source\PSoC5/CySpc.c ****                             ((uint32) array * CYDEV_ECC_SECTOR_SIZE) +
+ 571              		.loc 1 405 0 is_stmt 1
+ 572 0078 FB7B     		ldrb	r3, [r7, #15]	@ zero_extendqisi2
+ 573 007a 03F51033 		add	r3, r3, #147456
+ 574 007e 1A02     		lsls	r2, r3, #8
+ 406:.\Generated_Source\PSoC5/CySpc.c ****                             ((uint32) row   * CYDEV_ECC_ROW_SIZE   );
+ 575              		.loc 1 406 0
+ 576 0080 BB89     		ldrh	r3, [r7, #12]
+ 405:.\Generated_Source\PSoC5/CySpc.c ****                             ((uint32) array * CYDEV_ECC_SECTOR_SIZE) +
+ 577              		.loc 1 405 0
+ 578 0082 1344     		add	r3, r3, r2
+ 404:.\Generated_Source\PSoC5/CySpc.c ****                     offset = CYDEV_ECC_BASE +
+ 579              		.loc 1 404 0
+ 580 0084 5B01     		lsls	r3, r3, #5
+ 581 0086 7B61     		str	r3, [r7, #20]
+ 407:.\Generated_Source\PSoC5/CySpc.c **** 
+ 408:.\Generated_Source\PSoC5/CySpc.c ****                     for (i = 0u; i < CYDEV_ECC_ROW_SIZE; i++)
+ 582              		.loc 1 408 0
+ 583 0088 0023     		movs	r3, #0
+ 584 008a 7B83     		strh	r3, [r7, #26]	@ movhi
+ 585 008c 09E0     		b	.L46
+ 586              	.L47:
+ 409:.\Generated_Source\PSoC5/CySpc.c ****                     {
+ 410:.\Generated_Source\PSoC5/CySpc.c ****                         CY_SPC_CPU_DATA_REG = CY_GET_XTND_REG8((void CYFAR *)(offset + i));
+ 587              		.loc 1 410 0 discriminator 2
+ 588 008e 0E4B     		ldr	r3, .L50+4
+ 589 0090 798B     		ldrh	r1, [r7, #26]
+ 590 0092 7A69     		ldr	r2, [r7, #20]
+ 591 0094 0A44     		add	r2, r2, r1
+ 592 0096 1278     		ldrb	r2, [r2]
+ 593 0098 D2B2     		uxtb	r2, r2
+ 594 009a 1A70     		strb	r2, [r3]
+ 408:.\Generated_Source\PSoC5/CySpc.c ****                     for (i = 0u; i < CYDEV_ECC_ROW_SIZE; i++)
+ 595              		.loc 1 408 0 discriminator 2
+ 596 009c 7B8B     		ldrh	r3, [r7, #26]
+ 597 009e 0133     		adds	r3, r3, #1
+ 598 00a0 7B83     		strh	r3, [r7, #26]	@ movhi
+ 599              	.L46:
+ 408:.\Generated_Source\PSoC5/CySpc.c ****                     for (i = 0u; i < CYDEV_ECC_ROW_SIZE; i++)
+ 600              		.loc 1 408 0 is_stmt 0 discriminator 1
+ 601 00a2 7B8B     		ldrh	r3, [r7, #26]
+ARM GAS  C:\Users\BRANKO~1\AppData\Local\Temp\cc4panOR.s 			page 19
+
+
+ 602 00a4 1F2B     		cmp	r3, #31
+ 603 00a6 F2D9     		bls	.L47
+ 604 00a8 04E0     		b	.L48
+ 605              	.L42:
+ 411:.\Generated_Source\PSoC5/CySpc.c ****                     }
+ 412:.\Generated_Source\PSoC5/CySpc.c ****                 }
+ 413:.\Generated_Source\PSoC5/CySpc.c **** 
+ 414:.\Generated_Source\PSoC5/CySpc.c ****             #else
+ 415:.\Generated_Source\PSoC5/CySpc.c **** 
+ 416:.\Generated_Source\PSoC5/CySpc.c ****                 if(0u != row)
+ 417:.\Generated_Source\PSoC5/CySpc.c ****                 {
+ 418:.\Generated_Source\PSoC5/CySpc.c ****                     /* To remove unreferenced local variable warning */
+ 419:.\Generated_Source\PSoC5/CySpc.c ****                 }
+ 420:.\Generated_Source\PSoC5/CySpc.c **** 
+ 421:.\Generated_Source\PSoC5/CySpc.c ****             #endif /* (CYDEV_ECC_ENABLE == 0) */
+ 422:.\Generated_Source\PSoC5/CySpc.c ****         }
+ 423:.\Generated_Source\PSoC5/CySpc.c ****         else
+ 424:.\Generated_Source\PSoC5/CySpc.c ****         {
+ 425:.\Generated_Source\PSoC5/CySpc.c ****             status = CYRET_CANCELED;
+ 606              		.loc 1 425 0 is_stmt 1
+ 607 00aa 0923     		movs	r3, #9
+ 608 00ac FB61     		str	r3, [r7, #28]
+ 609 00ae 01E0     		b	.L48
+ 610              	.L41:
+ 426:.\Generated_Source\PSoC5/CySpc.c ****         }
+ 427:.\Generated_Source\PSoC5/CySpc.c ****     }
+ 428:.\Generated_Source\PSoC5/CySpc.c ****     else
+ 429:.\Generated_Source\PSoC5/CySpc.c ****     {
+ 430:.\Generated_Source\PSoC5/CySpc.c ****         status = CYRET_LOCKED;
+ 611              		.loc 1 430 0
+ 612 00b0 0423     		movs	r3, #4
+ 613 00b2 FB61     		str	r3, [r7, #28]
+ 614              	.L48:
+ 431:.\Generated_Source\PSoC5/CySpc.c ****     }
+ 432:.\Generated_Source\PSoC5/CySpc.c **** 
+ 433:.\Generated_Source\PSoC5/CySpc.c ****     return(status);
+ 615              		.loc 1 433 0
+ 616 00b4 FB69     		ldr	r3, [r7, #28]
+ 434:.\Generated_Source\PSoC5/CySpc.c **** }
+ 617              		.loc 1 434 0
+ 618 00b6 1846     		mov	r0, r3
+ 619 00b8 2437     		adds	r7, r7, #36
+ 620 00ba BD46     		mov	sp, r7
+ 621              		@ sp needed
+ 622 00bc 5DF8047B 		ldr	r7, [sp], #4
+ 623 00c0 7047     		bx	lr
+ 624              	.L51:
+ 625 00c2 00BF     		.align	2
+ 626              	.L50:
+ 627 00c4 22470040 		.word	1073760034
+ 628 00c8 20470040 		.word	1073760032
+ 629              		.cfi_endproc
+ 630              	.LFE5:
+ 631              		.size	CySpcLoadRowFull, .-CySpcLoadRowFull
+ 632              		.section	.text.CySpcWriteRow,"ax",%progbits
+ 633              		.align	2
+ 634              		.global	CySpcWriteRow
+ARM GAS  C:\Users\BRANKO~1\AppData\Local\Temp\cc4panOR.s 			page 20
+
+
+ 635              		.thumb
+ 636              		.thumb_func
+ 637              		.type	CySpcWriteRow, %function
+ 638              	CySpcWriteRow:
+ 639              	.LFB6:
+ 435:.\Generated_Source\PSoC5/CySpc.c **** 
+ 436:.\Generated_Source\PSoC5/CySpc.c **** 
+ 437:.\Generated_Source\PSoC5/CySpc.c **** /*******************************************************************************
+ 438:.\Generated_Source\PSoC5/CySpc.c **** * Function Name: CySpcWriteRow
+ 439:.\Generated_Source\PSoC5/CySpc.c **** ********************************************************************************
+ 440:.\Generated_Source\PSoC5/CySpc.c **** * Summary:
+ 441:.\Generated_Source\PSoC5/CySpc.c **** *  Erases then programs a row in Flash/EEPROM with data in row latch.
+ 442:.\Generated_Source\PSoC5/CySpc.c **** *
+ 443:.\Generated_Source\PSoC5/CySpc.c **** * Parameters:
+ 444:.\Generated_Source\PSoC5/CySpc.c **** *  uint8 array:
+ 445:.\Generated_Source\PSoC5/CySpc.c **** *   Id of the array.
+ 446:.\Generated_Source\PSoC5/CySpc.c **** *
+ 447:.\Generated_Source\PSoC5/CySpc.c **** *  uint16 address:
+ 448:.\Generated_Source\PSoC5/CySpc.c **** *   flash/eeprom addrress
+ 449:.\Generated_Source\PSoC5/CySpc.c **** *
+ 450:.\Generated_Source\PSoC5/CySpc.c **** *  uint8 tempPolarity:
+ 451:.\Generated_Source\PSoC5/CySpc.c **** *   temperature polarity.
+ 452:.\Generated_Source\PSoC5/CySpc.c **** *   1: the Temp Magnitude is interpreted as a positive value
+ 453:.\Generated_Source\PSoC5/CySpc.c **** *   0: the Temp Magnitude is interpreted as a negative value
+ 454:.\Generated_Source\PSoC5/CySpc.c **** *
+ 455:.\Generated_Source\PSoC5/CySpc.c **** *  uint8 tempMagnitude:
+ 456:.\Generated_Source\PSoC5/CySpc.c **** *   temperature magnitude.
+ 457:.\Generated_Source\PSoC5/CySpc.c **** *
+ 458:.\Generated_Source\PSoC5/CySpc.c **** * Return:
+ 459:.\Generated_Source\PSoC5/CySpc.c **** *  CYRET_STARTED
+ 460:.\Generated_Source\PSoC5/CySpc.c **** *  CYRET_CANCELED
+ 461:.\Generated_Source\PSoC5/CySpc.c **** *  CYRET_LOCKED
+ 462:.\Generated_Source\PSoC5/CySpc.c **** *
+ 463:.\Generated_Source\PSoC5/CySpc.c **** *******************************************************************************/
+ 464:.\Generated_Source\PSoC5/CySpc.c **** cystatus CySpcWriteRow(uint8 array, uint16 address, uint8 tempPolarity, uint8 tempMagnitude)\
+ 465:.\Generated_Source\PSoC5/CySpc.c **** 
+ 466:.\Generated_Source\PSoC5/CySpc.c **** {
+ 640              		.loc 1 466 0
+ 641              		.cfi_startproc
+ 642              		@ args = 0, pretend = 0, frame = 16
+ 643              		@ frame_needed = 1, uses_anonymous_args = 0
+ 644              		@ link register save eliminated.
+ 645 0000 80B4     		push	{r7}
+ 646              		.cfi_def_cfa_offset 4
+ 647              		.cfi_offset 7, -4
+ 648 0002 85B0     		sub	sp, sp, #20
+ 649              		.cfi_def_cfa_offset 24
+ 650 0004 00AF     		add	r7, sp, #0
+ 651              		.cfi_def_cfa_register 7
+ 652 0006 F871     		strb	r0, [r7, #7]
+ 653 0008 B980     		strh	r1, [r7, #4]	@ movhi
+ 654 000a BA71     		strb	r2, [r7, #6]
+ 655 000c FB70     		strb	r3, [r7, #3]
+ 467:.\Generated_Source\PSoC5/CySpc.c ****     cystatus status = CYRET_STARTED;
+ 656              		.loc 1 467 0
+ 657 000e 0723     		movs	r3, #7
+ 658 0010 FB60     		str	r3, [r7, #12]
+ARM GAS  C:\Users\BRANKO~1\AppData\Local\Temp\cc4panOR.s 			page 21
+
+
+ 468:.\Generated_Source\PSoC5/CySpc.c **** 
+ 469:.\Generated_Source\PSoC5/CySpc.c ****     /* Make sure the SPC is ready to accept command */
+ 470:.\Generated_Source\PSoC5/CySpc.c ****     if(CY_SPC_IDLE)
+ 659              		.loc 1 470 0
+ 660 0012 1B4B     		ldr	r3, .L58
+ 661 0014 1B78     		ldrb	r3, [r3]
+ 662 0016 DBB2     		uxtb	r3, r3
+ 663 0018 03F00203 		and	r3, r3, #2
+ 664 001c 002B     		cmp	r3, #0
+ 665 001e 26D0     		beq	.L53
+ 471:.\Generated_Source\PSoC5/CySpc.c ****     {
+ 472:.\Generated_Source\PSoC5/CySpc.c ****         CY_SPC_CPU_DATA_REG = CY_SPC_KEY_ONE;
+ 666              		.loc 1 472 0
+ 667 0020 184B     		ldr	r3, .L58+4
+ 668 0022 B622     		movs	r2, #182
+ 669 0024 1A70     		strb	r2, [r3]
+ 473:.\Generated_Source\PSoC5/CySpc.c ****         CY_SPC_CPU_DATA_REG = CY_SPC_KEY_TWO(CY_SPC_CMD_WR_ROW);
+ 670              		.loc 1 473 0
+ 671 0026 174B     		ldr	r3, .L58+4
+ 672 0028 D822     		movs	r2, #216
+ 673 002a 1A70     		strb	r2, [r3]
+ 474:.\Generated_Source\PSoC5/CySpc.c ****         CY_SPC_CPU_DATA_REG = CY_SPC_CMD_WR_ROW;
+ 674              		.loc 1 474 0
+ 675 002c 154B     		ldr	r3, .L58+4
+ 676 002e 0522     		movs	r2, #5
+ 677 0030 1A70     		strb	r2, [r3]
+ 475:.\Generated_Source\PSoC5/CySpc.c **** 
+ 476:.\Generated_Source\PSoC5/CySpc.c ****         /* Make sure the command was accepted */
+ 477:.\Generated_Source\PSoC5/CySpc.c ****         if(CY_SPC_BUSY)
+ 678              		.loc 1 477 0
+ 679 0032 134B     		ldr	r3, .L58
+ 680 0034 1B78     		ldrb	r3, [r3]
+ 681 0036 DBB2     		uxtb	r3, r3
+ 682 0038 03F00203 		and	r3, r3, #2
+ 683 003c 002B     		cmp	r3, #0
+ 684 003e 13D1     		bne	.L54
+ 478:.\Generated_Source\PSoC5/CySpc.c ****         {
+ 479:.\Generated_Source\PSoC5/CySpc.c ****             CY_SPC_CPU_DATA_REG = array;
+ 685              		.loc 1 479 0
+ 686 0040 104B     		ldr	r3, .L58+4
+ 687 0042 FA79     		ldrb	r2, [r7, #7]
+ 688 0044 1A70     		strb	r2, [r3]
+ 480:.\Generated_Source\PSoC5/CySpc.c ****             CY_SPC_CPU_DATA_REG = HI8(address);
+ 689              		.loc 1 480 0
+ 690 0046 0F4B     		ldr	r3, .L58+4
+ 691 0048 BA88     		ldrh	r2, [r7, #4]
+ 692 004a 120A     		lsrs	r2, r2, #8
+ 693 004c 92B2     		uxth	r2, r2
+ 694 004e D2B2     		uxtb	r2, r2
+ 695 0050 1A70     		strb	r2, [r3]
+ 481:.\Generated_Source\PSoC5/CySpc.c ****             CY_SPC_CPU_DATA_REG = LO8(address);
+ 696              		.loc 1 481 0
+ 697 0052 0C4B     		ldr	r3, .L58+4
+ 698 0054 BA88     		ldrh	r2, [r7, #4]	@ movhi
+ 699 0056 D2B2     		uxtb	r2, r2
+ 700 0058 1A70     		strb	r2, [r3]
+ 482:.\Generated_Source\PSoC5/CySpc.c ****             CY_SPC_CPU_DATA_REG = tempPolarity;
+ARM GAS  C:\Users\BRANKO~1\AppData\Local\Temp\cc4panOR.s 			page 22
+
+
+ 701              		.loc 1 482 0
+ 702 005a 0A4B     		ldr	r3, .L58+4
+ 703 005c BA79     		ldrb	r2, [r7, #6]
+ 704 005e 1A70     		strb	r2, [r3]
+ 483:.\Generated_Source\PSoC5/CySpc.c ****             CY_SPC_CPU_DATA_REG = tempMagnitude;
+ 705              		.loc 1 483 0
+ 706 0060 084B     		ldr	r3, .L58+4
+ 707 0062 FA78     		ldrb	r2, [r7, #3]
+ 708 0064 1A70     		strb	r2, [r3]
+ 709 0066 04E0     		b	.L56
+ 710              	.L54:
+ 484:.\Generated_Source\PSoC5/CySpc.c ****         }
+ 485:.\Generated_Source\PSoC5/CySpc.c ****         else
+ 486:.\Generated_Source\PSoC5/CySpc.c ****         {
+ 487:.\Generated_Source\PSoC5/CySpc.c ****             status = CYRET_CANCELED;
+ 711              		.loc 1 487 0
+ 712 0068 0923     		movs	r3, #9
+ 713 006a FB60     		str	r3, [r7, #12]
+ 714 006c 01E0     		b	.L56
+ 715              	.L53:
+ 488:.\Generated_Source\PSoC5/CySpc.c ****         }
+ 489:.\Generated_Source\PSoC5/CySpc.c ****     }
+ 490:.\Generated_Source\PSoC5/CySpc.c ****     else
+ 491:.\Generated_Source\PSoC5/CySpc.c ****     {
+ 492:.\Generated_Source\PSoC5/CySpc.c ****         status = CYRET_LOCKED;
+ 716              		.loc 1 492 0
+ 717 006e 0423     		movs	r3, #4
+ 718 0070 FB60     		str	r3, [r7, #12]
+ 719              	.L56:
+ 493:.\Generated_Source\PSoC5/CySpc.c ****     }
+ 494:.\Generated_Source\PSoC5/CySpc.c **** 
+ 495:.\Generated_Source\PSoC5/CySpc.c ****     return(status);
+ 720              		.loc 1 495 0
+ 721 0072 FB68     		ldr	r3, [r7, #12]
+ 496:.\Generated_Source\PSoC5/CySpc.c **** }
+ 722              		.loc 1 496 0
+ 723 0074 1846     		mov	r0, r3
+ 724 0076 1437     		adds	r7, r7, #20
+ 725 0078 BD46     		mov	sp, r7
+ 726              		@ sp needed
+ 727 007a 5DF8047B 		ldr	r7, [sp], #4
+ 728 007e 7047     		bx	lr
+ 729              	.L59:
+ 730              		.align	2
+ 731              	.L58:
+ 732 0080 22470040 		.word	1073760034
+ 733 0084 20470040 		.word	1073760032
+ 734              		.cfi_endproc
+ 735              	.LFE6:
+ 736              		.size	CySpcWriteRow, .-CySpcWriteRow
+ 737              		.section	.text.CySpcEraseSector,"ax",%progbits
+ 738              		.align	2
+ 739              		.global	CySpcEraseSector
+ 740              		.thumb
+ 741              		.thumb_func
+ 742              		.type	CySpcEraseSector, %function
+ 743              	CySpcEraseSector:
+ARM GAS  C:\Users\BRANKO~1\AppData\Local\Temp\cc4panOR.s 			page 23
+
+
+ 744              	.LFB7:
+ 497:.\Generated_Source\PSoC5/CySpc.c **** 
+ 498:.\Generated_Source\PSoC5/CySpc.c **** 
+ 499:.\Generated_Source\PSoC5/CySpc.c **** /*******************************************************************************
+ 500:.\Generated_Source\PSoC5/CySpc.c **** * Function Name: CySpcEraseSector
+ 501:.\Generated_Source\PSoC5/CySpc.c **** ********************************************************************************
+ 502:.\Generated_Source\PSoC5/CySpc.c **** * Summary:
+ 503:.\Generated_Source\PSoC5/CySpc.c **** *  Erases all data in the addressed sector (block of 64 rows).
+ 504:.\Generated_Source\PSoC5/CySpc.c **** *
+ 505:.\Generated_Source\PSoC5/CySpc.c **** * Parameters:
+ 506:.\Generated_Source\PSoC5/CySpc.c **** *  uint8 array:
+ 507:.\Generated_Source\PSoC5/CySpc.c **** *   Id of the array.
+ 508:.\Generated_Source\PSoC5/CySpc.c **** *
+ 509:.\Generated_Source\PSoC5/CySpc.c **** *  uint8 sectorNumber:
+ 510:.\Generated_Source\PSoC5/CySpc.c **** *   Zero based sector number within Flash/EEPROM array
+ 511:.\Generated_Source\PSoC5/CySpc.c **** *
+ 512:.\Generated_Source\PSoC5/CySpc.c **** * Return:
+ 513:.\Generated_Source\PSoC5/CySpc.c **** *  CYRET_STARTED
+ 514:.\Generated_Source\PSoC5/CySpc.c **** *  CYRET_CANCELED
+ 515:.\Generated_Source\PSoC5/CySpc.c **** *  CYRET_LOCKED
+ 516:.\Generated_Source\PSoC5/CySpc.c **** *
+ 517:.\Generated_Source\PSoC5/CySpc.c **** *******************************************************************************/
+ 518:.\Generated_Source\PSoC5/CySpc.c **** cystatus CySpcEraseSector(uint8 array, uint8 sectorNumber)
+ 519:.\Generated_Source\PSoC5/CySpc.c **** {
+ 745              		.loc 1 519 0
+ 746              		.cfi_startproc
+ 747              		@ args = 0, pretend = 0, frame = 16
+ 748              		@ frame_needed = 1, uses_anonymous_args = 0
+ 749              		@ link register save eliminated.
+ 750 0000 80B4     		push	{r7}
+ 751              		.cfi_def_cfa_offset 4
+ 752              		.cfi_offset 7, -4
+ 753 0002 85B0     		sub	sp, sp, #20
+ 754              		.cfi_def_cfa_offset 24
+ 755 0004 00AF     		add	r7, sp, #0
+ 756              		.cfi_def_cfa_register 7
+ 757 0006 0246     		mov	r2, r0
+ 758 0008 0B46     		mov	r3, r1
+ 759 000a FA71     		strb	r2, [r7, #7]
+ 760 000c BB71     		strb	r3, [r7, #6]
+ 520:.\Generated_Source\PSoC5/CySpc.c ****     cystatus status = CYRET_STARTED;
+ 761              		.loc 1 520 0
+ 762 000e 0723     		movs	r3, #7
+ 763 0010 FB60     		str	r3, [r7, #12]
+ 521:.\Generated_Source\PSoC5/CySpc.c **** 
+ 522:.\Generated_Source\PSoC5/CySpc.c ****     /* Make sure the SPC is ready to accept command */
+ 523:.\Generated_Source\PSoC5/CySpc.c ****     if(CY_SPC_IDLE)
+ 764              		.loc 1 523 0
+ 765 0012 154B     		ldr	r3, .L66
+ 766 0014 1B78     		ldrb	r3, [r3]
+ 767 0016 DBB2     		uxtb	r3, r3
+ 768 0018 03F00203 		and	r3, r3, #2
+ 769 001c 002B     		cmp	r3, #0
+ 770 001e 19D0     		beq	.L61
+ 524:.\Generated_Source\PSoC5/CySpc.c ****     {
+ 525:.\Generated_Source\PSoC5/CySpc.c ****         CY_SPC_CPU_DATA_REG = CY_SPC_KEY_ONE;
+ 771              		.loc 1 525 0
+ARM GAS  C:\Users\BRANKO~1\AppData\Local\Temp\cc4panOR.s 			page 24
+
+
+ 772 0020 124B     		ldr	r3, .L66+4
+ 773 0022 B622     		movs	r2, #182
+ 774 0024 1A70     		strb	r2, [r3]
+ 526:.\Generated_Source\PSoC5/CySpc.c ****         CY_SPC_CPU_DATA_REG = CY_SPC_KEY_TWO(CY_SPC_CMD_ER_SECTOR);
+ 775              		.loc 1 526 0
+ 776 0026 114B     		ldr	r3, .L66+4
+ 777 0028 DB22     		movs	r2, #219
+ 778 002a 1A70     		strb	r2, [r3]
+ 527:.\Generated_Source\PSoC5/CySpc.c ****         CY_SPC_CPU_DATA_REG = CY_SPC_CMD_ER_SECTOR;
+ 779              		.loc 1 527 0
+ 780 002c 0F4B     		ldr	r3, .L66+4
+ 781 002e 0822     		movs	r2, #8
+ 782 0030 1A70     		strb	r2, [r3]
+ 528:.\Generated_Source\PSoC5/CySpc.c **** 
+ 529:.\Generated_Source\PSoC5/CySpc.c ****         /* Make sure the command was accepted */
+ 530:.\Generated_Source\PSoC5/CySpc.c ****         if(CY_SPC_BUSY)
+ 783              		.loc 1 530 0
+ 784 0032 0D4B     		ldr	r3, .L66
+ 785 0034 1B78     		ldrb	r3, [r3]
+ 786 0036 DBB2     		uxtb	r3, r3
+ 787 0038 03F00203 		and	r3, r3, #2
+ 788 003c 002B     		cmp	r3, #0
+ 789 003e 06D1     		bne	.L62
+ 531:.\Generated_Source\PSoC5/CySpc.c ****         {
+ 532:.\Generated_Source\PSoC5/CySpc.c ****             CY_SPC_CPU_DATA_REG = array;
+ 790              		.loc 1 532 0
+ 791 0040 0A4B     		ldr	r3, .L66+4
+ 792 0042 FA79     		ldrb	r2, [r7, #7]
+ 793 0044 1A70     		strb	r2, [r3]
+ 533:.\Generated_Source\PSoC5/CySpc.c ****             CY_SPC_CPU_DATA_REG = sectorNumber;
+ 794              		.loc 1 533 0
+ 795 0046 094B     		ldr	r3, .L66+4
+ 796 0048 BA79     		ldrb	r2, [r7, #6]
+ 797 004a 1A70     		strb	r2, [r3]
+ 798 004c 04E0     		b	.L64
+ 799              	.L62:
+ 534:.\Generated_Source\PSoC5/CySpc.c ****         }
+ 535:.\Generated_Source\PSoC5/CySpc.c ****         else
+ 536:.\Generated_Source\PSoC5/CySpc.c ****         {
+ 537:.\Generated_Source\PSoC5/CySpc.c ****             status = CYRET_CANCELED;
+ 800              		.loc 1 537 0
+ 801 004e 0923     		movs	r3, #9
+ 802 0050 FB60     		str	r3, [r7, #12]
+ 803 0052 01E0     		b	.L64
+ 804              	.L61:
+ 538:.\Generated_Source\PSoC5/CySpc.c ****         }
+ 539:.\Generated_Source\PSoC5/CySpc.c ****     }
+ 540:.\Generated_Source\PSoC5/CySpc.c ****     else
+ 541:.\Generated_Source\PSoC5/CySpc.c ****     {
+ 542:.\Generated_Source\PSoC5/CySpc.c ****         status = CYRET_LOCKED;
+ 805              		.loc 1 542 0
+ 806 0054 0423     		movs	r3, #4
+ 807 0056 FB60     		str	r3, [r7, #12]
+ 808              	.L64:
+ 543:.\Generated_Source\PSoC5/CySpc.c ****     }
+ 544:.\Generated_Source\PSoC5/CySpc.c **** 
+ 545:.\Generated_Source\PSoC5/CySpc.c ****     return(status);
+ARM GAS  C:\Users\BRANKO~1\AppData\Local\Temp\cc4panOR.s 			page 25
+
+
+ 809              		.loc 1 545 0
+ 810 0058 FB68     		ldr	r3, [r7, #12]
+ 546:.\Generated_Source\PSoC5/CySpc.c **** }
+ 811              		.loc 1 546 0
+ 812 005a 1846     		mov	r0, r3
+ 813 005c 1437     		adds	r7, r7, #20
+ 814 005e BD46     		mov	sp, r7
+ 815              		@ sp needed
+ 816 0060 5DF8047B 		ldr	r7, [sp], #4
+ 817 0064 7047     		bx	lr
+ 818              	.L67:
+ 819 0066 00BF     		.align	2
+ 820              	.L66:
+ 821 0068 22470040 		.word	1073760034
+ 822 006c 20470040 		.word	1073760032
+ 823              		.cfi_endproc
+ 824              	.LFE7:
+ 825              		.size	CySpcEraseSector, .-CySpcEraseSector
+ 826              		.section	.text.CySpcGetTemp,"ax",%progbits
+ 827              		.align	2
+ 828              		.global	CySpcGetTemp
+ 829              		.thumb
+ 830              		.thumb_func
+ 831              		.type	CySpcGetTemp, %function
+ 832              	CySpcGetTemp:
+ 833              	.LFB8:
+ 547:.\Generated_Source\PSoC5/CySpc.c **** 
+ 548:.\Generated_Source\PSoC5/CySpc.c **** 
+ 549:.\Generated_Source\PSoC5/CySpc.c **** /*******************************************************************************
+ 550:.\Generated_Source\PSoC5/CySpc.c **** * Function Name: CySpcGetTemp
+ 551:.\Generated_Source\PSoC5/CySpc.c **** ********************************************************************************
+ 552:.\Generated_Source\PSoC5/CySpc.c **** * Summary:
+ 553:.\Generated_Source\PSoC5/CySpc.c **** *  Returns the internal die temperature
+ 554:.\Generated_Source\PSoC5/CySpc.c **** *
+ 555:.\Generated_Source\PSoC5/CySpc.c **** * Parameters:
+ 556:.\Generated_Source\PSoC5/CySpc.c **** *  uint8 numSamples:
+ 557:.\Generated_Source\PSoC5/CySpc.c **** *   Number of samples. Valid values are 1-5, resulting in 2 - 32 samples
+ 558:.\Generated_Source\PSoC5/CySpc.c **** *   respectively.
+ 559:.\Generated_Source\PSoC5/CySpc.c **** *
+ 560:.\Generated_Source\PSoC5/CySpc.c **** * uint16 timerPeriod:
+ 561:.\Generated_Source\PSoC5/CySpc.c **** *   Number of ADC ACLK cycles. A valid 14 bit value is accepted, higher 2 bits
+ 562:.\Generated_Source\PSoC5/CySpc.c **** *   of 16 bit values are ignored.
+ 563:.\Generated_Source\PSoC5/CySpc.c **** *
+ 564:.\Generated_Source\PSoC5/CySpc.c **** * uint8 clkDivSelect:
+ 565:.\Generated_Source\PSoC5/CySpc.c **** *   ADC ACLK clock divide value. Valid values are 2 - 225.
+ 566:.\Generated_Source\PSoC5/CySpc.c **** *
+ 567:.\Generated_Source\PSoC5/CySpc.c **** * Return:
+ 568:.\Generated_Source\PSoC5/CySpc.c **** *  CYRET_STARTED
+ 569:.\Generated_Source\PSoC5/CySpc.c **** *  CYRET_CANCELED
+ 570:.\Generated_Source\PSoC5/CySpc.c **** *  CYRET_LOCKED
+ 571:.\Generated_Source\PSoC5/CySpc.c **** *
+ 572:.\Generated_Source\PSoC5/CySpc.c **** *******************************************************************************/
+ 573:.\Generated_Source\PSoC5/CySpc.c **** cystatus CySpcGetTemp(uint8 numSamples)
+ 574:.\Generated_Source\PSoC5/CySpc.c **** {
+ 834              		.loc 1 574 0
+ 835              		.cfi_startproc
+ 836              		@ args = 0, pretend = 0, frame = 16
+ARM GAS  C:\Users\BRANKO~1\AppData\Local\Temp\cc4panOR.s 			page 26
+
+
+ 837              		@ frame_needed = 1, uses_anonymous_args = 0
+ 838              		@ link register save eliminated.
+ 839 0000 80B4     		push	{r7}
+ 840              		.cfi_def_cfa_offset 4
+ 841              		.cfi_offset 7, -4
+ 842 0002 85B0     		sub	sp, sp, #20
+ 843              		.cfi_def_cfa_offset 24
+ 844 0004 00AF     		add	r7, sp, #0
+ 845              		.cfi_def_cfa_register 7
+ 846 0006 0346     		mov	r3, r0
+ 847 0008 FB71     		strb	r3, [r7, #7]
+ 575:.\Generated_Source\PSoC5/CySpc.c ****     cystatus status = CYRET_STARTED;
+ 848              		.loc 1 575 0
+ 849 000a 0723     		movs	r3, #7
+ 850 000c FB60     		str	r3, [r7, #12]
+ 576:.\Generated_Source\PSoC5/CySpc.c **** 
+ 577:.\Generated_Source\PSoC5/CySpc.c ****     /* Make sure the SPC is ready to accept command */
+ 578:.\Generated_Source\PSoC5/CySpc.c ****     if(CY_SPC_IDLE)
+ 851              		.loc 1 578 0
+ 852 000e 134B     		ldr	r3, .L74
+ 853 0010 1B78     		ldrb	r3, [r3]
+ 854 0012 DBB2     		uxtb	r3, r3
+ 855 0014 03F00203 		and	r3, r3, #2
+ 856 0018 002B     		cmp	r3, #0
+ 857 001a 16D0     		beq	.L69
+ 579:.\Generated_Source\PSoC5/CySpc.c ****     {
+ 580:.\Generated_Source\PSoC5/CySpc.c ****         CY_SPC_CPU_DATA_REG = CY_SPC_KEY_ONE;
+ 858              		.loc 1 580 0
+ 859 001c 104B     		ldr	r3, .L74+4
+ 860 001e B622     		movs	r2, #182
+ 861 0020 1A70     		strb	r2, [r3]
+ 581:.\Generated_Source\PSoC5/CySpc.c ****         CY_SPC_CPU_DATA_REG = CY_SPC_KEY_TWO(CY_SPC_CMD_GET_TEMP);
+ 862              		.loc 1 581 0
+ 863 0022 0F4B     		ldr	r3, .L74+4
+ 864 0024 E122     		movs	r2, #225
+ 865 0026 1A70     		strb	r2, [r3]
+ 582:.\Generated_Source\PSoC5/CySpc.c ****         CY_SPC_CPU_DATA_REG = CY_SPC_CMD_GET_TEMP;
+ 866              		.loc 1 582 0
+ 867 0028 0D4B     		ldr	r3, .L74+4
+ 868 002a 0E22     		movs	r2, #14
+ 869 002c 1A70     		strb	r2, [r3]
+ 583:.\Generated_Source\PSoC5/CySpc.c **** 
+ 584:.\Generated_Source\PSoC5/CySpc.c ****         /* Make sure the command was accepted */
+ 585:.\Generated_Source\PSoC5/CySpc.c ****         if(CY_SPC_BUSY)
+ 870              		.loc 1 585 0
+ 871 002e 0B4B     		ldr	r3, .L74
+ 872 0030 1B78     		ldrb	r3, [r3]
+ 873 0032 DBB2     		uxtb	r3, r3
+ 874 0034 03F00203 		and	r3, r3, #2
+ 875 0038 002B     		cmp	r3, #0
+ 876 003a 03D1     		bne	.L70
+ 586:.\Generated_Source\PSoC5/CySpc.c ****         {
+ 587:.\Generated_Source\PSoC5/CySpc.c ****             CY_SPC_CPU_DATA_REG = numSamples;
+ 877              		.loc 1 587 0
+ 878 003c 084B     		ldr	r3, .L74+4
+ 879 003e FA79     		ldrb	r2, [r7, #7]
+ 880 0040 1A70     		strb	r2, [r3]
+ARM GAS  C:\Users\BRANKO~1\AppData\Local\Temp\cc4panOR.s 			page 27
+
+
+ 881 0042 04E0     		b	.L72
+ 882              	.L70:
+ 588:.\Generated_Source\PSoC5/CySpc.c ****         }
+ 589:.\Generated_Source\PSoC5/CySpc.c ****         else
+ 590:.\Generated_Source\PSoC5/CySpc.c ****         {
+ 591:.\Generated_Source\PSoC5/CySpc.c ****             status = CYRET_CANCELED;
+ 883              		.loc 1 591 0
+ 884 0044 0923     		movs	r3, #9
+ 885 0046 FB60     		str	r3, [r7, #12]
+ 886 0048 01E0     		b	.L72
+ 887              	.L69:
+ 592:.\Generated_Source\PSoC5/CySpc.c ****         }
+ 593:.\Generated_Source\PSoC5/CySpc.c ****     }
+ 594:.\Generated_Source\PSoC5/CySpc.c ****     else
+ 595:.\Generated_Source\PSoC5/CySpc.c ****     {
+ 596:.\Generated_Source\PSoC5/CySpc.c ****         status = CYRET_LOCKED;
+ 888              		.loc 1 596 0
+ 889 004a 0423     		movs	r3, #4
+ 890 004c FB60     		str	r3, [r7, #12]
+ 891              	.L72:
+ 597:.\Generated_Source\PSoC5/CySpc.c ****     }
+ 598:.\Generated_Source\PSoC5/CySpc.c **** 
+ 599:.\Generated_Source\PSoC5/CySpc.c ****     return(status);
+ 892              		.loc 1 599 0
+ 893 004e FB68     		ldr	r3, [r7, #12]
+ 600:.\Generated_Source\PSoC5/CySpc.c **** }
+ 894              		.loc 1 600 0
+ 895 0050 1846     		mov	r0, r3
+ 896 0052 1437     		adds	r7, r7, #20
+ 897 0054 BD46     		mov	sp, r7
+ 898              		@ sp needed
+ 899 0056 5DF8047B 		ldr	r7, [sp], #4
+ 900 005a 7047     		bx	lr
+ 901              	.L75:
+ 902              		.align	2
+ 903              	.L74:
+ 904 005c 22470040 		.word	1073760034
+ 905 0060 20470040 		.word	1073760032
+ 906              		.cfi_endproc
+ 907              	.LFE8:
+ 908              		.size	CySpcGetTemp, .-CySpcGetTemp
+ 909              		.section	.text.CySpcLock,"ax",%progbits
+ 910              		.align	2
+ 911              		.global	CySpcLock
+ 912              		.thumb
+ 913              		.thumb_func
+ 914              		.type	CySpcLock, %function
+ 915              	CySpcLock:
+ 916              	.LFB9:
+ 601:.\Generated_Source\PSoC5/CySpc.c **** 
+ 602:.\Generated_Source\PSoC5/CySpc.c **** 
+ 603:.\Generated_Source\PSoC5/CySpc.c **** /*******************************************************************************
+ 604:.\Generated_Source\PSoC5/CySpc.c **** * Function Name: CySpcLock
+ 605:.\Generated_Source\PSoC5/CySpc.c **** ********************************************************************************
+ 606:.\Generated_Source\PSoC5/CySpc.c **** * Summary:
+ 607:.\Generated_Source\PSoC5/CySpc.c **** *  Locks the SPC so it can not be used by someone else:
+ 608:.\Generated_Source\PSoC5/CySpc.c **** *   - Saves wait-pipeline enable state and enable pipeline (PSoC5)
+ARM GAS  C:\Users\BRANKO~1\AppData\Local\Temp\cc4panOR.s 			page 28
+
+
+ 609:.\Generated_Source\PSoC5/CySpc.c **** *
+ 610:.\Generated_Source\PSoC5/CySpc.c **** * Parameters:
+ 611:.\Generated_Source\PSoC5/CySpc.c **** *  Note
+ 612:.\Generated_Source\PSoC5/CySpc.c **** *
+ 613:.\Generated_Source\PSoC5/CySpc.c **** * Return:
+ 614:.\Generated_Source\PSoC5/CySpc.c **** *  CYRET_SUCCESS - if the resource was free.
+ 615:.\Generated_Source\PSoC5/CySpc.c **** *  CYRET_LOCKED  - if the SPC is in use.
+ 616:.\Generated_Source\PSoC5/CySpc.c **** *
+ 617:.\Generated_Source\PSoC5/CySpc.c **** *******************************************************************************/
+ 618:.\Generated_Source\PSoC5/CySpc.c **** cystatus CySpcLock(void)
+ 619:.\Generated_Source\PSoC5/CySpc.c **** {
+ 917              		.loc 1 619 0
+ 918              		.cfi_startproc
+ 919              		@ args = 0, pretend = 0, frame = 8
+ 920              		@ frame_needed = 1, uses_anonymous_args = 0
+ 921 0000 80B5     		push	{r7, lr}
+ 922              		.cfi_def_cfa_offset 8
+ 923              		.cfi_offset 7, -8
+ 924              		.cfi_offset 14, -4
+ 925 0002 82B0     		sub	sp, sp, #8
+ 926              		.cfi_def_cfa_offset 16
+ 927 0004 00AF     		add	r7, sp, #0
+ 928              		.cfi_def_cfa_register 7
+ 620:.\Generated_Source\PSoC5/CySpc.c ****     cystatus status = CYRET_LOCKED;
+ 929              		.loc 1 620 0
+ 930 0006 0423     		movs	r3, #4
+ 931 0008 7B60     		str	r3, [r7, #4]
+ 621:.\Generated_Source\PSoC5/CySpc.c ****     uint8 interruptState;
+ 622:.\Generated_Source\PSoC5/CySpc.c **** 
+ 623:.\Generated_Source\PSoC5/CySpc.c ****     /* Enter critical section */
+ 624:.\Generated_Source\PSoC5/CySpc.c ****     interruptState = CyEnterCriticalSection();
+ 932              		.loc 1 624 0
+ 933 000a FFF7FEFF 		bl	CyEnterCriticalSection
+ 934 000e 0346     		mov	r3, r0
+ 935 0010 FB70     		strb	r3, [r7, #3]
+ 625:.\Generated_Source\PSoC5/CySpc.c **** 
+ 626:.\Generated_Source\PSoC5/CySpc.c ****     if(CY_SPC_UNLOCKED == SpcLockState)
+ 936              		.loc 1 626 0
+ 937 0012 124B     		ldr	r3, .L79
+ 938 0014 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+ 939 0016 002B     		cmp	r3, #0
+ 940 0018 16D1     		bne	.L77
+ 627:.\Generated_Source\PSoC5/CySpc.c ****     {
+ 628:.\Generated_Source\PSoC5/CySpc.c ****         SpcLockState = CY_SPC_LOCKED;
+ 941              		.loc 1 628 0
+ 942 001a 104B     		ldr	r3, .L79
+ 943 001c 0122     		movs	r2, #1
+ 944 001e 1A70     		strb	r2, [r3]
+ 629:.\Generated_Source\PSoC5/CySpc.c ****         status = CYRET_SUCCESS;
+ 945              		.loc 1 629 0
+ 946 0020 0023     		movs	r3, #0
+ 947 0022 7B60     		str	r3, [r7, #4]
+ 630:.\Generated_Source\PSoC5/CySpc.c **** 
+ 631:.\Generated_Source\PSoC5/CySpc.c ****         #if(CY_PSOC5)
+ 632:.\Generated_Source\PSoC5/CySpc.c **** 
+ 633:.\Generated_Source\PSoC5/CySpc.c ****             if(0u != (CY_SPC_CPU_WAITPIPE_REG & CY_SPC_CPU_WAITPIPE_BYPASS))
+ 948              		.loc 1 633 0
+ARM GAS  C:\Users\BRANKO~1\AppData\Local\Temp\cc4panOR.s 			page 29
+
+
+ 949 0024 0E4B     		ldr	r3, .L79+4
+ 950 0026 1B68     		ldr	r3, [r3]
+ 951 0028 03F00103 		and	r3, r3, #1
+ 952 002c 002B     		cmp	r3, #0
+ 953 002e 0BD0     		beq	.L77
+ 634:.\Generated_Source\PSoC5/CySpc.c ****             {
+ 635:.\Generated_Source\PSoC5/CySpc.c ****                 /* Enable pipeline registers */
+ 636:.\Generated_Source\PSoC5/CySpc.c ****                 CY_SPC_CPU_WAITPIPE_REG &= ((uint32)(~CY_SPC_CPU_WAITPIPE_BYPASS));
+ 954              		.loc 1 636 0
+ 955 0030 0B4B     		ldr	r3, .L79+4
+ 956 0032 0B4A     		ldr	r2, .L79+4
+ 957 0034 1268     		ldr	r2, [r2]
+ 958 0036 22F00102 		bic	r2, r2, #1
+ 959 003a 1A60     		str	r2, [r3]
+ 637:.\Generated_Source\PSoC5/CySpc.c **** 
+ 638:.\Generated_Source\PSoC5/CySpc.c ****                 /* At least 2 NOP instructions are recommended */
+ 639:.\Generated_Source\PSoC5/CySpc.c ****                 CY_NOP;
+ 960              		.loc 1 639 0
+ 961              	@ 639 ".\Generated_Source\PSoC5\CySpc.c" 1
+ 962 003c 00BF     		NOP
+ 963              	
+ 964              	@ 0 "" 2
+ 640:.\Generated_Source\PSoC5/CySpc.c ****                 CY_NOP;
+ 965              		.loc 1 640 0
+ 966              	@ 640 ".\Generated_Source\PSoC5\CySpc.c" 1
+ 967 003e 00BF     		NOP
+ 968              	
+ 969              	@ 0 "" 2
+ 641:.\Generated_Source\PSoC5/CySpc.c ****                 CY_NOP;
+ 970              		.loc 1 641 0
+ 971              	@ 641 ".\Generated_Source\PSoC5\CySpc.c" 1
+ 972 0040 00BF     		NOP
+ 973              	
+ 974              	@ 0 "" 2
+ 642:.\Generated_Source\PSoC5/CySpc.c **** 
+ 643:.\Generated_Source\PSoC5/CySpc.c ****                 spcWaitPipeBypass = CY_SPC_CPU_WAITPIPE_BYPASS;
+ 975              		.loc 1 643 0
+ 976              		.thumb
+ 977 0042 084B     		ldr	r3, .L79+8
+ 978 0044 0122     		movs	r2, #1
+ 979 0046 1A60     		str	r2, [r3]
+ 980              	.L77:
+ 644:.\Generated_Source\PSoC5/CySpc.c ****             }
+ 645:.\Generated_Source\PSoC5/CySpc.c **** 
+ 646:.\Generated_Source\PSoC5/CySpc.c ****         #endif  /* (CY_PSOC5) */
+ 647:.\Generated_Source\PSoC5/CySpc.c ****     }
+ 648:.\Generated_Source\PSoC5/CySpc.c **** 
+ 649:.\Generated_Source\PSoC5/CySpc.c ****     /* Exit critical section */
+ 650:.\Generated_Source\PSoC5/CySpc.c ****     CyExitCriticalSection(interruptState);
+ 981              		.loc 1 650 0
+ 982 0048 FB78     		ldrb	r3, [r7, #3]	@ zero_extendqisi2
+ 983 004a 1846     		mov	r0, r3
+ 984 004c FFF7FEFF 		bl	CyExitCriticalSection
+ 651:.\Generated_Source\PSoC5/CySpc.c **** 
+ 652:.\Generated_Source\PSoC5/CySpc.c ****     return(status);
+ 985              		.loc 1 652 0
+ 986 0050 7B68     		ldr	r3, [r7, #4]
+ARM GAS  C:\Users\BRANKO~1\AppData\Local\Temp\cc4panOR.s 			page 30
+
+
+ 653:.\Generated_Source\PSoC5/CySpc.c **** }
+ 987              		.loc 1 653 0
+ 988 0052 1846     		mov	r0, r3
+ 989 0054 0837     		adds	r7, r7, #8
+ 990 0056 BD46     		mov	sp, r7
+ 991              		@ sp needed
+ 992 0058 80BD     		pop	{r7, pc}
+ 993              	.L80:
+ 994 005a 00BF     		.align	2
+ 995              	.L79:
+ 996 005c 00000000 		.word	SpcLockState
+ 997 0060 04000840 		.word	1074266116
+ 998 0064 04000000 		.word	spcWaitPipeBypass
+ 999              		.cfi_endproc
+ 1000              	.LFE9:
+ 1001              		.size	CySpcLock, .-CySpcLock
+ 1002              		.section	.text.CySpcUnlock,"ax",%progbits
+ 1003              		.align	2
+ 1004              		.global	CySpcUnlock
+ 1005              		.thumb
+ 1006              		.thumb_func
+ 1007              		.type	CySpcUnlock, %function
+ 1008              	CySpcUnlock:
+ 1009              	.LFB10:
+ 654:.\Generated_Source\PSoC5/CySpc.c **** 
+ 655:.\Generated_Source\PSoC5/CySpc.c **** 
+ 656:.\Generated_Source\PSoC5/CySpc.c **** /*******************************************************************************
+ 657:.\Generated_Source\PSoC5/CySpc.c **** * Function Name: CySpcUnlock
+ 658:.\Generated_Source\PSoC5/CySpc.c **** ********************************************************************************
+ 659:.\Generated_Source\PSoC5/CySpc.c **** * Summary:
+ 660:.\Generated_Source\PSoC5/CySpc.c **** *  Unlocks the SPC so it can be used by someone else:
+ 661:.\Generated_Source\PSoC5/CySpc.c **** *   - Restores wait-pipeline enable state (PSoC5)
+ 662:.\Generated_Source\PSoC5/CySpc.c **** *
+ 663:.\Generated_Source\PSoC5/CySpc.c **** * Parameters:
+ 664:.\Generated_Source\PSoC5/CySpc.c **** *  None
+ 665:.\Generated_Source\PSoC5/CySpc.c **** *
+ 666:.\Generated_Source\PSoC5/CySpc.c **** * Return:
+ 667:.\Generated_Source\PSoC5/CySpc.c **** *  None
+ 668:.\Generated_Source\PSoC5/CySpc.c **** *
+ 669:.\Generated_Source\PSoC5/CySpc.c **** *******************************************************************************/
+ 670:.\Generated_Source\PSoC5/CySpc.c **** void CySpcUnlock(void)
+ 671:.\Generated_Source\PSoC5/CySpc.c **** {
+ 1010              		.loc 1 671 0
+ 1011              		.cfi_startproc
+ 1012              		@ args = 0, pretend = 0, frame = 8
+ 1013              		@ frame_needed = 1, uses_anonymous_args = 0
+ 1014 0000 80B5     		push	{r7, lr}
+ 1015              		.cfi_def_cfa_offset 8
+ 1016              		.cfi_offset 7, -8
+ 1017              		.cfi_offset 14, -4
+ 1018 0002 82B0     		sub	sp, sp, #8
+ 1019              		.cfi_def_cfa_offset 16
+ 1020 0004 00AF     		add	r7, sp, #0
+ 1021              		.cfi_def_cfa_register 7
+ 672:.\Generated_Source\PSoC5/CySpc.c ****     uint8 interruptState;
+ 673:.\Generated_Source\PSoC5/CySpc.c **** 
+ 674:.\Generated_Source\PSoC5/CySpc.c ****     /* Enter critical section */
+ARM GAS  C:\Users\BRANKO~1\AppData\Local\Temp\cc4panOR.s 			page 31
+
+
+ 675:.\Generated_Source\PSoC5/CySpc.c ****     interruptState = CyEnterCriticalSection();
+ 1022              		.loc 1 675 0
+ 1023 0006 FFF7FEFF 		bl	CyEnterCriticalSection
+ 1024 000a 0346     		mov	r3, r0
+ 1025 000c FB71     		strb	r3, [r7, #7]
+ 676:.\Generated_Source\PSoC5/CySpc.c **** 
+ 677:.\Generated_Source\PSoC5/CySpc.c ****     /* Release the SPC object */
+ 678:.\Generated_Source\PSoC5/CySpc.c ****     SpcLockState = CY_SPC_UNLOCKED;
+ 1026              		.loc 1 678 0
+ 1027 000e 0D4B     		ldr	r3, .L83
+ 1028 0010 0022     		movs	r2, #0
+ 1029 0012 1A70     		strb	r2, [r3]
+ 679:.\Generated_Source\PSoC5/CySpc.c **** 
+ 680:.\Generated_Source\PSoC5/CySpc.c ****     #if(CY_PSOC5)
+ 681:.\Generated_Source\PSoC5/CySpc.c **** 
+ 682:.\Generated_Source\PSoC5/CySpc.c ****         if(CY_SPC_CPU_WAITPIPE_BYPASS == spcWaitPipeBypass)
+ 1030              		.loc 1 682 0
+ 1031 0014 0C4B     		ldr	r3, .L83+4
+ 1032 0016 1B68     		ldr	r3, [r3]
+ 1033 0018 012B     		cmp	r3, #1
+ 1034 001a 0BD1     		bne	.L82
+ 683:.\Generated_Source\PSoC5/CySpc.c ****         {
+ 684:.\Generated_Source\PSoC5/CySpc.c ****             /* Force to bypass pipeline registers */
+ 685:.\Generated_Source\PSoC5/CySpc.c ****             CY_SPC_CPU_WAITPIPE_REG |= CY_SPC_CPU_WAITPIPE_BYPASS;
+ 1035              		.loc 1 685 0
+ 1036 001c 0B4B     		ldr	r3, .L83+8
+ 1037 001e 0B4A     		ldr	r2, .L83+8
+ 1038 0020 1268     		ldr	r2, [r2]
+ 1039 0022 42F00102 		orr	r2, r2, #1
+ 1040 0026 1A60     		str	r2, [r3]
+ 686:.\Generated_Source\PSoC5/CySpc.c **** 
+ 687:.\Generated_Source\PSoC5/CySpc.c ****             /* At least 2 NOP instructions are recommended */
+ 688:.\Generated_Source\PSoC5/CySpc.c ****             CY_NOP;
+ 1041              		.loc 1 688 0
+ 1042              	@ 688 ".\Generated_Source\PSoC5\CySpc.c" 1
+ 1043 0028 00BF     		NOP
+ 1044              	
+ 1045              	@ 0 "" 2
+ 689:.\Generated_Source\PSoC5/CySpc.c ****             CY_NOP;
+ 1046              		.loc 1 689 0
+ 1047              	@ 689 ".\Generated_Source\PSoC5\CySpc.c" 1
+ 1048 002a 00BF     		NOP
+ 1049              	
+ 1050              	@ 0 "" 2
+ 690:.\Generated_Source\PSoC5/CySpc.c ****             CY_NOP;
+ 1051              		.loc 1 690 0
+ 1052              	@ 690 ".\Generated_Source\PSoC5\CySpc.c" 1
+ 1053 002c 00BF     		NOP
+ 1054              	
+ 1055              	@ 0 "" 2
+ 691:.\Generated_Source\PSoC5/CySpc.c **** 
+ 692:.\Generated_Source\PSoC5/CySpc.c ****             spcWaitPipeBypass = 0u;
+ 1056              		.loc 1 692 0
+ 1057              		.thumb
+ 1058 002e 064B     		ldr	r3, .L83+4
+ 1059 0030 0022     		movs	r2, #0
+ 1060 0032 1A60     		str	r2, [r3]
+ARM GAS  C:\Users\BRANKO~1\AppData\Local\Temp\cc4panOR.s 			page 32
+
+
+ 1061              	.L82:
+ 693:.\Generated_Source\PSoC5/CySpc.c ****         }
+ 694:.\Generated_Source\PSoC5/CySpc.c **** 
+ 695:.\Generated_Source\PSoC5/CySpc.c ****     #endif  /* (CY_PSOC5) */
+ 696:.\Generated_Source\PSoC5/CySpc.c **** 
+ 697:.\Generated_Source\PSoC5/CySpc.c ****     /* Exit critical section */
+ 698:.\Generated_Source\PSoC5/CySpc.c ****     CyExitCriticalSection(interruptState);
+ 1062              		.loc 1 698 0
+ 1063 0034 FB79     		ldrb	r3, [r7, #7]	@ zero_extendqisi2
+ 1064 0036 1846     		mov	r0, r3
+ 1065 0038 FFF7FEFF 		bl	CyExitCriticalSection
+ 699:.\Generated_Source\PSoC5/CySpc.c **** }
+ 1066              		.loc 1 699 0
+ 1067 003c 0837     		adds	r7, r7, #8
+ 1068 003e BD46     		mov	sp, r7
+ 1069              		@ sp needed
+ 1070 0040 80BD     		pop	{r7, pc}
+ 1071              	.L84:
+ 1072 0042 00BF     		.align	2
+ 1073              	.L83:
+ 1074 0044 00000000 		.word	SpcLockState
+ 1075 0048 04000000 		.word	spcWaitPipeBypass
+ 1076 004c 04000840 		.word	1074266116
+ 1077              		.cfi_endproc
+ 1078              	.LFE10:
+ 1079              		.size	CySpcUnlock, .-CySpcUnlock
+ 1080              		.section	.text.CySpcGetAlgorithm,"ax",%progbits
+ 1081              		.align	2
+ 1082              		.global	CySpcGetAlgorithm
+ 1083              		.thumb
+ 1084              		.thumb_func
+ 1085              		.type	CySpcGetAlgorithm, %function
+ 1086              	CySpcGetAlgorithm:
+ 1087              	.LFB11:
+ 700:.\Generated_Source\PSoC5/CySpc.c **** 
+ 701:.\Generated_Source\PSoC5/CySpc.c **** 
+ 702:.\Generated_Source\PSoC5/CySpc.c **** /*******************************************************************************
+ 703:.\Generated_Source\PSoC5/CySpc.c **** * Function Name: CySpcGetAlgorithm
+ 704:.\Generated_Source\PSoC5/CySpc.c **** ********************************************************************************
+ 705:.\Generated_Source\PSoC5/CySpc.c **** * Summary:
+ 706:.\Generated_Source\PSoC5/CySpc.c **** *  Downloads SPC algorithm from SPC SROM into SRAM.
+ 707:.\Generated_Source\PSoC5/CySpc.c **** *
+ 708:.\Generated_Source\PSoC5/CySpc.c **** * Parameters:
+ 709:.\Generated_Source\PSoC5/CySpc.c **** *  None
+ 710:.\Generated_Source\PSoC5/CySpc.c **** *
+ 711:.\Generated_Source\PSoC5/CySpc.c **** * Return:
+ 712:.\Generated_Source\PSoC5/CySpc.c **** *  CYRET_STARTED
+ 713:.\Generated_Source\PSoC5/CySpc.c **** *  CYRET_LOCKED
+ 714:.\Generated_Source\PSoC5/CySpc.c **** *
+ 715:.\Generated_Source\PSoC5/CySpc.c **** *******************************************************************************/
+ 716:.\Generated_Source\PSoC5/CySpc.c **** cystatus CySpcGetAlgorithm(void)
+ 717:.\Generated_Source\PSoC5/CySpc.c **** {
+ 1088              		.loc 1 717 0
+ 1089              		.cfi_startproc
+ 1090              		@ args = 0, pretend = 0, frame = 8
+ 1091              		@ frame_needed = 1, uses_anonymous_args = 0
+ 1092              		@ link register save eliminated.
+ARM GAS  C:\Users\BRANKO~1\AppData\Local\Temp\cc4panOR.s 			page 33
+
+
+ 1093 0000 80B4     		push	{r7}
+ 1094              		.cfi_def_cfa_offset 4
+ 1095              		.cfi_offset 7, -4
+ 1096 0002 83B0     		sub	sp, sp, #12
+ 1097              		.cfi_def_cfa_offset 16
+ 1098 0004 00AF     		add	r7, sp, #0
+ 1099              		.cfi_def_cfa_register 7
+ 718:.\Generated_Source\PSoC5/CySpc.c ****     cystatus status = CYRET_STARTED;
+ 1100              		.loc 1 718 0
+ 1101 0006 0723     		movs	r3, #7
+ 1102 0008 7B60     		str	r3, [r7, #4]
+ 719:.\Generated_Source\PSoC5/CySpc.c **** 
+ 720:.\Generated_Source\PSoC5/CySpc.c ****     /* Make sure the SPC is ready to accept command */
+ 721:.\Generated_Source\PSoC5/CySpc.c ****     if(CY_SPC_IDLE)
+ 1103              		.loc 1 721 0
+ 1104 000a 0D4B     		ldr	r3, .L89
+ 1105 000c 1B78     		ldrb	r3, [r3]
+ 1106 000e DBB2     		uxtb	r3, r3
+ 1107 0010 03F00203 		and	r3, r3, #2
+ 1108 0014 002B     		cmp	r3, #0
+ 1109 0016 09D0     		beq	.L86
+ 722:.\Generated_Source\PSoC5/CySpc.c ****     {
+ 723:.\Generated_Source\PSoC5/CySpc.c ****         CY_SPC_CPU_DATA_REG = CY_SPC_KEY_ONE;
+ 1110              		.loc 1 723 0
+ 1111 0018 0A4B     		ldr	r3, .L89+4
+ 1112 001a B622     		movs	r2, #182
+ 1113 001c 1A70     		strb	r2, [r3]
+ 724:.\Generated_Source\PSoC5/CySpc.c ****         CY_SPC_CPU_DATA_REG = CY_SPC_KEY_TWO(CY_SPC_CMD_DWNLD_ALGORITHM);
+ 1114              		.loc 1 724 0
+ 1115 001e 094B     		ldr	r3, .L89+4
+ 1116 0020 E022     		movs	r2, #224
+ 1117 0022 1A70     		strb	r2, [r3]
+ 725:.\Generated_Source\PSoC5/CySpc.c ****         CY_SPC_CPU_DATA_REG = CY_SPC_CMD_DWNLD_ALGORITHM;
+ 1118              		.loc 1 725 0
+ 1119 0024 074B     		ldr	r3, .L89+4
+ 1120 0026 0D22     		movs	r2, #13
+ 1121 0028 1A70     		strb	r2, [r3]
+ 1122 002a 01E0     		b	.L87
+ 1123              	.L86:
+ 726:.\Generated_Source\PSoC5/CySpc.c ****     }
+ 727:.\Generated_Source\PSoC5/CySpc.c ****     else
+ 728:.\Generated_Source\PSoC5/CySpc.c ****     {
+ 729:.\Generated_Source\PSoC5/CySpc.c ****         status = CYRET_LOCKED;
+ 1124              		.loc 1 729 0
+ 1125 002c 0423     		movs	r3, #4
+ 1126 002e 7B60     		str	r3, [r7, #4]
+ 1127              	.L87:
+ 730:.\Generated_Source\PSoC5/CySpc.c ****     }
+ 731:.\Generated_Source\PSoC5/CySpc.c **** 
+ 732:.\Generated_Source\PSoC5/CySpc.c ****     return(status);
+ 1128              		.loc 1 732 0
+ 1129 0030 7B68     		ldr	r3, [r7, #4]
+ 733:.\Generated_Source\PSoC5/CySpc.c **** }
+ 1130              		.loc 1 733 0
+ 1131 0032 1846     		mov	r0, r3
+ 1132 0034 0C37     		adds	r7, r7, #12
+ 1133 0036 BD46     		mov	sp, r7
+ARM GAS  C:\Users\BRANKO~1\AppData\Local\Temp\cc4panOR.s 			page 34
+
+
+ 1134              		@ sp needed
+ 1135 0038 5DF8047B 		ldr	r7, [sp], #4
+ 1136 003c 7047     		bx	lr
+ 1137              	.L90:
+ 1138 003e 00BF     		.align	2
+ 1139              	.L89:
+ 1140 0040 22470040 		.word	1073760034
+ 1141 0044 20470040 		.word	1073760032
+ 1142              		.cfi_endproc
+ 1143              	.LFE11:
+ 1144              		.size	CySpcGetAlgorithm, .-CySpcGetAlgorithm
+ 1145              		.text
+ 1146              	.Letext0:
+ 1147              		.file 2 ".\\Generated_Source\\PSoC5\\cytypes.h"
+ 1148              		.section	.debug_info,"",%progbits
+ 1149              	.Ldebug_info0:
+ 1150 0000 52040000 		.4byte	0x452
+ 1151 0004 0400     		.2byte	0x4
+ 1152 0006 00000000 		.4byte	.Ldebug_abbrev0
+ 1153 000a 04       		.byte	0x4
+ 1154 000b 01       		.uleb128 0x1
+ 1155 000c 7E010000 		.4byte	.LASF43
+ 1156 0010 01       		.byte	0x1
+ 1157 0011 6A000000 		.4byte	.LASF44
+ 1158 0015 13000000 		.4byte	.LASF45
+ 1159 0019 00000000 		.4byte	.Ldebug_ranges0+0
+ 1160 001d 00000000 		.4byte	0
+ 1161 0021 00000000 		.4byte	.Ldebug_line0
+ 1162 0025 02       		.uleb128 0x2
+ 1163 0026 01       		.byte	0x1
+ 1164 0027 06       		.byte	0x6
+ 1165 0028 92020000 		.4byte	.LASF0
+ 1166 002c 02       		.uleb128 0x2
+ 1167 002d 01       		.byte	0x1
+ 1168 002e 08       		.byte	0x8
+ 1169 002f 0A010000 		.4byte	.LASF1
+ 1170 0033 02       		.uleb128 0x2
+ 1171 0034 02       		.byte	0x2
+ 1172 0035 05       		.byte	0x5
+ 1173 0036 59020000 		.4byte	.LASF2
+ 1174 003a 02       		.uleb128 0x2
+ 1175 003b 02       		.byte	0x2
+ 1176 003c 07       		.byte	0x7
+ 1177 003d 8B000000 		.4byte	.LASF3
+ 1178 0041 02       		.uleb128 0x2
+ 1179 0042 04       		.byte	0x4
+ 1180 0043 05       		.byte	0x5
+ 1181 0044 77020000 		.4byte	.LASF4
+ 1182 0048 02       		.uleb128 0x2
+ 1183 0049 04       		.byte	0x4
+ 1184 004a 07       		.byte	0x7
+ 1185 004b D2000000 		.4byte	.LASF5
+ 1186 004f 02       		.uleb128 0x2
+ 1187 0050 08       		.byte	0x8
+ 1188 0051 05       		.byte	0x5
+ 1189 0052 2D020000 		.4byte	.LASF6
+ 1190 0056 02       		.uleb128 0x2
+ARM GAS  C:\Users\BRANKO~1\AppData\Local\Temp\cc4panOR.s 			page 35
+
+
+ 1191 0057 08       		.byte	0x8
+ 1192 0058 07       		.byte	0x7
+ 1193 0059 59010000 		.4byte	.LASF7
+ 1194 005d 03       		.uleb128 0x3
+ 1195 005e 04       		.byte	0x4
+ 1196 005f 05       		.byte	0x5
+ 1197 0060 696E7400 		.ascii	"int\000"
+ 1198 0064 02       		.uleb128 0x2
+ 1199 0065 04       		.byte	0x4
+ 1200 0066 07       		.byte	0x7
+ 1201 0067 44010000 		.4byte	.LASF8
+ 1202 006b 04       		.uleb128 0x4
+ 1203 006c E4000000 		.4byte	.LASF9
+ 1204 0070 02       		.byte	0x2
+ 1205 0071 A1       		.byte	0xa1
+ 1206 0072 2C000000 		.4byte	0x2c
+ 1207 0076 04       		.uleb128 0x4
+ 1208 0077 2C010000 		.4byte	.LASF10
+ 1209 007b 02       		.byte	0x2
+ 1210 007c A2       		.byte	0xa2
+ 1211 007d 3A000000 		.4byte	0x3a
+ 1212 0081 04       		.uleb128 0x4
+ 1213 0082 3D010000 		.4byte	.LASF11
+ 1214 0086 02       		.byte	0x2
+ 1215 0087 A3       		.byte	0xa3
+ 1216 0088 48000000 		.4byte	0x48
+ 1217 008c 02       		.uleb128 0x2
+ 1218 008d 04       		.byte	0x4
+ 1219 008e 04       		.byte	0x4
+ 1220 008f B3000000 		.4byte	.LASF12
+ 1221 0093 02       		.uleb128 0x2
+ 1222 0094 08       		.byte	0x8
+ 1223 0095 04       		.byte	0x4
+ 1224 0096 18010000 		.4byte	.LASF13
+ 1225 009a 02       		.uleb128 0x2
+ 1226 009b 01       		.byte	0x1
+ 1227 009c 08       		.byte	0x8
+ 1228 009d 3B020000 		.4byte	.LASF14
+ 1229 00a1 05       		.uleb128 0x5
+ 1230 00a2 38000000 		.4byte	.LASF15
+ 1231 00a6 02       		.byte	0x2
+ 1232 00a7 4301     		.2byte	0x143
+ 1233 00a9 48000000 		.4byte	0x48
+ 1234 00ad 05       		.uleb128 0x5
+ 1235 00ae BE000000 		.4byte	.LASF16
+ 1236 00b2 02       		.byte	0x2
+ 1237 00b3 4B01     		.2byte	0x14b
+ 1238 00b5 B9000000 		.4byte	0xb9
+ 1239 00b9 06       		.uleb128 0x6
+ 1240 00ba 6B000000 		.4byte	0x6b
+ 1241 00be 05       		.uleb128 0x5
+ 1242 00bf 41000000 		.4byte	.LASF17
+ 1243 00c3 02       		.byte	0x2
+ 1244 00c4 4D01     		.2byte	0x14d
+ 1245 00c6 CA000000 		.4byte	0xca
+ 1246 00ca 06       		.uleb128 0x6
+ 1247 00cb 81000000 		.4byte	0x81
+ARM GAS  C:\Users\BRANKO~1\AppData\Local\Temp\cc4panOR.s 			page 36
+
+
+ 1248 00cf 02       		.uleb128 0x2
+ 1249 00d0 04       		.byte	0x4
+ 1250 00d1 07       		.byte	0x7
+ 1251 00d2 07020000 		.4byte	.LASF18
+ 1252 00d6 07       		.uleb128 0x7
+ 1253 00d7 47000000 		.4byte	.LASF19
+ 1254 00db 01       		.byte	0x1
+ 1255 00dc 4E       		.byte	0x4e
+ 1256 00dd 00000000 		.4byte	.LFB0
+ 1257 00e1 44000000 		.4byte	.LFE0-.LFB0
+ 1258 00e5 01       		.uleb128 0x1
+ 1259 00e6 9C       		.byte	0x9c
+ 1260 00e7 FA000000 		.4byte	0xfa
+ 1261 00eb 08       		.uleb128 0x8
+ 1262 00ec C3000000 		.4byte	.LASF21
+ 1263 00f0 01       		.byte	0x1
+ 1264 00f1 51       		.byte	0x51
+ 1265 00f2 6B000000 		.4byte	0x6b
+ 1266 00f6 02       		.uleb128 0x2
+ 1267 00f7 91       		.byte	0x91
+ 1268 00f8 77       		.sleb128 -9
+ 1269 00f9 00       		.byte	0
+ 1270 00fa 07       		.uleb128 0x7
+ 1271 00fb 60000000 		.4byte	.LASF20
+ 1272 00ff 01       		.byte	0x1
+ 1273 0100 68       		.byte	0x68
+ 1274 0101 00000000 		.4byte	.LFB1
+ 1275 0105 44000000 		.4byte	.LFE1-.LFB1
+ 1276 0109 01       		.uleb128 0x1
+ 1277 010a 9C       		.byte	0x9c
+ 1278 010b 1E010000 		.4byte	0x11e
+ 1279 010f 08       		.uleb128 0x8
+ 1280 0110 C3000000 		.4byte	.LASF21
+ 1281 0114 01       		.byte	0x1
+ 1282 0115 6B       		.byte	0x6b
+ 1283 0116 6B000000 		.4byte	0x6b
+ 1284 011a 02       		.uleb128 0x2
+ 1285 011b 91       		.byte	0x91
+ 1286 011c 77       		.sleb128 -9
+ 1287 011d 00       		.byte	0
+ 1288 011e 09       		.uleb128 0x9
+ 1289 011f 9E000000 		.4byte	.LASF24
+ 1290 0123 01       		.byte	0x1
+ 1291 0124 87       		.byte	0x87
+ 1292 0125 6B000000 		.4byte	0x6b
+ 1293 0129 00000000 		.4byte	.LFB2
+ 1294 012d 58000000 		.4byte	.LFE2-.LFB2
+ 1295 0131 01       		.uleb128 0x1
+ 1296 0132 9C       		.byte	0x9c
+ 1297 0133 60010000 		.4byte	0x160
+ 1298 0137 0A       		.uleb128 0xa
+ 1299 0138 63020000 		.4byte	.LASF22
+ 1300 013c 01       		.byte	0x1
+ 1301 013d 87       		.byte	0x87
+ 1302 013e 60010000 		.4byte	0x160
+ 1303 0142 02       		.uleb128 0x2
+ 1304 0143 91       		.byte	0x91
+ARM GAS  C:\Users\BRANKO~1\AppData\Local\Temp\cc4panOR.s 			page 37
+
+
+ 1305 0144 6C       		.sleb128 -20
+ 1306 0145 0A       		.uleb128 0xa
+ 1307 0146 B9000000 		.4byte	.LASF23
+ 1308 014a 01       		.byte	0x1
+ 1309 014b 87       		.byte	0x87
+ 1310 014c 6B000000 		.4byte	0x6b
+ 1311 0150 02       		.uleb128 0x2
+ 1312 0151 91       		.byte	0x91
+ 1313 0152 6B       		.sleb128 -21
+ 1314 0153 0B       		.uleb128 0xb
+ 1315 0154 6900     		.ascii	"i\000"
+ 1316 0156 01       		.byte	0x1
+ 1317 0157 89       		.byte	0x89
+ 1318 0158 6B000000 		.4byte	0x6b
+ 1319 015c 02       		.uleb128 0x2
+ 1320 015d 91       		.byte	0x91
+ 1321 015e 77       		.sleb128 -9
+ 1322 015f 00       		.byte	0
+ 1323 0160 0C       		.uleb128 0xc
+ 1324 0161 04       		.byte	0x4
+ 1325 0162 6B000000 		.4byte	0x6b
+ 1326 0166 0D       		.uleb128 0xd
+ 1327 0167 00000000 		.4byte	.LASF25
+ 1328 016b 01       		.byte	0x1
+ 1329 016c B2       		.byte	0xb2
+ 1330 016d A1000000 		.4byte	0xa1
+ 1331 0171 00000000 		.4byte	.LFB3
+ 1332 0175 D0000000 		.4byte	.LFE3-.LFB3
+ 1333 0179 01       		.uleb128 0x1
+ 1334 017a 9C       		.byte	0x9c
+ 1335 017b D2010000 		.4byte	0x1d2
+ 1336 017f 0A       		.uleb128 0xa
+ 1337 0180 04010000 		.4byte	.LASF26
+ 1338 0184 01       		.byte	0x1
+ 1339 0185 B2       		.byte	0xb2
+ 1340 0186 6B000000 		.4byte	0x6b
+ 1341 018a 02       		.uleb128 0x2
+ 1342 018b 91       		.byte	0x91
+ 1343 018c 6F       		.sleb128 -17
+ 1344 018d 0A       		.uleb128 0xa
+ 1345 018e 51010000 		.4byte	.LASF27
+ 1346 0192 01       		.byte	0x1
+ 1347 0193 B2       		.byte	0xb2
+ 1348 0194 76000000 		.4byte	0x76
+ 1349 0198 02       		.uleb128 0x2
+ 1350 0199 91       		.byte	0x91
+ 1351 019a 6C       		.sleb128 -20
+ 1352 019b 0A       		.uleb128 0xa
+ 1353 019c 63020000 		.4byte	.LASF22
+ 1354 01a0 01       		.byte	0x1
+ 1355 01a1 B2       		.byte	0xb2
+ 1356 01a2 D2010000 		.4byte	0x1d2
+ 1357 01a6 02       		.uleb128 0x2
+ 1358 01a7 91       		.byte	0x91
+ 1359 01a8 68       		.sleb128 -24
+ 1360 01a9 0A       		.uleb128 0xa
+ 1361 01aa B9000000 		.4byte	.LASF23
+ARM GAS  C:\Users\BRANKO~1\AppData\Local\Temp\cc4panOR.s 			page 38
+
+
+ 1362 01ae 01       		.byte	0x1
+ 1363 01af B2       		.byte	0xb2
+ 1364 01b0 6B000000 		.4byte	0x6b
+ 1365 01b4 02       		.uleb128 0x2
+ 1366 01b5 91       		.byte	0x91
+ 1367 01b6 6E       		.sleb128 -18
+ 1368 01b7 08       		.uleb128 0x8
+ 1369 01b8 AC000000 		.4byte	.LASF28
+ 1370 01bc 01       		.byte	0x1
+ 1371 01bd B5       		.byte	0xb5
+ 1372 01be A1000000 		.4byte	0xa1
+ 1373 01c2 02       		.uleb128 0x2
+ 1374 01c3 91       		.byte	0x91
+ 1375 01c4 74       		.sleb128 -12
+ 1376 01c5 0B       		.uleb128 0xb
+ 1377 01c6 6900     		.ascii	"i\000"
+ 1378 01c8 01       		.byte	0x1
+ 1379 01c9 B6       		.byte	0xb6
+ 1380 01ca 6B000000 		.4byte	0x6b
+ 1381 01ce 02       		.uleb128 0x2
+ 1382 01cf 91       		.byte	0x91
+ 1383 01d0 73       		.sleb128 -13
+ 1384 01d1 00       		.byte	0
+ 1385 01d2 0C       		.uleb128 0xc
+ 1386 01d3 04       		.byte	0x4
+ 1387 01d4 D8010000 		.4byte	0x1d8
+ 1388 01d8 0E       		.uleb128 0xe
+ 1389 01d9 6B000000 		.4byte	0x6b
+ 1390 01dd 0F       		.uleb128 0xf
+ 1391 01de FA010000 		.4byte	.LASF29
+ 1392 01e2 01       		.byte	0x1
+ 1393 01e3 0201     		.2byte	0x102
+ 1394 01e5 A1000000 		.4byte	0xa1
+ 1395 01e9 00000000 		.4byte	.LFB4
+ 1396 01ed 8C000000 		.4byte	.LFE4-.LFB4
+ 1397 01f1 01       		.uleb128 0x1
+ 1398 01f2 9C       		.byte	0x9c
+ 1399 01f3 41020000 		.4byte	0x241
+ 1400 01f7 10       		.uleb128 0x10
+ 1401 01f8 04010000 		.4byte	.LASF26
+ 1402 01fc 01       		.byte	0x1
+ 1403 01fd 0201     		.2byte	0x102
+ 1404 01ff 6B000000 		.4byte	0x6b
+ 1405 0203 02       		.uleb128 0x2
+ 1406 0204 91       		.byte	0x91
+ 1407 0205 6F       		.sleb128 -17
+ 1408 0206 10       		.uleb128 0x10
+ 1409 0207 63020000 		.4byte	.LASF22
+ 1410 020b 01       		.byte	0x1
+ 1411 020c 0201     		.2byte	0x102
+ 1412 020e D2010000 		.4byte	0x1d2
+ 1413 0212 02       		.uleb128 0x2
+ 1414 0213 91       		.byte	0x91
+ 1415 0214 68       		.sleb128 -24
+ 1416 0215 10       		.uleb128 0x10
+ 1417 0216 B9000000 		.4byte	.LASF23
+ 1418 021a 01       		.byte	0x1
+ARM GAS  C:\Users\BRANKO~1\AppData\Local\Temp\cc4panOR.s 			page 39
+
+
+ 1419 021b 0201     		.2byte	0x102
+ 1420 021d 76000000 		.4byte	0x76
+ 1421 0221 02       		.uleb128 0x2
+ 1422 0222 91       		.byte	0x91
+ 1423 0223 6C       		.sleb128 -20
+ 1424 0224 11       		.uleb128 0x11
+ 1425 0225 AC000000 		.4byte	.LASF28
+ 1426 0229 01       		.byte	0x1
+ 1427 022a 0401     		.2byte	0x104
+ 1428 022c A1000000 		.4byte	0xa1
+ 1429 0230 02       		.uleb128 0x2
+ 1430 0231 91       		.byte	0x91
+ 1431 0232 74       		.sleb128 -12
+ 1432 0233 12       		.uleb128 0x12
+ 1433 0234 6900     		.ascii	"i\000"
+ 1434 0236 01       		.byte	0x1
+ 1435 0237 0501     		.2byte	0x105
+ 1436 0239 76000000 		.4byte	0x76
+ 1437 023d 02       		.uleb128 0x2
+ 1438 023e 91       		.byte	0x91
+ 1439 023f 72       		.sleb128 -14
+ 1440 0240 00       		.byte	0
+ 1441 0241 0F       		.uleb128 0xf
+ 1442 0242 9E020000 		.4byte	.LASF30
+ 1443 0246 01       		.byte	0x1
+ 1444 0247 4601     		.2byte	0x146
+ 1445 0249 A1000000 		.4byte	0xa1
+ 1446 024d 00000000 		.4byte	.LFB5
+ 1447 0251 CC000000 		.4byte	.LFE5-.LFB5
+ 1448 0255 01       		.uleb128 0x1
+ 1449 0256 9C       		.byte	0x9c
+ 1450 0257 C3020000 		.4byte	0x2c3
+ 1451 025b 10       		.uleb128 0x10
+ 1452 025c 04010000 		.4byte	.LASF26
+ 1453 0260 01       		.byte	0x1
+ 1454 0261 4601     		.2byte	0x146
+ 1455 0263 6B000000 		.4byte	0x6b
+ 1456 0267 02       		.uleb128 0x2
+ 1457 0268 91       		.byte	0x91
+ 1458 0269 67       		.sleb128 -25
+ 1459 026a 13       		.uleb128 0x13
+ 1460 026b 726F7700 		.ascii	"row\000"
+ 1461 026f 01       		.byte	0x1
+ 1462 0270 4601     		.2byte	0x146
+ 1463 0272 76000000 		.4byte	0x76
+ 1464 0276 02       		.uleb128 0x2
+ 1465 0277 91       		.byte	0x91
+ 1466 0278 64       		.sleb128 -28
+ 1467 0279 10       		.uleb128 0x10
+ 1468 027a 63020000 		.4byte	.LASF22
+ 1469 027e 01       		.byte	0x1
+ 1470 027f 4601     		.2byte	0x146
+ 1471 0281 D2010000 		.4byte	0x1d2
+ 1472 0285 02       		.uleb128 0x2
+ 1473 0286 91       		.byte	0x91
+ 1474 0287 60       		.sleb128 -32
+ 1475 0288 10       		.uleb128 0x10
+ARM GAS  C:\Users\BRANKO~1\AppData\Local\Temp\cc4panOR.s 			page 40
+
+
+ 1476 0289 B9000000 		.4byte	.LASF23
+ 1477 028d 01       		.byte	0x1
+ 1478 028e 4601     		.2byte	0x146
+ 1479 0290 76000000 		.4byte	0x76
+ 1480 0294 02       		.uleb128 0x2
+ 1481 0295 91       		.byte	0x91
+ 1482 0296 5E       		.sleb128 -34
+ 1483 0297 11       		.uleb128 0x11
+ 1484 0298 AC000000 		.4byte	.LASF28
+ 1485 029c 01       		.byte	0x1
+ 1486 029d 4901     		.2byte	0x149
+ 1487 029f A1000000 		.4byte	0xa1
+ 1488 02a3 02       		.uleb128 0x2
+ 1489 02a4 91       		.byte	0x91
+ 1490 02a5 74       		.sleb128 -12
+ 1491 02a6 12       		.uleb128 0x12
+ 1492 02a7 6900     		.ascii	"i\000"
+ 1493 02a9 01       		.byte	0x1
+ 1494 02aa 4A01     		.2byte	0x14a
+ 1495 02ac 76000000 		.4byte	0x76
+ 1496 02b0 02       		.uleb128 0x2
+ 1497 02b1 91       		.byte	0x91
+ 1498 02b2 72       		.sleb128 -14
+ 1499 02b3 11       		.uleb128 0x11
+ 1500 02b4 52020000 		.4byte	.LASF31
+ 1501 02b8 01       		.byte	0x1
+ 1502 02b9 4D01     		.2byte	0x14d
+ 1503 02bb 81000000 		.4byte	0x81
+ 1504 02bf 02       		.uleb128 0x2
+ 1505 02c0 91       		.byte	0x91
+ 1506 02c1 6C       		.sleb128 -20
+ 1507 02c2 00       		.byte	0
+ 1508 02c3 0F       		.uleb128 0xf
+ 1509 02c4 52000000 		.4byte	.LASF32
+ 1510 02c8 01       		.byte	0x1
+ 1511 02c9 D001     		.2byte	0x1d0
+ 1512 02cb A1000000 		.4byte	0xa1
+ 1513 02cf 00000000 		.4byte	.LFB6
+ 1514 02d3 88000000 		.4byte	.LFE6-.LFB6
+ 1515 02d7 01       		.uleb128 0x1
+ 1516 02d8 9C       		.byte	0x9c
+ 1517 02d9 29030000 		.4byte	0x329
+ 1518 02dd 10       		.uleb128 0x10
+ 1519 02de 04010000 		.4byte	.LASF26
+ 1520 02e2 01       		.byte	0x1
+ 1521 02e3 D001     		.2byte	0x1d0
+ 1522 02e5 6B000000 		.4byte	0x6b
+ 1523 02e9 02       		.uleb128 0x2
+ 1524 02ea 91       		.byte	0x91
+ 1525 02eb 6F       		.sleb128 -17
+ 1526 02ec 10       		.uleb128 0x10
+ 1527 02ed 51010000 		.4byte	.LASF27
+ 1528 02f1 01       		.byte	0x1
+ 1529 02f2 D001     		.2byte	0x1d0
+ 1530 02f4 76000000 		.4byte	0x76
+ 1531 02f8 02       		.uleb128 0x2
+ 1532 02f9 91       		.byte	0x91
+ARM GAS  C:\Users\BRANKO~1\AppData\Local\Temp\cc4panOR.s 			page 41
+
+
+ 1533 02fa 6C       		.sleb128 -20
+ 1534 02fb 10       		.uleb128 0x10
+ 1535 02fc F7000000 		.4byte	.LASF33
+ 1536 0300 01       		.byte	0x1
+ 1537 0301 D001     		.2byte	0x1d0
+ 1538 0303 6B000000 		.4byte	0x6b
+ 1539 0307 02       		.uleb128 0x2
+ 1540 0308 91       		.byte	0x91
+ 1541 0309 6E       		.sleb128 -18
+ 1542 030a 10       		.uleb128 0x10
+ 1543 030b 70010000 		.4byte	.LASF34
+ 1544 030f 01       		.byte	0x1
+ 1545 0310 D001     		.2byte	0x1d0
+ 1546 0312 6B000000 		.4byte	0x6b
+ 1547 0316 02       		.uleb128 0x2
+ 1548 0317 91       		.byte	0x91
+ 1549 0318 6B       		.sleb128 -21
+ 1550 0319 11       		.uleb128 0x11
+ 1551 031a AC000000 		.4byte	.LASF28
+ 1552 031e 01       		.byte	0x1
+ 1553 031f D301     		.2byte	0x1d3
+ 1554 0321 A1000000 		.4byte	0xa1
+ 1555 0325 02       		.uleb128 0x2
+ 1556 0326 91       		.byte	0x91
+ 1557 0327 74       		.sleb128 -12
+ 1558 0328 00       		.byte	0
+ 1559 0329 0F       		.uleb128 0xf
+ 1560 032a 1C020000 		.4byte	.LASF35
+ 1561 032e 01       		.byte	0x1
+ 1562 032f 0602     		.2byte	0x206
+ 1563 0331 A1000000 		.4byte	0xa1
+ 1564 0335 00000000 		.4byte	.LFB7
+ 1565 0339 70000000 		.4byte	.LFE7-.LFB7
+ 1566 033d 01       		.uleb128 0x1
+ 1567 033e 9C       		.byte	0x9c
+ 1568 033f 71030000 		.4byte	0x371
+ 1569 0343 10       		.uleb128 0x10
+ 1570 0344 04010000 		.4byte	.LASF26
+ 1571 0348 01       		.byte	0x1
+ 1572 0349 0602     		.2byte	0x206
+ 1573 034b 6B000000 		.4byte	0x6b
+ 1574 034f 02       		.uleb128 0x2
+ 1575 0350 91       		.byte	0x91
+ 1576 0351 6F       		.sleb128 -17
+ 1577 0352 10       		.uleb128 0x10
+ 1578 0353 6A020000 		.4byte	.LASF36
+ 1579 0357 01       		.byte	0x1
+ 1580 0358 0602     		.2byte	0x206
+ 1581 035a 6B000000 		.4byte	0x6b
+ 1582 035e 02       		.uleb128 0x2
+ 1583 035f 91       		.byte	0x91
+ 1584 0360 6E       		.sleb128 -18
+ 1585 0361 11       		.uleb128 0x11
+ 1586 0362 AC000000 		.4byte	.LASF28
+ 1587 0366 01       		.byte	0x1
+ 1588 0367 0802     		.2byte	0x208
+ 1589 0369 A1000000 		.4byte	0xa1
+ARM GAS  C:\Users\BRANKO~1\AppData\Local\Temp\cc4panOR.s 			page 42
+
+
+ 1590 036d 02       		.uleb128 0x2
+ 1591 036e 91       		.byte	0x91
+ 1592 036f 74       		.sleb128 -12
+ 1593 0370 00       		.byte	0
+ 1594 0371 0F       		.uleb128 0xf
+ 1595 0372 1F010000 		.4byte	.LASF37
+ 1596 0376 01       		.byte	0x1
+ 1597 0377 3D02     		.2byte	0x23d
+ 1598 0379 A1000000 		.4byte	0xa1
+ 1599 037d 00000000 		.4byte	.LFB8
+ 1600 0381 64000000 		.4byte	.LFE8-.LFB8
+ 1601 0385 01       		.uleb128 0x1
+ 1602 0386 9C       		.byte	0x9c
+ 1603 0387 AA030000 		.4byte	0x3aa
+ 1604 038b 10       		.uleb128 0x10
+ 1605 038c AF020000 		.4byte	.LASF38
+ 1606 0390 01       		.byte	0x1
+ 1607 0391 3D02     		.2byte	0x23d
+ 1608 0393 6B000000 		.4byte	0x6b
+ 1609 0397 02       		.uleb128 0x2
+ 1610 0398 91       		.byte	0x91
+ 1611 0399 6F       		.sleb128 -17
+ 1612 039a 11       		.uleb128 0x11
+ 1613 039b AC000000 		.4byte	.LASF28
+ 1614 039f 01       		.byte	0x1
+ 1615 03a0 3F02     		.2byte	0x23f
+ 1616 03a2 A1000000 		.4byte	0xa1
+ 1617 03a6 02       		.uleb128 0x2
+ 1618 03a7 91       		.byte	0x91
+ 1619 03a8 74       		.sleb128 -12
+ 1620 03a9 00       		.byte	0
+ 1621 03aa 14       		.uleb128 0x14
+ 1622 03ab 33010000 		.4byte	.LASF39
+ 1623 03af 01       		.byte	0x1
+ 1624 03b0 6A02     		.2byte	0x26a
+ 1625 03b2 A1000000 		.4byte	0xa1
+ 1626 03b6 00000000 		.4byte	.LFB9
+ 1627 03ba 68000000 		.4byte	.LFE9-.LFB9
+ 1628 03be 01       		.uleb128 0x1
+ 1629 03bf 9C       		.byte	0x9c
+ 1630 03c0 E3030000 		.4byte	0x3e3
+ 1631 03c4 11       		.uleb128 0x11
+ 1632 03c5 AC000000 		.4byte	.LASF28
+ 1633 03c9 01       		.byte	0x1
+ 1634 03ca 6C02     		.2byte	0x26c
+ 1635 03cc A1000000 		.4byte	0xa1
+ 1636 03d0 02       		.uleb128 0x2
+ 1637 03d1 91       		.byte	0x91
+ 1638 03d2 74       		.sleb128 -12
+ 1639 03d3 11       		.uleb128 0x11
+ 1640 03d4 C3000000 		.4byte	.LASF21
+ 1641 03d8 01       		.byte	0x1
+ 1642 03d9 6D02     		.2byte	0x26d
+ 1643 03db 6B000000 		.4byte	0x6b
+ 1644 03df 02       		.uleb128 0x2
+ 1645 03e0 91       		.byte	0x91
+ 1646 03e1 73       		.sleb128 -13
+ARM GAS  C:\Users\BRANKO~1\AppData\Local\Temp\cc4panOR.s 			page 43
+
+
+ 1647 03e2 00       		.byte	0
+ 1648 03e3 15       		.uleb128 0x15
+ 1649 03e4 10020000 		.4byte	.LASF40
+ 1650 03e8 01       		.byte	0x1
+ 1651 03e9 9E02     		.2byte	0x29e
+ 1652 03eb 00000000 		.4byte	.LFB10
+ 1653 03ef 50000000 		.4byte	.LFE10-.LFB10
+ 1654 03f3 01       		.uleb128 0x1
+ 1655 03f4 9C       		.byte	0x9c
+ 1656 03f5 09040000 		.4byte	0x409
+ 1657 03f9 11       		.uleb128 0x11
+ 1658 03fa C3000000 		.4byte	.LASF21
+ 1659 03fe 01       		.byte	0x1
+ 1660 03ff A002     		.2byte	0x2a0
+ 1661 0401 6B000000 		.4byte	0x6b
+ 1662 0405 02       		.uleb128 0x2
+ 1663 0406 91       		.byte	0x91
+ 1664 0407 77       		.sleb128 -9
+ 1665 0408 00       		.byte	0
+ 1666 0409 0F       		.uleb128 0xf
+ 1667 040a 40020000 		.4byte	.LASF41
+ 1668 040e 01       		.byte	0x1
+ 1669 040f CC02     		.2byte	0x2cc
+ 1670 0411 A1000000 		.4byte	0xa1
+ 1671 0415 00000000 		.4byte	.LFB11
+ 1672 0419 48000000 		.4byte	.LFE11-.LFB11
+ 1673 041d 01       		.uleb128 0x1
+ 1674 041e 9C       		.byte	0x9c
+ 1675 041f 33040000 		.4byte	0x433
+ 1676 0423 11       		.uleb128 0x11
+ 1677 0424 AC000000 		.4byte	.LASF28
+ 1678 0428 01       		.byte	0x1
+ 1679 0429 CE02     		.2byte	0x2ce
+ 1680 042b A1000000 		.4byte	0xa1
+ 1681 042f 02       		.uleb128 0x2
+ 1682 0430 91       		.byte	0x91
+ 1683 0431 74       		.sleb128 -12
+ 1684 0432 00       		.byte	0
+ 1685 0433 08       		.uleb128 0x8
+ 1686 0434 80020000 		.4byte	.LASF42
+ 1687 0438 01       		.byte	0x1
+ 1688 0439 3C       		.byte	0x3c
+ 1689 043a 81000000 		.4byte	0x81
+ 1690 043e 05       		.uleb128 0x5
+ 1691 043f 03       		.byte	0x3
+ 1692 0440 04000000 		.4byte	spcWaitPipeBypass
+ 1693 0444 16       		.uleb128 0x16
+ 1694 0445 EA000000 		.4byte	.LASF46
+ 1695 0449 01       		.byte	0x1
+ 1696 044a 30       		.byte	0x30
+ 1697 044b 6B000000 		.4byte	0x6b
+ 1698 044f 05       		.uleb128 0x5
+ 1699 0450 03       		.byte	0x3
+ 1700 0451 00000000 		.4byte	SpcLockState
+ 1701 0455 00       		.byte	0
+ 1702              		.section	.debug_abbrev,"",%progbits
+ 1703              	.Ldebug_abbrev0:
+ARM GAS  C:\Users\BRANKO~1\AppData\Local\Temp\cc4panOR.s 			page 44
+
+
+ 1704 0000 01       		.uleb128 0x1
+ 1705 0001 11       		.uleb128 0x11
+ 1706 0002 01       		.byte	0x1
+ 1707 0003 25       		.uleb128 0x25
+ 1708 0004 0E       		.uleb128 0xe
+ 1709 0005 13       		.uleb128 0x13
+ 1710 0006 0B       		.uleb128 0xb
+ 1711 0007 03       		.uleb128 0x3
+ 1712 0008 0E       		.uleb128 0xe
+ 1713 0009 1B       		.uleb128 0x1b
+ 1714 000a 0E       		.uleb128 0xe
+ 1715 000b 55       		.uleb128 0x55
+ 1716 000c 17       		.uleb128 0x17
+ 1717 000d 11       		.uleb128 0x11
+ 1718 000e 01       		.uleb128 0x1
+ 1719 000f 10       		.uleb128 0x10
+ 1720 0010 17       		.uleb128 0x17
+ 1721 0011 00       		.byte	0
+ 1722 0012 00       		.byte	0
+ 1723 0013 02       		.uleb128 0x2
+ 1724 0014 24       		.uleb128 0x24
+ 1725 0015 00       		.byte	0
+ 1726 0016 0B       		.uleb128 0xb
+ 1727 0017 0B       		.uleb128 0xb
+ 1728 0018 3E       		.uleb128 0x3e
+ 1729 0019 0B       		.uleb128 0xb
+ 1730 001a 03       		.uleb128 0x3
+ 1731 001b 0E       		.uleb128 0xe
+ 1732 001c 00       		.byte	0
+ 1733 001d 00       		.byte	0
+ 1734 001e 03       		.uleb128 0x3
+ 1735 001f 24       		.uleb128 0x24
+ 1736 0020 00       		.byte	0
+ 1737 0021 0B       		.uleb128 0xb
+ 1738 0022 0B       		.uleb128 0xb
+ 1739 0023 3E       		.uleb128 0x3e
+ 1740 0024 0B       		.uleb128 0xb
+ 1741 0025 03       		.uleb128 0x3
+ 1742 0026 08       		.uleb128 0x8
+ 1743 0027 00       		.byte	0
+ 1744 0028 00       		.byte	0
+ 1745 0029 04       		.uleb128 0x4
+ 1746 002a 16       		.uleb128 0x16
+ 1747 002b 00       		.byte	0
+ 1748 002c 03       		.uleb128 0x3
+ 1749 002d 0E       		.uleb128 0xe
+ 1750 002e 3A       		.uleb128 0x3a
+ 1751 002f 0B       		.uleb128 0xb
+ 1752 0030 3B       		.uleb128 0x3b
+ 1753 0031 0B       		.uleb128 0xb
+ 1754 0032 49       		.uleb128 0x49
+ 1755 0033 13       		.uleb128 0x13
+ 1756 0034 00       		.byte	0
+ 1757 0035 00       		.byte	0
+ 1758 0036 05       		.uleb128 0x5
+ 1759 0037 16       		.uleb128 0x16
+ 1760 0038 00       		.byte	0
+ARM GAS  C:\Users\BRANKO~1\AppData\Local\Temp\cc4panOR.s 			page 45
+
+
+ 1761 0039 03       		.uleb128 0x3
+ 1762 003a 0E       		.uleb128 0xe
+ 1763 003b 3A       		.uleb128 0x3a
+ 1764 003c 0B       		.uleb128 0xb
+ 1765 003d 3B       		.uleb128 0x3b
+ 1766 003e 05       		.uleb128 0x5
+ 1767 003f 49       		.uleb128 0x49
+ 1768 0040 13       		.uleb128 0x13
+ 1769 0041 00       		.byte	0
+ 1770 0042 00       		.byte	0
+ 1771 0043 06       		.uleb128 0x6
+ 1772 0044 35       		.uleb128 0x35
+ 1773 0045 00       		.byte	0
+ 1774 0046 49       		.uleb128 0x49
+ 1775 0047 13       		.uleb128 0x13
+ 1776 0048 00       		.byte	0
+ 1777 0049 00       		.byte	0
+ 1778 004a 07       		.uleb128 0x7
+ 1779 004b 2E       		.uleb128 0x2e
+ 1780 004c 01       		.byte	0x1
+ 1781 004d 3F       		.uleb128 0x3f
+ 1782 004e 19       		.uleb128 0x19
+ 1783 004f 03       		.uleb128 0x3
+ 1784 0050 0E       		.uleb128 0xe
+ 1785 0051 3A       		.uleb128 0x3a
+ 1786 0052 0B       		.uleb128 0xb
+ 1787 0053 3B       		.uleb128 0x3b
+ 1788 0054 0B       		.uleb128 0xb
+ 1789 0055 27       		.uleb128 0x27
+ 1790 0056 19       		.uleb128 0x19
+ 1791 0057 11       		.uleb128 0x11
+ 1792 0058 01       		.uleb128 0x1
+ 1793 0059 12       		.uleb128 0x12
+ 1794 005a 06       		.uleb128 0x6
+ 1795 005b 40       		.uleb128 0x40
+ 1796 005c 18       		.uleb128 0x18
+ 1797 005d 9642     		.uleb128 0x2116
+ 1798 005f 19       		.uleb128 0x19
+ 1799 0060 01       		.uleb128 0x1
+ 1800 0061 13       		.uleb128 0x13
+ 1801 0062 00       		.byte	0
+ 1802 0063 00       		.byte	0
+ 1803 0064 08       		.uleb128 0x8
+ 1804 0065 34       		.uleb128 0x34
+ 1805 0066 00       		.byte	0
+ 1806 0067 03       		.uleb128 0x3
+ 1807 0068 0E       		.uleb128 0xe
+ 1808 0069 3A       		.uleb128 0x3a
+ 1809 006a 0B       		.uleb128 0xb
+ 1810 006b 3B       		.uleb128 0x3b
+ 1811 006c 0B       		.uleb128 0xb
+ 1812 006d 49       		.uleb128 0x49
+ 1813 006e 13       		.uleb128 0x13
+ 1814 006f 02       		.uleb128 0x2
+ 1815 0070 18       		.uleb128 0x18
+ 1816 0071 00       		.byte	0
+ 1817 0072 00       		.byte	0
+ARM GAS  C:\Users\BRANKO~1\AppData\Local\Temp\cc4panOR.s 			page 46
+
+
+ 1818 0073 09       		.uleb128 0x9
+ 1819 0074 2E       		.uleb128 0x2e
+ 1820 0075 01       		.byte	0x1
+ 1821 0076 3F       		.uleb128 0x3f
+ 1822 0077 19       		.uleb128 0x19
+ 1823 0078 03       		.uleb128 0x3
+ 1824 0079 0E       		.uleb128 0xe
+ 1825 007a 3A       		.uleb128 0x3a
+ 1826 007b 0B       		.uleb128 0xb
+ 1827 007c 3B       		.uleb128 0x3b
+ 1828 007d 0B       		.uleb128 0xb
+ 1829 007e 27       		.uleb128 0x27
+ 1830 007f 19       		.uleb128 0x19
+ 1831 0080 49       		.uleb128 0x49
+ 1832 0081 13       		.uleb128 0x13
+ 1833 0082 11       		.uleb128 0x11
+ 1834 0083 01       		.uleb128 0x1
+ 1835 0084 12       		.uleb128 0x12
+ 1836 0085 06       		.uleb128 0x6
+ 1837 0086 40       		.uleb128 0x40
+ 1838 0087 18       		.uleb128 0x18
+ 1839 0088 9642     		.uleb128 0x2116
+ 1840 008a 19       		.uleb128 0x19
+ 1841 008b 01       		.uleb128 0x1
+ 1842 008c 13       		.uleb128 0x13
+ 1843 008d 00       		.byte	0
+ 1844 008e 00       		.byte	0
+ 1845 008f 0A       		.uleb128 0xa
+ 1846 0090 05       		.uleb128 0x5
+ 1847 0091 00       		.byte	0
+ 1848 0092 03       		.uleb128 0x3
+ 1849 0093 0E       		.uleb128 0xe
+ 1850 0094 3A       		.uleb128 0x3a
+ 1851 0095 0B       		.uleb128 0xb
+ 1852 0096 3B       		.uleb128 0x3b
+ 1853 0097 0B       		.uleb128 0xb
+ 1854 0098 49       		.uleb128 0x49
+ 1855 0099 13       		.uleb128 0x13
+ 1856 009a 02       		.uleb128 0x2
+ 1857 009b 18       		.uleb128 0x18
+ 1858 009c 00       		.byte	0
+ 1859 009d 00       		.byte	0
+ 1860 009e 0B       		.uleb128 0xb
+ 1861 009f 34       		.uleb128 0x34
+ 1862 00a0 00       		.byte	0
+ 1863 00a1 03       		.uleb128 0x3
+ 1864 00a2 08       		.uleb128 0x8
+ 1865 00a3 3A       		.uleb128 0x3a
+ 1866 00a4 0B       		.uleb128 0xb
+ 1867 00a5 3B       		.uleb128 0x3b
+ 1868 00a6 0B       		.uleb128 0xb
+ 1869 00a7 49       		.uleb128 0x49
+ 1870 00a8 13       		.uleb128 0x13
+ 1871 00a9 02       		.uleb128 0x2
+ 1872 00aa 18       		.uleb128 0x18
+ 1873 00ab 00       		.byte	0
+ 1874 00ac 00       		.byte	0
+ARM GAS  C:\Users\BRANKO~1\AppData\Local\Temp\cc4panOR.s 			page 47
+
+
+ 1875 00ad 0C       		.uleb128 0xc
+ 1876 00ae 0F       		.uleb128 0xf
+ 1877 00af 00       		.byte	0
+ 1878 00b0 0B       		.uleb128 0xb
+ 1879 00b1 0B       		.uleb128 0xb
+ 1880 00b2 49       		.uleb128 0x49
+ 1881 00b3 13       		.uleb128 0x13
+ 1882 00b4 00       		.byte	0
+ 1883 00b5 00       		.byte	0
+ 1884 00b6 0D       		.uleb128 0xd
+ 1885 00b7 2E       		.uleb128 0x2e
+ 1886 00b8 01       		.byte	0x1
+ 1887 00b9 3F       		.uleb128 0x3f
+ 1888 00ba 19       		.uleb128 0x19
+ 1889 00bb 03       		.uleb128 0x3
+ 1890 00bc 0E       		.uleb128 0xe
+ 1891 00bd 3A       		.uleb128 0x3a
+ 1892 00be 0B       		.uleb128 0xb
+ 1893 00bf 3B       		.uleb128 0x3b
+ 1894 00c0 0B       		.uleb128 0xb
+ 1895 00c1 27       		.uleb128 0x27
+ 1896 00c2 19       		.uleb128 0x19
+ 1897 00c3 49       		.uleb128 0x49
+ 1898 00c4 13       		.uleb128 0x13
+ 1899 00c5 11       		.uleb128 0x11
+ 1900 00c6 01       		.uleb128 0x1
+ 1901 00c7 12       		.uleb128 0x12
+ 1902 00c8 06       		.uleb128 0x6
+ 1903 00c9 40       		.uleb128 0x40
+ 1904 00ca 18       		.uleb128 0x18
+ 1905 00cb 9742     		.uleb128 0x2117
+ 1906 00cd 19       		.uleb128 0x19
+ 1907 00ce 01       		.uleb128 0x1
+ 1908 00cf 13       		.uleb128 0x13
+ 1909 00d0 00       		.byte	0
+ 1910 00d1 00       		.byte	0
+ 1911 00d2 0E       		.uleb128 0xe
+ 1912 00d3 26       		.uleb128 0x26
+ 1913 00d4 00       		.byte	0
+ 1914 00d5 49       		.uleb128 0x49
+ 1915 00d6 13       		.uleb128 0x13
+ 1916 00d7 00       		.byte	0
+ 1917 00d8 00       		.byte	0
+ 1918 00d9 0F       		.uleb128 0xf
+ 1919 00da 2E       		.uleb128 0x2e
+ 1920 00db 01       		.byte	0x1
+ 1921 00dc 3F       		.uleb128 0x3f
+ 1922 00dd 19       		.uleb128 0x19
+ 1923 00de 03       		.uleb128 0x3
+ 1924 00df 0E       		.uleb128 0xe
+ 1925 00e0 3A       		.uleb128 0x3a
+ 1926 00e1 0B       		.uleb128 0xb
+ 1927 00e2 3B       		.uleb128 0x3b
+ 1928 00e3 05       		.uleb128 0x5
+ 1929 00e4 27       		.uleb128 0x27
+ 1930 00e5 19       		.uleb128 0x19
+ 1931 00e6 49       		.uleb128 0x49
+ARM GAS  C:\Users\BRANKO~1\AppData\Local\Temp\cc4panOR.s 			page 48
+
+
+ 1932 00e7 13       		.uleb128 0x13
+ 1933 00e8 11       		.uleb128 0x11
+ 1934 00e9 01       		.uleb128 0x1
+ 1935 00ea 12       		.uleb128 0x12
+ 1936 00eb 06       		.uleb128 0x6
+ 1937 00ec 40       		.uleb128 0x40
+ 1938 00ed 18       		.uleb128 0x18
+ 1939 00ee 9742     		.uleb128 0x2117
+ 1940 00f0 19       		.uleb128 0x19
+ 1941 00f1 01       		.uleb128 0x1
+ 1942 00f2 13       		.uleb128 0x13
+ 1943 00f3 00       		.byte	0
+ 1944 00f4 00       		.byte	0
+ 1945 00f5 10       		.uleb128 0x10
+ 1946 00f6 05       		.uleb128 0x5
+ 1947 00f7 00       		.byte	0
+ 1948 00f8 03       		.uleb128 0x3
+ 1949 00f9 0E       		.uleb128 0xe
+ 1950 00fa 3A       		.uleb128 0x3a
+ 1951 00fb 0B       		.uleb128 0xb
+ 1952 00fc 3B       		.uleb128 0x3b
+ 1953 00fd 05       		.uleb128 0x5
+ 1954 00fe 49       		.uleb128 0x49
+ 1955 00ff 13       		.uleb128 0x13
+ 1956 0100 02       		.uleb128 0x2
+ 1957 0101 18       		.uleb128 0x18
+ 1958 0102 00       		.byte	0
+ 1959 0103 00       		.byte	0
+ 1960 0104 11       		.uleb128 0x11
+ 1961 0105 34       		.uleb128 0x34
+ 1962 0106 00       		.byte	0
+ 1963 0107 03       		.uleb128 0x3
+ 1964 0108 0E       		.uleb128 0xe
+ 1965 0109 3A       		.uleb128 0x3a
+ 1966 010a 0B       		.uleb128 0xb
+ 1967 010b 3B       		.uleb128 0x3b
+ 1968 010c 05       		.uleb128 0x5
+ 1969 010d 49       		.uleb128 0x49
+ 1970 010e 13       		.uleb128 0x13
+ 1971 010f 02       		.uleb128 0x2
+ 1972 0110 18       		.uleb128 0x18
+ 1973 0111 00       		.byte	0
+ 1974 0112 00       		.byte	0
+ 1975 0113 12       		.uleb128 0x12
+ 1976 0114 34       		.uleb128 0x34
+ 1977 0115 00       		.byte	0
+ 1978 0116 03       		.uleb128 0x3
+ 1979 0117 08       		.uleb128 0x8
+ 1980 0118 3A       		.uleb128 0x3a
+ 1981 0119 0B       		.uleb128 0xb
+ 1982 011a 3B       		.uleb128 0x3b
+ 1983 011b 05       		.uleb128 0x5
+ 1984 011c 49       		.uleb128 0x49
+ 1985 011d 13       		.uleb128 0x13
+ 1986 011e 02       		.uleb128 0x2
+ 1987 011f 18       		.uleb128 0x18
+ 1988 0120 00       		.byte	0
+ARM GAS  C:\Users\BRANKO~1\AppData\Local\Temp\cc4panOR.s 			page 49
+
+
+ 1989 0121 00       		.byte	0
+ 1990 0122 13       		.uleb128 0x13
+ 1991 0123 05       		.uleb128 0x5
+ 1992 0124 00       		.byte	0
+ 1993 0125 03       		.uleb128 0x3
+ 1994 0126 08       		.uleb128 0x8
+ 1995 0127 3A       		.uleb128 0x3a
+ 1996 0128 0B       		.uleb128 0xb
+ 1997 0129 3B       		.uleb128 0x3b
+ 1998 012a 05       		.uleb128 0x5
+ 1999 012b 49       		.uleb128 0x49
+ 2000 012c 13       		.uleb128 0x13
+ 2001 012d 02       		.uleb128 0x2
+ 2002 012e 18       		.uleb128 0x18
+ 2003 012f 00       		.byte	0
+ 2004 0130 00       		.byte	0
+ 2005 0131 14       		.uleb128 0x14
+ 2006 0132 2E       		.uleb128 0x2e
+ 2007 0133 01       		.byte	0x1
+ 2008 0134 3F       		.uleb128 0x3f
+ 2009 0135 19       		.uleb128 0x19
+ 2010 0136 03       		.uleb128 0x3
+ 2011 0137 0E       		.uleb128 0xe
+ 2012 0138 3A       		.uleb128 0x3a
+ 2013 0139 0B       		.uleb128 0xb
+ 2014 013a 3B       		.uleb128 0x3b
+ 2015 013b 05       		.uleb128 0x5
+ 2016 013c 27       		.uleb128 0x27
+ 2017 013d 19       		.uleb128 0x19
+ 2018 013e 49       		.uleb128 0x49
+ 2019 013f 13       		.uleb128 0x13
+ 2020 0140 11       		.uleb128 0x11
+ 2021 0141 01       		.uleb128 0x1
+ 2022 0142 12       		.uleb128 0x12
+ 2023 0143 06       		.uleb128 0x6
+ 2024 0144 40       		.uleb128 0x40
+ 2025 0145 18       		.uleb128 0x18
+ 2026 0146 9642     		.uleb128 0x2116
+ 2027 0148 19       		.uleb128 0x19
+ 2028 0149 01       		.uleb128 0x1
+ 2029 014a 13       		.uleb128 0x13
+ 2030 014b 00       		.byte	0
+ 2031 014c 00       		.byte	0
+ 2032 014d 15       		.uleb128 0x15
+ 2033 014e 2E       		.uleb128 0x2e
+ 2034 014f 01       		.byte	0x1
+ 2035 0150 3F       		.uleb128 0x3f
+ 2036 0151 19       		.uleb128 0x19
+ 2037 0152 03       		.uleb128 0x3
+ 2038 0153 0E       		.uleb128 0xe
+ 2039 0154 3A       		.uleb128 0x3a
+ 2040 0155 0B       		.uleb128 0xb
+ 2041 0156 3B       		.uleb128 0x3b
+ 2042 0157 05       		.uleb128 0x5
+ 2043 0158 27       		.uleb128 0x27
+ 2044 0159 19       		.uleb128 0x19
+ 2045 015a 11       		.uleb128 0x11
+ARM GAS  C:\Users\BRANKO~1\AppData\Local\Temp\cc4panOR.s 			page 50
+
+
+ 2046 015b 01       		.uleb128 0x1
+ 2047 015c 12       		.uleb128 0x12
+ 2048 015d 06       		.uleb128 0x6
+ 2049 015e 40       		.uleb128 0x40
+ 2050 015f 18       		.uleb128 0x18
+ 2051 0160 9642     		.uleb128 0x2116
+ 2052 0162 19       		.uleb128 0x19
+ 2053 0163 01       		.uleb128 0x1
+ 2054 0164 13       		.uleb128 0x13
+ 2055 0165 00       		.byte	0
+ 2056 0166 00       		.byte	0
+ 2057 0167 16       		.uleb128 0x16
+ 2058 0168 34       		.uleb128 0x34
+ 2059 0169 00       		.byte	0
+ 2060 016a 03       		.uleb128 0x3
+ 2061 016b 0E       		.uleb128 0xe
+ 2062 016c 3A       		.uleb128 0x3a
+ 2063 016d 0B       		.uleb128 0xb
+ 2064 016e 3B       		.uleb128 0x3b
+ 2065 016f 0B       		.uleb128 0xb
+ 2066 0170 49       		.uleb128 0x49
+ 2067 0171 13       		.uleb128 0x13
+ 2068 0172 3F       		.uleb128 0x3f
+ 2069 0173 19       		.uleb128 0x19
+ 2070 0174 02       		.uleb128 0x2
+ 2071 0175 18       		.uleb128 0x18
+ 2072 0176 00       		.byte	0
+ 2073 0177 00       		.byte	0
+ 2074 0178 00       		.byte	0
+ 2075              		.section	.debug_aranges,"",%progbits
+ 2076 0000 74000000 		.4byte	0x74
+ 2077 0004 0200     		.2byte	0x2
+ 2078 0006 00000000 		.4byte	.Ldebug_info0
+ 2079 000a 04       		.byte	0x4
+ 2080 000b 00       		.byte	0
+ 2081 000c 0000     		.2byte	0
+ 2082 000e 0000     		.2byte	0
+ 2083 0010 00000000 		.4byte	.LFB0
+ 2084 0014 44000000 		.4byte	.LFE0-.LFB0
+ 2085 0018 00000000 		.4byte	.LFB1
+ 2086 001c 44000000 		.4byte	.LFE1-.LFB1
+ 2087 0020 00000000 		.4byte	.LFB2
+ 2088 0024 58000000 		.4byte	.LFE2-.LFB2
+ 2089 0028 00000000 		.4byte	.LFB3
+ 2090 002c D0000000 		.4byte	.LFE3-.LFB3
+ 2091 0030 00000000 		.4byte	.LFB4
+ 2092 0034 8C000000 		.4byte	.LFE4-.LFB4
+ 2093 0038 00000000 		.4byte	.LFB5
+ 2094 003c CC000000 		.4byte	.LFE5-.LFB5
+ 2095 0040 00000000 		.4byte	.LFB6
+ 2096 0044 88000000 		.4byte	.LFE6-.LFB6
+ 2097 0048 00000000 		.4byte	.LFB7
+ 2098 004c 70000000 		.4byte	.LFE7-.LFB7
+ 2099 0050 00000000 		.4byte	.LFB8
+ 2100 0054 64000000 		.4byte	.LFE8-.LFB8
+ 2101 0058 00000000 		.4byte	.LFB9
+ 2102 005c 68000000 		.4byte	.LFE9-.LFB9
+ARM GAS  C:\Users\BRANKO~1\AppData\Local\Temp\cc4panOR.s 			page 51
+
+
+ 2103 0060 00000000 		.4byte	.LFB10
+ 2104 0064 50000000 		.4byte	.LFE10-.LFB10
+ 2105 0068 00000000 		.4byte	.LFB11
+ 2106 006c 48000000 		.4byte	.LFE11-.LFB11
+ 2107 0070 00000000 		.4byte	0
+ 2108 0074 00000000 		.4byte	0
+ 2109              		.section	.debug_ranges,"",%progbits
+ 2110              	.Ldebug_ranges0:
+ 2111 0000 00000000 		.4byte	.LFB0
+ 2112 0004 44000000 		.4byte	.LFE0
+ 2113 0008 00000000 		.4byte	.LFB1
+ 2114 000c 44000000 		.4byte	.LFE1
+ 2115 0010 00000000 		.4byte	.LFB2
+ 2116 0014 58000000 		.4byte	.LFE2
+ 2117 0018 00000000 		.4byte	.LFB3
+ 2118 001c D0000000 		.4byte	.LFE3
+ 2119 0020 00000000 		.4byte	.LFB4
+ 2120 0024 8C000000 		.4byte	.LFE4
+ 2121 0028 00000000 		.4byte	.LFB5
+ 2122 002c CC000000 		.4byte	.LFE5
+ 2123 0030 00000000 		.4byte	.LFB6
+ 2124 0034 88000000 		.4byte	.LFE6
+ 2125 0038 00000000 		.4byte	.LFB7
+ 2126 003c 70000000 		.4byte	.LFE7
+ 2127 0040 00000000 		.4byte	.LFB8
+ 2128 0044 64000000 		.4byte	.LFE8
+ 2129 0048 00000000 		.4byte	.LFB9
+ 2130 004c 68000000 		.4byte	.LFE9
+ 2131 0050 00000000 		.4byte	.LFB10
+ 2132 0054 50000000 		.4byte	.LFE10
+ 2133 0058 00000000 		.4byte	.LFB11
+ 2134 005c 48000000 		.4byte	.LFE11
+ 2135 0060 00000000 		.4byte	0
+ 2136 0064 00000000 		.4byte	0
+ 2137              		.section	.debug_line,"",%progbits
+ 2138              	.Ldebug_line0:
+ 2139 0000 08020000 		.section	.debug_str,"MS",%progbits,1
+ 2139      02004400 
+ 2139      00000201 
+ 2139      FB0E0D00 
+ 2139      01010101 
+ 2140              	.LASF25:
+ 2141 0000 43795370 		.ascii	"CySpcLoadMultiByte\000"
+ 2141      634C6F61 
+ 2141      644D756C 
+ 2141      74694279 
+ 2141      746500
+ 2142              	.LASF45:
+ 2143 0013 443A5C70 		.ascii	"D:\\psoc5\\Cell Board\\Cell Board.cydsn\000"
+ 2143      736F6335 
+ 2143      5C43656C 
+ 2143      6C20426F 
+ 2143      6172645C 
+ 2144              	.LASF15:
+ 2145 0038 63797374 		.ascii	"cystatus\000"
+ 2145      61747573 
+ 2145      00
+ARM GAS  C:\Users\BRANKO~1\AppData\Local\Temp\cc4panOR.s 			page 52
+
+
+ 2146              	.LASF17:
+ 2147 0041 72656733 		.ascii	"reg32\000"
+ 2147      3200
+ 2148              	.LASF19:
+ 2149 0047 43795370 		.ascii	"CySpcStart\000"
+ 2149      63537461 
+ 2149      727400
+ 2150              	.LASF32:
+ 2151 0052 43795370 		.ascii	"CySpcWriteRow\000"
+ 2151      63577269 
+ 2151      7465526F 
+ 2151      7700
+ 2152              	.LASF20:
+ 2153 0060 43795370 		.ascii	"CySpcStop\000"
+ 2153      6353746F 
+ 2153      7000
+ 2154              	.LASF44:
+ 2155 006a 2E5C4765 		.ascii	".\\Generated_Source\\PSoC5\\CySpc.c\000"
+ 2155      6E657261 
+ 2155      7465645F 
+ 2155      536F7572 
+ 2155      63655C50 
+ 2156              	.LASF3:
+ 2157 008b 73686F72 		.ascii	"short unsigned int\000"
+ 2157      7420756E 
+ 2157      7369676E 
+ 2157      65642069 
+ 2157      6E7400
+ 2158              	.LASF24:
+ 2159 009e 43795370 		.ascii	"CySpcReadData\000"
+ 2159      63526561 
+ 2159      64446174 
+ 2159      6100
+ 2160              	.LASF28:
+ 2161 00ac 73746174 		.ascii	"status\000"
+ 2161      757300
+ 2162              	.LASF12:
+ 2163 00b3 666C6F61 		.ascii	"float\000"
+ 2163      7400
+ 2164              	.LASF23:
+ 2165 00b9 73697A65 		.ascii	"size\000"
+ 2165      00
+ 2166              	.LASF16:
+ 2167 00be 72656738 		.ascii	"reg8\000"
+ 2167      00
+ 2168              	.LASF21:
+ 2169 00c3 696E7465 		.ascii	"interruptState\000"
+ 2169      72727570 
+ 2169      74537461 
+ 2169      746500
+ 2170              	.LASF5:
+ 2171 00d2 6C6F6E67 		.ascii	"long unsigned int\000"
+ 2171      20756E73 
+ 2171      69676E65 
+ 2171      6420696E 
+ 2171      7400
+ 2172              	.LASF9:
+ARM GAS  C:\Users\BRANKO~1\AppData\Local\Temp\cc4panOR.s 			page 53
+
+
+ 2173 00e4 75696E74 		.ascii	"uint8\000"
+ 2173      3800
+ 2174              	.LASF46:
+ 2175 00ea 5370634C 		.ascii	"SpcLockState\000"
+ 2175      6F636B53 
+ 2175      74617465 
+ 2175      00
+ 2176              	.LASF33:
+ 2177 00f7 74656D70 		.ascii	"tempPolarity\000"
+ 2177      506F6C61 
+ 2177      72697479 
+ 2177      00
+ 2178              	.LASF26:
+ 2179 0104 61727261 		.ascii	"array\000"
+ 2179      7900
+ 2180              	.LASF1:
+ 2181 010a 756E7369 		.ascii	"unsigned char\000"
+ 2181      676E6564 
+ 2181      20636861 
+ 2181      7200
+ 2182              	.LASF13:
+ 2183 0118 646F7562 		.ascii	"double\000"
+ 2183      6C6500
+ 2184              	.LASF37:
+ 2185 011f 43795370 		.ascii	"CySpcGetTemp\000"
+ 2185      63476574 
+ 2185      54656D70 
+ 2185      00
+ 2186              	.LASF10:
+ 2187 012c 75696E74 		.ascii	"uint16\000"
+ 2187      313600
+ 2188              	.LASF39:
+ 2189 0133 43795370 		.ascii	"CySpcLock\000"
+ 2189      634C6F63 
+ 2189      6B00
+ 2190              	.LASF11:
+ 2191 013d 75696E74 		.ascii	"uint32\000"
+ 2191      333200
+ 2192              	.LASF8:
+ 2193 0144 756E7369 		.ascii	"unsigned int\000"
+ 2193      676E6564 
+ 2193      20696E74 
+ 2193      00
+ 2194              	.LASF27:
+ 2195 0151 61646472 		.ascii	"address\000"
+ 2195      65737300 
+ 2196              	.LASF7:
+ 2197 0159 6C6F6E67 		.ascii	"long long unsigned int\000"
+ 2197      206C6F6E 
+ 2197      6720756E 
+ 2197      7369676E 
+ 2197      65642069 
+ 2198              	.LASF34:
+ 2199 0170 74656D70 		.ascii	"tempMagnitude\000"
+ 2199      4D61676E 
+ 2199      69747564 
+ 2199      6500
+ARM GAS  C:\Users\BRANKO~1\AppData\Local\Temp\cc4panOR.s 			page 54
+
+
+ 2200              	.LASF43:
+ 2201 017e 474E5520 		.ascii	"GNU C 4.8.4 20140526 (release) [ARM/embedded-4_8-br"
+ 2201      4320342E 
+ 2201      382E3420 
+ 2201      32303134 
+ 2201      30353236 
+ 2202 01b1 616E6368 		.ascii	"anch revision 211358] -mcpu=cortex-m3 -mthumb -g -O"
+ 2202      20726576 
+ 2202      6973696F 
+ 2202      6E203231 
+ 2202      31333538 
+ 2203 01e4 30202D66 		.ascii	"0 -ffunction-sections\000"
+ 2203      66756E63 
+ 2203      74696F6E 
+ 2203      2D736563 
+ 2203      74696F6E 
+ 2204              	.LASF29:
+ 2205 01fa 43795370 		.ascii	"CySpcLoadRow\000"
+ 2205      634C6F61 
+ 2205      64526F77 
+ 2205      00
+ 2206              	.LASF18:
+ 2207 0207 73697A65 		.ascii	"sizetype\000"
+ 2207      74797065 
+ 2207      00
+ 2208              	.LASF40:
+ 2209 0210 43795370 		.ascii	"CySpcUnlock\000"
+ 2209      63556E6C 
+ 2209      6F636B00 
+ 2210              	.LASF35:
+ 2211 021c 43795370 		.ascii	"CySpcEraseSector\000"
+ 2211      63457261 
+ 2211      73655365 
+ 2211      63746F72 
+ 2211      00
+ 2212              	.LASF6:
+ 2213 022d 6C6F6E67 		.ascii	"long long int\000"
+ 2213      206C6F6E 
+ 2213      6720696E 
+ 2213      7400
+ 2214              	.LASF14:
+ 2215 023b 63686172 		.ascii	"char\000"
+ 2215      00
+ 2216              	.LASF41:
+ 2217 0240 43795370 		.ascii	"CySpcGetAlgorithm\000"
+ 2217      63476574 
+ 2217      416C676F 
+ 2217      72697468 
+ 2217      6D00
+ 2218              	.LASF31:
+ 2219 0252 6F666673 		.ascii	"offset\000"
+ 2219      657400
+ 2220              	.LASF2:
+ 2221 0259 73686F72 		.ascii	"short int\000"
+ 2221      7420696E 
+ 2221      7400
+ 2222              	.LASF22:
+ARM GAS  C:\Users\BRANKO~1\AppData\Local\Temp\cc4panOR.s 			page 55
+
+
+ 2223 0263 62756666 		.ascii	"buffer\000"
+ 2223      657200
+ 2224              	.LASF36:
+ 2225 026a 73656374 		.ascii	"sectorNumber\000"
+ 2225      6F724E75 
+ 2225      6D626572 
+ 2225      00
+ 2226              	.LASF4:
+ 2227 0277 6C6F6E67 		.ascii	"long int\000"
+ 2227      20696E74 
+ 2227      00
+ 2228              	.LASF42:
+ 2229 0280 73706357 		.ascii	"spcWaitPipeBypass\000"
+ 2229      61697450 
+ 2229      69706542 
+ 2229      79706173 
+ 2229      7300
+ 2230              	.LASF0:
+ 2231 0292 7369676E 		.ascii	"signed char\000"
+ 2231      65642063 
+ 2231      68617200 
+ 2232              	.LASF30:
+ 2233 029e 43795370 		.ascii	"CySpcLoadRowFull\000"
+ 2233      634C6F61 
+ 2233      64526F77 
+ 2233      46756C6C 
+ 2233      00
+ 2234              	.LASF38:
+ 2235 02af 6E756D53 		.ascii	"numSamples\000"
+ 2235      616D706C 
+ 2235      657300
+ 2236              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 4.8.4 20140526 (release) [ARM/embedded-4_8-br
