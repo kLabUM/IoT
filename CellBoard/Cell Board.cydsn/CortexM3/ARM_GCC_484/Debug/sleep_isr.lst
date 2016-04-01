@@ -1,0 +1,1873 @@
+ARM GAS  C:\Users\Matthew\AppData\Local\Temp\ccTF45v4.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 6
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.file	"sleep_isr.c"
+  15              		.text
+  16              	.Ltext0:
+  17              		.cfi_sections	.debug_frame
+  18              		.section	.text.sleep_isr_Start,"ax",%progbits
+  19              		.align	2
+  20              		.global	sleep_isr_Start
+  21              		.thumb
+  22              		.thumb_func
+  23              		.type	sleep_isr_Start, %function
+  24              	sleep_isr_Start:
+  25              	.LFB0:
+  26              		.file 1 ".\\Generated_Source\\PSoC5\\sleep_isr.c"
+   1:.\Generated_Source\PSoC5/sleep_isr.c **** /*******************************************************************************
+   2:.\Generated_Source\PSoC5/sleep_isr.c **** * File Name: sleep_isr.c  
+   3:.\Generated_Source\PSoC5/sleep_isr.c **** * Version 1.70
+   4:.\Generated_Source\PSoC5/sleep_isr.c **** *
+   5:.\Generated_Source\PSoC5/sleep_isr.c **** *  Description:
+   6:.\Generated_Source\PSoC5/sleep_isr.c **** *   API for controlling the state of an interrupt.
+   7:.\Generated_Source\PSoC5/sleep_isr.c **** *
+   8:.\Generated_Source\PSoC5/sleep_isr.c **** *
+   9:.\Generated_Source\PSoC5/sleep_isr.c **** *  Note:
+  10:.\Generated_Source\PSoC5/sleep_isr.c **** *
+  11:.\Generated_Source\PSoC5/sleep_isr.c **** ********************************************************************************
+  12:.\Generated_Source\PSoC5/sleep_isr.c **** * Copyright 2008-2015, Cypress Semiconductor Corporation.  All rights reserved.
+  13:.\Generated_Source\PSoC5/sleep_isr.c **** * You may use this file only in accordance with the license, terms, conditions, 
+  14:.\Generated_Source\PSoC5/sleep_isr.c **** * disclaimers, and limitations in the end user license agreement accompanying 
+  15:.\Generated_Source\PSoC5/sleep_isr.c **** * the software package with which this file was provided.
+  16:.\Generated_Source\PSoC5/sleep_isr.c **** *******************************************************************************/
+  17:.\Generated_Source\PSoC5/sleep_isr.c **** 
+  18:.\Generated_Source\PSoC5/sleep_isr.c **** 
+  19:.\Generated_Source\PSoC5/sleep_isr.c **** #include <cydevice_trm.h>
+  20:.\Generated_Source\PSoC5/sleep_isr.c **** #include <CyLib.h>
+  21:.\Generated_Source\PSoC5/sleep_isr.c **** #include <sleep_isr.h>
+  22:.\Generated_Source\PSoC5/sleep_isr.c **** 
+  23:.\Generated_Source\PSoC5/sleep_isr.c **** #if !defined(sleep_isr__REMOVED) /* Check for removal by optimization */
+  24:.\Generated_Source\PSoC5/sleep_isr.c **** 
+  25:.\Generated_Source\PSoC5/sleep_isr.c **** /*******************************************************************************
+  26:.\Generated_Source\PSoC5/sleep_isr.c **** *  Place your includes, defines and code here 
+  27:.\Generated_Source\PSoC5/sleep_isr.c **** ********************************************************************************/
+  28:.\Generated_Source\PSoC5/sleep_isr.c **** /* `#START sleep_isr_intc` */
+  29:.\Generated_Source\PSoC5/sleep_isr.c **** 
+  30:.\Generated_Source\PSoC5/sleep_isr.c **** /* `#END` */
+  31:.\Generated_Source\PSoC5/sleep_isr.c **** 
+ARM GAS  C:\Users\Matthew\AppData\Local\Temp\ccTF45v4.s 			page 2
+
+
+  32:.\Generated_Source\PSoC5/sleep_isr.c **** #ifndef CYINT_IRQ_BASE
+  33:.\Generated_Source\PSoC5/sleep_isr.c **** #define CYINT_IRQ_BASE      16
+  34:.\Generated_Source\PSoC5/sleep_isr.c **** #endif /* CYINT_IRQ_BASE */
+  35:.\Generated_Source\PSoC5/sleep_isr.c **** #ifndef CYINT_VECT_TABLE
+  36:.\Generated_Source\PSoC5/sleep_isr.c **** #define CYINT_VECT_TABLE    ((cyisraddress **) CYREG_NVIC_VECT_OFFSET)
+  37:.\Generated_Source\PSoC5/sleep_isr.c **** #endif /* CYINT_VECT_TABLE */
+  38:.\Generated_Source\PSoC5/sleep_isr.c **** 
+  39:.\Generated_Source\PSoC5/sleep_isr.c **** /* Declared in startup, used to set unused interrupts to. */
+  40:.\Generated_Source\PSoC5/sleep_isr.c **** CY_ISR_PROTO(IntDefaultHandler);
+  41:.\Generated_Source\PSoC5/sleep_isr.c **** 
+  42:.\Generated_Source\PSoC5/sleep_isr.c **** 
+  43:.\Generated_Source\PSoC5/sleep_isr.c **** /*******************************************************************************
+  44:.\Generated_Source\PSoC5/sleep_isr.c **** * Function Name: sleep_isr_Start
+  45:.\Generated_Source\PSoC5/sleep_isr.c **** ********************************************************************************
+  46:.\Generated_Source\PSoC5/sleep_isr.c **** *
+  47:.\Generated_Source\PSoC5/sleep_isr.c **** * Summary:
+  48:.\Generated_Source\PSoC5/sleep_isr.c **** *  Set up the interrupt and enable it. This function disables the interrupt, 
+  49:.\Generated_Source\PSoC5/sleep_isr.c **** *  sets the default interrupt vector, sets the priority from the value in the
+  50:.\Generated_Source\PSoC5/sleep_isr.c **** *  Design Wide Resources Interrupt Editor, then enables the interrupt to the 
+  51:.\Generated_Source\PSoC5/sleep_isr.c **** *  interrupt controller.
+  52:.\Generated_Source\PSoC5/sleep_isr.c **** *
+  53:.\Generated_Source\PSoC5/sleep_isr.c **** * Parameters:  
+  54:.\Generated_Source\PSoC5/sleep_isr.c **** *   None
+  55:.\Generated_Source\PSoC5/sleep_isr.c **** *
+  56:.\Generated_Source\PSoC5/sleep_isr.c **** * Return:
+  57:.\Generated_Source\PSoC5/sleep_isr.c **** *   None
+  58:.\Generated_Source\PSoC5/sleep_isr.c **** *
+  59:.\Generated_Source\PSoC5/sleep_isr.c **** *******************************************************************************/
+  60:.\Generated_Source\PSoC5/sleep_isr.c **** void sleep_isr_Start(void)
+  61:.\Generated_Source\PSoC5/sleep_isr.c **** {
+  27              		.loc 1 61 0
+  28              		.cfi_startproc
+  29              		@ args = 0, pretend = 0, frame = 0
+  30              		@ frame_needed = 1, uses_anonymous_args = 0
+  31 0000 80B5     		push	{r7, lr}
+  32              		.cfi_def_cfa_offset 8
+  33              		.cfi_offset 7, -8
+  34              		.cfi_offset 14, -4
+  35 0002 00AF     		add	r7, sp, #0
+  36              		.cfi_def_cfa_register 7
+  62:.\Generated_Source\PSoC5/sleep_isr.c ****     /* For all we know the interrupt is active. */
+  63:.\Generated_Source\PSoC5/sleep_isr.c ****     sleep_isr_Disable();
+  37              		.loc 1 63 0
+  38 0004 FFF7FEFF 		bl	sleep_isr_Disable
+  64:.\Generated_Source\PSoC5/sleep_isr.c **** 
+  65:.\Generated_Source\PSoC5/sleep_isr.c ****     /* Set the ISR to point to the sleep_isr Interrupt. */
+  66:.\Generated_Source\PSoC5/sleep_isr.c ****     sleep_isr_SetVector(&sleep_isr_Interrupt);
+  39              		.loc 1 66 0
+  40 0008 0448     		ldr	r0, .L2
+  41 000a FFF7FEFF 		bl	sleep_isr_SetVector
+  67:.\Generated_Source\PSoC5/sleep_isr.c **** 
+  68:.\Generated_Source\PSoC5/sleep_isr.c ****     /* Set the priority. */
+  69:.\Generated_Source\PSoC5/sleep_isr.c ****     sleep_isr_SetPriority((uint8)sleep_isr_INTC_PRIOR_NUMBER);
+  42              		.loc 1 69 0
+  43 000e 0720     		movs	r0, #7
+  44 0010 FFF7FEFF 		bl	sleep_isr_SetPriority
+  70:.\Generated_Source\PSoC5/sleep_isr.c **** 
+ARM GAS  C:\Users\Matthew\AppData\Local\Temp\ccTF45v4.s 			page 3
+
+
+  71:.\Generated_Source\PSoC5/sleep_isr.c ****     /* Enable it. */
+  72:.\Generated_Source\PSoC5/sleep_isr.c ****     sleep_isr_Enable();
+  45              		.loc 1 72 0
+  46 0014 FFF7FEFF 		bl	sleep_isr_Enable
+  73:.\Generated_Source\PSoC5/sleep_isr.c **** }
+  47              		.loc 1 73 0
+  48 0018 80BD     		pop	{r7, pc}
+  49              	.L3:
+  50 001a 00BF     		.align	2
+  51              	.L2:
+  52 001c 00000000 		.word	sleep_isr_Interrupt
+  53              		.cfi_endproc
+  54              	.LFE0:
+  55              		.size	sleep_isr_Start, .-sleep_isr_Start
+  56              		.section	.text.sleep_isr_StartEx,"ax",%progbits
+  57              		.align	2
+  58              		.global	sleep_isr_StartEx
+  59              		.thumb
+  60              		.thumb_func
+  61              		.type	sleep_isr_StartEx, %function
+  62              	sleep_isr_StartEx:
+  63              	.LFB1:
+  74:.\Generated_Source\PSoC5/sleep_isr.c **** 
+  75:.\Generated_Source\PSoC5/sleep_isr.c **** 
+  76:.\Generated_Source\PSoC5/sleep_isr.c **** /*******************************************************************************
+  77:.\Generated_Source\PSoC5/sleep_isr.c **** * Function Name: sleep_isr_StartEx
+  78:.\Generated_Source\PSoC5/sleep_isr.c **** ********************************************************************************
+  79:.\Generated_Source\PSoC5/sleep_isr.c **** *
+  80:.\Generated_Source\PSoC5/sleep_isr.c **** * Summary:
+  81:.\Generated_Source\PSoC5/sleep_isr.c **** *  Sets up the interrupt and enables it. This function disables the interrupt,
+  82:.\Generated_Source\PSoC5/sleep_isr.c **** *  sets the interrupt vector based on the address passed in, sets the priority 
+  83:.\Generated_Source\PSoC5/sleep_isr.c **** *  from the value in the Design Wide Resources Interrupt Editor, then enables 
+  84:.\Generated_Source\PSoC5/sleep_isr.c **** *  the interrupt to the interrupt controller.
+  85:.\Generated_Source\PSoC5/sleep_isr.c **** *  
+  86:.\Generated_Source\PSoC5/sleep_isr.c **** *  When defining ISR functions, the CY_ISR and CY_ISR_PROTO macros should be 
+  87:.\Generated_Source\PSoC5/sleep_isr.c **** *  used to provide consistent definition across compilers:
+  88:.\Generated_Source\PSoC5/sleep_isr.c **** *  
+  89:.\Generated_Source\PSoC5/sleep_isr.c **** *  Function definition example:
+  90:.\Generated_Source\PSoC5/sleep_isr.c **** *   CY_ISR(MyISR)
+  91:.\Generated_Source\PSoC5/sleep_isr.c **** *   {
+  92:.\Generated_Source\PSoC5/sleep_isr.c **** *   }
+  93:.\Generated_Source\PSoC5/sleep_isr.c **** *   Function prototype example:
+  94:.\Generated_Source\PSoC5/sleep_isr.c **** *   CY_ISR_PROTO(MyISR);
+  95:.\Generated_Source\PSoC5/sleep_isr.c **** *
+  96:.\Generated_Source\PSoC5/sleep_isr.c **** * Parameters:  
+  97:.\Generated_Source\PSoC5/sleep_isr.c **** *   address: Address of the ISR to set in the interrupt vector table.
+  98:.\Generated_Source\PSoC5/sleep_isr.c **** *
+  99:.\Generated_Source\PSoC5/sleep_isr.c **** * Return:
+ 100:.\Generated_Source\PSoC5/sleep_isr.c **** *   None
+ 101:.\Generated_Source\PSoC5/sleep_isr.c **** *
+ 102:.\Generated_Source\PSoC5/sleep_isr.c **** *******************************************************************************/
+ 103:.\Generated_Source\PSoC5/sleep_isr.c **** void sleep_isr_StartEx(cyisraddress address)
+ 104:.\Generated_Source\PSoC5/sleep_isr.c **** {
+  64              		.loc 1 104 0
+  65              		.cfi_startproc
+  66              		@ args = 0, pretend = 0, frame = 8
+  67              		@ frame_needed = 1, uses_anonymous_args = 0
+ARM GAS  C:\Users\Matthew\AppData\Local\Temp\ccTF45v4.s 			page 4
+
+
+  68 0000 80B5     		push	{r7, lr}
+  69              		.cfi_def_cfa_offset 8
+  70              		.cfi_offset 7, -8
+  71              		.cfi_offset 14, -4
+  72 0002 82B0     		sub	sp, sp, #8
+  73              		.cfi_def_cfa_offset 16
+  74 0004 00AF     		add	r7, sp, #0
+  75              		.cfi_def_cfa_register 7
+  76 0006 7860     		str	r0, [r7, #4]
+ 105:.\Generated_Source\PSoC5/sleep_isr.c ****     /* For all we know the interrupt is active. */
+ 106:.\Generated_Source\PSoC5/sleep_isr.c ****     sleep_isr_Disable();
+  77              		.loc 1 106 0
+  78 0008 FFF7FEFF 		bl	sleep_isr_Disable
+ 107:.\Generated_Source\PSoC5/sleep_isr.c **** 
+ 108:.\Generated_Source\PSoC5/sleep_isr.c ****     /* Set the ISR to point to the sleep_isr Interrupt. */
+ 109:.\Generated_Source\PSoC5/sleep_isr.c ****     sleep_isr_SetVector(address);
+  79              		.loc 1 109 0
+  80 000c 7868     		ldr	r0, [r7, #4]
+  81 000e FFF7FEFF 		bl	sleep_isr_SetVector
+ 110:.\Generated_Source\PSoC5/sleep_isr.c **** 
+ 111:.\Generated_Source\PSoC5/sleep_isr.c ****     /* Set the priority. */
+ 112:.\Generated_Source\PSoC5/sleep_isr.c ****     sleep_isr_SetPriority((uint8)sleep_isr_INTC_PRIOR_NUMBER);
+  82              		.loc 1 112 0
+  83 0012 0720     		movs	r0, #7
+  84 0014 FFF7FEFF 		bl	sleep_isr_SetPriority
+ 113:.\Generated_Source\PSoC5/sleep_isr.c **** 
+ 114:.\Generated_Source\PSoC5/sleep_isr.c ****     /* Enable it. */
+ 115:.\Generated_Source\PSoC5/sleep_isr.c ****     sleep_isr_Enable();
+  85              		.loc 1 115 0
+  86 0018 FFF7FEFF 		bl	sleep_isr_Enable
+ 116:.\Generated_Source\PSoC5/sleep_isr.c **** }
+  87              		.loc 1 116 0
+  88 001c 0837     		adds	r7, r7, #8
+  89 001e BD46     		mov	sp, r7
+  90              		@ sp needed
+  91 0020 80BD     		pop	{r7, pc}
+  92              		.cfi_endproc
+  93              	.LFE1:
+  94              		.size	sleep_isr_StartEx, .-sleep_isr_StartEx
+  95 0022 00BF     		.section	.text.sleep_isr_Stop,"ax",%progbits
+  96              		.align	2
+  97              		.global	sleep_isr_Stop
+  98              		.thumb
+  99              		.thumb_func
+ 100              		.type	sleep_isr_Stop, %function
+ 101              	sleep_isr_Stop:
+ 102              	.LFB2:
+ 117:.\Generated_Source\PSoC5/sleep_isr.c **** 
+ 118:.\Generated_Source\PSoC5/sleep_isr.c **** 
+ 119:.\Generated_Source\PSoC5/sleep_isr.c **** /*******************************************************************************
+ 120:.\Generated_Source\PSoC5/sleep_isr.c **** * Function Name: sleep_isr_Stop
+ 121:.\Generated_Source\PSoC5/sleep_isr.c **** ********************************************************************************
+ 122:.\Generated_Source\PSoC5/sleep_isr.c **** *
+ 123:.\Generated_Source\PSoC5/sleep_isr.c **** * Summary:
+ 124:.\Generated_Source\PSoC5/sleep_isr.c **** *   Disables and removes the interrupt.
+ 125:.\Generated_Source\PSoC5/sleep_isr.c **** *
+ 126:.\Generated_Source\PSoC5/sleep_isr.c **** * Parameters:  
+ARM GAS  C:\Users\Matthew\AppData\Local\Temp\ccTF45v4.s 			page 5
+
+
+ 127:.\Generated_Source\PSoC5/sleep_isr.c **** *   None
+ 128:.\Generated_Source\PSoC5/sleep_isr.c **** *
+ 129:.\Generated_Source\PSoC5/sleep_isr.c **** * Return:
+ 130:.\Generated_Source\PSoC5/sleep_isr.c **** *   None
+ 131:.\Generated_Source\PSoC5/sleep_isr.c **** *
+ 132:.\Generated_Source\PSoC5/sleep_isr.c **** *******************************************************************************/
+ 133:.\Generated_Source\PSoC5/sleep_isr.c **** void sleep_isr_Stop(void)
+ 134:.\Generated_Source\PSoC5/sleep_isr.c **** {
+ 103              		.loc 1 134 0
+ 104              		.cfi_startproc
+ 105              		@ args = 0, pretend = 0, frame = 0
+ 106              		@ frame_needed = 1, uses_anonymous_args = 0
+ 107 0000 80B5     		push	{r7, lr}
+ 108              		.cfi_def_cfa_offset 8
+ 109              		.cfi_offset 7, -8
+ 110              		.cfi_offset 14, -4
+ 111 0002 00AF     		add	r7, sp, #0
+ 112              		.cfi_def_cfa_register 7
+ 135:.\Generated_Source\PSoC5/sleep_isr.c ****     /* Disable this interrupt. */
+ 136:.\Generated_Source\PSoC5/sleep_isr.c ****     sleep_isr_Disable();
+ 113              		.loc 1 136 0
+ 114 0004 FFF7FEFF 		bl	sleep_isr_Disable
+ 137:.\Generated_Source\PSoC5/sleep_isr.c **** 
+ 138:.\Generated_Source\PSoC5/sleep_isr.c ****     /* Set the ISR to point to the passive one. */
+ 139:.\Generated_Source\PSoC5/sleep_isr.c ****     sleep_isr_SetVector(&IntDefaultHandler);
+ 115              		.loc 1 139 0
+ 116 0008 0148     		ldr	r0, .L6
+ 117 000a FFF7FEFF 		bl	sleep_isr_SetVector
+ 140:.\Generated_Source\PSoC5/sleep_isr.c **** }
+ 118              		.loc 1 140 0
+ 119 000e 80BD     		pop	{r7, pc}
+ 120              	.L7:
+ 121              		.align	2
+ 122              	.L6:
+ 123 0010 00000000 		.word	IntDefaultHandler
+ 124              		.cfi_endproc
+ 125              	.LFE2:
+ 126              		.size	sleep_isr_Stop, .-sleep_isr_Stop
+ 127              		.section	.text.sleep_isr_Interrupt,"ax",%progbits
+ 128              		.align	2
+ 129              		.global	sleep_isr_Interrupt
+ 130              		.thumb
+ 131              		.thumb_func
+ 132              		.type	sleep_isr_Interrupt, %function
+ 133              	sleep_isr_Interrupt:
+ 134              	.LFB3:
+ 141:.\Generated_Source\PSoC5/sleep_isr.c **** 
+ 142:.\Generated_Source\PSoC5/sleep_isr.c **** 
+ 143:.\Generated_Source\PSoC5/sleep_isr.c **** /*******************************************************************************
+ 144:.\Generated_Source\PSoC5/sleep_isr.c **** * Function Name: sleep_isr_Interrupt
+ 145:.\Generated_Source\PSoC5/sleep_isr.c **** ********************************************************************************
+ 146:.\Generated_Source\PSoC5/sleep_isr.c **** *
+ 147:.\Generated_Source\PSoC5/sleep_isr.c **** * Summary:
+ 148:.\Generated_Source\PSoC5/sleep_isr.c **** *   The default Interrupt Service Routine for sleep_isr.
+ 149:.\Generated_Source\PSoC5/sleep_isr.c **** *
+ 150:.\Generated_Source\PSoC5/sleep_isr.c **** *   Add custom code between the coments to keep the next version of this file
+ 151:.\Generated_Source\PSoC5/sleep_isr.c **** *   from over writting your code.
+ARM GAS  C:\Users\Matthew\AppData\Local\Temp\ccTF45v4.s 			page 6
+
+
+ 152:.\Generated_Source\PSoC5/sleep_isr.c **** *
+ 153:.\Generated_Source\PSoC5/sleep_isr.c **** * Parameters:  
+ 154:.\Generated_Source\PSoC5/sleep_isr.c **** *
+ 155:.\Generated_Source\PSoC5/sleep_isr.c **** * Return:
+ 156:.\Generated_Source\PSoC5/sleep_isr.c **** *   None
+ 157:.\Generated_Source\PSoC5/sleep_isr.c **** *
+ 158:.\Generated_Source\PSoC5/sleep_isr.c **** *******************************************************************************/
+ 159:.\Generated_Source\PSoC5/sleep_isr.c **** CY_ISR(sleep_isr_Interrupt)
+ 160:.\Generated_Source\PSoC5/sleep_isr.c **** {
+ 135              		.loc 1 160 0
+ 136              		.cfi_startproc
+ 137              		@ args = 0, pretend = 0, frame = 0
+ 138              		@ frame_needed = 1, uses_anonymous_args = 0
+ 139              		@ link register save eliminated.
+ 140 0000 80B4     		push	{r7}
+ 141              		.cfi_def_cfa_offset 4
+ 142              		.cfi_offset 7, -4
+ 143 0002 00AF     		add	r7, sp, #0
+ 144              		.cfi_def_cfa_register 7
+ 161:.\Generated_Source\PSoC5/sleep_isr.c ****     /*  Place your Interrupt code here. */
+ 162:.\Generated_Source\PSoC5/sleep_isr.c ****     /* `#START sleep_isr_Interrupt` */
+ 163:.\Generated_Source\PSoC5/sleep_isr.c **** 
+ 164:.\Generated_Source\PSoC5/sleep_isr.c ****     /* `#END` */
+ 165:.\Generated_Source\PSoC5/sleep_isr.c **** }
+ 145              		.loc 1 165 0
+ 146 0004 BD46     		mov	sp, r7
+ 147              		@ sp needed
+ 148 0006 5DF8047B 		ldr	r7, [sp], #4
+ 149 000a 7047     		bx	lr
+ 150              		.cfi_endproc
+ 151              	.LFE3:
+ 152              		.size	sleep_isr_Interrupt, .-sleep_isr_Interrupt
+ 153              		.section	.text.sleep_isr_SetVector,"ax",%progbits
+ 154              		.align	2
+ 155              		.global	sleep_isr_SetVector
+ 156              		.thumb
+ 157              		.thumb_func
+ 158              		.type	sleep_isr_SetVector, %function
+ 159              	sleep_isr_SetVector:
+ 160              	.LFB4:
+ 166:.\Generated_Source\PSoC5/sleep_isr.c **** 
+ 167:.\Generated_Source\PSoC5/sleep_isr.c **** 
+ 168:.\Generated_Source\PSoC5/sleep_isr.c **** /*******************************************************************************
+ 169:.\Generated_Source\PSoC5/sleep_isr.c **** * Function Name: sleep_isr_SetVector
+ 170:.\Generated_Source\PSoC5/sleep_isr.c **** ********************************************************************************
+ 171:.\Generated_Source\PSoC5/sleep_isr.c **** *
+ 172:.\Generated_Source\PSoC5/sleep_isr.c **** * Summary:
+ 173:.\Generated_Source\PSoC5/sleep_isr.c **** *   Change the ISR vector for the Interrupt. Note calling sleep_isr_Start
+ 174:.\Generated_Source\PSoC5/sleep_isr.c **** *   will override any effect this method would have had. To set the vector 
+ 175:.\Generated_Source\PSoC5/sleep_isr.c **** *   before the component has been started use sleep_isr_StartEx instead.
+ 176:.\Generated_Source\PSoC5/sleep_isr.c **** * 
+ 177:.\Generated_Source\PSoC5/sleep_isr.c **** *   When defining ISR functions, the CY_ISR and CY_ISR_PROTO macros should be 
+ 178:.\Generated_Source\PSoC5/sleep_isr.c **** *   used to provide consistent definition across compilers:
+ 179:.\Generated_Source\PSoC5/sleep_isr.c **** *
+ 180:.\Generated_Source\PSoC5/sleep_isr.c **** *   Function definition example:
+ 181:.\Generated_Source\PSoC5/sleep_isr.c **** *   CY_ISR(MyISR)
+ 182:.\Generated_Source\PSoC5/sleep_isr.c **** *   {
+ARM GAS  C:\Users\Matthew\AppData\Local\Temp\ccTF45v4.s 			page 7
+
+
+ 183:.\Generated_Source\PSoC5/sleep_isr.c **** *   }
+ 184:.\Generated_Source\PSoC5/sleep_isr.c **** *
+ 185:.\Generated_Source\PSoC5/sleep_isr.c **** *   Function prototype example:
+ 186:.\Generated_Source\PSoC5/sleep_isr.c **** *     CY_ISR_PROTO(MyISR);
+ 187:.\Generated_Source\PSoC5/sleep_isr.c **** *
+ 188:.\Generated_Source\PSoC5/sleep_isr.c **** * Parameters:
+ 189:.\Generated_Source\PSoC5/sleep_isr.c **** *   address: Address of the ISR to set in the interrupt vector table.
+ 190:.\Generated_Source\PSoC5/sleep_isr.c **** *
+ 191:.\Generated_Source\PSoC5/sleep_isr.c **** * Return:
+ 192:.\Generated_Source\PSoC5/sleep_isr.c **** *   None
+ 193:.\Generated_Source\PSoC5/sleep_isr.c **** *
+ 194:.\Generated_Source\PSoC5/sleep_isr.c **** *******************************************************************************/
+ 195:.\Generated_Source\PSoC5/sleep_isr.c **** void sleep_isr_SetVector(cyisraddress address)
+ 196:.\Generated_Source\PSoC5/sleep_isr.c **** {
+ 161              		.loc 1 196 0
+ 162              		.cfi_startproc
+ 163              		@ args = 0, pretend = 0, frame = 16
+ 164              		@ frame_needed = 1, uses_anonymous_args = 0
+ 165              		@ link register save eliminated.
+ 166 0000 80B4     		push	{r7}
+ 167              		.cfi_def_cfa_offset 4
+ 168              		.cfi_offset 7, -4
+ 169 0002 85B0     		sub	sp, sp, #20
+ 170              		.cfi_def_cfa_offset 24
+ 171 0004 00AF     		add	r7, sp, #0
+ 172              		.cfi_def_cfa_register 7
+ 173 0006 7860     		str	r0, [r7, #4]
+ 197:.\Generated_Source\PSoC5/sleep_isr.c ****     cyisraddress * ramVectorTable;
+ 198:.\Generated_Source\PSoC5/sleep_isr.c **** 
+ 199:.\Generated_Source\PSoC5/sleep_isr.c ****     ramVectorTable = (cyisraddress *) *CYINT_VECT_TABLE;
+ 174              		.loc 1 199 0
+ 175 0008 054B     		ldr	r3, .L10
+ 176 000a 1B68     		ldr	r3, [r3]
+ 177 000c FB60     		str	r3, [r7, #12]
+ 200:.\Generated_Source\PSoC5/sleep_isr.c **** 
+ 201:.\Generated_Source\PSoC5/sleep_isr.c ****     ramVectorTable[CYINT_IRQ_BASE + (uint32)sleep_isr__INTC_NUMBER] = address;
+ 178              		.loc 1 201 0
+ 179 000e FB68     		ldr	r3, [r7, #12]
+ 180 0010 4833     		adds	r3, r3, #72
+ 181 0012 7A68     		ldr	r2, [r7, #4]
+ 182 0014 1A60     		str	r2, [r3]
+ 202:.\Generated_Source\PSoC5/sleep_isr.c **** }
+ 183              		.loc 1 202 0
+ 184 0016 1437     		adds	r7, r7, #20
+ 185 0018 BD46     		mov	sp, r7
+ 186              		@ sp needed
+ 187 001a 5DF8047B 		ldr	r7, [sp], #4
+ 188 001e 7047     		bx	lr
+ 189              	.L11:
+ 190              		.align	2
+ 191              	.L10:
+ 192 0020 08ED00E0 		.word	-536810232
+ 193              		.cfi_endproc
+ 194              	.LFE4:
+ 195              		.size	sleep_isr_SetVector, .-sleep_isr_SetVector
+ 196              		.section	.text.sleep_isr_GetVector,"ax",%progbits
+ 197              		.align	2
+ARM GAS  C:\Users\Matthew\AppData\Local\Temp\ccTF45v4.s 			page 8
+
+
+ 198              		.global	sleep_isr_GetVector
+ 199              		.thumb
+ 200              		.thumb_func
+ 201              		.type	sleep_isr_GetVector, %function
+ 202              	sleep_isr_GetVector:
+ 203              	.LFB5:
+ 203:.\Generated_Source\PSoC5/sleep_isr.c **** 
+ 204:.\Generated_Source\PSoC5/sleep_isr.c **** 
+ 205:.\Generated_Source\PSoC5/sleep_isr.c **** /*******************************************************************************
+ 206:.\Generated_Source\PSoC5/sleep_isr.c **** * Function Name: sleep_isr_GetVector
+ 207:.\Generated_Source\PSoC5/sleep_isr.c **** ********************************************************************************
+ 208:.\Generated_Source\PSoC5/sleep_isr.c **** *
+ 209:.\Generated_Source\PSoC5/sleep_isr.c **** * Summary:
+ 210:.\Generated_Source\PSoC5/sleep_isr.c **** *   Gets the "address" of the current ISR vector for the Interrupt.
+ 211:.\Generated_Source\PSoC5/sleep_isr.c **** *
+ 212:.\Generated_Source\PSoC5/sleep_isr.c **** * Parameters:
+ 213:.\Generated_Source\PSoC5/sleep_isr.c **** *   None
+ 214:.\Generated_Source\PSoC5/sleep_isr.c **** *
+ 215:.\Generated_Source\PSoC5/sleep_isr.c **** * Return:
+ 216:.\Generated_Source\PSoC5/sleep_isr.c **** *   Address of the ISR in the interrupt vector table.
+ 217:.\Generated_Source\PSoC5/sleep_isr.c **** *
+ 218:.\Generated_Source\PSoC5/sleep_isr.c **** *******************************************************************************/
+ 219:.\Generated_Source\PSoC5/sleep_isr.c **** cyisraddress sleep_isr_GetVector(void)
+ 220:.\Generated_Source\PSoC5/sleep_isr.c **** {
+ 204              		.loc 1 220 0
+ 205              		.cfi_startproc
+ 206              		@ args = 0, pretend = 0, frame = 8
+ 207              		@ frame_needed = 1, uses_anonymous_args = 0
+ 208              		@ link register save eliminated.
+ 209 0000 80B4     		push	{r7}
+ 210              		.cfi_def_cfa_offset 4
+ 211              		.cfi_offset 7, -4
+ 212 0002 83B0     		sub	sp, sp, #12
+ 213              		.cfi_def_cfa_offset 16
+ 214 0004 00AF     		add	r7, sp, #0
+ 215              		.cfi_def_cfa_register 7
+ 221:.\Generated_Source\PSoC5/sleep_isr.c ****     cyisraddress * ramVectorTable;
+ 222:.\Generated_Source\PSoC5/sleep_isr.c **** 
+ 223:.\Generated_Source\PSoC5/sleep_isr.c ****     ramVectorTable = (cyisraddress *) *CYINT_VECT_TABLE;
+ 216              		.loc 1 223 0
+ 217 0006 054B     		ldr	r3, .L14
+ 218 0008 1B68     		ldr	r3, [r3]
+ 219 000a 7B60     		str	r3, [r7, #4]
+ 224:.\Generated_Source\PSoC5/sleep_isr.c **** 
+ 225:.\Generated_Source\PSoC5/sleep_isr.c ****     return ramVectorTable[CYINT_IRQ_BASE + (uint32)sleep_isr__INTC_NUMBER];
+ 220              		.loc 1 225 0
+ 221 000c 7B68     		ldr	r3, [r7, #4]
+ 222 000e 9B6C     		ldr	r3, [r3, #72]
+ 226:.\Generated_Source\PSoC5/sleep_isr.c **** }
+ 223              		.loc 1 226 0
+ 224 0010 1846     		mov	r0, r3
+ 225 0012 0C37     		adds	r7, r7, #12
+ 226 0014 BD46     		mov	sp, r7
+ 227              		@ sp needed
+ 228 0016 5DF8047B 		ldr	r7, [sp], #4
+ 229 001a 7047     		bx	lr
+ 230              	.L15:
+ARM GAS  C:\Users\Matthew\AppData\Local\Temp\ccTF45v4.s 			page 9
+
+
+ 231              		.align	2
+ 232              	.L14:
+ 233 001c 08ED00E0 		.word	-536810232
+ 234              		.cfi_endproc
+ 235              	.LFE5:
+ 236              		.size	sleep_isr_GetVector, .-sleep_isr_GetVector
+ 237              		.section	.text.sleep_isr_SetPriority,"ax",%progbits
+ 238              		.align	2
+ 239              		.global	sleep_isr_SetPriority
+ 240              		.thumb
+ 241              		.thumb_func
+ 242              		.type	sleep_isr_SetPriority, %function
+ 243              	sleep_isr_SetPriority:
+ 244              	.LFB6:
+ 227:.\Generated_Source\PSoC5/sleep_isr.c **** 
+ 228:.\Generated_Source\PSoC5/sleep_isr.c **** 
+ 229:.\Generated_Source\PSoC5/sleep_isr.c **** /*******************************************************************************
+ 230:.\Generated_Source\PSoC5/sleep_isr.c **** * Function Name: sleep_isr_SetPriority
+ 231:.\Generated_Source\PSoC5/sleep_isr.c **** ********************************************************************************
+ 232:.\Generated_Source\PSoC5/sleep_isr.c **** *
+ 233:.\Generated_Source\PSoC5/sleep_isr.c **** * Summary:
+ 234:.\Generated_Source\PSoC5/sleep_isr.c **** *   Sets the Priority of the Interrupt. 
+ 235:.\Generated_Source\PSoC5/sleep_isr.c **** *
+ 236:.\Generated_Source\PSoC5/sleep_isr.c **** *   Note calling sleep_isr_Start or sleep_isr_StartEx will 
+ 237:.\Generated_Source\PSoC5/sleep_isr.c **** *   override any effect this API would have had. This API should only be called
+ 238:.\Generated_Source\PSoC5/sleep_isr.c **** *   after sleep_isr_Start or sleep_isr_StartEx has been called. 
+ 239:.\Generated_Source\PSoC5/sleep_isr.c **** *   To set the initial priority for the component, use the Design-Wide Resources
+ 240:.\Generated_Source\PSoC5/sleep_isr.c **** *   Interrupt Editor.
+ 241:.\Generated_Source\PSoC5/sleep_isr.c **** *
+ 242:.\Generated_Source\PSoC5/sleep_isr.c **** *   Note This API has no effect on Non-maskable interrupt NMI).
+ 243:.\Generated_Source\PSoC5/sleep_isr.c **** *
+ 244:.\Generated_Source\PSoC5/sleep_isr.c **** * Parameters:
+ 245:.\Generated_Source\PSoC5/sleep_isr.c **** *   priority: Priority of the interrupt, 0 being the highest priority
+ 246:.\Generated_Source\PSoC5/sleep_isr.c **** *             PSoC 3 and PSoC 5LP: Priority is from 0 to 7.
+ 247:.\Generated_Source\PSoC5/sleep_isr.c **** *             PSoC 4: Priority is from 0 to 3.
+ 248:.\Generated_Source\PSoC5/sleep_isr.c **** *
+ 249:.\Generated_Source\PSoC5/sleep_isr.c **** * Return:
+ 250:.\Generated_Source\PSoC5/sleep_isr.c **** *   None
+ 251:.\Generated_Source\PSoC5/sleep_isr.c **** *
+ 252:.\Generated_Source\PSoC5/sleep_isr.c **** *******************************************************************************/
+ 253:.\Generated_Source\PSoC5/sleep_isr.c **** void sleep_isr_SetPriority(uint8 priority)
+ 254:.\Generated_Source\PSoC5/sleep_isr.c **** {
+ 245              		.loc 1 254 0
+ 246              		.cfi_startproc
+ 247              		@ args = 0, pretend = 0, frame = 8
+ 248              		@ frame_needed = 1, uses_anonymous_args = 0
+ 249              		@ link register save eliminated.
+ 250 0000 80B4     		push	{r7}
+ 251              		.cfi_def_cfa_offset 4
+ 252              		.cfi_offset 7, -4
+ 253 0002 83B0     		sub	sp, sp, #12
+ 254              		.cfi_def_cfa_offset 16
+ 255 0004 00AF     		add	r7, sp, #0
+ 256              		.cfi_def_cfa_register 7
+ 257 0006 0346     		mov	r3, r0
+ 258 0008 FB71     		strb	r3, [r7, #7]
+ 255:.\Generated_Source\PSoC5/sleep_isr.c ****     *sleep_isr_INTC_PRIOR = priority << 5;
+ARM GAS  C:\Users\Matthew\AppData\Local\Temp\ccTF45v4.s 			page 10
+
+
+ 259              		.loc 1 255 0
+ 260 000a 054B     		ldr	r3, .L17
+ 261 000c FA79     		ldrb	r2, [r7, #7]
+ 262 000e 5201     		lsls	r2, r2, #5
+ 263 0010 D2B2     		uxtb	r2, r2
+ 264 0012 1A70     		strb	r2, [r3]
+ 256:.\Generated_Source\PSoC5/sleep_isr.c **** }
+ 265              		.loc 1 256 0
+ 266 0014 0C37     		adds	r7, r7, #12
+ 267 0016 BD46     		mov	sp, r7
+ 268              		@ sp needed
+ 269 0018 5DF8047B 		ldr	r7, [sp], #4
+ 270 001c 7047     		bx	lr
+ 271              	.L18:
+ 272 001e 00BF     		.align	2
+ 273              	.L17:
+ 274 0020 02E400E0 		.word	-536812542
+ 275              		.cfi_endproc
+ 276              	.LFE6:
+ 277              		.size	sleep_isr_SetPriority, .-sleep_isr_SetPriority
+ 278              		.section	.text.sleep_isr_GetPriority,"ax",%progbits
+ 279              		.align	2
+ 280              		.global	sleep_isr_GetPriority
+ 281              		.thumb
+ 282              		.thumb_func
+ 283              		.type	sleep_isr_GetPriority, %function
+ 284              	sleep_isr_GetPriority:
+ 285              	.LFB7:
+ 257:.\Generated_Source\PSoC5/sleep_isr.c **** 
+ 258:.\Generated_Source\PSoC5/sleep_isr.c **** 
+ 259:.\Generated_Source\PSoC5/sleep_isr.c **** /*******************************************************************************
+ 260:.\Generated_Source\PSoC5/sleep_isr.c **** * Function Name: sleep_isr_GetPriority
+ 261:.\Generated_Source\PSoC5/sleep_isr.c **** ********************************************************************************
+ 262:.\Generated_Source\PSoC5/sleep_isr.c **** *
+ 263:.\Generated_Source\PSoC5/sleep_isr.c **** * Summary:
+ 264:.\Generated_Source\PSoC5/sleep_isr.c **** *   Gets the Priority of the Interrupt.
+ 265:.\Generated_Source\PSoC5/sleep_isr.c **** *
+ 266:.\Generated_Source\PSoC5/sleep_isr.c **** * Parameters:
+ 267:.\Generated_Source\PSoC5/sleep_isr.c **** *   None
+ 268:.\Generated_Source\PSoC5/sleep_isr.c **** *
+ 269:.\Generated_Source\PSoC5/sleep_isr.c **** * Return:
+ 270:.\Generated_Source\PSoC5/sleep_isr.c **** *   Priority of the interrupt, 0 being the highest priority
+ 271:.\Generated_Source\PSoC5/sleep_isr.c **** *    PSoC 3 and PSoC 5LP: Priority is from 0 to 7.
+ 272:.\Generated_Source\PSoC5/sleep_isr.c **** *    PSoC 4: Priority is from 0 to 3.
+ 273:.\Generated_Source\PSoC5/sleep_isr.c **** *
+ 274:.\Generated_Source\PSoC5/sleep_isr.c **** *******************************************************************************/
+ 275:.\Generated_Source\PSoC5/sleep_isr.c **** uint8 sleep_isr_GetPriority(void)
+ 276:.\Generated_Source\PSoC5/sleep_isr.c **** {
+ 286              		.loc 1 276 0
+ 287              		.cfi_startproc
+ 288              		@ args = 0, pretend = 0, frame = 8
+ 289              		@ frame_needed = 1, uses_anonymous_args = 0
+ 290              		@ link register save eliminated.
+ 291 0000 80B4     		push	{r7}
+ 292              		.cfi_def_cfa_offset 4
+ 293              		.cfi_offset 7, -4
+ 294 0002 83B0     		sub	sp, sp, #12
+ARM GAS  C:\Users\Matthew\AppData\Local\Temp\ccTF45v4.s 			page 11
+
+
+ 295              		.cfi_def_cfa_offset 16
+ 296 0004 00AF     		add	r7, sp, #0
+ 297              		.cfi_def_cfa_register 7
+ 277:.\Generated_Source\PSoC5/sleep_isr.c ****     uint8 priority;
+ 278:.\Generated_Source\PSoC5/sleep_isr.c **** 
+ 279:.\Generated_Source\PSoC5/sleep_isr.c **** 
+ 280:.\Generated_Source\PSoC5/sleep_isr.c ****     priority = *sleep_isr_INTC_PRIOR >> 5;
+ 298              		.loc 1 280 0
+ 299 0006 064B     		ldr	r3, .L21
+ 300 0008 1B78     		ldrb	r3, [r3]
+ 301 000a DBB2     		uxtb	r3, r3
+ 302 000c 5B09     		lsrs	r3, r3, #5
+ 303 000e FB71     		strb	r3, [r7, #7]
+ 281:.\Generated_Source\PSoC5/sleep_isr.c **** 
+ 282:.\Generated_Source\PSoC5/sleep_isr.c ****     return priority;
+ 304              		.loc 1 282 0
+ 305 0010 FB79     		ldrb	r3, [r7, #7]	@ zero_extendqisi2
+ 283:.\Generated_Source\PSoC5/sleep_isr.c **** }
+ 306              		.loc 1 283 0
+ 307 0012 1846     		mov	r0, r3
+ 308 0014 0C37     		adds	r7, r7, #12
+ 309 0016 BD46     		mov	sp, r7
+ 310              		@ sp needed
+ 311 0018 5DF8047B 		ldr	r7, [sp], #4
+ 312 001c 7047     		bx	lr
+ 313              	.L22:
+ 314 001e 00BF     		.align	2
+ 315              	.L21:
+ 316 0020 02E400E0 		.word	-536812542
+ 317              		.cfi_endproc
+ 318              	.LFE7:
+ 319              		.size	sleep_isr_GetPriority, .-sleep_isr_GetPriority
+ 320              		.section	.text.sleep_isr_Enable,"ax",%progbits
+ 321              		.align	2
+ 322              		.global	sleep_isr_Enable
+ 323              		.thumb
+ 324              		.thumb_func
+ 325              		.type	sleep_isr_Enable, %function
+ 326              	sleep_isr_Enable:
+ 327              	.LFB8:
+ 284:.\Generated_Source\PSoC5/sleep_isr.c **** 
+ 285:.\Generated_Source\PSoC5/sleep_isr.c **** 
+ 286:.\Generated_Source\PSoC5/sleep_isr.c **** /*******************************************************************************
+ 287:.\Generated_Source\PSoC5/sleep_isr.c **** * Function Name: sleep_isr_Enable
+ 288:.\Generated_Source\PSoC5/sleep_isr.c **** ********************************************************************************
+ 289:.\Generated_Source\PSoC5/sleep_isr.c **** *
+ 290:.\Generated_Source\PSoC5/sleep_isr.c **** * Summary:
+ 291:.\Generated_Source\PSoC5/sleep_isr.c **** *   Enables the interrupt to the interrupt controller. Do not call this function
+ 292:.\Generated_Source\PSoC5/sleep_isr.c **** *   unless ISR_Start() has been called or the functionality of the ISR_Start() 
+ 293:.\Generated_Source\PSoC5/sleep_isr.c **** *   function, which sets the vector and the priority, has been called.
+ 294:.\Generated_Source\PSoC5/sleep_isr.c **** *
+ 295:.\Generated_Source\PSoC5/sleep_isr.c **** * Parameters:
+ 296:.\Generated_Source\PSoC5/sleep_isr.c **** *   None
+ 297:.\Generated_Source\PSoC5/sleep_isr.c **** *
+ 298:.\Generated_Source\PSoC5/sleep_isr.c **** * Return:
+ 299:.\Generated_Source\PSoC5/sleep_isr.c **** *   None
+ 300:.\Generated_Source\PSoC5/sleep_isr.c **** *
+ARM GAS  C:\Users\Matthew\AppData\Local\Temp\ccTF45v4.s 			page 12
+
+
+ 301:.\Generated_Source\PSoC5/sleep_isr.c **** *******************************************************************************/
+ 302:.\Generated_Source\PSoC5/sleep_isr.c **** void sleep_isr_Enable(void)
+ 303:.\Generated_Source\PSoC5/sleep_isr.c **** {
+ 328              		.loc 1 303 0
+ 329              		.cfi_startproc
+ 330              		@ args = 0, pretend = 0, frame = 0
+ 331              		@ frame_needed = 1, uses_anonymous_args = 0
+ 332              		@ link register save eliminated.
+ 333 0000 80B4     		push	{r7}
+ 334              		.cfi_def_cfa_offset 4
+ 335              		.cfi_offset 7, -4
+ 336 0002 00AF     		add	r7, sp, #0
+ 337              		.cfi_def_cfa_register 7
+ 304:.\Generated_Source\PSoC5/sleep_isr.c ****     /* Enable the general interrupt. */
+ 305:.\Generated_Source\PSoC5/sleep_isr.c ****     *sleep_isr_INTC_SET_EN = sleep_isr__INTC_MASK;
+ 338              		.loc 1 305 0
+ 339 0004 034B     		ldr	r3, .L24
+ 340 0006 0422     		movs	r2, #4
+ 341 0008 1A60     		str	r2, [r3]
+ 306:.\Generated_Source\PSoC5/sleep_isr.c **** }
+ 342              		.loc 1 306 0
+ 343 000a BD46     		mov	sp, r7
+ 344              		@ sp needed
+ 345 000c 5DF8047B 		ldr	r7, [sp], #4
+ 346 0010 7047     		bx	lr
+ 347              	.L25:
+ 348 0012 00BF     		.align	2
+ 349              	.L24:
+ 350 0014 00E100E0 		.word	-536813312
+ 351              		.cfi_endproc
+ 352              	.LFE8:
+ 353              		.size	sleep_isr_Enable, .-sleep_isr_Enable
+ 354              		.section	.text.sleep_isr_GetState,"ax",%progbits
+ 355              		.align	2
+ 356              		.global	sleep_isr_GetState
+ 357              		.thumb
+ 358              		.thumb_func
+ 359              		.type	sleep_isr_GetState, %function
+ 360              	sleep_isr_GetState:
+ 361              	.LFB9:
+ 307:.\Generated_Source\PSoC5/sleep_isr.c **** 
+ 308:.\Generated_Source\PSoC5/sleep_isr.c **** 
+ 309:.\Generated_Source\PSoC5/sleep_isr.c **** /*******************************************************************************
+ 310:.\Generated_Source\PSoC5/sleep_isr.c **** * Function Name: sleep_isr_GetState
+ 311:.\Generated_Source\PSoC5/sleep_isr.c **** ********************************************************************************
+ 312:.\Generated_Source\PSoC5/sleep_isr.c **** *
+ 313:.\Generated_Source\PSoC5/sleep_isr.c **** * Summary:
+ 314:.\Generated_Source\PSoC5/sleep_isr.c **** *   Gets the state (enabled, disabled) of the Interrupt.
+ 315:.\Generated_Source\PSoC5/sleep_isr.c **** *
+ 316:.\Generated_Source\PSoC5/sleep_isr.c **** * Parameters:
+ 317:.\Generated_Source\PSoC5/sleep_isr.c **** *   None
+ 318:.\Generated_Source\PSoC5/sleep_isr.c **** *
+ 319:.\Generated_Source\PSoC5/sleep_isr.c **** * Return:
+ 320:.\Generated_Source\PSoC5/sleep_isr.c **** *   1 if enabled, 0 if disabled.
+ 321:.\Generated_Source\PSoC5/sleep_isr.c **** *
+ 322:.\Generated_Source\PSoC5/sleep_isr.c **** *******************************************************************************/
+ 323:.\Generated_Source\PSoC5/sleep_isr.c **** uint8 sleep_isr_GetState(void)
+ARM GAS  C:\Users\Matthew\AppData\Local\Temp\ccTF45v4.s 			page 13
+
+
+ 324:.\Generated_Source\PSoC5/sleep_isr.c **** {
+ 362              		.loc 1 324 0
+ 363              		.cfi_startproc
+ 364              		@ args = 0, pretend = 0, frame = 0
+ 365              		@ frame_needed = 1, uses_anonymous_args = 0
+ 366              		@ link register save eliminated.
+ 367 0000 80B4     		push	{r7}
+ 368              		.cfi_def_cfa_offset 4
+ 369              		.cfi_offset 7, -4
+ 370 0002 00AF     		add	r7, sp, #0
+ 371              		.cfi_def_cfa_register 7
+ 325:.\Generated_Source\PSoC5/sleep_isr.c ****     /* Get the state of the general interrupt. */
+ 326:.\Generated_Source\PSoC5/sleep_isr.c ****     return ((*sleep_isr_INTC_SET_EN & (uint32)sleep_isr__INTC_MASK) != 0u) ? 1u:0u;
+ 372              		.loc 1 326 0
+ 373 0004 064B     		ldr	r3, .L30
+ 374 0006 1B68     		ldr	r3, [r3]
+ 375 0008 03F00403 		and	r3, r3, #4
+ 376 000c 002B     		cmp	r3, #0
+ 377 000e 01D0     		beq	.L27
+ 378              		.loc 1 326 0 is_stmt 0 discriminator 1
+ 379 0010 0123     		movs	r3, #1
+ 380 0012 00E0     		b	.L28
+ 381              	.L27:
+ 382              		.loc 1 326 0 discriminator 2
+ 383 0014 0023     		movs	r3, #0
+ 384              	.L28:
+ 327:.\Generated_Source\PSoC5/sleep_isr.c **** }
+ 385              		.loc 1 327 0 is_stmt 1 discriminator 3
+ 386 0016 1846     		mov	r0, r3
+ 387 0018 BD46     		mov	sp, r7
+ 388              		@ sp needed
+ 389 001a 5DF8047B 		ldr	r7, [sp], #4
+ 390 001e 7047     		bx	lr
+ 391              	.L31:
+ 392              		.align	2
+ 393              	.L30:
+ 394 0020 00E100E0 		.word	-536813312
+ 395              		.cfi_endproc
+ 396              	.LFE9:
+ 397              		.size	sleep_isr_GetState, .-sleep_isr_GetState
+ 398              		.section	.text.sleep_isr_Disable,"ax",%progbits
+ 399              		.align	2
+ 400              		.global	sleep_isr_Disable
+ 401              		.thumb
+ 402              		.thumb_func
+ 403              		.type	sleep_isr_Disable, %function
+ 404              	sleep_isr_Disable:
+ 405              	.LFB10:
+ 328:.\Generated_Source\PSoC5/sleep_isr.c **** 
+ 329:.\Generated_Source\PSoC5/sleep_isr.c **** 
+ 330:.\Generated_Source\PSoC5/sleep_isr.c **** /*******************************************************************************
+ 331:.\Generated_Source\PSoC5/sleep_isr.c **** * Function Name: sleep_isr_Disable
+ 332:.\Generated_Source\PSoC5/sleep_isr.c **** ********************************************************************************
+ 333:.\Generated_Source\PSoC5/sleep_isr.c **** *
+ 334:.\Generated_Source\PSoC5/sleep_isr.c **** * Summary:
+ 335:.\Generated_Source\PSoC5/sleep_isr.c **** *   Disables the Interrupt in the interrupt controller.
+ 336:.\Generated_Source\PSoC5/sleep_isr.c **** *
+ARM GAS  C:\Users\Matthew\AppData\Local\Temp\ccTF45v4.s 			page 14
+
+
+ 337:.\Generated_Source\PSoC5/sleep_isr.c **** * Parameters:
+ 338:.\Generated_Source\PSoC5/sleep_isr.c **** *   None
+ 339:.\Generated_Source\PSoC5/sleep_isr.c **** *
+ 340:.\Generated_Source\PSoC5/sleep_isr.c **** * Return:
+ 341:.\Generated_Source\PSoC5/sleep_isr.c **** *   None
+ 342:.\Generated_Source\PSoC5/sleep_isr.c **** *
+ 343:.\Generated_Source\PSoC5/sleep_isr.c **** *******************************************************************************/
+ 344:.\Generated_Source\PSoC5/sleep_isr.c **** void sleep_isr_Disable(void)
+ 345:.\Generated_Source\PSoC5/sleep_isr.c **** {
+ 406              		.loc 1 345 0
+ 407              		.cfi_startproc
+ 408              		@ args = 0, pretend = 0, frame = 0
+ 409              		@ frame_needed = 1, uses_anonymous_args = 0
+ 410              		@ link register save eliminated.
+ 411 0000 80B4     		push	{r7}
+ 412              		.cfi_def_cfa_offset 4
+ 413              		.cfi_offset 7, -4
+ 414 0002 00AF     		add	r7, sp, #0
+ 415              		.cfi_def_cfa_register 7
+ 346:.\Generated_Source\PSoC5/sleep_isr.c ****     /* Disable the general interrupt. */
+ 347:.\Generated_Source\PSoC5/sleep_isr.c ****     *sleep_isr_INTC_CLR_EN = sleep_isr__INTC_MASK;
+ 416              		.loc 1 347 0
+ 417 0004 034B     		ldr	r3, .L33
+ 418 0006 0422     		movs	r2, #4
+ 419 0008 1A60     		str	r2, [r3]
+ 348:.\Generated_Source\PSoC5/sleep_isr.c **** }
+ 420              		.loc 1 348 0
+ 421 000a BD46     		mov	sp, r7
+ 422              		@ sp needed
+ 423 000c 5DF8047B 		ldr	r7, [sp], #4
+ 424 0010 7047     		bx	lr
+ 425              	.L34:
+ 426 0012 00BF     		.align	2
+ 427              	.L33:
+ 428 0014 80E100E0 		.word	-536813184
+ 429              		.cfi_endproc
+ 430              	.LFE10:
+ 431              		.size	sleep_isr_Disable, .-sleep_isr_Disable
+ 432              		.section	.text.sleep_isr_SetPending,"ax",%progbits
+ 433              		.align	2
+ 434              		.global	sleep_isr_SetPending
+ 435              		.thumb
+ 436              		.thumb_func
+ 437              		.type	sleep_isr_SetPending, %function
+ 438              	sleep_isr_SetPending:
+ 439              	.LFB11:
+ 349:.\Generated_Source\PSoC5/sleep_isr.c **** 
+ 350:.\Generated_Source\PSoC5/sleep_isr.c **** 
+ 351:.\Generated_Source\PSoC5/sleep_isr.c **** /*******************************************************************************
+ 352:.\Generated_Source\PSoC5/sleep_isr.c **** * Function Name: sleep_isr_SetPending
+ 353:.\Generated_Source\PSoC5/sleep_isr.c **** ********************************************************************************
+ 354:.\Generated_Source\PSoC5/sleep_isr.c **** *
+ 355:.\Generated_Source\PSoC5/sleep_isr.c **** * Summary:
+ 356:.\Generated_Source\PSoC5/sleep_isr.c **** *   Causes the Interrupt to enter the pending state, a software method of
+ 357:.\Generated_Source\PSoC5/sleep_isr.c **** *   generating the interrupt.
+ 358:.\Generated_Source\PSoC5/sleep_isr.c **** *
+ 359:.\Generated_Source\PSoC5/sleep_isr.c **** * Parameters:
+ARM GAS  C:\Users\Matthew\AppData\Local\Temp\ccTF45v4.s 			page 15
+
+
+ 360:.\Generated_Source\PSoC5/sleep_isr.c **** *   None
+ 361:.\Generated_Source\PSoC5/sleep_isr.c **** *
+ 362:.\Generated_Source\PSoC5/sleep_isr.c **** * Return:
+ 363:.\Generated_Source\PSoC5/sleep_isr.c **** *   None
+ 364:.\Generated_Source\PSoC5/sleep_isr.c **** *
+ 365:.\Generated_Source\PSoC5/sleep_isr.c **** * Side Effects:
+ 366:.\Generated_Source\PSoC5/sleep_isr.c **** *   If interrupts are enabled and the interrupt is set up properly, the ISR is
+ 367:.\Generated_Source\PSoC5/sleep_isr.c **** *   entered (depending on the priority of this interrupt and other pending 
+ 368:.\Generated_Source\PSoC5/sleep_isr.c **** *   interrupts).
+ 369:.\Generated_Source\PSoC5/sleep_isr.c **** *
+ 370:.\Generated_Source\PSoC5/sleep_isr.c **** *******************************************************************************/
+ 371:.\Generated_Source\PSoC5/sleep_isr.c **** void sleep_isr_SetPending(void)
+ 372:.\Generated_Source\PSoC5/sleep_isr.c **** {
+ 440              		.loc 1 372 0
+ 441              		.cfi_startproc
+ 442              		@ args = 0, pretend = 0, frame = 0
+ 443              		@ frame_needed = 1, uses_anonymous_args = 0
+ 444              		@ link register save eliminated.
+ 445 0000 80B4     		push	{r7}
+ 446              		.cfi_def_cfa_offset 4
+ 447              		.cfi_offset 7, -4
+ 448 0002 00AF     		add	r7, sp, #0
+ 449              		.cfi_def_cfa_register 7
+ 373:.\Generated_Source\PSoC5/sleep_isr.c ****     *sleep_isr_INTC_SET_PD = sleep_isr__INTC_MASK;
+ 450              		.loc 1 373 0
+ 451 0004 034B     		ldr	r3, .L36
+ 452 0006 0422     		movs	r2, #4
+ 453 0008 1A60     		str	r2, [r3]
+ 374:.\Generated_Source\PSoC5/sleep_isr.c **** }
+ 454              		.loc 1 374 0
+ 455 000a BD46     		mov	sp, r7
+ 456              		@ sp needed
+ 457 000c 5DF8047B 		ldr	r7, [sp], #4
+ 458 0010 7047     		bx	lr
+ 459              	.L37:
+ 460 0012 00BF     		.align	2
+ 461              	.L36:
+ 462 0014 00E200E0 		.word	-536813056
+ 463              		.cfi_endproc
+ 464              	.LFE11:
+ 465              		.size	sleep_isr_SetPending, .-sleep_isr_SetPending
+ 466              		.section	.text.sleep_isr_ClearPending,"ax",%progbits
+ 467              		.align	2
+ 468              		.global	sleep_isr_ClearPending
+ 469              		.thumb
+ 470              		.thumb_func
+ 471              		.type	sleep_isr_ClearPending, %function
+ 472              	sleep_isr_ClearPending:
+ 473              	.LFB12:
+ 375:.\Generated_Source\PSoC5/sleep_isr.c **** 
+ 376:.\Generated_Source\PSoC5/sleep_isr.c **** 
+ 377:.\Generated_Source\PSoC5/sleep_isr.c **** /*******************************************************************************
+ 378:.\Generated_Source\PSoC5/sleep_isr.c **** * Function Name: sleep_isr_ClearPending
+ 379:.\Generated_Source\PSoC5/sleep_isr.c **** ********************************************************************************
+ 380:.\Generated_Source\PSoC5/sleep_isr.c **** *
+ 381:.\Generated_Source\PSoC5/sleep_isr.c **** * Summary:
+ 382:.\Generated_Source\PSoC5/sleep_isr.c **** *   Clears a pending interrupt in the interrupt controller.
+ARM GAS  C:\Users\Matthew\AppData\Local\Temp\ccTF45v4.s 			page 16
+
+
+ 383:.\Generated_Source\PSoC5/sleep_isr.c **** *
+ 384:.\Generated_Source\PSoC5/sleep_isr.c **** *   Note Some interrupt sources are clear-on-read and require the block 
+ 385:.\Generated_Source\PSoC5/sleep_isr.c **** *   interrupt/status register to be read/cleared with the appropriate block API 
+ 386:.\Generated_Source\PSoC5/sleep_isr.c **** *   (GPIO, UART, and so on). Otherwise the ISR will continue to remain in 
+ 387:.\Generated_Source\PSoC5/sleep_isr.c **** *   pending state even though the interrupt itself is cleared using this API.
+ 388:.\Generated_Source\PSoC5/sleep_isr.c **** *
+ 389:.\Generated_Source\PSoC5/sleep_isr.c **** * Parameters:
+ 390:.\Generated_Source\PSoC5/sleep_isr.c **** *   None
+ 391:.\Generated_Source\PSoC5/sleep_isr.c **** *
+ 392:.\Generated_Source\PSoC5/sleep_isr.c **** * Return:
+ 393:.\Generated_Source\PSoC5/sleep_isr.c **** *   None
+ 394:.\Generated_Source\PSoC5/sleep_isr.c **** *
+ 395:.\Generated_Source\PSoC5/sleep_isr.c **** *******************************************************************************/
+ 396:.\Generated_Source\PSoC5/sleep_isr.c **** void sleep_isr_ClearPending(void)
+ 397:.\Generated_Source\PSoC5/sleep_isr.c **** {
+ 474              		.loc 1 397 0
+ 475              		.cfi_startproc
+ 476              		@ args = 0, pretend = 0, frame = 0
+ 477              		@ frame_needed = 1, uses_anonymous_args = 0
+ 478              		@ link register save eliminated.
+ 479 0000 80B4     		push	{r7}
+ 480              		.cfi_def_cfa_offset 4
+ 481              		.cfi_offset 7, -4
+ 482 0002 00AF     		add	r7, sp, #0
+ 483              		.cfi_def_cfa_register 7
+ 398:.\Generated_Source\PSoC5/sleep_isr.c ****     *sleep_isr_INTC_CLR_PD = sleep_isr__INTC_MASK;
+ 484              		.loc 1 398 0
+ 485 0004 034B     		ldr	r3, .L39
+ 486 0006 0422     		movs	r2, #4
+ 487 0008 1A60     		str	r2, [r3]
+ 399:.\Generated_Source\PSoC5/sleep_isr.c **** }
+ 488              		.loc 1 399 0
+ 489 000a BD46     		mov	sp, r7
+ 490              		@ sp needed
+ 491 000c 5DF8047B 		ldr	r7, [sp], #4
+ 492 0010 7047     		bx	lr
+ 493              	.L40:
+ 494 0012 00BF     		.align	2
+ 495              	.L39:
+ 496 0014 80E200E0 		.word	-536812928
+ 497              		.cfi_endproc
+ 498              	.LFE12:
+ 499              		.size	sleep_isr_ClearPending, .-sleep_isr_ClearPending
+ 500              		.text
+ 501              	.Letext0:
+ 502              		.file 2 "Generated_Source\\PSoC5/cytypes.h"
+ 503              		.section	.debug_info,"",%progbits
+ 504              	.Ldebug_info0:
+ 505 0000 32020000 		.4byte	0x232
+ 506 0004 0400     		.2byte	0x4
+ 507 0006 00000000 		.4byte	.Ldebug_abbrev0
+ 508 000a 04       		.byte	0x4
+ 509 000b 01       		.uleb128 0x1
+ 510 000c B7010000 		.4byte	.LASF33
+ 511 0010 01       		.byte	0x1
+ 512 0011 16000000 		.4byte	.LASF34
+ 513 0015 8F000000 		.4byte	.LASF35
+ARM GAS  C:\Users\Matthew\AppData\Local\Temp\ccTF45v4.s 			page 17
+
+
+ 514 0019 00000000 		.4byte	.Ldebug_ranges0+0
+ 515 001d 00000000 		.4byte	0
+ 516 0021 00000000 		.4byte	.Ldebug_line0
+ 517 0025 02       		.uleb128 0x2
+ 518 0026 04       		.byte	0x4
+ 519 0027 05       		.byte	0x5
+ 520 0028 696E7400 		.ascii	"int\000"
+ 521 002c 03       		.uleb128 0x3
+ 522 002d 04       		.byte	0x4
+ 523 002e 07       		.byte	0x7
+ 524 002f 54010000 		.4byte	.LASF0
+ 525 0033 03       		.uleb128 0x3
+ 526 0034 01       		.byte	0x1
+ 527 0035 06       		.byte	0x6
+ 528 0036 AB020000 		.4byte	.LASF1
+ 529 003a 03       		.uleb128 0x3
+ 530 003b 01       		.byte	0x1
+ 531 003c 08       		.byte	0x8
+ 532 003d DD000000 		.4byte	.LASF2
+ 533 0041 03       		.uleb128 0x3
+ 534 0042 02       		.byte	0x2
+ 535 0043 05       		.byte	0x5
+ 536 0044 98020000 		.4byte	.LASF3
+ 537 0048 03       		.uleb128 0x3
+ 538 0049 02       		.byte	0x2
+ 539 004a 07       		.byte	0x7
+ 540 004b 52000000 		.4byte	.LASF4
+ 541 004f 03       		.uleb128 0x3
+ 542 0050 04       		.byte	0x4
+ 543 0051 05       		.byte	0x5
+ 544 0052 A2020000 		.4byte	.LASF5
+ 545 0056 03       		.uleb128 0x3
+ 546 0057 04       		.byte	0x4
+ 547 0058 07       		.byte	0x7
+ 548 0059 F0000000 		.4byte	.LASF6
+ 549 005d 03       		.uleb128 0x3
+ 550 005e 08       		.byte	0x8
+ 551 005f 05       		.byte	0x5
+ 552 0060 4F020000 		.4byte	.LASF7
+ 553 0064 03       		.uleb128 0x3
+ 554 0065 08       		.byte	0x8
+ 555 0066 07       		.byte	0x7
+ 556 0067 7D010000 		.4byte	.LASF8
+ 557 006b 03       		.uleb128 0x3
+ 558 006c 04       		.byte	0x4
+ 559 006d 07       		.byte	0x7
+ 560 006e 33020000 		.4byte	.LASF9
+ 561 0072 04       		.uleb128 0x4
+ 562 0073 04       		.byte	0x4
+ 563 0074 78000000 		.4byte	0x78
+ 564 0078 05       		.uleb128 0x5
+ 565 0079 03       		.uleb128 0x3
+ 566 007a 01       		.byte	0x1
+ 567 007b 08       		.byte	0x8
+ 568 007c 5D020000 		.4byte	.LASF10
+ 569 0080 06       		.uleb128 0x6
+ 570 0081 02010000 		.4byte	.LASF11
+ARM GAS  C:\Users\Matthew\AppData\Local\Temp\ccTF45v4.s 			page 18
+
+
+ 571 0085 02       		.byte	0x2
+ 572 0086 A1       		.byte	0xa1
+ 573 0087 3A000000 		.4byte	0x3a
+ 574 008b 06       		.uleb128 0x6
+ 575 008c 39010000 		.4byte	.LASF12
+ 576 0090 02       		.byte	0x2
+ 577 0091 A3       		.byte	0xa3
+ 578 0092 56000000 		.4byte	0x56
+ 579 0096 03       		.uleb128 0x3
+ 580 0097 04       		.byte	0x4
+ 581 0098 04       		.byte	0x4
+ 582 0099 D7000000 		.4byte	.LASF13
+ 583 009d 03       		.uleb128 0x3
+ 584 009e 08       		.byte	0x8
+ 585 009f 04       		.byte	0x4
+ 586 00a0 20010000 		.4byte	.LASF14
+ 587 00a4 07       		.uleb128 0x7
+ 588 00a5 EB000000 		.4byte	.LASF15
+ 589 00a9 02       		.byte	0x2
+ 590 00aa 4B01     		.2byte	0x14b
+ 591 00ac B0000000 		.4byte	0xb0
+ 592 00b0 08       		.uleb128 0x8
+ 593 00b1 80000000 		.4byte	0x80
+ 594 00b5 07       		.uleb128 0x7
+ 595 00b6 00000000 		.4byte	.LASF16
+ 596 00ba 02       		.byte	0x2
+ 597 00bb 4D01     		.2byte	0x14d
+ 598 00bd C1000000 		.4byte	0xc1
+ 599 00c1 08       		.uleb128 0x8
+ 600 00c2 8B000000 		.4byte	0x8b
+ 601 00c6 07       		.uleb128 0x7
+ 602 00c7 AA010000 		.4byte	.LASF17
+ 603 00cb 02       		.byte	0x2
+ 604 00cc 5D01     		.2byte	0x15d
+ 605 00ce 72000000 		.4byte	0x72
+ 606 00d2 09       		.uleb128 0x9
+ 607 00d3 06000000 		.4byte	.LASF18
+ 608 00d7 01       		.byte	0x1
+ 609 00d8 3C       		.byte	0x3c
+ 610 00d9 00000000 		.4byte	.LFB0
+ 611 00dd 20000000 		.4byte	.LFE0-.LFB0
+ 612 00e1 01       		.uleb128 0x1
+ 613 00e2 9C       		.byte	0x9c
+ 614 00e3 0A       		.uleb128 0xa
+ 615 00e4 27010000 		.4byte	.LASF21
+ 616 00e8 01       		.byte	0x1
+ 617 00e9 67       		.byte	0x67
+ 618 00ea 00000000 		.4byte	.LFB1
+ 619 00ee 22000000 		.4byte	.LFE1-.LFB1
+ 620 00f2 01       		.uleb128 0x1
+ 621 00f3 9C       		.byte	0x9c
+ 622 00f4 07010000 		.4byte	0x107
+ 623 00f8 0B       		.uleb128 0xb
+ 624 00f9 75010000 		.4byte	.LASF23
+ 625 00fd 01       		.byte	0x1
+ 626 00fe 67       		.byte	0x67
+ 627 00ff C6000000 		.4byte	0xc6
+ARM GAS  C:\Users\Matthew\AppData\Local\Temp\ccTF45v4.s 			page 19
+
+
+ 628 0103 02       		.uleb128 0x2
+ 629 0104 91       		.byte	0x91
+ 630 0105 74       		.sleb128 -12
+ 631 0106 00       		.byte	0
+ 632 0107 09       		.uleb128 0x9
+ 633 0108 11010000 		.4byte	.LASF19
+ 634 010c 01       		.byte	0x1
+ 635 010d 85       		.byte	0x85
+ 636 010e 00000000 		.4byte	.LFB2
+ 637 0112 14000000 		.4byte	.LFE2-.LFB2
+ 638 0116 01       		.uleb128 0x1
+ 639 0117 9C       		.byte	0x9c
+ 640 0118 0C       		.uleb128 0xc
+ 641 0119 61010000 		.4byte	.LASF20
+ 642 011d 01       		.byte	0x1
+ 643 011e 9F       		.byte	0x9f
+ 644 011f 00000000 		.4byte	.LFB3
+ 645 0123 0C000000 		.4byte	.LFE3-.LFB3
+ 646 0127 01       		.uleb128 0x1
+ 647 0128 9C       		.byte	0x9c
+ 648 0129 0D       		.uleb128 0xd
+ 649 012a 7B000000 		.4byte	.LASF22
+ 650 012e 01       		.byte	0x1
+ 651 012f C3       		.byte	0xc3
+ 652 0130 00000000 		.4byte	.LFB4
+ 653 0134 24000000 		.4byte	.LFE4-.LFB4
+ 654 0138 01       		.uleb128 0x1
+ 655 0139 9C       		.byte	0x9c
+ 656 013a 5B010000 		.4byte	0x15b
+ 657 013e 0B       		.uleb128 0xb
+ 658 013f 75010000 		.4byte	.LASF23
+ 659 0143 01       		.byte	0x1
+ 660 0144 C3       		.byte	0xc3
+ 661 0145 C6000000 		.4byte	0xc6
+ 662 0149 02       		.uleb128 0x2
+ 663 014a 91       		.byte	0x91
+ 664 014b 6C       		.sleb128 -20
+ 665 014c 0E       		.uleb128 0xe
+ 666 014d 62020000 		.4byte	.LASF24
+ 667 0151 01       		.byte	0x1
+ 668 0152 C5       		.byte	0xc5
+ 669 0153 5B010000 		.4byte	0x15b
+ 670 0157 02       		.uleb128 0x2
+ 671 0158 91       		.byte	0x91
+ 672 0159 74       		.sleb128 -12
+ 673 015a 00       		.byte	0
+ 674 015b 04       		.uleb128 0x4
+ 675 015c 04       		.byte	0x4
+ 676 015d C6000000 		.4byte	0xc6
+ 677 0161 0F       		.uleb128 0xf
+ 678 0162 40010000 		.4byte	.LASF27
+ 679 0166 01       		.byte	0x1
+ 680 0167 DB       		.byte	0xdb
+ 681 0168 C6000000 		.4byte	0xc6
+ 682 016c 00000000 		.4byte	.LFB5
+ 683 0170 20000000 		.4byte	.LFE5-.LFB5
+ 684 0174 01       		.uleb128 0x1
+ARM GAS  C:\Users\Matthew\AppData\Local\Temp\ccTF45v4.s 			page 20
+
+
+ 685 0175 9C       		.byte	0x9c
+ 686 0176 89010000 		.4byte	0x189
+ 687 017a 0E       		.uleb128 0xe
+ 688 017b 62020000 		.4byte	.LASF24
+ 689 017f 01       		.byte	0x1
+ 690 0180 DD       		.byte	0xdd
+ 691 0181 5B010000 		.4byte	0x15b
+ 692 0185 02       		.uleb128 0x2
+ 693 0186 91       		.byte	0x91
+ 694 0187 74       		.sleb128 -12
+ 695 0188 00       		.byte	0
+ 696 0189 0D       		.uleb128 0xd
+ 697 018a 65000000 		.4byte	.LASF25
+ 698 018e 01       		.byte	0x1
+ 699 018f FD       		.byte	0xfd
+ 700 0190 00000000 		.4byte	.LFB6
+ 701 0194 24000000 		.4byte	.LFE6-.LFB6
+ 702 0198 01       		.uleb128 0x1
+ 703 0199 9C       		.byte	0x9c
+ 704 019a AD010000 		.4byte	0x1ad
+ 705 019e 0B       		.uleb128 0xb
+ 706 019f 08010000 		.4byte	.LASF26
+ 707 01a3 01       		.byte	0x1
+ 708 01a4 FD       		.byte	0xfd
+ 709 01a5 80000000 		.4byte	0x80
+ 710 01a9 02       		.uleb128 0x2
+ 711 01aa 91       		.byte	0x91
+ 712 01ab 77       		.sleb128 -9
+ 713 01ac 00       		.byte	0
+ 714 01ad 10       		.uleb128 0x10
+ 715 01ae 94010000 		.4byte	.LASF28
+ 716 01b2 01       		.byte	0x1
+ 717 01b3 1301     		.2byte	0x113
+ 718 01b5 80000000 		.4byte	0x80
+ 719 01b9 00000000 		.4byte	.LFB7
+ 720 01bd 24000000 		.4byte	.LFE7-.LFB7
+ 721 01c1 01       		.uleb128 0x1
+ 722 01c2 9C       		.byte	0x9c
+ 723 01c3 D7010000 		.4byte	0x1d7
+ 724 01c7 11       		.uleb128 0x11
+ 725 01c8 08010000 		.4byte	.LASF26
+ 726 01cc 01       		.byte	0x1
+ 727 01cd 1501     		.2byte	0x115
+ 728 01cf 80000000 		.4byte	0x80
+ 729 01d3 02       		.uleb128 0x2
+ 730 01d4 91       		.byte	0x91
+ 731 01d5 77       		.sleb128 -9
+ 732 01d6 00       		.byte	0
+ 733 01d7 12       		.uleb128 0x12
+ 734 01d8 C6000000 		.4byte	.LASF29
+ 735 01dc 01       		.byte	0x1
+ 736 01dd 2E01     		.2byte	0x12e
+ 737 01df 00000000 		.4byte	.LFB8
+ 738 01e3 18000000 		.4byte	.LFE8-.LFB8
+ 739 01e7 01       		.uleb128 0x1
+ 740 01e8 9C       		.byte	0x9c
+ 741 01e9 13       		.uleb128 0x13
+ARM GAS  C:\Users\Matthew\AppData\Local\Temp\ccTF45v4.s 			page 21
+
+
+ 742 01ea 3C020000 		.4byte	.LASF36
+ 743 01ee 01       		.byte	0x1
+ 744 01ef 4301     		.2byte	0x143
+ 745 01f1 80000000 		.4byte	0x80
+ 746 01f5 00000000 		.4byte	.LFB9
+ 747 01f9 24000000 		.4byte	.LFE9-.LFB9
+ 748 01fd 01       		.uleb128 0x1
+ 749 01fe 9C       		.byte	0x9c
+ 750 01ff 12       		.uleb128 0x12
+ 751 0200 86020000 		.4byte	.LASF30
+ 752 0204 01       		.byte	0x1
+ 753 0205 5801     		.2byte	0x158
+ 754 0207 00000000 		.4byte	.LFB10
+ 755 020b 18000000 		.4byte	.LFE10-.LFB10
+ 756 020f 01       		.uleb128 0x1
+ 757 0210 9C       		.byte	0x9c
+ 758 0211 12       		.uleb128 0x12
+ 759 0212 71020000 		.4byte	.LASF31
+ 760 0216 01       		.byte	0x1
+ 761 0217 7301     		.2byte	0x173
+ 762 0219 00000000 		.4byte	.LFB11
+ 763 021d 18000000 		.4byte	.LFE11-.LFB11
+ 764 0221 01       		.uleb128 0x1
+ 765 0222 9C       		.byte	0x9c
+ 766 0223 12       		.uleb128 0x12
+ 767 0224 3B000000 		.4byte	.LASF32
+ 768 0228 01       		.byte	0x1
+ 769 0229 8C01     		.2byte	0x18c
+ 770 022b 00000000 		.4byte	.LFB12
+ 771 022f 18000000 		.4byte	.LFE12-.LFB12
+ 772 0233 01       		.uleb128 0x1
+ 773 0234 9C       		.byte	0x9c
+ 774 0235 00       		.byte	0
+ 775              		.section	.debug_abbrev,"",%progbits
+ 776              	.Ldebug_abbrev0:
+ 777 0000 01       		.uleb128 0x1
+ 778 0001 11       		.uleb128 0x11
+ 779 0002 01       		.byte	0x1
+ 780 0003 25       		.uleb128 0x25
+ 781 0004 0E       		.uleb128 0xe
+ 782 0005 13       		.uleb128 0x13
+ 783 0006 0B       		.uleb128 0xb
+ 784 0007 03       		.uleb128 0x3
+ 785 0008 0E       		.uleb128 0xe
+ 786 0009 1B       		.uleb128 0x1b
+ 787 000a 0E       		.uleb128 0xe
+ 788 000b 55       		.uleb128 0x55
+ 789 000c 17       		.uleb128 0x17
+ 790 000d 11       		.uleb128 0x11
+ 791 000e 01       		.uleb128 0x1
+ 792 000f 10       		.uleb128 0x10
+ 793 0010 17       		.uleb128 0x17
+ 794 0011 00       		.byte	0
+ 795 0012 00       		.byte	0
+ 796 0013 02       		.uleb128 0x2
+ 797 0014 24       		.uleb128 0x24
+ 798 0015 00       		.byte	0
+ARM GAS  C:\Users\Matthew\AppData\Local\Temp\ccTF45v4.s 			page 22
+
+
+ 799 0016 0B       		.uleb128 0xb
+ 800 0017 0B       		.uleb128 0xb
+ 801 0018 3E       		.uleb128 0x3e
+ 802 0019 0B       		.uleb128 0xb
+ 803 001a 03       		.uleb128 0x3
+ 804 001b 08       		.uleb128 0x8
+ 805 001c 00       		.byte	0
+ 806 001d 00       		.byte	0
+ 807 001e 03       		.uleb128 0x3
+ 808 001f 24       		.uleb128 0x24
+ 809 0020 00       		.byte	0
+ 810 0021 0B       		.uleb128 0xb
+ 811 0022 0B       		.uleb128 0xb
+ 812 0023 3E       		.uleb128 0x3e
+ 813 0024 0B       		.uleb128 0xb
+ 814 0025 03       		.uleb128 0x3
+ 815 0026 0E       		.uleb128 0xe
+ 816 0027 00       		.byte	0
+ 817 0028 00       		.byte	0
+ 818 0029 04       		.uleb128 0x4
+ 819 002a 0F       		.uleb128 0xf
+ 820 002b 00       		.byte	0
+ 821 002c 0B       		.uleb128 0xb
+ 822 002d 0B       		.uleb128 0xb
+ 823 002e 49       		.uleb128 0x49
+ 824 002f 13       		.uleb128 0x13
+ 825 0030 00       		.byte	0
+ 826 0031 00       		.byte	0
+ 827 0032 05       		.uleb128 0x5
+ 828 0033 15       		.uleb128 0x15
+ 829 0034 00       		.byte	0
+ 830 0035 27       		.uleb128 0x27
+ 831 0036 19       		.uleb128 0x19
+ 832 0037 00       		.byte	0
+ 833 0038 00       		.byte	0
+ 834 0039 06       		.uleb128 0x6
+ 835 003a 16       		.uleb128 0x16
+ 836 003b 00       		.byte	0
+ 837 003c 03       		.uleb128 0x3
+ 838 003d 0E       		.uleb128 0xe
+ 839 003e 3A       		.uleb128 0x3a
+ 840 003f 0B       		.uleb128 0xb
+ 841 0040 3B       		.uleb128 0x3b
+ 842 0041 0B       		.uleb128 0xb
+ 843 0042 49       		.uleb128 0x49
+ 844 0043 13       		.uleb128 0x13
+ 845 0044 00       		.byte	0
+ 846 0045 00       		.byte	0
+ 847 0046 07       		.uleb128 0x7
+ 848 0047 16       		.uleb128 0x16
+ 849 0048 00       		.byte	0
+ 850 0049 03       		.uleb128 0x3
+ 851 004a 0E       		.uleb128 0xe
+ 852 004b 3A       		.uleb128 0x3a
+ 853 004c 0B       		.uleb128 0xb
+ 854 004d 3B       		.uleb128 0x3b
+ 855 004e 05       		.uleb128 0x5
+ARM GAS  C:\Users\Matthew\AppData\Local\Temp\ccTF45v4.s 			page 23
+
+
+ 856 004f 49       		.uleb128 0x49
+ 857 0050 13       		.uleb128 0x13
+ 858 0051 00       		.byte	0
+ 859 0052 00       		.byte	0
+ 860 0053 08       		.uleb128 0x8
+ 861 0054 35       		.uleb128 0x35
+ 862 0055 00       		.byte	0
+ 863 0056 49       		.uleb128 0x49
+ 864 0057 13       		.uleb128 0x13
+ 865 0058 00       		.byte	0
+ 866 0059 00       		.byte	0
+ 867 005a 09       		.uleb128 0x9
+ 868 005b 2E       		.uleb128 0x2e
+ 869 005c 00       		.byte	0
+ 870 005d 3F       		.uleb128 0x3f
+ 871 005e 19       		.uleb128 0x19
+ 872 005f 03       		.uleb128 0x3
+ 873 0060 0E       		.uleb128 0xe
+ 874 0061 3A       		.uleb128 0x3a
+ 875 0062 0B       		.uleb128 0xb
+ 876 0063 3B       		.uleb128 0x3b
+ 877 0064 0B       		.uleb128 0xb
+ 878 0065 27       		.uleb128 0x27
+ 879 0066 19       		.uleb128 0x19
+ 880 0067 11       		.uleb128 0x11
+ 881 0068 01       		.uleb128 0x1
+ 882 0069 12       		.uleb128 0x12
+ 883 006a 06       		.uleb128 0x6
+ 884 006b 40       		.uleb128 0x40
+ 885 006c 18       		.uleb128 0x18
+ 886 006d 9642     		.uleb128 0x2116
+ 887 006f 19       		.uleb128 0x19
+ 888 0070 00       		.byte	0
+ 889 0071 00       		.byte	0
+ 890 0072 0A       		.uleb128 0xa
+ 891 0073 2E       		.uleb128 0x2e
+ 892 0074 01       		.byte	0x1
+ 893 0075 3F       		.uleb128 0x3f
+ 894 0076 19       		.uleb128 0x19
+ 895 0077 03       		.uleb128 0x3
+ 896 0078 0E       		.uleb128 0xe
+ 897 0079 3A       		.uleb128 0x3a
+ 898 007a 0B       		.uleb128 0xb
+ 899 007b 3B       		.uleb128 0x3b
+ 900 007c 0B       		.uleb128 0xb
+ 901 007d 27       		.uleb128 0x27
+ 902 007e 19       		.uleb128 0x19
+ 903 007f 11       		.uleb128 0x11
+ 904 0080 01       		.uleb128 0x1
+ 905 0081 12       		.uleb128 0x12
+ 906 0082 06       		.uleb128 0x6
+ 907 0083 40       		.uleb128 0x40
+ 908 0084 18       		.uleb128 0x18
+ 909 0085 9642     		.uleb128 0x2116
+ 910 0087 19       		.uleb128 0x19
+ 911 0088 01       		.uleb128 0x1
+ 912 0089 13       		.uleb128 0x13
+ARM GAS  C:\Users\Matthew\AppData\Local\Temp\ccTF45v4.s 			page 24
+
+
+ 913 008a 00       		.byte	0
+ 914 008b 00       		.byte	0
+ 915 008c 0B       		.uleb128 0xb
+ 916 008d 05       		.uleb128 0x5
+ 917 008e 00       		.byte	0
+ 918 008f 03       		.uleb128 0x3
+ 919 0090 0E       		.uleb128 0xe
+ 920 0091 3A       		.uleb128 0x3a
+ 921 0092 0B       		.uleb128 0xb
+ 922 0093 3B       		.uleb128 0x3b
+ 923 0094 0B       		.uleb128 0xb
+ 924 0095 49       		.uleb128 0x49
+ 925 0096 13       		.uleb128 0x13
+ 926 0097 02       		.uleb128 0x2
+ 927 0098 18       		.uleb128 0x18
+ 928 0099 00       		.byte	0
+ 929 009a 00       		.byte	0
+ 930 009b 0C       		.uleb128 0xc
+ 931 009c 2E       		.uleb128 0x2e
+ 932 009d 00       		.byte	0
+ 933 009e 3F       		.uleb128 0x3f
+ 934 009f 19       		.uleb128 0x19
+ 935 00a0 03       		.uleb128 0x3
+ 936 00a1 0E       		.uleb128 0xe
+ 937 00a2 3A       		.uleb128 0x3a
+ 938 00a3 0B       		.uleb128 0xb
+ 939 00a4 3B       		.uleb128 0x3b
+ 940 00a5 0B       		.uleb128 0xb
+ 941 00a6 27       		.uleb128 0x27
+ 942 00a7 19       		.uleb128 0x19
+ 943 00a8 11       		.uleb128 0x11
+ 944 00a9 01       		.uleb128 0x1
+ 945 00aa 12       		.uleb128 0x12
+ 946 00ab 06       		.uleb128 0x6
+ 947 00ac 40       		.uleb128 0x40
+ 948 00ad 18       		.uleb128 0x18
+ 949 00ae 9742     		.uleb128 0x2117
+ 950 00b0 19       		.uleb128 0x19
+ 951 00b1 00       		.byte	0
+ 952 00b2 00       		.byte	0
+ 953 00b3 0D       		.uleb128 0xd
+ 954 00b4 2E       		.uleb128 0x2e
+ 955 00b5 01       		.byte	0x1
+ 956 00b6 3F       		.uleb128 0x3f
+ 957 00b7 19       		.uleb128 0x19
+ 958 00b8 03       		.uleb128 0x3
+ 959 00b9 0E       		.uleb128 0xe
+ 960 00ba 3A       		.uleb128 0x3a
+ 961 00bb 0B       		.uleb128 0xb
+ 962 00bc 3B       		.uleb128 0x3b
+ 963 00bd 0B       		.uleb128 0xb
+ 964 00be 27       		.uleb128 0x27
+ 965 00bf 19       		.uleb128 0x19
+ 966 00c0 11       		.uleb128 0x11
+ 967 00c1 01       		.uleb128 0x1
+ 968 00c2 12       		.uleb128 0x12
+ 969 00c3 06       		.uleb128 0x6
+ARM GAS  C:\Users\Matthew\AppData\Local\Temp\ccTF45v4.s 			page 25
+
+
+ 970 00c4 40       		.uleb128 0x40
+ 971 00c5 18       		.uleb128 0x18
+ 972 00c6 9742     		.uleb128 0x2117
+ 973 00c8 19       		.uleb128 0x19
+ 974 00c9 01       		.uleb128 0x1
+ 975 00ca 13       		.uleb128 0x13
+ 976 00cb 00       		.byte	0
+ 977 00cc 00       		.byte	0
+ 978 00cd 0E       		.uleb128 0xe
+ 979 00ce 34       		.uleb128 0x34
+ 980 00cf 00       		.byte	0
+ 981 00d0 03       		.uleb128 0x3
+ 982 00d1 0E       		.uleb128 0xe
+ 983 00d2 3A       		.uleb128 0x3a
+ 984 00d3 0B       		.uleb128 0xb
+ 985 00d4 3B       		.uleb128 0x3b
+ 986 00d5 0B       		.uleb128 0xb
+ 987 00d6 49       		.uleb128 0x49
+ 988 00d7 13       		.uleb128 0x13
+ 989 00d8 02       		.uleb128 0x2
+ 990 00d9 18       		.uleb128 0x18
+ 991 00da 00       		.byte	0
+ 992 00db 00       		.byte	0
+ 993 00dc 0F       		.uleb128 0xf
+ 994 00dd 2E       		.uleb128 0x2e
+ 995 00de 01       		.byte	0x1
+ 996 00df 3F       		.uleb128 0x3f
+ 997 00e0 19       		.uleb128 0x19
+ 998 00e1 03       		.uleb128 0x3
+ 999 00e2 0E       		.uleb128 0xe
+ 1000 00e3 3A       		.uleb128 0x3a
+ 1001 00e4 0B       		.uleb128 0xb
+ 1002 00e5 3B       		.uleb128 0x3b
+ 1003 00e6 0B       		.uleb128 0xb
+ 1004 00e7 27       		.uleb128 0x27
+ 1005 00e8 19       		.uleb128 0x19
+ 1006 00e9 49       		.uleb128 0x49
+ 1007 00ea 13       		.uleb128 0x13
+ 1008 00eb 11       		.uleb128 0x11
+ 1009 00ec 01       		.uleb128 0x1
+ 1010 00ed 12       		.uleb128 0x12
+ 1011 00ee 06       		.uleb128 0x6
+ 1012 00ef 40       		.uleb128 0x40
+ 1013 00f0 18       		.uleb128 0x18
+ 1014 00f1 9742     		.uleb128 0x2117
+ 1015 00f3 19       		.uleb128 0x19
+ 1016 00f4 01       		.uleb128 0x1
+ 1017 00f5 13       		.uleb128 0x13
+ 1018 00f6 00       		.byte	0
+ 1019 00f7 00       		.byte	0
+ 1020 00f8 10       		.uleb128 0x10
+ 1021 00f9 2E       		.uleb128 0x2e
+ 1022 00fa 01       		.byte	0x1
+ 1023 00fb 3F       		.uleb128 0x3f
+ 1024 00fc 19       		.uleb128 0x19
+ 1025 00fd 03       		.uleb128 0x3
+ 1026 00fe 0E       		.uleb128 0xe
+ARM GAS  C:\Users\Matthew\AppData\Local\Temp\ccTF45v4.s 			page 26
+
+
+ 1027 00ff 3A       		.uleb128 0x3a
+ 1028 0100 0B       		.uleb128 0xb
+ 1029 0101 3B       		.uleb128 0x3b
+ 1030 0102 05       		.uleb128 0x5
+ 1031 0103 27       		.uleb128 0x27
+ 1032 0104 19       		.uleb128 0x19
+ 1033 0105 49       		.uleb128 0x49
+ 1034 0106 13       		.uleb128 0x13
+ 1035 0107 11       		.uleb128 0x11
+ 1036 0108 01       		.uleb128 0x1
+ 1037 0109 12       		.uleb128 0x12
+ 1038 010a 06       		.uleb128 0x6
+ 1039 010b 40       		.uleb128 0x40
+ 1040 010c 18       		.uleb128 0x18
+ 1041 010d 9742     		.uleb128 0x2117
+ 1042 010f 19       		.uleb128 0x19
+ 1043 0110 01       		.uleb128 0x1
+ 1044 0111 13       		.uleb128 0x13
+ 1045 0112 00       		.byte	0
+ 1046 0113 00       		.byte	0
+ 1047 0114 11       		.uleb128 0x11
+ 1048 0115 34       		.uleb128 0x34
+ 1049 0116 00       		.byte	0
+ 1050 0117 03       		.uleb128 0x3
+ 1051 0118 0E       		.uleb128 0xe
+ 1052 0119 3A       		.uleb128 0x3a
+ 1053 011a 0B       		.uleb128 0xb
+ 1054 011b 3B       		.uleb128 0x3b
+ 1055 011c 05       		.uleb128 0x5
+ 1056 011d 49       		.uleb128 0x49
+ 1057 011e 13       		.uleb128 0x13
+ 1058 011f 02       		.uleb128 0x2
+ 1059 0120 18       		.uleb128 0x18
+ 1060 0121 00       		.byte	0
+ 1061 0122 00       		.byte	0
+ 1062 0123 12       		.uleb128 0x12
+ 1063 0124 2E       		.uleb128 0x2e
+ 1064 0125 00       		.byte	0
+ 1065 0126 3F       		.uleb128 0x3f
+ 1066 0127 19       		.uleb128 0x19
+ 1067 0128 03       		.uleb128 0x3
+ 1068 0129 0E       		.uleb128 0xe
+ 1069 012a 3A       		.uleb128 0x3a
+ 1070 012b 0B       		.uleb128 0xb
+ 1071 012c 3B       		.uleb128 0x3b
+ 1072 012d 05       		.uleb128 0x5
+ 1073 012e 27       		.uleb128 0x27
+ 1074 012f 19       		.uleb128 0x19
+ 1075 0130 11       		.uleb128 0x11
+ 1076 0131 01       		.uleb128 0x1
+ 1077 0132 12       		.uleb128 0x12
+ 1078 0133 06       		.uleb128 0x6
+ 1079 0134 40       		.uleb128 0x40
+ 1080 0135 18       		.uleb128 0x18
+ 1081 0136 9742     		.uleb128 0x2117
+ 1082 0138 19       		.uleb128 0x19
+ 1083 0139 00       		.byte	0
+ARM GAS  C:\Users\Matthew\AppData\Local\Temp\ccTF45v4.s 			page 27
+
+
+ 1084 013a 00       		.byte	0
+ 1085 013b 13       		.uleb128 0x13
+ 1086 013c 2E       		.uleb128 0x2e
+ 1087 013d 00       		.byte	0
+ 1088 013e 3F       		.uleb128 0x3f
+ 1089 013f 19       		.uleb128 0x19
+ 1090 0140 03       		.uleb128 0x3
+ 1091 0141 0E       		.uleb128 0xe
+ 1092 0142 3A       		.uleb128 0x3a
+ 1093 0143 0B       		.uleb128 0xb
+ 1094 0144 3B       		.uleb128 0x3b
+ 1095 0145 05       		.uleb128 0x5
+ 1096 0146 27       		.uleb128 0x27
+ 1097 0147 19       		.uleb128 0x19
+ 1098 0148 49       		.uleb128 0x49
+ 1099 0149 13       		.uleb128 0x13
+ 1100 014a 11       		.uleb128 0x11
+ 1101 014b 01       		.uleb128 0x1
+ 1102 014c 12       		.uleb128 0x12
+ 1103 014d 06       		.uleb128 0x6
+ 1104 014e 40       		.uleb128 0x40
+ 1105 014f 18       		.uleb128 0x18
+ 1106 0150 9742     		.uleb128 0x2117
+ 1107 0152 19       		.uleb128 0x19
+ 1108 0153 00       		.byte	0
+ 1109 0154 00       		.byte	0
+ 1110 0155 00       		.byte	0
+ 1111              		.section	.debug_aranges,"",%progbits
+ 1112 0000 7C000000 		.4byte	0x7c
+ 1113 0004 0200     		.2byte	0x2
+ 1114 0006 00000000 		.4byte	.Ldebug_info0
+ 1115 000a 04       		.byte	0x4
+ 1116 000b 00       		.byte	0
+ 1117 000c 0000     		.2byte	0
+ 1118 000e 0000     		.2byte	0
+ 1119 0010 00000000 		.4byte	.LFB0
+ 1120 0014 20000000 		.4byte	.LFE0-.LFB0
+ 1121 0018 00000000 		.4byte	.LFB1
+ 1122 001c 22000000 		.4byte	.LFE1-.LFB1
+ 1123 0020 00000000 		.4byte	.LFB2
+ 1124 0024 14000000 		.4byte	.LFE2-.LFB2
+ 1125 0028 00000000 		.4byte	.LFB3
+ 1126 002c 0C000000 		.4byte	.LFE3-.LFB3
+ 1127 0030 00000000 		.4byte	.LFB4
+ 1128 0034 24000000 		.4byte	.LFE4-.LFB4
+ 1129 0038 00000000 		.4byte	.LFB5
+ 1130 003c 20000000 		.4byte	.LFE5-.LFB5
+ 1131 0040 00000000 		.4byte	.LFB6
+ 1132 0044 24000000 		.4byte	.LFE6-.LFB6
+ 1133 0048 00000000 		.4byte	.LFB7
+ 1134 004c 24000000 		.4byte	.LFE7-.LFB7
+ 1135 0050 00000000 		.4byte	.LFB8
+ 1136 0054 18000000 		.4byte	.LFE8-.LFB8
+ 1137 0058 00000000 		.4byte	.LFB9
+ 1138 005c 24000000 		.4byte	.LFE9-.LFB9
+ 1139 0060 00000000 		.4byte	.LFB10
+ 1140 0064 18000000 		.4byte	.LFE10-.LFB10
+ARM GAS  C:\Users\Matthew\AppData\Local\Temp\ccTF45v4.s 			page 28
+
+
+ 1141 0068 00000000 		.4byte	.LFB11
+ 1142 006c 18000000 		.4byte	.LFE11-.LFB11
+ 1143 0070 00000000 		.4byte	.LFB12
+ 1144 0074 18000000 		.4byte	.LFE12-.LFB12
+ 1145 0078 00000000 		.4byte	0
+ 1146 007c 00000000 		.4byte	0
+ 1147              		.section	.debug_ranges,"",%progbits
+ 1148              	.Ldebug_ranges0:
+ 1149 0000 00000000 		.4byte	.LFB0
+ 1150 0004 20000000 		.4byte	.LFE0
+ 1151 0008 00000000 		.4byte	.LFB1
+ 1152 000c 22000000 		.4byte	.LFE1
+ 1153 0010 00000000 		.4byte	.LFB2
+ 1154 0014 14000000 		.4byte	.LFE2
+ 1155 0018 00000000 		.4byte	.LFB3
+ 1156 001c 0C000000 		.4byte	.LFE3
+ 1157 0020 00000000 		.4byte	.LFB4
+ 1158 0024 24000000 		.4byte	.LFE4
+ 1159 0028 00000000 		.4byte	.LFB5
+ 1160 002c 20000000 		.4byte	.LFE5
+ 1161 0030 00000000 		.4byte	.LFB6
+ 1162 0034 24000000 		.4byte	.LFE6
+ 1163 0038 00000000 		.4byte	.LFB7
+ 1164 003c 24000000 		.4byte	.LFE7
+ 1165 0040 00000000 		.4byte	.LFB8
+ 1166 0044 18000000 		.4byte	.LFE8
+ 1167 0048 00000000 		.4byte	.LFB9
+ 1168 004c 24000000 		.4byte	.LFE9
+ 1169 0050 00000000 		.4byte	.LFB10
+ 1170 0054 18000000 		.4byte	.LFE10
+ 1171 0058 00000000 		.4byte	.LFB11
+ 1172 005c 18000000 		.4byte	.LFE11
+ 1173 0060 00000000 		.4byte	.LFB12
+ 1174 0064 18000000 		.4byte	.LFE12
+ 1175 0068 00000000 		.4byte	0
+ 1176 006c 00000000 		.4byte	0
+ 1177              		.section	.debug_line,"",%progbits
+ 1178              	.Ldebug_line0:
+ 1179 0000 67010000 		.section	.debug_str,"MS",%progbits,1
+ 1179      02005F00 
+ 1179      00000201 
+ 1179      FB0E0D00 
+ 1179      01010101 
+ 1180              	.LASF16:
+ 1181 0000 72656733 		.ascii	"reg32\000"
+ 1181      3200
+ 1182              	.LASF18:
+ 1183 0006 736C6565 		.ascii	"sleep_isr_Start\000"
+ 1183      705F6973 
+ 1183      725F5374 
+ 1183      61727400 
+ 1184              	.LASF34:
+ 1185 0016 2E5C4765 		.ascii	".\\Generated_Source\\PSoC5\\sleep_isr.c\000"
+ 1185      6E657261 
+ 1185      7465645F 
+ 1185      536F7572 
+ 1185      63655C50 
+ARM GAS  C:\Users\Matthew\AppData\Local\Temp\ccTF45v4.s 			page 29
+
+
+ 1186              	.LASF32:
+ 1187 003b 736C6565 		.ascii	"sleep_isr_ClearPending\000"
+ 1187      705F6973 
+ 1187      725F436C 
+ 1187      65617250 
+ 1187      656E6469 
+ 1188              	.LASF4:
+ 1189 0052 73686F72 		.ascii	"short unsigned int\000"
+ 1189      7420756E 
+ 1189      7369676E 
+ 1189      65642069 
+ 1189      6E7400
+ 1190              	.LASF25:
+ 1191 0065 736C6565 		.ascii	"sleep_isr_SetPriority\000"
+ 1191      705F6973 
+ 1191      725F5365 
+ 1191      74507269 
+ 1191      6F726974 
+ 1192              	.LASF22:
+ 1193 007b 736C6565 		.ascii	"sleep_isr_SetVector\000"
+ 1193      705F6973 
+ 1193      725F5365 
+ 1193      74566563 
+ 1193      746F7200 
+ 1194              	.LASF35:
+ 1195 008f 433A5C55 		.ascii	"C:\\Users\\Matthew\\github\\IoT\\CellBoard\\Cell Bo"
+ 1195      73657273 
+ 1195      5C4D6174 
+ 1195      74686577 
+ 1195      5C676974 
+ 1196 00bc 6172642E 		.ascii	"ard.cydsn\000"
+ 1196      63796473 
+ 1196      6E00
+ 1197              	.LASF29:
+ 1198 00c6 736C6565 		.ascii	"sleep_isr_Enable\000"
+ 1198      705F6973 
+ 1198      725F456E 
+ 1198      61626C65 
+ 1198      00
+ 1199              	.LASF13:
+ 1200 00d7 666C6F61 		.ascii	"float\000"
+ 1200      7400
+ 1201              	.LASF2:
+ 1202 00dd 756E7369 		.ascii	"unsigned char\000"
+ 1202      676E6564 
+ 1202      20636861 
+ 1202      7200
+ 1203              	.LASF15:
+ 1204 00eb 72656738 		.ascii	"reg8\000"
+ 1204      00
+ 1205              	.LASF6:
+ 1206 00f0 6C6F6E67 		.ascii	"long unsigned int\000"
+ 1206      20756E73 
+ 1206      69676E65 
+ 1206      6420696E 
+ 1206      7400
+ 1207              	.LASF11:
+ARM GAS  C:\Users\Matthew\AppData\Local\Temp\ccTF45v4.s 			page 30
+
+
+ 1208 0102 75696E74 		.ascii	"uint8\000"
+ 1208      3800
+ 1209              	.LASF26:
+ 1210 0108 7072696F 		.ascii	"priority\000"
+ 1210      72697479 
+ 1210      00
+ 1211              	.LASF19:
+ 1212 0111 736C6565 		.ascii	"sleep_isr_Stop\000"
+ 1212      705F6973 
+ 1212      725F5374 
+ 1212      6F7000
+ 1213              	.LASF14:
+ 1214 0120 646F7562 		.ascii	"double\000"
+ 1214      6C6500
+ 1215              	.LASF21:
+ 1216 0127 736C6565 		.ascii	"sleep_isr_StartEx\000"
+ 1216      705F6973 
+ 1216      725F5374 
+ 1216      61727445 
+ 1216      7800
+ 1217              	.LASF12:
+ 1218 0139 75696E74 		.ascii	"uint32\000"
+ 1218      333200
+ 1219              	.LASF27:
+ 1220 0140 736C6565 		.ascii	"sleep_isr_GetVector\000"
+ 1220      705F6973 
+ 1220      725F4765 
+ 1220      74566563 
+ 1220      746F7200 
+ 1221              	.LASF0:
+ 1222 0154 756E7369 		.ascii	"unsigned int\000"
+ 1222      676E6564 
+ 1222      20696E74 
+ 1222      00
+ 1223              	.LASF20:
+ 1224 0161 736C6565 		.ascii	"sleep_isr_Interrupt\000"
+ 1224      705F6973 
+ 1224      725F496E 
+ 1224      74657272 
+ 1224      75707400 
+ 1225              	.LASF23:
+ 1226 0175 61646472 		.ascii	"address\000"
+ 1226      65737300 
+ 1227              	.LASF8:
+ 1228 017d 6C6F6E67 		.ascii	"long long unsigned int\000"
+ 1228      206C6F6E 
+ 1228      6720756E 
+ 1228      7369676E 
+ 1228      65642069 
+ 1229              	.LASF28:
+ 1230 0194 736C6565 		.ascii	"sleep_isr_GetPriority\000"
+ 1230      705F6973 
+ 1230      725F4765 
+ 1230      74507269 
+ 1230      6F726974 
+ 1231              	.LASF17:
+ 1232 01aa 63796973 		.ascii	"cyisraddress\000"
+ARM GAS  C:\Users\Matthew\AppData\Local\Temp\ccTF45v4.s 			page 31
+
+
+ 1232      72616464 
+ 1232      72657373 
+ 1232      00
+ 1233              	.LASF33:
+ 1234 01b7 474E5520 		.ascii	"GNU C 4.8.4 20140526 (release) [ARM/embedded-4_8-br"
+ 1234      4320342E 
+ 1234      382E3420 
+ 1234      32303134 
+ 1234      30353236 
+ 1235 01ea 616E6368 		.ascii	"anch revision 211358] -mcpu=cortex-m3 -mthumb -g -O"
+ 1235      20726576 
+ 1235      6973696F 
+ 1235      6E203231 
+ 1235      31333538 
+ 1236 021d 30202D66 		.ascii	"0 -ffunction-sections\000"
+ 1236      66756E63 
+ 1236      74696F6E 
+ 1236      2D736563 
+ 1236      74696F6E 
+ 1237              	.LASF9:
+ 1238 0233 73697A65 		.ascii	"sizetype\000"
+ 1238      74797065 
+ 1238      00
+ 1239              	.LASF36:
+ 1240 023c 736C6565 		.ascii	"sleep_isr_GetState\000"
+ 1240      705F6973 
+ 1240      725F4765 
+ 1240      74537461 
+ 1240      746500
+ 1241              	.LASF7:
+ 1242 024f 6C6F6E67 		.ascii	"long long int\000"
+ 1242      206C6F6E 
+ 1242      6720696E 
+ 1242      7400
+ 1243              	.LASF10:
+ 1244 025d 63686172 		.ascii	"char\000"
+ 1244      00
+ 1245              	.LASF24:
+ 1246 0262 72616D56 		.ascii	"ramVectorTable\000"
+ 1246      6563746F 
+ 1246      72546162 
+ 1246      6C6500
+ 1247              	.LASF31:
+ 1248 0271 736C6565 		.ascii	"sleep_isr_SetPending\000"
+ 1248      705F6973 
+ 1248      725F5365 
+ 1248      7450656E 
+ 1248      64696E67 
+ 1249              	.LASF30:
+ 1250 0286 736C6565 		.ascii	"sleep_isr_Disable\000"
+ 1250      705F6973 
+ 1250      725F4469 
+ 1250      7361626C 
+ 1250      6500
+ 1251              	.LASF3:
+ 1252 0298 73686F72 		.ascii	"short int\000"
+ 1252      7420696E 
+ARM GAS  C:\Users\Matthew\AppData\Local\Temp\ccTF45v4.s 			page 32
+
+
+ 1252      7400
+ 1253              	.LASF5:
+ 1254 02a2 6C6F6E67 		.ascii	"long int\000"
+ 1254      20696E74 
+ 1254      00
+ 1255              	.LASF1:
+ 1256 02ab 7369676E 		.ascii	"signed char\000"
+ 1256      65642063 
+ 1256      68617200 
+ 1257              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 4.8.4 20140526 (release) [ARM/embedded-4_8-br

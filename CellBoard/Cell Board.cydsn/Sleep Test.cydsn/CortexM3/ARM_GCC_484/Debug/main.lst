@@ -1,0 +1,716 @@
+ARM GAS  C:\Users\BRANKO~1\AppData\Local\Temp\ccIdHT88.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 6
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.file	"main.c"
+  15              		.text
+  16              	.Ltext0:
+  17              		.cfi_sections	.debug_frame
+  18              		.comm	wakeupIntervalCounter,2,2
+  19              		.section	.text.WakeupIsr,"ax",%progbits
+  20              		.align	2
+  21              		.global	WakeupIsr
+  22              		.thumb
+  23              		.thumb_func
+  24              		.type	WakeupIsr, %function
+  25              	WakeupIsr:
+  26              	.LFB56:
+  27              		.file 1 ".\\main.c"
+   1:.\main.c      **** /*******************************************************************************
+   2:.\main.c      **** * File Name: main.c
+   3:.\main.c      **** *
+   4:.\main.c      **** * Version: 2.00
+   5:.\main.c      **** *
+   6:.\main.c      **** * Description:
+   7:.\main.c      **** *  This is source code for the datasheet example of the Sleep Timer component.
+   8:.\main.c      **** *
+   9:.\main.c      **** ********************************************************************************
+  10:.\main.c      **** * Copyright 2012-2014, Cypress Semiconductor Corporation. All rights reserved.
+  11:.\main.c      **** * This software is owned by Cypress Semiconductor Corporation and is protected
+  12:.\main.c      **** * by and subject to worldwide patent and copyright laws and treaties.
+  13:.\main.c      **** * Therefore, you may use this software only as provided in the license agreement
+  14:.\main.c      **** * accompanying the software package from which you obtained this software.
+  15:.\main.c      **** * CYPRESS AND ITS SUPPLIERS MAKE NO WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
+  16:.\main.c      **** * WITH REGARD TO THIS SOFTWARE, INCLUDING, BUT NOT LIMITED TO, NONINFRINGEMENT,
+  17:.\main.c      **** * IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
+  18:.\main.c      **** *******************************************************************************/
+  19:.\main.c      **** 
+  20:.\main.c      **** #include <project.h> //#include <device.h>
+  21:.\main.c      **** 
+  22:.\main.c      **** /******************************************************************************
+  23:.\main.c      **** * Number of wakeups before turn LED on.
+  24:.\main.c      **** ******************************************************************************/
+  25:.\main.c      **** #define SLEEPTIMER_INTERVAL_COUNTER     (3840u)
+  26:.\main.c      **** 
+  27:.\main.c      **** /* Used to count wakeup events */
+  28:.\main.c      **** uint16 wakeupIntervalCounter;
+  29:.\main.c      **** 
+  30:.\main.c      **** 
+ARM GAS  C:\Users\BRANKO~1\AppData\Local\Temp\ccIdHT88.s 			page 2
+
+
+  31:.\main.c      **** /*******************************************************************************
+  32:.\main.c      **** * Function Name: WakeupIsr
+  33:.\main.c      **** ********************************************************************************
+  34:.\main.c      **** * Summary:
+  35:.\main.c      **** *  The wakeup interrupt service routine.
+  36:.\main.c      **** *
+  37:.\main.c      **** * Parameters:
+  38:.\main.c      **** *  None
+  39:.\main.c      **** *
+  40:.\main.c      **** * Return:
+  41:.\main.c      **** *  None
+  42:.\main.c      **** *
+  43:.\main.c      **** *******************************************************************************/
+  44:.\main.c      **** CY_ISR(WakeupIsr)
+  45:.\main.c      **** {
+  28              		.loc 1 45 0
+  29              		.cfi_startproc
+  30              		@ args = 0, pretend = 0, frame = 0
+  31              		@ frame_needed = 1, uses_anonymous_args = 0
+  32 0000 80B5     		push	{r7, lr}
+  33              		.cfi_def_cfa_offset 8
+  34              		.cfi_offset 7, -8
+  35              		.cfi_offset 14, -4
+  36 0002 00AF     		add	r7, sp, #0
+  37              		.cfi_def_cfa_register 7
+  46:.\main.c      ****     /***************************************************************************
+  47:.\main.c      ****     * This function must always be called (when the Sleep Timer's interrupt
+  48:.\main.c      ****     * is disabled or enabled) after wake up to clear the ctw_int status bit.
+  49:.\main.c      ****     * It is required to call SleepTimer_GetStatus() within 1 ms (1 clock cycle
+  50:.\main.c      ****     * of the ILO) after CTW event occurred.
+  51:.\main.c      ****     ***************************************************************************/
+  52:.\main.c      ****     SleepTimer_GetStatus();
+  38              		.loc 1 52 0
+  39 0004 FFF7FEFF 		bl	SleepTimer_GetStatus
+  53:.\main.c      **** }
+  40              		.loc 1 53 0
+  41 0008 80BD     		pop	{r7, pc}
+  42              		.cfi_endproc
+  43              	.LFE56:
+  44              		.size	WakeupIsr, .-WakeupIsr
+  45 000a 00BF     		.section	.text.main,"ax",%progbits
+  46              		.align	2
+  47              		.global	main
+  48              		.thumb
+  49              		.thumb_func
+  50              		.type	main, %function
+  51              	main:
+  52              	.LFB57:
+  54:.\main.c      **** 
+  55:.\main.c      **** 
+  56:.\main.c      **** /*******************************************************************************
+  57:.\main.c      **** * Function Name: main
+  58:.\main.c      **** ********************************************************************************
+  59:.\main.c      **** * Summary:
+  60:.\main.c      **** *  Main function reconfigures SleepTimer (only for demonstration purposes) and
+  61:.\main.c      **** *  continuously prepares device for the Sleep mode entry and enters it.
+  62:.\main.c      **** *
+ARM GAS  C:\Users\BRANKO~1\AppData\Local\Temp\ccIdHT88.s 			page 3
+
+
+  63:.\main.c      **** * Parameters:
+  64:.\main.c      **** *  None
+  65:.\main.c      **** *
+  66:.\main.c      **** * Return:
+  67:.\main.c      **** *  None
+  68:.\main.c      **** *
+  69:.\main.c      **** *******************************************************************************/
+  70:.\main.c      **** void main()
+  71:.\main.c      **** {
+  53              		.loc 1 71 0
+  54              		.cfi_startproc
+  55              		@ args = 0, pretend = 0, frame = 0
+  56              		@ frame_needed = 1, uses_anonymous_args = 0
+  57 0000 80B5     		push	{r7, lr}
+  58              		.cfi_def_cfa_offset 8
+  59              		.cfi_offset 7, -8
+  60              		.cfi_offset 14, -4
+  61 0002 00AF     		add	r7, sp, #0
+  62              		.cfi_def_cfa_register 7
+  72:.\main.c      ****     wakeupIntervalCounter = 0u;
+  63              		.loc 1 72 0
+  64 0004 1E4B     		ldr	r3, .L7
+  65 0006 0022     		movs	r2, #0
+  66 0008 1A80     		strh	r2, [r3]	@ movhi
+  73:.\main.c      **** 
+  74:.\main.c      ****     /* Enable global interrupts */
+  75:.\main.c      ****     CyGlobalIntEnable;
+  67              		.loc 1 75 0
+  68              	@ 75 ".\main.c" 1
+  69 000a 62B6     		CPSIE   i
+  70              	@ 0 "" 2
+  76:.\main.c      ****     
+  77:.\main.c      ****     /* A short delay to make sure device is ready for low power mode entry */
+  78:.\main.c      ****     CyDelay(5u);
+  71              		.loc 1 78 0
+  72              		.thumb
+  73 000c 0520     		movs	r0, #5
+  74 000e FFF7FEFF 		bl	CyDelay
+  79:.\main.c      ****     
+  80:.\main.c      ****     /* Start components */
+  81:.\main.c      ****     isr_StartEx(WakeupIsr);
+  75              		.loc 1 81 0
+  76 0012 1C48     		ldr	r0, .L7+4
+  77 0014 FFF7FEFF 		bl	isr_StartEx
+  82:.\main.c      ****     
+  83:.\main.c      ****     /* Start SleepTimer's operation with the customizer's settings */
+  84:.\main.c      ****     SleepTimer_Start();
+  78              		.loc 1 84 0
+  79 0018 FFF7FEFF 		bl	SleepTimer_Start
+  85:.\main.c      **** 
+  86:.\main.c      ****     /* Optional section used for demonstration purposes */
+  87:.\main.c      ****     SleepTimer_Stop();              /* Stop Sleep Timer's operation         */
+  80              		.loc 1 87 0
+  81 001c FFF7FEFF 		bl	SleepTimer_Stop
+  88:.\main.c      ****     SleepTimer_EnableInt();         /* Enable interrupts. Not required.     */
+  82              		.loc 1 88 0
+  83 0020 FFF7FEFF 		bl	SleepTimer_EnableInt
+ARM GAS  C:\Users\BRANKO~1\AppData\Local\Temp\ccIdHT88.s 			page 4
+
+
+  89:.\main.c      ****     SleepTimer_SetInterval(SleepTimer__CTW_4_MS);    /* Set new interval    */
+  84              		.loc 1 89 0
+  85 0024 0220     		movs	r0, #2
+  86 0026 FFF7FEFF 		bl	SleepTimer_SetInterval
+  90:.\main.c      ****     SleepTimer_Start();             /* Start with the new settings          */
+  87              		.loc 1 90 0
+  88 002a FFF7FEFF 		bl	SleepTimer_Start
+  89              	.L6:
+  91:.\main.c      ****     
+  92:.\main.c      ****     for(;;)
+  93:.\main.c      ****     {
+  94:.\main.c      ****         /* Prepares system clocks for the Sleep mode */
+  95:.\main.c      ****         CyPmSaveClocks();
+  90              		.loc 1 95 0
+  91 002e FFF7FEFF 		bl	CyPmSaveClocks
+  92              	.L5:
+  96:.\main.c      **** 
+  97:.\main.c      ****         do
+  98:.\main.c      ****         {
+  99:.\main.c      ****             /*******************************************************************
+ 100:.\main.c      ****             * Switch to the Sleep Mode for the other devices:
+ 101:.\main.c      ****             *  - PM_SLEEP_TIME_NONE: wakeup time is defined by Sleep Timer
+ 102:.\main.c      ****             *  - PM_SLEEP_SRC_CTW :  wakeup on CTW sources is allowed
+ 103:.\main.c      ****             *******************************************************************/
+ 104:.\main.c      ****             CyPmSleep(PM_SLEEP_TIME_NONE, PM_SLEEP_SRC_CTW);
+  93              		.loc 1 104 0
+  94 0032 0020     		movs	r0, #0
+  95 0034 4FF40061 		mov	r1, #2048
+  96 0038 FFF7FEFF 		bl	CyPmSleep
+ 105:.\main.c      **** 
+ 106:.\main.c      **** 
+ 107:.\main.c      ****             /***********************************************************************
+ 108:.\main.c      ****             * After the device is woken up the Sleep Timer's ISR is executed.
+ 109:.\main.c      ****             * Afterwards the CyPmSleep() execution is finished the clock
+ 110:.\main.c      ****             * configuration is restored.
+ 111:.\main.c      ****             ***********************************************************************/
+ 112:.\main.c      ****             if(SLEEPTIMER_INTERVAL_COUNTER == wakeupIntervalCounter)
+  97              		.loc 1 112 0
+  98 003c 104B     		ldr	r3, .L7
+  99 003e 1B88     		ldrh	r3, [r3]
+ 100 0040 B3F5706F 		cmp	r3, #3840
+ 101 0044 0ED1     		bne	.L3
+ 113:.\main.c      ****             {
+ 114:.\main.c      ****                 /* Blink with LED */
+ 115:.\main.c      ****                 //(0u == LED_Read()) ? LED_Write(1u) : LED_Write(0u);
+ 116:.\main.c      **** 				LED_Write(!LED_Read());
+ 102              		.loc 1 116 0
+ 103 0046 FFF7FEFF 		bl	LED_Read
+ 104 004a 0346     		mov	r3, r0
+ 105 004c 002B     		cmp	r3, #0
+ 106 004e 14BF     		ite	ne
+ 107 0050 0023     		movne	r3, #0
+ 108 0052 0123     		moveq	r3, #1
+ 109 0054 DBB2     		uxtb	r3, r3
+ 110 0056 1846     		mov	r0, r3
+ 111 0058 FFF7FEFF 		bl	LED_Write
+ 117:.\main.c      ****                 wakeupIntervalCounter = 0u;
+ARM GAS  C:\Users\BRANKO~1\AppData\Local\Temp\ccIdHT88.s 			page 5
+
+
+ 112              		.loc 1 117 0
+ 113 005c 084B     		ldr	r3, .L7
+ 114 005e 0022     		movs	r2, #0
+ 115 0060 1A80     		strh	r2, [r3]	@ movhi
+ 116 0062 05E0     		b	.L4
+ 117              	.L3:
+ 118:.\main.c      ****             }
+ 119:.\main.c      ****             else
+ 120:.\main.c      ****             {
+ 121:.\main.c      ****                 wakeupIntervalCounter++;
+ 118              		.loc 1 121 0
+ 119 0064 064B     		ldr	r3, .L7
+ 120 0066 1B88     		ldrh	r3, [r3]
+ 121 0068 0133     		adds	r3, r3, #1
+ 122 006a 9AB2     		uxth	r2, r3
+ 123 006c 044B     		ldr	r3, .L7
+ 124 006e 1A80     		strh	r2, [r3]	@ movhi
+ 125              	.L4:
+ 122:.\main.c      ****             }
+ 123:.\main.c      ****                 
+ 124:.\main.c      ****         } while (wakeupIntervalCounter != 0u);
+ 126              		.loc 1 124 0
+ 127 0070 034B     		ldr	r3, .L7
+ 128 0072 1B88     		ldrh	r3, [r3]
+ 129 0074 002B     		cmp	r3, #0
+ 130 0076 DCD1     		bne	.L5
+ 125:.\main.c      ****         
+ 126:.\main.c      **** 
+ 127:.\main.c      ****         /* Restore clock configuration */
+ 128:.\main.c      ****         CyPmRestoreClocks();
+ 131              		.loc 1 128 0
+ 132 0078 FFF7FEFF 		bl	CyPmRestoreClocks
+ 129:.\main.c      ****     }
+ 133              		.loc 1 129 0
+ 134 007c D7E7     		b	.L6
+ 135              	.L8:
+ 136 007e 00BF     		.align	2
+ 137              	.L7:
+ 138 0080 00000000 		.word	wakeupIntervalCounter
+ 139 0084 00000000 		.word	WakeupIsr
+ 140              		.cfi_endproc
+ 141              	.LFE57:
+ 142              		.size	main, .-main
+ 143              		.text
+ 144              	.Letext0:
+ 145              		.file 2 "c:\\program files (x86)\\cypress\\psoc creator\\3.1\\psoc creator\\import\\gnu_cs\\arm\\4
+ 146              		.file 3 "c:\\program files (x86)\\cypress\\psoc creator\\3.1\\psoc creator\\import\\gnu_cs\\arm\\4
+ 147              		.file 4 ".\\Generated_Source\\PSoC5/cytypes.h"
+ 148              		.file 5 ".\\Generated_Source\\PSoC5/core_cm3.h"
+ 149              		.section	.debug_info,"",%progbits
+ 150              	.Ldebug_info0:
+ 151 0000 E9000000 		.4byte	0xe9
+ 152 0004 0400     		.2byte	0x4
+ 153 0006 00000000 		.4byte	.Ldebug_abbrev0
+ 154 000a 04       		.byte	0x4
+ 155 000b 01       		.uleb128 0x1
+ 156 000c B7000000 		.4byte	.LASF18
+ARM GAS  C:\Users\BRANKO~1\AppData\Local\Temp\ccIdHT88.s 			page 6
+
+
+ 157 0010 01       		.byte	0x1
+ 158 0011 8E000000 		.4byte	.LASF19
+ 159 0015 5C010000 		.4byte	.LASF20
+ 160 0019 00000000 		.4byte	.Ldebug_ranges0+0
+ 161 001d 00000000 		.4byte	0
+ 162 0021 00000000 		.4byte	.Ldebug_line0
+ 163 0025 02       		.uleb128 0x2
+ 164 0026 01       		.byte	0x1
+ 165 0027 06       		.byte	0x6
+ 166 0028 AB000000 		.4byte	.LASF0
+ 167 002c 02       		.uleb128 0x2
+ 168 002d 01       		.byte	0x1
+ 169 002e 08       		.byte	0x8
+ 170 002f 72000000 		.4byte	.LASF1
+ 171 0033 02       		.uleb128 0x2
+ 172 0034 02       		.byte	0x2
+ 173 0035 05       		.byte	0x5
+ 174 0036 43010000 		.4byte	.LASF2
+ 175 003a 02       		.uleb128 0x2
+ 176 003b 02       		.byte	0x2
+ 177 003c 07       		.byte	0x7
+ 178 003d 0E000000 		.4byte	.LASF3
+ 179 0041 03       		.uleb128 0x3
+ 180 0042 33010000 		.4byte	.LASF9
+ 181 0046 02       		.byte	0x2
+ 182 0047 37       		.byte	0x37
+ 183 0048 4C000000 		.4byte	0x4c
+ 184 004c 02       		.uleb128 0x2
+ 185 004d 04       		.byte	0x4
+ 186 004e 05       		.byte	0x5
+ 187 004f 85000000 		.4byte	.LASF4
+ 188 0053 02       		.uleb128 0x2
+ 189 0054 04       		.byte	0x4
+ 190 0055 07       		.byte	0x7
+ 191 0056 49000000 		.4byte	.LASF5
+ 192 005a 02       		.uleb128 0x2
+ 193 005b 08       		.byte	0x8
+ 194 005c 05       		.byte	0x5
+ 195 005d 00000000 		.4byte	.LASF6
+ 196 0061 02       		.uleb128 0x2
+ 197 0062 08       		.byte	0x8
+ 198 0063 07       		.byte	0x7
+ 199 0064 5B000000 		.4byte	.LASF7
+ 200 0068 04       		.uleb128 0x4
+ 201 0069 04       		.byte	0x4
+ 202 006a 05       		.byte	0x5
+ 203 006b 696E7400 		.ascii	"int\000"
+ 204 006f 02       		.uleb128 0x2
+ 205 0070 04       		.byte	0x4
+ 206 0071 07       		.byte	0x7
+ 207 0072 21000000 		.4byte	.LASF8
+ 208 0076 03       		.uleb128 0x3
+ 209 0077 54010000 		.4byte	.LASF10
+ 210 007b 03       		.byte	0x3
+ 211 007c 41       		.byte	0x41
+ 212 007d 41000000 		.4byte	0x41
+ 213 0081 03       		.uleb128 0x3
+ARM GAS  C:\Users\BRANKO~1\AppData\Local\Temp\ccIdHT88.s 			page 7
+
+
+ 214 0082 4D010000 		.4byte	.LASF11
+ 215 0086 04       		.byte	0x4
+ 216 0087 A2       		.byte	0xa2
+ 217 0088 3A000000 		.4byte	0x3a
+ 218 008c 02       		.uleb128 0x2
+ 219 008d 04       		.byte	0x4
+ 220 008e 04       		.byte	0x4
+ 221 008f 3D010000 		.4byte	.LASF12
+ 222 0093 02       		.uleb128 0x2
+ 223 0094 08       		.byte	0x8
+ 224 0095 04       		.byte	0x4
+ 225 0096 97000000 		.4byte	.LASF13
+ 226 009a 02       		.uleb128 0x2
+ 227 009b 01       		.byte	0x1
+ 228 009c 08       		.byte	0x8
+ 229 009d 80000000 		.4byte	.LASF14
+ 230 00a1 02       		.uleb128 0x2
+ 231 00a2 04       		.byte	0x4
+ 232 00a3 07       		.byte	0x7
+ 233 00a4 92010000 		.4byte	.LASF15
+ 234 00a8 05       		.uleb128 0x5
+ 235 00a9 9B010000 		.4byte	.LASF21
+ 236 00ad 01       		.byte	0x1
+ 237 00ae 2C       		.byte	0x2c
+ 238 00af 00000000 		.4byte	.LFB56
+ 239 00b3 0A000000 		.4byte	.LFE56-.LFB56
+ 240 00b7 01       		.uleb128 0x1
+ 241 00b8 9C       		.byte	0x9c
+ 242 00b9 06       		.uleb128 0x6
+ 243 00ba 44000000 		.4byte	.LASF22
+ 244 00be 01       		.byte	0x1
+ 245 00bf 46       		.byte	0x46
+ 246 00c0 00000000 		.4byte	.LFB57
+ 247 00c4 88000000 		.4byte	.LFE57-.LFB57
+ 248 00c8 01       		.uleb128 0x1
+ 249 00c9 9C       		.byte	0x9c
+ 250 00ca 07       		.uleb128 0x7
+ 251 00cb 9E000000 		.4byte	.LASF16
+ 252 00cf 05       		.byte	0x5
+ 253 00d0 1606     		.2byte	0x616
+ 254 00d2 D6000000 		.4byte	0xd6
+ 255 00d6 08       		.uleb128 0x8
+ 256 00d7 76000000 		.4byte	0x76
+ 257 00db 09       		.uleb128 0x9
+ 258 00dc 2E000000 		.4byte	.LASF17
+ 259 00e0 01       		.byte	0x1
+ 260 00e1 1C       		.byte	0x1c
+ 261 00e2 81000000 		.4byte	0x81
+ 262 00e6 05       		.uleb128 0x5
+ 263 00e7 03       		.byte	0x3
+ 264 00e8 00000000 		.4byte	wakeupIntervalCounter
+ 265 00ec 00       		.byte	0
+ 266              		.section	.debug_abbrev,"",%progbits
+ 267              	.Ldebug_abbrev0:
+ 268 0000 01       		.uleb128 0x1
+ 269 0001 11       		.uleb128 0x11
+ 270 0002 01       		.byte	0x1
+ARM GAS  C:\Users\BRANKO~1\AppData\Local\Temp\ccIdHT88.s 			page 8
+
+
+ 271 0003 25       		.uleb128 0x25
+ 272 0004 0E       		.uleb128 0xe
+ 273 0005 13       		.uleb128 0x13
+ 274 0006 0B       		.uleb128 0xb
+ 275 0007 03       		.uleb128 0x3
+ 276 0008 0E       		.uleb128 0xe
+ 277 0009 1B       		.uleb128 0x1b
+ 278 000a 0E       		.uleb128 0xe
+ 279 000b 55       		.uleb128 0x55
+ 280 000c 17       		.uleb128 0x17
+ 281 000d 11       		.uleb128 0x11
+ 282 000e 01       		.uleb128 0x1
+ 283 000f 10       		.uleb128 0x10
+ 284 0010 17       		.uleb128 0x17
+ 285 0011 00       		.byte	0
+ 286 0012 00       		.byte	0
+ 287 0013 02       		.uleb128 0x2
+ 288 0014 24       		.uleb128 0x24
+ 289 0015 00       		.byte	0
+ 290 0016 0B       		.uleb128 0xb
+ 291 0017 0B       		.uleb128 0xb
+ 292 0018 3E       		.uleb128 0x3e
+ 293 0019 0B       		.uleb128 0xb
+ 294 001a 03       		.uleb128 0x3
+ 295 001b 0E       		.uleb128 0xe
+ 296 001c 00       		.byte	0
+ 297 001d 00       		.byte	0
+ 298 001e 03       		.uleb128 0x3
+ 299 001f 16       		.uleb128 0x16
+ 300 0020 00       		.byte	0
+ 301 0021 03       		.uleb128 0x3
+ 302 0022 0E       		.uleb128 0xe
+ 303 0023 3A       		.uleb128 0x3a
+ 304 0024 0B       		.uleb128 0xb
+ 305 0025 3B       		.uleb128 0x3b
+ 306 0026 0B       		.uleb128 0xb
+ 307 0027 49       		.uleb128 0x49
+ 308 0028 13       		.uleb128 0x13
+ 309 0029 00       		.byte	0
+ 310 002a 00       		.byte	0
+ 311 002b 04       		.uleb128 0x4
+ 312 002c 24       		.uleb128 0x24
+ 313 002d 00       		.byte	0
+ 314 002e 0B       		.uleb128 0xb
+ 315 002f 0B       		.uleb128 0xb
+ 316 0030 3E       		.uleb128 0x3e
+ 317 0031 0B       		.uleb128 0xb
+ 318 0032 03       		.uleb128 0x3
+ 319 0033 08       		.uleb128 0x8
+ 320 0034 00       		.byte	0
+ 321 0035 00       		.byte	0
+ 322 0036 05       		.uleb128 0x5
+ 323 0037 2E       		.uleb128 0x2e
+ 324 0038 00       		.byte	0
+ 325 0039 3F       		.uleb128 0x3f
+ 326 003a 19       		.uleb128 0x19
+ 327 003b 03       		.uleb128 0x3
+ARM GAS  C:\Users\BRANKO~1\AppData\Local\Temp\ccIdHT88.s 			page 9
+
+
+ 328 003c 0E       		.uleb128 0xe
+ 329 003d 3A       		.uleb128 0x3a
+ 330 003e 0B       		.uleb128 0xb
+ 331 003f 3B       		.uleb128 0x3b
+ 332 0040 0B       		.uleb128 0xb
+ 333 0041 27       		.uleb128 0x27
+ 334 0042 19       		.uleb128 0x19
+ 335 0043 11       		.uleb128 0x11
+ 336 0044 01       		.uleb128 0x1
+ 337 0045 12       		.uleb128 0x12
+ 338 0046 06       		.uleb128 0x6
+ 339 0047 40       		.uleb128 0x40
+ 340 0048 18       		.uleb128 0x18
+ 341 0049 9642     		.uleb128 0x2116
+ 342 004b 19       		.uleb128 0x19
+ 343 004c 00       		.byte	0
+ 344 004d 00       		.byte	0
+ 345 004e 06       		.uleb128 0x6
+ 346 004f 2E       		.uleb128 0x2e
+ 347 0050 00       		.byte	0
+ 348 0051 3F       		.uleb128 0x3f
+ 349 0052 19       		.uleb128 0x19
+ 350 0053 03       		.uleb128 0x3
+ 351 0054 0E       		.uleb128 0xe
+ 352 0055 3A       		.uleb128 0x3a
+ 353 0056 0B       		.uleb128 0xb
+ 354 0057 3B       		.uleb128 0x3b
+ 355 0058 0B       		.uleb128 0xb
+ 356 0059 11       		.uleb128 0x11
+ 357 005a 01       		.uleb128 0x1
+ 358 005b 12       		.uleb128 0x12
+ 359 005c 06       		.uleb128 0x6
+ 360 005d 40       		.uleb128 0x40
+ 361 005e 18       		.uleb128 0x18
+ 362 005f 9642     		.uleb128 0x2116
+ 363 0061 19       		.uleb128 0x19
+ 364 0062 00       		.byte	0
+ 365 0063 00       		.byte	0
+ 366 0064 07       		.uleb128 0x7
+ 367 0065 34       		.uleb128 0x34
+ 368 0066 00       		.byte	0
+ 369 0067 03       		.uleb128 0x3
+ 370 0068 0E       		.uleb128 0xe
+ 371 0069 3A       		.uleb128 0x3a
+ 372 006a 0B       		.uleb128 0xb
+ 373 006b 3B       		.uleb128 0x3b
+ 374 006c 05       		.uleb128 0x5
+ 375 006d 49       		.uleb128 0x49
+ 376 006e 13       		.uleb128 0x13
+ 377 006f 3F       		.uleb128 0x3f
+ 378 0070 19       		.uleb128 0x19
+ 379 0071 3C       		.uleb128 0x3c
+ 380 0072 19       		.uleb128 0x19
+ 381 0073 00       		.byte	0
+ 382 0074 00       		.byte	0
+ 383 0075 08       		.uleb128 0x8
+ 384 0076 35       		.uleb128 0x35
+ARM GAS  C:\Users\BRANKO~1\AppData\Local\Temp\ccIdHT88.s 			page 10
+
+
+ 385 0077 00       		.byte	0
+ 386 0078 49       		.uleb128 0x49
+ 387 0079 13       		.uleb128 0x13
+ 388 007a 00       		.byte	0
+ 389 007b 00       		.byte	0
+ 390 007c 09       		.uleb128 0x9
+ 391 007d 34       		.uleb128 0x34
+ 392 007e 00       		.byte	0
+ 393 007f 03       		.uleb128 0x3
+ 394 0080 0E       		.uleb128 0xe
+ 395 0081 3A       		.uleb128 0x3a
+ 396 0082 0B       		.uleb128 0xb
+ 397 0083 3B       		.uleb128 0x3b
+ 398 0084 0B       		.uleb128 0xb
+ 399 0085 49       		.uleb128 0x49
+ 400 0086 13       		.uleb128 0x13
+ 401 0087 3F       		.uleb128 0x3f
+ 402 0088 19       		.uleb128 0x19
+ 403 0089 02       		.uleb128 0x2
+ 404 008a 18       		.uleb128 0x18
+ 405 008b 00       		.byte	0
+ 406 008c 00       		.byte	0
+ 407 008d 00       		.byte	0
+ 408              		.section	.debug_aranges,"",%progbits
+ 409 0000 24000000 		.4byte	0x24
+ 410 0004 0200     		.2byte	0x2
+ 411 0006 00000000 		.4byte	.Ldebug_info0
+ 412 000a 04       		.byte	0x4
+ 413 000b 00       		.byte	0
+ 414 000c 0000     		.2byte	0
+ 415 000e 0000     		.2byte	0
+ 416 0010 00000000 		.4byte	.LFB56
+ 417 0014 0A000000 		.4byte	.LFE56-.LFB56
+ 418 0018 00000000 		.4byte	.LFB57
+ 419 001c 88000000 		.4byte	.LFE57-.LFB57
+ 420 0020 00000000 		.4byte	0
+ 421 0024 00000000 		.4byte	0
+ 422              		.section	.debug_ranges,"",%progbits
+ 423              	.Ldebug_ranges0:
+ 424 0000 00000000 		.4byte	.LFB56
+ 425 0004 0A000000 		.4byte	.LFE56
+ 426 0008 00000000 		.4byte	.LFB57
+ 427 000c 88000000 		.4byte	.LFE57
+ 428 0010 00000000 		.4byte	0
+ 429 0014 00000000 		.4byte	0
+ 430              		.section	.debug_line,"",%progbits
+ 431              	.Ldebug_line0:
+ 432 0000 8C010000 		.section	.debug_str,"MS",%progbits,1
+ 432      02005101 
+ 432      00000201 
+ 432      FB0E0D00 
+ 432      01010101 
+ 433              	.LASF6:
+ 434 0000 6C6F6E67 		.ascii	"long long int\000"
+ 434      206C6F6E 
+ 434      6720696E 
+ 434      7400
+ARM GAS  C:\Users\BRANKO~1\AppData\Local\Temp\ccIdHT88.s 			page 11
+
+
+ 435              	.LASF3:
+ 436 000e 73686F72 		.ascii	"short unsigned int\000"
+ 436      7420756E 
+ 436      7369676E 
+ 436      65642069 
+ 436      6E7400
+ 437              	.LASF8:
+ 438 0021 756E7369 		.ascii	"unsigned int\000"
+ 438      676E6564 
+ 438      20696E74 
+ 438      00
+ 439              	.LASF17:
+ 440 002e 77616B65 		.ascii	"wakeupIntervalCounter\000"
+ 440      7570496E 
+ 440      74657276 
+ 440      616C436F 
+ 440      756E7465 
+ 441              	.LASF22:
+ 442 0044 6D61696E 		.ascii	"main\000"
+ 442      00
+ 443              	.LASF5:
+ 444 0049 6C6F6E67 		.ascii	"long unsigned int\000"
+ 444      20756E73 
+ 444      69676E65 
+ 444      6420696E 
+ 444      7400
+ 445              	.LASF7:
+ 446 005b 6C6F6E67 		.ascii	"long long unsigned int\000"
+ 446      206C6F6E 
+ 446      6720756E 
+ 446      7369676E 
+ 446      65642069 
+ 447              	.LASF1:
+ 448 0072 756E7369 		.ascii	"unsigned char\000"
+ 448      676E6564 
+ 448      20636861 
+ 448      7200
+ 449              	.LASF14:
+ 450 0080 63686172 		.ascii	"char\000"
+ 450      00
+ 451              	.LASF4:
+ 452 0085 6C6F6E67 		.ascii	"long int\000"
+ 452      20696E74 
+ 452      00
+ 453              	.LASF19:
+ 454 008e 2E5C6D61 		.ascii	".\\main.c\000"
+ 454      696E2E63 
+ 454      00
+ 455              	.LASF13:
+ 456 0097 646F7562 		.ascii	"double\000"
+ 456      6C6500
+ 457              	.LASF16:
+ 458 009e 49544D5F 		.ascii	"ITM_RxBuffer\000"
+ 458      52784275 
+ 458      66666572 
+ 458      00
+ 459              	.LASF0:
+ARM GAS  C:\Users\BRANKO~1\AppData\Local\Temp\ccIdHT88.s 			page 12
+
+
+ 460 00ab 7369676E 		.ascii	"signed char\000"
+ 460      65642063 
+ 460      68617200 
+ 461              	.LASF18:
+ 462 00b7 474E5520 		.ascii	"GNU C 4.8.4 20140526 (release) [ARM/embedded-4_8-br"
+ 462      4320342E 
+ 462      382E3420 
+ 462      32303134 
+ 462      30353236 
+ 463 00ea 616E6368 		.ascii	"anch revision 211358] -mcpu=cortex-m3 -mthumb -g -O"
+ 463      20726576 
+ 463      6973696F 
+ 463      6E203231 
+ 463      31333538 
+ 464 011d 30202D66 		.ascii	"0 -ffunction-sections\000"
+ 464      66756E63 
+ 464      74696F6E 
+ 464      2D736563 
+ 464      74696F6E 
+ 465              	.LASF9:
+ 466 0133 5F5F696E 		.ascii	"__int32_t\000"
+ 466      7433325F 
+ 466      7400
+ 467              	.LASF12:
+ 468 013d 666C6F61 		.ascii	"float\000"
+ 468      7400
+ 469              	.LASF2:
+ 470 0143 73686F72 		.ascii	"short int\000"
+ 470      7420696E 
+ 470      7400
+ 471              	.LASF11:
+ 472 014d 75696E74 		.ascii	"uint16\000"
+ 472      313600
+ 473              	.LASF10:
+ 474 0154 696E7433 		.ascii	"int32_t\000"
+ 474      325F7400 
+ 475              	.LASF20:
+ 476 015c 443A5C70 		.ascii	"D:\\psoc5\\Cell Board\\Cell Board.cydsn\\Sleep Test"
+ 476      736F6335 
+ 476      5C43656C 
+ 476      6C20426F 
+ 476      6172645C 
+ 477 018b 2E637964 		.ascii	".cydsn\000"
+ 477      736E00
+ 478              	.LASF15:
+ 479 0192 73697A65 		.ascii	"sizetype\000"
+ 479      74797065 
+ 479      00
+ 480              	.LASF21:
+ 481 019b 57616B65 		.ascii	"WakeupIsr\000"
+ 481      75704973 
+ 481      7200
+ 482              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 4.8.4 20140526 (release) [ARM/embedded-4_8-br

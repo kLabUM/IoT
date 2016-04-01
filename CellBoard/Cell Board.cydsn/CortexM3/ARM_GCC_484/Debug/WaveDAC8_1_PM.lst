@@ -1,0 +1,640 @@
+ARM GAS  C:\Users\BRANKO~1\AppData\Local\Temp\ccaQFQrT.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 6
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.file	"WaveDAC8_1_PM.c"
+  15              		.text
+  16              	.Ltext0:
+  17              		.cfi_sections	.debug_frame
+  18              		.bss
+  19              		.align	2
+  20              	WaveDAC8_1_backup:
+  21 0000 00       		.space	1
+  22 0001 000000   		.section	.text.WaveDAC8_1_Sleep,"ax",%progbits
+  23              		.align	2
+  24              		.global	WaveDAC8_1_Sleep
+  25              		.thumb
+  26              		.thumb_func
+  27              		.type	WaveDAC8_1_Sleep, %function
+  28              	WaveDAC8_1_Sleep:
+  29              	.LFB0:
+  30              		.file 1 ".\\Generated_Source\\PSoC5\\WaveDAC8_1_PM.c"
+   1:.\Generated_Source\PSoC5/WaveDAC8_1_PM.c **** /*******************************************************************************
+   2:.\Generated_Source\PSoC5/WaveDAC8_1_PM.c **** * File Name: WaveDAC8_1_PM.c  
+   3:.\Generated_Source\PSoC5/WaveDAC8_1_PM.c **** * Version 2.0
+   4:.\Generated_Source\PSoC5/WaveDAC8_1_PM.c **** *
+   5:.\Generated_Source\PSoC5/WaveDAC8_1_PM.c **** * Description:
+   6:.\Generated_Source\PSoC5/WaveDAC8_1_PM.c **** *  This file provides the power manager source code to the API for 
+   7:.\Generated_Source\PSoC5/WaveDAC8_1_PM.c **** *  the WaveDAC8 component.
+   8:.\Generated_Source\PSoC5/WaveDAC8_1_PM.c **** *
+   9:.\Generated_Source\PSoC5/WaveDAC8_1_PM.c **** ********************************************************************************
+  10:.\Generated_Source\PSoC5/WaveDAC8_1_PM.c **** * Copyright 2013, Cypress Semiconductor Corporation.  All rights reserved.
+  11:.\Generated_Source\PSoC5/WaveDAC8_1_PM.c **** * You may use this file only in accordance with the license, terms, conditions, 
+  12:.\Generated_Source\PSoC5/WaveDAC8_1_PM.c **** * disclaimers, and limitations in the end user license agreement accompanying 
+  13:.\Generated_Source\PSoC5/WaveDAC8_1_PM.c **** * the software package with which this file was provided.
+  14:.\Generated_Source\PSoC5/WaveDAC8_1_PM.c **** *******************************************************************************/
+  15:.\Generated_Source\PSoC5/WaveDAC8_1_PM.c **** 
+  16:.\Generated_Source\PSoC5/WaveDAC8_1_PM.c **** #include "WaveDAC8_1.h"
+  17:.\Generated_Source\PSoC5/WaveDAC8_1_PM.c **** 
+  18:.\Generated_Source\PSoC5/WaveDAC8_1_PM.c **** static WaveDAC8_1_BACKUP_STRUCT  WaveDAC8_1_backup;
+  19:.\Generated_Source\PSoC5/WaveDAC8_1_PM.c **** 
+  20:.\Generated_Source\PSoC5/WaveDAC8_1_PM.c **** 
+  21:.\Generated_Source\PSoC5/WaveDAC8_1_PM.c **** /*******************************************************************************
+  22:.\Generated_Source\PSoC5/WaveDAC8_1_PM.c **** * Function Name: WaveDAC8_1_Sleep
+  23:.\Generated_Source\PSoC5/WaveDAC8_1_PM.c **** ********************************************************************************
+  24:.\Generated_Source\PSoC5/WaveDAC8_1_PM.c **** *
+  25:.\Generated_Source\PSoC5/WaveDAC8_1_PM.c **** * Summary:
+  26:.\Generated_Source\PSoC5/WaveDAC8_1_PM.c **** *  Stops the component and saves its configuration. Should be called 
+  27:.\Generated_Source\PSoC5/WaveDAC8_1_PM.c **** *  just prior to entering sleep.
+ARM GAS  C:\Users\BRANKO~1\AppData\Local\Temp\ccaQFQrT.s 			page 2
+
+
+  28:.\Generated_Source\PSoC5/WaveDAC8_1_PM.c **** *  
+  29:.\Generated_Source\PSoC5/WaveDAC8_1_PM.c **** * Parameters:  
+  30:.\Generated_Source\PSoC5/WaveDAC8_1_PM.c **** *  None
+  31:.\Generated_Source\PSoC5/WaveDAC8_1_PM.c **** *
+  32:.\Generated_Source\PSoC5/WaveDAC8_1_PM.c **** * Return: 
+  33:.\Generated_Source\PSoC5/WaveDAC8_1_PM.c **** *  None
+  34:.\Generated_Source\PSoC5/WaveDAC8_1_PM.c **** *
+  35:.\Generated_Source\PSoC5/WaveDAC8_1_PM.c **** * Global variables:
+  36:.\Generated_Source\PSoC5/WaveDAC8_1_PM.c **** *  WaveDAC8_1_backup:  The structure field 'enableState' is modified 
+  37:.\Generated_Source\PSoC5/WaveDAC8_1_PM.c **** *  depending on the enable state of the block before entering to sleep mode.
+  38:.\Generated_Source\PSoC5/WaveDAC8_1_PM.c **** *
+  39:.\Generated_Source\PSoC5/WaveDAC8_1_PM.c **** * Reentrant:
+  40:.\Generated_Source\PSoC5/WaveDAC8_1_PM.c **** *  No
+  41:.\Generated_Source\PSoC5/WaveDAC8_1_PM.c **** *
+  42:.\Generated_Source\PSoC5/WaveDAC8_1_PM.c **** *******************************************************************************/
+  43:.\Generated_Source\PSoC5/WaveDAC8_1_PM.c **** void WaveDAC8_1_Sleep(void) 
+  44:.\Generated_Source\PSoC5/WaveDAC8_1_PM.c **** {
+  31              		.loc 1 44 0
+  32              		.cfi_startproc
+  33              		@ args = 0, pretend = 0, frame = 0
+  34              		@ frame_needed = 1, uses_anonymous_args = 0
+  35 0000 80B5     		push	{r7, lr}
+  36              		.cfi_def_cfa_offset 8
+  37              		.cfi_offset 7, -8
+  38              		.cfi_offset 14, -4
+  39 0002 00AF     		add	r7, sp, #0
+  40              		.cfi_def_cfa_register 7
+  45:.\Generated_Source\PSoC5/WaveDAC8_1_PM.c **** 	/* Save DAC8's enable state */
+  46:.\Generated_Source\PSoC5/WaveDAC8_1_PM.c **** 
+  47:.\Generated_Source\PSoC5/WaveDAC8_1_PM.c **** 	WaveDAC8_1_backup.enableState = (WaveDAC8_1_VDAC8_ACT_PWR_EN == 
+  48:.\Generated_Source\PSoC5/WaveDAC8_1_PM.c **** 		(WaveDAC8_1_VDAC8_PWRMGR_REG & WaveDAC8_1_VDAC8_ACT_PWR_EN)) ? 1u : 0u ;
+  41              		.loc 1 48 0
+  42 0004 064B     		ldr	r3, .L2
+  43 0006 1B78     		ldrb	r3, [r3]
+  44 0008 DBB2     		uxtb	r3, r3
+  47:.\Generated_Source\PSoC5/WaveDAC8_1_PM.c **** 	WaveDAC8_1_backup.enableState = (WaveDAC8_1_VDAC8_ACT_PWR_EN == 
+  45              		.loc 1 47 0
+  46 000a 03F00103 		and	r3, r3, #1
+  47 000e DAB2     		uxtb	r2, r3
+  48 0010 044B     		ldr	r3, .L2+4
+  49 0012 1A70     		strb	r2, [r3]
+  49:.\Generated_Source\PSoC5/WaveDAC8_1_PM.c **** 	
+  50:.\Generated_Source\PSoC5/WaveDAC8_1_PM.c **** 	WaveDAC8_1_Stop();
+  50              		.loc 1 50 0
+  51 0014 FFF7FEFF 		bl	WaveDAC8_1_Stop
+  51:.\Generated_Source\PSoC5/WaveDAC8_1_PM.c **** 	WaveDAC8_1_SaveConfig();
+  52              		.loc 1 51 0
+  53 0018 FFF7FEFF 		bl	WaveDAC8_1_VDAC8_SaveConfig
+  52:.\Generated_Source\PSoC5/WaveDAC8_1_PM.c **** }
+  54              		.loc 1 52 0
+  55 001c 80BD     		pop	{r7, pc}
+  56              	.L3:
+  57 001e 00BF     		.align	2
+  58              	.L2:
+  59 0020 A8430040 		.word	1073759144
+  60 0024 00000000 		.word	WaveDAC8_1_backup
+  61              		.cfi_endproc
+ARM GAS  C:\Users\BRANKO~1\AppData\Local\Temp\ccaQFQrT.s 			page 3
+
+
+  62              	.LFE0:
+  63              		.size	WaveDAC8_1_Sleep, .-WaveDAC8_1_Sleep
+  64              		.section	.text.WaveDAC8_1_Wakeup,"ax",%progbits
+  65              		.align	2
+  66              		.global	WaveDAC8_1_Wakeup
+  67              		.thumb
+  68              		.thumb_func
+  69              		.type	WaveDAC8_1_Wakeup, %function
+  70              	WaveDAC8_1_Wakeup:
+  71              	.LFB1:
+  53:.\Generated_Source\PSoC5/WaveDAC8_1_PM.c **** 
+  54:.\Generated_Source\PSoC5/WaveDAC8_1_PM.c **** 
+  55:.\Generated_Source\PSoC5/WaveDAC8_1_PM.c **** /*******************************************************************************
+  56:.\Generated_Source\PSoC5/WaveDAC8_1_PM.c **** * Function Name: WaveDAC8_1_Wakeup
+  57:.\Generated_Source\PSoC5/WaveDAC8_1_PM.c **** ********************************************************************************
+  58:.\Generated_Source\PSoC5/WaveDAC8_1_PM.c **** *
+  59:.\Generated_Source\PSoC5/WaveDAC8_1_PM.c **** * Summary:
+  60:.\Generated_Source\PSoC5/WaveDAC8_1_PM.c **** *  Restores the component configuration. Should be called
+  61:.\Generated_Source\PSoC5/WaveDAC8_1_PM.c **** *  just after awaking from sleep.
+  62:.\Generated_Source\PSoC5/WaveDAC8_1_PM.c **** *  
+  63:.\Generated_Source\PSoC5/WaveDAC8_1_PM.c **** * Parameters:  
+  64:.\Generated_Source\PSoC5/WaveDAC8_1_PM.c **** *  None
+  65:.\Generated_Source\PSoC5/WaveDAC8_1_PM.c **** *
+  66:.\Generated_Source\PSoC5/WaveDAC8_1_PM.c **** * Return: 
+  67:.\Generated_Source\PSoC5/WaveDAC8_1_PM.c **** *  void
+  68:.\Generated_Source\PSoC5/WaveDAC8_1_PM.c **** *
+  69:.\Generated_Source\PSoC5/WaveDAC8_1_PM.c **** * Global variables:
+  70:.\Generated_Source\PSoC5/WaveDAC8_1_PM.c **** *  WaveDAC8_1_backup:  The structure field 'enableState' is used to 
+  71:.\Generated_Source\PSoC5/WaveDAC8_1_PM.c **** *  restore the enable state of block after wakeup from sleep mode.
+  72:.\Generated_Source\PSoC5/WaveDAC8_1_PM.c **** *
+  73:.\Generated_Source\PSoC5/WaveDAC8_1_PM.c **** * Reentrant:
+  74:.\Generated_Source\PSoC5/WaveDAC8_1_PM.c **** *  No
+  75:.\Generated_Source\PSoC5/WaveDAC8_1_PM.c **** *
+  76:.\Generated_Source\PSoC5/WaveDAC8_1_PM.c **** *******************************************************************************/
+  77:.\Generated_Source\PSoC5/WaveDAC8_1_PM.c **** void WaveDAC8_1_Wakeup(void) 
+  78:.\Generated_Source\PSoC5/WaveDAC8_1_PM.c **** {
+  72              		.loc 1 78 0
+  73              		.cfi_startproc
+  74              		@ args = 0, pretend = 0, frame = 0
+  75              		@ frame_needed = 1, uses_anonymous_args = 0
+  76 0000 80B5     		push	{r7, lr}
+  77              		.cfi_def_cfa_offset 8
+  78              		.cfi_offset 7, -8
+  79              		.cfi_offset 14, -4
+  80 0002 00AF     		add	r7, sp, #0
+  81              		.cfi_def_cfa_register 7
+  79:.\Generated_Source\PSoC5/WaveDAC8_1_PM.c **** 	WaveDAC8_1_RestoreConfig();
+  82              		.loc 1 79 0
+  83 0004 FFF7FEFF 		bl	WaveDAC8_1_VDAC8_RestoreConfig
+  80:.\Generated_Source\PSoC5/WaveDAC8_1_PM.c **** 
+  81:.\Generated_Source\PSoC5/WaveDAC8_1_PM.c **** 	if(WaveDAC8_1_backup.enableState == 1u)
+  84              		.loc 1 81 0
+  85 0008 034B     		ldr	r3, .L6
+  86 000a 1B78     		ldrb	r3, [r3]	@ zero_extendqisi2
+  87 000c 012B     		cmp	r3, #1
+  88 000e 01D1     		bne	.L4
+  82:.\Generated_Source\PSoC5/WaveDAC8_1_PM.c **** 	{
+ARM GAS  C:\Users\BRANKO~1\AppData\Local\Temp\ccaQFQrT.s 			page 4
+
+
+  83:.\Generated_Source\PSoC5/WaveDAC8_1_PM.c **** 		WaveDAC8_1_Enable();
+  89              		.loc 1 83 0
+  90 0010 FFF7FEFF 		bl	WaveDAC8_1_Enable
+  91              	.L4:
+  84:.\Generated_Source\PSoC5/WaveDAC8_1_PM.c **** 	}
+  85:.\Generated_Source\PSoC5/WaveDAC8_1_PM.c **** }
+  92              		.loc 1 85 0
+  93 0014 80BD     		pop	{r7, pc}
+  94              	.L7:
+  95 0016 00BF     		.align	2
+  96              	.L6:
+  97 0018 00000000 		.word	WaveDAC8_1_backup
+  98              		.cfi_endproc
+  99              	.LFE1:
+ 100              		.size	WaveDAC8_1_Wakeup, .-WaveDAC8_1_Wakeup
+ 101              		.text
+ 102              	.Letext0:
+ 103              		.file 2 ".\\Generated_Source\\PSoC5\\cytypes.h"
+ 104              		.file 3 ".\\Generated_Source\\PSoC5\\WaveDAC8_1.h"
+ 105              		.section	.debug_info,"",%progbits
+ 106              	.Ldebug_info0:
+ 107 0000 F3000000 		.4byte	0xf3
+ 108 0004 0400     		.2byte	0x4
+ 109 0006 00000000 		.4byte	.Ldebug_abbrev0
+ 110 000a 04       		.byte	0x4
+ 111 000b 01       		.uleb128 0x1
+ 112 000c 25010000 		.4byte	.LASF18
+ 113 0010 01       		.byte	0x1
+ 114 0011 51000000 		.4byte	.LASF19
+ 115 0015 F6000000 		.4byte	.LASF20
+ 116 0019 00000000 		.4byte	.Ldebug_ranges0+0
+ 117 001d 00000000 		.4byte	0
+ 118 0021 00000000 		.4byte	.Ldebug_line0
+ 119 0025 02       		.uleb128 0x2
+ 120 0026 01       		.byte	0x1
+ 121 0027 06       		.byte	0x6
+ 122 0028 EA000000 		.4byte	.LASF0
+ 123 002c 02       		.uleb128 0x2
+ 124 002d 01       		.byte	0x1
+ 125 002e 08       		.byte	0x8
+ 126 002f 97000000 		.4byte	.LASF1
+ 127 0033 02       		.uleb128 0x2
+ 128 0034 02       		.byte	0x2
+ 129 0035 05       		.byte	0x5
+ 130 0036 1B010000 		.4byte	.LASF2
+ 131 003a 02       		.uleb128 0x2
+ 132 003b 02       		.byte	0x2
+ 133 003c 07       		.byte	0x7
+ 134 003d D7000000 		.4byte	.LASF3
+ 135 0041 02       		.uleb128 0x2
+ 136 0042 04       		.byte	0x4
+ 137 0043 05       		.byte	0x5
+ 138 0044 AA000000 		.4byte	.LASF4
+ 139 0048 02       		.uleb128 0x2
+ 140 0049 04       		.byte	0x4
+ 141 004a 07       		.byte	0x7
+ 142 004b 3F000000 		.4byte	.LASF5
+ARM GAS  C:\Users\BRANKO~1\AppData\Local\Temp\ccaQFQrT.s 			page 5
+
+
+ 143 004f 02       		.uleb128 0x2
+ 144 0050 08       		.byte	0x8
+ 145 0051 05       		.byte	0x5
+ 146 0052 00000000 		.4byte	.LASF6
+ 147 0056 02       		.uleb128 0x2
+ 148 0057 08       		.byte	0x8
+ 149 0058 07       		.byte	0x7
+ 150 0059 7A000000 		.4byte	.LASF7
+ 151 005d 03       		.uleb128 0x3
+ 152 005e 04       		.byte	0x4
+ 153 005f 05       		.byte	0x5
+ 154 0060 696E7400 		.ascii	"int\000"
+ 155 0064 02       		.uleb128 0x2
+ 156 0065 04       		.byte	0x4
+ 157 0066 07       		.byte	0x7
+ 158 0067 27000000 		.4byte	.LASF8
+ 159 006b 04       		.uleb128 0x4
+ 160 006c 39000000 		.4byte	.LASF12
+ 161 0070 02       		.byte	0x2
+ 162 0071 A1       		.byte	0xa1
+ 163 0072 2C000000 		.4byte	0x2c
+ 164 0076 02       		.uleb128 0x2
+ 165 0077 04       		.byte	0x4
+ 166 0078 04       		.byte	0x4
+ 167 0079 91000000 		.4byte	.LASF9
+ 168 007d 02       		.uleb128 0x2
+ 169 007e 08       		.byte	0x8
+ 170 007f 04       		.byte	0x4
+ 171 0080 D0000000 		.4byte	.LASF10
+ 172 0084 02       		.uleb128 0x2
+ 173 0085 01       		.byte	0x1
+ 174 0086 08       		.byte	0x8
+ 175 0087 A5000000 		.4byte	.LASF11
+ 176 008b 05       		.uleb128 0x5
+ 177 008c 34000000 		.4byte	.LASF13
+ 178 0090 02       		.byte	0x2
+ 179 0091 4B01     		.2byte	0x14b
+ 180 0093 97000000 		.4byte	0x97
+ 181 0097 06       		.uleb128 0x6
+ 182 0098 6B000000 		.4byte	0x6b
+ 183 009c 02       		.uleb128 0x2
+ 184 009d 04       		.byte	0x4
+ 185 009e 07       		.byte	0x7
+ 186 009f B3010000 		.4byte	.LASF14
+ 187 00a3 07       		.uleb128 0x7
+ 188 00a4 01       		.byte	0x1
+ 189 00a5 03       		.byte	0x3
+ 190 00a6 5D       		.byte	0x5d
+ 191 00a7 B8000000 		.4byte	0xb8
+ 192 00ab 08       		.uleb128 0x8
+ 193 00ac C4000000 		.4byte	.LASF21
+ 194 00b0 03       		.byte	0x3
+ 195 00b1 5F       		.byte	0x5f
+ 196 00b2 6B000000 		.4byte	0x6b
+ 197 00b6 00       		.byte	0
+ 198 00b7 00       		.byte	0
+ 199 00b8 04       		.uleb128 0x4
+ARM GAS  C:\Users\BRANKO~1\AppData\Local\Temp\ccaQFQrT.s 			page 6
+
+
+ 200 00b9 0E000000 		.4byte	.LASF15
+ 201 00bd 03       		.byte	0x3
+ 202 00be 60       		.byte	0x60
+ 203 00bf A3000000 		.4byte	0xa3
+ 204 00c3 09       		.uleb128 0x9
+ 205 00c4 B3000000 		.4byte	.LASF16
+ 206 00c8 01       		.byte	0x1
+ 207 00c9 2B       		.byte	0x2b
+ 208 00ca 00000000 		.4byte	.LFB0
+ 209 00ce 28000000 		.4byte	.LFE0-.LFB0
+ 210 00d2 01       		.uleb128 0x1
+ 211 00d3 9C       		.byte	0x9c
+ 212 00d4 09       		.uleb128 0x9
+ 213 00d5 A1010000 		.4byte	.LASF17
+ 214 00d9 01       		.byte	0x1
+ 215 00da 4D       		.byte	0x4d
+ 216 00db 00000000 		.4byte	.LFB1
+ 217 00df 1C000000 		.4byte	.LFE1-.LFB1
+ 218 00e3 01       		.uleb128 0x1
+ 219 00e4 9C       		.byte	0x9c
+ 220 00e5 0A       		.uleb128 0xa
+ 221 00e6 BC010000 		.4byte	.LASF22
+ 222 00ea 01       		.byte	0x1
+ 223 00eb 12       		.byte	0x12
+ 224 00ec B8000000 		.4byte	0xb8
+ 225 00f0 05       		.uleb128 0x5
+ 226 00f1 03       		.byte	0x3
+ 227 00f2 00000000 		.4byte	WaveDAC8_1_backup
+ 228 00f6 00       		.byte	0
+ 229              		.section	.debug_abbrev,"",%progbits
+ 230              	.Ldebug_abbrev0:
+ 231 0000 01       		.uleb128 0x1
+ 232 0001 11       		.uleb128 0x11
+ 233 0002 01       		.byte	0x1
+ 234 0003 25       		.uleb128 0x25
+ 235 0004 0E       		.uleb128 0xe
+ 236 0005 13       		.uleb128 0x13
+ 237 0006 0B       		.uleb128 0xb
+ 238 0007 03       		.uleb128 0x3
+ 239 0008 0E       		.uleb128 0xe
+ 240 0009 1B       		.uleb128 0x1b
+ 241 000a 0E       		.uleb128 0xe
+ 242 000b 55       		.uleb128 0x55
+ 243 000c 17       		.uleb128 0x17
+ 244 000d 11       		.uleb128 0x11
+ 245 000e 01       		.uleb128 0x1
+ 246 000f 10       		.uleb128 0x10
+ 247 0010 17       		.uleb128 0x17
+ 248 0011 00       		.byte	0
+ 249 0012 00       		.byte	0
+ 250 0013 02       		.uleb128 0x2
+ 251 0014 24       		.uleb128 0x24
+ 252 0015 00       		.byte	0
+ 253 0016 0B       		.uleb128 0xb
+ 254 0017 0B       		.uleb128 0xb
+ 255 0018 3E       		.uleb128 0x3e
+ 256 0019 0B       		.uleb128 0xb
+ARM GAS  C:\Users\BRANKO~1\AppData\Local\Temp\ccaQFQrT.s 			page 7
+
+
+ 257 001a 03       		.uleb128 0x3
+ 258 001b 0E       		.uleb128 0xe
+ 259 001c 00       		.byte	0
+ 260 001d 00       		.byte	0
+ 261 001e 03       		.uleb128 0x3
+ 262 001f 24       		.uleb128 0x24
+ 263 0020 00       		.byte	0
+ 264 0021 0B       		.uleb128 0xb
+ 265 0022 0B       		.uleb128 0xb
+ 266 0023 3E       		.uleb128 0x3e
+ 267 0024 0B       		.uleb128 0xb
+ 268 0025 03       		.uleb128 0x3
+ 269 0026 08       		.uleb128 0x8
+ 270 0027 00       		.byte	0
+ 271 0028 00       		.byte	0
+ 272 0029 04       		.uleb128 0x4
+ 273 002a 16       		.uleb128 0x16
+ 274 002b 00       		.byte	0
+ 275 002c 03       		.uleb128 0x3
+ 276 002d 0E       		.uleb128 0xe
+ 277 002e 3A       		.uleb128 0x3a
+ 278 002f 0B       		.uleb128 0xb
+ 279 0030 3B       		.uleb128 0x3b
+ 280 0031 0B       		.uleb128 0xb
+ 281 0032 49       		.uleb128 0x49
+ 282 0033 13       		.uleb128 0x13
+ 283 0034 00       		.byte	0
+ 284 0035 00       		.byte	0
+ 285 0036 05       		.uleb128 0x5
+ 286 0037 16       		.uleb128 0x16
+ 287 0038 00       		.byte	0
+ 288 0039 03       		.uleb128 0x3
+ 289 003a 0E       		.uleb128 0xe
+ 290 003b 3A       		.uleb128 0x3a
+ 291 003c 0B       		.uleb128 0xb
+ 292 003d 3B       		.uleb128 0x3b
+ 293 003e 05       		.uleb128 0x5
+ 294 003f 49       		.uleb128 0x49
+ 295 0040 13       		.uleb128 0x13
+ 296 0041 00       		.byte	0
+ 297 0042 00       		.byte	0
+ 298 0043 06       		.uleb128 0x6
+ 299 0044 35       		.uleb128 0x35
+ 300 0045 00       		.byte	0
+ 301 0046 49       		.uleb128 0x49
+ 302 0047 13       		.uleb128 0x13
+ 303 0048 00       		.byte	0
+ 304 0049 00       		.byte	0
+ 305 004a 07       		.uleb128 0x7
+ 306 004b 13       		.uleb128 0x13
+ 307 004c 01       		.byte	0x1
+ 308 004d 0B       		.uleb128 0xb
+ 309 004e 0B       		.uleb128 0xb
+ 310 004f 3A       		.uleb128 0x3a
+ 311 0050 0B       		.uleb128 0xb
+ 312 0051 3B       		.uleb128 0x3b
+ 313 0052 0B       		.uleb128 0xb
+ARM GAS  C:\Users\BRANKO~1\AppData\Local\Temp\ccaQFQrT.s 			page 8
+
+
+ 314 0053 01       		.uleb128 0x1
+ 315 0054 13       		.uleb128 0x13
+ 316 0055 00       		.byte	0
+ 317 0056 00       		.byte	0
+ 318 0057 08       		.uleb128 0x8
+ 319 0058 0D       		.uleb128 0xd
+ 320 0059 00       		.byte	0
+ 321 005a 03       		.uleb128 0x3
+ 322 005b 0E       		.uleb128 0xe
+ 323 005c 3A       		.uleb128 0x3a
+ 324 005d 0B       		.uleb128 0xb
+ 325 005e 3B       		.uleb128 0x3b
+ 326 005f 0B       		.uleb128 0xb
+ 327 0060 49       		.uleb128 0x49
+ 328 0061 13       		.uleb128 0x13
+ 329 0062 38       		.uleb128 0x38
+ 330 0063 0B       		.uleb128 0xb
+ 331 0064 00       		.byte	0
+ 332 0065 00       		.byte	0
+ 333 0066 09       		.uleb128 0x9
+ 334 0067 2E       		.uleb128 0x2e
+ 335 0068 00       		.byte	0
+ 336 0069 3F       		.uleb128 0x3f
+ 337 006a 19       		.uleb128 0x19
+ 338 006b 03       		.uleb128 0x3
+ 339 006c 0E       		.uleb128 0xe
+ 340 006d 3A       		.uleb128 0x3a
+ 341 006e 0B       		.uleb128 0xb
+ 342 006f 3B       		.uleb128 0x3b
+ 343 0070 0B       		.uleb128 0xb
+ 344 0071 27       		.uleb128 0x27
+ 345 0072 19       		.uleb128 0x19
+ 346 0073 11       		.uleb128 0x11
+ 347 0074 01       		.uleb128 0x1
+ 348 0075 12       		.uleb128 0x12
+ 349 0076 06       		.uleb128 0x6
+ 350 0077 40       		.uleb128 0x40
+ 351 0078 18       		.uleb128 0x18
+ 352 0079 9642     		.uleb128 0x2116
+ 353 007b 19       		.uleb128 0x19
+ 354 007c 00       		.byte	0
+ 355 007d 00       		.byte	0
+ 356 007e 0A       		.uleb128 0xa
+ 357 007f 34       		.uleb128 0x34
+ 358 0080 00       		.byte	0
+ 359 0081 03       		.uleb128 0x3
+ 360 0082 0E       		.uleb128 0xe
+ 361 0083 3A       		.uleb128 0x3a
+ 362 0084 0B       		.uleb128 0xb
+ 363 0085 3B       		.uleb128 0x3b
+ 364 0086 0B       		.uleb128 0xb
+ 365 0087 49       		.uleb128 0x49
+ 366 0088 13       		.uleb128 0x13
+ 367 0089 02       		.uleb128 0x2
+ 368 008a 18       		.uleb128 0x18
+ 369 008b 00       		.byte	0
+ 370 008c 00       		.byte	0
+ARM GAS  C:\Users\BRANKO~1\AppData\Local\Temp\ccaQFQrT.s 			page 9
+
+
+ 371 008d 00       		.byte	0
+ 372              		.section	.debug_aranges,"",%progbits
+ 373 0000 24000000 		.4byte	0x24
+ 374 0004 0200     		.2byte	0x2
+ 375 0006 00000000 		.4byte	.Ldebug_info0
+ 376 000a 04       		.byte	0x4
+ 377 000b 00       		.byte	0
+ 378 000c 0000     		.2byte	0
+ 379 000e 0000     		.2byte	0
+ 380 0010 00000000 		.4byte	.LFB0
+ 381 0014 28000000 		.4byte	.LFE0-.LFB0
+ 382 0018 00000000 		.4byte	.LFB1
+ 383 001c 1C000000 		.4byte	.LFE1-.LFB1
+ 384 0020 00000000 		.4byte	0
+ 385 0024 00000000 		.4byte	0
+ 386              		.section	.debug_ranges,"",%progbits
+ 387              	.Ldebug_ranges0:
+ 388 0000 00000000 		.4byte	.LFB0
+ 389 0004 28000000 		.4byte	.LFE0
+ 390 0008 00000000 		.4byte	.LFB1
+ 391 000c 1C000000 		.4byte	.LFE1
+ 392 0010 00000000 		.4byte	0
+ 393 0014 00000000 		.4byte	0
+ 394              		.section	.debug_line,"",%progbits
+ 395              	.Ldebug_line0:
+ 396 0000 8A000000 		.section	.debug_str,"MS",%progbits,1
+ 396      02005C00 
+ 396      00000201 
+ 396      FB0E0D00 
+ 396      01010101 
+ 397              	.LASF6:
+ 398 0000 6C6F6E67 		.ascii	"long long int\000"
+ 398      206C6F6E 
+ 398      6720696E 
+ 398      7400
+ 399              	.LASF15:
+ 400 000e 57617665 		.ascii	"WaveDAC8_1_BACKUP_STRUCT\000"
+ 400      44414338 
+ 400      5F315F42 
+ 400      41434B55 
+ 400      505F5354 
+ 401              	.LASF8:
+ 402 0027 756E7369 		.ascii	"unsigned int\000"
+ 402      676E6564 
+ 402      20696E74 
+ 402      00
+ 403              	.LASF13:
+ 404 0034 72656738 		.ascii	"reg8\000"
+ 404      00
+ 405              	.LASF12:
+ 406 0039 75696E74 		.ascii	"uint8\000"
+ 406      3800
+ 407              	.LASF5:
+ 408 003f 6C6F6E67 		.ascii	"long unsigned int\000"
+ 408      20756E73 
+ 408      69676E65 
+ 408      6420696E 
+ARM GAS  C:\Users\BRANKO~1\AppData\Local\Temp\ccaQFQrT.s 			page 10
+
+
+ 408      7400
+ 409              	.LASF19:
+ 410 0051 2E5C4765 		.ascii	".\\Generated_Source\\PSoC5\\WaveDAC8_1_PM.c\000"
+ 410      6E657261 
+ 410      7465645F 
+ 410      536F7572 
+ 410      63655C50 
+ 411              	.LASF7:
+ 412 007a 6C6F6E67 		.ascii	"long long unsigned int\000"
+ 412      206C6F6E 
+ 412      6720756E 
+ 412      7369676E 
+ 412      65642069 
+ 413              	.LASF9:
+ 414 0091 666C6F61 		.ascii	"float\000"
+ 414      7400
+ 415              	.LASF1:
+ 416 0097 756E7369 		.ascii	"unsigned char\000"
+ 416      676E6564 
+ 416      20636861 
+ 416      7200
+ 417              	.LASF11:
+ 418 00a5 63686172 		.ascii	"char\000"
+ 418      00
+ 419              	.LASF4:
+ 420 00aa 6C6F6E67 		.ascii	"long int\000"
+ 420      20696E74 
+ 420      00
+ 421              	.LASF16:
+ 422 00b3 57617665 		.ascii	"WaveDAC8_1_Sleep\000"
+ 422      44414338 
+ 422      5F315F53 
+ 422      6C656570 
+ 422      00
+ 423              	.LASF21:
+ 424 00c4 656E6162 		.ascii	"enableState\000"
+ 424      6C655374 
+ 424      61746500 
+ 425              	.LASF10:
+ 426 00d0 646F7562 		.ascii	"double\000"
+ 426      6C6500
+ 427              	.LASF3:
+ 428 00d7 73686F72 		.ascii	"short unsigned int\000"
+ 428      7420756E 
+ 428      7369676E 
+ 428      65642069 
+ 428      6E7400
+ 429              	.LASF0:
+ 430 00ea 7369676E 		.ascii	"signed char\000"
+ 430      65642063 
+ 430      68617200 
+ 431              	.LASF20:
+ 432 00f6 443A5C70 		.ascii	"D:\\psoc5\\Cell Board\\Cell Board.cydsn\000"
+ 432      736F6335 
+ 432      5C43656C 
+ 432      6C20426F 
+ 432      6172645C 
+ARM GAS  C:\Users\BRANKO~1\AppData\Local\Temp\ccaQFQrT.s 			page 11
+
+
+ 433              	.LASF2:
+ 434 011b 73686F72 		.ascii	"short int\000"
+ 434      7420696E 
+ 434      7400
+ 435              	.LASF18:
+ 436 0125 474E5520 		.ascii	"GNU C 4.8.4 20140526 (release) [ARM/embedded-4_8-br"
+ 436      4320342E 
+ 436      382E3420 
+ 436      32303134 
+ 436      30353236 
+ 437 0158 616E6368 		.ascii	"anch revision 211358] -mcpu=cortex-m3 -mthumb -g -O"
+ 437      20726576 
+ 437      6973696F 
+ 437      6E203231 
+ 437      31333538 
+ 438 018b 30202D66 		.ascii	"0 -ffunction-sections\000"
+ 438      66756E63 
+ 438      74696F6E 
+ 438      2D736563 
+ 438      74696F6E 
+ 439              	.LASF17:
+ 440 01a1 57617665 		.ascii	"WaveDAC8_1_Wakeup\000"
+ 440      44414338 
+ 440      5F315F57 
+ 440      616B6575 
+ 440      7000
+ 441              	.LASF14:
+ 442 01b3 73697A65 		.ascii	"sizetype\000"
+ 442      74797065 
+ 442      00
+ 443              	.LASF22:
+ 444 01bc 57617665 		.ascii	"WaveDAC8_1_backup\000"
+ 444      44414338 
+ 444      5F315F62 
+ 444      61636B75 
+ 444      7000
+ 445              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 4.8.4 20140526 (release) [ARM/embedded-4_8-br
