@@ -133,8 +133,8 @@ void main()
 			blink_LED(3u);
 			
             if (ultrasonic_get_reading(&ultrasonic_reading)){
-                sprintf(data_packet,"%s%s, %d\r\n", data_packet,
-                    "depth_sonic", (uint16) (ultrasonic_reading.depth));              
+                sprintf(data_packet,"%s%s%d%s%d", data_packet,
+                    "depth_sonic,serial=", FEED_ID, " value=", (uint16) (ultrasonic_reading.depth));              
             }
 			
 			blink_LED(3u);
@@ -147,8 +147,8 @@ void main()
 				
 				// Send a packet
 				LED_Write(!LED_Read());	
-				sprintf(data_packet,"%s%s, %u\r\n", data_packet,
-	        		"tmp", loops);  
+//				sprintf(data_packet,"%s%s, %u\r\n", data_packet,
+//	        		"tmp", loops);                                    DON'T NEED TMP  
 				ready = modem_send_packet(data_packet);
 				CyDelay(5000u);
 				

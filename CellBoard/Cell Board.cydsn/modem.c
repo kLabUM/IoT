@@ -627,22 +627,20 @@ uint8 modem_send_packet(char* body){
 			
 		// Connect to web server
         //if(at_write_command("AT#SKTD=1,80,\"api.xively.com\",0,0\r","CONNECT",5000u) != 0){
-		if(at_write_command("AT#SD=1,0,80,\"api.xively.com\",0,0,1\r","OK",15000u) != 0){
+		if(at_write_command("AT#SD=1,0,8086,\"ec2-54-148-229-234.us-west-2.compute.amazonaws.com\",0,0,1\r","OK",15000u) != 0){
 		//if(at_write_command("AT#SD=1,0,80,\"www.google.com\",0,0\r\n","CONNECT",15000u) != 0){
 			
 			if(at_write_command("AT#SSEND=1\r",">",10000u) != 0){
 			// Write packet information to serial and send
 	            char put_str[MAX_PACKET_LENGTH], key_str[100];
 	            
-	            sprintf(put_str,"PUT /v2/feeds/%lu.csv HTTP/1.0\r\n", feed_id);
-	            sprintf(key_str,"X-ApiKey: %s\r\n", api_key);
-	            sprintf(put_str,"%s%s%s%s%d%s%s%s",
+	            sprintf(put_str,"POST /write?db=cellBoard_test HTTP/1.0\r\n");
+	            sprintf(put_str,"%s%s%s%d%s%s%s",
 	                put_str,
-	                key_str,
-	                "Host: api.xively.com\r\n",
+	                "Host: ec2-54-148-229-234.us-west-2.compute.amazonaws.com:8086\r\n",
 	                "Content-Length: ", strlen(body),
 	                "\r\n\r\n", body, "\r\n\032");
-	                
+	                // change second from last back to body
 				// Reset uart for incoming data from modem
 	            uart_string_reset();
 
