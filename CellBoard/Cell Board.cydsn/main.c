@@ -20,7 +20,7 @@
 #define WRITE_DEBUG 1
 #define FEED_ID 1738356304
 
-const char *API_KEY = "3vouwxRpF9JQfVNwHMMvi08V4JbFbrfdD6FuUcXeAmiOU4hO";
+const char *API_KEY = "4QT5GSDADNCZKVDA";
 char   data_packet[MAX_PACKET_LENGTH] = {0}, test_csv[100] = {0};
 int    iter, sign;
 uint8  ready, loops, lock, packet_ready;
@@ -133,8 +133,8 @@ void main()
 			blink_LED(3u);
 			
             if (ultrasonic_get_reading(&ultrasonic_reading)){
-                sprintf(data_packet,"%s%s%d%s%d", data_packet,
-                    "depth_sonic,serial=", FEED_ID, " value=", (uint16) (ultrasonic_reading.depth));              
+                sprintf(data_packet,"%s%s%d", data_packet,
+                    "field1=", (uint16) (ultrasonic_reading.depth));              
             }
 			
 			blink_LED(3u);
