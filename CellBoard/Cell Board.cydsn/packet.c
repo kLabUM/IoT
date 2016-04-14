@@ -101,7 +101,6 @@ uint8 packet_get_uint32(char* packet, char* name, uint32* value) {
 
 
 uint8 clear_packet(char* packet){
-
     memset(packet,0,sizeof(packet));
     return 1u;
 }

@@ -11,7 +11,7 @@
 //*/
 //
 
-#include <device.h>
+#include <project.h>
 #include <stdio.h>
 #include <string.h>
 #include "modem.h"
@@ -19,7 +19,6 @@
 //#include "debug.h" TODO: ACCOUNT FOR THIS
 
 // declare varaiables
-int	   iter = 0;
 uint8  modem_state, lock_acquired = 0u, ready = 0u;
 uint16 uart_string_index = 0u;
 uint32 feed_id;
@@ -41,42 +40,26 @@ uint8 modem_set_api_feed(uint32 id, char* key){
 // startup sequence to power on the modem, start modem
 // components and prepare for sending/receiving messages
 // over the network
-uint8	modem_startup() {
-	iter = 0, ready = 0u;
-
-	modem_start();
+/*uint8   modem_connect_with_retries(uint8 retries) {
+	uint8 iter = 0;
 	
-	while( iter < MAX_CONN_ATTEMPTS) {
-		iter++;
+	while( iter < retries) {
 
-		/* Set up the modem */
-		//LED_Write(!LED_Read());
-		ready = modem_power_on();
-		//LED_Write(!LED_Read());
-		//ready = at_write_command("AT\r","OK",1000u);      
-		modem_set_flow_control(0u);	
-		modem_setup();
+		hardware_specific_modem_setup();
 		
-		if ( ready == 1u ) {
-			// Connect modem to network
-			// (modem_connect already accounts for retries)
-			//LED_Write(!LED_Read());
-			ready = modem_connect();
-			
-			if( ready == 3u ) {
-								
-				iter = MAX_CONN_ATTEMPTS;//break;	
-				return 1u;
-			}
+		if ( modem_connect() ) {
+			return 1u;
 		}
 		else {
 			modem_reset();
 		}
+		
+		iter++;
 	}
 	
 	// Timed out -- Failed to connect
 	return 0u;
-}
+}*/
 
 // shutdown sequence to stop modem components
 // and power down the modem
@@ -91,18 +74,19 @@ uint8 	modem_shutdown() {
 // initialize modem
 void modem_start(){
     Telit_UART_Start();
-    Telit_ControlReg_Write(0u);
     //Telit_PWR_Write(0u);        // 0u Enables power to cell module
 	Telit_ON_Write(1u);			// Prep modem for "push button"
 	Telit_RST_Write(1u);		// Prep modem for "push button"
     Telit_isr_rx_StartEx(Telit_isr_rx);
     modem_state = MODEM_STATE_OFF;
+	modem_power_on();
+	modem_set_flow_control(0u);	
+	hardware_specific_modem_setup();
 }
 
 // deinitialize modem
 void modem_stop(){
     Telit_UART_Stop();
-    Telit_ControlReg_Write(0u);
     //Telit_PWR_Write(0u);        // 0u Enables power to cell module
 	Telit_ON_Write(0u);			// Save energy by pulling down "push button"
 	Telit_RST_Write(0u);		// Save energy by pulling down "push button"
@@ -145,7 +129,6 @@ uint8 modem_power_on(){
     
     // Provide power to Telit module
     //Telit_PWR_Write(0u); //provide power to modem
-    Telit_ControlReg_Write(1u);
     
     // "Push" the ON button for 2 seconds
     Telit_ON_Write(1u); 
@@ -190,8 +173,7 @@ uint8 modem_power_off(){
         ON/OFF# and DTE should monitor the status of PWRMON to see the
         actual power off."  */
     
-    // Book keeping
-    Telit_ControlReg_Write(0u);    
+    // Book keeping 
     //Telit_PWR_Write(1u); // Cut power to modem; 1u Disables power to the modem
     Telit_RST_Write(0u); // Make sure the RESET "button" is not pressed
     
@@ -213,7 +195,7 @@ uint8 modem_reset(){
     return modem_state;
 }
 
-uint8 modem_setup() {
+uint8 hardware_specific_modem_setup() {
 /* Initialize configurations for the modem */
 	// Set Error Reports to verbose mode
 	if (modem_set_error_reports(2u) != 1u) {
@@ -387,8 +369,21 @@ uint8 modem_set_band(uint8 band) {
     return 0u; 
 }
 
-uint8 modem_get_time(){
+uint8 modem_get_rtc_time(){
     if(at_write_command("AT+CCLK?\r","OK",1000u) == 1u){      
+        return 1u;
+    }
+    /* Write to SD Card debugger
+    else debug_write("(AT#SGACT=1,1) No IP Address Assigned.");
+    */
+    
+    /* Parse Time from data packet */
+
+    return 0u;  
+}
+
+uint8 modem_get_nertwork_time(){
+    if(at_write_command("AT#NITZ?\r","OK",1000u) == 1u){      
         return 1u;
     }
     /* Write to SD Card debugger
@@ -432,7 +427,7 @@ uint8 modem_get_serial_number(){
     /* Write to SD Card debugger
     else debug_write("(AT#SGACT=1,1) No IP Address Assigned.");
     */
-
+	uint8 x = 0;
     return 0u;  
 }
 
@@ -565,7 +560,7 @@ uint8 modem_get_google(){
         
         if(at_write_command("AT#SKTD=0,80,\"www.google.com\"\r\n","CONNECT",10000u) != 0){
             
-            char get_str[MAX_PACKET_LENGTH], key_str[100];
+            //char get_str[MAX_PACKET_LENGTH], key_str[100];
             
             //sprintf(get_str,"GET / HTTP/1.0\r\n");
             //sprintf(key_str,"Host: www.google.com\r\n");
@@ -632,7 +627,7 @@ uint8 modem_send_packet(char* body){
 			
 			if(at_write_command("AT#SSEND=1\r",">",10000u) != 0){
 			// Write packet information to serial and send
-	            char put_str[MAX_PACKET_LENGTH], key_str[100];
+	            char put_str[MAX_PACKET_LENGTH];
 	            
 	            sprintf(put_str,"POST /write?db=cellBoard_test HTTP/1.0\r\n");
 	            sprintf(put_str,"%s%s%s%d%s%s%s",
@@ -854,6 +849,14 @@ void uart_string_reset(){
     uart_string_index = 0;
     Telit_UART_ClearRxBuffer();
 //    uart_ClearTxBuffer();
+}
+
+void modem_sleep(){
+	Telit_UART_Sleep();
+}
+
+void modem_wakeup(){
+	Telit_UART_Wakeup();
 }
 
 // this function fires when uart rx receives bytes (when modem is sending bytes)

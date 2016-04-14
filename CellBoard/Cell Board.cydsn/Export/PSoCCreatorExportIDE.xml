@@ -6,8 +6,8 @@
     <Toolchain Name="ARM GCC Generic" Selected="True">
       <Tool Name="prebuild" Command="" Options="" />
       <Tool Name="assembler" Command="arm-none-eabi-as.exe" Options="-mcpu=cortex-m3 -mthumb -I. -IGenerated_Source\PSoC5 -alh=${OutputDir}/${CompileFile}.lst -g -W" />
-      <Tool Name="compiler" Command="arm-none-eabi-gcc.exe" Options="-mcpu=cortex-m3 -mthumb -Wno-main -I. -IGenerated_Source\PSoC5 -Wa,-alh=${OutputDir}/${CompileFile}.lst -g -D DEBUG -Wall -ffunction-sections -O0" />
-      <Tool Name="linker" Command="arm-none-eabi-gcc.exe" Options="-mcpu=cortex-m3 -mthumb -g -ffunction-sections -O0 -Wl,-Map,${OutputDir}/${ProjectShortName}.map -T Generated_Source\PSoC5\cm3gcc.ld -specs=nano.specs -Wl,--gc-sections" />
+      <Tool Name="compiler" Command="arm-none-eabi-gcc.exe" Options="-mcpu=cortex-m3 -mthumb -Wno-main -I. -IGenerated_Source\PSoC5 -Wa,-alh=${OutputDir}/${CompileFile}.lst -g -D DEBUG -Wall -ffunction-sections -O0 -ffat-lto-objects" />
+      <Tool Name="linker" Command="arm-none-eabi-gcc.exe" Options="-mcpu=cortex-m3 -mthumb -g -ffunction-sections -O0 -L Generated_Source\PSoC5 -Wl,-Map,${OutputDir}/${ProjectShortName}.map -T Generated_Source\PSoC5\cm3gcc.ld -specs=nano.specs -Wl,--gc-sections" />
       <Tool Name="postbuild" Command="" Options="" />
     </Toolchain>
     <Toolchain Name="ARM MDK Generic" Selected="False">
@@ -25,7 +25,7 @@
       <Tool Name="postbuild" Command="" Options="" />
     </Toolchain>
   </Toolchains>
-  <Project Name="Cell Board" Path="C:\Users\Matthew\github\IoT\CellBoard\Cell Board.cydsn" Version="4.20" Type="Normal">
+  <Project Name="Cell Board" Path="C:\Users\cps\Documents\kLab\IoT\CellBoard\Cell Board.cydsn" Version="4.20" Type="Normal">
     <CMSIS_SVD_File>Cell Board.svd</CMSIS_SVD_File>
     <Datasheet />
     <LinkerFiles>
@@ -34,20 +34,19 @@
       <LinkerFile Toolchain="ARM IAR Generic">.\Generated_Source\PSoC5\Cm3Iar.icf</LinkerFile>
     </LinkerFiles>
     <Folders>
-      <Folder BuildType="BUILD" Path="C:\Users\Matthew\github\IoT\CellBoard\Cell Board.cydsn">
-        <Files Root="C:\Users\Matthew\github\IoT\CellBoard\Cell Board.cydsn">
+      <Folder BuildType="BUILD" Path="C:\Users\cps\Documents\kLab\IoT\CellBoard\Cell Board.cydsn">
+        <Files Root="C:\Users\cps\Documents\kLab\IoT\CellBoard\Cell Board.cydsn">
           <File BuildType="BUILD" Toolchain="">.\main.c</File>
-          <File BuildType="BUILD" Toolchain="">.\packet.c</File>
-          <File BuildType="BUILD" Toolchain="">.\modem.c</File>
-          <File BuildType="BUILD" Toolchain="">.\ultrasonic.c</File>
-          <File BuildType="BUILD" Toolchain="">.\device.h</File>
-          <File BuildType="BUILD" Toolchain="">.\packet.h</File>
+          <File BuildType="BUILD" Toolchain="">.\utilities.c</File>
+          <File BuildType="BUILD" Toolchain="">.\utilities.h</File>
           <File BuildType="BUILD" Toolchain="">.\modem.h</File>
-          <File BuildType="BUILD" Toolchain="">.\ultrasonic.h</File>
+          <File BuildType="BUILD" Toolchain="">.\modem.c</File>
+          <File BuildType="BUILD" Toolchain="">.\packet.c</File>
+          <File BuildType="BUILD" Toolchain="">.\packet.h</File>
         </Files>
       </Folder>
-      <Folder BuildType="STRICT" Path="C:\Users\Matthew\github\IoT\CellBoard\Cell Board.cydsn\Generated_Source\PSoC5">
-        <Files Root="C:\Users\Matthew\github\IoT\CellBoard\Cell Board.cydsn">
+      <Folder BuildType="STRICT" Path="C:\Users\cps\Documents\kLab\IoT\CellBoard\Cell Board.cydsn\Generated_Source\PSoC5">
+        <Files Root="C:\Users\cps\Documents\kLab\IoT\CellBoard\Cell Board.cydsn">
           <File BuildType="BUILD" Toolchain="">.\Generated_Source\PSoC5\cyfitter_cfg.h</File>
           <File BuildType="BUILD" Toolchain="">.\Generated_Source\PSoC5\cyfitter_cfg.c</File>
           <File BuildType="BUILD" Toolchain="">.\Generated_Source\PSoC5\cymetadata.c</File>
@@ -64,6 +63,8 @@
           <File BuildType="BUILD" Toolchain="">.\Generated_Source\PSoC5\cyfitteriar.inc</File>
           <File BuildType="BUILD" Toolchain="">.\Generated_Source\PSoC5\cyfitter.h</File>
           <File BuildType="BUILD" Toolchain="">.\Generated_Source\PSoC5\cydisabledsheets.h</File>
+          <File BuildType="BUILD" Toolchain="">.\Generated_Source\PSoC5\cm3gcc.ld</File>
+          <File BuildType="BUILD" Toolchain="">.\Generated_Source\PSoC5\Cm3RealView.scat</File>
           <File BuildType="BUILD" Toolchain="">.\Generated_Source\PSoC5\Cm3Start.c</File>
           <File BuildType="BUILD" Toolchain="">.\Generated_Source\PSoC5\core_cm3_psoc5.h</File>
           <File BuildType="BUILD" Toolchain="">.\Generated_Source\PSoC5\core_cm3.h</File>
@@ -84,92 +85,12 @@
           <File BuildType="BUILD" Toolchain="">.\Generated_Source\PSoC5\cyutils.c</File>
           <File BuildType="BUILD" Toolchain="">.\Generated_Source\PSoC5\core_cmFunc.h</File>
           <File BuildType="BUILD" Toolchain="">.\Generated_Source\PSoC5\core_cmInstr.h</File>
+          <File BuildType="BUILD" Toolchain="">.\Generated_Source\PSoC5\Cm3Iar.icf</File>
           <File BuildType="BUILD" Toolchain="ARM IAR Generic">.\Generated_Source\PSoC5\CyBootAsmIar.s</File>
           <File BuildType="BUILD" Toolchain="">.\Generated_Source\PSoC5\project.h</File>
           <File BuildType="BUILD" Toolchain="">.\Generated_Source\PSoC5\LED_aliases.h</File>
           <File BuildType="BUILD" Toolchain="">.\Generated_Source\PSoC5\LED.c</File>
           <File BuildType="BUILD" Toolchain="">.\Generated_Source\PSoC5\LED.h</File>
-          <File BuildType="BUILD" Toolchain="">.\Generated_Source\PSoC5\Pin1_aliases.h</File>
-          <File BuildType="BUILD" Toolchain="">.\Generated_Source\PSoC5\Pin1.c</File>
-          <File BuildType="BUILD" Toolchain="">.\Generated_Source\PSoC5\Pin1.h</File>
-          <File BuildType="BUILD" Toolchain="">.\Generated_Source\PSoC5\Pin2_aliases.h</File>
-          <File BuildType="BUILD" Toolchain="">.\Generated_Source\PSoC5\Pin2.c</File>
-          <File BuildType="BUILD" Toolchain="">.\Generated_Source\PSoC5\Pin2.h</File>
-          <File BuildType="BUILD" Toolchain="">.\Generated_Source\PSoC5\Pin4_aliases.h</File>
-          <File BuildType="BUILD" Toolchain="">.\Generated_Source\PSoC5\Pin4.c</File>
-          <File BuildType="BUILD" Toolchain="">.\Generated_Source\PSoC5\Pin4.h</File>
-          <File BuildType="BUILD" Toolchain="">.\Generated_Source\PSoC5\Pin5_aliases.h</File>
-          <File BuildType="BUILD" Toolchain="">.\Generated_Source\PSoC5\Pin5.c</File>
-          <File BuildType="BUILD" Toolchain="">.\Generated_Source\PSoC5\Pin5.h</File>
-          <File BuildType="BUILD" Toolchain="">.\Generated_Source\PSoC5\Pin9_aliases.h</File>
-          <File BuildType="BUILD" Toolchain="">.\Generated_Source\PSoC5\Pin9.c</File>
-          <File BuildType="BUILD" Toolchain="">.\Generated_Source\PSoC5\Pin9.h</File>
-          <File BuildType="BUILD" Toolchain="">.\Generated_Source\PSoC5\Pin10_aliases.h</File>
-          <File BuildType="BUILD" Toolchain="">.\Generated_Source\PSoC5\Pin10.c</File>
-          <File BuildType="BUILD" Toolchain="">.\Generated_Source\PSoC5\Pin10.h</File>
-          <File BuildType="BUILD" Toolchain="">.\Generated_Source\PSoC5\Pin11_aliases.h</File>
-          <File BuildType="BUILD" Toolchain="">.\Generated_Source\PSoC5\Pin11.c</File>
-          <File BuildType="BUILD" Toolchain="">.\Generated_Source\PSoC5\Pin11.h</File>
-          <File BuildType="BUILD" Toolchain="">.\Generated_Source\PSoC5\Pin12_aliases.h</File>
-          <File BuildType="BUILD" Toolchain="">.\Generated_Source\PSoC5\Pin12.c</File>
-          <File BuildType="BUILD" Toolchain="">.\Generated_Source\PSoC5\Pin12.h</File>
-          <File BuildType="BUILD" Toolchain="">.\Generated_Source\PSoC5\Pin14_aliases.h</File>
-          <File BuildType="BUILD" Toolchain="">.\Generated_Source\PSoC5\Pin14.c</File>
-          <File BuildType="BUILD" Toolchain="">.\Generated_Source\PSoC5\Pin14.h</File>
-          <File BuildType="BUILD" Toolchain="">.\Generated_Source\PSoC5\Pin15_aliases.h</File>
-          <File BuildType="BUILD" Toolchain="">.\Generated_Source\PSoC5\Pin15.c</File>
-          <File BuildType="BUILD" Toolchain="">.\Generated_Source\PSoC5\Pin15.h</File>
-          <File BuildType="BUILD" Toolchain="">.\Generated_Source\PSoC5\Pin17_aliases.h</File>
-          <File BuildType="BUILD" Toolchain="">.\Generated_Source\PSoC5\Pin17.c</File>
-          <File BuildType="BUILD" Toolchain="">.\Generated_Source\PSoC5\Pin17.h</File>
-          <File BuildType="BUILD" Toolchain="">.\Generated_Source\PSoC5\Pin18_aliases.h</File>
-          <File BuildType="BUILD" Toolchain="">.\Generated_Source\PSoC5\Pin18.c</File>
-          <File BuildType="BUILD" Toolchain="">.\Generated_Source\PSoC5\Pin18.h</File>
-          <File BuildType="BUILD" Toolchain="">.\Generated_Source\PSoC5\Pin19_aliases.h</File>
-          <File BuildType="BUILD" Toolchain="">.\Generated_Source\PSoC5\Pin19.c</File>
-          <File BuildType="BUILD" Toolchain="">.\Generated_Source\PSoC5\Pin19.h</File>
-          <File BuildType="BUILD" Toolchain="">.\Generated_Source\PSoC5\Pin20_aliases.h</File>
-          <File BuildType="BUILD" Toolchain="">.\Generated_Source\PSoC5\Pin20.c</File>
-          <File BuildType="BUILD" Toolchain="">.\Generated_Source\PSoC5\Pin20.h</File>
-          <File BuildType="BUILD" Toolchain="">.\Generated_Source\PSoC5\Pin24_aliases.h</File>
-          <File BuildType="BUILD" Toolchain="">.\Generated_Source\PSoC5\Pin24.c</File>
-          <File BuildType="BUILD" Toolchain="">.\Generated_Source\PSoC5\Pin24.h</File>
-          <File BuildType="BUILD" Toolchain="">.\Generated_Source\PSoC5\Pin25_aliases.h</File>
-          <File BuildType="BUILD" Toolchain="">.\Generated_Source\PSoC5\Pin25.c</File>
-          <File BuildType="BUILD" Toolchain="">.\Generated_Source\PSoC5\Pin25.h</File>
-          <File BuildType="BUILD" Toolchain="">.\Generated_Source\PSoC5\Pin26_aliases.h</File>
-          <File BuildType="BUILD" Toolchain="">.\Generated_Source\PSoC5\Pin26.c</File>
-          <File BuildType="BUILD" Toolchain="">.\Generated_Source\PSoC5\Pin26.h</File>
-          <File BuildType="BUILD" Toolchain="">.\Generated_Source\PSoC5\Pin27_aliases.h</File>
-          <File BuildType="BUILD" Toolchain="">.\Generated_Source\PSoC5\Pin27.c</File>
-          <File BuildType="BUILD" Toolchain="">.\Generated_Source\PSoC5\Pin27.h</File>
-          <File BuildType="BUILD" Toolchain="">.\Generated_Source\PSoC5\Pin29_aliases.h</File>
-          <File BuildType="BUILD" Toolchain="">.\Generated_Source\PSoC5\Pin29.c</File>
-          <File BuildType="BUILD" Toolchain="">.\Generated_Source\PSoC5\Pin29.h</File>
-          <File BuildType="BUILD" Toolchain="">.\Generated_Source\PSoC5\Pin30_aliases.h</File>
-          <File BuildType="BUILD" Toolchain="">.\Generated_Source\PSoC5\Pin30.c</File>
-          <File BuildType="BUILD" Toolchain="">.\Generated_Source\PSoC5\Pin30.h</File>
-          <File BuildType="BUILD" Toolchain="">.\Generated_Source\PSoC5\Pin31_aliases.h</File>
-          <File BuildType="BUILD" Toolchain="">.\Generated_Source\PSoC5\Pin31.c</File>
-          <File BuildType="BUILD" Toolchain="">.\Generated_Source\PSoC5\Pin31.h</File>
-          <File BuildType="BUILD" Toolchain="">.\Generated_Source\PSoC5\Pin33_aliases.h</File>
-          <File BuildType="BUILD" Toolchain="">.\Generated_Source\PSoC5\Pin33.c</File>
-          <File BuildType="BUILD" Toolchain="">.\Generated_Source\PSoC5\Pin33.h</File>
-          <File BuildType="BUILD" Toolchain="">.\Generated_Source\PSoC5\Pin34_aliases.h</File>
-          <File BuildType="BUILD" Toolchain="">.\Generated_Source\PSoC5\Pin34.c</File>
-          <File BuildType="BUILD" Toolchain="">.\Generated_Source\PSoC5\Pin34.h</File>
-          <File BuildType="BUILD" Toolchain="">.\Generated_Source\PSoC5\Pin35_aliases.h</File>
-          <File BuildType="BUILD" Toolchain="">.\Generated_Source\PSoC5\Pin35.c</File>
-          <File BuildType="BUILD" Toolchain="">.\Generated_Source\PSoC5\Pin35.h</File>
-          <File BuildType="BUILD" Toolchain="">.\Generated_Source\PSoC5\Pin37_aliases.h</File>
-          <File BuildType="BUILD" Toolchain="">.\Generated_Source\PSoC5\Pin37.c</File>
-          <File BuildType="BUILD" Toolchain="">.\Generated_Source\PSoC5\Pin37.h</File>
-          <File BuildType="BUILD" Toolchain="">.\Generated_Source\PSoC5\Pin38_aliases.h</File>
-          <File BuildType="BUILD" Toolchain="">.\Generated_Source\PSoC5\Pin38.c</File>
-          <File BuildType="BUILD" Toolchain="">.\Generated_Source\PSoC5\Pin38.h</File>
-          <File BuildType="BUILD" Toolchain="">.\Generated_Source\PSoC5\Pin39_aliases.h</File>
-          <File BuildType="BUILD" Toolchain="">.\Generated_Source\PSoC5\Pin39.c</File>
-          <File BuildType="BUILD" Toolchain="">.\Generated_Source\PSoC5\Pin39.h</File>
           <File BuildType="BUILD" Toolchain="">.\Generated_Source\PSoC5\Telit_PWR_aliases.h</File>
           <File BuildType="BUILD" Toolchain="">.\Generated_Source\PSoC5\Telit_PWR.c</File>
           <File BuildType="BUILD" Toolchain="">.\Generated_Source\PSoC5\Telit_PWR.h</File>
@@ -179,9 +100,6 @@
           <File BuildType="BUILD" Toolchain="">.\Generated_Source\PSoC5\Telit_ON_aliases.h</File>
           <File BuildType="BUILD" Toolchain="">.\Generated_Source\PSoC5\Telit_ON.c</File>
           <File BuildType="BUILD" Toolchain="">.\Generated_Source\PSoC5\Telit_ON.h</File>
-          <File BuildType="BUILD" Toolchain="">.\Generated_Source\PSoC5\VBAT_READ_EN_aliases.h</File>
-          <File BuildType="BUILD" Toolchain="">.\Generated_Source\PSoC5\VBAT_READ_EN.c</File>
-          <File BuildType="BUILD" Toolchain="">.\Generated_Source\PSoC5\VBAT_READ_EN.h</File>
           <File BuildType="BUILD" Toolchain="">.\Generated_Source\PSoC5\Telit_UART.c</File>
           <File BuildType="BUILD" Toolchain="">.\Generated_Source\PSoC5\Telit_UART.h</File>
           <File BuildType="BUILD" Toolchain="">.\Generated_Source\PSoC5\Telit_UART_PM.c</File>
@@ -192,69 +110,58 @@
           <File BuildType="BUILD" Toolchain="">.\Generated_Source\PSoC5\Telit_tx_aliases.h</File>
           <File BuildType="BUILD" Toolchain="">.\Generated_Source\PSoC5\Telit_tx.c</File>
           <File BuildType="BUILD" Toolchain="">.\Generated_Source\PSoC5\Telit_tx.h</File>
-          <File BuildType="BUILD" Toolchain="">.\Generated_Source\PSoC5\Telit_ControlReg.c</File>
-          <File BuildType="BUILD" Toolchain="">.\Generated_Source\PSoC5\Telit_ControlReg.h</File>
           <File BuildType="BUILD" Toolchain="">.\Generated_Source\PSoC5\Telit_UART_IntClock.c</File>
           <File BuildType="BUILD" Toolchain="">.\Generated_Source\PSoC5\Telit_UART_IntClock.h</File>
           <File BuildType="BUILD" Toolchain="">.\Generated_Source\PSoC5\sleep_isr.c</File>
           <File BuildType="BUILD" Toolchain="">.\Generated_Source\PSoC5\sleep_isr.h</File>
           <File BuildType="BUILD" Toolchain="">.\Generated_Source\PSoC5\SleepTimer.c</File>
           <File BuildType="BUILD" Toolchain="">.\Generated_Source\PSoC5\SleepTimer.h</File>
-          <File BuildType="BUILD" Toolchain="">.\Generated_Source\PSoC5\Ultrasonic_ON_aliases.h</File>
-          <File BuildType="BUILD" Toolchain="">.\Generated_Source\PSoC5\Ultrasonic_ON.c</File>
-          <File BuildType="BUILD" Toolchain="">.\Generated_Source\PSoC5\Ultrasonic_ON.h</File>
-          <File BuildType="BUILD" Toolchain="">.\Generated_Source\PSoC5\uart_ultrasonic.c</File>
-          <File BuildType="BUILD" Toolchain="">.\Generated_Source\PSoC5\uart_ultrasonic.h</File>
-          <File BuildType="BUILD" Toolchain="">.\Generated_Source\PSoC5\uart_ultrasonic_PM.c</File>
-          <File BuildType="BUILD" Toolchain="">.\Generated_Source\PSoC5\uart_ultrasonic_INT.c</File>
-          <File BuildType="BUILD" Toolchain="">.\Generated_Source\PSoC5\uart_ultrasonic_BOOT.c</File>
-          <File BuildType="BUILD" Toolchain="">.\Generated_Source\PSoC5\isr_byte_ultrasonic_rx.c</File>
-          <File BuildType="BUILD" Toolchain="">.\Generated_Source\PSoC5\isr_byte_ultrasonic_rx.h</File>
-          <File BuildType="BUILD" Toolchain="">.\Generated_Source\PSoC5\uart_ultrasonic_IntClock.c</File>
-          <File BuildType="BUILD" Toolchain="">.\Generated_Source\PSoC5\uart_ultrasonic_IntClock.h</File>
+          <File BuildType="BUILD" Toolchain="">.\Generated_Source\PSoC5\cycodeshareimport.ld</File>
+          <File BuildType="BUILD" Toolchain="">.\Generated_Source\PSoC5\cycodeshareexport.ld</File>
+          <File BuildType="BUILD" Toolchain="">.\Generated_Source\PSoC5\cycodeshareimport.scat</File>
         </Files>
       </Folder>
-      <Folder BuildType="STRICT" Path="C:\Users\Matthew\github\IoT\CellBoard\Cell Board.cydsn\Export\ARM_GCC_Generic">
-        <Files Root="C:\Users\Matthew\github\IoT\CellBoard\Cell Board.cydsn">
+      <Folder BuildType="STRICT" Path="C:\Users\cps\Documents\kLab\IoT\CellBoard\Cell Board.cydsn\Export\ARM_GCC_Generic">
+        <Files Root="C:\Users\cps\Documents\kLab\IoT\CellBoard\Cell Board.cydsn">
           <File BuildType="BUILD" Toolchain="ARM GCC Generic">.\Export\ARM_GCC_Generic\CyComponentLibrary.a</File>
         </Files>
       </Folder>
-      <Folder BuildType="STRICT" Path="C:\Users\Matthew\github\IoT\CellBoard\Cell Board.cydsn\Export\ARM_MDK_Generic">
-        <Files Root="C:\Users\Matthew\github\IoT\CellBoard\Cell Board.cydsn">
+      <Folder BuildType="STRICT" Path="C:\Users\cps\Documents\kLab\IoT\CellBoard\Cell Board.cydsn\Export\ARM_MDK_Generic">
+        <Files Root="C:\Users\cps\Documents\kLab\IoT\CellBoard\Cell Board.cydsn">
           <File BuildType="BUILD" Toolchain="ARM MDK Generic">.\Export\ARM_MDK_Generic\CyComponentLibrary.a</File>
         </Files>
       </Folder>
-      <Folder BuildType="STRICT" Path="C:\Users\Matthew\github\IoT\CellBoard\Cell Board.cydsn\Export\ARM_IAR_Generic">
-        <Files Root="C:\Users\Matthew\github\IoT\CellBoard\Cell Board.cydsn">
+      <Folder BuildType="STRICT" Path="C:\Users\cps\Documents\kLab\IoT\CellBoard\Cell Board.cydsn\Export\ARM_IAR_Generic">
+        <Files Root="C:\Users\cps\Documents\kLab\IoT\CellBoard\Cell Board.cydsn">
           <File BuildType="BUILD" Toolchain="ARM IAR Generic">.\Export\ARM_IAR_Generic\CyComponentLibrary.a</File>
         </Files>
       </Folder>
       <Folder BuildType="EXCLUDE" Path=".\codegentemp">
-        <Files Root="C:\Users\Matthew\github\IoT\CellBoard\Cell Board.cydsn" />
+        <Files Root="C:\Users\cps\Documents\kLab\IoT\CellBoard\Cell Board.cydsn" />
       </Folder>
       <Folder BuildType="EXCLUDE" Path=".\ARM_GCC_441">
-        <Files Root="C:\Users\Matthew\github\IoT\CellBoard\Cell Board.cydsn" />
+        <Files Root="C:\Users\cps\Documents\kLab\IoT\CellBoard\Cell Board.cydsn" />
       </Folder>
       <Folder BuildType="EXCLUDE" Path=".\ARM_GCC_473">
-        <Files Root="C:\Users\Matthew\github\IoT\CellBoard\Cell Board.cydsn" />
+        <Files Root="C:\Users\cps\Documents\kLab\IoT\CellBoard\Cell Board.cydsn" />
       </Folder>
       <Folder BuildType="EXCLUDE" Path=".\DP8051_Keil_952">
-        <Files Root="C:\Users\Matthew\github\IoT\CellBoard\Cell Board.cydsn" />
+        <Files Root="C:\Users\cps\Documents\kLab\IoT\CellBoard\Cell Board.cydsn" />
       </Folder>
       <Folder BuildType="EXCLUDE" Path=".\DP8051">
-        <Files Root="C:\Users\Matthew\github\IoT\CellBoard\Cell Board.cydsn" />
+        <Files Root="C:\Users\cps\Documents\kLab\IoT\CellBoard\Cell Board.cydsn" />
       </Folder>
       <Folder BuildType="EXCLUDE" Path=".\CortexM0">
-        <Files Root="C:\Users\Matthew\github\IoT\CellBoard\Cell Board.cydsn" />
+        <Files Root="C:\Users\cps\Documents\kLab\IoT\CellBoard\Cell Board.cydsn" />
       </Folder>
       <Folder BuildType="EXCLUDE" Path=".\CortexM3">
-        <Files Root="C:\Users\Matthew\github\IoT\CellBoard\Cell Board.cydsn" />
+        <Files Root="C:\Users\cps\Documents\kLab\IoT\CellBoard\Cell Board.cydsn" />
       </Folder>
       <Folder BuildType="EXCLUDE" Path=".\Generated_Source\PSoC3">
-        <Files Root="C:\Users\Matthew\github\IoT\CellBoard\Cell Board.cydsn" />
+        <Files Root="C:\Users\cps\Documents\kLab\IoT\CellBoard\Cell Board.cydsn" />
       </Folder>
       <Folder BuildType="EXCLUDE" Path=".\Generated_Source\PSoC4">
-        <Files Root="C:\Users\Matthew\github\IoT\CellBoard\Cell Board.cydsn" />
+        <Files Root="C:\Users\cps\Documents\kLab\IoT\CellBoard\Cell Board.cydsn" />
       </Folder>
     </Folders>
   </Project>

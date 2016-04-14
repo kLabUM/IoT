@@ -20,6 +20,7 @@
 #include <CyLib.h>
 #include <Telit_isr_rx.h>
 
+
 #if !defined(Telit_isr_rx__REMOVED) /* Check for removal by optimization */
 
 /*******************************************************************************
@@ -158,6 +159,10 @@ void Telit_isr_rx_Stop(void)
 *******************************************************************************/
 CY_ISR(Telit_isr_rx_Interrupt)
 {
+    #ifdef Telit_isr_rx_INTERRUPT_INTERRUPT_CALLBACK
+        Telit_isr_rx_Interrupt_InterruptCallback();
+    #endif /* Telit_isr_rx_INTERRUPT_INTERRUPT_CALLBACK */ 
+
     /*  Place your Interrupt code here. */
     /* `#START Telit_isr_rx_Interrupt` */
 

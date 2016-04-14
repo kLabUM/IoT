@@ -1,0 +1,1213 @@
+ARM GAS  C:\Users\cps\AppData\Local\Temp\ccvkDmn0.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 6
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.file	"packet.c"
+  15              		.text
+  16              	.Ltext0:
+  17              		.cfi_sections	.debug_frame
+  18              		.comm	error_str,4,4
+  19              		.section	.rodata
+  20              		.align	2
+  21              	.LC0:
+  22 0000 2573206E 		.ascii	"%s not found in packet: \012%s\000"
+  22      6F742066 
+  22      6F756E64 
+  22      20696E20 
+  22      7061636B 
+  23              		.align	2
+  24              	.LC1:
+  25 001c 5A2C00   		.ascii	"Z,\000"
+  26 001f 00       		.align	2
+  27              	.LC2:
+  28 0020 275A2C27 		.ascii	"'Z,' not found in packet: \012%s\000"
+  28      206E6F74 
+  28      20666F75 
+  28      6E642069 
+  28      6E207061 
+  29 003e 0000     		.align	2
+  30              	.LC3:
+  31 0040 270D2720 		.ascii	"'\015' not found in packet: \012%s\000"
+  31      6E6F7420 
+  31      666F756E 
+  31      6420696E 
+  31      20706163 
+  32 005d 000000   		.section	.text.packet_get_value,"ax",%progbits
+  33              		.align	2
+  34              		.global	packet_get_value
+  35              		.thumb
+  36              		.thumb_func
+  37              		.type	packet_get_value, %function
+  38              	packet_get_value:
+  39              	.LFB56:
+  40              		.file 1 ".\\packet.c"
+   1:.\packet.c    **** /* ========================================
+   2:.\packet.c    ****  *
+   3:.\packet.c    ****  * Copyright YOUR COMPANY, THE YEAR
+   4:.\packet.c    ****  * All Rights Reserved
+   5:.\packet.c    ****  * UNPUBLISHED, LICENSED SOFTWARE.
+ARM GAS  C:\Users\cps\AppData\Local\Temp\ccvkDmn0.s 			page 2
+
+
+   6:.\packet.c    ****  *
+   7:.\packet.c    ****  * CONFIDENTIAL AND PROPRIETARY INFORMATION
+   8:.\packet.c    ****  * WHICH IS THE PROPERTY OF your company.
+   9:.\packet.c    ****  *
+  10:.\packet.c    ****  * ========================================
+  11:.\packet.c    **** */
+  12:.\packet.c    **** #include "packet.h"
+  13:.\packet.c    **** //#include "debug.h" TODO: ACCOUNT FOR THIS
+  14:.\packet.c    **** 
+  15:.\packet.c    **** char* error_str;
+  16:.\packet.c    **** 
+  17:.\packet.c    **** /*
+  18:.\packet.c    **** Searches Xively packet for name and returns the associated value
+  19:.\packet.c    **** as a char array.
+  20:.\packet.c    **** Returns 1 if successful, and 0 if there was an error.
+  21:.\packet.c    **** */
+  22:.\packet.c    **** uint8 packet_get_value(char* packet, char* name, char* value) {
+  41              		.loc 1 22 0
+  42              		.cfi_startproc
+  43              		@ args = 0, pretend = 0, frame = 24
+  44              		@ frame_needed = 1, uses_anonymous_args = 0
+  45 0000 80B5     		push	{r7, lr}
+  46              		.cfi_def_cfa_offset 8
+  47              		.cfi_offset 7, -8
+  48              		.cfi_offset 14, -4
+  49 0002 86B0     		sub	sp, sp, #24
+  50              		.cfi_def_cfa_offset 32
+  51 0004 00AF     		add	r7, sp, #0
+  52              		.cfi_def_cfa_register 7
+  53 0006 F860     		str	r0, [r7, #12]
+  54 0008 B960     		str	r1, [r7, #8]
+  55 000a 7A60     		str	r2, [r7, #4]
+  23:.\packet.c    ****     char *a, *b;
+  24:.\packet.c    ****     
+  25:.\packet.c    ****     // Find the first occurence of "name" in "packet"
+  26:.\packet.c    ****     a = strstr(packet,name);
+  56              		.loc 1 26 0
+  57 000c F868     		ldr	r0, [r7, #12]
+  58 000e B968     		ldr	r1, [r7, #8]
+  59 0010 FFF7FEFF 		bl	strstr
+  60 0014 7861     		str	r0, [r7, #20]
+  27:.\packet.c    ****     if (a == NULL) {
+  61              		.loc 1 27 0
+  62 0016 7B69     		ldr	r3, [r7, #20]
+  63 0018 002B     		cmp	r3, #0
+  64 001a 09D1     		bne	.L2
+  28:.\packet.c    ****         sprintf(error_str, "%s not found in packet: \n%s", name, packet);
+  65              		.loc 1 28 0
+  66 001c 1D4B     		ldr	r3, .L6
+  67 001e 1B68     		ldr	r3, [r3]
+  68 0020 1846     		mov	r0, r3
+  69 0022 1D49     		ldr	r1, .L6+4
+  70 0024 BA68     		ldr	r2, [r7, #8]
+  71 0026 FB68     		ldr	r3, [r7, #12]
+  72 0028 FFF7FEFF 		bl	sprintf
+  29:.\packet.c    ****         /* Write to SD Card debugger
+  30:.\packet.c    ****         debug_write( error_str );
+ARM GAS  C:\Users\cps\AppData\Local\Temp\ccvkDmn0.s 			page 3
+
+
+  31:.\packet.c    ****         */
+  32:.\packet.c    ****         return 0u;
+  73              		.loc 1 32 0
+  74 002c 0023     		movs	r3, #0
+  75 002e 2CE0     		b	.L3
+  76              	.L2:
+  33:.\packet.c    ****     }
+  34:.\packet.c    ****     
+  35:.\packet.c    ****     // Move the pointer to the timestamp after the first occurence of "name"
+  36:.\packet.c    ****     // This marks where the value is
+  37:.\packet.c    ****     a = strstr(a,"Z,")+strlen("Z,");
+  77              		.loc 1 37 0
+  78 0030 7869     		ldr	r0, [r7, #20]
+  79 0032 1A49     		ldr	r1, .L6+8
+  80 0034 FFF7FEFF 		bl	strstr
+  81 0038 0346     		mov	r3, r0
+  82 003a 0233     		adds	r3, r3, #2
+  83 003c 7B61     		str	r3, [r7, #20]
+  38:.\packet.c    ****     if (a == NULL) {
+  84              		.loc 1 38 0
+  85 003e 7B69     		ldr	r3, [r7, #20]
+  86 0040 002B     		cmp	r3, #0
+  87 0042 08D1     		bne	.L4
+  39:.\packet.c    ****         sprintf(error_str, "'Z,' not found in packet: \n%s", packet);
+  88              		.loc 1 39 0
+  89 0044 134B     		ldr	r3, .L6
+  90 0046 1B68     		ldr	r3, [r3]
+  91 0048 1846     		mov	r0, r3
+  92 004a 1549     		ldr	r1, .L6+12
+  93 004c FA68     		ldr	r2, [r7, #12]
+  94 004e FFF7FEFF 		bl	sprintf
+  40:.\packet.c    ****         /* Write to SD Card debugger
+  41:.\packet.c    ****         debug_write( error_str );
+  42:.\packet.c    ****         */
+  43:.\packet.c    ****         return 0u;
+  95              		.loc 1 43 0
+  96 0052 0023     		movs	r3, #0
+  97 0054 19E0     		b	.L3
+  98              	.L4:
+  44:.\packet.c    ****     }
+  45:.\packet.c    ****     
+  46:.\packet.c    ****     // Find the carriage return, marking the end of the value
+  47:.\packet.c    ****     b = strstr(a,"\n");
+  99              		.loc 1 47 0
+ 100 0056 7869     		ldr	r0, [r7, #20]
+ 101 0058 0A21     		movs	r1, #10
+ 102 005a FFF7FEFF 		bl	strchr
+ 103 005e 3861     		str	r0, [r7, #16]
+  48:.\packet.c    ****     if (b == NULL) {
+ 104              		.loc 1 48 0
+ 105 0060 3B69     		ldr	r3, [r7, #16]
+ 106 0062 002B     		cmp	r3, #0
+ 107 0064 08D1     		bne	.L5
+  49:.\packet.c    ****         sprintf(error_str, "'\r' not found in packet: \n%s", packet);
+ 108              		.loc 1 49 0
+ 109 0066 0B4B     		ldr	r3, .L6
+ 110 0068 1B68     		ldr	r3, [r3]
+ARM GAS  C:\Users\cps\AppData\Local\Temp\ccvkDmn0.s 			page 4
+
+
+ 111 006a 1846     		mov	r0, r3
+ 112 006c 0D49     		ldr	r1, .L6+16
+ 113 006e FA68     		ldr	r2, [r7, #12]
+ 114 0070 FFF7FEFF 		bl	sprintf
+  50:.\packet.c    ****         /* Write to SD Card debugger
+  51:.\packet.c    ****         debug_write( error_str );
+  52:.\packet.c    ****         */
+  53:.\packet.c    ****         return 0u;
+ 115              		.loc 1 53 0
+ 116 0074 0023     		movs	r3, #0
+ 117 0076 08E0     		b	.L3
+ 118              	.L5:
+  54:.\packet.c    ****     }
+  55:.\packet.c    ****     
+  56:.\packet.c    ****     strncpy(value,a,b-a);   
+ 119              		.loc 1 56 0
+ 120 0078 3A69     		ldr	r2, [r7, #16]
+ 121 007a 7B69     		ldr	r3, [r7, #20]
+ 122 007c D31A     		subs	r3, r2, r3
+ 123 007e 7868     		ldr	r0, [r7, #4]
+ 124 0080 7969     		ldr	r1, [r7, #20]
+ 125 0082 1A46     		mov	r2, r3
+ 126 0084 FFF7FEFF 		bl	strncpy
+  57:.\packet.c    ****     return 1u;
+ 127              		.loc 1 57 0
+ 128 0088 0123     		movs	r3, #1
+ 129              	.L3:
+  58:.\packet.c    **** }
+ 130              		.loc 1 58 0
+ 131 008a 1846     		mov	r0, r3
+ 132 008c 1837     		adds	r7, r7, #24
+ 133              		.cfi_def_cfa_offset 8
+ 134 008e BD46     		mov	sp, r7
+ 135              		.cfi_def_cfa_register 13
+ 136              		@ sp needed
+ 137 0090 80BD     		pop	{r7, pc}
+ 138              	.L7:
+ 139 0092 00BF     		.align	2
+ 140              	.L6:
+ 141 0094 00000000 		.word	error_str
+ 142 0098 00000000 		.word	.LC0
+ 143 009c 1C000000 		.word	.LC1
+ 144 00a0 20000000 		.word	.LC2
+ 145 00a4 40000000 		.word	.LC3
+ 146              		.cfi_endproc
+ 147              	.LFE56:
+ 148              		.size	packet_get_value, .-packet_get_value
+ 149              		.section	.text.packet_get_uint8,"ax",%progbits
+ 150              		.align	2
+ 151              		.global	packet_get_uint8
+ 152              		.thumb
+ 153              		.thumb_func
+ 154              		.type	packet_get_uint8, %function
+ 155              	packet_get_uint8:
+ 156              	.LFB57:
+  59:.\packet.c    **** 
+  60:.\packet.c    **** /*
+ARM GAS  C:\Users\cps\AppData\Local\Temp\ccvkDmn0.s 			page 5
+
+
+  61:.\packet.c    **** Searches Xively packet for name and returns the associated value
+  62:.\packet.c    **** as uint32.
+  63:.\packet.c    **** Returns 1 if successful, and 0 if there was an error.
+  64:.\packet.c    **** */
+  65:.\packet.c    **** uint8 packet_get_uint8(char* packet, char* name, uint8* value) {
+ 157              		.loc 1 65 0
+ 158              		.cfi_startproc
+ 159              		@ args = 0, pretend = 0, frame = 40
+ 160              		@ frame_needed = 1, uses_anonymous_args = 0
+ 161 0000 80B5     		push	{r7, lr}
+ 162              		.cfi_def_cfa_offset 8
+ 163              		.cfi_offset 7, -8
+ 164              		.cfi_offset 14, -4
+ 165 0002 8AB0     		sub	sp, sp, #40
+ 166              		.cfi_def_cfa_offset 48
+ 167 0004 00AF     		add	r7, sp, #0
+ 168              		.cfi_def_cfa_register 7
+ 169 0006 F860     		str	r0, [r7, #12]
+ 170 0008 B960     		str	r1, [r7, #8]
+ 171 000a 7A60     		str	r2, [r7, #4]
+  66:.\packet.c    ****     char value_str[20] = {0}; // uint8 is at most 3 digits long
+ 172              		.loc 1 66 0
+ 173 000c 07F11403 		add	r3, r7, #20
+ 174 0010 0022     		movs	r2, #0
+ 175 0012 1A60     		str	r2, [r3]
+ 176 0014 0433     		adds	r3, r3, #4
+ 177 0016 0022     		movs	r2, #0
+ 178 0018 1A60     		str	r2, [r3]
+ 179 001a 0433     		adds	r3, r3, #4
+ 180 001c 0022     		movs	r2, #0
+ 181 001e 1A60     		str	r2, [r3]
+ 182 0020 0433     		adds	r3, r3, #4
+ 183 0022 0022     		movs	r2, #0
+ 184 0024 1A60     		str	r2, [r3]
+ 185 0026 0433     		adds	r3, r3, #4
+ 186 0028 0022     		movs	r2, #0
+ 187 002a 1A60     		str	r2, [r3]
+ 188 002c 0433     		adds	r3, r3, #4
+  67:.\packet.c    ****     
+  68:.\packet.c    ****     if( packet_get_value(packet, name, value_str) ){
+ 189              		.loc 1 68 0
+ 190 002e 07F11403 		add	r3, r7, #20
+ 191 0032 F868     		ldr	r0, [r7, #12]
+ 192 0034 B968     		ldr	r1, [r7, #8]
+ 193 0036 1A46     		mov	r2, r3
+ 194 0038 FFF7FEFF 		bl	packet_get_value
+ 195 003c 0346     		mov	r3, r0
+ 196 003e 002B     		cmp	r3, #0
+ 197 0040 0CD0     		beq	.L9
+  69:.\packet.c    ****         *value = (uint8) strtol(value_str,(char **) NULL, 10); // Base 10
+ 198              		.loc 1 69 0
+ 199 0042 07F11403 		add	r3, r7, #20
+ 200 0046 1846     		mov	r0, r3
+ 201 0048 0021     		movs	r1, #0
+ 202 004a 0A22     		movs	r2, #10
+ 203 004c FFF7FEFF 		bl	strtol
+ 204 0050 0346     		mov	r3, r0
+ARM GAS  C:\Users\cps\AppData\Local\Temp\ccvkDmn0.s 			page 6
+
+
+ 205 0052 DAB2     		uxtb	r2, r3
+ 206 0054 7B68     		ldr	r3, [r7, #4]
+ 207 0056 1A70     		strb	r2, [r3]
+  70:.\packet.c    ****         // http://www.cplusplus.com/reference/cstdlib/strtol/
+  71:.\packet.c    ****         return 1u;
+ 208              		.loc 1 71 0
+ 209 0058 0123     		movs	r3, #1
+ 210 005a 08E0     		b	.L11
+ 211              	.L9:
+  72:.\packet.c    ****     }
+  73:.\packet.c    ****         
+  74:.\packet.c    ****     sprintf(error_str, "%s not found in packet: \n%s", name, packet);
+ 212              		.loc 1 74 0
+ 213 005c 064B     		ldr	r3, .L12
+ 214 005e 1B68     		ldr	r3, [r3]
+ 215 0060 1846     		mov	r0, r3
+ 216 0062 0649     		ldr	r1, .L12+4
+ 217 0064 BA68     		ldr	r2, [r7, #8]
+ 218 0066 FB68     		ldr	r3, [r7, #12]
+ 219 0068 FFF7FEFF 		bl	sprintf
+  75:.\packet.c    ****     /* Write to SD Card debugger
+  76:.\packet.c    ****     debug_write( error_str );
+  77:.\packet.c    ****     */
+  78:.\packet.c    ****     return 0u;
+ 220              		.loc 1 78 0
+ 221 006c 0023     		movs	r3, #0
+ 222              	.L11:
+  79:.\packet.c    **** }
+ 223              		.loc 1 79 0 discriminator 1
+ 224 006e 1846     		mov	r0, r3
+ 225 0070 2837     		adds	r7, r7, #40
+ 226              		.cfi_def_cfa_offset 8
+ 227 0072 BD46     		mov	sp, r7
+ 228              		.cfi_def_cfa_register 13
+ 229              		@ sp needed
+ 230 0074 80BD     		pop	{r7, pc}
+ 231              	.L13:
+ 232 0076 00BF     		.align	2
+ 233              	.L12:
+ 234 0078 00000000 		.word	error_str
+ 235 007c 00000000 		.word	.LC0
+ 236              		.cfi_endproc
+ 237              	.LFE57:
+ 238              		.size	packet_get_uint8, .-packet_get_uint8
+ 239              		.section	.text.packet_get_uint32,"ax",%progbits
+ 240              		.align	2
+ 241              		.global	packet_get_uint32
+ 242              		.thumb
+ 243              		.thumb_func
+ 244              		.type	packet_get_uint32, %function
+ 245              	packet_get_uint32:
+ 246              	.LFB58:
+  80:.\packet.c    **** 
+  81:.\packet.c    **** /*
+  82:.\packet.c    **** Searches Xively packet for name and returns the associated value
+  83:.\packet.c    **** as uint32.
+  84:.\packet.c    **** Returns 1 if successful, and 0 if there was an error.
+ARM GAS  C:\Users\cps\AppData\Local\Temp\ccvkDmn0.s 			page 7
+
+
+  85:.\packet.c    **** */
+  86:.\packet.c    **** uint8 packet_get_uint32(char* packet, char* name, uint32* value) {
+ 247              		.loc 1 86 0
+ 248              		.cfi_startproc
+ 249              		@ args = 0, pretend = 0, frame = 40
+ 250              		@ frame_needed = 1, uses_anonymous_args = 0
+ 251 0000 80B5     		push	{r7, lr}
+ 252              		.cfi_def_cfa_offset 8
+ 253              		.cfi_offset 7, -8
+ 254              		.cfi_offset 14, -4
+ 255 0002 8AB0     		sub	sp, sp, #40
+ 256              		.cfi_def_cfa_offset 48
+ 257 0004 00AF     		add	r7, sp, #0
+ 258              		.cfi_def_cfa_register 7
+ 259 0006 F860     		str	r0, [r7, #12]
+ 260 0008 B960     		str	r1, [r7, #8]
+ 261 000a 7A60     		str	r2, [r7, #4]
+  87:.\packet.c    ****     char value_str[20] = {0}; // uint32 is at most 10 digits long
+ 262              		.loc 1 87 0
+ 263 000c 07F11403 		add	r3, r7, #20
+ 264 0010 0022     		movs	r2, #0
+ 265 0012 1A60     		str	r2, [r3]
+ 266 0014 0433     		adds	r3, r3, #4
+ 267 0016 0022     		movs	r2, #0
+ 268 0018 1A60     		str	r2, [r3]
+ 269 001a 0433     		adds	r3, r3, #4
+ 270 001c 0022     		movs	r2, #0
+ 271 001e 1A60     		str	r2, [r3]
+ 272 0020 0433     		adds	r3, r3, #4
+ 273 0022 0022     		movs	r2, #0
+ 274 0024 1A60     		str	r2, [r3]
+ 275 0026 0433     		adds	r3, r3, #4
+ 276 0028 0022     		movs	r2, #0
+ 277 002a 1A60     		str	r2, [r3]
+ 278 002c 0433     		adds	r3, r3, #4
+  88:.\packet.c    ****     
+  89:.\packet.c    ****     if( packet_get_value(packet, name, value_str) ){
+ 279              		.loc 1 89 0
+ 280 002e 07F11403 		add	r3, r7, #20
+ 281 0032 F868     		ldr	r0, [r7, #12]
+ 282 0034 B968     		ldr	r1, [r7, #8]
+ 283 0036 1A46     		mov	r2, r3
+ 284 0038 FFF7FEFF 		bl	packet_get_value
+ 285 003c 0346     		mov	r3, r0
+ 286 003e 002B     		cmp	r3, #0
+ 287 0040 0CD0     		beq	.L15
+  90:.\packet.c    ****         *value = (uint32) strtol(value_str,(char **) NULL, 10); // Base 10
+ 288              		.loc 1 90 0
+ 289 0042 07F11403 		add	r3, r7, #20
+ 290 0046 1846     		mov	r0, r3
+ 291 0048 0021     		movs	r1, #0
+ 292 004a 0A22     		movs	r2, #10
+ 293 004c FFF7FEFF 		bl	strtol
+ 294 0050 0346     		mov	r3, r0
+ 295 0052 1A46     		mov	r2, r3
+ 296 0054 7B68     		ldr	r3, [r7, #4]
+ 297 0056 1A60     		str	r2, [r3]
+ARM GAS  C:\Users\cps\AppData\Local\Temp\ccvkDmn0.s 			page 8
+
+
+  91:.\packet.c    ****         // http://www.cplusplus.com/reference/cstdlib/strtol/
+  92:.\packet.c    ****         return 1u;
+ 298              		.loc 1 92 0
+ 299 0058 0123     		movs	r3, #1
+ 300 005a 08E0     		b	.L17
+ 301              	.L15:
+  93:.\packet.c    ****     }
+  94:.\packet.c    ****         
+  95:.\packet.c    ****     sprintf(error_str, "%s not found in packet: \n%s", name, packet);
+ 302              		.loc 1 95 0
+ 303 005c 064B     		ldr	r3, .L18
+ 304 005e 1B68     		ldr	r3, [r3]
+ 305 0060 1846     		mov	r0, r3
+ 306 0062 0649     		ldr	r1, .L18+4
+ 307 0064 BA68     		ldr	r2, [r7, #8]
+ 308 0066 FB68     		ldr	r3, [r7, #12]
+ 309 0068 FFF7FEFF 		bl	sprintf
+  96:.\packet.c    ****     /* Write to SD Card debugger
+  97:.\packet.c    ****     debug_write( error_str );
+  98:.\packet.c    ****     */
+  99:.\packet.c    ****     return 0u;
+ 310              		.loc 1 99 0
+ 311 006c 0023     		movs	r3, #0
+ 312              	.L17:
+ 100:.\packet.c    **** }
+ 313              		.loc 1 100 0 discriminator 1
+ 314 006e 1846     		mov	r0, r3
+ 315 0070 2837     		adds	r7, r7, #40
+ 316              		.cfi_def_cfa_offset 8
+ 317 0072 BD46     		mov	sp, r7
+ 318              		.cfi_def_cfa_register 13
+ 319              		@ sp needed
+ 320 0074 80BD     		pop	{r7, pc}
+ 321              	.L19:
+ 322 0076 00BF     		.align	2
+ 323              	.L18:
+ 324 0078 00000000 		.word	error_str
+ 325 007c 00000000 		.word	.LC0
+ 326              		.cfi_endproc
+ 327              	.LFE58:
+ 328              		.size	packet_get_uint32, .-packet_get_uint32
+ 329              		.section	.text.clear_packet,"ax",%progbits
+ 330              		.align	2
+ 331              		.global	clear_packet
+ 332              		.thumb
+ 333              		.thumb_func
+ 334              		.type	clear_packet, %function
+ 335              	clear_packet:
+ 336              	.LFB59:
+ 101:.\packet.c    **** 
+ 102:.\packet.c    **** 
+ 103:.\packet.c    **** uint8 clear_packet(char* packet){
+ 337              		.loc 1 103 0
+ 338              		.cfi_startproc
+ 339              		@ args = 0, pretend = 0, frame = 8
+ 340              		@ frame_needed = 1, uses_anonymous_args = 0
+ 341 0000 80B5     		push	{r7, lr}
+ARM GAS  C:\Users\cps\AppData\Local\Temp\ccvkDmn0.s 			page 9
+
+
+ 342              		.cfi_def_cfa_offset 8
+ 343              		.cfi_offset 7, -8
+ 344              		.cfi_offset 14, -4
+ 345 0002 82B0     		sub	sp, sp, #8
+ 346              		.cfi_def_cfa_offset 16
+ 347 0004 00AF     		add	r7, sp, #0
+ 348              		.cfi_def_cfa_register 7
+ 349 0006 7860     		str	r0, [r7, #4]
+ 104:.\packet.c    ****     memset(packet,0,sizeof(packet));
+ 350              		.loc 1 104 0
+ 351 0008 7868     		ldr	r0, [r7, #4]
+ 352 000a 0021     		movs	r1, #0
+ 353 000c 0422     		movs	r2, #4
+ 354 000e FFF7FEFF 		bl	memset
+ 105:.\packet.c    ****     return 1u;
+ 355              		.loc 1 105 0
+ 356 0012 0123     		movs	r3, #1
+ 106:.\packet.c    **** }
+ 357              		.loc 1 106 0
+ 358 0014 1846     		mov	r0, r3
+ 359 0016 0837     		adds	r7, r7, #8
+ 360              		.cfi_def_cfa_offset 8
+ 361 0018 BD46     		mov	sp, r7
+ 362              		.cfi_def_cfa_register 13
+ 363              		@ sp needed
+ 364 001a 80BD     		pop	{r7, pc}
+ 365              		.cfi_endproc
+ 366              	.LFE59:
+ 367              		.size	clear_packet, .-clear_packet
+ 368              		.text
+ 369              	.Letext0:
+ 370              		.file 2 "c:\\program files (x86)\\cypress\\psoc creator\\3.3\\psoc creator\\import\\gnu\\arm\\4.9.
+ 371              		.file 3 "c:\\program files (x86)\\cypress\\psoc creator\\3.3\\psoc creator\\import\\gnu\\arm\\4.9.
+ 372              		.file 4 "Generated_Source\\PSoC5/cytypes.h"
+ 373              		.file 5 "Generated_Source\\PSoC5/core_cm3.h"
+ 374              		.section	.debug_info,"",%progbits
+ 375              	.Ldebug_info0:
+ 376 0000 1C020000 		.4byte	0x21c
+ 377 0004 0400     		.2byte	0x4
+ 378 0006 00000000 		.4byte	.Ldebug_abbrev0
+ 379 000a 04       		.byte	0x4
+ 380 000b 01       		.uleb128 0x1
+ 381 000c 10000000 		.4byte	.LASF27
+ 382 0010 01       		.byte	0x1
+ 383 0011 9E000000 		.4byte	.LASF28
+ 384 0015 FA000000 		.4byte	.LASF29
+ 385 0019 00000000 		.4byte	.Ldebug_ranges0+0
+ 386 001d 00000000 		.4byte	0
+ 387 0021 00000000 		.4byte	.Ldebug_line0
+ 388 0025 02       		.uleb128 0x2
+ 389 0026 01       		.byte	0x1
+ 390 0027 06       		.byte	0x6
+ 391 0028 F5010000 		.4byte	.LASF0
+ 392 002c 02       		.uleb128 0x2
+ 393 002d 01       		.byte	0x1
+ 394 002e 08       		.byte	0x8
+ 395 002f C7000000 		.4byte	.LASF1
+ARM GAS  C:\Users\cps\AppData\Local\Temp\ccvkDmn0.s 			page 10
+
+
+ 396 0033 02       		.uleb128 0x2
+ 397 0034 02       		.byte	0x2
+ 398 0035 05       		.byte	0x5
+ 399 0036 D1010000 		.4byte	.LASF2
+ 400 003a 02       		.uleb128 0x2
+ 401 003b 02       		.byte	0x2
+ 402 003c 07       		.byte	0x7
+ 403 003d E7000000 		.4byte	.LASF3
+ 404 0041 03       		.uleb128 0x3
+ 405 0042 06000000 		.4byte	.LASF9
+ 406 0046 02       		.byte	0x2
+ 407 0047 3F       		.byte	0x3f
+ 408 0048 4C000000 		.4byte	0x4c
+ 409 004c 02       		.uleb128 0x2
+ 410 004d 04       		.byte	0x4
+ 411 004e 05       		.byte	0x5
+ 412 004f EC010000 		.4byte	.LASF4
+ 413 0053 02       		.uleb128 0x2
+ 414 0054 04       		.byte	0x4
+ 415 0055 07       		.byte	0x7
+ 416 0056 D5000000 		.4byte	.LASF5
+ 417 005a 02       		.uleb128 0x2
+ 418 005b 08       		.byte	0x8
+ 419 005c 05       		.byte	0x5
+ 420 005d BE010000 		.4byte	.LASF6
+ 421 0061 02       		.uleb128 0x2
+ 422 0062 08       		.byte	0x8
+ 423 0063 07       		.byte	0x7
+ 424 0064 7C010000 		.4byte	.LASF7
+ 425 0068 04       		.uleb128 0x4
+ 426 0069 04       		.byte	0x4
+ 427 006a 05       		.byte	0x5
+ 428 006b 696E7400 		.ascii	"int\000"
+ 429 006f 02       		.uleb128 0x2
+ 430 0070 04       		.byte	0x4
+ 431 0071 07       		.byte	0x7
+ 432 0072 6F010000 		.4byte	.LASF8
+ 433 0076 03       		.uleb128 0x3
+ 434 0077 AD010000 		.4byte	.LASF10
+ 435 007b 03       		.byte	0x3
+ 436 007c 2C       		.byte	0x2c
+ 437 007d 41000000 		.4byte	0x41
+ 438 0081 03       		.uleb128 0x3
+ 439 0082 C1000000 		.4byte	.LASF11
+ 440 0086 04       		.byte	0x4
+ 441 0087 A1       		.byte	0xa1
+ 442 0088 2C000000 		.4byte	0x2c
+ 443 008c 03       		.uleb128 0x3
+ 444 008d 57010000 		.4byte	.LASF12
+ 445 0091 04       		.byte	0x4
+ 446 0092 A3       		.byte	0xa3
+ 447 0093 53000000 		.4byte	0x53
+ 448 0097 02       		.uleb128 0x2
+ 449 0098 04       		.byte	0x4
+ 450 0099 04       		.byte	0x4
+ 451 009a BB000000 		.4byte	.LASF13
+ 452 009e 02       		.uleb128 0x2
+ARM GAS  C:\Users\cps\AppData\Local\Temp\ccvkDmn0.s 			page 11
+
+
+ 453 009f 08       		.byte	0x8
+ 454 00a0 04       		.byte	0x4
+ 455 00a1 49010000 		.4byte	.LASF14
+ 456 00a5 02       		.uleb128 0x2
+ 457 00a6 01       		.byte	0x1
+ 458 00a7 08       		.byte	0x8
+ 459 00a8 CC010000 		.4byte	.LASF15
+ 460 00ac 02       		.uleb128 0x2
+ 461 00ad 04       		.byte	0x4
+ 462 00ae 07       		.byte	0x7
+ 463 00af B5010000 		.4byte	.LASF16
+ 464 00b3 05       		.uleb128 0x5
+ 465 00b4 04       		.byte	0x4
+ 466 00b5 A5000000 		.4byte	0xa5
+ 467 00b9 06       		.uleb128 0x6
+ 468 00ba 5E010000 		.4byte	.LASF20
+ 469 00be 01       		.byte	0x1
+ 470 00bf 16       		.byte	0x16
+ 471 00c0 81000000 		.4byte	0x81
+ 472 00c4 00000000 		.4byte	.LFB56
+ 473 00c8 A8000000 		.4byte	.LFE56-.LFB56
+ 474 00cc 01       		.uleb128 0x1
+ 475 00cd 9C       		.byte	0x9c
+ 476 00ce 15010000 		.4byte	0x115
+ 477 00d2 07       		.uleb128 0x7
+ 478 00d3 50010000 		.4byte	.LASF17
+ 479 00d7 01       		.byte	0x1
+ 480 00d8 16       		.byte	0x16
+ 481 00d9 B3000000 		.4byte	0xb3
+ 482 00dd 02       		.uleb128 0x2
+ 483 00de 91       		.byte	0x91
+ 484 00df 6C       		.sleb128 -20
+ 485 00e0 07       		.uleb128 0x7
+ 486 00e1 01020000 		.4byte	.LASF18
+ 487 00e5 01       		.byte	0x1
+ 488 00e6 16       		.byte	0x16
+ 489 00e7 B3000000 		.4byte	0xb3
+ 490 00eb 02       		.uleb128 0x2
+ 491 00ec 91       		.byte	0x91
+ 492 00ed 68       		.sleb128 -24
+ 493 00ee 07       		.uleb128 0x7
+ 494 00ef 00000000 		.4byte	.LASF19
+ 495 00f3 01       		.byte	0x1
+ 496 00f4 16       		.byte	0x16
+ 497 00f5 B3000000 		.4byte	0xb3
+ 498 00f9 02       		.uleb128 0x2
+ 499 00fa 91       		.byte	0x91
+ 500 00fb 64       		.sleb128 -28
+ 501 00fc 08       		.uleb128 0x8
+ 502 00fd 6100     		.ascii	"a\000"
+ 503 00ff 01       		.byte	0x1
+ 504 0100 17       		.byte	0x17
+ 505 0101 B3000000 		.4byte	0xb3
+ 506 0105 02       		.uleb128 0x2
+ 507 0106 91       		.byte	0x91
+ 508 0107 74       		.sleb128 -12
+ 509 0108 08       		.uleb128 0x8
+ARM GAS  C:\Users\cps\AppData\Local\Temp\ccvkDmn0.s 			page 12
+
+
+ 510 0109 6200     		.ascii	"b\000"
+ 511 010b 01       		.byte	0x1
+ 512 010c 17       		.byte	0x17
+ 513 010d B3000000 		.4byte	0xb3
+ 514 0111 02       		.uleb128 0x2
+ 515 0112 91       		.byte	0x91
+ 516 0113 70       		.sleb128 -16
+ 517 0114 00       		.byte	0
+ 518 0115 06       		.uleb128 0x6
+ 519 0116 DB010000 		.4byte	.LASF21
+ 520 011a 01       		.byte	0x1
+ 521 011b 41       		.byte	0x41
+ 522 011c 81000000 		.4byte	0x81
+ 523 0120 00000000 		.4byte	.LFB57
+ 524 0124 80000000 		.4byte	.LFE57-.LFB57
+ 525 0128 01       		.uleb128 0x1
+ 526 0129 9C       		.byte	0x9c
+ 527 012a 67010000 		.4byte	0x167
+ 528 012e 07       		.uleb128 0x7
+ 529 012f 50010000 		.4byte	.LASF17
+ 530 0133 01       		.byte	0x1
+ 531 0134 41       		.byte	0x41
+ 532 0135 B3000000 		.4byte	0xb3
+ 533 0139 02       		.uleb128 0x2
+ 534 013a 91       		.byte	0x91
+ 535 013b 5C       		.sleb128 -36
+ 536 013c 07       		.uleb128 0x7
+ 537 013d 01020000 		.4byte	.LASF18
+ 538 0141 01       		.byte	0x1
+ 539 0142 41       		.byte	0x41
+ 540 0143 B3000000 		.4byte	0xb3
+ 541 0147 02       		.uleb128 0x2
+ 542 0148 91       		.byte	0x91
+ 543 0149 58       		.sleb128 -40
+ 544 014a 07       		.uleb128 0x7
+ 545 014b 00000000 		.4byte	.LASF19
+ 546 014f 01       		.byte	0x1
+ 547 0150 41       		.byte	0x41
+ 548 0151 67010000 		.4byte	0x167
+ 549 0155 02       		.uleb128 0x2
+ 550 0156 91       		.byte	0x91
+ 551 0157 54       		.sleb128 -44
+ 552 0158 09       		.uleb128 0x9
+ 553 0159 3F010000 		.4byte	.LASF22
+ 554 015d 01       		.byte	0x1
+ 555 015e 42       		.byte	0x42
+ 556 015f 6D010000 		.4byte	0x16d
+ 557 0163 02       		.uleb128 0x2
+ 558 0164 91       		.byte	0x91
+ 559 0165 64       		.sleb128 -28
+ 560 0166 00       		.byte	0
+ 561 0167 05       		.uleb128 0x5
+ 562 0168 04       		.byte	0x4
+ 563 0169 81000000 		.4byte	0x81
+ 564 016d 0A       		.uleb128 0xa
+ 565 016e A5000000 		.4byte	0xa5
+ 566 0172 7D010000 		.4byte	0x17d
+ARM GAS  C:\Users\cps\AppData\Local\Temp\ccvkDmn0.s 			page 13
+
+
+ 567 0176 0B       		.uleb128 0xb
+ 568 0177 AC000000 		.4byte	0xac
+ 569 017b 13       		.byte	0x13
+ 570 017c 00       		.byte	0
+ 571 017d 06       		.uleb128 0x6
+ 572 017e A9000000 		.4byte	.LASF23
+ 573 0182 01       		.byte	0x1
+ 574 0183 56       		.byte	0x56
+ 575 0184 81000000 		.4byte	0x81
+ 576 0188 00000000 		.4byte	.LFB58
+ 577 018c 80000000 		.4byte	.LFE58-.LFB58
+ 578 0190 01       		.uleb128 0x1
+ 579 0191 9C       		.byte	0x9c
+ 580 0192 CF010000 		.4byte	0x1cf
+ 581 0196 07       		.uleb128 0x7
+ 582 0197 50010000 		.4byte	.LASF17
+ 583 019b 01       		.byte	0x1
+ 584 019c 56       		.byte	0x56
+ 585 019d B3000000 		.4byte	0xb3
+ 586 01a1 02       		.uleb128 0x2
+ 587 01a2 91       		.byte	0x91
+ 588 01a3 5C       		.sleb128 -36
+ 589 01a4 07       		.uleb128 0x7
+ 590 01a5 01020000 		.4byte	.LASF18
+ 591 01a9 01       		.byte	0x1
+ 592 01aa 56       		.byte	0x56
+ 593 01ab B3000000 		.4byte	0xb3
+ 594 01af 02       		.uleb128 0x2
+ 595 01b0 91       		.byte	0x91
+ 596 01b1 58       		.sleb128 -40
+ 597 01b2 07       		.uleb128 0x7
+ 598 01b3 00000000 		.4byte	.LASF19
+ 599 01b7 01       		.byte	0x1
+ 600 01b8 56       		.byte	0x56
+ 601 01b9 CF010000 		.4byte	0x1cf
+ 602 01bd 02       		.uleb128 0x2
+ 603 01be 91       		.byte	0x91
+ 604 01bf 54       		.sleb128 -44
+ 605 01c0 09       		.uleb128 0x9
+ 606 01c1 3F010000 		.4byte	.LASF22
+ 607 01c5 01       		.byte	0x1
+ 608 01c6 57       		.byte	0x57
+ 609 01c7 6D010000 		.4byte	0x16d
+ 610 01cb 02       		.uleb128 0x2
+ 611 01cc 91       		.byte	0x91
+ 612 01cd 64       		.sleb128 -28
+ 613 01ce 00       		.byte	0
+ 614 01cf 05       		.uleb128 0x5
+ 615 01d0 04       		.byte	0x4
+ 616 01d1 8C000000 		.4byte	0x8c
+ 617 01d5 06       		.uleb128 0x6
+ 618 01d6 93010000 		.4byte	.LASF24
+ 619 01da 01       		.byte	0x1
+ 620 01db 67       		.byte	0x67
+ 621 01dc 81000000 		.4byte	0x81
+ 622 01e0 00000000 		.4byte	.LFB59
+ 623 01e4 1C000000 		.4byte	.LFE59-.LFB59
+ARM GAS  C:\Users\cps\AppData\Local\Temp\ccvkDmn0.s 			page 14
+
+
+ 624 01e8 01       		.uleb128 0x1
+ 625 01e9 9C       		.byte	0x9c
+ 626 01ea FD010000 		.4byte	0x1fd
+ 627 01ee 07       		.uleb128 0x7
+ 628 01ef 50010000 		.4byte	.LASF17
+ 629 01f3 01       		.byte	0x1
+ 630 01f4 67       		.byte	0x67
+ 631 01f5 B3000000 		.4byte	0xb3
+ 632 01f9 02       		.uleb128 0x2
+ 633 01fa 91       		.byte	0x91
+ 634 01fb 74       		.sleb128 -12
+ 635 01fc 00       		.byte	0
+ 636 01fd 0C       		.uleb128 0xc
+ 637 01fe A0010000 		.4byte	.LASF25
+ 638 0202 05       		.byte	0x5
+ 639 0203 1606     		.2byte	0x616
+ 640 0205 09020000 		.4byte	0x209
+ 641 0209 0D       		.uleb128 0xd
+ 642 020a 76000000 		.4byte	0x76
+ 643 020e 0E       		.uleb128 0xe
+ 644 020f 35010000 		.4byte	.LASF26
+ 645 0213 01       		.byte	0x1
+ 646 0214 0F       		.byte	0xf
+ 647 0215 B3000000 		.4byte	0xb3
+ 648 0219 05       		.uleb128 0x5
+ 649 021a 03       		.byte	0x3
+ 650 021b 00000000 		.4byte	error_str
+ 651 021f 00       		.byte	0
+ 652              		.section	.debug_abbrev,"",%progbits
+ 653              	.Ldebug_abbrev0:
+ 654 0000 01       		.uleb128 0x1
+ 655 0001 11       		.uleb128 0x11
+ 656 0002 01       		.byte	0x1
+ 657 0003 25       		.uleb128 0x25
+ 658 0004 0E       		.uleb128 0xe
+ 659 0005 13       		.uleb128 0x13
+ 660 0006 0B       		.uleb128 0xb
+ 661 0007 03       		.uleb128 0x3
+ 662 0008 0E       		.uleb128 0xe
+ 663 0009 1B       		.uleb128 0x1b
+ 664 000a 0E       		.uleb128 0xe
+ 665 000b 55       		.uleb128 0x55
+ 666 000c 17       		.uleb128 0x17
+ 667 000d 11       		.uleb128 0x11
+ 668 000e 01       		.uleb128 0x1
+ 669 000f 10       		.uleb128 0x10
+ 670 0010 17       		.uleb128 0x17
+ 671 0011 00       		.byte	0
+ 672 0012 00       		.byte	0
+ 673 0013 02       		.uleb128 0x2
+ 674 0014 24       		.uleb128 0x24
+ 675 0015 00       		.byte	0
+ 676 0016 0B       		.uleb128 0xb
+ 677 0017 0B       		.uleb128 0xb
+ 678 0018 3E       		.uleb128 0x3e
+ 679 0019 0B       		.uleb128 0xb
+ 680 001a 03       		.uleb128 0x3
+ARM GAS  C:\Users\cps\AppData\Local\Temp\ccvkDmn0.s 			page 15
+
+
+ 681 001b 0E       		.uleb128 0xe
+ 682 001c 00       		.byte	0
+ 683 001d 00       		.byte	0
+ 684 001e 03       		.uleb128 0x3
+ 685 001f 16       		.uleb128 0x16
+ 686 0020 00       		.byte	0
+ 687 0021 03       		.uleb128 0x3
+ 688 0022 0E       		.uleb128 0xe
+ 689 0023 3A       		.uleb128 0x3a
+ 690 0024 0B       		.uleb128 0xb
+ 691 0025 3B       		.uleb128 0x3b
+ 692 0026 0B       		.uleb128 0xb
+ 693 0027 49       		.uleb128 0x49
+ 694 0028 13       		.uleb128 0x13
+ 695 0029 00       		.byte	0
+ 696 002a 00       		.byte	0
+ 697 002b 04       		.uleb128 0x4
+ 698 002c 24       		.uleb128 0x24
+ 699 002d 00       		.byte	0
+ 700 002e 0B       		.uleb128 0xb
+ 701 002f 0B       		.uleb128 0xb
+ 702 0030 3E       		.uleb128 0x3e
+ 703 0031 0B       		.uleb128 0xb
+ 704 0032 03       		.uleb128 0x3
+ 705 0033 08       		.uleb128 0x8
+ 706 0034 00       		.byte	0
+ 707 0035 00       		.byte	0
+ 708 0036 05       		.uleb128 0x5
+ 709 0037 0F       		.uleb128 0xf
+ 710 0038 00       		.byte	0
+ 711 0039 0B       		.uleb128 0xb
+ 712 003a 0B       		.uleb128 0xb
+ 713 003b 49       		.uleb128 0x49
+ 714 003c 13       		.uleb128 0x13
+ 715 003d 00       		.byte	0
+ 716 003e 00       		.byte	0
+ 717 003f 06       		.uleb128 0x6
+ 718 0040 2E       		.uleb128 0x2e
+ 719 0041 01       		.byte	0x1
+ 720 0042 3F       		.uleb128 0x3f
+ 721 0043 19       		.uleb128 0x19
+ 722 0044 03       		.uleb128 0x3
+ 723 0045 0E       		.uleb128 0xe
+ 724 0046 3A       		.uleb128 0x3a
+ 725 0047 0B       		.uleb128 0xb
+ 726 0048 3B       		.uleb128 0x3b
+ 727 0049 0B       		.uleb128 0xb
+ 728 004a 27       		.uleb128 0x27
+ 729 004b 19       		.uleb128 0x19
+ 730 004c 49       		.uleb128 0x49
+ 731 004d 13       		.uleb128 0x13
+ 732 004e 11       		.uleb128 0x11
+ 733 004f 01       		.uleb128 0x1
+ 734 0050 12       		.uleb128 0x12
+ 735 0051 06       		.uleb128 0x6
+ 736 0052 40       		.uleb128 0x40
+ 737 0053 18       		.uleb128 0x18
+ARM GAS  C:\Users\cps\AppData\Local\Temp\ccvkDmn0.s 			page 16
+
+
+ 738 0054 9642     		.uleb128 0x2116
+ 739 0056 19       		.uleb128 0x19
+ 740 0057 01       		.uleb128 0x1
+ 741 0058 13       		.uleb128 0x13
+ 742 0059 00       		.byte	0
+ 743 005a 00       		.byte	0
+ 744 005b 07       		.uleb128 0x7
+ 745 005c 05       		.uleb128 0x5
+ 746 005d 00       		.byte	0
+ 747 005e 03       		.uleb128 0x3
+ 748 005f 0E       		.uleb128 0xe
+ 749 0060 3A       		.uleb128 0x3a
+ 750 0061 0B       		.uleb128 0xb
+ 751 0062 3B       		.uleb128 0x3b
+ 752 0063 0B       		.uleb128 0xb
+ 753 0064 49       		.uleb128 0x49
+ 754 0065 13       		.uleb128 0x13
+ 755 0066 02       		.uleb128 0x2
+ 756 0067 18       		.uleb128 0x18
+ 757 0068 00       		.byte	0
+ 758 0069 00       		.byte	0
+ 759 006a 08       		.uleb128 0x8
+ 760 006b 34       		.uleb128 0x34
+ 761 006c 00       		.byte	0
+ 762 006d 03       		.uleb128 0x3
+ 763 006e 08       		.uleb128 0x8
+ 764 006f 3A       		.uleb128 0x3a
+ 765 0070 0B       		.uleb128 0xb
+ 766 0071 3B       		.uleb128 0x3b
+ 767 0072 0B       		.uleb128 0xb
+ 768 0073 49       		.uleb128 0x49
+ 769 0074 13       		.uleb128 0x13
+ 770 0075 02       		.uleb128 0x2
+ 771 0076 18       		.uleb128 0x18
+ 772 0077 00       		.byte	0
+ 773 0078 00       		.byte	0
+ 774 0079 09       		.uleb128 0x9
+ 775 007a 34       		.uleb128 0x34
+ 776 007b 00       		.byte	0
+ 777 007c 03       		.uleb128 0x3
+ 778 007d 0E       		.uleb128 0xe
+ 779 007e 3A       		.uleb128 0x3a
+ 780 007f 0B       		.uleb128 0xb
+ 781 0080 3B       		.uleb128 0x3b
+ 782 0081 0B       		.uleb128 0xb
+ 783 0082 49       		.uleb128 0x49
+ 784 0083 13       		.uleb128 0x13
+ 785 0084 02       		.uleb128 0x2
+ 786 0085 18       		.uleb128 0x18
+ 787 0086 00       		.byte	0
+ 788 0087 00       		.byte	0
+ 789 0088 0A       		.uleb128 0xa
+ 790 0089 01       		.uleb128 0x1
+ 791 008a 01       		.byte	0x1
+ 792 008b 49       		.uleb128 0x49
+ 793 008c 13       		.uleb128 0x13
+ 794 008d 01       		.uleb128 0x1
+ARM GAS  C:\Users\cps\AppData\Local\Temp\ccvkDmn0.s 			page 17
+
+
+ 795 008e 13       		.uleb128 0x13
+ 796 008f 00       		.byte	0
+ 797 0090 00       		.byte	0
+ 798 0091 0B       		.uleb128 0xb
+ 799 0092 21       		.uleb128 0x21
+ 800 0093 00       		.byte	0
+ 801 0094 49       		.uleb128 0x49
+ 802 0095 13       		.uleb128 0x13
+ 803 0096 2F       		.uleb128 0x2f
+ 804 0097 0B       		.uleb128 0xb
+ 805 0098 00       		.byte	0
+ 806 0099 00       		.byte	0
+ 807 009a 0C       		.uleb128 0xc
+ 808 009b 34       		.uleb128 0x34
+ 809 009c 00       		.byte	0
+ 810 009d 03       		.uleb128 0x3
+ 811 009e 0E       		.uleb128 0xe
+ 812 009f 3A       		.uleb128 0x3a
+ 813 00a0 0B       		.uleb128 0xb
+ 814 00a1 3B       		.uleb128 0x3b
+ 815 00a2 05       		.uleb128 0x5
+ 816 00a3 49       		.uleb128 0x49
+ 817 00a4 13       		.uleb128 0x13
+ 818 00a5 3F       		.uleb128 0x3f
+ 819 00a6 19       		.uleb128 0x19
+ 820 00a7 3C       		.uleb128 0x3c
+ 821 00a8 19       		.uleb128 0x19
+ 822 00a9 00       		.byte	0
+ 823 00aa 00       		.byte	0
+ 824 00ab 0D       		.uleb128 0xd
+ 825 00ac 35       		.uleb128 0x35
+ 826 00ad 00       		.byte	0
+ 827 00ae 49       		.uleb128 0x49
+ 828 00af 13       		.uleb128 0x13
+ 829 00b0 00       		.byte	0
+ 830 00b1 00       		.byte	0
+ 831 00b2 0E       		.uleb128 0xe
+ 832 00b3 34       		.uleb128 0x34
+ 833 00b4 00       		.byte	0
+ 834 00b5 03       		.uleb128 0x3
+ 835 00b6 0E       		.uleb128 0xe
+ 836 00b7 3A       		.uleb128 0x3a
+ 837 00b8 0B       		.uleb128 0xb
+ 838 00b9 3B       		.uleb128 0x3b
+ 839 00ba 0B       		.uleb128 0xb
+ 840 00bb 49       		.uleb128 0x49
+ 841 00bc 13       		.uleb128 0x13
+ 842 00bd 3F       		.uleb128 0x3f
+ 843 00be 19       		.uleb128 0x19
+ 844 00bf 02       		.uleb128 0x2
+ 845 00c0 18       		.uleb128 0x18
+ 846 00c1 00       		.byte	0
+ 847 00c2 00       		.byte	0
+ 848 00c3 00       		.byte	0
+ 849              		.section	.debug_aranges,"",%progbits
+ 850 0000 34000000 		.4byte	0x34
+ 851 0004 0200     		.2byte	0x2
+ARM GAS  C:\Users\cps\AppData\Local\Temp\ccvkDmn0.s 			page 18
+
+
+ 852 0006 00000000 		.4byte	.Ldebug_info0
+ 853 000a 04       		.byte	0x4
+ 854 000b 00       		.byte	0
+ 855 000c 0000     		.2byte	0
+ 856 000e 0000     		.2byte	0
+ 857 0010 00000000 		.4byte	.LFB56
+ 858 0014 A8000000 		.4byte	.LFE56-.LFB56
+ 859 0018 00000000 		.4byte	.LFB57
+ 860 001c 80000000 		.4byte	.LFE57-.LFB57
+ 861 0020 00000000 		.4byte	.LFB58
+ 862 0024 80000000 		.4byte	.LFE58-.LFB58
+ 863 0028 00000000 		.4byte	.LFB59
+ 864 002c 1C000000 		.4byte	.LFE59-.LFB59
+ 865 0030 00000000 		.4byte	0
+ 866 0034 00000000 		.4byte	0
+ 867              		.section	.debug_ranges,"",%progbits
+ 868              	.Ldebug_ranges0:
+ 869 0000 00000000 		.4byte	.LFB56
+ 870 0004 A8000000 		.4byte	.LFE56
+ 871 0008 00000000 		.4byte	.LFB57
+ 872 000c 80000000 		.4byte	.LFE57
+ 873 0010 00000000 		.4byte	.LFB58
+ 874 0014 80000000 		.4byte	.LFE58
+ 875 0018 00000000 		.4byte	.LFB59
+ 876 001c 1C000000 		.4byte	.LFE59
+ 877 0020 00000000 		.4byte	0
+ 878 0024 00000000 		.4byte	0
+ 879              		.section	.debug_line,"",%progbits
+ 880              	.Ldebug_line0:
+ 881 0000 BA010000 		.section	.debug_str,"MS",%progbits,1
+ 881      02004B01 
+ 881      00000201 
+ 881      FB0E0D00 
+ 881      01010101 
+ 882              	.LASF19:
+ 883 0000 76616C75 		.ascii	"value\000"
+ 883      6500
+ 884              	.LASF9:
+ 885 0006 5F5F696E 		.ascii	"__int32_t\000"
+ 885      7433325F 
+ 885      7400
+ 886              	.LASF27:
+ 887 0010 474E5520 		.ascii	"GNU C 4.9.3 20150303 (release) [ARM/embedded-4_9-br"
+ 887      4320342E 
+ 887      392E3320 
+ 887      32303135 
+ 887      30333033 
+ 888 0043 616E6368 		.ascii	"anch revision 221220] -mcpu=cortex-m3 -mthumb -g -O"
+ 888      20726576 
+ 888      6973696F 
+ 888      6E203232 
+ 888      31323230 
+ 889 0076 30202D66 		.ascii	"0 -ffunction-sections -ffat-lto-objects\000"
+ 889      66756E63 
+ 889      74696F6E 
+ 889      2D736563 
+ 889      74696F6E 
+ARM GAS  C:\Users\cps\AppData\Local\Temp\ccvkDmn0.s 			page 19
+
+
+ 890              	.LASF28:
+ 891 009e 2E5C7061 		.ascii	".\\packet.c\000"
+ 891      636B6574 
+ 891      2E6300
+ 892              	.LASF23:
+ 893 00a9 7061636B 		.ascii	"packet_get_uint32\000"
+ 893      65745F67 
+ 893      65745F75 
+ 893      696E7433 
+ 893      3200
+ 894              	.LASF13:
+ 895 00bb 666C6F61 		.ascii	"float\000"
+ 895      7400
+ 896              	.LASF11:
+ 897 00c1 75696E74 		.ascii	"uint8\000"
+ 897      3800
+ 898              	.LASF1:
+ 899 00c7 756E7369 		.ascii	"unsigned char\000"
+ 899      676E6564 
+ 899      20636861 
+ 899      7200
+ 900              	.LASF5:
+ 901 00d5 6C6F6E67 		.ascii	"long unsigned int\000"
+ 901      20756E73 
+ 901      69676E65 
+ 901      6420696E 
+ 901      7400
+ 902              	.LASF3:
+ 903 00e7 73686F72 		.ascii	"short unsigned int\000"
+ 903      7420756E 
+ 903      7369676E 
+ 903      65642069 
+ 903      6E7400
+ 904              	.LASF29:
+ 905 00fa 433A5C55 		.ascii	"C:\\Users\\cps\\Documents\\kLab\\IoT\\CellBoard\\Ce"
+ 905      73657273 
+ 905      5C637073 
+ 905      5C446F63 
+ 905      756D656E 
+ 906 0126 6C6C2042 		.ascii	"ll Board.cydsn\000"
+ 906      6F617264 
+ 906      2E637964 
+ 906      736E00
+ 907              	.LASF26:
+ 908 0135 6572726F 		.ascii	"error_str\000"
+ 908      725F7374 
+ 908      7200
+ 909              	.LASF22:
+ 910 013f 76616C75 		.ascii	"value_str\000"
+ 910      655F7374 
+ 910      7200
+ 911              	.LASF14:
+ 912 0149 646F7562 		.ascii	"double\000"
+ 912      6C6500
+ 913              	.LASF17:
+ 914 0150 7061636B 		.ascii	"packet\000"
+ 914      657400
+ARM GAS  C:\Users\cps\AppData\Local\Temp\ccvkDmn0.s 			page 20
+
+
+ 915              	.LASF12:
+ 916 0157 75696E74 		.ascii	"uint32\000"
+ 916      333200
+ 917              	.LASF20:
+ 918 015e 7061636B 		.ascii	"packet_get_value\000"
+ 918      65745F67 
+ 918      65745F76 
+ 918      616C7565 
+ 918      00
+ 919              	.LASF8:
+ 920 016f 756E7369 		.ascii	"unsigned int\000"
+ 920      676E6564 
+ 920      20696E74 
+ 920      00
+ 921              	.LASF7:
+ 922 017c 6C6F6E67 		.ascii	"long long unsigned int\000"
+ 922      206C6F6E 
+ 922      6720756E 
+ 922      7369676E 
+ 922      65642069 
+ 923              	.LASF24:
+ 924 0193 636C6561 		.ascii	"clear_packet\000"
+ 924      725F7061 
+ 924      636B6574 
+ 924      00
+ 925              	.LASF25:
+ 926 01a0 49544D5F 		.ascii	"ITM_RxBuffer\000"
+ 926      52784275 
+ 926      66666572 
+ 926      00
+ 927              	.LASF10:
+ 928 01ad 696E7433 		.ascii	"int32_t\000"
+ 928      325F7400 
+ 929              	.LASF16:
+ 930 01b5 73697A65 		.ascii	"sizetype\000"
+ 930      74797065 
+ 930      00
+ 931              	.LASF6:
+ 932 01be 6C6F6E67 		.ascii	"long long int\000"
+ 932      206C6F6E 
+ 932      6720696E 
+ 932      7400
+ 933              	.LASF15:
+ 934 01cc 63686172 		.ascii	"char\000"
+ 934      00
+ 935              	.LASF2:
+ 936 01d1 73686F72 		.ascii	"short int\000"
+ 936      7420696E 
+ 936      7400
+ 937              	.LASF21:
+ 938 01db 7061636B 		.ascii	"packet_get_uint8\000"
+ 938      65745F67 
+ 938      65745F75 
+ 938      696E7438 
+ 938      00
+ 939              	.LASF4:
+ 940 01ec 6C6F6E67 		.ascii	"long int\000"
+ARM GAS  C:\Users\cps\AppData\Local\Temp\ccvkDmn0.s 			page 21
+
+
+ 940      20696E74 
+ 940      00
+ 941              	.LASF0:
+ 942 01f5 7369676E 		.ascii	"signed char\000"
+ 942      65642063 
+ 942      68617200 
+ 943              	.LASF18:
+ 944 0201 6E616D65 		.ascii	"name\000"
+ 944      00
+ 945              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 4.9.3 20150303 (release) [ARM/embedded-4_9-br

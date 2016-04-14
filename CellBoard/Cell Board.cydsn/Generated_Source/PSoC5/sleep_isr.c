@@ -20,6 +20,7 @@
 #include <CyLib.h>
 #include <sleep_isr.h>
 
+
 #if !defined(sleep_isr__REMOVED) /* Check for removal by optimization */
 
 /*******************************************************************************
@@ -158,6 +159,10 @@ void sleep_isr_Stop(void)
 *******************************************************************************/
 CY_ISR(sleep_isr_Interrupt)
 {
+    #ifdef sleep_isr_INTERRUPT_INTERRUPT_CALLBACK
+        sleep_isr_Interrupt_InterruptCallback();
+    #endif /* sleep_isr_INTERRUPT_INTERRUPT_CALLBACK */ 
+
     /*  Place your Interrupt code here. */
     /* `#START sleep_isr_Interrupt` */
 

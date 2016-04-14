@@ -1,0 +1,786 @@
+ARM GAS  C:\Users\cps\AppData\Local\Temp\ccT8WRzG.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m3
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 6
+  11              		.eabi_attribute 34, 1
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.file	"main.c"
+  15              		.text
+  16              	.Ltext0:
+  17              		.cfi_sections	.debug_frame
+  18              		.section	.text.main,"ax",%progbits
+  19              		.align	2
+  20              		.global	main
+  21              		.thumb
+  22              		.thumb_func
+  23              		.type	main, %function
+  24              	main:
+  25              	.LFB56:
+  26              		.file 1 ".\\main.c"
+   1:.\main.c      **** /* ========================================
+   2:.\main.c      ****  *
+   3:.\main.c      ****  * Copyright YOUR COMPANY, THE YEAR
+   4:.\main.c      ****  * All Rights Reserved
+   5:.\main.c      ****  * UNPUBLISHED, LICENSED SOFTWARE.
+   6:.\main.c      ****  *
+   7:.\main.c      ****  * CONFIDENTIAL AND PROPRIETARY INFORMATION
+   8:.\main.c      ****  * WHICH IS THE PROPERTY OF your company.
+   9:.\main.c      ****  *
+  10:.\main.c      ****  * ========================================
+  11:.\main.c      **** */
+  12:.\main.c      **** //#include <device.h>
+  13:.\main.c      **** #include <project.h>
+  14:.\main.c      **** #include "modem.h"
+  15:.\main.c      **** #include "utilities.h"
+  16:.\main.c      **** #include "packet.h"
+  17:.\main.c      **** 
+  18:.\main.c      **** 
+  19:.\main.c      **** CY_ISR_PROTO(Wakeup_ISR);
+  20:.\main.c      **** void Goto_Sleep();
+  21:.\main.c      **** 
+  22:.\main.c      **** int main()
+  23:.\main.c      **** {
+  27              		.loc 1 23 0
+  28              		.cfi_startproc
+  29              		@ args = 0, pretend = 0, frame = 8
+  30              		@ frame_needed = 1, uses_anonymous_args = 0
+  31 0000 80B5     		push	{r7, lr}
+  32              		.cfi_def_cfa_offset 8
+  33              		.cfi_offset 7, -8
+  34              		.cfi_offset 14, -4
+ARM GAS  C:\Users\cps\AppData\Local\Temp\ccT8WRzG.s 			page 2
+
+
+  35 0002 82B0     		sub	sp, sp, #8
+  36              		.cfi_def_cfa_offset 16
+  37 0004 00AF     		add	r7, sp, #0
+  38              		.cfi_def_cfa_register 7
+  24:.\main.c      ****     /* Place your initialization/startup code here (e.g. MyInst_Start()) */
+  25:.\main.c      ****     CyGlobalIntEnable; /* Uncomment this line to enable global interrupts. */
+  39              		.loc 1 25 0
+  40              	@ 25 ".\main.c" 1
+  41 0006 62B6     		CPSIE   i
+  42              	@ 0 "" 2
+  26:.\main.c      **** 	
+  27:.\main.c      **** 
+  28:.\main.c      **** 	sleep_isr_StartEx(Wakeup_ISR); // Start Sleep ISR
+  43              		.loc 1 28 0
+  44              		.thumb
+  45 0008 1248     		ldr	r0, .L4
+  46 000a FFF7FEFF 		bl	sleep_isr_StartEx
+  29:.\main.c      **** 	SleepTimer_SetInterval(SleepTimer__CTW_256_MS);
+  47              		.loc 1 29 0
+  48 000e 0820     		movs	r0, #8
+  49 0010 FFF7FEFF 		bl	SleepTimer_SetInterval
+  30:.\main.c      **** 	SleepTimer_Start();			   // Start SleepTimer Compnent	
+  50              		.loc 1 30 0
+  51 0014 FFF7FEFF 		bl	SleepTimer_Start
+  31:.\main.c      ****     
+  32:.\main.c      **** 
+  33:.\main.c      **** 	// Number of sleep wakeups before we process a simple task
+  34:.\main.c      **** 	//Total time in mili seconds = N * SleepInterval (e.g. 4*256 = 1 second)
+  35:.\main.c      **** 	ScheduleSimpleTask(4u); 
+  52              		.loc 1 35 0
+  53 0018 0420     		movs	r0, #4
+  54 001a FFF7FEFF 		bl	ScheduleSimpleTask
+  36:.\main.c      **** 
+  37:.\main.c      **** 	modem_start();
+  55              		.loc 1 37 0
+  56 001e FFF7FEFF 		bl	modem_start
+  38:.\main.c      **** 	modem_get_serial_number();
+  57              		.loc 1 38 0
+  58 0022 FFF7FEFF 		bl	modem_get_serial_number
+  39:.\main.c      **** 	uint8 i = modem_connect();
+  59              		.loc 1 39 0
+  60 0026 FFF7FEFF 		bl	modem_connect
+  61 002a 0346     		mov	r3, r0
+  62 002c FB71     		strb	r3, [r7, #7]
+  40:.\main.c      **** 	modem_get_nertwork_time();
+  63              		.loc 1 40 0
+  64 002e FFF7FEFF 		bl	modem_get_nertwork_time
+  65              	.L3:
+  41:.\main.c      **** 	
+  42:.\main.c      ****     for(;;)
+  43:.\main.c      **** 	{
+  44:.\main.c      **** 		if( SimpleSchedulerTaskReady() ){
+  66              		.loc 1 44 0
+  67 0032 FFF7FEFF 		bl	SimpleSchedulerTaskReady
+  68 0036 0346     		mov	r3, r0
+  69 0038 002B     		cmp	r3, #0
+  70 003a 0AD0     		beq	.L2
+ARM GAS  C:\Users\cps\AppData\Local\Temp\ccT8WRzG.s 			page 3
+
+
+  45:.\main.c      **** 			LED_Write(!LED_Read());
+  71              		.loc 1 45 0
+  72 003c FFF7FEFF 		bl	LED_Read
+  73 0040 0346     		mov	r3, r0
+  74 0042 002B     		cmp	r3, #0
+  75 0044 0CBF     		ite	eq
+  76 0046 0123     		moveq	r3, #1
+  77 0048 0023     		movne	r3, #0
+  78 004a DBB2     		uxtb	r3, r3
+  79 004c 1846     		mov	r0, r3
+  80 004e FFF7FEFF 		bl	LED_Write
+  81              	.L2:
+  46:.\main.c      **** 		}/* If not ready, update the counter for the sleep timer */
+  47:.\main.c      **** 		else {
+  48:.\main.c      **** 			//Goto_Sleep();
+  49:.\main.c      **** 		}
+  50:.\main.c      **** 		
+  51:.\main.c      **** 	}
+  82              		.loc 1 51 0
+  83 0052 EEE7     		b	.L3
+  84              	.L5:
+  85              		.align	2
+  86              	.L4:
+  87 0054 00000000 		.word	Wakeup_ISR
+  88              		.cfi_endproc
+  89              	.LFE56:
+  90              		.size	main, .-main
+  91              		.section	.text.Wakeup_ISR,"ax",%progbits
+  92              		.align	2
+  93              		.global	Wakeup_ISR
+  94              		.thumb
+  95              		.thumb_func
+  96              		.type	Wakeup_ISR, %function
+  97              	Wakeup_ISR:
+  98              	.LFB57:
+  52:.\main.c      **** 		
+  53:.\main.c      **** 		
+  54:.\main.c      **** 		/*
+  55:.\main.c      **** 		char   data_packet[MAX_PACKET_LENGTH] = {0}, test_csv[100] = {0};
+  56:.\main.c      **** int    iter, sign;
+  57:.\main.c      **** uint8  loops, packet_ready;
+  58:.\main.c      **** uint16 packet_len;
+  59:.\main.c      **** 		    // Initialize variables
+  60:.\main.c      **** 	loops			= 0u;
+  61:.\main.c      **** 	packet_ready	= 0u;
+  62:.\main.c      **** 	iter            = 0;
+  63:.\main.c      ****     sign            = 1;
+  64:.\main.c      ****     packet_len      = 0u;*/
+  65:.\main.c      **** 		
+  66:.\main.c      **** 		
+  67:.\main.c      **** 		
+  68:.\main.c      **** 		
+  69:.\main.c      **** 		
+  70:.\main.c      **** 		/*if ( ready == 1u ){
+  71:.\main.c      **** 			iter = 0;
+  72:.\main.c      **** 			if (clear_packet(data_packet)) {
+  73:.\main.c      ****                 packet_len = 0u;
+ARM GAS  C:\Users\cps\AppData\Local\Temp\ccT8WRzG.s 			page 4
+
+
+  74:.\main.c      ****                 packet_ready = 0u;
+  75:.\main.c      ****             }
+  76:.\main.c      **** 			
+  77:.\main.c      **** 			blink_LED(3u);
+  78:.\main.c      **** 			
+  79:.\main.c      **** 			// Set up the modem and connect to network					
+  80:.\main.c      **** 			LED_Write(!LED_Read());
+  81:.\main.c      **** 			
+  82:.\main.c      **** 			if (modem_startup()) {
+  83:.\main.c      **** 				//modem_get_serial_number();
+  84:.\main.c      **** 
+  85:.\main.c      **** 				
+  86:.\main.c      **** 				// Send a packet
+  87:.\main.c      **** 				LED_Write(!LED_Read());	
+  88:.\main.c      **** //				sprintf(data_packet,"%s%s, %u\r\n", data_packet,
+  89:.\main.c      **** //	        		"tmp", loops);                                    DON'T NEED TMP  
+  90:.\main.c      **** 				ready = modem_send_packet(data_packet);
+  91:.\main.c      **** 				CyDelay(5000u);
+  92:.\main.c      **** 				
+  93:.\main.c      **** 				if (clear_packet(data_packet)) {
+  94:.\main.c      **** 	                packet_len = 0u;
+  95:.\main.c      **** 	                packet_ready = 0u;
+  96:.\main.c      **** 	            }
+  97:.\main.c      **** 				
+  98:.\main.c      **** 				// Request a packet
+  99:.\main.c      **** 				LED_Write(!LED_Read());	
+ 100:.\main.c      **** 				if( modem_get_packet(data_packet,"lock,tmp") ){
+ 101:.\main.c      **** 				
+ 102:.\main.c      **** 
+ 103:.\main.c      **** 				}								
+ 104:.\main.c      **** 				
+ 105:.\main.c      **** 				
+ 106:.\main.c      **** 				//modem_power_off();
+ 107:.\main.c      **** 				//modem_stop();
+ 108:.\main.c      **** 				
+ 109:.\main.c      **** 			}
+ 110:.\main.c      **** 			modem_shutdown();
+ 111:.\main.c      **** 			
+ 112:.\main.c      **** 			loops += 10;
+ 113:.\main.c      **** 			ready = 0u;
+ 114:.\main.c      **** 		}*/
+ 115:.\main.c      **** 
+ 116:.\main.c      **** }
+ 117:.\main.c      **** 
+ 118:.\main.c      **** CY_ISR(Wakeup_ISR)
+ 119:.\main.c      **** {
+  99              		.loc 1 119 0
+ 100              		.cfi_startproc
+ 101              		@ args = 0, pretend = 0, frame = 0
+ 102              		@ frame_needed = 1, uses_anonymous_args = 0
+ 103 0000 80B5     		push	{r7, lr}
+ 104              		.cfi_def_cfa_offset 8
+ 105              		.cfi_offset 7, -8
+ 106              		.cfi_offset 14, -4
+ 107 0002 00AF     		add	r7, sp, #0
+ 108              		.cfi_def_cfa_register 7
+ 120:.\main.c      ****     /***************************************************************************
+ARM GAS  C:\Users\cps\AppData\Local\Temp\ccT8WRzG.s 			page 5
+
+
+ 121:.\main.c      ****     * This function must always be called (when the Sleep Timer's interrupt
+ 122:.\main.c      ****     * is disabled or enabled) after wake up to clear the ctw_int status bit.
+ 123:.\main.c      ****     * It is required to call SleepTimer_GetStatus() within 1 ms (1 clock cycle
+ 124:.\main.c      ****     * of the ILO) after CTW event occurred.
+ 125:.\main.c      ****     ***************************************************************************/
+ 126:.\main.c      ****     SleepTimer_GetStatus();
+ 109              		.loc 1 126 0
+ 110 0004 FFF7FEFF 		bl	SleepTimer_GetStatus
+ 127:.\main.c      **** 	SleepCounterUpdate();
+ 111              		.loc 1 127 0
+ 112 0008 FFF7FEFF 		bl	SleepCounterUpdate
+ 128:.\main.c      **** 	
+ 129:.\main.c      **** }
+ 113              		.loc 1 129 0
+ 114 000c 80BD     		pop	{r7, pc}
+ 115              		.cfi_endproc
+ 116              	.LFE57:
+ 117              		.size	Wakeup_ISR, .-Wakeup_ISR
+ 118 000e 00BF     		.section	.text.Goto_Sleep,"ax",%progbits
+ 119              		.align	2
+ 120              		.global	Goto_Sleep
+ 121              		.thumb
+ 122              		.thumb_func
+ 123              		.type	Goto_Sleep, %function
+ 124              	Goto_Sleep:
+ 125              	.LFB58:
+ 130:.\main.c      **** 
+ 131:.\main.c      **** void Goto_Sleep(){
+ 126              		.loc 1 131 0
+ 127              		.cfi_startproc
+ 128              		@ args = 0, pretend = 0, frame = 0
+ 129              		@ frame_needed = 1, uses_anonymous_args = 0
+ 130 0000 80B5     		push	{r7, lr}
+ 131              		.cfi_def_cfa_offset 8
+ 132              		.cfi_offset 7, -8
+ 133              		.cfi_offset 14, -4
+ 134 0002 00AF     		add	r7, sp, #0
+ 135              		.cfi_def_cfa_register 7
+ 132:.\main.c      **** 	
+ 133:.\main.c      **** 			/* Prepares system clocks for the Sleep mode */
+ 134:.\main.c      **** 			//sleep all components
+ 135:.\main.c      **** 			modem_sleep();
+ 136              		.loc 1 135 0
+ 137 0004 FFF7FEFF 		bl	modem_sleep
+ 136:.\main.c      **** 			
+ 137:.\main.c      **** 			
+ 138:.\main.c      **** 			CyPmSaveClocks();
+ 138              		.loc 1 138 0
+ 139 0008 FFF7FEFF 		bl	CyPmSaveClocks
+ 139:.\main.c      **** 	        CyPmSleep(PM_SLEEP_TIME_NONE, PM_SLEEP_SRC_CTW);
+ 140              		.loc 1 139 0
+ 141 000c 0020     		movs	r0, #0
+ 142 000e 4FF40061 		mov	r1, #2048
+ 143 0012 FFF7FEFF 		bl	CyPmSleep
+ 140:.\main.c      **** 	        CyPmRestoreClocks();
+ 144              		.loc 1 140 0
+ 145 0016 FFF7FEFF 		bl	CyPmRestoreClocks
+ARM GAS  C:\Users\cps\AppData\Local\Temp\ccT8WRzG.s 			page 6
+
+
+ 141:.\main.c      **** 			
+ 142:.\main.c      **** 			
+ 143:.\main.c      **** 			//wakeup all components
+ 144:.\main.c      **** 			modem_wakeup();
+ 146              		.loc 1 144 0
+ 147 001a FFF7FEFF 		bl	modem_wakeup
+ 145:.\main.c      **** }
+ 148              		.loc 1 145 0
+ 149 001e 80BD     		pop	{r7, pc}
+ 150              		.cfi_endproc
+ 151              	.LFE58:
+ 152              		.size	Goto_Sleep, .-Goto_Sleep
+ 153              		.text
+ 154              	.Letext0:
+ 155              		.file 2 "c:\\program files (x86)\\cypress\\psoc creator\\3.3\\psoc creator\\import\\gnu\\arm\\4.9.
+ 156              		.file 3 "c:\\program files (x86)\\cypress\\psoc creator\\3.3\\psoc creator\\import\\gnu\\arm\\4.9.
+ 157              		.file 4 "Generated_Source\\PSoC5/cytypes.h"
+ 158              		.file 5 "Generated_Source\\PSoC5/core_cm3.h"
+ 159              		.section	.debug_info,"",%progbits
+ 160              	.Ldebug_info0:
+ 161 0000 FE000000 		.4byte	0xfe
+ 162 0004 0400     		.2byte	0x4
+ 163 0006 00000000 		.4byte	.Ldebug_abbrev0
+ 164 000a 04       		.byte	0x4
+ 165 000b 01       		.uleb128 0x1
+ 166 000c C4000000 		.4byte	.LASF16
+ 167 0010 01       		.byte	0x1
+ 168 0011 52010000 		.4byte	.LASF17
+ 169 0015 33000000 		.4byte	.LASF18
+ 170 0019 00000000 		.4byte	.Ldebug_ranges0+0
+ 171 001d 00000000 		.4byte	0
+ 172 0021 00000000 		.4byte	.Ldebug_line0
+ 173 0025 02       		.uleb128 0x2
+ 174 0026 01       		.byte	0x1
+ 175 0027 06       		.byte	0x6
+ 176 0028 7A010000 		.4byte	.LASF0
+ 177 002c 02       		.uleb128 0x2
+ 178 002d 01       		.byte	0x1
+ 179 002e 08       		.byte	0x8
+ 180 002f A8000000 		.4byte	.LASF1
+ 181 0033 02       		.uleb128 0x2
+ 182 0034 02       		.byte	0x2
+ 183 0035 05       		.byte	0x5
+ 184 0036 96010000 		.4byte	.LASF2
+ 185 003a 02       		.uleb128 0x2
+ 186 003b 02       		.byte	0x2
+ 187 003c 07       		.byte	0x7
+ 188 003d 0E000000 		.4byte	.LASF3
+ 189 0041 03       		.uleb128 0x3
+ 190 0042 86010000 		.4byte	.LASF9
+ 191 0046 02       		.byte	0x2
+ 192 0047 3F       		.byte	0x3f
+ 193 0048 4C000000 		.4byte	0x4c
+ 194 004c 02       		.uleb128 0x2
+ 195 004d 04       		.byte	0x4
+ 196 004e 05       		.byte	0x5
+ 197 004f BB000000 		.4byte	.LASF4
+ARM GAS  C:\Users\cps\AppData\Local\Temp\ccT8WRzG.s 			page 7
+
+
+ 198 0053 02       		.uleb128 0x2
+ 199 0054 04       		.byte	0x4
+ 200 0055 07       		.byte	0x7
+ 201 0056 74000000 		.4byte	.LASF5
+ 202 005a 02       		.uleb128 0x2
+ 203 005b 08       		.byte	0x8
+ 204 005c 05       		.byte	0x5
+ 205 005d 00000000 		.4byte	.LASF6
+ 206 0061 02       		.uleb128 0x2
+ 207 0062 08       		.byte	0x8
+ 208 0063 07       		.byte	0x7
+ 209 0064 86000000 		.4byte	.LASF7
+ 210 0068 04       		.uleb128 0x4
+ 211 0069 04       		.byte	0x4
+ 212 006a 05       		.byte	0x5
+ 213 006b 696E7400 		.ascii	"int\000"
+ 214 006f 02       		.uleb128 0x2
+ 215 0070 04       		.byte	0x4
+ 216 0071 07       		.byte	0x7
+ 217 0072 21000000 		.4byte	.LASF8
+ 218 0076 03       		.uleb128 0x3
+ 219 0077 A0010000 		.4byte	.LASF10
+ 220 007b 03       		.byte	0x3
+ 221 007c 2C       		.byte	0x2c
+ 222 007d 41000000 		.4byte	0x41
+ 223 0081 03       		.uleb128 0x3
+ 224 0082 6E000000 		.4byte	.LASF11
+ 225 0086 04       		.byte	0x4
+ 226 0087 A1       		.byte	0xa1
+ 227 0088 2C000000 		.4byte	0x2c
+ 228 008c 02       		.uleb128 0x2
+ 229 008d 04       		.byte	0x4
+ 230 008e 04       		.byte	0x4
+ 231 008f 90010000 		.4byte	.LASF12
+ 232 0093 02       		.uleb128 0x2
+ 233 0094 08       		.byte	0x8
+ 234 0095 04       		.byte	0x4
+ 235 0096 5B010000 		.4byte	.LASF13
+ 236 009a 02       		.uleb128 0x2
+ 237 009b 01       		.byte	0x1
+ 238 009c 08       		.byte	0x8
+ 239 009d B6000000 		.4byte	.LASF14
+ 240 00a1 02       		.uleb128 0x2
+ 241 00a2 04       		.byte	0x4
+ 242 00a3 07       		.byte	0x7
+ 243 00a4 A8010000 		.4byte	.LASF15
+ 244 00a8 05       		.uleb128 0x5
+ 245 00a9 2E000000 		.4byte	.LASF19
+ 246 00ad 01       		.byte	0x1
+ 247 00ae 16       		.byte	0x16
+ 248 00af 68000000 		.4byte	0x68
+ 249 00b3 00000000 		.4byte	.LFB56
+ 250 00b7 58000000 		.4byte	.LFE56-.LFB56
+ 251 00bb 01       		.uleb128 0x1
+ 252 00bc 9C       		.byte	0x9c
+ 253 00bd CE000000 		.4byte	0xce
+ 254 00c1 06       		.uleb128 0x6
+ARM GAS  C:\Users\cps\AppData\Local\Temp\ccT8WRzG.s 			page 8
+
+
+ 255 00c2 6900     		.ascii	"i\000"
+ 256 00c4 01       		.byte	0x1
+ 257 00c5 27       		.byte	0x27
+ 258 00c6 81000000 		.4byte	0x81
+ 259 00ca 02       		.uleb128 0x2
+ 260 00cb 91       		.byte	0x91
+ 261 00cc 77       		.sleb128 -9
+ 262 00cd 00       		.byte	0
+ 263 00ce 07       		.uleb128 0x7
+ 264 00cf 9D000000 		.4byte	.LASF20
+ 265 00d3 01       		.byte	0x1
+ 266 00d4 76       		.byte	0x76
+ 267 00d5 00000000 		.4byte	.LFB57
+ 268 00d9 0E000000 		.4byte	.LFE57-.LFB57
+ 269 00dd 01       		.uleb128 0x1
+ 270 00de 9C       		.byte	0x9c
+ 271 00df 08       		.uleb128 0x8
+ 272 00e0 62010000 		.4byte	.LASF21
+ 273 00e4 01       		.byte	0x1
+ 274 00e5 83       		.byte	0x83
+ 275 00e6 00000000 		.4byte	.LFB58
+ 276 00ea 20000000 		.4byte	.LFE58-.LFB58
+ 277 00ee 01       		.uleb128 0x1
+ 278 00ef 9C       		.byte	0x9c
+ 279 00f0 09       		.uleb128 0x9
+ 280 00f1 6D010000 		.4byte	.LASF22
+ 281 00f5 05       		.byte	0x5
+ 282 00f6 1606     		.2byte	0x616
+ 283 00f8 FC000000 		.4byte	0xfc
+ 284 00fc 0A       		.uleb128 0xa
+ 285 00fd 76000000 		.4byte	0x76
+ 286 0101 00       		.byte	0
+ 287              		.section	.debug_abbrev,"",%progbits
+ 288              	.Ldebug_abbrev0:
+ 289 0000 01       		.uleb128 0x1
+ 290 0001 11       		.uleb128 0x11
+ 291 0002 01       		.byte	0x1
+ 292 0003 25       		.uleb128 0x25
+ 293 0004 0E       		.uleb128 0xe
+ 294 0005 13       		.uleb128 0x13
+ 295 0006 0B       		.uleb128 0xb
+ 296 0007 03       		.uleb128 0x3
+ 297 0008 0E       		.uleb128 0xe
+ 298 0009 1B       		.uleb128 0x1b
+ 299 000a 0E       		.uleb128 0xe
+ 300 000b 55       		.uleb128 0x55
+ 301 000c 17       		.uleb128 0x17
+ 302 000d 11       		.uleb128 0x11
+ 303 000e 01       		.uleb128 0x1
+ 304 000f 10       		.uleb128 0x10
+ 305 0010 17       		.uleb128 0x17
+ 306 0011 00       		.byte	0
+ 307 0012 00       		.byte	0
+ 308 0013 02       		.uleb128 0x2
+ 309 0014 24       		.uleb128 0x24
+ 310 0015 00       		.byte	0
+ 311 0016 0B       		.uleb128 0xb
+ARM GAS  C:\Users\cps\AppData\Local\Temp\ccT8WRzG.s 			page 9
+
+
+ 312 0017 0B       		.uleb128 0xb
+ 313 0018 3E       		.uleb128 0x3e
+ 314 0019 0B       		.uleb128 0xb
+ 315 001a 03       		.uleb128 0x3
+ 316 001b 0E       		.uleb128 0xe
+ 317 001c 00       		.byte	0
+ 318 001d 00       		.byte	0
+ 319 001e 03       		.uleb128 0x3
+ 320 001f 16       		.uleb128 0x16
+ 321 0020 00       		.byte	0
+ 322 0021 03       		.uleb128 0x3
+ 323 0022 0E       		.uleb128 0xe
+ 324 0023 3A       		.uleb128 0x3a
+ 325 0024 0B       		.uleb128 0xb
+ 326 0025 3B       		.uleb128 0x3b
+ 327 0026 0B       		.uleb128 0xb
+ 328 0027 49       		.uleb128 0x49
+ 329 0028 13       		.uleb128 0x13
+ 330 0029 00       		.byte	0
+ 331 002a 00       		.byte	0
+ 332 002b 04       		.uleb128 0x4
+ 333 002c 24       		.uleb128 0x24
+ 334 002d 00       		.byte	0
+ 335 002e 0B       		.uleb128 0xb
+ 336 002f 0B       		.uleb128 0xb
+ 337 0030 3E       		.uleb128 0x3e
+ 338 0031 0B       		.uleb128 0xb
+ 339 0032 03       		.uleb128 0x3
+ 340 0033 08       		.uleb128 0x8
+ 341 0034 00       		.byte	0
+ 342 0035 00       		.byte	0
+ 343 0036 05       		.uleb128 0x5
+ 344 0037 2E       		.uleb128 0x2e
+ 345 0038 01       		.byte	0x1
+ 346 0039 3F       		.uleb128 0x3f
+ 347 003a 19       		.uleb128 0x19
+ 348 003b 03       		.uleb128 0x3
+ 349 003c 0E       		.uleb128 0xe
+ 350 003d 3A       		.uleb128 0x3a
+ 351 003e 0B       		.uleb128 0xb
+ 352 003f 3B       		.uleb128 0x3b
+ 353 0040 0B       		.uleb128 0xb
+ 354 0041 49       		.uleb128 0x49
+ 355 0042 13       		.uleb128 0x13
+ 356 0043 11       		.uleb128 0x11
+ 357 0044 01       		.uleb128 0x1
+ 358 0045 12       		.uleb128 0x12
+ 359 0046 06       		.uleb128 0x6
+ 360 0047 40       		.uleb128 0x40
+ 361 0048 18       		.uleb128 0x18
+ 362 0049 9642     		.uleb128 0x2116
+ 363 004b 19       		.uleb128 0x19
+ 364 004c 01       		.uleb128 0x1
+ 365 004d 13       		.uleb128 0x13
+ 366 004e 00       		.byte	0
+ 367 004f 00       		.byte	0
+ 368 0050 06       		.uleb128 0x6
+ARM GAS  C:\Users\cps\AppData\Local\Temp\ccT8WRzG.s 			page 10
+
+
+ 369 0051 34       		.uleb128 0x34
+ 370 0052 00       		.byte	0
+ 371 0053 03       		.uleb128 0x3
+ 372 0054 08       		.uleb128 0x8
+ 373 0055 3A       		.uleb128 0x3a
+ 374 0056 0B       		.uleb128 0xb
+ 375 0057 3B       		.uleb128 0x3b
+ 376 0058 0B       		.uleb128 0xb
+ 377 0059 49       		.uleb128 0x49
+ 378 005a 13       		.uleb128 0x13
+ 379 005b 02       		.uleb128 0x2
+ 380 005c 18       		.uleb128 0x18
+ 381 005d 00       		.byte	0
+ 382 005e 00       		.byte	0
+ 383 005f 07       		.uleb128 0x7
+ 384 0060 2E       		.uleb128 0x2e
+ 385 0061 00       		.byte	0
+ 386 0062 3F       		.uleb128 0x3f
+ 387 0063 19       		.uleb128 0x19
+ 388 0064 03       		.uleb128 0x3
+ 389 0065 0E       		.uleb128 0xe
+ 390 0066 3A       		.uleb128 0x3a
+ 391 0067 0B       		.uleb128 0xb
+ 392 0068 3B       		.uleb128 0x3b
+ 393 0069 0B       		.uleb128 0xb
+ 394 006a 27       		.uleb128 0x27
+ 395 006b 19       		.uleb128 0x19
+ 396 006c 11       		.uleb128 0x11
+ 397 006d 01       		.uleb128 0x1
+ 398 006e 12       		.uleb128 0x12
+ 399 006f 06       		.uleb128 0x6
+ 400 0070 40       		.uleb128 0x40
+ 401 0071 18       		.uleb128 0x18
+ 402 0072 9642     		.uleb128 0x2116
+ 403 0074 19       		.uleb128 0x19
+ 404 0075 00       		.byte	0
+ 405 0076 00       		.byte	0
+ 406 0077 08       		.uleb128 0x8
+ 407 0078 2E       		.uleb128 0x2e
+ 408 0079 00       		.byte	0
+ 409 007a 3F       		.uleb128 0x3f
+ 410 007b 19       		.uleb128 0x19
+ 411 007c 03       		.uleb128 0x3
+ 412 007d 0E       		.uleb128 0xe
+ 413 007e 3A       		.uleb128 0x3a
+ 414 007f 0B       		.uleb128 0xb
+ 415 0080 3B       		.uleb128 0x3b
+ 416 0081 0B       		.uleb128 0xb
+ 417 0082 11       		.uleb128 0x11
+ 418 0083 01       		.uleb128 0x1
+ 419 0084 12       		.uleb128 0x12
+ 420 0085 06       		.uleb128 0x6
+ 421 0086 40       		.uleb128 0x40
+ 422 0087 18       		.uleb128 0x18
+ 423 0088 9642     		.uleb128 0x2116
+ 424 008a 19       		.uleb128 0x19
+ 425 008b 00       		.byte	0
+ARM GAS  C:\Users\cps\AppData\Local\Temp\ccT8WRzG.s 			page 11
+
+
+ 426 008c 00       		.byte	0
+ 427 008d 09       		.uleb128 0x9
+ 428 008e 34       		.uleb128 0x34
+ 429 008f 00       		.byte	0
+ 430 0090 03       		.uleb128 0x3
+ 431 0091 0E       		.uleb128 0xe
+ 432 0092 3A       		.uleb128 0x3a
+ 433 0093 0B       		.uleb128 0xb
+ 434 0094 3B       		.uleb128 0x3b
+ 435 0095 05       		.uleb128 0x5
+ 436 0096 49       		.uleb128 0x49
+ 437 0097 13       		.uleb128 0x13
+ 438 0098 3F       		.uleb128 0x3f
+ 439 0099 19       		.uleb128 0x19
+ 440 009a 3C       		.uleb128 0x3c
+ 441 009b 19       		.uleb128 0x19
+ 442 009c 00       		.byte	0
+ 443 009d 00       		.byte	0
+ 444 009e 0A       		.uleb128 0xa
+ 445 009f 35       		.uleb128 0x35
+ 446 00a0 00       		.byte	0
+ 447 00a1 49       		.uleb128 0x49
+ 448 00a2 13       		.uleb128 0x13
+ 449 00a3 00       		.byte	0
+ 450 00a4 00       		.byte	0
+ 451 00a5 00       		.byte	0
+ 452              		.section	.debug_aranges,"",%progbits
+ 453 0000 2C000000 		.4byte	0x2c
+ 454 0004 0200     		.2byte	0x2
+ 455 0006 00000000 		.4byte	.Ldebug_info0
+ 456 000a 04       		.byte	0x4
+ 457 000b 00       		.byte	0
+ 458 000c 0000     		.2byte	0
+ 459 000e 0000     		.2byte	0
+ 460 0010 00000000 		.4byte	.LFB56
+ 461 0014 58000000 		.4byte	.LFE56-.LFB56
+ 462 0018 00000000 		.4byte	.LFB57
+ 463 001c 0E000000 		.4byte	.LFE57-.LFB57
+ 464 0020 00000000 		.4byte	.LFB58
+ 465 0024 20000000 		.4byte	.LFE58-.LFB58
+ 466 0028 00000000 		.4byte	0
+ 467 002c 00000000 		.4byte	0
+ 468              		.section	.debug_ranges,"",%progbits
+ 469              	.Ldebug_ranges0:
+ 470 0000 00000000 		.4byte	.LFB56
+ 471 0004 58000000 		.4byte	.LFE56
+ 472 0008 00000000 		.4byte	.LFB57
+ 473 000c 0E000000 		.4byte	.LFE57
+ 474 0010 00000000 		.4byte	.LFB58
+ 475 0014 20000000 		.4byte	.LFE58
+ 476 0018 00000000 		.4byte	0
+ 477 001c 00000000 		.4byte	0
+ 478              		.section	.debug_line,"",%progbits
+ 479              	.Ldebug_line0:
+ 480 0000 93010000 		.section	.debug_str,"MS",%progbits,1
+ 480      02004901 
+ 480      00000201 
+ARM GAS  C:\Users\cps\AppData\Local\Temp\ccT8WRzG.s 			page 12
+
+
+ 480      FB0E0D00 
+ 480      01010101 
+ 481              	.LASF6:
+ 482 0000 6C6F6E67 		.ascii	"long long int\000"
+ 482      206C6F6E 
+ 482      6720696E 
+ 482      7400
+ 483              	.LASF3:
+ 484 000e 73686F72 		.ascii	"short unsigned int\000"
+ 484      7420756E 
+ 484      7369676E 
+ 484      65642069 
+ 484      6E7400
+ 485              	.LASF8:
+ 486 0021 756E7369 		.ascii	"unsigned int\000"
+ 486      676E6564 
+ 486      20696E74 
+ 486      00
+ 487              	.LASF19:
+ 488 002e 6D61696E 		.ascii	"main\000"
+ 488      00
+ 489              	.LASF18:
+ 490 0033 433A5C55 		.ascii	"C:\\Users\\cps\\Documents\\kLab\\IoT\\CellBoard\\Ce"
+ 490      73657273 
+ 490      5C637073 
+ 490      5C446F63 
+ 490      756D656E 
+ 491 005f 6C6C2042 		.ascii	"ll Board.cydsn\000"
+ 491      6F617264 
+ 491      2E637964 
+ 491      736E00
+ 492              	.LASF11:
+ 493 006e 75696E74 		.ascii	"uint8\000"
+ 493      3800
+ 494              	.LASF5:
+ 495 0074 6C6F6E67 		.ascii	"long unsigned int\000"
+ 495      20756E73 
+ 495      69676E65 
+ 495      6420696E 
+ 495      7400
+ 496              	.LASF7:
+ 497 0086 6C6F6E67 		.ascii	"long long unsigned int\000"
+ 497      206C6F6E 
+ 497      6720756E 
+ 497      7369676E 
+ 497      65642069 
+ 498              	.LASF20:
+ 499 009d 57616B65 		.ascii	"Wakeup_ISR\000"
+ 499      75705F49 
+ 499      535200
+ 500              	.LASF1:
+ 501 00a8 756E7369 		.ascii	"unsigned char\000"
+ 501      676E6564 
+ 501      20636861 
+ 501      7200
+ 502              	.LASF14:
+ 503 00b6 63686172 		.ascii	"char\000"
+ARM GAS  C:\Users\cps\AppData\Local\Temp\ccT8WRzG.s 			page 13
+
+
+ 503      00
+ 504              	.LASF4:
+ 505 00bb 6C6F6E67 		.ascii	"long int\000"
+ 505      20696E74 
+ 505      00
+ 506              	.LASF16:
+ 507 00c4 474E5520 		.ascii	"GNU C 4.9.3 20150303 (release) [ARM/embedded-4_9-br"
+ 507      4320342E 
+ 507      392E3320 
+ 507      32303135 
+ 507      30333033 
+ 508 00f7 616E6368 		.ascii	"anch revision 221220] -mcpu=cortex-m3 -mthumb -g -O"
+ 508      20726576 
+ 508      6973696F 
+ 508      6E203232 
+ 508      31323230 
+ 509 012a 30202D66 		.ascii	"0 -ffunction-sections -ffat-lto-objects\000"
+ 509      66756E63 
+ 509      74696F6E 
+ 509      2D736563 
+ 509      74696F6E 
+ 510              	.LASF17:
+ 511 0152 2E5C6D61 		.ascii	".\\main.c\000"
+ 511      696E2E63 
+ 511      00
+ 512              	.LASF13:
+ 513 015b 646F7562 		.ascii	"double\000"
+ 513      6C6500
+ 514              	.LASF21:
+ 515 0162 476F746F 		.ascii	"Goto_Sleep\000"
+ 515      5F536C65 
+ 515      657000
+ 516              	.LASF22:
+ 517 016d 49544D5F 		.ascii	"ITM_RxBuffer\000"
+ 517      52784275 
+ 517      66666572 
+ 517      00
+ 518              	.LASF0:
+ 519 017a 7369676E 		.ascii	"signed char\000"
+ 519      65642063 
+ 519      68617200 
+ 520              	.LASF9:
+ 521 0186 5F5F696E 		.ascii	"__int32_t\000"
+ 521      7433325F 
+ 521      7400
+ 522              	.LASF12:
+ 523 0190 666C6F61 		.ascii	"float\000"
+ 523      7400
+ 524              	.LASF2:
+ 525 0196 73686F72 		.ascii	"short int\000"
+ 525      7420696E 
+ 525      7400
+ 526              	.LASF10:
+ 527 01a0 696E7433 		.ascii	"int32_t\000"
+ 527      325F7400 
+ 528              	.LASF15:
+ 529 01a8 73697A65 		.ascii	"sizetype\000"
+ARM GAS  C:\Users\cps\AppData\Local\Temp\ccT8WRzG.s 			page 14
+
+
+ 529      74797065 
+ 529      00
+ 530              		.ident	"GCC: (GNU Tools for ARM Embedded Processors) 4.9.3 20150303 (release) [ARM/embedded-4_9-br
