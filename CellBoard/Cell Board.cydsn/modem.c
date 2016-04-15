@@ -64,10 +64,9 @@ uint8 modem_set_api_feed(uint32 id, char* key){
 // shutdown sequence to stop modem components
 // and power down the modem
 uint8 	modem_shutdown() {
-	if (modem_power_off()){
-		return 1u;	
-	}
-	
+	if(at_write_command("AT#SHDN\r","OK",1000u) == 1u){      
+        return 1u;
+    }
 	return 0u;
 }
 
@@ -98,7 +97,6 @@ void modem_stop(){
 uint8 at_write_command(char* uart_string, char* expected_response, uint32 uart_timeout){
     uint8 response = 0u;
     uint32 i = 0u, delay = 100u, interval = uart_timeout/delay;
-    
     uart_string_reset();
     Telit_UART_PutString(uart_string);//Telit_UART_PutString("AT\r");
     
@@ -112,9 +110,9 @@ uint8 at_write_command(char* uart_string, char* expected_response, uint32 uart_t
             CyDelay(delay);
         }
     }
-    
     return response;
 }
+
 
 uint8 modem_power_on(){
 
@@ -369,17 +367,58 @@ uint8 modem_set_band(uint8 band) {
     return 0u; 
 }
 
-uint8 modem_get_rtc_time(){
-    if(at_write_command("AT+CCLK?\r","OK",1000u) == 1u){      
-        return 1u;
-    }
-    /* Write to SD Card debugger
-    else debug_write("(AT#SGACT=1,1) No IP Address Assigned.");
-    */
+struct tm modem_get_rtc_time(){
     
-    /* Parse Time from data packet */
+	struct tm cal = {};
+	cal.tm_year = -99; //error flag
+	
+	if(at_write_command("AT+CCLK?\r","OK",1000u) == 1u){      
+        char* resp = strstr(uart_received_string, "CCLK:");
+        if(resp != NULL){
+			strptime((resp+7), "%y/%m/%d,%H:%M:%S", &cal);
+        }
+    }
+    
+    return cal;  //if year = -99 then error
+}
 
-    return 0u;  
+uint8 rtc_read_minutes(){
+	struct tm cal = {};
+	cal = modem_get_rtc_time();
+	return cal.tm_min;
+}
+
+void  modem_set_next_repeating_minute_alarm(){
+    // Creates the next minute alarm after alarm triggers.
+	
+	//get current time
+	struct tm cal = {};
+	cal = modem_get_rtc_time();
+    time_t curTime = mktime(&cal);
+	
+	//round up to the nearest next alarm based on minute intervals
+	time_t curMins = (curTime - (curTime%60))/60;
+	time_t nextTime = (curMins - (curMins%minuteAlarmInterval) + minuteAlarmInterval)*60;
+	struct tm *nextTimeStruct;
+	nextTimeStruct = localtime(&nextTime);
+	
+	//write new alarm to module
+	char alarmCommand [80];
+	//time format AT+CALA="08/07/14,18:45:00+00",0,2,"ALARM","",1
+	//when alrm fires, the module will issue a "+CALA: ALARM" unitl it's acknowledged with a #WAKE command
+	strftime (alarmCommand,80,"AT+CALA=\"%y/%m/%d,%H:%M:%S+00\",0,2,\"ALARM\",\"\",1\r",nextTimeStruct);
+	
+	if(at_write_command(alarmCommand,"OK",1000u) == 1u){      
+		uart_string_reset();
+    }
+	
+	//write alarm here
+}
+
+void  modem_rtc_set_repeating_minute_alarm(uint8 interval){
+    // Enable the minute alarm. Get current time and set schedule.
+    minuteAlarmInterval = interval;
+    modem_set_next_repeating_minute_alarm();
 }
 
 uint8 modem_get_nertwork_time(){
@@ -857,6 +896,11 @@ void modem_sleep(){
 
 void modem_wakeup(){
 	Telit_UART_Wakeup();
+}
+
+uint8 modem_rtc_alert_fired(){
+	
+	return 0u;
 }
 
 // this function fires when uart rx receives bytes (when modem is sending bytes)

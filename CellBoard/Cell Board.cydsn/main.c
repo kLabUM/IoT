@@ -34,14 +34,22 @@ int main()
 	//Total time in mili seconds = N * SleepInterval (e.g. 4*256 = 1 second)
 	ScheduleSimpleTask(4u); 
 
+	//start the modem, set the alarm, and shut the modem down
 	modem_start();
-	modem_get_serial_number();
-	uint8 i = modem_connect();
-	modem_get_nertwork_time();
+	modem_rtc_set_repeating_minute_alarm(1u);
+	uint8 x = modem_shutdown();
+	
+	//struct tm cal = modem_get_rtc_time();
+	//modem_get_serial_number();
+	//uint8 i = modem_connect();
+	//modem_get_nertwork_time();
 	
     for(;;)
 	{
-		if( SimpleSchedulerTaskReady() ){
+		if( modem_rtc_alert_fired())
+		{
+			
+		}else if( SimpleSchedulerTaskReady() ){
 			LED_Write(!LED_Read());
 		}/* If not ready, update the counter for the sleep timer */
 		else {

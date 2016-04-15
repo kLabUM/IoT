@@ -10,6 +10,7 @@
  * ========================================
 */
 #include <project.h>
+#include <time.h>
 
 #define MODEM_STATE_OFF         0
 #define MODEM_STATE_IDLE        1
@@ -23,6 +24,7 @@ extern uint8    modem_state;
 extern uint8    lock_acquired;
 extern uint32   feed_id;
 extern char*    api_key;
+uint8 minuteAlarmInterval;
 
 
 uint8   modem_set_api_feed(uint32 feed_id, char* api_key);
@@ -36,7 +38,11 @@ uint8   modem_disconnect();
 uint8 hardware_specific_modem_setup();
 uint8 	modem_set_apn();
 uint8 	modem_set_band(uint8 band);
-uint8   modem_get_rtc_time();
+struct tm   modem_get_rtc_time();
+uint8 rtc_read_minutes();
+uint8 modem_rtc_alert_fired();
+void  modem_set_next_repeating_minute_alarm();
+void  modem_rtc_set_repeating_minute_alarm(uint8 interval);
 uint8 modem_get_nertwork_time();
 uint8   modem_check_network();
 uint8   modem_get_signal_quality();

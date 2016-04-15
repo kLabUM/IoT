@@ -11,78 +11,6 @@
 <CyGuid_f44455c5-3770-4452-b988-0a7a7ff46256 type_name="CyDesigner.Common.ProjMgmt.Model.CyConfigDependencies" version="1">
 <dependency_info name="c9323d49-d323-40b8-9b59-cc008d68a989@Debug@CortexM3" xml_contents_version="2">
 <CyGuid_1173175f-1b9b-4ad4-a065-754a48a27021 type_name="CyDesigner.Common.Base.CyFileDeps" version="1">
-<file name=".\CortexM3\ARM_GCC_493\Debug\modem.o">
-<dep name=".\Generated_Source\PSoC5\CyDmac.h" />
-<dep name=".\Generated_Source\PSoC5\CyFlash.h" />
-<dep name=".\Generated_Source\PSoC5\CyLib.h" />
-<dep name=".\Generated_Source\PSoC5\CySpc.h" />
-<dep name=".\Generated_Source\PSoC5\LED.h" />
-<dep name=".\Generated_Source\PSoC5\LED_aliases.h" />
-<dep name=".\Generated_Source\PSoC5\SleepTimer.h" />
-<dep name=".\Generated_Source\PSoC5\Telit_ON.h" />
-<dep name=".\Generated_Source\PSoC5\Telit_ON_aliases.h" />
-<dep name=".\Generated_Source\PSoC5\Telit_PWR.h" />
-<dep name=".\Generated_Source\PSoC5\Telit_PWR_aliases.h" />
-<dep name=".\Generated_Source\PSoC5\Telit_RST.h" />
-<dep name=".\Generated_Source\PSoC5\Telit_RST_aliases.h" />
-<dep name=".\Generated_Source\PSoC5\Telit_UART.h" />
-<dep name=".\Generated_Source\PSoC5\Telit_UART_IntClock.h" />
-<dep name=".\Generated_Source\PSoC5\Telit_isr_rx.h" />
-<dep name=".\Generated_Source\PSoC5\Telit_tx.h" />
-<dep name=".\Generated_Source\PSoC5\Telit_tx_aliases.h" />
-<dep name=".\Generated_Source\PSoC5\core_cm3.h" />
-<dep name=".\Generated_Source\PSoC5\core_cm3_psoc5.h" />
-<dep name=".\Generated_Source\PSoC5\core_cmFunc.h" />
-<dep name=".\Generated_Source\PSoC5\core_cmInstr.h" />
-<dep name=".\Generated_Source\PSoC5\cyPm.h" />
-<dep name=".\Generated_Source\PSoC5\cydevice.h" />
-<dep name=".\Generated_Source\PSoC5\cydevice_trm.h" />
-<dep name=".\Generated_Source\PSoC5\cydisabledsheets.h" />
-<dep name=".\Generated_Source\PSoC5\cyfitter.h" />
-<dep name=".\Generated_Source\PSoC5\cyfitter_cfg.h" />
-<dep name=".\Generated_Source\PSoC5\cypins.h" />
-<dep name=".\Generated_Source\PSoC5\cytypes.h" />
-<dep name=".\Generated_Source\PSoC5\project.h" />
-<dep name=".\Generated_Source\PSoC5\sleep_isr.h" />
-<dep name=".\modem.c" />
-<dep name=".\modem.h" />
-<dep name=".\packet.h" />
-</file>
-<file name=".\Generated_Source\PSoC5\CyDmac.h" />
-<file name=".\Generated_Source\PSoC5\CyFlash.h" />
-<file name=".\Generated_Source\PSoC5\CyLib.h" />
-<file name=".\Generated_Source\PSoC5\CySpc.h" />
-<file name=".\Generated_Source\PSoC5\LED.h" />
-<file name=".\Generated_Source\PSoC5\LED_aliases.h" />
-<file name=".\Generated_Source\PSoC5\SleepTimer.h" />
-<file name=".\Generated_Source\PSoC5\Telit_ON.h" />
-<file name=".\Generated_Source\PSoC5\Telit_ON_aliases.h" />
-<file name=".\Generated_Source\PSoC5\Telit_PWR.h" />
-<file name=".\Generated_Source\PSoC5\Telit_PWR_aliases.h" />
-<file name=".\Generated_Source\PSoC5\Telit_RST.h" />
-<file name=".\Generated_Source\PSoC5\Telit_RST_aliases.h" />
-<file name=".\Generated_Source\PSoC5\Telit_UART.h" />
-<file name=".\Generated_Source\PSoC5\Telit_UART_IntClock.h" />
-<file name=".\Generated_Source\PSoC5\Telit_isr_rx.h" />
-<file name=".\Generated_Source\PSoC5\Telit_tx.h" />
-<file name=".\Generated_Source\PSoC5\Telit_tx_aliases.h" />
-<file name=".\Generated_Source\PSoC5\core_cm3.h" />
-<file name=".\Generated_Source\PSoC5\core_cm3_psoc5.h" />
-<file name=".\Generated_Source\PSoC5\core_cmFunc.h" />
-<file name=".\Generated_Source\PSoC5\core_cmInstr.h" />
-<file name=".\Generated_Source\PSoC5\cyPm.h" />
-<file name=".\Generated_Source\PSoC5\cydevice.h" />
-<file name=".\Generated_Source\PSoC5\cydevice_trm.h" />
-<file name=".\Generated_Source\PSoC5\cydisabledsheets.h" />
-<file name=".\Generated_Source\PSoC5\cyfitter.h" />
-<file name=".\Generated_Source\PSoC5\cyfitter_cfg.h" />
-<file name=".\Generated_Source\PSoC5\cypins.h" />
-<file name=".\Generated_Source\PSoC5\cytypes.h" />
-<file name=".\Generated_Source\PSoC5\project.h" />
-<file name=".\Generated_Source\PSoC5\sleep_isr.h" />
-<file name=".\modem.c" />
-<file name=".\modem.h" />
-<file name=".\packet.h" />
 <file name=".\CortexM3\ARM_GCC_493\Debug\main.o">
 <dep name=".\Generated_Source\PSoC5\CyDmac.h" />
 <dep name=".\Generated_Source\PSoC5\CyFlash.h" />
@@ -121,8 +49,80 @@
 <dep name=".\packet.h" />
 <dep name=".\utilities.h" />
 </file>
+<file name=".\Generated_Source\PSoC5\CyDmac.h" />
+<file name=".\Generated_Source\PSoC5\CyFlash.h" />
+<file name=".\Generated_Source\PSoC5\CyLib.h" />
+<file name=".\Generated_Source\PSoC5\CySpc.h" />
+<file name=".\Generated_Source\PSoC5\LED.h" />
+<file name=".\Generated_Source\PSoC5\LED_aliases.h" />
+<file name=".\Generated_Source\PSoC5\SleepTimer.h" />
+<file name=".\Generated_Source\PSoC5\Telit_ON.h" />
+<file name=".\Generated_Source\PSoC5\Telit_ON_aliases.h" />
+<file name=".\Generated_Source\PSoC5\Telit_PWR.h" />
+<file name=".\Generated_Source\PSoC5\Telit_PWR_aliases.h" />
+<file name=".\Generated_Source\PSoC5\Telit_RST.h" />
+<file name=".\Generated_Source\PSoC5\Telit_RST_aliases.h" />
+<file name=".\Generated_Source\PSoC5\Telit_UART.h" />
+<file name=".\Generated_Source\PSoC5\Telit_UART_IntClock.h" />
+<file name=".\Generated_Source\PSoC5\Telit_isr_rx.h" />
+<file name=".\Generated_Source\PSoC5\Telit_tx.h" />
+<file name=".\Generated_Source\PSoC5\Telit_tx_aliases.h" />
+<file name=".\Generated_Source\PSoC5\core_cm3.h" />
+<file name=".\Generated_Source\PSoC5\core_cm3_psoc5.h" />
+<file name=".\Generated_Source\PSoC5\core_cmFunc.h" />
+<file name=".\Generated_Source\PSoC5\core_cmInstr.h" />
+<file name=".\Generated_Source\PSoC5\cyPm.h" />
+<file name=".\Generated_Source\PSoC5\cydevice.h" />
+<file name=".\Generated_Source\PSoC5\cydevice_trm.h" />
+<file name=".\Generated_Source\PSoC5\cydisabledsheets.h" />
+<file name=".\Generated_Source\PSoC5\cyfitter.h" />
+<file name=".\Generated_Source\PSoC5\cyfitter_cfg.h" />
+<file name=".\Generated_Source\PSoC5\cypins.h" />
+<file name=".\Generated_Source\PSoC5\cytypes.h" />
+<file name=".\Generated_Source\PSoC5\project.h" />
+<file name=".\Generated_Source\PSoC5\sleep_isr.h" />
 <file name=".\main.c" />
+<file name=".\modem.h" />
+<file name=".\packet.h" />
 <file name=".\utilities.h" />
+<file name=".\CortexM3\ARM_GCC_493\Debug\modem.o">
+<dep name=".\Generated_Source\PSoC5\CyDmac.h" />
+<dep name=".\Generated_Source\PSoC5\CyFlash.h" />
+<dep name=".\Generated_Source\PSoC5\CyLib.h" />
+<dep name=".\Generated_Source\PSoC5\CySpc.h" />
+<dep name=".\Generated_Source\PSoC5\LED.h" />
+<dep name=".\Generated_Source\PSoC5\LED_aliases.h" />
+<dep name=".\Generated_Source\PSoC5\SleepTimer.h" />
+<dep name=".\Generated_Source\PSoC5\Telit_ON.h" />
+<dep name=".\Generated_Source\PSoC5\Telit_ON_aliases.h" />
+<dep name=".\Generated_Source\PSoC5\Telit_PWR.h" />
+<dep name=".\Generated_Source\PSoC5\Telit_PWR_aliases.h" />
+<dep name=".\Generated_Source\PSoC5\Telit_RST.h" />
+<dep name=".\Generated_Source\PSoC5\Telit_RST_aliases.h" />
+<dep name=".\Generated_Source\PSoC5\Telit_UART.h" />
+<dep name=".\Generated_Source\PSoC5\Telit_UART_IntClock.h" />
+<dep name=".\Generated_Source\PSoC5\Telit_isr_rx.h" />
+<dep name=".\Generated_Source\PSoC5\Telit_tx.h" />
+<dep name=".\Generated_Source\PSoC5\Telit_tx_aliases.h" />
+<dep name=".\Generated_Source\PSoC5\core_cm3.h" />
+<dep name=".\Generated_Source\PSoC5\core_cm3_psoc5.h" />
+<dep name=".\Generated_Source\PSoC5\core_cmFunc.h" />
+<dep name=".\Generated_Source\PSoC5\core_cmInstr.h" />
+<dep name=".\Generated_Source\PSoC5\cyPm.h" />
+<dep name=".\Generated_Source\PSoC5\cydevice.h" />
+<dep name=".\Generated_Source\PSoC5\cydevice_trm.h" />
+<dep name=".\Generated_Source\PSoC5\cydisabledsheets.h" />
+<dep name=".\Generated_Source\PSoC5\cyfitter.h" />
+<dep name=".\Generated_Source\PSoC5\cyfitter_cfg.h" />
+<dep name=".\Generated_Source\PSoC5\cypins.h" />
+<dep name=".\Generated_Source\PSoC5\cytypes.h" />
+<dep name=".\Generated_Source\PSoC5\project.h" />
+<dep name=".\Generated_Source\PSoC5\sleep_isr.h" />
+<dep name=".\modem.c" />
+<dep name=".\modem.h" />
+<dep name=".\packet.h" />
+</file>
+<file name=".\modem.c" />
 <file name=".\CortexM3\ARM_GCC_493\Debug\packet.o">
 <dep name=".\Generated_Source\PSoC5\CyDmac.h" />
 <dep name=".\Generated_Source\PSoC5\CyFlash.h" />
@@ -1167,20 +1167,22 @@
 </dataGuid>
 <dataGuid v="769d31ea-68b1-4f0c-b90a-7c10a43ee563">
 <CyGuid_769d31ea-68b1-4f0c-b90a-7c10a43ee563 type_name="CyDesigner.Common.ProjMgmt.Model.CyLinkCustomData" version="1">
-<deps_time v="131046458540092303" />
+<deps_time v="131051693355045301" />
 </CyGuid_769d31ea-68b1-4f0c-b90a-7c10a43ee563>
 </dataGuid>
 <dataGuid v="504337dd-7d07-4bc7-9057-90e60cf6c469">
 <CyGuid_504337dd-7d07-4bc7-9057-90e60cf6c469 type_name="CyDesigner.Common.Debugger.CyBreakpointList" version="1">
 <debugger_breakpoint_list>
-<CyGuid_76464711-0ae1-4583-b869-f07a0403fc6e type_name="CyDesigner.Common.Debugger.CyFileLineBreakpoint" version="1" hitcount="0" condition="" enabled="True" hardware="True" temparary="False" filename=".\modem.c" linenumber="242" />
-<CyGuid_76464711-0ae1-4583-b869-f07a0403fc6e type_name="CyDesigner.Common.Debugger.CyFileLineBreakpoint" version="1" hitcount="0" condition="" enabled="True" hardware="True" temparary="False" filename=".\main.c" linenumber="40" />
+<CyGuid_76464711-0ae1-4583-b869-f07a0403fc6e type_name="CyDesigner.Common.Debugger.CyFileLineBreakpoint" version="1" hitcount="0" condition="" enabled="True" hardware="True" temparary="False" filename=".\modem.c" linenumber="16" />
 </debugger_breakpoint_list>
 </CyGuid_504337dd-7d07-4bc7-9057-90e60cf6c469>
 </dataGuid>
 <dataGuid v="bf610382-39c6-441f-80b8-b04622ea7845">
 <CyGuid_bf610382-39c6-441f-80b8-b04622ea7845 type_name="CyDesigner.Common.Debugger.CyWatchedVariableList" version="1">
 <debugger_watch_list>
+<CyGuid_ccf7a56e-c00d-460c-82dd-56c8f54feb7f type_name="CyDesigner.Common.Debugger.CyWatchedVariableList+CyWatchedItem" version="1" window="0" name="curMin" radix="Default" />
+<CyGuid_ccf7a56e-c00d-460c-82dd-56c8f54feb7f type_name="CyDesigner.Common.Debugger.CyWatchedVariableList+CyWatchedItem" version="1" window="0" name="nextMin" radix="Default" />
+<CyGuid_ccf7a56e-c00d-460c-82dd-56c8f54feb7f type_name="CyDesigner.Common.Debugger.CyWatchedVariableList+CyWatchedItem" version="1" window="0" name="alarmCommand" radix="Default" />
 <CyGuid_ccf7a56e-c00d-460c-82dd-56c8f54feb7f type_name="CyDesigner.Common.Debugger.CyWatchedVariableList+CyWatchedItem" version="1" window="0" name="uart_received_string" radix="Default" />
 </debugger_watch_list>
 </CyGuid_bf610382-39c6-441f-80b8-b04622ea7845>
