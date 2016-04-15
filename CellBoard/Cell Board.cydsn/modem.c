@@ -70,6 +70,19 @@ uint8 	modem_shutdown() {
 	return 0u;
 }
 
+uint8 modem_rtc_alert_fired(){
+	
+	return 0u;
+}
+
+uint8 modem_set_non_cyclic_sleep(){
+	if(at_write_command("AT+CFUN=1\r","OK",1000u) == 1u){      
+        return 1u;
+    }
+	return 0u;
+}
+
+
 // initialize modem
 void modem_start(){
     Telit_UART_Start();
@@ -898,10 +911,6 @@ void modem_wakeup(){
 	Telit_UART_Wakeup();
 }
 
-uint8 modem_rtc_alert_fired(){
-	
-	return 0u;
-}
 
 // this function fires when uart rx receives bytes (when modem is sending bytes)
 CY_ISR(Telit_isr_rx){

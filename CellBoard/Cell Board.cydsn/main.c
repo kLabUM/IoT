@@ -37,7 +37,7 @@ int main()
 	//start the modem, set the alarm, and shut the modem down
 	modem_start();
 	modem_rtc_set_repeating_minute_alarm(1u);
-	uint8 x = modem_shutdown();
+	uint8 x = modem_set_non_cyclic_sleep();//modem_shutdown();
 	
 	//struct tm cal = modem_get_rtc_time();
 	//modem_get_serial_number();

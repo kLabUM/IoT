@@ -41,6 +41,7 @@ uint8 	modem_set_band(uint8 band);
 struct tm   modem_get_rtc_time();
 uint8 rtc_read_minutes();
 uint8 modem_rtc_alert_fired();
+uint8 modem_set_non_cyclic_sleep();
 void  modem_set_next_repeating_minute_alarm();
 void  modem_rtc_set_repeating_minute_alarm(uint8 interval);
 uint8 modem_get_nertwork_time();
