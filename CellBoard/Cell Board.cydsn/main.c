@@ -133,8 +133,8 @@ void main()
 			blink_LED(3u);
 			
             if (ultrasonic_get_reading(&ultrasonic_reading)){
-                sprintf(data_packet,"%s%s, %d\r\n", data_packet,
-                    "depth_sonic", (uint16) (ultrasonic_reading.depth));              
+                sprintf(data_packet, "%s%d", data_packet,
+                    (uint16) (ultrasonic_reading.depth));              
             }
 			
 			blink_LED(3u);

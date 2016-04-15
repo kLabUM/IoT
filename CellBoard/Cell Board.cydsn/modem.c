@@ -628,10 +628,12 @@ uint8 modem_send_packet(char* body){
 		// Connect to web server
         //if(at_write_command("AT#SKTD=1,80,\"api.xively.com\",0,0\r","CONNECT",5000u) != 0){
 		if(at_write_command("AT#SD=1,0,80,\"storm.chordsrt.com\",0,0,1\r","OK",15000u) != 0){
+            char put_str[MAX_PACKET_LENGTH];
+            sprintf(put_str, "%s%d%s%s%s", "GET /measurements/url_create?instrument_id=", NODE_NUMBER,
+                    "&depth=", body, "&key=wireless&test HTTP/1.0\r\n");
 		//if(at_write_command("AT#SD=1,0,80,\"www.google.com\",0,0\r\n","CONNECT",15000u) != 0){
-		at_write_command("GET /measurements/url_create?instrument_id=1&depth=100&batVolt=108&key=wireless&test HTTP/1.0\r\n","",2000u);
-        uint8 i;
-        i = i + 1;
+            at_write_command(put_str, "", 2000u);
+//		at_write_command("GET /measurements/url_create?instrument_id=1&depth=100&batVolt=108&key=wireless&test HTTP/1.0\r\n","",2000u);
 /*			if(at_write_command("AT#SSEND=1\r",">",10000u) != 0){
 			// Write packet information to serial and send
 	            char put_str[MAX_PACKET_LENGTH], key_str[100];

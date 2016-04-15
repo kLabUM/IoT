@@ -18,6 +18,8 @@
 #define MAX_GET_ATTEMPTS        2
 #define MAX_SEND_ATTEMPTS       1//2
 #define MAX_PACKET_LENGTH       1000
+// Node-specific
+#define NODE_NUMBER             2
 
 extern uint8    modem_state;
 extern uint8    lock_acquired;
