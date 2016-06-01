@@ -634,7 +634,7 @@ uint8 modem_send_packet(char* body){
 			// Write packet information to serial and send
 	            char put_str[MAX_PACKET_LENGTH], key_str[100];
 	            
-	            sprintf(put_str,"POST /write?db=cellBoard_test HTTP/1.0\r\n");
+	            sprintf(put_str,"POST /write?db=poseidon HTTP/1.0\r\n");
 	            sprintf(put_str,"%s%s%s%d%s%s%s",
 	                put_str,
 	                "Host: ec2-54-148-229-234.us-west-2.compute.amazonaws.com:8086\r\n",
