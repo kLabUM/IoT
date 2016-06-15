@@ -18,9 +18,9 @@
 // define global variables
 #define SLEEPTIMER_INTERVAL_COUNTER (470u) // Number of wakeups before turn LED on 470 @ 256ms ~2 min
 #define WRITE_DEBUG 1
-#define FEED_ID 1738356304
+#define FEED_ID <FEED ID HERE>
 
-const char *API_KEY = "3vouwxRpF9JQfVNwHMMvi08V4JbFbrfdD6FuUcXeAmiOU4hO";
+const char *API_KEY = <API KEY HERE>;
 char   data_packet[MAX_PACKET_LENGTH] = {0}, test_csv[100] = {0};
 int    iter, sign;
 uint8  ready, loops, lock, packet_ready;
