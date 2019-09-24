@@ -1,4 +1,9 @@
-import urllib2, json, math, time, sys
+import json, math, time, sys
+
+try:
+    import urllib.request as urllib2
+except ImportError:
+    import urllib2
 
 def get_pqpf(amt, pop, qpf):
 	# Returns the unconditional POE (aka PQPF) for the rainfall amount x, 
@@ -74,4 +79,4 @@ if __name__ == '__main__':
 	poe = get_pqpf(amt, pop, qpf)
 
 	for x in range(0,len(pop)):
-		print "Forecast at %20s........POP %2d...QPF %4s...PoE(%.2f) %2.2f \r" % (hour[x], pop[x]*100, qpf[x], amt, poe[x]*100)
+		print( "Forecast at %20s........POP %2d...QPF %4s...PoE(%.2f) %2.2f \r" % (hour[x], pop[x]*100, qpf[x], amt, poe[x]*100) )

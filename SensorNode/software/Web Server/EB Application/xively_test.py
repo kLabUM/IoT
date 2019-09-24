@@ -15,7 +15,7 @@ z_stream.update()
 # Test 2
 streams = feed.datastreams
 for s in streams:
-  print s 
+  print(s)
 
 depth = feed.datastreams.get('depth_press',end=datetime.datetime(2014,7,4,14,0,0),limit=10,interval=0,duration=600)
 depth.datapoints[:]
@@ -26,7 +26,7 @@ depth[-1].at
 
 
 if __name__ == '__main__':
-    print "Serving on port 8000..."
+    print("Serving on port 8000...")
 
 
 read_key = "0K4mhTWfaO6T7oO9F6oInk8WHpmx57PUs4WPllIA0QTbbpcB"

@@ -1,13 +1,19 @@
 import logging, logging.handlers
-import urllib2, xively, time, datetime
+import xively, time, datetime
+#import urllib2, xively, time, datetime
 #import numpy as np
+
+try:
+    import urllib.request as urllib2
+except ImportError:
+    import urllib2
 
 from wsgiref.simple_server import make_server
 from flask import json
 from hourly_precip import get_pqpf as calc_pqpf
 from math import exp, sqrt, pi
 from numpy import array
-from cgi import parse_qs
+from urllib.parse import parse_qs
 #from scipy.signal import gaussian as gauss
 #from scipy.signal import convolve as conv
 
@@ -514,8 +520,9 @@ def application(environ, start_response):
     elif method == 'GET':
         #https://gist.github.com/davidbgk/1311056
         d = parse_qs(environ['QUERY_STRING'])  # turns the qs to a dict
+        print(d)
 
-        query = 'From GET: %s' % ''.join('%s: %s' % (k, v) for k, v in d.iteritems())      
+        query = 'From GET: %s' % ''.join('%s: %s' % (k, v) for k, v in iter( d.items()) )      
         logger.info("Received message from worker: %s" % query)
 
         if 'pqpf' in d:
@@ -547,11 +554,12 @@ def application(environ, start_response):
     headers = [('Content-type', 'text/html')]
     
     start_response(status, headers)
+    response_body=response.format(**url_info)
 
-    return [response.format(**url_info)]
+    return [response_body.encode()]
 
 
 if __name__ == '__main__':
     httpd = make_server('', 8000, application)
-    print "Serving on port 8000..."
+    print("Serving on port 8000...")
     httpd.serve_forever()
